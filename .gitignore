@@ -1,0 +1,54 @@
+# Nestjs specific
+/node_modules
+/build
+/tmp
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# dotenv environment variable files
+.env
+.env.development
+.env.production
+
+# temp directory
+.temp
+.tmp
+
+# IDE specific
+.vscode
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Semantic release files
+RELEASE.md
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Build artifacts
+dist/
+.vitest/
+.swc/
+
+# Coverage and tests reports
+tests/unit/coverage
+tests/mutation/coverage
+tests/acceptance/reports
+tests/acceptance/logs
+
+# Stryker temp files
+.stryker-tmp
