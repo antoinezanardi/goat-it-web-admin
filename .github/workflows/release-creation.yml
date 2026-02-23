@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Checkout GitHub repository 📡
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Perform CodeQL Analysis ❇️
         uses: ./.github/actions/code-ql

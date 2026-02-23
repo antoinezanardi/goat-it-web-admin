@@ -50,11 +50,11 @@ Thank you for your interest in contributing — we appreciate your time and help
 
 ```bash
 # clone your fork (replace <your-username>)
-git clone git@github.com:<your-username>/goat-it-api.git
-cd goat-it-api
+git clone git@github.com:<your-username>/goat-it-web-admin.git
+cd goat-it-web-admin
 
 # add the upstream remote
-git remote add upstream https://github.com/antoinezanardi/goat-it-api.git
+git remote add upstream https://github.com/antoinezanardi/goat-it-web-admin.git
 ```
 
 ### Install dependencies
