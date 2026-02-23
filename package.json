@@ -1,0 +1,54 @@
+{
+  "name": "goat-it-web-admin",
+  "version": "1.0.0",
+  "description": "\uD83D\uDC10 \uD83D\uDC51 Goat It Web Admin enables to manage questions, themes and games of the Goat It application thanks to a user-friendly interface.",
+  "private": true,
+  "keywords": [
+    "goat-it",
+    "web",
+    "nuxt",
+    "vue",
+    "javascript",
+    "typescript",
+    "admin"
+  ],
+  "homepage": "https://github.com/antoinezanardi/goat-it-web-admin#readme",
+  "bugs": {
+    "url": "https://github.com/antoinezanardi/goat-it-web-admin/issues",
+    "email": "antoine.zanardi@epitech.eu"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antoinezanardi/goat-it-web-admin.git",
+    "branch": "main"
+  },
+  "license": "MIT",
+  "author": "Antoine ZANARDI",
+  "maintainers": [
+    {
+      "name": "Antoine ZANARDI",
+      "email": "antoine.zanardi@epitech.eu",
+      "url": "https://antoinezanardi.fr"
+    }
+  ],
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/sponsors/antoinezanardi"
+  },
+  "readme": "README.md",
+  "engines": {
+    "node": ">=25.6.1"
+  },
+  "os": [
+    "darwin",
+    "linux"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ],
+  "packageManager": "pnpm@10.30.1",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
