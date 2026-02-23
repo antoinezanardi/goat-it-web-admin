@@ -50,7 +50,13 @@
   "packageManager": "pnpm@10.30.1",
   "scripts": {
     "prepare": "scripts/post-install-prepare.sh",
-    "test": "echo \"No test specified\"",
+    "typecheck": "echo \"No typecheck specified for now\"",
+    "build": "echo \"No build specified for now\"",
+    "lint": "echo \"No lint specified for now\"",
+    "test": "echo \"No test specified for now\"",
+    "test:unit:cov": "echo \"No test specified for now\"",
+    "test:mutation:ci": "echo \"No test specified for now\"",
+    "test:acceptance": "echo \"No test specified for now\"",
     "script:create-branch": "scripts/create-git-branch.sh",
     "script:create-pull-request": "scripts/create-pull-request.sh",
     "script:create-release-changelog": "scripts/create-release-changelog.sh",
@@ -59,9 +65,13 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^20.4.2",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
     "commitlint": "^20.4.2",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
+    "semantic-release": "^25.0.3",
+    "semantic-release-export-data": "^1.2.0",
     "validate-branch-name": "^1.3.2"
   }
 }
