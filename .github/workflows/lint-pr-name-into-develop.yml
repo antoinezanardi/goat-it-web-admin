@@ -4,11 +4,14 @@ on:
   pull_request:
     branches:
       - develop
-    types:
-      - opened
-      - edited
-      - reopened
-      - synchronize
+  types:
+    - opened
+    - edited
+    - reopened
+    - synchronize
+
+permissions:
+  pull-requests: write
 
 jobs:
   develop-pr-lint:

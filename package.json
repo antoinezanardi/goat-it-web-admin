@@ -1,7 +1,7 @@
 {
   "name": "goat-it-web-admin",
   "version": "1.0.0",
-  "description": "🐐👑 Goat It Web Admin enables to manage questions, themes and games of the Goat It application thanks to a user-friendly interface.",
+  "description": "🐐👑 Goat It Web Admin is an intuitive admin UI to manage questions, themes, and games for the Goat It app.",
   "private": true,
   "keywords": [
     "goat-it",

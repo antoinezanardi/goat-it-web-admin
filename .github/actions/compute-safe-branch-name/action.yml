@@ -1,5 +1,5 @@
 name: Compute Safe Branch Name 🍃
-description: Computes a safe branch name and exports it as SAFE_BRANCH_NAME environment variable
+description: Computes a safe branch name and exports it as SAFE_BRANCH_NAME output
 author: Antoine ZANARDI
 
 outputs:

@@ -9,7 +9,7 @@ jobs:
   code-ql:
     name: CodeQL Scan ❇️
     runs-on: ubuntu-latest
-    timeout-minutes: 360
+    timeout-minutes: 20
     permissions:
       actions: read
       contents: read
@@ -46,6 +46,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           persist-credentials: false
+          fetch-depth: 0
 
       - name: Install project 📦
         uses: ./.github/actions/install-project

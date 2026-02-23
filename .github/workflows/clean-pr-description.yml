@@ -12,9 +12,6 @@ permissions:
   pull-requests: write
   contents: read
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 jobs:
   clean-pr-description:
     name: Clean PR Description 🧹
@@ -28,3 +25,4 @@ jobs:
         run: scripts/clean-pr-description.sh ${{ github.event.pull_request.number }}
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

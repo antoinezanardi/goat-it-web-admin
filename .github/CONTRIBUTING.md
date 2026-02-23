@@ -1,4 +1,4 @@
-# 🫶 Contributing to Goat It API
+# 🫶 Contributing to Goat It Web Admin
 
 Thank you for your interest in contributing — we appreciate your time and help! This document explains how to prepare, test, and submit changes so they integrate smoothly with the project workflow.
 
