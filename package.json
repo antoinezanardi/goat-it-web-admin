@@ -1,7 +1,7 @@
 {
   "name": "goat-it-web-admin",
   "version": "1.0.0",
-  "description": "\uD83D\uDC10 \uD83D\uDC51 Goat It Web Admin enables to manage questions, themes and games of the Goat It application thanks to a user-friendly interface.",
+  "description": "🐐👑 Goat It Web Admin enables to manage questions, themes and games of the Goat It application thanks to a user-friendly interface.",
   "private": true,
   "keywords": [
     "goat-it",
@@ -49,6 +49,19 @@
   ],
   "packageManager": "pnpm@10.30.1",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepare": "scripts/post-install-prepare.sh",
+    "test": "echo \"No test specified\"",
+    "script:create-branch": "scripts/create-git-branch.sh",
+    "script:create-pull-request": "scripts/create-pull-request.sh",
+    "script:create-release-changelog": "scripts/create-release-changelog.sh",
+    "script:clean-pr-description": "scripts/clean-pr-description.sh",
+    "validate:branch-name": "(cd configs/validate-branch-name && validate-branch-name)"
+  },
+  "devDependencies": {
+    "@commitlint/config-conventional": "^20.4.2",
+    "commitlint": "^20.4.2",
+    "husky": "^9.1.7",
+    "is-ci": "^4.1.0",
+    "validate-branch-name": "^1.3.2"
   }
 }
