@@ -25,3 +25,7 @@ runs:
       if: steps.cache-node-modules.outputs.cache-hit != 'true'
       shell: bash
       run: pnpm install --frozen-lockfile
+
+    - name: Post installation 🧹
+      shell: bash
+      run: pnpm run postinstall

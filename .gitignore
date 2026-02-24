@@ -1,7 +1,18 @@
-# Nestjs specific
-/node_modules
-/build
-/tmp
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+
+# Local env files
+.env
+.env.*
+!.env.example
 
 # Logs
 logs
@@ -15,11 +26,6 @@ lerna-debug.log*
 # OS
 .DS_Store
 Thumbs.db
-
-# dotenv environment variable files
-.env
-.env.development
-.env.production
 
 # temp directory
 .temp
