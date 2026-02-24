@@ -14,7 +14,7 @@ export default defineNuxtConfig({
     fonts: false,
     experimental: {
       componentDetection: true,
-    }
+    },
   },
   css: ["~/assets/css/main.css"],
   compatibilityDate: "2025-01-15",
