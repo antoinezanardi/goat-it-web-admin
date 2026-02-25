@@ -2,32 +2,34 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
 
 const { getRoutes, currentRoute } = useRouter();
+const routes = getRoutes();
 
-const items = computed<NavigationMenuItem[]>(() => {
-  const routes = getRoutes();
+const { t } = useI18n();
 
-  return routes.map(route => {
-    return {
-      label: route.name?.toString() || route.path,
-      to: route.path,
-      active: currentRoute.value.path === route.path,
-    }
-  });
-});
+const navigationMenuItems = computed<NavigationMenuItem[]>(() => routes.map(route => {
+  const routeLabel = route.meta?.titleKey ? t(route.meta.titleKey) : route.name?.toString();
+  const isRouteActive = currentRoute.value.path === route.path;
+
+  return {
+    label: routeLabel,
+    to: route.path,
+    active: isRouteActive,
+  };
+}));
 </script>
 
 <template>
   <UHeader
-    title="Goat It Admin"
+    :title="$t('common.app.name')"
   >
-    <UNavigationMenu :items="items"/>
+    <UNavigationMenu :items="navigationMenuItems"/>
 
     <template #right>
       <UColorModeButton
         class="cursor-pointer"
       />
 
-      <UTooltip text="Ouvrir sur GitHub">
+      <UTooltip :text="$t('navigation.openOnGitHub')">
         <UButton
           color="neutral"
           variant="ghost"
@@ -37,6 +39,8 @@ const items = computed<NavigationMenuItem[]>(() => {
           aria-label="GitHub"
         />
       </UTooltip>
+
+      <LocaleSelect />
     </template>
   </UHeader>
 </template>

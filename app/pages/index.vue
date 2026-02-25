@@ -1,11 +1,11 @@
 <script setup lang="ts">
 definePageMeta({
-  name: 'Accueil',
+  titleKey: "home.pageTitle",
 });
 </script>
 
 <template>
   <div>
-    Coucou, je suis la page d'accueil
+    {{ $t("home.pageTitle") }}
   </div>
 </template>
