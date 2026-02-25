@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  name: "Questions",
+  titleKey: "questions.pageTitle",
 });
 </script>
 
