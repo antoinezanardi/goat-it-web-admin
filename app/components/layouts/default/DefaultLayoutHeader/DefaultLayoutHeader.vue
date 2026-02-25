@@ -13,6 +13,7 @@ const navigationMenuItems = computed<NavigationMenuItem[]>(() => getRoutes().map
     label: routeLabel,
     to: route.path,
     active: isRouteActive,
+    icon: route.meta?.icon,
   };
 }));
 </script>
@@ -34,7 +35,7 @@ const navigationMenuItems = computed<NavigationMenuItem[]>(() => getRoutes().map
           variant="ghost"
           to="https://github.com/antoinezanardi/goat-it-web-admin"
           target="_blank"
-          icon="i-simple-icons-github"
+          icon="i-lucide-github"
           aria-label="GitHub"
         />
       </UTooltip>
