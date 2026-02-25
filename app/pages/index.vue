@@ -3,7 +3,3 @@
     Coucou, je suis la page d'accueil
   </div>
 </template>
-
-<style scoped>
-
-</style>
