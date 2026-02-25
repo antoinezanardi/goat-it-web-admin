@@ -29,7 +29,7 @@ export default defineNuxtConfig({
     locales: [
       {
         code: "fr",
-        iso: "fr-FR",
+        language: "fr-FR",
         name: "Français",
         files: [
           "fr/home.json",
@@ -41,7 +41,7 @@ export default defineNuxtConfig({
       },
       {
         code: "en",
-        iso: "en-US",
+        language: "en-US",
         name: "English",
         files: [
           "en/home.json",

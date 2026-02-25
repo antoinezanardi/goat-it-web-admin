@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import type { Locale } from "#ui/types";
+import type { ArrayValues } from "type-fest";
 
-const { locale: currentLocale, setLocale, locales } = useI18n();
+type SupportedLocale = ArrayValues<typeof localeCodes.value>;
 
-function isSupportedLocale(locale: string): locale is typeof currentLocale.value {
-  return locale === "fr" || locale === "en";
+const { locale: currentLocale, setLocale, locales, localeCodes } = useI18n();
+
+function isSupportedLocale(locale: string): locale is SupportedLocale {
+  return localeCodes.value.includes(locale as SupportedLocale);
 }
 
 function onLocaleChange(newLocale: string): void {

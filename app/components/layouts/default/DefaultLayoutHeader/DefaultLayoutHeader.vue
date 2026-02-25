@@ -2,11 +2,10 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
 
 const { getRoutes, currentRoute } = useRouter();
-const routes = getRoutes();
 
 const { t } = useI18n();
 
-const navigationMenuItems = computed<NavigationMenuItem[]>(() => routes.map(route => {
+const navigationMenuItems = computed<NavigationMenuItem[]>(() => getRoutes().map(route => {
   const routeLabel = route.meta?.titleKey ? t(route.meta.titleKey) : route.name?.toString();
   const isRouteActive = currentRoute.value.path === route.path;
 

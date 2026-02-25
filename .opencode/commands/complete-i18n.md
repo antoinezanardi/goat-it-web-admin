@@ -4,12 +4,12 @@
 
 - For each JSON file under app/i18n/locales/fr/ (recursively), produce a completed translation into every other locale directory under app/i18n/locales/ (all subdirectories except `fr`).
 - Do NOT modify any files in app/i18n/locales/fr/. Treat the `fr` files as the immutable source of truth.
-  
+
 ## Behavior & rules
 
 ### Source of truth
 
-- Read keys and values from each file in app/i18n/locales/fr/**. Use them as the canonical base for structure, keys, ordering, and message intent. 
+- Read keys and values from each file in app/i18n/locales/fr/**. Use them as the canonical base for structure, keys, ordering, and message intent.
 
 ### Target files
 
@@ -62,7 +62,7 @@
 
 - Source dir: `app/i18n/locales/fr/`
 - Target dir base: `app/i18n/locales/` (process every subdirectory except `fr`)
-- Ensure one-to-one filename mapping: for each `app/i18n/locales/fr/path/to/file.json` produce `app/i18n/locales/<locale>/path/to/file.json`. 
+- Ensure one-to-one filename mapping: for each `app/i18n/locales/fr/path/to/file.json` produce `app/i18n/locales/<locale>/path/to/file.json`.
 
 ### Finish
 
