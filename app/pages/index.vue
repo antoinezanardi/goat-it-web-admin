@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   titleKey: "home.pageTitle",
+  icon: "i-lucide-home",
 });
 </script>
 

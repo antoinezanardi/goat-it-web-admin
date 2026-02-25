@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   titleKey: "questions.pageTitle",
+  icon: "i-lucide-message-circle-question-mark",
 });
 </script>
 
