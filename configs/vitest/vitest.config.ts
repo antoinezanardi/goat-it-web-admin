@@ -21,7 +21,7 @@ export default defineConfig({
             "app/composables/**/*.spec.ts",
           ],
           environment: "nuxt",
-          setupFiles: ["./tests/unit/setup/unit-setup.ts"],
+          setupFiles: [path.resolve(process.cwd(), "tests/unit/setup/unit-setup.ts")],
         },
       }),
     ],
