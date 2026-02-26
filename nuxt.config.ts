@@ -7,6 +7,14 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@nuxt/hints",
   ],
+  typescript: {
+    shim: true,
+    strict: true,
+    typeCheck: true,
+    tsConfig: {
+      include: ["../tests/"]
+    }
+  },
   devtools: {
     enabled: true,
   },
