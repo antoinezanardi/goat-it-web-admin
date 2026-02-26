@@ -6,7 +6,3 @@ const { definePageMetaMock } = vi.hoisted(() => ({
 }));
 
 mockNuxtImport("definePageMeta", () => definePageMetaMock);
-
-export {
-  definePageMetaMock,
-};

@@ -1,7 +1,6 @@
 import { VueWrapper } from "@vue/test-utils";
 import { describe, it, expect, beforeEach } from "vitest";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
-import { definePageMetaMock } from "~~/tests/unit/utils/mocks/nuxt/definePageMeta.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import QuestionPage from "@/pages/(questions)/questions.vue";
 
@@ -28,6 +27,6 @@ describe("Questions Page", () => {
       "titleKey": "questions.pageTitle",
     };
 
-    expect(definePageMetaMock).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);
+    expect(definePageMeta).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);
   });
 });

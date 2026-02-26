@@ -10,6 +10,8 @@ export default defineConfig({
           name: "nuxt",
           globals: true,
           mockReset: true,
+          clearMocks: true,
+          restoreMocks: true,
           include: [
             "app/App.spec.ts",
             "app/pages/**/*.spec.ts",
@@ -18,7 +20,12 @@ export default defineConfig({
             "app/layouts/**/*.spec.ts",
           ],
           environment: "nuxt",
-          setupFiles: [path.resolve(process.cwd(), "tests/unit/setup/unit-setup.ts")],
+          setupFiles: [
+            path.resolve(process.cwd(), "tests/unit/setup/nuxt/vue-test-utils.nuxt.unit-setup.ts"),
+            path.resolve(process.cwd(), "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts"),
+            path.resolve(process.cwd(), "tests/unit/setup/nuxt/definePageMeta.nuxt.unit-setup.ts"),
+            path.resolve(process.cwd(), "tests/unit/setup/nuxt/useI18n.nuxt.unit-setup.ts"),
+          ],
         },
       }),
     ],

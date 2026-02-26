@@ -1,8 +1,7 @@
-import HomePage from "@/pages/index.vue";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
-import { definePageMetaMock } from "~~/tests/unit/utils/mocks/nuxt/definePageMeta.mock";
+import HomePage from "@/pages/index.vue";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 describe("Home Page", () => {
@@ -28,6 +27,6 @@ describe("Home Page", () => {
       "titleKey": "home.pageTitle",
     };
 
-    expect(definePageMetaMock).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);
+    expect(definePageMeta).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);
   });
 });

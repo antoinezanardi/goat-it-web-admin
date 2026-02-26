@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     "@nuxtjs/i18n",
     "@vueuse/nuxt",
     "@nuxt/hints",
+    "@pinia/nuxt",
   ],
   typescript: {
     shim: true,

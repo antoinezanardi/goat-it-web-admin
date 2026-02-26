@@ -1,8 +1,7 @@
-import QuestionThemesPage from "@/pages/(questions-themes)/question-themes.vue";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
-import { definePageMetaMock } from "~~/tests/unit/utils/mocks/nuxt/definePageMeta.mock";
+import QuestionThemesPage from "@/pages/(questions-themes)/question-themes.vue";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 describe("Question Themes Page", () => {
@@ -28,6 +27,6 @@ describe("Question Themes Page", () => {
       "titleKey": "questionThemes.pageTitle",
     };
 
-    expect(definePageMetaMock).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);
+    expect(definePageMeta).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);
   });
 });
