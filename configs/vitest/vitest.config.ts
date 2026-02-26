@@ -1,4 +1,3 @@
-import * as os from "node:os";
 import * as path from "node:path";
 import { defineConfig } from "vitest/config";
 import { defineVitestProject } from "@nuxt/test-utils/config";
@@ -9,25 +8,20 @@ export default defineConfig({
       await defineVitestProject({
         test: {
           name: "nuxt",
-          execArgv: [
-            "--localstorage-file",
-            path.resolve(os.tmpdir(), `vitest-${process.pid}.localstorage`),
-          ],
           globals: true,
+          mockReset: true,
           include: [
             "app/App.spec.ts",
-            "app/pages/**/*.spec.vue",
-            "app/components/**/*.spec.vue",
+            "app/pages/**/*.spec.ts",
+            "app/components/**/*.spec.ts",
             "app/composables/**/*.spec.ts",
+            "app/layouts/**/*.spec.ts",
           ],
           environment: "nuxt",
           setupFiles: [path.resolve(process.cwd(), "tests/unit/setup/unit-setup.ts")],
         },
       }),
     ],
-    clearMocks: true,
-    mockReset: true,
-    restoreMocks: true,
     coverage: {
       provider: "v8",
       include: [
