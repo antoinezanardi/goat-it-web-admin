@@ -37,9 +37,11 @@ export default defineConfig({
       ],
       exclude: [
         "app/**/*.constants.ts",
+        "app/**/*.enums.ts",
         "app/**/*.types.ts",
         "app/**/*.d.ts",
         "app/**/*.config.ts",
+        "app/**/*.spec.ts",
       ],
       reportsDirectory: "tests/unit/coverage",
       reporter: [

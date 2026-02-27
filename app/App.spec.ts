@@ -16,19 +16,19 @@ describe("App Component", () => {
     });
   }
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     wrapper = await mountAppComponent();
   });
 
-  it("should render the app component when mounted.", async() => {
+  it("should render the app component when mounted.", async () => {
     expect(wrapper.exists()).toBe(true);
   });
 
   describe("Nuxt UI App", () => {
-    it("should pass tooltip props to the Nuxt UI App component when mounted.", async() => {
-      const nuxtUIApp = wrapper.findComponent<typeof UApp>({ ref: "nuxt-ui-app" });
+    it("should pass tooltip props to the Nuxt UI App component when mounted.", async () => {
+      const nuxtUIApp = wrapper.findComponent<typeof UApp>({ ref: "nuxtUiApp" });
 
       expect(nuxtUIApp.props("tooltip")).toStrictEqual<typeof APP_TOOLTIP_CONFIG>(APP_TOOLTIP_CONFIG);
     });
-  })
+  });
 });
