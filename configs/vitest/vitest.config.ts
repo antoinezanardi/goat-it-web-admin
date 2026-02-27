@@ -2,6 +2,8 @@ import * as path from "node:path";
 import { defineConfig } from "vitest/config";
 import { defineVitestProject } from "@nuxt/test-utils/config";
 
+const processCwd = process.cwd();
+
 export default defineConfig({
   test: {
     projects: [
@@ -21,14 +23,16 @@ export default defineConfig({
           ],
           environment: "nuxt",
           setupFiles: [
-            path.resolve(process.cwd(), "tests/unit/setup/nuxt/vue-test-utils.nuxt.unit-setup.ts"),
-            path.resolve(process.cwd(), "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts"),
-            path.resolve(process.cwd(), "tests/unit/setup/nuxt/definePageMeta.nuxt.unit-setup.ts"),
-            path.resolve(process.cwd(), "tests/unit/setup/nuxt/useI18n.nuxt.unit-setup.ts"),
+            path.resolve(processCwd, "tests/unit/setup/nuxt/vtu-config.nuxt.unit-setup.ts"),
+            path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts"),
+            path.resolve(processCwd, "tests/unit/setup/nuxt/definePageMeta.nuxt.unit-setup.ts"),
+            path.resolve(processCwd, "tests/unit/setup/nuxt/useI18n.nuxt.unit-setup.ts"),
+            path.resolve(processCwd, "tests/unit/setup/nuxt/useRouter.nuxt.unit-setup.ts"),
           ],
         },
       }),
     ],
+    onConsoleLog: (log: string): boolean => !log.startsWith("<Suspense> is an experimental feature"),
     coverage: {
       provider: "v8",
       include: [

@@ -2,7 +2,7 @@ import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { vi, beforeEach, type Mock } from "vitest";
 import { ref } from "vue";
 
-type I18nMock = {
+type UseI18nMock = {
   t: Mock<(key: string) => string>;
   locale: Ref<string>;
   localeCodes: Ref<string[]>;
@@ -10,7 +10,7 @@ type I18nMock = {
   setLocale: Mock<(locale: string) => void>;
 }
 
-function createI18nMock(): I18nMock {
+function createUseI18nMock(): UseI18nMock {
   return {
     t: vi.fn<(key: string) => string>((key) => key.toString()),
     locale: ref<string>("fr"),
@@ -31,10 +31,10 @@ function createI18nMock(): I18nMock {
   };
 }
 
-let i18nMock = createI18nMock();
+let i18nMock = createUseI18nMock();
 
 mockNuxtImport("useI18n", () => () => i18nMock);
 
 beforeEach(() => {
-  i18nMock = createI18nMock();
+  i18nMock = createUseI18nMock();
 });
