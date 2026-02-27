@@ -20,7 +20,7 @@ function onLocaleChange(newLocale: string): void {
 
 <template>
   <ULocaleSelect
-    ref="nuxt-ui-locale-select"
+    ref="nuxtUiLocaleSelect"
     :model-value="currentLocale"
     :locales="locales as Locale<undefined>[]"
     @update:model-value="onLocaleChange"
