@@ -68,9 +68,7 @@
     "script:create-pull-request": "scripts/create-pull-request.sh",
     "script:create-release-changelog": "scripts/create-release-changelog.sh",
     "script:clean-pr-description": "scripts/clean-pr-description.sh",
-    "validate:branch-name": "(cd configs/validate-branch-name && validate-branch-name)",
-    "test:watch": "vitest --watch",
-    "test:nuxt": "vitest --project nuxt"
+    "validate:branch-name": "(cd configs/validate-branch-name && validate-branch-name)"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^20.4.2",

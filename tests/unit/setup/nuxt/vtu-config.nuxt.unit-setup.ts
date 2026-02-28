@@ -1,6 +1,8 @@
 import { config } from "@vue/test-utils";
 import { beforeAll, afterAll, vi } from "vitest";
 
+const originalGlobalConfig = { ...config.global };
+
 beforeAll(() => {
   config.global.renderStubDefaultSlot = true;
   config.global.stubs = {
@@ -15,5 +17,5 @@ beforeAll(() => {
 });
 
 afterAll(() => {
-  config.global.renderStubDefaultSlot = false;
+  config.global = originalGlobalConfig;
 });

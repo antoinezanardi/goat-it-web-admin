@@ -2,6 +2,7 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 import HomePage from "@/pages/index.vue";
+import { MOCKED_ROUTES } from "~~/tests/unit/utils/mocks/nuxt/useRouter/useRouter.mock.constants";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 describe("Home Page", () => {
@@ -23,8 +24,8 @@ describe("Home Page", () => {
 
   it("should define page metadata when mounted.", async () => {
     const expectedPageMeta: Parameters<typeof definePageMeta>[0] = {
-      "icon": "i-lucide-home",
-      "titleKey": "home.pageTitle",
+      icon: MOCKED_ROUTES[0].meta?.icon,
+      titleKey: MOCKED_ROUTES[0].meta?.titleKey,
     };
 
     expect(definePageMeta).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);

@@ -5,6 +5,7 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { VueWrapper } from "@vue/test-utils";
 import { beforeEach, expect, it } from "vitest";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import { MOCKED_ROUTES } from "~~/tests/unit/utils/mocks/nuxt/useRouter/useRouter.mock.constants";
 
 describe("Default Layout Header Component", () => {
   let wrapper: VueWrapper;
@@ -36,14 +37,14 @@ describe("Default Layout Header Component", () => {
       const navigationMenu = wrapper.findComponent<typeof UNavigationMenu>({ ref: "uNavigationMenu" });
       const expectedNavigationMenuItems: NavigationMenuItem[] = [
         {
-          label: "home.pageTitle",
-          to: "/",
+          label: MOCKED_ROUTES[0].meta?.titleKey ?? MOCKED_ROUTES[0].name?.toString(),
+          to: MOCKED_ROUTES[0].path,
           active: true,
-          icon: "i-lucide-home",
+          icon: MOCKED_ROUTES[0].meta?.icon,
         },
         {
-          label: "questions",
-          to: "/questions",
+          label: MOCKED_ROUTES[1].name?.toString(),
+          to: MOCKED_ROUTES[1].path,
           active: false,
           icon: undefined,
         },
