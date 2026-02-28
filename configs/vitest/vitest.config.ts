@@ -33,6 +33,7 @@ export default defineConfig({
       }),
     ],
     onConsoleLog: (log: string): boolean => !log.startsWith("<Suspense> is an experimental feature"),
+    watch: false,
     coverage: {
       provider: "v8",
       include: [
