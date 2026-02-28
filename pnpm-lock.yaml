@@ -12,8 +12,8 @@ importers:
         specifier: ^20.4.2
         version: 20.4.2
       '@iconify-json/lucide':
-        specifier: ^1.2.94
-        version: 1.2.94
+        specifier: ^1.2.95
+        version: 1.2.95
       '@nuxt/hints':
         specifier: ^1.0.0-alpha.9
         version: 1.0.0-alpha.9(db0@0.3.4)(ioredis@5.9.3)(magicast@0.5.2)(typescript@5.9.3)(vite@7.3.1(@types/node@25.3.0)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(yaml@2.8.2))(vue@3.5.29(typescript@5.9.3))
@@ -700,8 +700,8 @@ packages:
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
 
-  '@iconify-json/lucide@1.2.94':
-    resolution: {integrity: sha512-P54R7gqZs3t1GZQmzW2WkXIkGb9RPCq77iCb7IDU94IIsVegzuSQg52hSTjhvDKRXGUDc1HdwOBIuqg3iLIluw==}
+  '@iconify-json/lucide@1.2.95':
+    resolution: {integrity: sha512-SxDM/NEJtcGGAiLAnaZ7rcmVxkJI8esswTZLCm5BfNcoPf/yawIImb4nNfsu4dtFzP/Cl6KRg+vZq521zOUOnQ==}
 
   '@iconify/collections@1.0.653':
     resolution: {integrity: sha512-XT+u9JpO+o8dB2qrcI2FrNAZlDH0+flUqcOye4HkYnB+nPLjBXjFbJJTfODOCJzonSw/5axd5w/8fyY1g52d/w==}
@@ -6844,7 +6844,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@iconify-json/lucide@1.2.94':
+  '@iconify-json/lucide@1.2.95':
     dependencies:
       '@iconify/types': 2.0.0
 
