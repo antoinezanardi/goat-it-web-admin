@@ -74,8 +74,8 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^20.4.2",
-    "@iconify-json/lucide": "^1.2.94",
-    "@nuxt/hints": "^1.0.0-alpha.9",
+    "@iconify-json/lucide": "^1.2.95",
+    "@nuxt/hints": "^1.0.0-alpha.10",
     "@nuxt/test-utils": "^4.0.0",
     "@nuxt/ui": "^4.5.0",
     "@nuxtjs/i18n": "^10.2.3",
@@ -102,8 +102,5 @@
     "validate-branch-name": "^1.3.2",
     "vitest": "^4.0.18",
     "vue-tsc": "^3.2.5"
-  },
-  "overrides": {
-    "@vue/devtools-kit": ">=8.0.3"
   }
 }
