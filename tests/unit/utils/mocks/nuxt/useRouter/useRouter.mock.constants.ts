@@ -10,14 +10,7 @@ const DEFAULT_MOCKED_ROUTE: RouteMock = {
 } as const;
 
 const MOCKED_ROUTES = [
-  {
-    name: "home",
-    path: "/",
-    meta: {
-      titleKey: "home.pageTitle",
-      icon: "i-lucide-home",
-    },
-  },
+  DEFAULT_MOCKED_ROUTE,
   {
     name: "questions",
     path: "/questions",
