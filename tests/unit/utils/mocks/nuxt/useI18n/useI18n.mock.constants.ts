@@ -5,9 +5,9 @@ const DEFAULT_MOCKED_LOCALE = "fr" as const satisfies SupportedLocaleCodeForMock
 const MOCKED_LOCALE_CODES = [
   "en",
   "fr"
-] as const satisfies SupportedLocaleCodeForMock[];
+] as const satisfies readonly SupportedLocaleCodeForMock[];
 
-const MOCKED_LOCALES: SupportedMockedLocale[] = [
+const MOCKED_LOCALES = [
   {
     code: "en",
     name: "English",
@@ -18,7 +18,7 @@ const MOCKED_LOCALES: SupportedMockedLocale[] = [
     name: "Français",
     dir: "ltr",
   },
-] as const;
+] as const satisfies readonly SupportedMockedLocale[];
 
 export {
   DEFAULT_MOCKED_LOCALE,

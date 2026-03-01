@@ -19,7 +19,7 @@ type UseRouterMock = {
  */
 function createUseRouterMock(): UseRouterMock {
   return {
-    getRoutes: vi.fn<() => RouteMock[]>(() => MOCKED_ROUTES),
+    getRoutes: vi.fn<() => RouteMock[]>(() => [...MOCKED_ROUTES]),
     currentRoute: ref<RouteMock>(DEFAULT_MOCKED_ROUTE),
     push: vi.fn<(to: string) => void>(),
     afterEach: vi.fn<() => void>(),

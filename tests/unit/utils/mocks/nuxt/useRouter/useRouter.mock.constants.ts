@@ -22,7 +22,7 @@ const MOCKED_ROUTES = [
     name: "questions",
     path: "/questions",
   },
-] as const satisfies RouteMock[];
+] as const satisfies readonly RouteMock[];
 
 export {
   DEFAULT_MOCKED_ROUTE,
