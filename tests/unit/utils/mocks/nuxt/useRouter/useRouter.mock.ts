@@ -13,6 +13,10 @@ type UseRouterMock = {
   onError: Mock<() => void>;
 };
 
+/**
+ * Creates a mock implementation of the `useRouter` composable for unit testing purposes.
+ * Can only be used from unit tests setup functions.
+ */
 function createUseRouterMock(): UseRouterMock {
   return {
     getRoutes: vi.fn<() => RouteMock[]>(() => MOCKED_ROUTES),
@@ -25,6 +29,6 @@ function createUseRouterMock(): UseRouterMock {
   };
 }
 
-export { createUseRouterMock };
-
 export type { UseRouterMock };
+
+export { createUseRouterMock };
