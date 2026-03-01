@@ -20,16 +20,23 @@ const navigationMenuItems = computed<NavigationMenuItem[]>(() => getRoutes().map
 
 <template>
   <UHeader
+    ref="uHeader"
     :title="$t('common.app.name')"
   >
-    <UNavigationMenu :items="navigationMenuItems"/>
+    <UNavigationMenu
+      ref="uNavigationMenu"
+      :items="navigationMenuItems"
+    />
 
     <template #right>
       <UColorModeButton
         class="cursor-pointer"
       />
 
-      <UTooltip :text="$t('navigation.openOnGitHub')">
+      <UTooltip
+        ref="uTooltip"
+        :text="$t('navigation.openOnGitHub')"
+      >
         <UButton
           color="neutral"
           variant="ghost"
