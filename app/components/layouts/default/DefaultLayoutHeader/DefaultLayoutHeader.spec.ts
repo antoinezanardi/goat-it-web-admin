@@ -48,6 +48,12 @@ describe("Default Layout Header Component", () => {
           active: false,
           icon: undefined,
         },
+        {
+          to: MOCKED_ROUTES[2].path,
+          label: undefined,
+          active: false,
+          icon: undefined,
+        },
       ];
 
       expect(navigationMenu.props("items")).toStrictEqual<NavigationMenuItem[]>(expectedNavigationMenuItems);

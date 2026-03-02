@@ -5,7 +5,7 @@ export const strykerPlugins = [
     // eslint-disable-next-line complexity
     shouldIgnore(path) {
       const isDefinePropsCall = node => node?.type === "Identifier" && node.name === "defineProps";
-      const expression = path.node.expression || path.node.init && path.node.init.callee;
+      const expression = path.node.expression || path.node.init;
       const ignoreReason = "We can't mutate defineProps macro as it is stated here: https://github.com/stryker-mutator/stryker-js/issues/3305.";
 
       if (

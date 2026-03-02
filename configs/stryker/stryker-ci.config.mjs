@@ -16,7 +16,7 @@ if (process.env.STRYKER_DASHBOARD_API_KEY !== undefined) {
   ciConfig.reporters.push("dashboard");
 
   const dashboard = {
-    project: "github.com/antoinezanardi/antoinezanardi.fr",
+    project: "github.com/antoinezanardi/goat-it-web-admin",
     baseUrl: "https://dashboard.stryker-mutator.io/api/reports",
     reportType: "full",
   };
