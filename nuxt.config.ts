@@ -2,6 +2,12 @@
 import type { NuxtConfig } from "@nuxt/schema";
 
 const config: NuxtConfig = {
+  app: {
+    pageTransition: {
+      name: "page",
+      mode: "out-in",
+    },
+  },
   modules: [
     "@nuxt/ui",
     "@nuxtjs/i18n",
@@ -21,7 +27,6 @@ const config: NuxtConfig = {
     enabled: true,
   },
   ui: {
-    fonts: false,
     experimental: {
       componentDetection: true,
     },
