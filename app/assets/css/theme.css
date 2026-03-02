@@ -1,9 +1,5 @@
 @theme static {
-  /* On remplace la police par défaut.
-     Nuxt Fonts va intercepter "General Sans" et la charger depuis Fontshare. */
   --font-sans: 'General Sans', sans-serif;
-
-  /* Pour les chiffres ou le code (IDs, JSON), on garde une mono */
   --font-mono: 'JetBrains Mono', monospace;
 
   --color-green-50: #EFFDF5;
