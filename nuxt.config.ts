@@ -1,5 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
+import type { NuxtConfig } from "@nuxt/schema";
+
+const config: NuxtConfig = {
   modules: [
     "@nuxt/ui",
     "@nuxtjs/i18n",
@@ -12,8 +14,8 @@ export default defineNuxtConfig({
     strict: true,
     typeCheck: true,
     tsConfig: {
-      include: ["../tests/"]
-    }
+      include: ["../tests/"],
+    },
   },
   devtools: {
     enabled: true,
@@ -68,4 +70,6 @@ export default defineNuxtConfig({
       redirectOn: "root",
     },
   },
-});
+};
+
+export default defineNuxtConfig(config) as NuxtConfig;

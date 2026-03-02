@@ -1,6 +1,6 @@
 type RouteMock = {
-  name: string | symbol | number;
   path: string;
+  name?: string | symbol | number;
   meta?: {
     titleKey?: string;
     icon?: string;
