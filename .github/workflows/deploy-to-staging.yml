@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - "develop"
-  # TODO: Just for testing, remove the push trigger later and rely only on PRs to develop
-  pull_request:
-    branches:
-      - "develop"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
