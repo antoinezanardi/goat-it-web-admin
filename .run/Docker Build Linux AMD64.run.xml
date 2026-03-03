@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Docker Build Linux AMD 64" type="js.build_tools.npm">
+  <configuration default="false" name="Docker Build Linux AMD64" type="js.build_tools.npm">
     <package-json value="$PROJECT_DIR$/package.json" />
     <command value="run" />
     <scripts>
