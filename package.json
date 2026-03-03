@@ -92,7 +92,7 @@
     "@vueuse/nuxt": "^14.2.1",
     "commitlint": "^20.4.2",
     "cross-env": "^10.1.0",
-    "happy-dom": "^20.7.0",
+    "happy-dom": "^20.8.3",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
     "lint-staged": "^16.3.1",
