@@ -24,6 +24,7 @@ USER node
 
 WORKDIR /app
 
+COPY --chown=node:node .npmrc ./
 COPY --chown=node:node package.json ./
 COPY --chown=node:node envs ./
 COPY --chown=node:node nuxt.config.ts ./
