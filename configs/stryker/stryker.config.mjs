@@ -1,5 +1,5 @@
 export default {
-  cleanTempDir: false,
+  cleanTempDir: "always",
   incremental: true,
   incrementalFile: "tests/mutation/incremental/incremental.json",
   checkers: ["typescript"],
