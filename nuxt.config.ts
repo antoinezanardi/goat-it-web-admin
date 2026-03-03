@@ -8,30 +8,6 @@ const config: NuxtConfig = {
       mode: "out-in",
     },
   },
-  modules: [
-    "@nuxt/ui",
-    "@nuxtjs/i18n",
-    "@vueuse/nuxt",
-    "@nuxt/hints",
-    "@pinia/nuxt",
-  ],
-  typescript: {
-    shim: true,
-    strict: true,
-    typeCheck: true,
-    tsConfig: {
-      include: ["../tests/"],
-    },
-  },
-  devtools: {
-    enabled: true,
-  },
-  ui: {
-    experimental: {
-      componentDetection: true,
-    },
-  },
-  css: ["~/assets/css/main.css"],
   compatibilityDate: "2025-01-15",
   components: [
     {
@@ -39,8 +15,12 @@ const config: NuxtConfig = {
       pathPrefix: false,
     },
   ],
+  css: ["~/assets/css/main.css"],
+  devtools: {
+    enabled: true,
+  },
   i18n: {
-    defaultLocale: "fr",
+    defaultLocale: import.meta.env.NUXT_PUBLIC_DEFAULT_LOCALE as string,
     locales: [
       {
         code: "fr",
@@ -73,6 +53,26 @@ const config: NuxtConfig = {
       useCookie: true,
       cookieKey: "i18n_redirected",
       redirectOn: "root",
+    },
+  },
+  modules: [
+    "@nuxt/ui",
+    "@nuxtjs/i18n",
+    "@vueuse/nuxt",
+    "@nuxt/hints",
+    "@pinia/nuxt",
+  ],
+  typescript: {
+    shim: true,
+    strict: true,
+    typeCheck: true,
+    tsConfig: {
+      include: ["../tests/"],
+    },
+  },
+  ui: {
+    experimental: {
+      componentDetection: true,
     },
   },
 };
