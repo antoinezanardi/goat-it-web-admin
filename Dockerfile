@@ -1,5 +1,11 @@
-FROM node:25.7.0-alpine AS base
+ARG NODE_VERSION=25.7.0
+FROM --platform=$BUILDPLATFORM node:${NODE_VERSION}-alpine AS base
 LABEL maintainer="Antoine ZANARDI"
+
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN echo "Running on $BUILDPLATFORM, building for $TARGETPLATFORM"
+
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 ENV CI="true"
@@ -10,7 +16,7 @@ RUN corepack enable
 
 RUN mkdir -p "$PNPM_HOME" && chown node:node "$PNPM_HOME"
 
-FROM --platform=$BUILDPLATFORM base AS development
+FROM base AS development
 
 RUN apk add --no-cache bash
 
@@ -53,7 +59,7 @@ COPY --chown=node:node --from=development /app/node_modules ./node_modules
 
 RUN pnpm run build
 
-FROM base AS production
+FROM node:${NODE_VERSION}-alpine AS production
 
 USER node
 
