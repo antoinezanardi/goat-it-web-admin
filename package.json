@@ -79,7 +79,7 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^20.4.2",
-    "@goat-it/schemas": "^0.0.1",
+    "@goat-it/schemas": "^0.0.2",
     "@iconify-json/lucide": "^1.2.95",
     "@nuxt/hints": "^1.0.0-alpha.10",
     "@nuxt/test-utils": "^4.0.0",
