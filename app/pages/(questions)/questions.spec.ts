@@ -1,4 +1,4 @@
-import { VueWrapper } from "@vue/test-utils";
+import type { VueWrapper } from "@vue/test-utils";
 import { describe, it, expect, beforeEach } from "vitest";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
@@ -8,7 +8,7 @@ describe("Questions Page", () => {
   let wrapper: VueWrapper;
 
   async function mountQuestionsPage(options: MountSuspendedOptions = {}): Promise<VueWrapper> {
-    return await mountSuspended(QuestionPage, {
+    return mountSuspended(QuestionPage, {
       ...options,
     });
   }
@@ -17,11 +17,11 @@ describe("Questions Page", () => {
     wrapper = await mountQuestionsPage();
   });
 
-  it("should render the questions page when mounted.", async () => {
-    expect(wrapper.exists()).toBe(true);
+  it("should render the questions page when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
   });
 
-  it("should define page metadata when mounted.", async () => {
+  it("should define page metadata when mounted.", () => {
     const expectedPageMeta: Parameters<typeof definePageMeta>[0] = {
       "icon": "i-lucide-message-circle-question-mark",
       "titleKey": "questions.pageTitle",

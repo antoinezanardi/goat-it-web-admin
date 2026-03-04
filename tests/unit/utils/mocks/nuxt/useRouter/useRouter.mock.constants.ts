@@ -14,9 +14,11 @@ const MOCKED_ROUTES = [
   {
     name: "questions",
     path: "/questions",
+    meta: {},
   },
   {
     path: "/question/:id",
+    meta: {},
   }
 ] as const satisfies readonly RouteMock[];
 

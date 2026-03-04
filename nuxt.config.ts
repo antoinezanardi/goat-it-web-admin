@@ -19,8 +19,15 @@ const config: NuxtConfig = {
   devtools: {
     enabled: true,
   },
+  eslint: {
+    config: {
+      typescript: {
+        tsconfigPath: "./tsconfig.json",
+      },
+    },
+  },
   i18n: {
-    defaultLocale: import.meta.env.NUXT_PUBLIC_DEFAULT_LOCALE as string,
+    defaultLocale: process.env.NUXT_PUBLIC_DEFAULT_LOCALE,
     locales: [
       {
         code: "fr",
@@ -55,19 +62,28 @@ const config: NuxtConfig = {
       redirectOn: "root",
     },
   },
+  ignore: [
+    "configs/**/*.ts",
+    "eslint.config.ts"
+  ],
   modules: [
     "@nuxt/ui",
     "@nuxtjs/i18n",
     "@vueuse/nuxt",
     "@nuxt/hints",
     "@pinia/nuxt",
+    "@nuxt/eslint",
   ],
   typescript: {
     shim: true,
     strict: true,
     typeCheck: true,
     tsConfig: {
-      include: ["../tests/"],
+      include: [
+        "../tests/",
+        "../eslint.config.ts",
+        "../configs/",
+      ],
     },
   },
   ui: {

@@ -1,5 +1,5 @@
 declare module "#app" {
-  interface PageMeta {
+  type PageMeta = {
     titleKey?: string;
     icon?: string;
   }

@@ -4,7 +4,7 @@ import { createUseRouterMock, type UseRouterMock } from "~~/tests/unit/utils/moc
 
 let useRouterMock: UseRouterMock = createUseRouterMock();
 
-mockNuxtImport("useRouter", () => () => useRouterMock);
+mockNuxtImport("useRouter", () => (): UseRouterMock => useRouterMock);
 
 beforeEach(() => {
   useRouterMock = createUseRouterMock();

@@ -1,4 +1,4 @@
-import { mountSuspended } from "@nuxt/test-utils/runtime";
+import type { mountSuspended } from "@nuxt/test-utils/runtime";
 
 type MountSuspendedOptions = Parameters<typeof mountSuspended>[1];
 

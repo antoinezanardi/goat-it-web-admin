@@ -5,8 +5,11 @@ definePageMeta({
 });
 </script>
 
+
 <template>
   <div id="question-themes-page">
-    <h1>Questions Themes</h1>
+    <h1>
+      {{ $t("questionThemes.pageTitle") }}
+    </h1>
   </div>
 </template>

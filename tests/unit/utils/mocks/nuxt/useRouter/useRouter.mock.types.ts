@@ -1,10 +1,9 @@
+import type { PageMeta } from "nuxt/app";
+
 type RouteMock = {
   path: string;
   name?: string | symbol | number;
-  meta?: {
-    titleKey?: string;
-    icon?: string;
-  };
+  meta: PageMeta;
 };
 
 export type { RouteMock };
