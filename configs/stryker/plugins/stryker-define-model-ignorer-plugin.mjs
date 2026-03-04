@@ -20,7 +20,6 @@ export const strykerPlugins = [
       if (isVariableWithDefineModel) {
         return ignoreReason;
       }
-      return undefined;
     },
   }),
 ];

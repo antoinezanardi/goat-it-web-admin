@@ -1,6 +1,7 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
+
 import QuestionThemesPage from "@/pages/(questions-themes)/question-themes.vue";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 

@@ -1,5 +1,8 @@
-import { vi, type Mock } from "vitest";
-import { ref, type Ref } from "vue";
+import { vi  } from "vitest";
+import type {Mock} from "vitest";
+import { ref  } from "vue";
+import type {Ref} from "vue";
+
 import type { SupportedLocaleCodeForMock, SupportedMockedLocale } from "~~/tests/unit/utils/mocks/nuxt/useI18n/useI18n.mock.types";
 import { DEFAULT_MOCKED_LOCALE, MOCKED_LOCALE_CODES, MOCKED_LOCALES } from "~~/tests/unit/utils/mocks/nuxt/useI18n/useI18n.mock.constants";
 

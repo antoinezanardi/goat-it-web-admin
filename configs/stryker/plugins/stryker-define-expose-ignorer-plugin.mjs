@@ -9,7 +9,6 @@ export const strykerPlugins = [
       if (expression?.type === "CallExpression" && isDefineExposeCall(expression.callee)) {
         return "The macro defineExpose from Nuxt is breaking Stryker, so we ignore it.";
       }
-      return undefined;
     },
   }),
 ];

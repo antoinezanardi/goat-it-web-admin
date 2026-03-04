@@ -1,9 +1,10 @@
-import { NAMING_CONVENTION_DEFAULT_CONFIG } from "../eslint.constants";
-
 import type { Linter } from "eslint";
 
+import { NAMING_CONVENTION_DEFAULT_CONFIG } from "../eslint.constants";
+
+
 const ESLINT_TYPESCRIPT_FLAT_CONFIG: Linter.Config = {
-  name: "typescript",
+  name: "goat-it/typescript",
   files: ["**/*.ts"],
   rules: {
     // ---- ESLint Rules which must be deactivated for TypeScript to work -----

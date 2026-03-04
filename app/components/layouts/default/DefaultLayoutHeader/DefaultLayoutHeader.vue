@@ -38,7 +38,8 @@ const navigationMenuItems = computed<NavigationMenuItem[]>(() => router.getRoute
         :text="$t('navigation.openOnGitHub')"
       >
         <UButton
-          aria-label="GitHub"
+          id="default-layout-header-github-link"
+          :aria-label="$t('navigation.openOnGitHub')"
           color="neutral"
           icon="i-lucide-github"
           target="_blank"

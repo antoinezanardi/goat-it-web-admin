@@ -1,11 +1,11 @@
 import Vitest from "@vitest/eslint-plugin";
+import type { Linter } from "eslint";
 
 import { MAX_NESTED_CALLBACK, MAX_PARAMS, MAX_LINES_PER_FUNCTION_DEFAULT_CONFIG } from "../eslint.constants";
 
-import type { Linter } from "eslint";
 
 const ESLINT_GLOBAL_FLAT_CONFIG: Linter.Config = {
-  name: "global",
+  name: "goat-it/global",
   languageOptions: {
     globals: {
       ...Vitest.environments.env.globals,

@@ -2,6 +2,7 @@
   "common": {
     "app": {
       "name": "Goat It Admin"
-    }
+    },
+    "gitHub": "GitHub"
   }
 }

@@ -1,9 +1,10 @@
-import type { ULocaleSelect } from "#components";
-import { LocaleSelect } from "#components";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 import { nextTick } from "vue";
+
+import { LocaleSelect } from "#components";
+import type { ULocaleSelect } from "#components";
 import type { SupportedMockedLocale } from "~~/tests/unit/utils/mocks/nuxt/useI18n/useI18n.mock.types";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import { DEFAULT_MOCKED_LOCALE, MOCKED_LOCALE_CODES } from "~~/tests/unit/utils/mocks/nuxt/useI18n/useI18n.mock.constants";

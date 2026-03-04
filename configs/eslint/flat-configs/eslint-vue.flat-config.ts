@@ -1,20 +1,21 @@
 import type { Linter } from "eslint";
+
 import { MAX_LENGTH_DEFAULT_CONFIG } from "../eslint.constants";
 
 import { ESLINT_TYPESCRIPT_FLAT_CONFIG } from "./eslint-typescript.flat-config";
 
 const ESLINT_VUE_FLAT_CONFIG: Linter.Config = {
-  name: "vue",
+  name: "goat-it/vue",
   rules: {
     ...ESLINT_TYPESCRIPT_FLAT_CONFIG.rules,
     "no-useless-assignment": "off",
-    //"import/unambiguous": "off",
-    //"import/max-dependencies": [
-    //  "error", {
-    //    max: 30,
-    //    ignoreTypeImports: true,
-    //  },
-    //],
+    "import/unambiguous": "off",
+    "import/max-dependencies": [
+      "error", {
+        max: 30,
+        ignoreTypeImports: true,
+      },
+    ],
     "vue/comment-directive": "off",
     "vue/jsx-uses-vars": "error",
     // ---- Vue Rules -----

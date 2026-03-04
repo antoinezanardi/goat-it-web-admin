@@ -1,6 +1,7 @@
 import type { VueWrapper } from "@vue/test-utils";
 import { describe, it, expect, beforeEach } from "vitest";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
+
 import App from "@/App.vue";
 import { APP_TOOLTIP_CONFIG } from "~/app.constants";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";

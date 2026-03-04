@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { Locale } from "#ui/types";
 import type { ArrayValues } from "type-fest";
+
+import type { Locale } from "#ui/types";
 
 type SupportedLocale = ArrayValues<typeof localeCodes.value>;
 
@@ -12,11 +13,11 @@ function isSupportedLocale(locale: string): locale is SupportedLocale {
   return localeCodes.value.includes(locale as SupportedLocale);
 }
 
-async function onLocaleChange(newLocale: string): Promise<void> {
-  if (!isSupportedLocale(newLocale)) {
+async function onLocaleChange(updatedLocale: string): Promise<void> {
+  if (!isSupportedLocale(updatedLocale)) {
     return;
   }
-  await setLocale(newLocale);
+  await setLocale(updatedLocale);
 }
 </script>
 

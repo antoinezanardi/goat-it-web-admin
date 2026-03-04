@@ -80,6 +80,9 @@ importers:
       eslint:
         specifier: ^9.39.3
         version: 9.39.3(jiti@2.6.1)
+      eslint-plugin-unicorn:
+        specifier: ^63.0.0
+        version: 63.0.0(eslint@9.39.3(jiti@2.6.1))
       happy-dom:
         specifier: ^20.8.3
         version: 20.8.3

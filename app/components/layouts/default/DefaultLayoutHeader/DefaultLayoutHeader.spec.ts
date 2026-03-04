@@ -1,9 +1,10 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
 import { describe, beforeEach, expect, it  } from "vitest";
-import type { UTooltip } from "#components";
-import { DefaultLayoutHeader   } from "#components";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
+
+import type { UButton, UTooltip } from "#components";
+import { DefaultLayoutHeader } from "#components";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import { MOCKED_ROUTES } from "~~/tests/unit/utils/mocks/nuxt/useRouter/useRouter.mock.constants";
 
@@ -65,6 +66,12 @@ describe("Default Layout Header Component", () => {
       const gitHubTooltip = wrapper.getComponent<typeof UTooltip>("#default-layout-header-github-link-tooltip");
 
       expect(gitHubTooltip.props("text")).toBe("navigation.openOnGitHub");
+    });
+
+    it("should have translated aria-label on the GitHub link when mounted.", () => {
+      const gitHubLink = wrapper.getComponent<typeof UButton>("#default-layout-header-github-link");
+
+      expect(gitHubLink.attributes("aria-label")).toBe("navigation.openOnGitHub");
     });
   });
 });

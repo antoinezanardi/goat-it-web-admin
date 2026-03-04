@@ -9,7 +9,6 @@ export const strykerPlugins = [
       if (expression?.type === "CallExpression" && isDefinePageMetaCall(expression.callee)) {
         return "The macro definePageMeta from Nuxt is breaking Stryker, so we ignore it.";
       }
-      return undefined;
     },
   }),
 ];

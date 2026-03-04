@@ -111,6 +111,7 @@
     "commitlint": "^20.4.3",
     "cross-env": "^10.1.0",
     "eslint": "^9.39.3",
+    "eslint-plugin-unicorn": "^63.0.0",
     "happy-dom": "^20.8.3",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
