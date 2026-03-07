@@ -1,7 +1,6 @@
 import type { Linter } from "eslint";
 
-import { NAMING_CONVENTION_DEFAULT_CONFIG } from "../eslint.constants";
-
+import { MAX_PARAMS, NAMING_CONVENTION_DEFAULT_CONFIG } from "../eslint.constants";
 
 const ESLINT_TYPESCRIPT_FLAT_CONFIG: Linter.Config = {
   name: "goat-it/typescript",
@@ -60,7 +59,7 @@ const ESLINT_TYPESCRIPT_FLAT_CONFIG: Linter.Config = {
     "@typescript-eslint/max-params": [
       "error",
       {
-        max: 8,
+        max: MAX_PARAMS,
       },
     ],
     "@typescript-eslint/member-ordering": "error",
@@ -201,6 +200,7 @@ const ESLINT_TYPESCRIPT_FLAT_CONFIG: Linter.Config = {
     "@typescript-eslint/restrict-template-expressions": "error",
     "@typescript-eslint/return-await": "error",
     "@typescript-eslint/strict-boolean-expressions": "error",
+    "@typescript-eslint/strict-void-return": "error",
     "@typescript-eslint/switch-exhaustiveness-check": "error",
     "@typescript-eslint/triple-slash-reference": "error",
     "@typescript-eslint/unbound-method": "error",

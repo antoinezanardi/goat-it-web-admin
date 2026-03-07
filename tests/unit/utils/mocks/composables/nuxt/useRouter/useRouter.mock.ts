@@ -1,10 +1,10 @@
-import { vi  } from "vitest";
-import type {Mock} from "vitest";
-import { ref  } from "vue";
-import type {Ref} from "vue";
+import { vi } from "vitest";
+import type { Mock } from "vitest";
+import { ref } from "vue";
+import type { Ref } from "vue";
 
-import { DEFAULT_MOCKED_ROUTE, MOCKED_ROUTES } from "~~/tests/unit/utils/mocks/nuxt/useRouter/useRouter.mock.constants";
-import type { RouteMock } from "~~/tests/unit/utils/mocks/nuxt/useRouter/useRouter.mock.types";
+import { DEFAULT_MOCKED_ROUTE, MOCKED_ROUTES } from "~~/tests/unit/utils/mocks/composables/nuxt/useRouter/useRouter.mock.constants";
+import type { RouteMock } from "~~/tests/unit/utils/mocks/composables/nuxt/useRouter/useRouter.mock.types";
 
 type UseRouterMock = {
   getRoutes: Mock<() => RouteMock[]>;

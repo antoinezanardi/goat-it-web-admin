@@ -3,6 +3,7 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+
 import QuestionPage from "@/pages/(questions)/questions.vue";
 
 describe("Questions Page", () => {
@@ -14,7 +15,7 @@ describe("Questions Page", () => {
     });
   }
 
-  beforeEach(async () => {
+  beforeEach(async() => {
     wrapper = await mountQuestionsPage();
   });
 
@@ -24,8 +25,8 @@ describe("Questions Page", () => {
 
   it("should define page metadata when mounted.", () => {
     const expectedPageMeta: Parameters<typeof definePageMeta>[0] = {
-      "icon": "i-lucide-message-circle-question-mark",
-      "titleKey": "questions.pageTitle",
+      icon: "i-lucide-message-circle-question-mark",
+      titleKey: "questions.pageTitle",
     };
 
     expect(definePageMeta).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);

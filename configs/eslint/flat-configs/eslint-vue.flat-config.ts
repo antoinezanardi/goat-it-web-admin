@@ -11,7 +11,8 @@ const ESLINT_VUE_FLAT_CONFIG: Linter.Config = {
     "no-useless-assignment": "off",
     "import/unambiguous": "off",
     "import/max-dependencies": [
-      "error", {
+      "error",
+      {
         max: 30,
         ignoreTypeImports: true,
       },
@@ -153,7 +154,8 @@ const ESLINT_VUE_FLAT_CONFIG: Linter.Config = {
     "vue/define-macros-order": "error",
     "vue/define-props-declaration": "error",
     "vue/define-props-destructuring": [
-      "error", {
+      "error",
+      {
         destructure: "never",
       },
     ],
@@ -174,8 +176,10 @@ const ESLINT_VUE_FLAT_CONFIG: Linter.Config = {
     "vue/no-deprecated-delete-set": "error",
     "vue/no-deprecated-model-definition": "error",
     "vue/no-duplicate-attr-inheritance": "error",
+    "vue/no-duplicate-class-names": "error",
     "vue/no-empty-component-block": "error",
     "vue/no-import-compiler-macros": "error",
+    "vue/no-literals-in-template": "error",
     "vue/no-multiple-objects-in-class": "error",
     "vue/no-negated-v-if-condition": "off",
     "vue/no-potential-component-option-typo": "error",
@@ -198,6 +202,7 @@ const ESLINT_VUE_FLAT_CONFIG: Linter.Config = {
     "vue/no-template-target-blank": "error",
     "vue/no-this-in-before-route-enter": "error",
     "vue/no-undef-components": "off",
+    "vue/no-undef-directives": "error",
     "vue/no-undef-properties": "error",
     "vue/no-unsupported-features": "error",
     "vue/no-unused-emit-declarations": "error",

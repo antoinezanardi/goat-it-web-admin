@@ -5,7 +5,6 @@ definePageMeta({
 });
 </script>
 
-
 <template>
   <div id="question-themes-page">
     <h1>

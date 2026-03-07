@@ -29,6 +29,7 @@ const ESLINT_IMPORT_FLAT_CONFIG: Linter.Config = {
     "import/no-internal-modules": "off",
     "import/no-relative-packages": "error",
     "import/no-relative-parent-imports": "off",
+    "import/no-rename-default": "error",
     "import/no-restricted-paths": "error",
     "import/no-self-import": "error",
     "import/no-unresolved": "off",
@@ -42,7 +43,8 @@ const ESLINT_IMPORT_FLAT_CONFIG: Linter.Config = {
     "import/first": "error",
     "import/group-exports": "error",
     "import/max-dependencies": [
-      "error", {
+      "error",
+      {
         max: 25,
         ignoreTypeImports: true,
       },
@@ -56,15 +58,15 @@ const ESLINT_IMPORT_FLAT_CONFIG: Linter.Config = {
     "import/no-namespace": "error",
     "import/no-unassigned-import": ["error", { allow: ["reflect-metadata"] }],
     "import/prefer-default-export": "off",
+    "import/prefer-namespace-import": "off",
     "import/order": [
-      "error", {
+      "error",
+      {
         "warnOnUnassignedImports": true,
         "groups": ["builtin", "external", "internal", "parent", "sibling"],
         "pathGroups": [
-          { pattern: "@/components/**", group: "parent" },
-          { pattern: "@/composables/**", group: "parent", position: "after" },
-          { pattern: "@/assets/**", group: "parent", position: "after" },
-          { pattern: "@/tests/**", group: "parent", position: "after" },
+          { pattern: "~~/tests/**", group: "parent", position: "after" },
+          { pattern: "#components", group: "parent", position: "after" },
         ],
         "pathGroupsExcludedImportTypes": ["@/tests/"],
         "newlines-between": "always",

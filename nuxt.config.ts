@@ -24,6 +24,7 @@ const config: NuxtConfig = {
       typescript: {
         tsconfigPath: "./tsconfig.json",
       },
+      stylistic: true,
     },
   },
   i18n: {
@@ -64,7 +65,7 @@ const config: NuxtConfig = {
   },
   ignore: [
     "configs/**/*.ts",
-    "eslint.config.ts"
+    "eslint.config.ts",
   ],
   modules: [
     "@nuxt/ui",

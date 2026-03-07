@@ -1,10 +1,10 @@
-import EslintUnicornPlugin from "eslint-plugin-unicorn";
+import unicorn from "eslint-plugin-unicorn";
 import type { Linter } from "eslint";
 
 const ESLINT_UNICORN_FLAT_CONFIG: Linter.Config = {
   name: "unicorn",
   plugins: {
-    unicorn: EslintUnicornPlugin,
+    unicorn,
   },
   rules: {
     "unicorn/better-regex": "error",
@@ -28,6 +28,7 @@ const ESLINT_UNICORN_FLAT_CONFIG: Linter.Config = {
         multipleFileExtensions: true,
       },
     ],
+    "unicorn/isolated-functions": "error",
     "unicorn/import-style": "error",
     "unicorn/new-for-builtins": "error",
     "unicorn/no-abusive-eslint-disable": "error",

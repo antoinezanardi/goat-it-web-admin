@@ -2,9 +2,10 @@ import type { VueWrapper } from "@vue/test-utils";
 import { describe, it, expect, beforeEach } from "vitest";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 
+import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+
 import App from "@/App.vue";
 import { APP_TOOLTIP_CONFIG } from "~/app.constants";
-import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 describe("App Component", () => {
   let wrapper: VueWrapper;
@@ -16,7 +17,7 @@ describe("App Component", () => {
     });
   }
 
-  beforeEach(async () => {
+  beforeEach(async() => {
     wrapper = await mountAppComponent();
   });
 

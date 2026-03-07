@@ -1,10 +1,10 @@
-import type { SupportedMockedLocale, SupportedLocaleCodeForMock } from "~~/tests/unit/utils/mocks/nuxt/useI18n/useI18n.mock.types";
+import type { SupportedMockedLocale, SupportedLocaleCodeForMock } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.types";
 
 const DEFAULT_MOCKED_LOCALE = "fr" as const satisfies SupportedLocaleCodeForMock;
 
 const MOCKED_LOCALE_CODES = [
   "en",
-  "fr"
+  "fr",
 ] as const satisfies readonly SupportedLocaleCodeForMock[];
 
 const MOCKED_LOCALES = [
@@ -23,5 +23,5 @@ const MOCKED_LOCALES = [
 export {
   DEFAULT_MOCKED_LOCALE,
   MOCKED_LOCALE_CODES,
-  MOCKED_LOCALES
+  MOCKED_LOCALES,
 };

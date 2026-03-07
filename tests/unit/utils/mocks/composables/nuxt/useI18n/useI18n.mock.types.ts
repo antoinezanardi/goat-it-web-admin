@@ -6,5 +6,5 @@ type SupportedMockedLocale = LocaleObject<SupportedLocaleCodeForMock>;
 
 export type {
   SupportedMockedLocale,
-  SupportedLocaleCodeForMock
+  SupportedLocaleCodeForMock,
 };

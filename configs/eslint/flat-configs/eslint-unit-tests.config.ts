@@ -1,10 +1,10 @@
-import Vitest from "@vitest/eslint-plugin";
+import plugin from "@vitest/eslint-plugin";
 import type { Linter } from "eslint";
 
-const ESLINT_SPEC_FLAT_CONFIG: Linter.Config = {
-  name: "goat-it/specs",
+const ESLINT_UNIT_TESTS_FLAT_CONFIG: Linter.Config = {
+  name: "goat-it/unit-tests",
   files: ["app/**/*.spec.ts"],
-  plugins: { vitest: Vitest },
+  plugins: { vitest: plugin },
   rules: {
     "max-lines-per-function": "off",
     "no-magic-numbers": "off",
@@ -12,7 +12,8 @@ const ESLINT_SPEC_FLAT_CONFIG: Linter.Config = {
     "import/no-namespace": "off",
     "import/no-internal-modules": "off",
     "import/max-dependencies": [
-      "error", {
+      "error",
+      {
         max: 40,
         ignoreTypeImports: true,
       },
@@ -20,6 +21,14 @@ const ESLINT_SPEC_FLAT_CONFIG: Linter.Config = {
     "@typescript-eslint/init-declarations": "off",
     "@typescript-eslint/no-magic-numbers": "off",
     "@typescript-eslint/prefer-destructuring": "off",
+    "vitest/consistent-each-for": [
+      "error",
+      {
+        it: "each",
+        describe: "each",
+        suite: "each",
+      },
+    ],
     "vitest/consistent-test-filename": ["error", { pattern: String.raw`^(.+\.spec)\.ts$` }],
     "vitest/consistent-test-it": ["error", { fn: "it" }],
     "vitest/consistent-vitest-vi": "error",
@@ -47,6 +56,7 @@ const ESLINT_SPEC_FLAT_CONFIG: Linter.Config = {
     "vitest/no-standalone-expect": "error",
     "vitest/no-test-prefixes": "error",
     "vitest/no-test-return-statement": "error",
+    "vitest/no-unneeded-async-expect-function": "error",
     "vitest/padding-around-after-all-blocks": "error",
     "vitest/padding-around-after-each-blocks": "error",
     "vitest/padding-around-all": "error",
@@ -55,6 +65,7 @@ const ESLINT_SPEC_FLAT_CONFIG: Linter.Config = {
     "vitest/padding-around-describe-blocks": "error",
     "vitest/padding-around-expect-groups": "error",
     "vitest/padding-around-test-blocks": "error",
+    "vitest/prefer-called-exactly-once-with": "error",
     "vitest/prefer-called-once": "error",
     "vitest/prefer-called-times": "off",
     "vitest/prefer-called-with": "error",
@@ -67,9 +78,11 @@ const ESLINT_SPEC_FLAT_CONFIG: Linter.Config = {
     "vitest/prefer-expect-resolves": "error",
     "vitest/prefer-hooks-in-order": "error",
     "vitest/prefer-hooks-on-top": "error",
+    "vitest/prefer-import-in-mock": "error",
     "vitest/prefer-importing-vitest-globals": "off",
     "vitest/prefer-lowercase-title": "off",
     "vitest/prefer-mock-promise-shorthand": "error",
+    "vitest/prefer-mock-return-shorthand": "error",
     "vitest/prefer-snapshot-hint": "error",
     "vitest/prefer-spy-on": "error",
     "vitest/prefer-strict-boolean-matchers": "off",
@@ -79,23 +92,28 @@ const ESLINT_SPEC_FLAT_CONFIG: Linter.Config = {
     "vitest/prefer-to-be-object": "error",
     "vitest/prefer-to-be-truthy": "error",
     "vitest/prefer-to-contain": "error",
+    "vitest/prefer-to-have-been-called-times": "error",
     "vitest/prefer-to-have-length": "error",
     "vitest/prefer-todo": "error",
     "vitest/prefer-vi-mocked": "error",
+    "vitest/require-awaited-expect-poll": "error",
     "vitest/require-hook": [
-      "error", {
+      "error",
+      {
         allowedFunctionCalls: ["mockNuxtImport"],
       },
     ],
     "vitest/require-local-test-context-for-concurrent-snapshots": "error",
     "vitest/require-mock-type-parameters": "error",
+    "vitest/require-test-timeout": "off",
     "vitest/require-to-throw-message": "error",
     "vitest/require-top-level-describe": "error",
     "vitest/valid-describe-callback": "error",
     "vitest/valid-expect-in-promise": "error",
     "vitest/valid-expect": "error",
     "vitest/valid-title": [
-      "error", {
+      "error",
+      {
         ignoreTypeOfDescribeName: true,
         mustMatch: { it: new RegExp(/^should .+ when .+\S\.$|^\$test$/u, "u").source },
       },
@@ -104,4 +122,4 @@ const ESLINT_SPEC_FLAT_CONFIG: Linter.Config = {
   },
 } as const;
 
-export { ESLINT_SPEC_FLAT_CONFIG };
+export { ESLINT_UNIT_TESTS_FLAT_CONFIG };

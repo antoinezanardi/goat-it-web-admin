@@ -1,12 +1,13 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
-import { describe, beforeEach, expect, it  } from "vitest";
+import { describe, beforeEach, expect, it } from "vitest";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 
+import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import { MOCKED_ROUTES } from "~~/tests/unit/utils/mocks/composables/nuxt/useRouter/useRouter.mock.constants";
+
 import type { UButton, UTooltip } from "#components";
 import { DefaultLayoutHeader } from "#components";
-import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
-import { MOCKED_ROUTES } from "~~/tests/unit/utils/mocks/nuxt/useRouter/useRouter.mock.constants";
 
 describe("Default Layout Header Component", () => {
   let wrapper: VueWrapper;

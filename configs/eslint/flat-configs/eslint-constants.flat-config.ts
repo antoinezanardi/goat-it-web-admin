@@ -1,10 +1,9 @@
 import type { Linter } from "eslint";
 
-const ESLINT_PAGES_FLAT_CONFIG: Linter.Config = {
-  name: "goat-it/pages",
-  files: ["app/pages/**/*.vue"],
+const ESLINT_CONSTANTS_FLAT_CONFIG: Linter.Config = {
+  name: "goat-it/constants",
+  files: ["**/*.constants.ts"],
   rules: {
-    "import/unambiguous": "off",
     "unicorn/filename-case": [
       "error",
       { case: "kebabCase", multipleFileExtensions: true },
@@ -12,4 +11,4 @@ const ESLINT_PAGES_FLAT_CONFIG: Linter.Config = {
   },
 } as const;
 
-export { ESLINT_PAGES_FLAT_CONFIG };
+export { ESLINT_CONSTANTS_FLAT_CONFIG };
