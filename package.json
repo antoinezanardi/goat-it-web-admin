@@ -90,7 +90,7 @@
     "@commitlint/config-conventional": "^20.4.3",
     "@eslint/config-inspector": "^1.5.0",
     "@goat-it/schemas": "^0.0.2",
-    "@iconify-json/lucide": "^1.2.95",
+    "@iconify-json/lucide": "^1.2.96",
     "@nuxt/eslint": "^1.15.2",
     "@nuxt/hints": "^1.0.0-alpha.10",
     "@nuxt/test-utils": "^4.0.0",
