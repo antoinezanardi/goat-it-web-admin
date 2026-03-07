@@ -20,7 +20,7 @@ function isCallExpressionDefinePropsOrWithDefaults(expression) {
   );
 }
 
-function isVariableWithDefineProperties(path) {
+function isVariableWithDefineProps(path) {
   const init = path.node.init;
 
   return (
@@ -39,7 +39,7 @@ function shouldIgnore(path) {
     return ignoreReason;
   }
 
-  if (isVariableWithDefineProperties(path)) {
+  if (isVariableWithDefineProps(path)) {
     return ignoreReason;
   }
 }

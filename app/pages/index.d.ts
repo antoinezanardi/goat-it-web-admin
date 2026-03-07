@@ -1,6 +1,8 @@
 declare module "#app" {
-  type PageMeta = {
+  interface PageMeta {
     titleKey?: string;
     icon?: string;
-  };
+  }
 }
+
+export {};

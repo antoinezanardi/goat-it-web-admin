@@ -39,7 +39,7 @@ describe("Default Layout Header Component", () => {
       const navigationMenu = wrapper.getComponent({ name: "UNavigationMenu" });
       const expectedNavigationMenuItems: NavigationMenuItem[] = [
         {
-          label: MOCKED_ROUTES[0].meta.titleKey as string,
+          label: MOCKED_ROUTES[0].meta.titleKey,
           to: MOCKED_ROUTES[0].path,
           active: true,
           icon: MOCKED_ROUTES[0].meta.icon,

@@ -6,7 +6,10 @@ const ESLINT_CONSTANTS_FLAT_CONFIG: Linter.Config = {
   rules: {
     "unicorn/filename-case": [
       "error",
-      { case: "kebabCase", multipleFileExtensions: true },
+      {
+        case: "kebabCase",
+        multipleFileExtensions: true,
+      },
     ],
   },
 } as const;

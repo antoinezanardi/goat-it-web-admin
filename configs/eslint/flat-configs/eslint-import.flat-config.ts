@@ -29,7 +29,7 @@ const ESLINT_IMPORT_FLAT_CONFIG: Linter.Config = {
     "import/no-internal-modules": "off",
     "import/no-relative-packages": "error",
     "import/no-relative-parent-imports": "off",
-    "import/no-rename-default": "error",
+    "import/no-rename-default": "off",
     "import/no-restricted-paths": "error",
     "import/no-self-import": "error",
     "import/no-unresolved": "off",

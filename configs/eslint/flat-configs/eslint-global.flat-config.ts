@@ -1,4 +1,3 @@
-import plugin from "@vitest/eslint-plugin";
 import type { Linter } from "eslint";
 
 import { MAX_NESTED_CALLBACK, MAX_PARAMS, MAX_LINES_PER_FUNCTION_DEFAULT_CONFIG } from "../eslint.constants";
@@ -7,7 +6,6 @@ const ESLINT_GLOBAL_FLAT_CONFIG: Linter.Config = {
   name: "goat-it/global",
   languageOptions: {
     globals: {
-      ...plugin.environments.env.globals,
       global: "readonly",
       window: "readonly",
       process: "readonly",
