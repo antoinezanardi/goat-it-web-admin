@@ -1,4 +1,5 @@
-import * as path from "node:path";
+import path from "node:path";
+
 import { defineConfig } from "vitest/config";
 import { defineVitestProject } from "@nuxt/test-utils/config";
 
@@ -25,9 +26,9 @@ export default defineConfig({
           setupFiles: [
             path.resolve(processCwd, "tests/unit/setup/nuxt/vtu-config.nuxt.unit-setup.ts"),
             path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts"),
-            path.resolve(processCwd, "tests/unit/setup/nuxt/definePageMeta.nuxt.unit-setup.ts"),
-            path.resolve(processCwd, "tests/unit/setup/nuxt/useI18n.nuxt.unit-setup.ts"),
-            path.resolve(processCwd, "tests/unit/setup/nuxt/useRouter.nuxt.unit-setup.ts"),
+            path.resolve(processCwd, "tests/unit/setup/nuxt/define-page-meta.nuxt.unit-setup.ts"),
+            path.resolve(processCwd, "tests/unit/setup/nuxt/use-i18n.nuxt.unit-setup.ts"),
+            path.resolve(processCwd, "tests/unit/setup/nuxt/use-router.nuxt.unit-setup.ts"),
           ],
         },
       }),

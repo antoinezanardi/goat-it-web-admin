@@ -1,17 +1,20 @@
-import { LocaleSelect, ULocaleSelect } from "#components";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
-import { VueWrapper } from "@vue/test-utils";
+import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 import { nextTick } from "vue";
-import type { SupportedMockedLocale } from "~~/tests/unit/utils/mocks/nuxt/useI18n/useI18n.mock.types";
+
+import type { SupportedMockedLocale } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.types";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
-import { DEFAULT_MOCKED_LOCALE, MOCKED_LOCALE_CODES } from "~~/tests/unit/utils/mocks/nuxt/useI18n/useI18n.mock.constants";
+import { DEFAULT_MOCKED_LOCALE, MOCKED_LOCALE_CODES } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
+
+import type { ULocaleSelect } from "#components";
+import { LocaleSelect } from "#components";
 
 describe("Locale Select Component", () => {
   let wrapper: VueWrapper;
 
   async function mountLocaleSelectComponent(options: MountSuspendedOptions = {}): Promise<VueWrapper> {
-    return await mountSuspended(LocaleSelect, {
+    return mountSuspended(LocaleSelect, {
       ...options,
     });
   }
@@ -20,45 +23,45 @@ describe("Locale Select Component", () => {
     wrapper = await mountLocaleSelectComponent();
   });
 
-  it("should render the locale select component when mounted.", async() => {
-    expect(wrapper.exists()).toBe(true);
+  it("should render the locale select component when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
   });
 
   describe("Nuxt UI Locale Select", () => {
     it("should pass a changed locale as modelValue prop to the Nuxt UI Locale Select component when the locale is changed.", async() => {
       const { locale } = useI18n();
-      const nuxtUILocaleSelect = wrapper.findComponent<typeof ULocaleSelect>({ ref: "nuxtUiLocaleSelect" });
+      const nuxtUILocaleSelect = wrapper.getComponent<typeof ULocaleSelect>({ name: "ULocaleSelect" });
       locale.value = MOCKED_LOCALE_CODES[0];
       await nextTick();
 
       expect(nuxtUILocaleSelect.props("modelValue")).toBe(MOCKED_LOCALE_CODES[0]);
     });
 
-    it("should pass the current locale as modelValue prop to the Nuxt UI Locale Select component when mounted.", async() => {
-      const nuxtUILocaleSelect = wrapper.findComponent<typeof ULocaleSelect>({ ref: "nuxtUiLocaleSelect" });
+    it("should pass the current locale as modelValue prop to the Nuxt UI Locale Select component when mounted.", () => {
+      const nuxtUILocaleSelect = wrapper.getComponent<typeof ULocaleSelect>({ name: "ULocaleSelect" });
 
       expect(nuxtUILocaleSelect.props("modelValue")).toBe(DEFAULT_MOCKED_LOCALE);
     });
 
-    it("should pass the supported locales as localeCodes prop to the Nuxt UI Locale Select component when mounted.", async() => {
+    it("should pass the supported locales as localeCodes prop to the Nuxt UI Locale Select component when mounted.", () => {
       const { locales } = useI18n();
-      const nuxtUILocaleSelect = wrapper.findComponent<typeof ULocaleSelect>({ ref: "nuxtUiLocaleSelect" });
+      const nuxtUILocaleSelect = wrapper.getComponent<typeof ULocaleSelect>({ name: "ULocaleSelect" });
 
       expect(nuxtUILocaleSelect.props("locales")).toStrictEqual<SupportedMockedLocale[]>(locales.value);
     });
 
-    it("should set a new locale when a new locale is selected in the Nuxt UI Locale Select component.", async() => {
+    it("should set a new locale when a new locale is selected in the Nuxt UI Locale Select component.", () => {
       const { setLocale } = useI18n();
-      const nuxtUILocaleSelect = wrapper.findComponent<typeof ULocaleSelect>({ ref: "nuxtUiLocaleSelect" });
+      const nuxtUILocaleSelect = wrapper.getComponent<typeof ULocaleSelect>({ name: "ULocaleSelect" });
 
       nuxtUILocaleSelect.vm.$emit("update:modelValue", MOCKED_LOCALE_CODES[0]);
 
       expect(setLocale).toHaveBeenCalledExactlyOnceWith(MOCKED_LOCALE_CODES[0]);
     });
 
-    it("should not set a new locale when the new locale is not supported.", async() => {
+    it("should not set a new locale when the new locale is not supported.", () => {
       const { setLocale } = useI18n();
-      const nuxtUILocaleSelect = wrapper.findComponent<typeof ULocaleSelect>({ ref: "nuxtUiLocaleSelect" });
+      const nuxtUILocaleSelect = wrapper.getComponent<typeof ULocaleSelect>({ name: "ULocaleSelect" });
 
       nuxtUILocaleSelect.vm.$emit("update:modelValue", "es");
 

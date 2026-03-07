@@ -7,6 +7,8 @@ definePageMeta({
 
 <template>
   <div id="questions-page">
-    <h1>Questions</h1>
+    <h1>
+      {{ $t("questions.pageTitle") }}
+    </h1>
   </div>
 </template>

@@ -1,4 +1,4 @@
-import type { RouteMock } from "~~/tests/unit/utils/mocks/nuxt/useRouter/useRouter.mock.types";
+import type { RouteMock } from "~~/tests/unit/utils/mocks/composables/nuxt/useRouter/useRouter.mock.types";
 
 const DEFAULT_MOCKED_ROUTE: RouteMock = {
   path: "/",
@@ -14,13 +14,15 @@ const MOCKED_ROUTES = [
   {
     name: "questions",
     path: "/questions",
+    meta: {},
   },
   {
     path: "/question/:id",
-  }
+    meta: {},
+  },
 ] as const satisfies readonly RouteMock[];
 
 export {
   DEFAULT_MOCKED_ROUTE,
-  MOCKED_ROUTES
+  MOCKED_ROUTES,
 };

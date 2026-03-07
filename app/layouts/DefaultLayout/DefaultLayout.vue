@@ -1,8 +1,9 @@
 <template>
   <div>
     <DefaultLayoutHeader/>
+
     <UMain>
-      <slot />
+      <slot/>
     </UMain>
   </div>
 </template>

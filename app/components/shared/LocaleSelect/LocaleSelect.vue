@@ -1,28 +1,30 @@
 <script setup lang="ts">
-import type { Locale } from "#ui/types";
 import type { ArrayValues } from "type-fest";
+
+import type { Locale } from "#ui/types";
 
 type SupportedLocale = ArrayValues<typeof localeCodes.value>;
 
 const { locale: currentLocale, setLocale, locales, localeCodes } = useI18n();
 
 function isSupportedLocale(locale: string): locale is SupportedLocale {
+  // This is acceptable because we are checking if the locale is included in the list of supported locale codes, which is a runtime check that ensures type safety.
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
   return localeCodes.value.includes(locale as SupportedLocale);
 }
 
-function onLocaleChange(newLocale: string): void {
-  if (!isSupportedLocale(newLocale)) {
+async function onLocaleChange(updatedLocale: string): Promise<void> {
+  if (!isSupportedLocale(updatedLocale)) {
     return;
   }
-  setLocale(newLocale);
+  await setLocale(updatedLocale);
 }
 </script>
 
 <template>
   <ULocaleSelect
-    ref="nuxtUiLocaleSelect"
-    :model-value="currentLocale"
     :locales="locales as Locale<undefined>[]"
+    :model-value="currentLocale"
     @update:model-value="onLocaleChange"
   />
 </template>

@@ -4,7 +4,6 @@ import { APP_TOOLTIP_CONFIG } from "~/app.constants";
 
 <template>
   <UApp
-    ref="nuxtUiApp"
     :tooltip="APP_TOOLTIP_CONFIG"
   >
     <NuxtLayout name="default-layout">
