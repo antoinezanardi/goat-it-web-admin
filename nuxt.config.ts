@@ -27,6 +27,16 @@ const config: NuxtConfig = {
       stylistic: true,
     },
   },
+  fonts: {
+    families: [
+      {
+        name: "General Sans",
+        weights: [200, 300, 400, 500, 600, 700],
+        styles: ["normal", "italic"],
+        provider: "local",
+      },
+    ],
+  },
   i18n: {
     defaultLocale: process.env.NUXT_PUBLIC_DEFAULT_LOCALE,
     locales: [
