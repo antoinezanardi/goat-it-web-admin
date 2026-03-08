@@ -1505,6 +1505,7 @@
       ],
       "rules": {
         "eslint/no-magic-numbers": "off",
+        "typescript/no-magic-numbers": "off",
         "typescript/no-restricted-imports": "off",
         "typescript/no-unsafe-type-assertion": "off",
         "import/no-default-export": "off",
