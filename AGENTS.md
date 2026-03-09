@@ -45,8 +45,8 @@ Notes on running a single test or a single test file
   2) Run tests filtered by name/regex (Vitest `-t` / `--testNamePattern`):
      - `pnpm run test:unit -- -t "should render"`
 
-  3) Run via direct vitest call if you need custom flags (bypass script wrapper):
-     - `pnpm exec vitest --config configs/vitest/vitest.config.ts path/to/file.spec.ts`
+  3) Run via direct vitest call if you need custom flags (still set NODE_OPTIONS):
+     - `pnpm exec cross-env NODE_OPTIONS='--no-webstorage' vitest --config configs/vitest/vitest.config.ts path/to/file.spec.ts`
 
   4) Run a single test in watch mode:
      - `pnpm run test:unit:watch -- path/to/file.spec.ts`
