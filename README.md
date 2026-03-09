@@ -111,7 +111,7 @@ pnpm run docker:api-sandbox:start
 # Stop the Goat It API sandbox
 pnpm run docker:api-sandbox:stop
 
-# Reset the Goat It API sandbox (stop and start)
+# Reset the Goat It API sandbox (stops, removes data, and starts fresh)
 pnpm run docker:api-sandbox:reset
 ```
 
