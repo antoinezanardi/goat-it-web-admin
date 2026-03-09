@@ -1,0 +1,32 @@
+# This docker-compose file is used to run the goat-it-api in a sandbox environment.
+# Useful for testing and development purposes.
+
+services:
+  api:
+    image: antoinezanardi/goat-it-api:develop
+    container_name: goat-it-api-sandbox
+    depends_on:
+      - mongodb
+    environment:
+      ENVIRONMENT: "production"
+      SERVER_HOST: "0.0.0.0"
+      SERVER_PORT: "9090"
+      MONGODB_HOST: "goat-it-api-sandbox-mongodb"
+      MONGODB_PORT: "27017"
+      MONGODB_DATABASE: "goat-it-sandbox"
+      API_KEY_HMAC_SECRET: "test_hmac_secret_key_for_api_key_signing_1234"
+      ADMIN_API_KEY: "test_admin_api_key_for_testing"
+      GAME_API_KEY: "test_game_api_key_for_testing"
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+
+  mongodb:
+    container_name: goat-it-api-sandbox-mongodb
+    image: mongo:latest
+    volumes:
+      - goat-it-api-sandbox-mongodb-data-container:/data/db
+    restart: unless-stopped
+
+volumes:
+  goat-it-api-sandbox-mongodb-data-container:
