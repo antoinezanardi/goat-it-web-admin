@@ -61,7 +61,7 @@ pnpm install
 pnpm run dev
 ```
 
-The above command will start the app in development mode and watch for changes on local.
+The above command will start the app in development mode and watch for local changes.
 
 ## <a name="build">🚀 Build</a>
 
@@ -112,7 +112,7 @@ pnpm run docker:build:linux/amd64
 [![Covered Functions](https://byob.yarr.is/antoinezanardi/goat-it-web-admin/unit-tests-covered-functions)](https://byob.yarr.is/antoinezanardi/goat-it-web-admin/unit-tests-covered-functions)
 [![Covered Lines](https://byob.yarr.is/antoinezanardi/goat-it-web-admin/unit-tests-covered-lines)](https://byob.yarr.is/antoinezanardi/goat-it-web-admin/unit-tests-covered-lines)
 
-This project uses `Vitest` for unit tests and is covered by `100%` of its code.
+This project uses `Vitest` for unit tests, with coverage thresholds set to `100%` for all files included in coverage.
 
 All related test files are located in the **[app/](app/)** directory, alongside the code they test, suffixing the file name with `.spec.ts`.
 
@@ -127,7 +127,7 @@ pnpm run test:unit:watch
 pnpm run test:unit:cov
 ```
 
-### 👽 Mutant testing
+### 👽 Mutation testing
 
 ![Stryker](https://img.shields.io/badge/-Stryker-black?style=for-the-badge&logoColor=white&logo=stryker&color=7F1B10)
 
