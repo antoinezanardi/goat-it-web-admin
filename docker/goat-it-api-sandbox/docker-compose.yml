@@ -18,12 +18,12 @@ services:
       ADMIN_API_KEY: "test_admin_api_key_for_testing"
       GAME_API_KEY: "test_game_api_key_for_testing"
     ports:
-      - "9090:9090"
+      - "127.0.0.1:9090:9090"
     restart: unless-stopped
 
   mongodb:
     container_name: goat-it-api-sandbox-mongodb
-    image: mongo:latest
+    image: mongo:8
     volumes:
       - goat-it-api-sandbox-mongodb-data-container:/data/db
     restart: unless-stopped

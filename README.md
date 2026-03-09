@@ -106,13 +106,13 @@ For development or testing purposes, you can run the Goat It API sandbox with th
 
 ```bash
 # Run the Goat It API sandbox using Docker
-pnpm run docker:goat-it-api-sandbox:start
+pnpm run docker:api-sandbox:start
 
 # Stop the Goat It API sandbox
-pnpm run docker:goat-it-api-sandbox:stop
+pnpm run docker:api-sandbox:stop
 
 # Reset the Goat It API sandbox (stop and start)
-pnpm run docker:goat-it-api-sandbox:reset
+pnpm run docker:api-sandbox:reset
 ```
 
 ## <a name="tests">💯 Tests</a>
