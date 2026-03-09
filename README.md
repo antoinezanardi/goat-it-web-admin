@@ -63,6 +63,8 @@ pnpm run dev
 
 The above command will start the app in development mode and watch for local changes.
 
+You may want to have an API running to test the app. You can use the Goat It API sandbox for that, which is available as a Docker image. Check the **[Docker section](#docker)** for more details.
+
 ## <a name="build">🚀 Build</a>
 
 ![Nuxt](https://img.shields.io/badge/-Nuxt-black?style=for-the-badge&logoColor=white&logo=nuxt&color=00DC82)
@@ -96,6 +98,21 @@ pnpm run docker:build:linux/arm64
 
 # Build the app using Docker on linux/amd64
 pnpm run docker:build:linux/amd64
+```
+
+### 🐐💽 Goat It API sandbox
+
+For development or testing purposes, you can run the Goat It API sandbox with the following command :
+
+```bash
+# Run the Goat It API sandbox using Docker
+pnpm run docker:api-sandbox:start
+
+# Stop the Goat It API sandbox
+pnpm run docker:api-sandbox:stop
+
+# Reset the Goat It API sandbox (stops, removes data, and starts fresh)
+pnpm run docker:api-sandbox:reset
 ```
 
 ## <a name="tests">💯 Tests</a>
