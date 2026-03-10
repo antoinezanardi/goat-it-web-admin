@@ -2,7 +2,7 @@ import type { Linter } from "eslint";
 
 const ESLINT_TYPES_FLAT_CONFIG: Linter.Config = {
   name: "goat-it/types",
-  files: ["**/*.types.ts", "app/**/*.types.ts"],
+  files: ["**/*.types.ts"],
   rules: {
     // Type files should always be kebab-case
     "unicorn/filename-case": [

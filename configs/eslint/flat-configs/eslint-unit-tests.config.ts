@@ -3,7 +3,7 @@ import type { Linter } from "eslint";
 
 const ESLINT_UNIT_TESTS_FLAT_CONFIG: Linter.Config = {
   name: "goat-it/unit-tests",
-  files: ["app/**/*.spec.ts"],
+  files: ["**/*.spec.ts"],
   plugins: { vitest: plugin },
   rules: {
     "max-lines-per-function": "off",

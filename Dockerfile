@@ -36,6 +36,8 @@ COPY --chown=node:node scripts/post-install-prepare.sh ./scripts/post-install-pr
 RUN pnpm install --frozen-lockfile
 
 COPY --chown=node:node app app/
+COPY --chown=node:node server server/
+COPY --chown=node:node shared shared/
 
 CMD [ "pnpm", "run", "start:dev" ]
 
@@ -56,6 +58,8 @@ COPY --chown=node:node nuxt.config.ts ./
 COPY --chown=node:node tsconfig.json ./
 
 COPY --chown=node:node app ./app
+COPY --chown=node:node server ./server
+COPY --chown=node:node shared ./shared
 COPY --chown=node:node modules ./modules
 COPY --chown=node:node public ./public
 
@@ -64,6 +68,7 @@ COPY --chown=node:node --from=development /app/node_modules ./node_modules
 RUN pnpm run build
 
 FROM node:${NODE_VERSION}-alpine AS production
+
 
 ENV NODE_ENV="production"
 ENV PORT=3001
