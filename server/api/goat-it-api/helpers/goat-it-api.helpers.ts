@@ -1,8 +1,9 @@
 import type { SharedRuntimeConfig } from "#build/types/runtime-config";
+import { GOAT_IT_API_ADMIN_SCOPE_NAME } from "#server/api/goat-it-api/goat-it-api.constants";
 import type { GoatItApiResourceName } from "#server/api/goat-it-api/goat-it-api.types";
 
 function createGoatItApiEndpoint(resourceName: GoatItApiResourceName): string {
-  return `/admin/${resourceName}`;
+  return `/${GOAT_IT_API_ADMIN_SCOPE_NAME}/${resourceName}`;
 }
 
 function createGoatItApiFetchOptions(goatItApiRuntimeConfig: SharedRuntimeConfig["goatItApi"]): Parameters<typeof $fetch>[1] {

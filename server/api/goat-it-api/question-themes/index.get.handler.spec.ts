@@ -20,7 +20,7 @@ describe("Server Goat It API Question Themes Get Endpoint", () => {
     ]);
   });
 
-  describe("defineEventHandler", () => {
+  describe(getQuestionThemesHandler, () => {
     it("should create goat it api endpoint when called.", async() => {
       const mockedEvent = {} as unknown as H3Event;
       await getQuestionThemesHandler(mockedEvent);

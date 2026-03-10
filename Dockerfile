@@ -36,7 +36,7 @@ COPY --chown=node:node scripts/post-install-prepare.sh ./scripts/post-install-pr
 RUN pnpm install --frozen-lockfile
 
 COPY --chown=node:node app app/
-COPY --chown=node:node app server/
+COPY --chown=node:node server server/
 
 CMD [ "pnpm", "run", "start:dev" ]
 
@@ -66,6 +66,7 @@ COPY --chown=node:node --from=development /app/node_modules ./node_modules
 RUN pnpm run build
 
 FROM node:${NODE_VERSION}-alpine AS production
+
 
 ENV NODE_ENV="production"
 ENV PORT=3001
