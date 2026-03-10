@@ -1,23 +1,56 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import type { NuxtConfig } from "@nuxt/schema";
-
-const config: NuxtConfig = {
-  app: {
-    pageTransition: {
-      name: "page",
-      mode: "out-in",
-    },
-  },
-  compatibilityDate: "2025-01-15",
+export default defineNuxtConfig({
+  modules: [
+    "@nuxt/ui",
+    "@nuxtjs/i18n",
+    "@vueuse/nuxt",
+    "@nuxt/hints",
+    "@pinia/nuxt",
+    "@nuxt/eslint",
+  ],
   components: [
     {
       path: "~/components",
       pathPrefix: false,
     },
   ],
-  css: ["~/assets/css/main.css"],
   devtools: {
     enabled: true,
+  },
+  app: {
+    pageTransition: {
+      name: "page",
+      mode: "out-in",
+    },
+  },
+  css: ["~/assets/css/main.css"],
+  ui: {
+    experimental: {
+      componentDetection: true,
+    },
+  },
+  runtimeConfig: {
+    goatItApi: {
+      baseUrl: "",
+      adminKey: "",
+    },
+  },
+  ignore: [
+    "configs/**/*.ts",
+    "eslint.config.ts",
+  ],
+  compatibilityDate: "2025-01-15",
+  typescript: {
+    shim: true,
+    strict: true,
+    typeCheck: true,
+    tsConfig: {
+      include: [
+        "../tests/",
+        "../eslint.config.ts",
+        "../configs/",
+      ],
+    },
   },
   eslint: {
     config: {
@@ -73,41 +106,4 @@ const config: NuxtConfig = {
       redirectOn: "root",
     },
   },
-  ignore: [
-    "configs/**/*.ts",
-    "eslint.config.ts",
-  ],
-  modules: [
-    "@nuxt/ui",
-    "@nuxtjs/i18n",
-    "@vueuse/nuxt",
-    "@nuxt/hints",
-    "@pinia/nuxt",
-    "@nuxt/eslint",
-  ],
-  runtimeConfig: {
-    goatItApi: {
-      baseUrl: "",
-      adminKey: "",
-    },
-  },
-  typescript: {
-    shim: true,
-    strict: true,
-    typeCheck: true,
-    tsConfig: {
-      include: [
-        "../tests/",
-        "../eslint.config.ts",
-        "../configs/",
-      ],
-    },
-  },
-  ui: {
-    experimental: {
-      componentDetection: true,
-    },
-  },
-};
-
-export default defineNuxtConfig(config) as NuxtConfig;
+});

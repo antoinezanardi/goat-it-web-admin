@@ -37,6 +37,7 @@ RUN pnpm install --frozen-lockfile
 
 COPY --chown=node:node app app/
 COPY --chown=node:node server server/
+COPY --chown=node:node shared shared/
 
 CMD [ "pnpm", "run", "start:dev" ]
 
@@ -58,6 +59,7 @@ COPY --chown=node:node tsconfig.json ./
 
 COPY --chown=node:node app ./app
 COPY --chown=node:node server ./server
+COPY --chown=node:node shared ./shared
 COPY --chown=node:node modules ./modules
 COPY --chown=node:node public ./public
 

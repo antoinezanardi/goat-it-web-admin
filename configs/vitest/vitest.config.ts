@@ -22,6 +22,7 @@ export default defineConfig({
             "app/composables/**/*.spec.ts",
             "app/layouts/**/*.spec.ts",
             "server/**/*.spec.ts",
+            "shared/**/*.spec.ts",
           ],
           environment: "nuxt",
           environmentOptions: {

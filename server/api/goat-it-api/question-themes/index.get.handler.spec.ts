@@ -1,17 +1,17 @@
-import type { AdminQuestionThemeDto } from "@goat-it/schemas/question-theme";
 import type { H3Event } from "h3";
 import { vi, describe, it, expect, beforeEach } from "vitest";
 import { ZodError } from "zod";
 
 import { createFakeAdminQuestionThemeDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 
+import { createQuestionThemeFromAdminQuestionThemeDto } from "#server/api/goat-it-api/mappers/goat-it-api.mappers";
 import type { SharedRuntimeConfig } from "#build/types/runtime-config";
 import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/api/goat-it-api/helpers/goat-it-api.helpers";
 import { getQuestionThemesHandler } from "#server/api/goat-it-api/question-themes/index.get.handler";
 
 vi.mock(import("#server/api/goat-it-api/helpers/goat-it-api.helpers"));
 
-describe("Server Goat It API Question Themes Get Endpoint", () => {
+describe("Server Goat It API Question Themes Get Handler", () => {
   beforeEach(() => {
     vi.mocked($fetch).mockResolvedValue([
       createFakeAdminQuestionThemeDto(),
@@ -55,7 +55,7 @@ describe("Server Goat It API Question Themes Get Endpoint", () => {
       expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, expectedFetchOptions);
     });
 
-    it("should return parsed question themes when called.", async() => {
+    it("should return mapped question themes when called.", async() => {
       const mockedEvent = {} as unknown as H3Event;
       const fakeQuestionThemes = [
         createFakeAdminQuestionThemeDto(),
@@ -63,9 +63,10 @@ describe("Server Goat It API Question Themes Get Endpoint", () => {
         createFakeAdminQuestionThemeDto(),
       ];
       vi.mocked($fetch).mockResolvedValue(fakeQuestionThemes);
+      const expectedQuestionThemes = fakeQuestionThemes.map(createQuestionThemeFromAdminQuestionThemeDto);
       const result = await getQuestionThemesHandler(mockedEvent);
 
-      expect(result).toStrictEqual<AdminQuestionThemeDto[]>(fakeQuestionThemes);
+      expect(result).toStrictEqual<QuestionTheme[]>(expectedQuestionThemes);
     });
 
     it("should throw an error when the fetched data is invalid.", async() => {

@@ -2,7 +2,6 @@ export default {
   cleanTempDir: "always",
   incremental: true,
   incrementalFile: "tests/mutation/incremental/incremental.json",
-  checkers: ["typescript"],
   tsconfigFile: "tsconfig.json",
   testRunner: "vitest",
   ignoreStatic: true,
@@ -18,7 +17,6 @@ export default {
   ],
   plugins: [
     "@stryker-mutator/vitest-runner",
-    "@stryker-mutator/typescript-checker",
     "./configs/stryker/plugins/stryker-define-props-ignorer-plugin.mjs",
     "./configs/stryker/plugins/stryker-define-emits-ignorer-plugin.mjs",
     "./configs/stryker/plugins/stryker-define-page-meta-ignorer-plugin.mjs",
