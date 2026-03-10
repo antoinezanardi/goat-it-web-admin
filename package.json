@@ -48,7 +48,7 @@
     "x64",
     "arm64"
   ],
-  "packageManager": "pnpm@10.31.0",
+  "packageManager": "pnpm@10.32.0",
   "scripts": {
     "prepare": "scripts/post-install-prepare.sh",
     "build": "nuxt build",
