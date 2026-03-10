@@ -1,491 +1,5 @@
 {
   "files": {
-    "app/components/layouts/default/DefaultLayoutHeader/DefaultLayoutHeader.vue": {
-      "language": "html",
-      "mutants": [
-        {
-          "id": "0",
-          "mutatorName": "ArrowFunction",
-          "replacement": "() => undefined",
-          "statusReason": "expected undefined to strictly equal [ …(3) ]",
-          "status": "Killed",
-          "testsCompleted": 3,
-          "static": false,
-          "killedBy": [
-            "7"
-          ],
-          "coveredBy": [
-            "5",
-            "6",
-            "7",
-            "8",
-            "9"
-          ],
-          "location": {
-            "end": {
-              "column": 3,
-              "line": 18
-            },
-            "start": {
-              "column": 60,
-              "line": 8
-            }
-          }
-        },
-        {
-          "id": "1",
-          "mutatorName": "BlockStatement",
-          "replacement": "{}",
-          "statusReason": "Cannot read properties of undefined (reading 'ui')",
-          "status": "Killed",
-          "testsCompleted": 1,
-          "static": false,
-          "killedBy": [
-            "5"
-          ],
-          "coveredBy": [
-            "5",
-            "6",
-            "7",
-            "8",
-            "9"
-          ],
-          "location": {
-            "end": {
-              "column": 2,
-              "line": 18
-            },
-            "start": {
-              "column": 98,
-              "line": 8
-            }
-          }
-        },
-        {
-          "id": "2",
-          "mutatorName": "ConditionalExpression",
-          "replacement": "true",
-          "statusReason": "expected [ …(3) ] to strictly equal [ …(3) ]",
-          "status": "Killed",
-          "testsCompleted": 3,
-          "static": false,
-          "killedBy": [
-            "7"
-          ],
-          "coveredBy": [
-            "5",
-            "6",
-            "7",
-            "8",
-            "9"
-          ],
-          "location": {
-            "end": {
-              "column": 61,
-              "line": 9
-            },
-            "start": {
-              "column": 22,
-              "line": 9
-            }
-          }
-        },
-        {
-          "id": "3",
-          "mutatorName": "ConditionalExpression",
-          "replacement": "false",
-          "statusReason": "expected [ …(3) ] to strictly equal [ …(3) ]",
-          "status": "Killed",
-          "testsCompleted": 3,
-          "static": false,
-          "killedBy": [
-            "7"
-          ],
-          "coveredBy": [
-            "5",
-            "6",
-            "7",
-            "8",
-            "9"
-          ],
-          "location": {
-            "end": {
-              "column": 61,
-              "line": 9
-            },
-            "start": {
-              "column": 22,
-              "line": 9
-            }
-          }
-        },
-        {
-          "id": "4",
-          "mutatorName": "EqualityOperator",
-          "replacement": "typeof route.meta.titleKey !== \"string\"",
-          "statusReason": "expected [ …(3) ] to strictly equal [ …(3) ]",
-          "status": "Killed",
-          "testsCompleted": 3,
-          "static": false,
-          "killedBy": [
-            "7"
-          ],
-          "coveredBy": [
-            "5",
-            "6",
-            "7",
-            "8",
-            "9"
-          ],
-          "location": {
-            "end": {
-              "column": 61,
-              "line": 9
-            },
-            "start": {
-              "column": 22,
-              "line": 9
-            }
-          }
-        },
-        {
-          "id": "5",
-          "mutatorName": "StringLiteral",
-          "replacement": "\"\"",
-          "statusReason": "expected [ …(3) ] to strictly equal [ …(3) ]",
-          "status": "Killed",
-          "testsCompleted": 3,
-          "static": false,
-          "killedBy": [
-            "7"
-          ],
-          "coveredBy": [
-            "5",
-            "6",
-            "7",
-            "8",
-            "9"
-          ],
-          "location": {
-            "end": {
-              "column": 61,
-              "line": 9
-            },
-            "start": {
-              "column": 53,
-              "line": 9
-            }
-          }
-        },
-        {
-          "id": "6",
-          "mutatorName": "OptionalChaining",
-          "replacement": "route.name.toString",
-          "statusReason": "Cannot read properties of undefined (reading 'toString')",
-          "status": "Killed",
-          "testsCompleted": 1,
-          "static": false,
-          "killedBy": [
-            "5"
-          ],
-          "coveredBy": [
-            "5",
-            "6",
-            "7",
-            "8",
-            "9"
-          ],
-          "location": {
-            "end": {
-              "column": 109,
-              "line": 9
-            },
-            "start": {
-              "column": 89,
-              "line": 9
-            }
-          }
-        },
-        {
-          "id": "7",
-          "mutatorName": "ConditionalExpression",
-          "replacement": "true",
-          "statusReason": "expected [ …(3) ] to strictly equal [ …(3) ]",
-          "status": "Killed",
-          "testsCompleted": 3,
-          "static": false,
-          "killedBy": [
-            "7"
-          ],
-          "coveredBy": [
-            "5",
-            "6",
-            "7",
-            "8",
-            "9"
-          ],
-          "location": {
-            "end": {
-              "column": 70,
-              "line": 10
-            },
-            "start": {
-              "column": 25,
-              "line": 10
-            }
-          }
-        },
-        {
-          "id": "8",
-          "mutatorName": "ConditionalExpression",
-          "replacement": "false",
-          "statusReason": "expected [ …(3) ] to strictly equal [ …(3) ]",
-          "status": "Killed",
-          "testsCompleted": 3,
-          "static": false,
-          "killedBy": [
-            "7"
-          ],
-          "coveredBy": [
-            "5",
-            "6",
-            "7",
-            "8",
-            "9"
-          ],
-          "location": {
-            "end": {
-              "column": 70,
-              "line": 10
-            },
-            "start": {
-              "column": 25,
-              "line": 10
-            }
-          }
-        },
-        {
-          "id": "9",
-          "mutatorName": "EqualityOperator",
-          "replacement": "router.currentRoute.value.path !== route.path",
-          "statusReason": "expected [ …(3) ] to strictly equal [ …(3) ]",
-          "status": "Killed",
-          "testsCompleted": 3,
-          "static": false,
-          "killedBy": [
-            "7"
-          ],
-          "coveredBy": [
-            "5",
-            "6",
-            "7",
-            "8",
-            "9"
-          ],
-          "location": {
-            "end": {
-              "column": 70,
-              "line": 10
-            },
-            "start": {
-              "column": 25,
-              "line": 10
-            }
-          }
-        },
-        {
-          "id": "10",
-          "mutatorName": "ObjectLiteral",
-          "replacement": "{}",
-          "statusReason": "expected [ {}, {}, {} ] to strictly equal [ …(3) ]",
-          "status": "Killed",
-          "testsCompleted": 3,
-          "static": false,
-          "killedBy": [
-            "7"
-          ],
-          "coveredBy": [
-            "5",
-            "6",
-            "7",
-            "8",
-            "9"
-          ],
-          "location": {
-            "end": {
-              "column": 4,
-              "line": 17
-            },
-            "start": {
-              "column": 10,
-              "line": 12
-            }
-          }
-        }
-      ],
-      "source": "<script setup lang=\"ts\">\nimport type { NavigationMenuItem } from \"@nuxt/ui\";\n\nconst router = useRouter();\n\nconst { t } = useI18n();\n\nconst navigationMenuItems = computed<NavigationMenuItem[]>(() => router.getRoutes().map(route => {\n  const routeLabel = typeof route.meta.titleKey === \"string\" ? t(route.meta.titleKey) : route.name?.toString();\n  const isRouteActive = router.currentRoute.value.path === route.path;\n\n  return {\n    label: routeLabel,\n    to: route.path,\n    active: isRouteActive,\n    icon: route.meta.icon,\n  };\n}));\n</script>\n\n<template>\n  <UHeader\n    id=\"default-layout-header\"\n    :title=\"$t('common.app.name')\"\n  >\n    <UNavigationMenu\n      id=\"default-layout-header-navigation-menu\"\n      :items=\"navigationMenuItems\"\n    />\n\n    <template #right>\n      <UColorModeButton\n        class=\"cursor-pointer\"\n      />\n\n      <UTooltip\n        id=\"default-layout-header-github-link-tooltip\"\n        :text=\"$t('navigation.openOnGitHub')\"\n      >\n        <UButton\n          id=\"default-layout-header-github-link\"\n          :aria-label=\"$t('navigation.openOnGitHub')\"\n          color=\"neutral\"\n          icon=\"i-lucide-github\"\n          target=\"_blank\"\n          to=\"https://github.com/antoinezanardi/goat-it-web-admin\"\n          variant=\"ghost\"\n        />\n      </UTooltip>\n\n      <LocaleSelect/>\n    </template>\n  </UHeader>\n</template>"
-    },
-    "app/components/shared/LocaleSelect/LocaleSelect.vue": {
-      "language": "html",
-      "mutants": [
-        {
-          "id": "11",
-          "mutatorName": "BlockStatement",
-          "replacement": "{}",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ 'en' ]\u001b[90m\n\nNumber of calls: \u001b[1m0\u001b[22m\n\u001b[39m",
-          "status": "Killed",
-          "testsCompleted": 1,
-          "static": false,
-          "killedBy": [
-            "14"
-          ],
-          "coveredBy": [
-            "14",
-            "15"
-          ],
-          "location": {
-            "end": {
-              "column": 2,
-              "line": 14
-            },
-            "start": {
-              "column": 71,
-              "line": 10
-            }
-          }
-        },
-        {
-          "id": "12",
-          "mutatorName": "BlockStatement",
-          "replacement": "{}",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ 'en' ]\u001b[90m\n\nNumber of calls: \u001b[1m0\u001b[22m\n\u001b[39m",
-          "status": "Killed",
-          "testsCompleted": 1,
-          "static": false,
-          "killedBy": [
-            "14"
-          ],
-          "coveredBy": [
-            "14",
-            "15"
-          ],
-          "location": {
-            "end": {
-              "column": 2,
-              "line": 21
-            },
-            "start": {
-              "column": 69,
-              "line": 16
-            }
-          }
-        },
-        {
-          "id": "13",
-          "mutatorName": "BooleanLiteral",
-          "replacement": "isSupportedLocale(updatedLocale)",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ 'en' ]\u001b[90m\n\nNumber of calls: \u001b[1m0\u001b[22m\n\u001b[39m",
-          "status": "Killed",
-          "testsCompleted": 1,
-          "static": false,
-          "killedBy": [
-            "14"
-          ],
-          "coveredBy": [
-            "14",
-            "15"
-          ],
-          "location": {
-            "end": {
-              "column": 40,
-              "line": 17
-            },
-            "start": {
-              "column": 7,
-              "line": 17
-            }
-          }
-        },
-        {
-          "id": "14",
-          "mutatorName": "ConditionalExpression",
-          "replacement": "true",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ 'en' ]\u001b[90m\n\nNumber of calls: \u001b[1m0\u001b[22m\n\u001b[39m",
-          "status": "Killed",
-          "testsCompleted": 1,
-          "static": false,
-          "killedBy": [
-            "14"
-          ],
-          "coveredBy": [
-            "14",
-            "15"
-          ],
-          "location": {
-            "end": {
-              "column": 40,
-              "line": 17
-            },
-            "start": {
-              "column": 7,
-              "line": 17
-            }
-          }
-        },
-        {
-          "id": "15",
-          "mutatorName": "ConditionalExpression",
-          "replacement": "false",
-          "statusReason": "expected \"vi.fn()\" to not be called at all, but actually been called 1 times\u001b[90m\n\nReceived: \n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m    Array [\n      \"es\",\n    ]\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
-          "status": "Killed",
-          "testsCompleted": 2,
-          "static": false,
-          "killedBy": [
-            "15"
-          ],
-          "coveredBy": [
-            "14",
-            "15"
-          ],
-          "location": {
-            "end": {
-              "column": 40,
-              "line": 17
-            },
-            "start": {
-              "column": 7,
-              "line": 17
-            }
-          }
-        },
-        {
-          "id": "16",
-          "mutatorName": "BlockStatement",
-          "replacement": "{}",
-          "statusReason": "expected \"vi.fn()\" to not be called at all, but actually been called 1 times\u001b[90m\n\nReceived: \n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m    Array [\n      \"es\",\n    ]\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
-          "status": "Killed",
-          "testsCompleted": 1,
-          "static": false,
-          "killedBy": [
-            "15"
-          ],
-          "coveredBy": [
-            "15"
-          ],
-          "location": {
-            "end": {
-              "column": 4,
-              "line": 19
-            },
-            "start": {
-              "column": 42,
-              "line": 17
-            }
-          }
-        }
-      ],
-      "source": "<script setup lang=\"ts\">\nimport type { ArrayValues } from \"type-fest\";\n\nimport type { Locale } from \"#ui/types\";\n\ntype SupportedLocale = ArrayValues<typeof localeCodes.value>;\n\nconst { locale: currentLocale, setLocale, locales, localeCodes } = useI18n();\n\nfunction isSupportedLocale(locale: string): locale is SupportedLocale {\n  // This is acceptable because we are checking if the locale is included in the list of supported locale codes, which is a runtime check that ensures type safety.\n  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion\n  return localeCodes.value.includes(locale as SupportedLocale);\n}\n\nasync function onLocaleChange(updatedLocale: string): Promise<void> {\n  if (!isSupportedLocale(updatedLocale)) {\n    return;\n  }\n  await setLocale(updatedLocale);\n}\n</script>\n\n<template>\n  <ULocaleSelect\n    :locales=\"locales as Locale<undefined>[]\"\n    :model-value=\"currentLocale\"\n    @update:model-value=\"onLocaleChange\"\n  />\n</template>"
-    },
     "app/pages/(questions)/questions.vue": {
       "language": "html",
       "mutants": [
@@ -666,42 +180,503 @@
       ],
       "source": "<script setup lang=\"ts\">\ndefinePageMeta({\n  titleKey: \"home.pageTitle\",\n  icon: \"i-lucide-home\",\n});\n</script>\n\n<template>\n  <div>\n    {{ $t(\"home.pageTitle\") }}\n  </div>\n</template>"
     },
-    "server/api/goat-it-api/helpers/goat-it-api.helpers.ts": {
-      "language": "typescript",
+    "app/components/layouts/default/DefaultLayoutHeader/DefaultLayoutHeader.vue": {
+      "language": "html",
       "mutants": [
         {
-          "id": "26",
-          "mutatorName": "BlockStatement",
-          "replacement": "{}",
-          "statusReason": "expected undefined to be '/admin/question-themes' // Object.is equality",
+          "id": "6",
+          "mutatorName": "OptionalChaining",
+          "replacement": "route.name.toString",
+          "statusReason": "Cannot read properties of undefined (reading 'toString')",
           "status": "Killed",
-          "testsCompleted": 1,
           "static": false,
+          "testsCompleted": 1,
           "killedBy": [
-            "26"
+            "6"
           ],
           "coveredBy": [
-            "26"
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ],
+          "location": {
+            "end": {
+              "column": 109,
+              "line": 9
+            },
+            "start": {
+              "column": 89,
+              "line": 9
+            }
+          }
+        },
+        {
+          "id": "7",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "true",
+          "statusReason": "expected [ …(3) ] to strictly equal [ …(3) ]",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 3,
+          "killedBy": [
+            "8"
+          ],
+          "coveredBy": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ],
+          "location": {
+            "end": {
+              "column": 70,
+              "line": 10
+            },
+            "start": {
+              "column": 25,
+              "line": 10
+            }
+          }
+        },
+        {
+          "id": "4",
+          "mutatorName": "EqualityOperator",
+          "replacement": "typeof route.meta.titleKey !== \"string\"",
+          "statusReason": "expected [ …(3) ] to strictly equal [ …(3) ]",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 3,
+          "killedBy": [
+            "8"
+          ],
+          "coveredBy": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ],
+          "location": {
+            "end": {
+              "column": 61,
+              "line": 9
+            },
+            "start": {
+              "column": 22,
+              "line": 9
+            }
+          }
+        },
+        {
+          "id": "5",
+          "mutatorName": "StringLiteral",
+          "replacement": "\"\"",
+          "statusReason": "expected [ …(3) ] to strictly equal [ …(3) ]",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 3,
+          "killedBy": [
+            "8"
+          ],
+          "coveredBy": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ],
+          "location": {
+            "end": {
+              "column": 61,
+              "line": 9
+            },
+            "start": {
+              "column": 53,
+              "line": 9
+            }
+          }
+        },
+        {
+          "id": "3",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "false",
+          "statusReason": "expected [ …(3) ] to strictly equal [ …(3) ]",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 3,
+          "killedBy": [
+            "8"
+          ],
+          "coveredBy": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ],
+          "location": {
+            "end": {
+              "column": 61,
+              "line": 9
+            },
+            "start": {
+              "column": 22,
+              "line": 9
+            }
+          }
+        },
+        {
+          "id": "2",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "true",
+          "statusReason": "expected [ …(3) ] to strictly equal [ …(3) ]",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 3,
+          "killedBy": [
+            "8"
+          ],
+          "coveredBy": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ],
+          "location": {
+            "end": {
+              "column": 61,
+              "line": 9
+            },
+            "start": {
+              "column": 22,
+              "line": 9
+            }
+          }
+        },
+        {
+          "id": "0",
+          "mutatorName": "ArrowFunction",
+          "replacement": "() => undefined",
+          "statusReason": "expected undefined to strictly equal [ …(3) ]",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 3,
+          "killedBy": [
+            "8"
+          ],
+          "coveredBy": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ],
+          "location": {
+            "end": {
+              "column": 3,
+              "line": 18
+            },
+            "start": {
+              "column": 60,
+              "line": 8
+            }
+          }
+        },
+        {
+          "id": "1",
+          "mutatorName": "BlockStatement",
+          "replacement": "{}",
+          "statusReason": "Cannot read properties of undefined (reading 'ui')",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 1,
+          "killedBy": [
+            "6"
+          ],
+          "coveredBy": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
           ],
           "location": {
             "end": {
               "column": 2,
-              "line": 7
+              "line": 18
             },
             "start": {
-              "column": 79,
-              "line": 5
+              "column": 98,
+              "line": 8
             }
           }
         },
+        {
+          "id": "8",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "false",
+          "statusReason": "expected [ …(3) ] to strictly equal [ …(3) ]",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 3,
+          "killedBy": [
+            "8"
+          ],
+          "coveredBy": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ],
+          "location": {
+            "end": {
+              "column": 70,
+              "line": 10
+            },
+            "start": {
+              "column": 25,
+              "line": 10
+            }
+          }
+        },
+        {
+          "id": "9",
+          "mutatorName": "EqualityOperator",
+          "replacement": "router.currentRoute.value.path !== route.path",
+          "statusReason": "expected [ …(3) ] to strictly equal [ …(3) ]",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 3,
+          "killedBy": [
+            "8"
+          ],
+          "coveredBy": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ],
+          "location": {
+            "end": {
+              "column": 70,
+              "line": 10
+            },
+            "start": {
+              "column": 25,
+              "line": 10
+            }
+          }
+        },
+        {
+          "id": "10",
+          "mutatorName": "ObjectLiteral",
+          "replacement": "{}",
+          "statusReason": "expected [ {}, {}, {} ] to strictly equal [ …(3) ]",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 3,
+          "killedBy": [
+            "8"
+          ],
+          "coveredBy": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ],
+          "location": {
+            "end": {
+              "column": 4,
+              "line": 17
+            },
+            "start": {
+              "column": 10,
+              "line": 12
+            }
+          }
+        }
+      ],
+      "source": "<script setup lang=\"ts\">\nimport type { NavigationMenuItem } from \"@nuxt/ui\";\n\nconst router = useRouter();\n\nconst { t } = useI18n();\n\nconst navigationMenuItems = computed<NavigationMenuItem[]>(() => router.getRoutes().map(route => {\n  const routeLabel = typeof route.meta.titleKey === \"string\" ? t(route.meta.titleKey) : route.name?.toString();\n  const isRouteActive = router.currentRoute.value.path === route.path;\n\n  return {\n    label: routeLabel,\n    to: route.path,\n    active: isRouteActive,\n    icon: route.meta.icon,\n  };\n}));\n</script>\n\n<template>\n  <UHeader\n    id=\"default-layout-header\"\n    :title=\"$t('common.app.name')\"\n  >\n    <UNavigationMenu\n      id=\"default-layout-header-navigation-menu\"\n      :items=\"navigationMenuItems\"\n    />\n\n    <template #right>\n      <UColorModeButton\n        class=\"cursor-pointer\"\n      />\n\n      <UTooltip\n        id=\"default-layout-header-github-link-tooltip\"\n        :text=\"$t('navigation.openOnGitHub')\"\n      >\n        <UButton\n          id=\"default-layout-header-github-link\"\n          :aria-label=\"$t('navigation.openOnGitHub')\"\n          color=\"neutral\"\n          icon=\"i-lucide-github\"\n          target=\"_blank\"\n          to=\"https://github.com/antoinezanardi/goat-it-web-admin\"\n          variant=\"ghost\"\n        />\n      </UTooltip>\n\n      <LocaleSelect/>\n    </template>\n  </UHeader>\n</template>"
+    },
+    "app/components/shared/LocaleSelect/LocaleSelect.vue": {
+      "language": "html",
+      "mutants": [
+        {
+          "id": "11",
+          "mutatorName": "BlockStatement",
+          "replacement": "{}",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ 'en' ]\u001b[90m\n\nNumber of calls: \u001b[1m0\u001b[22m\n\u001b[39m",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 1,
+          "killedBy": [
+            "15"
+          ],
+          "coveredBy": [
+            "15",
+            "16"
+          ],
+          "location": {
+            "end": {
+              "column": 2,
+              "line": 14
+            },
+            "start": {
+              "column": 71,
+              "line": 10
+            }
+          }
+        },
+        {
+          "id": "13",
+          "mutatorName": "BooleanLiteral",
+          "replacement": "isSupportedLocale(updatedLocale)",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ 'en' ]\u001b[90m\n\nNumber of calls: \u001b[1m0\u001b[22m\n\u001b[39m",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 1,
+          "killedBy": [
+            "15"
+          ],
+          "coveredBy": [
+            "15",
+            "16"
+          ],
+          "location": {
+            "end": {
+              "column": 40,
+              "line": 17
+            },
+            "start": {
+              "column": 7,
+              "line": 17
+            }
+          }
+        },
+        {
+          "id": "12",
+          "mutatorName": "BlockStatement",
+          "replacement": "{}",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ 'en' ]\u001b[90m\n\nNumber of calls: \u001b[1m0\u001b[22m\n\u001b[39m",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 1,
+          "killedBy": [
+            "15"
+          ],
+          "coveredBy": [
+            "15",
+            "16"
+          ],
+          "location": {
+            "end": {
+              "column": 2,
+              "line": 21
+            },
+            "start": {
+              "column": 69,
+              "line": 16
+            }
+          }
+        },
+        {
+          "id": "14",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "true",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ 'en' ]\u001b[90m\n\nNumber of calls: \u001b[1m0\u001b[22m\n\u001b[39m",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 1,
+          "killedBy": [
+            "15"
+          ],
+          "coveredBy": [
+            "15",
+            "16"
+          ],
+          "location": {
+            "end": {
+              "column": 40,
+              "line": 17
+            },
+            "start": {
+              "column": 7,
+              "line": 17
+            }
+          }
+        },
+        {
+          "id": "15",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "false",
+          "statusReason": "expected \"vi.fn()\" to not be called at all, but actually been called 1 times\u001b[90m\n\nReceived: \n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m    Array [\n      \"es\",\n    ]\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 2,
+          "killedBy": [
+            "16"
+          ],
+          "coveredBy": [
+            "15",
+            "16"
+          ],
+          "location": {
+            "end": {
+              "column": 40,
+              "line": 17
+            },
+            "start": {
+              "column": 7,
+              "line": 17
+            }
+          }
+        },
+        {
+          "id": "16",
+          "mutatorName": "BlockStatement",
+          "replacement": "{}",
+          "statusReason": "expected \"vi.fn()\" to not be called at all, but actually been called 1 times\u001b[90m\n\nReceived: \n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m    Array [\n      \"es\",\n    ]\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 1,
+          "killedBy": [
+            "16"
+          ],
+          "coveredBy": [
+            "16"
+          ],
+          "location": {
+            "end": {
+              "column": 4,
+              "line": 19
+            },
+            "start": {
+              "column": 42,
+              "line": 17
+            }
+          }
+        }
+      ],
+      "source": "<script setup lang=\"ts\">\nimport type { ArrayValues } from \"type-fest\";\n\nimport type { Locale } from \"#ui/types\";\n\ntype SupportedLocale = ArrayValues<typeof localeCodes.value>;\n\nconst { locale: currentLocale, setLocale, locales, localeCodes } = useI18n();\n\nfunction isSupportedLocale(locale: string): locale is SupportedLocale {\n  // This is acceptable because we are checking if the locale is included in the list of supported locale codes, which is a runtime check that ensures type safety.\n  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion\n  return localeCodes.value.includes(locale as SupportedLocale);\n}\n\nasync function onLocaleChange(updatedLocale: string): Promise<void> {\n  if (!isSupportedLocale(updatedLocale)) {\n    return;\n  }\n  await setLocale(updatedLocale);\n}\n</script>\n\n<template>\n  <ULocaleSelect\n    :locales=\"locales as Locale<undefined>[]\"\n    :model-value=\"currentLocale\"\n    @update:model-value=\"onLocaleChange\"\n  />\n</template>"
+    },
+    "server/api/goat-it-api/helpers/goat-it-api.helpers.ts": {
+      "language": "typescript",
+      "mutants": [
         {
           "id": "27",
           "mutatorName": "StringLiteral",
           "replacement": "``",
           "statusReason": "expected '' to be '/admin/question-themes' // Object.is equality",
           "status": "Killed",
-          "testsCompleted": 1,
           "static": false,
+          "testsCompleted": 1,
           "killedBy": [
             "26"
           ],
@@ -720,13 +695,41 @@
           }
         },
         {
+          "id": "26",
+          "mutatorName": "BlockStatement",
+          "replacement": "{}",
+          "statusReason": "expected undefined to be '/admin/question-themes' // Object.is equality",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 1,
+          "killedBy": [
+            "26"
+          ],
+          "coveredBy": [
+            "26"
+          ],
+          "location": {
+            "end": {
+              "column": 2,
+              "line": 7
+            },
+            "start": {
+              "column": 79,
+              "line": 5
+            }
+          }
+        },
+        {
           "id": "28",
           "mutatorName": "BlockStatement",
           "replacement": "{}",
-          "statusReason": "server/api/goat-it-api/helpers/goat-it-api.helpers.ts(8,97): error TS2355: A function whose declared type is neither 'undefined', 'void', nor 'any' must return a value.\n",
-          "status": "CompileError",
+          "statusReason": "expected undefined to strictly equal { …(2) }",
+          "status": "Killed",
           "static": false,
-          "killedBy": [],
+          "testsCompleted": 1,
+          "killedBy": [
+            "27"
+          ],
           "coveredBy": [
             "27"
           ],
@@ -742,38 +745,13 @@
           }
         },
         {
-          "id": "29",
-          "mutatorName": "ObjectLiteral",
-          "replacement": "{}",
-          "statusReason": "expected {} to strictly equal { …(2) }",
-          "status": "Killed",
-          "testsCompleted": 1,
-          "static": false,
-          "killedBy": [
-            "27"
-          ],
-          "coveredBy": [
-            "27"
-          ],
-          "location": {
-            "end": {
-              "column": 4,
-              "line": 15
-            },
-            "start": {
-              "column": 10,
-              "line": 10
-            }
-          }
-        },
-        {
           "id": "30",
           "mutatorName": "ObjectLiteral",
           "replacement": "{}",
           "statusReason": "expected { …(2) } to strictly equal { …(2) }",
           "status": "Killed",
-          "testsCompleted": 1,
           "static": false,
+          "testsCompleted": 1,
           "killedBy": [
             "27"
           ],
@@ -790,73 +768,34 @@
               "line": 12
             }
           }
-        }
-      ],
-      "source": "import type { SharedRuntimeConfig } from \"#build/types/runtime-config\";\nimport { GOAT_IT_API_ADMIN_SCOPE_NAME } from \"#server/api/goat-it-api/goat-it-api.constants\";\nimport type { GoatItApiResourceName } from \"#server/api/goat-it-api/goat-it-api.types\";\n\nfunction createGoatItApiEndpoint(resourceName: GoatItApiResourceName): string {\n  return `/${GOAT_IT_API_ADMIN_SCOPE_NAME}/${resourceName}`;\n}\n\nfunction createGoatItApiFetchOptions(goatItApiRuntimeConfig: SharedRuntimeConfig[\"goatItApi\"]): Parameters<typeof $fetch>[1] {\n  return {\n    baseURL: goatItApiRuntimeConfig.baseUrl,\n    headers: {\n      \"goat-it-api-key\": goatItApiRuntimeConfig.adminKey,\n    },\n  };\n}\n\nexport {\n  createGoatItApiEndpoint,\n  createGoatItApiFetchOptions,\n};"
-    },
-    "server/api/goat-it-api/mappers/goat-it-api.mappers.ts": {
-      "language": "typescript",
-      "mutants": [
-        {
-          "id": "31",
-          "mutatorName": "BlockStatement",
-          "replacement": "{}",
-          "statusReason": "expected undefined to strictly equal { Object (id, slug, ...) }",
-          "status": "Killed",
-          "testsCompleted": 1,
-          "static": false,
-          "killedBy": [
-            "22"
-          ],
-          "coveredBy": [
-            "0",
-            "1",
-            "2",
-            "3",
-            "22"
-          ],
-          "location": {
-            "end": {
-              "column": 2,
-              "line": 14
-            },
-            "start": {
-              "column": 116,
-              "line": 3
-            }
-          }
         },
         {
-          "id": "32",
+          "id": "29",
           "mutatorName": "ObjectLiteral",
           "replacement": "{}",
-          "statusReason": "expected {} to strictly equal { Object (id, slug, ...) }",
+          "statusReason": "expected {} to strictly equal { …(2) }",
           "status": "Killed",
-          "testsCompleted": 1,
           "static": false,
+          "testsCompleted": 1,
           "killedBy": [
-            "22"
+            "27"
           ],
           "coveredBy": [
-            "0",
-            "1",
-            "2",
-            "3",
-            "22"
+            "27"
           ],
           "location": {
             "end": {
               "column": 4,
-              "line": 13
+              "line": 15
             },
             "start": {
               "column": 10,
-              "line": 4
+              "line": 10
             }
           }
         }
       ],
-      "source": "import type { AdminQuestionThemeDto } from \"@goat-it/schemas/question-theme\";\n\nfunction createQuestionThemeFromAdminQuestionThemeDto(adminQuestionThemeDto: AdminQuestionThemeDto): QuestionTheme {\n  return {\n    id: adminQuestionThemeDto.id,\n    slug: adminQuestionThemeDto.slug,\n    label: adminQuestionThemeDto.label,\n    aliases: adminQuestionThemeDto.aliases,\n    description: adminQuestionThemeDto.description,\n    status: adminQuestionThemeDto.status,\n    createdAt: new Date(adminQuestionThemeDto.createdAt),\n    updatedAt: new Date(adminQuestionThemeDto.updatedAt),\n  };\n}\n\nexport {\n  createQuestionThemeFromAdminQuestionThemeDto,\n};"
+      "source": "import type { SharedRuntimeConfig } from \"#build/types/runtime-config\";\nimport { GOAT_IT_API_ADMIN_SCOPE_NAME } from \"#server/api/goat-it-api/goat-it-api.constants\";\nimport type { GoatItApiResourceName } from \"#server/api/goat-it-api/goat-it-api.types\";\n\nfunction createGoatItApiEndpoint(resourceName: GoatItApiResourceName): string {\n  return `/${GOAT_IT_API_ADMIN_SCOPE_NAME}/${resourceName}`;\n}\n\nfunction createGoatItApiFetchOptions(goatItApiRuntimeConfig: SharedRuntimeConfig[\"goatItApi\"]): Parameters<typeof $fetch>[1] {\n  return {\n    baseURL: goatItApiRuntimeConfig.baseUrl,\n    headers: {\n      \"goat-it-api-key\": goatItApiRuntimeConfig.adminKey,\n    },\n  };\n}\n\nexport {\n  createGoatItApiEndpoint,\n  createGoatItApiFetchOptions,\n};"
     },
     "server/api/goat-it-api/question-themes/index.get.handler.ts": {
       "language": "typescript",
@@ -867,8 +806,8 @@
           "replacement": "{}",
           "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ 'question-themes' ]\u001b[90m\n\nNumber of calls: \u001b[1m0\u001b[22m\n\u001b[39m",
           "status": "Killed",
-          "testsCompleted": 1,
           "static": false,
+          "testsCompleted": 1,
           "killedBy": [
             "0"
           ],
@@ -896,8 +835,8 @@
           "replacement": "\"\"",
           "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ 'question-themes' ]\u001b[90m\n\nReceived: \n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[32m-   \"question-themes\",\u001b[90m\n\u001b[31m+   \"\",\u001b[90m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
           "status": "Killed",
-          "testsCompleted": 1,
           "static": false,
+          "testsCompleted": 1,
           "killedBy": [
             "0"
           ],
@@ -921,6 +860,70 @@
         }
       ],
       "source": "import { ADMIN_QUESTION_THEME_DTO } from \"@goat-it/schemas/question-theme\";\nimport type { H3Event } from \"h3\";\nimport { z } from \"zod\";\n\nimport { createQuestionThemeFromAdminQuestionThemeDto } from \"#server/api/goat-it-api/mappers/goat-it-api.mappers\";\nimport { createGoatItApiEndpoint, createGoatItApiFetchOptions } from \"#server/api/goat-it-api/helpers/goat-it-api.helpers\";\n\nasync function getQuestionThemesHandler(event: H3Event): Promise<QuestionTheme[]> {\n  const config = useRuntimeConfig(event);\n  const endpoint = createGoatItApiEndpoint(\"question-themes\");\n  const fetchOptions = createGoatItApiFetchOptions(config.goatItApi);\n\n  const rawData = await $fetch(endpoint, fetchOptions);\n  const adminQuestionThemes = z.array(ADMIN_QUESTION_THEME_DTO).parse(rawData);\n\n  return adminQuestionThemes.map(createQuestionThemeFromAdminQuestionThemeDto);\n}\n\nexport {\n  getQuestionThemesHandler,\n};"
+    },
+    "server/api/goat-it-api/mappers/goat-it-api.mappers.ts": {
+      "language": "typescript",
+      "mutants": [
+        {
+          "id": "31",
+          "mutatorName": "BlockStatement",
+          "replacement": "{}",
+          "statusReason": "expected undefined to strictly equal { Object (id, slug, ...) }",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 5,
+          "killedBy": [
+            "5"
+          ],
+          "coveredBy": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "5"
+          ],
+          "location": {
+            "end": {
+              "column": 2,
+              "line": 14
+            },
+            "start": {
+              "column": 116,
+              "line": 3
+            }
+          }
+        },
+        {
+          "id": "32",
+          "mutatorName": "ObjectLiteral",
+          "replacement": "{}",
+          "statusReason": "expected {} to strictly equal { Object (id, slug, ...) }",
+          "status": "Killed",
+          "static": false,
+          "testsCompleted": 5,
+          "killedBy": [
+            "5"
+          ],
+          "coveredBy": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "5"
+          ],
+          "location": {
+            "end": {
+              "column": 4,
+              "line": 13
+            },
+            "start": {
+              "column": 10,
+              "line": 4
+            }
+          }
+        }
+      ],
+      "source": "import type { AdminQuestionThemeDto } from \"@goat-it/schemas/question-theme\";\n\nfunction createQuestionThemeFromAdminQuestionThemeDto(adminQuestionThemeDto: AdminQuestionThemeDto): QuestionTheme {\n  return {\n    id: adminQuestionThemeDto.id,\n    slug: adminQuestionThemeDto.slug,\n    label: adminQuestionThemeDto.label,\n    aliases: adminQuestionThemeDto.aliases,\n    description: adminQuestionThemeDto.description,\n    status: adminQuestionThemeDto.status,\n    createdAt: new Date(adminQuestionThemeDto.createdAt),\n    updatedAt: new Date(adminQuestionThemeDto.updatedAt),\n  };\n}\n\nexport {\n  createQuestionThemeFromAdminQuestionThemeDto,\n};"
     }
   },
   "schemaVersion": "1.0",
@@ -955,26 +958,35 @@
       ],
       "source": "import type { H3Event } from \"h3\";\nimport { vi, describe, it, expect, beforeEach } from \"vitest\";\nimport { ZodError } from \"zod\";\n\nimport { createFakeAdminQuestionThemeDto } from \"~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory\";\n\nimport { createQuestionThemeFromAdminQuestionThemeDto } from \"#server/api/goat-it-api/mappers/goat-it-api.mappers\";\nimport type { SharedRuntimeConfig } from \"#build/types/runtime-config\";\nimport { createGoatItApiEndpoint, createGoatItApiFetchOptions } from \"#server/api/goat-it-api/helpers/goat-it-api.helpers\";\nimport { getQuestionThemesHandler } from \"#server/api/goat-it-api/question-themes/index.get.handler\";\n\nvi.mock(import(\"#server/api/goat-it-api/helpers/goat-it-api.helpers\"));\n\ndescribe(\"Server Goat It API Question Themes Get Handler\", () => {\n  beforeEach(() => {\n    vi.mocked($fetch).mockResolvedValue([\n      createFakeAdminQuestionThemeDto(),\n      createFakeAdminQuestionThemeDto(),\n      createFakeAdminQuestionThemeDto(),\n    ]);\n  });\n\n  describe(getQuestionThemesHandler, () => {\n    it(\"should create goat it api endpoint when called.\", async() => {\n      const mockedEvent = {} as unknown as H3Event;\n      await getQuestionThemesHandler(mockedEvent);\n\n      expect(createGoatItApiEndpoint).toHaveBeenCalledExactlyOnceWith(\"question-themes\");\n    });\n\n    it(\"should create goat it api fetch options with config when called.\", async() => {\n      const mockedEvent = {} as unknown as H3Event;\n      await getQuestionThemesHandler(mockedEvent);\n      const expectedGoatItApiConfig: SharedRuntimeConfig[\"goatItApi\"] = {\n        baseUrl: \"https://api.goat-it.com\",\n        adminKey: \"test-admin-key\",\n      };\n\n      expect(createGoatItApiFetchOptions).toHaveBeenCalledExactlyOnceWith(expectedGoatItApiConfig);\n    });\n\n    it(\"should fetch question themes from goat it api with correct endpoint and fetch options when called.\", async() => {\n      const mockedEvent = {} as unknown as H3Event;\n      const expectedEndpoint = \"/admin/question-themes\";\n      const expectedFetchOptions = {\n        baseURL: \"https://api.goat-it.com\",\n        headers: {\n          \"goat-it-api-key\": \"test-admin-key\",\n        },\n      };\n      vi.mocked(createGoatItApiEndpoint).mockReturnValue(expectedEndpoint);\n      vi.mocked(createGoatItApiFetchOptions).mockReturnValue(expectedFetchOptions);\n      await getQuestionThemesHandler(mockedEvent);\n\n      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, expectedFetchOptions);\n    });\n\n    it(\"should return mapped question themes when called.\", async() => {\n      const mockedEvent = {} as unknown as H3Event;\n      const fakeQuestionThemes = [\n        createFakeAdminQuestionThemeDto(),\n        createFakeAdminQuestionThemeDto(),\n        createFakeAdminQuestionThemeDto(),\n      ];\n      vi.mocked($fetch).mockResolvedValue(fakeQuestionThemes);\n      const expectedQuestionThemes = fakeQuestionThemes.map(createQuestionThemeFromAdminQuestionThemeDto);\n      const result = await getQuestionThemesHandler(mockedEvent);\n\n      expect(result).toStrictEqual<QuestionTheme[]>(expectedQuestionThemes);\n    });\n\n    it(\"should throw an error when the fetched data is invalid.\", async() => {\n      const mockedEvent = {} as unknown as H3Event;\n      vi.mocked($fetch).mockResolvedValue([\n        {\n          id: \"invalid-id\",\n          name: \"Invalid Question Theme\",\n          description: \"This question theme has an invalid ID.\",\n        },\n      ]);\n\n      await expect(getQuestionThemesHandler(mockedEvent)).rejects.toThrow(ZodError);\n    });\n  });\n});"
     },
-    "app/components/layouts/default/DefaultLayoutHeader/DefaultLayoutHeader.spec.ts": {
+    "server/api/goat-it-api/mappers/goat-it-api.mappers.spec.ts": {
       "tests": [
         {
           "id": "5",
+          "name": "Goat It Api Mappers createQuestionThemeFromAdminQuestionThemeDto should create question theme from admin question theme dto with correct properties when called."
+        }
+      ],
+      "source": "import { describe, expect, it } from \"vitest\";\n\nimport { createFakeAdminQuestionThemeDto } from \"~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory\";\nimport { createFakeQuestionTheme } from \"~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory\";\n\nimport { createQuestionThemeFromAdminQuestionThemeDto } from \"#server/api/goat-it-api/mappers/goat-it-api.mappers\";\n\ndescribe(\"Goat It Api Mappers\", () => {\n  describe(createQuestionThemeFromAdminQuestionThemeDto, () => {\n    it(\"should create question theme from admin question theme dto with correct properties when called.\", () => {\n      const adminQuestionThemeDto = createFakeAdminQuestionThemeDto();\n      const expectedQuestionTheme = createFakeQuestionTheme({\n        ...adminQuestionThemeDto,\n        createdAt: new Date(adminQuestionThemeDto.createdAt),\n        updatedAt: new Date(adminQuestionThemeDto.updatedAt),\n      });\n      const questionTheme = createQuestionThemeFromAdminQuestionThemeDto(adminQuestionThemeDto);\n\n      expect(questionTheme).toStrictEqual<QuestionTheme>(expectedQuestionTheme);\n    });\n  });\n});"
+    },
+    "app/components/layouts/default/DefaultLayoutHeader/DefaultLayoutHeader.spec.ts": {
+      "tests": [
+        {
+          "id": "6",
           "name": "Default Layout Header Component should render the default layout header component when mounted."
         },
         {
-          "id": "6",
+          "id": "7",
           "name": "Default Layout Header Component Header should pass the translated title prop to the header component when mounted."
         },
         {
-          "id": "7",
+          "id": "8",
           "name": "Default Layout Header Component Navigation Menu should pass the items as props to the navigation menu component when mounted."
         },
         {
-          "id": "8",
+          "id": "9",
           "name": "Default Layout Header Component GitHub Button should have a tooltip with translated text when mounted."
         },
         {
-          "id": "9",
+          "id": "10",
           "name": "Default Layout Header Component GitHub Button should have translated aria-label on the GitHub link when mounted."
         }
       ],
@@ -983,40 +995,53 @@
     "app/components/shared/LocaleSelect/LocaleSelect.spec.ts": {
       "tests": [
         {
-          "id": "10",
+          "id": "11",
           "name": "Locale Select Component should render the locale select component when mounted."
         },
         {
-          "id": "11",
+          "id": "12",
           "name": "Locale Select Component Nuxt UI Locale Select should pass a changed locale as modelValue prop to the Nuxt UI Locale Select component when the locale is changed."
         },
         {
-          "id": "12",
+          "id": "13",
           "name": "Locale Select Component Nuxt UI Locale Select should pass the current locale as modelValue prop to the Nuxt UI Locale Select component when mounted."
         },
         {
-          "id": "13",
+          "id": "14",
           "name": "Locale Select Component Nuxt UI Locale Select should pass the supported locales as localeCodes prop to the Nuxt UI Locale Select component when mounted."
         },
         {
-          "id": "14",
+          "id": "15",
           "name": "Locale Select Component Nuxt UI Locale Select should set a new locale when a new locale is selected in the Nuxt UI Locale Select component."
         },
         {
-          "id": "15",
+          "id": "16",
           "name": "Locale Select Component Nuxt UI Locale Select should not set a new locale when the new locale is not supported."
         }
       ],
       "source": "import { mountSuspended } from \"@nuxt/test-utils/runtime\";\nimport type { VueWrapper } from \"@vue/test-utils\";\nimport { beforeEach, describe, expect, it } from \"vitest\";\nimport { nextTick } from \"vue\";\n\nimport type { SupportedMockedLocale } from \"~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.types\";\nimport type { MountSuspendedOptions } from \"~~/tests/unit/utils/types/mount.types\";\nimport { DEFAULT_MOCKED_LOCALE, MOCKED_LOCALE_CODES } from \"~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants\";\n\nimport type { ULocaleSelect } from \"#components\";\nimport { LocaleSelect } from \"#components\";\n\ndescribe(\"Locale Select Component\", () => {\n  let wrapper: VueWrapper;\n\n  async function mountLocaleSelectComponent(options: MountSuspendedOptions = {}): Promise<VueWrapper> {\n    return mountSuspended(LocaleSelect, {\n      ...options,\n    });\n  }\n\n  beforeEach(async() => {\n    wrapper = await mountLocaleSelectComponent();\n  });\n\n  it(\"should render the locale select component when mounted.\", () => {\n    expect(wrapper.exists()).toBeTruthy();\n  });\n\n  describe(\"Nuxt UI Locale Select\", () => {\n    it(\"should pass a changed locale as modelValue prop to the Nuxt UI Locale Select component when the locale is changed.\", async() => {\n      const { locale } = useI18n();\n      const nuxtUILocaleSelect = wrapper.getComponent<typeof ULocaleSelect>({ name: \"ULocaleSelect\" });\n      locale.value = MOCKED_LOCALE_CODES[0];\n      await nextTick();\n\n      expect(nuxtUILocaleSelect.props(\"modelValue\")).toBe(MOCKED_LOCALE_CODES[0]);\n    });\n\n    it(\"should pass the current locale as modelValue prop to the Nuxt UI Locale Select component when mounted.\", () => {\n      const nuxtUILocaleSelect = wrapper.getComponent<typeof ULocaleSelect>({ name: \"ULocaleSelect\" });\n\n      expect(nuxtUILocaleSelect.props(\"modelValue\")).toBe(DEFAULT_MOCKED_LOCALE);\n    });\n\n    it(\"should pass the supported locales as localeCodes prop to the Nuxt UI Locale Select component when mounted.\", () => {\n      const { locales } = useI18n();\n      const nuxtUILocaleSelect = wrapper.getComponent<typeof ULocaleSelect>({ name: \"ULocaleSelect\" });\n\n      expect(nuxtUILocaleSelect.props(\"locales\")).toStrictEqual<SupportedMockedLocale[]>(locales.value);\n    });\n\n    it(\"should set a new locale when a new locale is selected in the Nuxt UI Locale Select component.\", () => {\n      const { setLocale } = useI18n();\n      const nuxtUILocaleSelect = wrapper.getComponent<typeof ULocaleSelect>({ name: \"ULocaleSelect\" });\n\n      nuxtUILocaleSelect.vm.$emit(\"update:modelValue\", MOCKED_LOCALE_CODES[0]);\n\n      expect(setLocale).toHaveBeenCalledExactlyOnceWith(MOCKED_LOCALE_CODES[0]);\n    });\n\n    it(\"should not set a new locale when the new locale is not supported.\", () => {\n      const { setLocale } = useI18n();\n      const nuxtUILocaleSelect = wrapper.getComponent<typeof ULocaleSelect>({ name: \"ULocaleSelect\" });\n\n      nuxtUILocaleSelect.vm.$emit(\"update:modelValue\", \"es\");\n\n      expect(setLocale).not.toHaveBeenCalled();\n    });\n  });\n});"
     },
+    "app/App.spec.ts": {
+      "tests": [
+        {
+          "id": "17",
+          "name": "App Component should render the app component when mounted."
+        },
+        {
+          "id": "18",
+          "name": "App Component Nuxt UI App should pass tooltip props to the Nuxt UI App component when mounted."
+        }
+      ],
+      "source": "import type { VueWrapper } from \"@vue/test-utils\";\nimport { describe, it, expect, beforeEach } from \"vitest\";\nimport { mountSuspended } from \"@nuxt/test-utils/runtime\";\n\nimport type { MountSuspendedOptions } from \"~~/tests/unit/utils/types/mount.types\";\n\nimport App from \"@/App.vue\";\nimport { APP_TOOLTIP_CONFIG } from \"~/app.constants\";\n\ndescribe(\"App Component\", () => {\n  let wrapper: VueWrapper;\n\n  async function mountAppComponent(options: MountSuspendedOptions = {}): Promise<VueWrapper> {\n    return mountSuspended(App, {\n      shallow: true,\n      ...options,\n    });\n  }\n\n  beforeEach(async() => {\n    wrapper = await mountAppComponent();\n  });\n\n  it(\"should render the app component when mounted.\", () => {\n    expect(wrapper.exists()).toBeTruthy();\n  });\n\n  describe(\"Nuxt UI App\", () => {\n    it(\"should pass tooltip props to the Nuxt UI App component when mounted.\", () => {\n      const nuxtUIApp = wrapper.getComponent({ name: \"App\" });\n\n      expect(nuxtUIApp.props(\"tooltip\")).toStrictEqual<typeof APP_TOOLTIP_CONFIG>(APP_TOOLTIP_CONFIG);\n    });\n  });\n});"
+    },
     "app/pages/(questions-themes)/question-themes.spec.ts": {
       "tests": [
         {
-          "id": "16",
+          "id": "19",
           "name": "Question Themes Page should render the question themes page when mounted."
         },
         {
-          "id": "17",
+          "id": "20",
           "name": "Question Themes Page should define page metadata when mounted."
         }
       ],
@@ -1025,37 +1050,15 @@
     "app/pages/(questions)/questions.spec.ts": {
       "tests": [
         {
-          "id": "18",
+          "id": "21",
           "name": "Questions Page should render the questions page when mounted."
         },
         {
-          "id": "19",
+          "id": "22",
           "name": "Questions Page should define page metadata when mounted."
         }
       ],
       "source": "import type { VueWrapper } from \"@vue/test-utils\";\nimport { describe, it, expect, beforeEach } from \"vitest\";\nimport { mountSuspended } from \"@nuxt/test-utils/runtime\";\n\nimport type { MountSuspendedOptions } from \"~~/tests/unit/utils/types/mount.types\";\n\nimport QuestionPage from \"@/pages/(questions)/questions.vue\";\n\ndescribe(\"Questions Page\", () => {\n  let wrapper: VueWrapper;\n\n  async function mountQuestionsPage(options: MountSuspendedOptions = {}): Promise<VueWrapper> {\n    return mountSuspended(QuestionPage, {\n      ...options,\n    });\n  }\n\n  beforeEach(async() => {\n    wrapper = await mountQuestionsPage();\n  });\n\n  it(\"should render the questions page when mounted.\", () => {\n    expect(wrapper.exists()).toBeTruthy();\n  });\n\n  it(\"should define page metadata when mounted.\", () => {\n    const expectedPageMeta: Parameters<typeof definePageMeta>[0] = {\n      icon: \"i-lucide-message-circle-question-mark\",\n      titleKey: \"questions.pageTitle\",\n    };\n\n    expect(definePageMeta).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);\n  });\n});"
-    },
-    "app/App.spec.ts": {
-      "tests": [
-        {
-          "id": "20",
-          "name": "App Component should render the app component when mounted."
-        },
-        {
-          "id": "21",
-          "name": "App Component Nuxt UI App should pass tooltip props to the Nuxt UI App component when mounted."
-        }
-      ],
-      "source": "import type { VueWrapper } from \"@vue/test-utils\";\nimport { describe, it, expect, beforeEach } from \"vitest\";\nimport { mountSuspended } from \"@nuxt/test-utils/runtime\";\n\nimport type { MountSuspendedOptions } from \"~~/tests/unit/utils/types/mount.types\";\n\nimport App from \"@/App.vue\";\nimport { APP_TOOLTIP_CONFIG } from \"~/app.constants\";\n\ndescribe(\"App Component\", () => {\n  let wrapper: VueWrapper;\n\n  async function mountAppComponent(options: MountSuspendedOptions = {}): Promise<VueWrapper> {\n    return mountSuspended(App, {\n      shallow: true,\n      ...options,\n    });\n  }\n\n  beforeEach(async() => {\n    wrapper = await mountAppComponent();\n  });\n\n  it(\"should render the app component when mounted.\", () => {\n    expect(wrapper.exists()).toBeTruthy();\n  });\n\n  describe(\"Nuxt UI App\", () => {\n    it(\"should pass tooltip props to the Nuxt UI App component when mounted.\", () => {\n      const nuxtUIApp = wrapper.getComponent({ name: \"App\" });\n\n      expect(nuxtUIApp.props(\"tooltip\")).toStrictEqual<typeof APP_TOOLTIP_CONFIG>(APP_TOOLTIP_CONFIG);\n    });\n  });\n});"
-    },
-    "server/api/goat-it-api/mappers/goat-it-api.mappers.spec.ts": {
-      "tests": [
-        {
-          "id": "22",
-          "name": "Goat It Api Mappers createQuestionThemeFromAdminQuestionThemeDto should create question theme from admin question theme dto with correct properties when called."
-        }
-      ],
-      "source": "import { describe, expect, it } from \"vitest\";\n\nimport { createFakeAdminQuestionThemeDto } from \"~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory\";\nimport { createFakeQuestionTheme } from \"~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory\";\n\nimport { createQuestionThemeFromAdminQuestionThemeDto } from \"#server/api/goat-it-api/mappers/goat-it-api.mappers\";\n\ndescribe(\"Goat It Api Mappers\", () => {\n  describe(createQuestionThemeFromAdminQuestionThemeDto, () => {\n    it(\"should create question theme from admin question theme dto with correct properties when called.\", () => {\n      const adminQuestionThemeDto = createFakeAdminQuestionThemeDto();\n      const expectedQuestionTheme = createFakeQuestionTheme({\n        ...adminQuestionThemeDto,\n        createdAt: new Date(adminQuestionThemeDto.createdAt),\n        updatedAt: new Date(adminQuestionThemeDto.updatedAt),\n      });\n      const questionTheme = createQuestionThemeFromAdminQuestionThemeDto(adminQuestionThemeDto);\n\n      expect(questionTheme).toStrictEqual<QuestionTheme>(expectedQuestionTheme);\n    });\n  });\n});"
     },
     "app/pages/index.spec.ts": {
       "tests": [
@@ -1181,6 +1184,7 @@
     },
     "dryRunTimeoutMinutes": 10,
     "disableTypeChecks": false,
+    "force": true,
     "configFile": "configs/stryker/stryker.config.mjs",
     "allowConsoleColors": true,
     "checkers": [],
@@ -1207,7 +1211,6 @@
     "eventReporter": {
       "baseDir": "reports/mutation/events"
     },
-    "force": false,
     "fileLogLevel": "off",
     "inPlace": false,
     "logLevel": "info",
