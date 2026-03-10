@@ -85,6 +85,12 @@ const config: NuxtConfig = {
     "@pinia/nuxt",
     "@nuxt/eslint",
   ],
+  runtimeConfig: {
+    goatItApi: {
+      baseUrl: "",
+      adminKey: "",
+    },
+  },
   typescript: {
     shim: true,
     strict: true,

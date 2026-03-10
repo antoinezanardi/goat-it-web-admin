@@ -6,6 +6,7 @@ const ESLINT_UNICORN_FLAT_CONFIG: Linter.Config = {
   plugins: {
     unicorn,
   },
+  files: ["**/*.ts", "**/*.tsx", "**/*.vue"],
   rules: {
     "unicorn/better-regex": "error",
     "unicorn/catch-error-name": "error",
