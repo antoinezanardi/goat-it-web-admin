@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import type { SharedRuntimeConfig } from "#build/types/runtime-config";
-import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/api/goat-it-api/helpers/goat-it-api.helpers";
+import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
 
 describe("Goat It API Helpers", () => {
   describe(createGoatItApiEndpoint, () => {

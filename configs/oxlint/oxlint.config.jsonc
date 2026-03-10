@@ -1499,10 +1499,10 @@
         ]
       }
     },
-    // ---- Override for server api files -----
+    // ---- Override for server files -----
     {
       "files": [
-        "**/server/api/**/*.ts"
+        "**/server/**/*.ts"
       ],
       "rules": {
         "unicorn/filename-case": [

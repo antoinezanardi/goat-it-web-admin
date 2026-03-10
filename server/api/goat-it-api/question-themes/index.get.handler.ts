@@ -2,8 +2,8 @@ import { ADMIN_QUESTION_THEME_DTO } from "@goat-it/schemas/question-theme";
 import type { H3Event } from "h3";
 import { z } from "zod";
 
-import { createQuestionThemeFromAdminQuestionThemeDto } from "#server/api/goat-it-api/mappers/goat-it-api.mappers";
-import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/api/goat-it-api/helpers/goat-it-api.helpers";
+import { createQuestionThemeFromAdminQuestionThemeDto } from "#server/utils/goat-it-api/mappers/goat-it-api.mappers";
+import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
 
 async function getQuestionThemesHandler(event: H3Event): Promise<QuestionTheme[]> {
   const config = useRuntimeConfig(event);

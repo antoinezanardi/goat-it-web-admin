@@ -4,12 +4,12 @@ import { ZodError } from "zod";
 
 import { createFakeAdminQuestionThemeDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 
-import { createQuestionThemeFromAdminQuestionThemeDto } from "#server/api/goat-it-api/mappers/goat-it-api.mappers";
+import { createQuestionThemeFromAdminQuestionThemeDto } from "#server/utils/goat-it-api/mappers/goat-it-api.mappers";
 import type { SharedRuntimeConfig } from "#build/types/runtime-config";
-import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/api/goat-it-api/helpers/goat-it-api.helpers";
+import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
 import { getQuestionThemesHandler } from "#server/api/goat-it-api/question-themes/index.get.handler";
 
-vi.mock(import("#server/api/goat-it-api/helpers/goat-it-api.helpers"));
+vi.mock(import("#server/utils/goat-it-api/helpers/goat-it-api.helpers"));
 
 describe("Server Goat It API Question Themes Get Handler", () => {
   beforeEach(() => {
