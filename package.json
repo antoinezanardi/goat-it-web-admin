@@ -121,7 +121,7 @@
     "is-ci": "^4.1.0",
     "lint-staged": "^16.3.2",
     "nuxt": "^4.3.1",
-    "oxlint": "^1.51.0",
+    "oxlint": "^1.52.0",
     "oxlint-tsgolint": "^0.16.0",
     "pinia": "^3.0.4",
     "rimraf": "^6.1.3",
