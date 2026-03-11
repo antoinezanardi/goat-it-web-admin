@@ -1,6 +1,7 @@
 import oxlint from "eslint-plugin-oxlint";
 import type { Linter } from "eslint";
 
+import { ESLINT_STORES_FLAT_CONFIG } from "./configs/eslint/flat-configs/eslint-stores.flat-config";
 import { ESLINT_TESTS_COMPOSABLES_MOCKS_FLAT_CONFIG } from "./configs/eslint/flat-configs/eslint-tests-composables-mocks.flat-config";
 import { ESLINT_TYPESCRIPT_DECLARATIONS_FLAT_CONFIG } from "./configs/eslint/flat-configs/eslint-typescript-declarations.flat-config";
 import { withNuxt } from "./.nuxt/eslint.config.mjs";
@@ -25,6 +26,7 @@ export default withNuxt(
   ESLINT_UNIT_TESTS_FLAT_CONFIG,
   ESLINT_PAGES_FLAT_CONFIG,
   ESLINT_PAGES_UNIT_TESTS_FLAT_CONFIG,
+  ESLINT_STORES_FLAT_CONFIG,
   ESLINT_CONSTANTS_FLAT_CONFIG,
   ESLINT_TYPES_FLAT_CONFIG,
   ESLINT_LAYOUTS_FLAT_CONFIG,

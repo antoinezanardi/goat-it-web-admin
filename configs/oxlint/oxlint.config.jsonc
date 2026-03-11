@@ -5,6 +5,7 @@
   },
   "globals": {
     "process": "readonly",
+    "console": "readonly",
     "useRouter": "readonly",
     "useRuntimeConfig": "readonly",
     "useI18n": "readonly",
@@ -16,6 +17,9 @@
     "defineSlots": "readonly",
     "defineModel": "readonly",
     "definePageMeta": "readonly",
+    "defineStore": "readonly",
+    "callOnce": "readonly",
+    "useQuestionThemesStore": "readonly",
     "ref": "readonly",
     "reactive": "readonly",
     "computed": "readonly",
@@ -1337,6 +1341,21 @@
       ],
       "rules": {
         "import/unambiguous": "off",
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
+    // ---- Override for store files -----
+    {
+      "files": [
+        "**/app/stores/**/*.ts"
+      ],
+      "rules": {
         "unicorn/filename-case": [
           "error",
           {

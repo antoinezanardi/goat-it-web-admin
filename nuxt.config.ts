@@ -106,4 +106,7 @@ export default defineNuxtConfig({
       redirectOn: "root",
     },
   },
+  pinia: {
+    storesDirs: ["stores/**"],
+  },
 });
