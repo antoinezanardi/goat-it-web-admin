@@ -36,6 +36,7 @@ export default {
     ".husky/",
     ".output",
     ".opencode",
+    ".agents",
     ".run/",
     ".idea/",
     "dist",

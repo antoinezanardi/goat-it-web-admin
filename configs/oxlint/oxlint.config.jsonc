@@ -25,6 +25,8 @@
   "ignorePatterns": [
     ".output/**/*",
     "node_modules/**/*",
+    ".agents/**/*",
+    ".opencode/**/*",
     "tests/unit/coverage/**/*",
     "tests/mutation/**/*",
     "tests/acceptance/reports/**/*"
