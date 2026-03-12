@@ -5,18 +5,24 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
   const questionThemes = ref<QuestionTheme[]>([]);
   const fetchRequestStatus = ref<AsyncDataRequestStatus>("idle");
 
+  const repository = questionThemesRepository($fetch);
   const { addErrorToast } = useAppToast();
+  const {
+    setFetchStatusToPending,
+    setFetchStatusToSuccess,
+    setFetchStatusToError,
+  } = useFetchStatus();
   const { t } = useI18n();
 
   async function fetchQuestionThemes(): Promise<QuestionTheme[] | undefined> {
-    fetchRequestStatus.value = "pending";
+    setFetchStatusToPending();
     try {
-      const fetchedQuestionThemes = await $fetch<QuestionTheme[]>("/api/goat-it-api/question-themes");
-      fetchRequestStatus.value = "success";
+      const fetchedQuestionThemes = await repository.getAll();
+      setFetchStatusToSuccess();
 
       return fetchedQuestionThemes;
     } catch {
-      fetchRequestStatus.value = "error";
+      setFetchStatusToError();
       addErrorToast({
         description: t("questionThemes.cantFetch"),
       });

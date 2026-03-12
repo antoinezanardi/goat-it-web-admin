@@ -15,7 +15,10 @@ export default defineNuxtConfig({
     },
   ],
   imports: {
-    dirs: ["~/composables/**/use*.ts"],
+    dirs: [
+      "~/composables/**/use*.ts",
+      "~/repositories/**/*.repository.ts",
+    ],
   },
   devtools: {
     enabled: true,

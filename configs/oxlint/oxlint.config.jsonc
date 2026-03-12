@@ -12,6 +12,7 @@
     "useFetch": "readonly",
     "useToast": "readonly",
     "useAppToast": "readonly",
+    "useFetchStatus": "readonly",
     "defineAppConfig": "readonly",
     "defineNuxtConfig": "readonly",
     "defineEmits": "readonly",

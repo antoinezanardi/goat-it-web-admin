@@ -16,14 +16,11 @@ export default defineConfig({
           clearMocks: true,
           restoreMocks: true,
           include: [
-            "app/App.spec.ts",
-            "app/pages/**/*.spec.ts",
-            "app/components/**/*.spec.ts",
-            "app/composables/**/*.spec.ts",
-            "app/layouts/**/*.spec.ts",
+            "app/**/*.spec.ts",
             "server/**/*.spec.ts",
             "shared/**/*.spec.ts",
           ],
+          exclude: ["**/*.mappers.spec.ts"],
           environment: "nuxt",
           environmentOptions: {
             nuxt: {
@@ -46,6 +43,21 @@ export default defineConfig({
             path.resolve(processCwd, "tests/unit/setup/nuxt/fetch.nuxt.unit-setup.ts"),
             path.resolve(processCwd, "tests/unit/setup/nuxt/use-toast.nuxt.unit-setup.ts"),
           ],
+        },
+      }),
+      await defineVitestProject({
+        test: {
+          name: "node",
+          globals: true,
+          mockReset: true,
+          clearMocks: true,
+          restoreMocks: true,
+          include: [
+            "app/**/*.mappers.spec.ts",
+            "server/**/*.mappers.spec.ts",
+            "shared/**/*.mappers.spec.ts",
+          ],
+          setupFiles: [path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts")],
         },
       }),
     ],
