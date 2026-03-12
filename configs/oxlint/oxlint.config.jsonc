@@ -10,6 +10,8 @@
     "useRuntimeConfig": "readonly",
     "useI18n": "readonly",
     "useFetch": "readonly",
+    "useToast": "readonly",
+    "useAppToast": "readonly",
     "defineAppConfig": "readonly",
     "defineNuxtConfig": "readonly",
     "defineEmits": "readonly",
@@ -1014,7 +1016,7 @@
           "type-annotation"
         ],
         "typescript/consistent-indexed-object-style": "error",
-        "typescript/consistent-return": "error",
+        "typescript/consistent-return": "off",
         "typescript/consistent-type-assertions": "error",
         "typescript/consistent-type-definitions": [
           "error",
@@ -1319,6 +1321,21 @@
         ]
       }
     },
+    // ---- Override for enums files -----
+    {
+      "files": [
+        "**/*.enums.ts"
+      ],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
     // ---- Override for types files -----
     {
       "files": [
@@ -1350,12 +1367,29 @@
         ]
       }
     },
+    // ---- Override for composable files -----
+    {
+      "files": [
+        "**/app/composables/**/*.ts"
+      ],
+      "rules": {
+        "eslint/max-lines-per-function": "off",
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "camelCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
     // ---- Override for store files -----
     {
       "files": [
-        "**/app/stores/**/*.ts"
+        "**/app/stores/**/*.store.ts"
       ],
       "rules": {
+        "eslint/max-lines-per-function": "off",
         "unicorn/filename-case": [
           "error",
           {

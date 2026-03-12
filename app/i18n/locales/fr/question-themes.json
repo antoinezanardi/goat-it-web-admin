@@ -1,5 +1,6 @@
 {
   "questionThemes": {
-    "pageTitle": "Thèmes de questions"
+    "pageTitle": "Thèmes de questions",
+    "cantFetch": "Impossible de récupérer les thèmes de questions"
   }
 }

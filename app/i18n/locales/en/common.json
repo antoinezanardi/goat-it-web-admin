@@ -4,5 +4,8 @@
       "name": "Goat It Admin"
     },
     "gitHub": "GitHub"
+    ,
+    "success": "Success",
+    "error": "Error"
   }
 }

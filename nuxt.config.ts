@@ -14,6 +14,9 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
+  imports: {
+    dirs: ["~/composables/**/use*.ts"],
+  },
   devtools: {
     enabled: true,
   },
@@ -45,6 +48,10 @@ export default defineNuxtConfig({
     strict: true,
     typeCheck: true,
     tsConfig: {
+      compilerOptions: {
+        noImplicitReturns: true,
+        noImplicitAny: true,
+      },
       include: [
         "../tests/",
         "../eslint.config.ts",
@@ -64,8 +71,18 @@ export default defineNuxtConfig({
     families: [
       {
         name: "General Sans",
-        weights: [200, 300, 400, 500, 600, 700],
-        styles: ["normal", "italic"],
+        weights: [
+          200,
+          300,
+          400,
+          500,
+          600,
+          700,
+        ],
+        styles: [
+          "normal",
+          "italic",
+        ],
         provider: "local",
       },
     ],
