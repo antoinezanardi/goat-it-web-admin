@@ -13,6 +13,7 @@
     "useToast": "readonly",
     "useAppToast": "readonly",
     "useFetchStatus": "readonly",
+    "useAsyncAction": "readonly",
     "defineAppConfig": "readonly",
     "defineNuxtConfig": "readonly",
     "defineEmits": "readonly",
@@ -23,6 +24,7 @@
     "defineStore": "readonly",
     "callOnce": "readonly",
     "useQuestionThemesStore": "readonly",
+    "questionThemesRepository": "readonly",
     "ref": "readonly",
     "reactive": "readonly",
     "computed": "readonly",
@@ -164,6 +166,7 @@
       {
         "exceptions": [
           "t",
+          "k",
           "i",
           "j",
           "k",
@@ -1384,6 +1387,21 @@
         ]
       }
     },
+    // ---- Override for repository files and attached files -----
+    {
+      "files": [
+        "**/app/repositories/**/*.ts"
+      ],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
     // ---- Override for store files -----
     {
       "files": [
@@ -1447,7 +1465,7 @@
         "vitest/max-expects": [
           "error",
           {
-            "max": 10
+            "max": 1
           }
         ],
         "vitest/max-nested-describe": "error",
@@ -1544,6 +1562,21 @@
     {
       "files": [
         "**/app/pages/**/*.spec.ts"
+      ],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
+    // ---- Override for store unit test files -----
+    {
+      "files": [
+        "**/app/stores/**/*.spec.ts"
       ],
       "rules": {
         "unicorn/filename-case": [

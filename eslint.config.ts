@@ -20,6 +20,7 @@ import { ESLINT_LAYOUTS_FLAT_CONFIG } from "./configs/eslint/flat-configs/eslint
 import { ESLINT_UNICORN_FLAT_CONFIG } from "./configs/eslint/flat-configs/eslint-unicorn.flat-config";
 import { ESLINT_TESTS_FLAT_CONFIG } from "./configs/eslint/flat-configs/eslint-tests.flat-config";
 import { ESLINT_STYLISTIC_FLAT_CONFIG } from "./configs/eslint/flat-configs/eslint-stylistic.flat-config";
+import { ESLINT_REPOSITORIES_FLAT_CONFIG } from "./configs/eslint/flat-configs/eslint-repositories.flat-config";
 
 export default withNuxt(
   ESLINT_UNICORN_FLAT_CONFIG,
@@ -35,6 +36,7 @@ export default withNuxt(
   ESLINT_TESTS_FLAT_CONFIG,
   ESLINT_TYPESCRIPT_DECLARATIONS_FLAT_CONFIG,
   ESLINT_TESTS_COMPOSABLES_MOCKS_FLAT_CONFIG,
+  ESLINT_REPOSITORIES_FLAT_CONFIG,
   ...oxlint.buildFromOxlintConfigFile("./configs/oxlint/oxlint.config.jsonc") as Linter.Config[],
 )
   .override("nuxt/javascript", {

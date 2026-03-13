@@ -53,6 +53,7 @@ export default defineConfig({
           clearMocks: true,
           restoreMocks: true,
           include: [
+            "app/**/*.repository.spec.ts",
             "app/**/*.mappers.spec.ts",
             "server/**/*.mappers.spec.ts",
             "shared/**/*.mappers.spec.ts",

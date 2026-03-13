@@ -1,11 +1,16 @@
 import { vi } from "vitest";
-import type { Mock } from "vitest";
 
-type UseToastMock = {
-  add: Mock<() => void>;
-  remove: Mock<() => void>;
-  clear: Mock<() => void>;
+import type { StubToMock } from "~~/tests/unit/utils/types/mock.types";
+
+import type { Toast } from "#ui/composables";
+
+type UseToastStub = {
+  add: (options: Partial<Toast>) => void;
+  remove: (options: Partial<Toast>) => void;
+  clear: (options: Partial<Toast>) => void;
 };
+
+type UseToastMock = StubToMock<UseToastStub>;
 
 /**
  * Creates a mock implementation of the `useToast` composable for unit testing purposes.
@@ -13,9 +18,9 @@ type UseToastMock = {
  */
 function createUseToastMock(): UseToastMock {
   return {
-    add: vi.fn<() => void>(),
-    remove: vi.fn<() => void>(),
-    clear: vi.fn<() => void>(),
+    add: vi.fn<UseToastStub["add"]>(),
+    remove: vi.fn<UseToastStub["remove"]>(),
+    clear: vi.fn<UseToastStub["clear"]>(),
   };
 }
 

@@ -1,6 +1,6 @@
 import { vi } from "vitest";
 import type { Mock } from "vitest";
-import type { $Fetch } from "ofetch";
+import type { $Fetch } from "nitropack";
 
 type FetchMock = Mock<$Fetch>;
 
@@ -9,7 +9,7 @@ type FetchMock = Mock<$Fetch>;
  * Can only be used from unit tests setup functions.
  */
 function createFetchMock(): FetchMock {
-  return vi.fn<$Fetch>();
+  return vi.fn<FetchMock>();
 }
 
 export type { FetchMock };

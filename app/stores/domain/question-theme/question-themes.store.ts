@@ -1,34 +1,22 @@
-import type { AsyncDataRequestStatus } from "#app";
 import { StoreNames } from "~/stores/store.enums";
 
 export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, () => {
   const questionThemes = ref<QuestionTheme[]>([]);
-  const fetchRequestStatus = ref<AsyncDataRequestStatus>("idle");
 
   const repository = questionThemesRepository($fetch);
   const { addErrorToast } = useAppToast();
-  const {
-    setFetchStatusToPending,
-    setFetchStatusToSuccess,
-    setFetchStatusToError,
-  } = useFetchStatus();
   const { t } = useI18n();
 
-  async function fetchQuestionThemes(): Promise<QuestionTheme[] | undefined> {
-    setFetchStatusToPending();
-    try {
-      const fetchedQuestionThemes = await repository.getAll();
-      setFetchStatusToSuccess();
-
-      return fetchedQuestionThemes;
-    } catch {
-      setFetchStatusToError();
-      addErrorToast({
-        description: t("questionThemes.cantFetch"),
-      });
-    }
-    return undefined;
-  }
+  const {
+    execute: fetchQuestionThemes,
+    fetchStatus: fetchQuestionThemesStatus,
+    isPending: isFetchingQuestionThemes,
+    isSuccess: isFetchQuestionThemesSuccess,
+    isError: isFetchingQuestionThemesError,
+  } = useAsyncAction(
+    repository.getAll,
+    () => addErrorToast({ description: t("questionThemes.cantFetch") }),
+  );
 
   async function fetchAndStoreQuestionThemes(): Promise<void> {
     const fetchedQuestionThemes = await fetchQuestionThemes();
@@ -38,7 +26,10 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
   }
   return {
     questionThemes,
-    fetchRequestStatus,
+    fetchQuestionThemesStatus,
+    isFetchingQuestionThemes,
+    isFetchQuestionThemesSuccess,
+    isFetchingQuestionThemesError,
     fetchQuestionThemes,
     fetchAndStoreQuestionThemes,
   };

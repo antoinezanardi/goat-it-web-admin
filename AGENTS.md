@@ -170,6 +170,11 @@ Pre-PR sanity checklist (run in order):
   reference files; load only what is relevant to the current task.
 
   Available skills:
+  - `nuxt`     — `.agents/skills/nuxt/SKILL.md`
+    Use when working with any Nuxt 4 concept: routing, composables, data fetching,
+    server routes, layouts, middleware, plugins, auto-imports, SSR/hydration, runtime
+    config, state management, error handling, and testing. Load before writing or
+    modifying any Nuxt-specific code. Includes links to fetch raw v4 docs on demand.
   - `nuxt-ui`  — `.agents/skills/nuxt-ui/SKILL.md`
     Use when building or modifying UI with `@nuxt/ui` v4 (components, theming,
     layouts). Contains a full component reference and Tailwind CSS theming guide.
