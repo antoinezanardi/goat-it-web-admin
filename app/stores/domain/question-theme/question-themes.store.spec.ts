@@ -1,5 +1,4 @@
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { createUseAppToastMock } from "~~/tests/unit/utils/mocks/composables/ui/useAppToast/useAppToast.mock";
@@ -37,7 +36,6 @@ describe("useQuestionThemesStore", () => {
     useAsyncActionMock = createUseAsyncActionMock();
     capturedAction = undefined;
     capturedOnError = undefined;
-    setActivePinia(createPinia());
     ({ useQuestionThemesStore } = await import("@/stores/domain/question-theme/question-themes.store"));
   });
 
