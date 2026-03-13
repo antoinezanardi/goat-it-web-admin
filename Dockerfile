@@ -1,5 +1,4 @@
-ARG NODE_VERSION=25.7.0
-FROM --platform=$BUILDPLATFORM node:${NODE_VERSION}-alpine AS base
+FROM --platform=$BUILDPLATFORM node:25.7.0-alpine AS base
 LABEL maintainer="Antoine ZANARDI"
 
 ARG TARGETPLATFORM
@@ -67,7 +66,7 @@ COPY --chown=node:node --from=development /app/node_modules ./node_modules
 
 RUN pnpm run build
 
-FROM node:${NODE_VERSION}-alpine AS production
+FROM node:25.7.0-alpine AS production
 
 
 ENV NODE_ENV="production"
