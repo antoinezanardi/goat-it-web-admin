@@ -1,11 +1,12 @@
-AGENTS
+# AGENTS
 
 This file is a concise, actionable guide for automated agents working in this repository.
 It explains how to build, lint and run tests (including running a single test), plus
 the coding conventions agents must follow (imports, formatting, types, naming, error
 handling, Nuxt conventions, and other repo-specific rules).
 
-1) Build / Run / Lint / Test commands
+## Build / Run / Lint / Test commands
+
 - Package manager: `pnpm@10.32.1` (see `package.json` -> `packageManager`).
 - Node requirement: >=25.8.0 (see `package.json` -> `engines.node`).
 - Dev server: `pnpm run dev` (nuxt dev, port 4000, dotenv `envs/.env.development`)
@@ -24,17 +25,22 @@ handling, Nuxt conventions, and other repo-specific rules).
   - Mutation (Stryker): `pnpm run test:mutation` / `pnpm run test:mutation:force`
 
 Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
-  - By path:    `pnpm run test:unit -- app/pages/index.spec.ts`
-  - By name:    `pnpm run test:unit -- -t "should render"`
-  - Watch file: `pnpm run test:unit:watch -- app/pages/index.spec.ts`
-  - Direct:     `pnpm exec cross-env NODE_OPTIONS='--no-webstorage' vitest --config configs/vitest/vitest.config.ts path/to/file.spec.ts`
+
+- By path:    `pnpm run test:unit -- app/pages/index.spec.ts`
+- By name:    `pnpm run test:unit -- -t "should render"`
+- Watch file: `pnpm run test:unit:watch -- app/pages/index.spec.ts`
+- Direct:     `pnpm exec cross-env NODE_OPTIONS='--no-webstorage' vitest --config configs/vitest/vitest.config.ts path/to/file.spec.ts`
   Always use `--` separator when passing extra args through `pnpm run`.
 
 Pre-PR sanity checklist (run in order):
-  1) `pnpm install`   2) `pnpm run lint:fix && pnpm run lint`
-  3) `pnpm run typecheck`   4) `pnpm run test:unit:cov`
 
-2) Repository structure
+- `pnpm install`
+- `pnpm run lint:fix && pnpm run lint`
+- `pnpm run typecheck`
+- `pnpm run test:unit:cov`
+
+## Repository structure
+
 - `app/`              – Nuxt application source
   - `components/`     – `layouts/` and `shared/` sub-dirs; PascalCase `.vue` files
   - `composables/`    – Organised as `core/`, `domain/`, `ui/`; each composable in its own sub-dir
@@ -49,7 +55,8 @@ Pre-PR sanity checklist (run in order):
 - `envs/`             – `.env.development`, `.env.test`, `.env.example`
 - `modules/`          – Custom Nuxt modules; `scripts/` – shell utilities
 
-3) Project conventions & style
+## Project conventions & style
+
 - Frameworks / paradigms:
   - Nuxt 4 file-based routing, composables, auto-imports. Prefer idiomatic Nuxt patterns.
   - Vue 3 `script setup` in all SFCs. Keep `<script>` before `<template>` in every `.vue`.
@@ -72,11 +79,14 @@ Pre-PR sanity checklist (run in order):
   - Use `pnpm run lint:fix` for reformatting; avoid manual reformatting.
 
 - Imports and module layout (groups separated by blank lines, in order):
-  1) Node builtins (`node:path`)   2) External packages   3) Project aliases (`~~/`, `#server/`,
-     `#components`, `@/`, `~/`)   4) Relative imports
-  - Use `type` imports for type-only symbols.
-  - Prefer named exports; avoid default exports for utilities and composables.
-  - Use `#server/utils/...` alias inside `server/`; `~~/tests/...` inside tests.
+  - Node builtins (`node:path`)
+  - External packages
+  - Project aliases (`~~/`, `#server/`, `#components`, `@/`, `~/`)
+  - Relative imports
+
+- Use `type` imports for type-only symbols.
+- Prefer named exports; avoid default exports for utilities and composables.
+- Use `#server/utils/...` alias inside `server/`; `~~/tests/...` inside tests.
 
 - Naming conventions:
   - Files: Components: `PascalCase.vue` | Composables: `use*.ts` | Stores: `<entity>.store.ts`
@@ -105,7 +115,8 @@ Pre-PR sanity checklist (run in order):
   - Zod parse errors propagate naturally; do not catch unless you can recover.
   - No `console.log` in production code.
 
-4) Tests and test style
+## Tests and test style
+
 - Framework: Vitest + `@nuxt/test-utils` + `@vue/test-utils` + `happy-dom`.
 - Vitest runs three projects (defined in `configs/vitest/vitest.config.ts`):
   - `nuxt`   – `app/**/*.spec.ts`, `server/**/*.spec.ts`, `shared/**/*.spec.ts` (excluding stores/node)
@@ -122,30 +133,35 @@ Pre-PR sanity checklist (run in order):
 - Test names: `"should <action> when <condition>."` pattern.
 - Use `expect(...).toHaveBeenCalledExactlyOnceWith(...)` for single-call assertions.
 
-5) Git / commit / PR expectations
+## Git / commit / PR expectations
+
 - Do not commit `.env.*` files with real secrets (`.env.example` is safe).
 - Husky pre-commit hooks are active; never bypass with `--no-verify`.
 - Conventional commits enforced by commitlint: `type(scope): message`.
   Common types: `feat`, `fix`, `refactor`, `test`, `chore`, `docs`.
 - Validate branch names: `pnpm run validate:branch-name`.
 
-6) Agent skills (.agents/skills/)
-Each skill has a `SKILL.md` entry point. Load only the relevant skill for the task.
-  - `nuxt`     – Nuxt 4 routing, composables, data fetching, server routes, SSR, testing.
-                 Load before writing or modifying any Nuxt-specific code.
-  - `nuxt-ui`  – `@nuxt/ui` v4 components, Tailwind CSS theming, layout patterns.
-  - `vueuse`   – VueUse composables (state, sensors, browser APIs). Check here before
-                 writing any custom composable; auto-imported via `@vueuse/nuxt`.
-Do NOT load all skill files at once; read the relevant `SKILL.md` first.
+## Agent skills (.agents/skills/)
 
-7) Copilot instructions (`.github/copilot-instructions.md`)
+Each skill has a `SKILL.md` entry point. Load only the relevant skill for the task.
+
+- `nuxt`     – Nuxt 4 routing, composables, data fetching, server routes, SSR, testing.
+  Load before writing or modifying any Nuxt-specific code.
+- `nuxt-ui`  – `@nuxt/ui` v4 components, Tailwind CSS theming, layout patterns.
+- `vueuse`   – VueUse composables (state, sensors, browser APIs). Check here before
+  writing any custom composable; auto-imported via `@vueuse/nuxt`.
+  Do NOT load all skill files at once; read the relevant `SKILL.md` first.
+
+## Copilot instructions (`.github/copilot-instructions.md`)
+
 - Always read and follow `AGENTS.md` when working in this repo.
 - If `AGENTS.md` is not in the chat context, ask the repo owner to attach it.
 - Prefer minimal edits, Nuxt conventions, write unit tests first, and ensure
   `lint`, `typecheck`, and `test:unit:cov` pass before submitting changes.
 - Cursor rules: none (`.cursor/rules/` and `.cursorrules` do not exist).
 
-8) Useful paths
+## Useful paths
+
 - Vitest config:    `configs/vitest/vitest.config.ts`
 - ESLint config:    `eslint.config.ts` + `configs/eslint/`
 - Oxlint config:    `configs/oxlint/oxlint.config.jsonc`
