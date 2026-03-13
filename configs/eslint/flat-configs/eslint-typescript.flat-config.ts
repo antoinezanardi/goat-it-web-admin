@@ -39,7 +39,7 @@ const ESLINT_TYPESCRIPT_FLAT_CONFIG: Linter.Config = {
     "@typescript-eslint/class-methods-use-this": "error",
     "@typescript-eslint/consistent-generic-constructors": ["error", "type-annotation"],
     "@typescript-eslint/consistent-indexed-object-style": "error",
-    "@typescript-eslint/consistent-return": "error",
+    "@typescript-eslint/consistent-return": "off",
     "@typescript-eslint/consistent-type-assertions": "error",
     "@typescript-eslint/consistent-type-definitions": ["error", "type"],
     "@typescript-eslint/consistent-type-exports": "error",

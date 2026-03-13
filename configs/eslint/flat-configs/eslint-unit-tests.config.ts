@@ -34,7 +34,7 @@ const ESLINT_UNIT_TESTS_FLAT_CONFIG: Linter.Config = {
     "vitest/consistent-vitest-vi": "error",
     "vitest/expect-expect": "error",
     "vitest/hoisted-apis-on-top": "error",
-    "vitest/max-expects": ["error", { max: 10 }],
+    "vitest/max-expects": ["error", { max: 1 }],
     "vitest/max-nested-describe": "error",
     "vitest/no-alias-methods": "error",
     "vitest/no-commented-out-tests": "error",

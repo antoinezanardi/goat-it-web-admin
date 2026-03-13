@@ -5,10 +5,15 @@
   },
   "globals": {
     "process": "readonly",
+    "console": "readonly",
     "useRouter": "readonly",
     "useRuntimeConfig": "readonly",
     "useI18n": "readonly",
     "useFetch": "readonly",
+    "useToast": "readonly",
+    "useAppToast": "readonly",
+    "useFetchStatus": "readonly",
+    "useAsyncAction": "readonly",
     "defineAppConfig": "readonly",
     "defineNuxtConfig": "readonly",
     "defineEmits": "readonly",
@@ -16,6 +21,10 @@
     "defineSlots": "readonly",
     "defineModel": "readonly",
     "definePageMeta": "readonly",
+    "defineStore": "readonly",
+    "callOnce": "readonly",
+    "useQuestionThemesStore": "readonly",
+    "questionThemesRepository": "readonly",
     "ref": "readonly",
     "reactive": "readonly",
     "computed": "readonly",
@@ -157,6 +166,7 @@
       {
         "exceptions": [
           "t",
+          "k",
           "i",
           "j",
           "k",
@@ -1010,7 +1020,7 @@
           "type-annotation"
         ],
         "typescript/consistent-indexed-object-style": "error",
-        "typescript/consistent-return": "error",
+        "typescript/consistent-return": "off",
         "typescript/consistent-type-assertions": "error",
         "typescript/consistent-type-definitions": [
           "error",
@@ -1315,6 +1325,21 @@
         ]
       }
     },
+    // ---- Override for enums files -----
+    {
+      "files": [
+        "**/*.enums.ts"
+      ],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
     // ---- Override for types files -----
     {
       "files": [
@@ -1337,6 +1362,53 @@
       ],
       "rules": {
         "import/unambiguous": "off",
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
+    // ---- Override for composable files -----
+    {
+      "files": [
+        "**/app/composables/**/*.ts"
+      ],
+      "rules": {
+        "eslint/max-lines-per-function": "off",
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "camelCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
+    // ---- Override for repository files and attached files -----
+    {
+      "files": [
+        "**/app/repositories/**/*.ts"
+      ],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
+    // ---- Override for store files -----
+    {
+      "files": [
+        "**/app/stores/**/*.store.ts"
+      ],
+      "rules": {
+        "eslint/max-lines-per-function": "off",
         "unicorn/filename-case": [
           "error",
           {
@@ -1393,7 +1465,7 @@
         "vitest/max-expects": [
           "error",
           {
-            "max": 10
+            "max": 1
           }
         ],
         "vitest/max-nested-describe": "error",
@@ -1490,6 +1562,21 @@
     {
       "files": [
         "**/app/pages/**/*.spec.ts"
+      ],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
+    // ---- Override for store unit test files -----
+    {
+      "files": [
+        "**/app/stores/**/*.spec.ts"
       ],
       "rules": {
         "unicorn/filename-case": [

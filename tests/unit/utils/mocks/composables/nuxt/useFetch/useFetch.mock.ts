@@ -1,6 +1,6 @@
 import { vi } from "vitest";
 import type { Mock } from "vitest";
-import type { $Fetch } from "ofetch";
+import type { $Fetch } from "nitropack";
 
 type FetchMock = Mock<$Fetch>;
 

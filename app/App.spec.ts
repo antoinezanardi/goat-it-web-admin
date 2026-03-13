@@ -5,7 +5,7 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import App from "@/App.vue";
-import { APP_TOOLTIP_CONFIG } from "~/app.constants";
+import { APP_TOAST_CONFIG, APP_TOOLTIP_CONFIG } from "~/app.constants";
 
 describe("App Component", () => {
   let wrapper: VueWrapper;
@@ -30,6 +30,12 @@ describe("App Component", () => {
       const nuxtUIApp = wrapper.getComponent({ name: "App" });
 
       expect(nuxtUIApp.props("tooltip")).toStrictEqual<typeof APP_TOOLTIP_CONFIG>(APP_TOOLTIP_CONFIG);
+    });
+
+    it("should pass toaster props to the Nuxt UI App component when mounted.", () => {
+      const nuxtUIApp = wrapper.getComponent({ name: "App" });
+
+      expect(nuxtUIApp.props("toaster")).toStrictEqual<typeof APP_TOAST_CONFIG>(APP_TOAST_CONFIG);
     });
   });
 });

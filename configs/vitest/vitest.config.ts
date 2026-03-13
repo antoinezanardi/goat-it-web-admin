@@ -3,6 +3,9 @@ import path from "node:path";
 import { defineConfig } from "vitest/config";
 import { defineVitestProject } from "@nuxt/test-utils/config";
 
+import { VITEST_NODE_PROJECT_INCLUDES, VITEST_NUXT_PROJECT_SETUP_FILES, VITEST_PROJECT_COMMON_INLINE_CONFIG, VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG, VITEST_STORES_PROJECT_INCLUDES } from "./vitest.config.constants";
+import { VitestProjectNames } from "./vitest.config.enums";
+
 const processCwd = process.cwd();
 
 export default defineConfig({
@@ -10,41 +13,37 @@ export default defineConfig({
     projects: [
       await defineVitestProject({
         test: {
-          name: "nuxt",
-          globals: true,
-          mockReset: true,
-          clearMocks: true,
-          restoreMocks: true,
+          ...VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG,
+          name: VitestProjectNames.NUXT,
           include: [
-            "app/App.spec.ts",
-            "app/pages/**/*.spec.ts",
-            "app/components/**/*.spec.ts",
-            "app/composables/**/*.spec.ts",
-            "app/layouts/**/*.spec.ts",
+            "app/**/*.spec.ts",
             "server/**/*.spec.ts",
             "shared/**/*.spec.ts",
           ],
-          environment: "nuxt",
-          environmentOptions: {
-            nuxt: {
-              overrides: {
-                runtimeConfig: {
-                  goatItApi: {
-                    baseUrl: "https://api.goat-it.com",
-                    adminKey: "test-admin-key",
-                  },
-                },
-              },
-            },
-          },
-          setupFiles: [
-            path.resolve(processCwd, "tests/unit/setup/nuxt/vtu-config.nuxt.unit-setup.ts"),
-            path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts"),
-            path.resolve(processCwd, "tests/unit/setup/nuxt/define-page-meta.nuxt.unit-setup.ts"),
-            path.resolve(processCwd, "tests/unit/setup/nuxt/use-i18n.nuxt.unit-setup.ts"),
-            path.resolve(processCwd, "tests/unit/setup/nuxt/use-router.nuxt.unit-setup.ts"),
-            path.resolve(processCwd, "tests/unit/setup/nuxt/fetch.nuxt.unit-setup.ts"),
+          exclude: [
+            ...VITEST_NODE_PROJECT_INCLUDES,
+            ...VITEST_STORES_PROJECT_INCLUDES,
           ],
+          setupFiles: [...VITEST_NUXT_PROJECT_SETUP_FILES],
+        },
+      }),
+      await defineVitestProject({
+        test: {
+          ...VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG,
+          name: VitestProjectNames.STORES,
+          include: [...VITEST_STORES_PROJECT_INCLUDES],
+          setupFiles: [
+            ...VITEST_NUXT_PROJECT_SETUP_FILES,
+            path.resolve(processCwd, "tests/unit/setup/nuxt/stores.nuxt.unit-setup.ts"),
+          ],
+        },
+      }),
+      await defineVitestProject({
+        test: {
+          ...VITEST_PROJECT_COMMON_INLINE_CONFIG,
+          name: VitestProjectNames.NODE,
+          include: [...VITEST_NODE_PROJECT_INCLUDES],
+          setupFiles: [path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts")],
         },
       }),
     ],
