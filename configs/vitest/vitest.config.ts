@@ -20,7 +20,10 @@ export default defineConfig({
             "server/**/*.spec.ts",
             "shared/**/*.spec.ts",
           ],
-          exclude: ["**/*.mappers.spec.ts"],
+          exclude: [
+            "**/*.mappers.spec.ts",
+            "**/*.repository.spec.ts",
+          ],
           environment: "nuxt",
           environmentOptions: {
             nuxt: {

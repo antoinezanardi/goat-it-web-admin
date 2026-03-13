@@ -9,7 +9,7 @@ type FetchMock = Mock<$Fetch>;
  * Can only be used from unit tests setup functions.
  */
 function createFetchMock(): FetchMock {
-  return vi.fn<FetchMock>();
+  return vi.fn<$Fetch>();
 }
 
 export type { FetchMock };

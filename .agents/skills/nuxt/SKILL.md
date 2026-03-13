@@ -45,7 +45,7 @@ nuxt.config.ts     # Nuxt configuration
 
 Every `.vue` file in `pages/` becomes a route. Dynamic segments use `[param]` syntax.
 
-```
+```text
 pages/
   index.vue          → /
   about.vue          → /about
@@ -170,26 +170,7 @@ For complex global state this project uses **Pinia** (`use<Entity>Store` naming 
 
 ### Runtime config
 
-```ts
-// nuxt.config.ts
-runtimeConfig: {
-  // Server-only (private)
-  apiSecret: '', // Public (exposed to client)
-    public
-:
-  {
-    apiBase: '/api'
-  }
-}
-```
-
-Access at runtime:
-
-```ts
-const config = useRuntimeConfig()
-config.apiSecret       // server only
-config.public.apiBase  // both
-```
+Define server-only and public runtime config in `nuxt.config.ts`.
 
 Values are overridden by env vars: `NUXT_API_SECRET`, `NUXT_PUBLIC_API_BASE`.
 
