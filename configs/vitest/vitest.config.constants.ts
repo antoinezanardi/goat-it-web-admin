@@ -47,7 +47,7 @@ const VITEST_NODE_PROJECT_INCLUDES = [
   "server/**/*.mappers.spec.ts",
   "server/**/*.helpers.spec.ts",
   "shared/**/*.mappers.spec.ts",
-  "shared/**/*.mappers.spec.ts",
+  "shared/**/*.helpers.spec.ts",
 ];
 
 export {

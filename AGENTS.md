@@ -79,7 +79,7 @@ Pre-PR sanity checklist (run in order):
   - Use `#server/utils/...` alias inside `server/`; `~~/tests/...` inside tests.
 
 - Naming conventions:
-  - Files: Components: `PascalCase.vue` | Composables: `use*.ts` | Stores: `use<Entity>Store.ts`
+  - Files: Components: `PascalCase.vue` | Composables: `use*.ts` | Stores: `<entity>.store.ts`
     Repositories: `<resource>.repository.ts` | Server handlers: `<resource>.<method>.handler.ts`
     Types: `*.types.ts` | Constants: `*.constants.ts` | Enums: `*.enums.ts`
     Tests: `*.spec.ts` next to source | Faketories: `<entity>.<layer>.faketory.ts`
