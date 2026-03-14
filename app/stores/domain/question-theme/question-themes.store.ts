@@ -1,5 +1,3 @@
-import { StoreNames } from "~/stores/store.enums";
-
 export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, () => {
   const questionThemes = ref<QuestionTheme[]>([]);
 

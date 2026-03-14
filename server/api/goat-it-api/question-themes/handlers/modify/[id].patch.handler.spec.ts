@@ -7,7 +7,8 @@ import { createFakeAdminQuestionThemeDto, createFakeQuestionThemeModificationDto
 import { createQuestionThemeFromAdminQuestionThemeDto } from "#server/utils/goat-it-api/mappers/goat-it-api.mappers";
 import type { SharedRuntimeConfig } from "#build/types/runtime-config";
 import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
-import { patchQuestionThemeHandler } from "#server/api/goat-it-api/question-themes/[id].patch.handler";
+import { patchQuestionThemeHandler } from "#server/api/goat-it-api/question-themes/handlers/modify/[id].patch.handler";
+import { HttpStatusCode } from "#server/utils/http/http.enums";
 
 vi.mock(import("#server/utils/goat-it-api/helpers/goat-it-api.helpers"));
 
@@ -94,11 +95,44 @@ describe("Server Goat It API Question Theme Patch Handler", () => {
       await expect(patchQuestionThemeHandler(mockedEvent)).rejects.toThrow(ZodError);
     });
 
-    it("should use empty string as id when router param is undefined.", async() => {
+    it("should throw a 400 error when router param id is undefined.", async() => {
       vi.mocked(getRouterParam).mockReset();
-      await patchQuestionThemeHandler(mockedEvent);
+      vi.mocked(createError).mockThrow(new Error("Question theme id is required"));
 
-      expect(createGoatItApiEndpoint).toHaveBeenCalledExactlyOnceWith("question-themes", "");
+      await expect(patchQuestionThemeHandler(mockedEvent)).rejects.toThrow("Question theme id is required");
+    });
+
+    it("should call createError with correct status code and message when router param id is undefined.", async() => {
+      vi.mocked(getRouterParam).mockReset();
+      vi.mocked(createError).mockThrow(new Error("Question theme id is required"));
+
+      try {
+        await patchQuestionThemeHandler(mockedEvent);
+      } catch(error: unknown) {
+        void error;
+      }
+
+      expect(createError).toHaveBeenCalledExactlyOnceWith({ statusCode: HttpStatusCode.BAD_REQUEST, message: "Question theme id is required" });
+    });
+
+    it("should throw a 400 error when router param id is an empty string.", async() => {
+      vi.mocked(getRouterParam).mockReturnValue("");
+      vi.mocked(createError).mockThrow(new Error("Question theme id is required"));
+
+      await expect(patchQuestionThemeHandler(mockedEvent)).rejects.toThrow("Question theme id is required");
+    });
+
+    it("should call createError with correct status code and message when router param id is an empty string.", async() => {
+      vi.mocked(getRouterParam).mockReturnValue("");
+      vi.mocked(createError).mockThrow(new Error("Question theme id is required"));
+
+      try {
+        await patchQuestionThemeHandler(mockedEvent);
+      } catch(error: unknown) {
+        void error;
+      }
+
+      expect(createError).toHaveBeenCalledExactlyOnceWith({ statusCode: HttpStatusCode.BAD_REQUEST, message: "Question theme id is required" });
     });
   });
 });

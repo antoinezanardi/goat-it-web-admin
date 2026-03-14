@@ -98,7 +98,7 @@ const ESLINT_TYPESCRIPT_FLAT_CONFIG: Linter.Config = {
         ignoreDefaultValues: true,
         ignoreEnums: true,
         ignoreTypeIndexes: true,
-        ignore: [0, -1, 1],
+        ignore: [0, -1, 1, 400],
       },
     ],
     "@typescript-eslint/no-meaningless-void-operator": "error",

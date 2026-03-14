@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     dirs: [
       "~/composables/**/use*.ts",
       "~/repositories/**/*.repository.ts",
+      "../shared/utils/helpers/*.helpers.ts",
     ],
   },
   devtools: {
@@ -46,6 +47,11 @@ export default defineNuxtConfig({
     "eslint.config.ts",
   ],
   compatibilityDate: "2025-01-15",
+  nitro: {
+    imports: {
+      dirs: ["shared/utils/helpers/*.helpers.ts"],
+    },
+  },
   typescript: {
     shim: true,
     strict: true,

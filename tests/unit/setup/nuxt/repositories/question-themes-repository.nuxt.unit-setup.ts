@@ -6,7 +6,7 @@ import type { QuestionThemesRepositoryMock } from "~~/tests/unit/utils/mocks/rep
 let questionThemesRepositoryMock: QuestionThemesRepositoryMock = createQuestionThemesRepositoryMock();
 
 vi.mock("@/repositories/goat-it-api/question-themes/question-themes.repository", () => ({
-  questionThemesRepository: vi.fn(() => questionThemesRepositoryMock),
+  questionThemesRepository: vi.fn<() => QuestionThemesRepositoryMock>(() => questionThemesRepositoryMock),
 }));
 
 beforeEach(() => {

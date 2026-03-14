@@ -31,7 +31,10 @@
     "defineEventHandler": "readonly",
     "$fetch": "readonly",
     "getRouterParam": "readonly",
-    "readBody": "readonly"
+    "readBody": "readonly",
+    "createError": "readonly",
+    "isNonEmptyString": "readonly",
+    "StoreNames": "readonly"
   },
   "ignorePatterns": [
     ".output/**/*",
@@ -1185,7 +1188,8 @@
             "ignore": [
               0,
               -1,
-              1
+              1,
+              400
             ]
           }
         ],
@@ -1648,6 +1652,22 @@
         "typescript/consistent-type-definitions": "off",
         "unicorn/require-module-specifiers": "off",
         "import/unambiguous": "off"
+      }
+    },
+    // ---- Override for shared files -----
+    {
+      "files": [
+        "**/shared/types/**/*.ts",
+        "**/shared/utils/**/*.ts"
+      ],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
       }
     },
     // ---- Override for any kind of tests files and setup -----
