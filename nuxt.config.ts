@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     dirs: [
       "~/composables/**/use*.ts",
       "~/repositories/**/*.repository.ts",
-      "../shared/utils/helpers/*.helpers.ts",
+      "~~/shared/utils/helpers/*.helpers.ts",
     ],
   },
   devtools: {

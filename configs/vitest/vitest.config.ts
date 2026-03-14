@@ -82,6 +82,7 @@ export default defineConfig({
         "app/**/*.ts",
         "app/**/*.vue",
         "server/**/*.ts",
+        "shared/**/*.ts",
       ],
       exclude: [
         "**/*.constants.ts",

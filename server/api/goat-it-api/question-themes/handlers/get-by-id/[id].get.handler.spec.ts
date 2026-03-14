@@ -95,7 +95,10 @@ describe("Server Goat It API Question Theme Get Handler", () => {
         void error;
       }
 
-      expect(createError).toHaveBeenCalledExactlyOnceWith({ statusCode: HttpStatusCode.BAD_REQUEST, message: "Question theme id is required" });
+      expect(createError).toHaveBeenCalledExactlyOnceWith({
+        statusCode: HttpStatusCode.BAD_REQUEST,
+        message: "Question theme id is required",
+      });
     });
 
     it("should throw a 400 error when router param id is an empty string.", async() => {

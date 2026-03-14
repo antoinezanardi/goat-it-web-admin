@@ -10,7 +10,10 @@ async function getQuestionThemeHandler(event: H3Event): Promise<QuestionTheme> {
   const id = getRouterParam(event, "id");
 
   if (!isNonEmptyString(id)) {
-    throw createError({ statusCode: HttpStatusCode.BAD_REQUEST, message: "Question theme id is required" });
+    throw createError({
+      statusCode: HttpStatusCode.BAD_REQUEST,
+      message: "Question theme id is required",
+    });
   }
 
   const endpoint = createGoatItApiEndpoint("question-themes", id);

@@ -132,7 +132,10 @@ describe("Server Goat It API Question Theme Patch Handler", () => {
         void error;
       }
 
-      expect(createError).toHaveBeenCalledExactlyOnceWith({ statusCode: HttpStatusCode.BAD_REQUEST, message: "Question theme id is required" });
+      expect(createError).toHaveBeenCalledExactlyOnceWith({
+        statusCode: HttpStatusCode.BAD_REQUEST,
+        message: "Question theme id is required",
+      });
     });
   });
 });
