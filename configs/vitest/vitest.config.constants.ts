@@ -57,6 +57,7 @@ const VITEST_REPOSITORIES_MOCK_SETUP_FILES = [path.resolve(processCwd, "tests/un
 const VITEST_NODE_PROJECT_INCLUDES = [
   "app/**/*.mappers.spec.ts",
   "app/**/*.helpers.spec.ts",
+  "app/**/*.translations.spec.ts",
   "server/**/*.mappers.spec.ts",
   "server/**/*.helpers.spec.ts",
   "shared/**/*.mappers.spec.ts",
