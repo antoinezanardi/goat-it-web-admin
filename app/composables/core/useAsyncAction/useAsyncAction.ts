@@ -54,4 +54,8 @@ function useAsyncAction<TResult, TArguments extends unknown[] = []>(
   };
 }
 
+export type {
+  UseAsyncAction,
+};
+
 export { useAsyncAction };

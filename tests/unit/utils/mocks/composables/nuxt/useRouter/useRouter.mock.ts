@@ -7,7 +7,7 @@ import type {
 
 import { DEFAULT_MOCKED_ROUTE, MOCKED_ROUTES } from "~~/tests/unit/utils/mocks/composables/nuxt/useRouter/useRouter.mock.constants";
 import type { RouteMock } from "~~/tests/unit/utils/mocks/composables/nuxt/useRouter/useRouter.mock.types";
-import type { StubToMock } from "~~/tests/unit/utils/types/mock.types";
+import type { ToMock } from "~~/tests/unit/utils/types/mock.types";
 
 type UseRouterStub = {
   getRoutes: () => RouteMock[];
@@ -19,7 +19,7 @@ type UseRouterStub = {
   onError: Router["onError"];
 };
 
-type UseRouterMock = StubToMock<UseRouterStub>;
+type UseRouterMock = ToMock<UseRouterStub>;
 
 /**
  * Creates a mock implementation of the `useRouter` composable for unit testing purposes.

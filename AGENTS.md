@@ -44,7 +44,7 @@ Pre-PR sanity checklist (run in order):
 - `app/`              – Nuxt application source
   - `components/`     – `layouts/` and `shared/` sub-dirs; PascalCase `.vue` files
   - `composables/`    – Organised as `core/`, `domain/`, `ui/`; each composable in its own sub-dir
-  - `repositories/`   – Client-side data access (`*.repository.ts`), auto-imported by Nuxt
+  - `repositories/`   – Client-side data access (`*.repository.ts`); factory functions, auto-imported by Nuxt
   - `stores/`         – Pinia stores under `domain/`
   - `i18n/`           – Locale JSON files (`fr/`, `en/`)
   - `pages/`, `layouts/`, `assets/`
@@ -118,15 +118,22 @@ Pre-PR sanity checklist (run in order):
 ## Tests and test style
 
 - Framework: Vitest + `@nuxt/test-utils` + `@vue/test-utils` + `happy-dom`.
-- Vitest runs three projects (defined in `configs/vitest/vitest.config.ts`):
-  - `nuxt`   – `app/**/*.spec.ts`, `server/**/*.spec.ts`, `shared/**/*.spec.ts` (excluding stores/node)
-  - `stores` – `app/**/*.store.spec.ts` (includes store setup file)
-  - `node`   – `*.repository.spec.ts`, `*.mappers.spec.ts`, `*.helpers.spec.ts`
+- Vitest runs five projects (defined in `configs/vitest/vitest.config.ts`):
+  - `nuxt`         – `app/**/*.spec.ts`, `server/**/*.spec.ts`, `shared/**/*.spec.ts` (excluding composables/stores/repositories/node)
+  - `composables`  – `app/composables/**/*.spec.ts`
+  - `stores`       – `app/**/*.store.spec.ts` (includes Pinia + composables + repository mock setup)
+  - `repositories` – `app/**/*.repository.spec.ts` (plain Node env, no Nuxt)
+  - `node`         – `*.mappers.spec.ts`, `*.helpers.spec.ts` under app/, server/, shared/
 - Coverage threshold: 100% (`thresholds: { 100: true }`).
   - Collected for `app/**/*.ts`, `app/**/*.vue`, `server/**/*.ts`.
   - Excluded: `*.constants.ts`, `*.enums.ts`, `*.types.ts`, `*.d.ts`, `*.config.ts`,
     `*.spec.ts`, `server/api/**/*.{get,post,put,delete}.ts`.
-- Mocks in `tests/unit/utils/mocks/` — `.mock.ts` / `.mock.constants.ts` / `.mock.types.ts` triplets.
+- Mocks in `tests/unit/utils/mocks/` — `composables/` and `repositories/` sub-dirs; `.mock.ts` / `.mock.constants.ts` / `.mock.types.ts` triplets.
+- Mock setup files live in `tests/unit/setup/nuxt/` with sub-dirs `composables/` and `repositories/`.
+  New repository mocks use `vi.mock(...)` (not `mockNuxtImport`); new composable mocks use `mockNuxtImport`.
+  When adding a mock setup file, register it in `VITEST_COMPOSABLES_MOCK_SETUP_FILES` or
+  `VITEST_REPOSITORIES_MOCK_SETUP_FILES` in `configs/vitest/vitest.config.constants.ts` so it is
+  loaded in all relevant projects (`nuxt`, `composables`, `stores`; NOT `repositories` or `node`).
 - Fake data: faketory functions (`@faker-js/faker`) in `tests/unit/utils/faketories/`; accept `Partial<T>`.
 - Config per project: `mockReset: true`, `clearMocks: true`, `restoreMocks: true`.
 - `describe(functionName, ...)` — pass the function reference for handler/composable tests.

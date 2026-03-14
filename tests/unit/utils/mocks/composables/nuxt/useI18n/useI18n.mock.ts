@@ -4,7 +4,7 @@ import type { Ref } from "vue";
 
 import type { SupportedLocaleCodeForMock, SupportedMockedLocale } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.types";
 import { DEFAULT_MOCKED_LOCALE, MOCKED_LOCALE_CODES, MOCKED_LOCALES } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
-import type { StubToMock } from "~~/tests/unit/utils/types/mock.types";
+import type { ToMock } from "~~/tests/unit/utils/types/mock.types";
 
 type UseI18nStub = {
   t: (key: string) => string;
@@ -14,7 +14,7 @@ type UseI18nStub = {
   setLocale: (locale: Ref<SupportedLocaleCodeForMock>) => void;
 };
 
-type UseI18nMock = StubToMock<UseI18nStub>;
+type UseI18nMock = ToMock<UseI18nStub>;
 
 /**
  * Creates a mock implementation of the `useI18n` composable for unit testing purposes.

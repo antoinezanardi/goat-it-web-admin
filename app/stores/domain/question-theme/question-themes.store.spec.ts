@@ -1,39 +1,28 @@
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
-import { createUseAppToastMock } from "~~/tests/unit/utils/mocks/composables/ui/useAppToast/useAppToast.mock";
-import type { UseAppToastMock } from "~~/tests/unit/utils/mocks/composables/ui/useAppToast/useAppToast.mock";
 import { createUseAsyncActionMock } from "~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock";
 import type { UseAsyncActionMock } from "~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 
 import type { useQuestionThemesStore as UseQuestionThemesStoreType } from "@/stores/domain/question-theme/question-themes.store";
 
-let useAppToastMock: UseAppToastMock;
 let useAsyncActionMock: UseAsyncActionMock;
 let capturedAction: (() => Promise<QuestionTheme[]>) | undefined;
 let capturedOnError: (() => void) | undefined;
-const repositoryGetAllMock = vi.fn<() => Promise<QuestionTheme[]>>();
-
-mockNuxtImport("useAppToast", () => (): UseAppToastMock => useAppToastMock);
 
 mockNuxtImport("useAsyncAction", () => (action: unknown, onError: unknown): UseAsyncActionMock => {
   capturedAction = action as () => Promise<QuestionTheme[]>;
   capturedOnError = onError as () => void;
+  useAsyncActionMock = createUseAsyncActionMock();
 
   return useAsyncActionMock;
 });
-
-mockNuxtImport("questionThemesRepository", () => (_fetch: unknown): { getAll: () => Promise<QuestionTheme[]> } => ({
-  getAll: repositoryGetAllMock,
-}));
 
 let useQuestionThemesStore: typeof UseQuestionThemesStoreType;
 
 describe("useQuestionThemesStore", () => {
   beforeEach(async() => {
-    useAppToastMock = createUseAppToastMock();
-    useAsyncActionMock = createUseAsyncActionMock();
     capturedAction = undefined;
     capturedOnError = undefined;
     ({ useQuestionThemesStore } = await import("@/stores/domain/question-theme/question-themes.store"));
@@ -152,7 +141,7 @@ describe("useQuestionThemesStore", () => {
     it("should pass the repository getAll function as action to useAsyncAction when created.", () => {
       useQuestionThemesStore();
 
-      expect(capturedAction).toBe(repositoryGetAllMock);
+      expect(capturedAction).toBe(questionThemesRepository($fetch).getAll);
     });
 
     it("should call addErrorToast with the questionThemes.cantFetch translation key when the error callback is invoked.", () => {
@@ -160,7 +149,7 @@ describe("useQuestionThemesStore", () => {
 
       capturedOnError?.();
 
-      expect(useAppToastMock.addErrorToast).toHaveBeenCalledExactlyOnceWith({
+      expect(useAppToast().addErrorToast).toHaveBeenCalledExactlyOnceWith({
         description: "questionThemes.cantFetch",
       });
     });

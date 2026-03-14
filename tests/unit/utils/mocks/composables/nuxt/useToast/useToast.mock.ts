@@ -1,6 +1,6 @@
 import { vi } from "vitest";
 
-import type { StubToMock } from "~~/tests/unit/utils/types/mock.types";
+import type { ToMock } from "~~/tests/unit/utils/types/mock.types";
 
 import type { Toast } from "#ui/composables";
 
@@ -10,7 +10,7 @@ type UseToastStub = {
   clear: (options: Partial<Toast>) => void;
 };
 
-type UseToastMock = StubToMock<UseToastStub>;
+type UseToastMock = ToMock<UseToastStub>;
 
 /**
  * Creates a mock implementation of the `useToast` composable for unit testing purposes.

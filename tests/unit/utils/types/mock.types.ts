@@ -1,7 +1,7 @@
 import type { Mock } from "vitest";
 
-type StubToMock<Stub> = {
+type ToMock<Stub> = {
   [Key in keyof Stub]: Stub[Key] extends (...arguments_: unknown[]) => unknown ? Mock<Stub[Key]> : Stub[Key];
 };
 
-export type { StubToMock };
+export type { ToMock };

@@ -1,21 +1,12 @@
 import { vi } from "vitest";
 import { computed, ref } from "vue";
-import type { ComputedRef, Ref } from "vue";
 
-import type { StubToMock } from "~~/tests/unit/utils/types/mock.types";
+import type { ToMock } from "~~/tests/unit/utils/types/mock.types";
 
+import type { UseAsyncAction } from "~/composables/core/useAsyncAction/useAsyncAction";
 import type { AsyncDataRequestStatus } from "#app";
 
-type UseAsyncActionStub = {
-  execute: (...arguments_: unknown[]) => Promise<unknown>;
-  fetchStatus: Ref<AsyncDataRequestStatus>;
-  isIdle: ComputedRef<boolean>;
-  isPending: ComputedRef<boolean>;
-  isSuccess: ComputedRef<boolean>;
-  isError: ComputedRef<boolean>;
-};
-
-type UseAsyncActionMock = StubToMock<UseAsyncActionStub>;
+type UseAsyncActionMock = ToMock<UseAsyncAction<unknown, unknown[]>>;
 
 /**
  * Creates a mock implementation of the `useAsyncAction` composable for unit testing purposes.
@@ -25,7 +16,7 @@ function createUseAsyncActionMock(): UseAsyncActionMock {
   const fetchStatus = ref<AsyncDataRequestStatus>("idle");
 
   return {
-    execute: vi.fn<UseAsyncActionStub["execute"]>(),
+    execute: vi.fn<UseAsyncAction<unknown, unknown[]>["execute"]>(),
     fetchStatus,
     isIdle: computed<boolean>(() => fetchStatus.value === "idle"),
     isPending: computed<boolean>(() => fetchStatus.value === "pending"),

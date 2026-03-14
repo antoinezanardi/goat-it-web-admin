@@ -1,15 +1,10 @@
 import { vi } from "vitest";
 
-import type { StubToMock } from "~~/tests/unit/utils/types/mock.types";
+import type { ToMock } from "~~/tests/unit/utils/types/mock.types";
 
-import type { Toast } from "#ui/composables";
+import type { UseAppToast } from "~/composables/ui/useAppToast/useAppToast";
 
-type UseAppToastStub = {
-  addSuccessToast: (options: Partial<Toast>) => void;
-  addErrorToast: (options: Partial<Toast>) => void;
-};
-
-type UseAppToastMock = StubToMock<UseAppToastStub>;
+type UseAppToastMock = ToMock<UseAppToast>;
 
 /**
  * Creates a mock implementation of the `useAppToast` composable for unit testing purposes.
@@ -17,8 +12,8 @@ type UseAppToastMock = StubToMock<UseAppToastStub>;
  */
 function createUseAppToastMock(): UseAppToastMock {
   return {
-    addSuccessToast: vi.fn<UseAppToastStub["addSuccessToast"]>(),
-    addErrorToast: vi.fn<UseAppToastStub["addErrorToast"]>(),
+    addSuccessToast: vi.fn<UseAppToast["addSuccessToast"]>(),
+    addErrorToast: vi.fn<UseAppToast["addErrorToast"]>(),
   };
 }
 
