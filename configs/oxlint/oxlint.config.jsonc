@@ -1710,6 +1710,21 @@
           }
         ]
       }
+    },
+    // ---- Override for i18n translations spec files -----
+    {
+      "files": [
+        "**/*.translations.spec.ts"
+      ],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
     }
   ]
 }
