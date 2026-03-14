@@ -36,6 +36,7 @@ const VITEST_NUXT_PROJECT_SETUP_FILES = [
   path.resolve(processCwd, "tests/unit/setup/nuxt/use-router.nuxt.unit-setup.ts"),
   path.resolve(processCwd, "tests/unit/setup/nuxt/fetch.nuxt.unit-setup.ts"),
   path.resolve(processCwd, "tests/unit/setup/nuxt/use-toast.nuxt.unit-setup.ts"),
+  path.resolve(processCwd, "tests/unit/setup/nuxt/h3.nuxt.unit-setup.ts"),
 ] as const;
 
 const VITEST_COMPOSABLES_MOCK_SETUP_FILES = [

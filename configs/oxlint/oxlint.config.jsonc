@@ -29,7 +29,9 @@
     "reactive": "readonly",
     "computed": "readonly",
     "defineEventHandler": "readonly",
-    "$fetch": "readonly"
+    "$fetch": "readonly",
+    "getRouterParam": "readonly",
+    "readBody": "readonly"
   },
   "ignorePatterns": [
     ".output/**/*",

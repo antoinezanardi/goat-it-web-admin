@@ -12,6 +12,15 @@ describe("Goat It API Helpers", () => {
 
       expect(endpoint).toBe(expectedEndpoint);
     });
+
+    it("should create the correct endpoint with id for a given resource name when called.", () => {
+      const resourceName = "question-themes";
+      const id = "abc123";
+      const expectedEndpoint = "/admin/question-themes/abc123";
+      const endpoint = createGoatItApiEndpoint(resourceName, id);
+
+      expect(endpoint).toBe(expectedEndpoint);
+    });
   });
 
   describe(createGoatItApiFetchOptions, () => {
