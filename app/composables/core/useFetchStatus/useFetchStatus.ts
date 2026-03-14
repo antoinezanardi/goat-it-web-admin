@@ -42,6 +42,10 @@ function useFetchStatus(): UseFetchStatus {
   };
 }
 
+export type {
+  UseFetchStatus,
+};
+
 export {
   useFetchStatus,
 };

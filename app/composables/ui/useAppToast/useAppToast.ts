@@ -32,4 +32,8 @@ function useAppToast(): UseAppToast {
   };
 }
 
+export type {
+  UseAppToast,
+};
+
 export { useAppToast };

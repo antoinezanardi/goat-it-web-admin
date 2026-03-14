@@ -1,23 +1,12 @@
 import { vi } from "vitest";
 import { computed, ref } from "vue";
-import type { ComputedRef, Ref } from "vue";
 
-import type { StubToMock } from "~~/tests/unit/utils/types/mock.types";
+import type { ToMock } from "~~/tests/unit/utils/types/mock.types";
 
+import type { UseFetchStatus } from "~/composables/core/useFetchStatus/useFetchStatus";
 import type { AsyncDataRequestStatus } from "#app";
 
-type UseFetchStatusStub = {
-  fetchStatus: Ref<AsyncDataRequestStatus>;
-  isIdle: ComputedRef<boolean>;
-  isPending: ComputedRef<boolean>;
-  isSuccess: ComputedRef<boolean>;
-  isError: ComputedRef<boolean>;
-  setFetchStatusToPending: () => void;
-  setFetchStatusToSuccess: () => void;
-  setFetchStatusToError: () => void;
-};
-
-type UseFetchStatusMock = StubToMock<UseFetchStatusStub>;
+type UseFetchStatusMock = ToMock<UseFetchStatus>;
 
 /**
  * Creates a mock implementation of the `useFetchStatus` composable for unit testing purposes.
@@ -32,9 +21,9 @@ function createUseFetchStatusMock(): UseFetchStatusMock {
     isPending: computed<boolean>(() => fetchStatus.value === "pending"),
     isSuccess: computed<boolean>(() => fetchStatus.value === "success"),
     isError: computed<boolean>(() => fetchStatus.value === "error"),
-    setFetchStatusToPending: vi.fn<UseFetchStatusStub["setFetchStatusToPending"]>(),
-    setFetchStatusToSuccess: vi.fn<UseFetchStatusStub["setFetchStatusToSuccess"]>(),
-    setFetchStatusToError: vi.fn<UseFetchStatusStub["setFetchStatusToError"]>(),
+    setFetchStatusToPending: vi.fn<UseFetchStatus["setFetchStatusToPending"]>(),
+    setFetchStatusToSuccess: vi.fn<UseFetchStatus["setFetchStatusToSuccess"]>(),
+    setFetchStatusToError: vi.fn<UseFetchStatus["setFetchStatusToError"]>(),
   };
 }
 

@@ -1,12 +1,12 @@
 import { vi } from "vitest";
 
-import type { StubToMock } from "~~/tests/unit/utils/types/mock.types";
+import type { ToMock } from "~~/tests/unit/utils/types/mock.types";
 
 type QuestionThemesRepositoryStub = {
   getAll: () => Promise<QuestionTheme[]>;
 };
 
-type QuestionThemesRepositoryMock = StubToMock<QuestionThemesRepositoryStub>;
+type QuestionThemesRepositoryMock = ToMock<QuestionThemesRepositoryStub>;
 
 /**
  * Creates a mock implementation of the `questionThemesRepository` for unit testing purposes.
