@@ -7,7 +7,7 @@ import { createFakeAdminQuestionThemeDto } from "~~/tests/unit/utils/faketories/
 import { createQuestionThemeFromAdminQuestionThemeDto } from "#server/utils/goat-it-api/mappers/goat-it-api.mappers";
 import type { SharedRuntimeConfig } from "#build/types/runtime-config";
 import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
-import { getQuestionThemesHandler } from "#server/api/goat-it-api/question-themes/index.get.handler";
+import { getQuestionThemesHandler } from "#server/api/goat-it-api/question-themes/handlers/get-all/index.get.handler";
 
 vi.mock(import("#server/utils/goat-it-api/helpers/goat-it-api.helpers"));
 

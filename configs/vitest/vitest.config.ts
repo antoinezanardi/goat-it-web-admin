@@ -82,6 +82,7 @@ export default defineConfig({
         "app/**/*.ts",
         "app/**/*.vue",
         "server/**/*.ts",
+        "shared/**/*.ts",
       ],
       exclude: [
         "**/*.constants.ts",
@@ -90,7 +91,7 @@ export default defineConfig({
         "**/*.d.ts",
         "**/*.config.ts",
         "**/*.spec.ts",
-        "server/api/**/*.{get,post,put,delete}.ts",
+        "server/api/**/*.{get,post,put,patch,delete}.ts",
       ],
       reportsDirectory: "tests/unit/coverage",
       reporter: [

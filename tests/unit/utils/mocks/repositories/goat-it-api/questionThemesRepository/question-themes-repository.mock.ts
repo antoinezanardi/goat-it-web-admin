@@ -2,11 +2,9 @@ import { vi } from "vitest";
 
 import type { ToMock } from "~~/tests/unit/utils/types/mock.types";
 
-type QuestionThemesRepositoryStub = {
-  getAll: () => Promise<QuestionTheme[]>;
-};
+import type { QuestionThemesRepository } from "~/repositories/goat-it-api/question-themes/question-themes.repository";
 
-type QuestionThemesRepositoryMock = ToMock<QuestionThemesRepositoryStub>;
+type QuestionThemesRepositoryMock = ToMock<ReturnType<QuestionThemesRepository>>;
 
 /**
  * Creates a mock implementation of the `questionThemesRepository` for unit testing purposes.
@@ -14,7 +12,11 @@ type QuestionThemesRepositoryMock = ToMock<QuestionThemesRepositoryStub>;
  */
 function createQuestionThemesRepositoryMock(): QuestionThemesRepositoryMock {
   return {
-    getAll: vi.fn<QuestionThemesRepositoryStub["getAll"]>(),
+    getAll: vi.fn<QuestionThemesRepositoryMock["getAll"]>(),
+    getById: vi.fn<QuestionThemesRepositoryMock["getById"]>(),
+    create: vi.fn<QuestionThemesRepositoryMock["create"]>(),
+    patch: vi.fn<QuestionThemesRepositoryMock["patch"]>(),
+    archive: vi.fn<QuestionThemesRepositoryMock["archive"]>(),
   };
 }
 

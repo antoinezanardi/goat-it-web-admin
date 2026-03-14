@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { QUESTION_THEME_STATUSES } from "@goat-it/schemas/question-theme";
-import type { AdminQuestionThemeDto } from "@goat-it/schemas/question-theme";
+import type { AdminQuestionThemeDto, QuestionThemeCreationDto, QuestionThemeModificationDto } from "@goat-it/schemas/question-theme";
 
 import { createFakeLocalizedText, createFakeLocalizedTexts } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 
@@ -18,6 +18,28 @@ function createFakeAdminQuestionThemeDto(adminQuestionThemeDto: Partial<AdminQue
   };
 }
 
+function createFakeQuestionThemeCreationDto(questionThemeCreationDto: Partial<QuestionThemeCreationDto> = {}): QuestionThemeCreationDto {
+  return {
+    slug: faker.lorem.slug(),
+    label: createFakeLocalizedText(),
+    aliases: createFakeLocalizedTexts(),
+    description: createFakeLocalizedText(),
+    ...questionThemeCreationDto,
+  };
+}
+
+function createFakeQuestionThemeModificationDto(questionThemeModificationDto: Partial<QuestionThemeModificationDto> = {}): QuestionThemeModificationDto {
+  return {
+    slug: faker.lorem.slug(),
+    label: createFakeLocalizedText(),
+    aliases: createFakeLocalizedTexts(),
+    description: createFakeLocalizedText(),
+    ...questionThemeModificationDto,
+  };
+}
+
 export {
   createFakeAdminQuestionThemeDto,
+  createFakeQuestionThemeCreationDto,
+  createFakeQuestionThemeModificationDto,
 };

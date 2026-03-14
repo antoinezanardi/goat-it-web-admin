@@ -15,6 +15,10 @@ const ESLINT_GLOBAL_FLAT_CONFIG: Linter.Config = {
       clearTimeout: "readonly",
       console: "readonly",
       URL: "readonly",
+      getRouterParam: "readonly",
+      readBody: "readonly",
+      createError: "readonly",
+      isNonEmptyString: "readonly",
     },
   },
   rules: {
