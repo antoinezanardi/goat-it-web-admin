@@ -8,8 +8,6 @@ type SupportedLocale = ArrayValues<typeof localeCodes.value>;
 const { locale: currentLocale, setLocale, locales, localeCodes } = useI18n();
 
 function isSupportedLocale(locale: string): locale is SupportedLocale {
-  // This is acceptable because we are checking if the locale is included in the list of supported locale codes, which is a runtime check that ensures type safety.
-   
   return localeCodes.value.includes(locale as SupportedLocale);
 }
 
