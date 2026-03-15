@@ -4,6 +4,7 @@ import type { H3Event } from "h3";
 import { createQuestionThemeFromAdminQuestionThemeDto } from "#server/utils/goat-it-api/mappers/goat-it-api.mappers";
 import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
 import { HttpStatusCode } from "#server/utils/http/http.enums";
+import { isNonEmptyString } from "#shared/utils/helpers/string.helpers";
 
 async function getQuestionThemeHandler(event: H3Event): Promise<QuestionTheme> {
   const config = useRuntimeConfig(event);

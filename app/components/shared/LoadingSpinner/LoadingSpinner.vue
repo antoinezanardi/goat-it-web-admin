@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { LoadingSpinnerProperties } from "~/components/shared/LoadingSpinner/loading-spinner.types";
+import { isNonEmptyString } from "~~/shared/utils/helpers/string.helpers";
 
 defineProps<LoadingSpinnerProperties>();
 </script>
