@@ -10,7 +10,7 @@ import { APP_TOAST_CONFIG, APP_TOOLTIP_CONFIG } from "~/app.constants";
 describe("App Component", () => {
   let wrapper: VueWrapper;
 
-  async function mountAppComponent(options: MountSuspendedOptions = {}): Promise<VueWrapper> {
+  async function mountAppComponent(options: MountSuspendedOptions<typeof App> = {}): Promise<VueWrapper> {
     return mountSuspended(App, {
       shallow: true,
       ...options,

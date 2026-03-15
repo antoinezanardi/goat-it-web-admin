@@ -12,8 +12,9 @@ import HomePage from "@/pages/index.vue";
 describe("Home Page", () => {
   let wrapper: VueWrapper;
 
-  async function mountHomePage(options: MountSuspendedOptions = {}): Promise<VueWrapper> {
+  async function mountHomePage(options: MountSuspendedOptions<typeof HomePage> = {}): Promise<VueWrapper> {
     return mountSuspended(HomePage, {
+      shallow: true,
       ...options,
     });
   }

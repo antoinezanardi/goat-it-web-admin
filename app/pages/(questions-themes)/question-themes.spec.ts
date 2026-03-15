@@ -12,8 +12,9 @@ import QuestionThemesPage from "@/pages/(questions-themes)/question-themes.vue";
 describe("Question Themes Page", () => {
   let wrapper: VueWrapper;
 
-  async function mountQuestionThemesPage(options: MountSuspendedOptions = {}): Promise<VueWrapper> {
+  async function mountQuestionThemesPage(options: MountSuspendedOptions<typeof QuestionThemesPage> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionThemesPage, {
+      shallow: true,
       ...options,
     });
   }

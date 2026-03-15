@@ -7,19 +7,18 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UIcon, UPageHeader } from "#components";
 import { PageHeader } from "#components";
 
-const DEFAULT_TITLE = "Test Title";
-const DEFAULT_ICON = "i-lucide-palette";
+import type { PageHeaderProperties } from "~/components/shared/PageHeader/page-header.types";
 
 describe("Page Header Component", () => {
   let wrapper: VueWrapper;
+  const defaultPageHeaderProperties: PageHeaderProperties = {
+    title: "Test Title",
+    icon: "i-lucide-palette",
+  } as const;
 
-  async function mountPageHeaderComponent(
-    title = DEFAULT_TITLE,
-    icon = DEFAULT_ICON,
-    options: Omit<MountSuspendedOptions, "props"> = {},
-  ): Promise<VueWrapper> {
+  async function mountPageHeaderComponent(options: MountSuspendedOptions<typeof PageHeader> = {}): Promise<VueWrapper> {
     return mountSuspended(PageHeader, {
-      props: { title, icon },
+      props: defaultPageHeaderProperties,
       ...options,
     });
   }
@@ -34,14 +33,24 @@ describe("Page Header Component", () => {
 
   describe("Page Header", () => {
     it("should pass the title prop to the page header component when mounted.", async() => {
-      wrapper = await mountPageHeaderComponent("My Page");
+      wrapper = await mountPageHeaderComponent({
+        props: {
+          ...defaultPageHeaderProperties,
+          title: "My Page",
+        },
+      });
       const pageHeader = wrapper.getComponent<typeof UPageHeader>({ name: "UPageHeader" });
 
       expect(pageHeader.text()).toContain("My Page");
     });
 
     it("should pass the icon name prop to the icon component when mounted.", async() => {
-      wrapper = await mountPageHeaderComponent(DEFAULT_TITLE, "i-lucide-star");
+      wrapper = await mountPageHeaderComponent({
+        props: {
+          ...defaultPageHeaderProperties,
+          icon: "i-lucide-star",
+        },
+      });
       const icon = wrapper.getComponent<typeof UIcon>({ name: "UIcon" });
 
       expect(icon.props("name")).toBe("i-lucide-star");

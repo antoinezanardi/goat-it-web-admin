@@ -607,7 +607,8 @@
         "allowList": {
           "env": true,
           "Env": true,
-          "docs": true
+          "docs": true,
+          "props": true
         }
       }
     ],
