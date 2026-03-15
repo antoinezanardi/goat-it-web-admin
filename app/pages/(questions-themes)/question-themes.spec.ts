@@ -4,6 +4,9 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
+import type { PageHeader } from "#components";
+
+import { QUESTION_THEMES_PAGE_ICON, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
 import QuestionThemesPage from "@/pages/(questions-themes)/question-themes.vue";
 
 describe("Question Themes Page", () => {
@@ -25,10 +28,24 @@ describe("Question Themes Page", () => {
 
   it("should define page metadata when mounted.", () => {
     const expectedPageMeta: Parameters<typeof definePageMeta>[0] = {
-      icon: "i-lucide-palette",
-      titleKey: "questionThemes.pageTitle",
+      icon: QUESTION_THEMES_PAGE_ICON,
+      titleKey: QUESTION_THEMES_PAGE_TITLE_KEY,
     };
 
     expect(definePageMeta).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);
+  });
+
+  describe("Page Header", () => {
+    it("should pass the translated page title to the page header component when mounted.", () => {
+      const pageHeader = wrapper.getComponent<typeof PageHeader>({ name: "PageHeader" });
+
+      expect(pageHeader.props("title")).toBe(QUESTION_THEMES_PAGE_TITLE_KEY);
+    });
+
+    it("should pass the page icon to the page header component when mounted.", () => {
+      const pageHeader = wrapper.getComponent<typeof PageHeader>({ name: "PageHeader" });
+
+      expect(pageHeader.props("icon")).toBe(QUESTION_THEMES_PAGE_ICON);
+    });
   });
 });

@@ -8,6 +8,12 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@nuxt/eslint",
   ],
+  pages: {
+    pattern: [
+      "**/*.vue",
+      "!**/*.ts",
+    ],
+  },
   components: [
     {
       path: "~/components",

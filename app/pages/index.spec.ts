@@ -2,9 +2,11 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { MOCKED_ROUTES } from "~~/tests/unit/utils/mocks/composables/nuxt/useRouter/useRouter.mock.constants";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
+import type { PageHeader } from "#components";
+
+import { HOME_PAGE_ICON, HOME_PAGE_TITLE_KEY } from "@/pages/index.constants";
 import HomePage from "@/pages/index.vue";
 
 describe("Home Page", () => {
@@ -26,10 +28,24 @@ describe("Home Page", () => {
 
   it("should define page metadata when mounted.", () => {
     const expectedPageMeta: Parameters<typeof definePageMeta>[0] = {
-      icon: MOCKED_ROUTES[0].meta.icon,
-      titleKey: MOCKED_ROUTES[0].meta.titleKey,
+      icon: HOME_PAGE_ICON,
+      titleKey: HOME_PAGE_TITLE_KEY,
     };
 
     expect(definePageMeta).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);
+  });
+
+  describe("Page Header", () => {
+    it("should pass the translated page title to the page header component when mounted.", () => {
+      const pageHeader = wrapper.getComponent<typeof PageHeader>({ name: "PageHeader" });
+
+      expect(pageHeader.props("title")).toBe(HOME_PAGE_TITLE_KEY);
+    });
+
+    it("should pass the page icon to the page header component when mounted.", () => {
+      const pageHeader = wrapper.getComponent<typeof PageHeader>({ name: "PageHeader" });
+
+      expect(pageHeader.props("icon")).toBe(HOME_PAGE_ICON);
+    });
   });
 });
