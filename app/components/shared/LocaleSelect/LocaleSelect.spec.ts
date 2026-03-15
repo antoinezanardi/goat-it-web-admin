@@ -13,7 +13,7 @@ import { LocaleSelect } from "#components";
 describe("Locale Select Component", () => {
   let wrapper: VueWrapper;
 
-  async function mountLocaleSelectComponent(options: MountSuspendedOptions = {}): Promise<VueWrapper> {
+  async function mountLocaleSelectComponent(options: MountSuspendedOptions<typeof LocaleSelect> = {}): Promise<VueWrapper> {
     return mountSuspended(LocaleSelect, {
       ...options,
     });

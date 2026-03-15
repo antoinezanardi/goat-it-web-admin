@@ -7,6 +7,7 @@
     "process": "readonly",
     "console": "readonly",
     "useRouter": "readonly",
+    "useRoute": "readonly",
     "useRuntimeConfig": "readonly",
     "useI18n": "readonly",
     "useFetch": "readonly",
@@ -18,6 +19,7 @@
     "defineNuxtConfig": "readonly",
     "defineEmits": "readonly",
     "defineExpose": "readonly",
+    "defineProps": "readonly",
     "defineSlots": "readonly",
     "defineModel": "readonly",
     "definePageMeta": "readonly",
@@ -605,7 +607,8 @@
         "allowList": {
           "env": true,
           "Env": true,
-          "docs": true
+          "docs": true,
+          "props": true
         }
       }
     ],
@@ -1359,6 +1362,15 @@
             "multipleFileExtensions": true
           }
         ]
+      }
+    },
+    // ---- Override for component files -----
+    {
+      "files": [
+        "**/app/components/**/*.vue"
+      ],
+      "rules": {
+        "import/unambiguous": "off"
       }
     },
     // ---- Override for pages files -----

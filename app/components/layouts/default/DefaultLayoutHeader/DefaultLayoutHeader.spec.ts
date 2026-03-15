@@ -12,7 +12,7 @@ import { DefaultLayoutHeader } from "#components";
 describe("Default Layout Header Component", () => {
   let wrapper: VueWrapper;
 
-  async function mountDefaultLayoutHeaderComponent(options: MountSuspendedOptions = {}): Promise<VueWrapper> {
+  async function mountDefaultLayoutHeaderComponent(options: MountSuspendedOptions<typeof DefaultLayoutHeader> = {}): Promise<VueWrapper> {
     return mountSuspended(DefaultLayoutHeader, {
       ...options,
     });
