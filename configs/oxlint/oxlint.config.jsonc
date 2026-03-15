@@ -35,7 +35,6 @@
     "getRouterParam": "readonly",
     "readBody": "readonly",
     "createError": "readonly",
-    "isNonEmptyString": "readonly",
     "StoreNames": "readonly"
   },
   "ignorePatterns": [

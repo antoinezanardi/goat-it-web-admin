@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Prepare" type="js.build_tools.npm">
+  <configuration default="false" name="Nuxt Prepare" type="js.build_tools.npm">
     <package-json value="$PROJECT_DIR$/package.json" />
     <command value="run" />
     <scripts>
-      <script value="prepare" />
+      <script value="postinstall" />
     </scripts>
     <node-interpreter value="project" />
     <package-manager value="pnpm" />
