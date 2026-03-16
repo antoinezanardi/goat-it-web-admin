@@ -7,7 +7,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UBadge } from "#components";
 import { QuestionThemeStatusBadge } from "#components";
 
-import type { QuestionThemeStatusBadgeProperties } from "~/components/question-theme/QuestionThemeStatusBadge/question-theme-status-badge.types";
+import type { QuestionThemeStatusBadgeProperties } from "~/components/domain/question-theme/QuestionThemeStatusBadge/question-theme-status-badge.types";
 
 describe(QuestionThemeStatusBadge, () => {
   let wrapper: VueWrapper;

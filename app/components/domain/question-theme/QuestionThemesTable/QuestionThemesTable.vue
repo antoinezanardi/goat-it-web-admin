@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
 
-import type { QuestionThemesTableRow } from "~/components/question-theme/QuestionThemesTable/question-themes-table.types";
+import type { QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 
 const { t, locale: currentLocale } = useI18n();
 
@@ -49,6 +49,10 @@ const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(t
     >
       <template #slug-cell="{ row }">
         <QuestionThemeSlugBadge :slug="row.original.slug"/>
+      </template>
+
+      <template #aliases-cell="{ row }">
+        <QuestionThemeAliasesList :aliases="row.original.aliases"/>
       </template>
 
       <template #status-cell="{ row }">

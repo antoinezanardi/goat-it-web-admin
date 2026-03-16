@@ -11,9 +11,9 @@ import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionThemesTable } from "#components";
-import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge } from "#components";
+import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList } from "#components";
 
-import type { QuestionThemesTableRow } from "~/components/question-theme/QuestionThemesTable/question-themes-table.types";
+import type { QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 
 describe(QuestionThemesTable, () => {
   let wrapper: VueWrapper;
@@ -173,6 +173,28 @@ describe(QuestionThemesTable, () => {
       const statusBadge = wrapper.findComponent<typeof QuestionThemeStatusBadge>({ name: "QuestionThemeStatusBadge" });
 
       expect(statusBadge.props("status")).toBe("archived");
+    });
+  });
+
+  describe("Aliases cell slot", () => {
+    it("should render the question theme aliases list for each row when in the aliases cell slot.", async() => {
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ aliases: { en: ["a"], fr: ["a"] } })];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>({ name: "QuestionThemeAliasesList" });
+
+      expect(aliasesList.exists()).toBeTruthy();
+    });
+
+    it("should pass the aliases to the question theme aliases list when in the aliases cell slot.", async() => {
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ aliases: { en: ["one", "two"], fr: ["one", "two"] } })];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>({ name: "QuestionThemeAliasesList" });
+
+      expect(aliasesList.props("aliases")).toStrictEqual(["one", "two"]);
     });
   });
 });

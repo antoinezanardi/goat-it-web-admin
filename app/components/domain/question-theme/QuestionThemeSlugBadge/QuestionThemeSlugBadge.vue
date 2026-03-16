@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { QuestionThemeSlugBadgeProperties } from "~/components/question-theme/QuestionThemeSlugBadge/question-theme-slug-badge.types";
+import type { QuestionThemeSlugBadgeProperties } from "~/components/domain/question-theme/QuestionThemeSlugBadge/question-theme-slug-badge.types";
 
 defineProps<QuestionThemeSlugBadgeProperties>();
 </script>
