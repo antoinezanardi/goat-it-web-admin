@@ -1,5 +1,6 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { createTestingPinia } from "@pinia/testing";
+import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 
@@ -13,7 +14,7 @@ import QuestionThemesPage from "@/pages/(questions-themes)/question-themes.vue";
 
 describe(QuestionThemesPage, () => {
   let wrapper: VueWrapper;
-  const pinia = createTestingPinia();
+  let pinia: TestingPinia;
   let questionThemesStore: ReturnType<typeof mockStore<typeof useQuestionThemesStore>>;
 
   async function mountQuestionThemesPage(options: MountSuspendedOptions<typeof QuestionThemesPage> = {}): Promise<VueWrapper> {
@@ -27,6 +28,7 @@ describe(QuestionThemesPage, () => {
   }
 
   beforeEach(async() => {
+    pinia = createTestingPinia();
     wrapper = await mountQuestionThemesPage();
     questionThemesStore = mockStore(useQuestionThemesStore);
   });

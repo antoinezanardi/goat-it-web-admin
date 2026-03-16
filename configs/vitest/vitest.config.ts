@@ -74,7 +74,7 @@ export default defineConfig({
         },
       }),
     ],
-    onConsoleLog: (log: string): boolean => VITEST_IGNORED_STARTING_BY_LOGS.every(ignoredLogStart => log.startsWith(ignoredLogStart)),
+    onConsoleLog: (log: string): boolean => !VITEST_IGNORED_STARTING_BY_LOGS.some(ignoredLogStart => log.startsWith(ignoredLogStart)),
     watch: false,
     coverage: {
       provider: "v8",

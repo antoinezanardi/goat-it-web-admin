@@ -1,6 +1,7 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { TableColumn } from "@nuxt/ui";
 import { createTestingPinia } from "@pinia/testing";
+import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 
@@ -16,7 +17,7 @@ import type { QuestionThemesTableRow } from "~/components/question-theme/Questio
 
 describe(QuestionThemesTable, () => {
   let wrapper: VueWrapper;
-  const pinia = createTestingPinia();
+  let pinia: TestingPinia;
   let questionThemesStore: ReturnType<typeof mockStore<typeof useQuestionThemesStore>>;
 
   async function mountQuestionThemesTableComponent(options: MountSuspendedOptions<typeof QuestionThemesTable> = {}): Promise<VueWrapper> {
@@ -29,6 +30,7 @@ describe(QuestionThemesTable, () => {
   }
 
   beforeEach(async() => {
+    pinia = createTestingPinia();
     wrapper = await mountQuestionThemesTableComponent();
     questionThemesStore = mockStore(useQuestionThemesStore);
   });
