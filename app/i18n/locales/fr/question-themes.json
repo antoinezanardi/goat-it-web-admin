@@ -13,6 +13,9 @@
     "status": {
       "active": "Actif",
       "archived": "Archivé"
+    },
+    "aliases": {
+      "noneForLocale": "Aucun alias pour cette langue"
     }
   }
 }
