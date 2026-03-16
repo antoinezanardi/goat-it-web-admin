@@ -53,7 +53,7 @@ describe(QuestionThemeAliasesList, () => {
     expect(badge.exists()).toBeTruthy();
   });
 
-  it("should render the none badge color as neutral when there is zero or one alias.", async() => {
+  it("should render the none badge color as neutral when there is no alias.", async() => {
     wrapper = await mountQuestionThemeAliasesListComponent({ props: { aliases: [] } });
 
     const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
@@ -61,7 +61,7 @@ describe(QuestionThemeAliasesList, () => {
     expect(badge.props("color")).toBe("neutral");
   });
 
-  it("should render the none badge with outline variant when there is zero or one alias.", async() => {
+  it("should render the none badge with outline variant when there is no alias.", async() => {
     wrapper = await mountQuestionThemeAliasesListComponent({ props: { aliases: [] } });
 
     const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
@@ -69,7 +69,7 @@ describe(QuestionThemeAliasesList, () => {
     expect(badge.props("variant")).toBe("outline");
   });
 
-  it("should render the none badge with the circle-slash icon when there is zero or one alias.", async() => {
+  it("should render the none badge with the circle-slash icon when there is no alias.", async() => {
     wrapper = await mountQuestionThemeAliasesListComponent({ props: { aliases: [] } });
 
     const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
