@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@nuxt/eslint",
   ],
+  ssr: false,
   pages: {
     pattern: [
       "**/*.vue",

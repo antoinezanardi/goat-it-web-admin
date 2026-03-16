@@ -3,7 +3,7 @@ import path from "node:path";
 import { defineConfig } from "vitest/config";
 import { defineVitestProject } from "@nuxt/test-utils/config";
 
-import { VITEST_COMPOSABLES_MOCK_SETUP_FILES, VITEST_COMPOSABLES_PROJECT_INCLUDES, VITEST_NODE_PROJECT_INCLUDES, VITEST_NUXT_PROJECT_SETUP_FILES, VITEST_PROJECT_COMMON_INLINE_CONFIG, VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG, VITEST_REPOSITORIES_MOCK_SETUP_FILES, VITEST_REPOSITORIES_PROJECT_INCLUDES, VITEST_STORES_PROJECT_INCLUDES } from "./vitest.config.constants";
+import { VITEST_COMPOSABLES_MOCK_SETUP_FILES, VITEST_COMPOSABLES_PROJECT_INCLUDES, VITEST_IGNORED_STARTING_BY_LOGS, VITEST_NODE_PROJECT_INCLUDES, VITEST_NUXT_PROJECT_SETUP_FILES, VITEST_PROJECT_COMMON_INLINE_CONFIG, VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG, VITEST_REPOSITORIES_MOCK_SETUP_FILES, VITEST_REPOSITORIES_PROJECT_INCLUDES, VITEST_STORES_PROJECT_INCLUDES } from "./vitest.config.constants";
 import { VitestProjectNames } from "./vitest.config.enums";
 
 const processCwd = process.cwd();
@@ -74,7 +74,7 @@ export default defineConfig({
         },
       }),
     ],
-    onConsoleLog: (log: string): boolean => !log.startsWith("<Suspense> is an experimental feature"),
+    onConsoleLog: (log: string): boolean => VITEST_IGNORED_STARTING_BY_LOGS.every(ignoredLogStart => log.startsWith(ignoredLogStart)),
     watch: false,
     coverage: {
       provider: "v8",

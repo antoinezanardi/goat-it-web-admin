@@ -5,10 +5,10 @@ defineProps<PageHeaderProperties>();
 </script>
 
 <template>
-  <UContainer>
+  <UContainer class="mb-4">
     <UPageHeader>
       <template #title>
-        <div class="flex gap-4 items-center justify-center">
+        <div class="flex gap-3 items-center justify-center">
           <UIcon
             class="text-primary"
             :name="icon"
