@@ -64,6 +64,11 @@ const VITEST_NODE_PROJECT_INCLUDES = [
   "shared/**/*.helpers.spec.ts",
 ];
 
+const VITEST_IGNORED_STARTING_BY_LOGS = [
+  "<Suspense> is an experimental feature",
+  "[Vue warn]: App already provides property with key \"Symbol(pinia)\"",
+] as const;
+
 export {
   VITEST_PROJECT_COMMON_INLINE_CONFIG,
   VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG,
@@ -74,4 +79,5 @@ export {
   VITEST_REPOSITORIES_PROJECT_INCLUDES,
   VITEST_REPOSITORIES_MOCK_SETUP_FILES,
   VITEST_NODE_PROJECT_INCLUDES,
+  VITEST_IGNORED_STARTING_BY_LOGS,
 };
