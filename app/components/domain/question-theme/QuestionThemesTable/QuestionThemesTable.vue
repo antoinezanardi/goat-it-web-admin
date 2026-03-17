@@ -9,26 +9,11 @@ const questionThemesStore = useQuestionThemesStore();
 const { questionThemes } = storeToRefs(questionThemesStore);
 
 const columns = computed<TableColumn<QuestionThemesTableRow>[]>(() => [
-  {
-    accessorKey: "label",
-    header: t("questionThemes.fields.label"),
-  },
-  {
-    accessorKey: "slug",
-    header: t("questionThemes.fields.slug"),
-  },
-  {
-    accessorKey: "description",
-    header: t("questionThemes.fields.description"),
-  },
-  {
-    accessorKey: "aliases",
-    header: t("questionThemes.fields.aliases"),
-  },
-  {
-    accessorKey: "status",
-    header: t("questionThemes.fields.status"),
-  },
+  createTableColumn("label", true),
+  createTableColumn("slug", true),
+  createTableColumn("description"),
+  createTableColumn("aliases", true),
+  createTableColumn("status", true),
 ]);
 
 const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(theme => ({
@@ -39,6 +24,22 @@ const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(t
   aliases: theme.aliases[currentLocale.value],
   status: theme.status,
 })));
+
+function createTableColumn(accessorKey: keyof QuestionTheme, isCentered = false): TableColumn<QuestionThemesTableRow> {
+  const tableColumn: TableColumn<QuestionThemesTableRow> = {
+    accessorKey,
+    header: t(`questionThemes.fields.${accessorKey}`),
+  };
+  if (isCentered) {
+    tableColumn.meta = {
+      class: {
+        th: "text-center",
+        td: "text-center",
+      },
+    };
+  }
+  return tableColumn;
+}
 </script>
 
 <template>

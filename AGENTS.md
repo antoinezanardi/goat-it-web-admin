@@ -26,8 +26,8 @@ handling, Nuxt conventions, and other repo-specific rules).
 
 Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
 
-- By path:    `pnpm run test:unit -- app/pages/index.spec.ts`
-- By name:    `pnpm run test:unit -- -t "should render"`
+- By filename:    `pnpm run test:unit index.spec.ts`
+- By test name:    `pnpm run test:unit -t "should render"`
 - Watch file: `pnpm run test:unit:watch -- app/pages/index.spec.ts`
 - Direct:     `pnpm exec cross-env NODE_OPTIONS='--no-webstorage' vitest --config configs/vitest/vitest.config.ts path/to/file.spec.ts`
   Always use `--` separator when passing extra args through `pnpm run`.

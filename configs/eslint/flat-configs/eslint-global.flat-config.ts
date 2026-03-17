@@ -92,7 +92,7 @@ const ESLINT_GLOBAL_FLAT_CONFIG: Linter.Config = {
       "error",
       "always",
       {
-        ignorePattern: "oxlint|eslint",
+        ignorePattern: "oxlint|eslint|v8",
         ignoreInlineComments: true,
         ignoreConsecutiveComments: true,
       },

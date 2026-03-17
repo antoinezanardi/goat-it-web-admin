@@ -54,10 +54,22 @@ describe(QuestionThemesTable, () => {
         {
           accessorKey: "label",
           header: "questionThemes.fields.label",
+          meta: {
+            class: {
+              th: "text-center",
+              td: "text-center",
+            },
+          },
         },
         {
           accessorKey: "slug",
           header: "questionThemes.fields.slug",
+          meta: {
+            class: {
+              th: "text-center",
+              td: "text-center",
+            },
+          },
         },
         {
           accessorKey: "description",
@@ -66,10 +78,22 @@ describe(QuestionThemesTable, () => {
         {
           accessorKey: "aliases",
           header: "questionThemes.fields.aliases",
+          meta: {
+            class: {
+              th: "text-center",
+              td: "text-center",
+            },
+          },
         },
         {
           accessorKey: "status",
           header: "questionThemes.fields.status",
+          meta: {
+            class: {
+              th: "text-center",
+              td: "text-center",
+            },
+          },
         },
       ];
 
