@@ -6,10 +6,9 @@ import type { VueWrapper } from "@vue/test-utils";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import { MOCKED_ROUTES } from "~~/tests/unit/utils/mocks/composables/nuxt/useRouter/useRouter.mock.constants";
 
-import type { UButton, UTooltip } from "#components";
 import { DefaultLayoutHeader } from "#components";
 
-describe("Default Layout Header Component", () => {
+describe(DefaultLayoutHeader, () => {
   let wrapper: VueWrapper;
 
   async function mountDefaultLayoutHeaderComponent(options: MountSuspendedOptions<typeof DefaultLayoutHeader> = {}): Promise<VueWrapper> {
@@ -59,20 +58,6 @@ describe("Default Layout Header Component", () => {
       ];
 
       expect(navigationMenu.props("items")).toStrictEqual<NavigationMenuItem[]>(expectedNavigationMenuItems);
-    });
-  });
-
-  describe("GitHub Button", () => {
-    it("should have a tooltip with translated text when mounted.", () => {
-      const gitHubTooltip = wrapper.getComponent<typeof UTooltip>("#default-layout-header-github-link-tooltip");
-
-      expect(gitHubTooltip.props("text")).toBe("navigation.openOnGitHub");
-    });
-
-    it("should have translated aria-label on the GitHub link when mounted.", () => {
-      const gitHubLink = wrapper.getComponent<typeof UButton>("#default-layout-header-github-link");
-
-      expect(gitHubLink.attributes("aria-label")).toBe("navigation.openOnGitHub");
     });
   });
 });

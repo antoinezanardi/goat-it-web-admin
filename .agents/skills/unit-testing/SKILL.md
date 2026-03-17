@@ -211,12 +211,33 @@ In `nuxt`, `composables`, and `stores` projects, the following are available wit
 - `getRouterParam` → global stub
 - `readBody` → global stub
 - `createError` → mock via `vi.hoisted`
-- `useFetchStatus` → mock (nuxt + stores projects only)
-- `useAsyncAction` → mock (nuxt + stores projects only)
-- `useAppToast` → mock (nuxt + stores projects only)
 - `questionThemesRepository` → `vi.mock(...)` mock (nuxt + composables + stores projects)
 - fake timers pinned to `2026-04-14` UTC
+- **Globally-mocked composables** (nuxt + stores projects only) — the list grows over time.
+  Scan `tests/unit/setup/nuxt/composables/` to get the current authoritative list; each file there registers one global mock.
 
 In the `stores` project additionally:
 
 - `setActivePinia(createPinia())` runs before each test
+
+### Accessing and mutating a globally-mocked composable in a component/store test
+
+Because these mocks are registered globally, you do **not** need `mockNuxtImport` in your spec file.
+Call the composable directly in the test body — you get back the same mock instance the component received.
+Mutate it, then `await nextTick()` to let the template react.
+
+```ts
+import { nextTick } from "vue";
+
+it("should show dark tooltip when color mode is light.", async () => {
+  const colorMode = useColorMode();
+  colorMode.value = "light";
+  await nextTick();
+
+  expect(wrapper.find("#my-tooltip").attributes("text")).toBe("navigation.switchOnDarkMode");
+});
+```
+
+This pattern applies to any composable listed in `tests/unit/setup/nuxt/composables/` (e.g. `useColorMode`, `useAsyncAction`, `useAppToast`, `useFetchStatus`, …).
+
+> **Pitfall:** Do NOT add `mockNuxtImport("useFoo", ...)` in a component spec when `useFoo` is already globally mocked. Just call `useFoo()` directly in the test body.

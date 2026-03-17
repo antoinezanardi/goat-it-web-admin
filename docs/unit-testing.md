@@ -124,11 +124,36 @@ These setup files run automatically before tests in the relevant projects. You d
 
 ### Composable mock setup files (nuxt + stores, NOT composables)
 
-| File                                  | Mock it registers |
-|---------------------------------------|-------------------|
-| `use-fetch-status.nuxt.unit-setup.ts` | `useFetchStatus`  |
-| `use-async-action.nuxt.unit-setup.ts` | `useAsyncAction`  |
-| `use-app-toast.nuxt.unit-setup.ts`    | `useAppToast`     |
+The list below reflects what is registered at the time of writing, but **it will grow** as the project adds new composables.
+To see the current full list, scan `tests/unit/setup/nuxt/composables/` — every file there registers one global mock.
+
+| File                                    | Mock it registers |
+|-----------------------------------------|-------------------|
+| `use-fetch-status.nuxt.unit-setup.ts`   | `useFetchStatus`  |
+| `use-async-action.nuxt.unit-setup.ts`   | `useAsyncAction`  |
+| `use-app-toast.nuxt.unit-setup.ts`      | `useAppToast`     |
+| `use-color-mode.nuxt.unit-setup.ts`     | `useColorMode`    |
+
+#### Accessing and mutating a globally-mocked composable inside a component test
+
+Because the mock is registered globally (via the setup file), you do **not** need `mockNuxtImport` in your spec.
+Call the composable directly inside the test body — you get back the same mock instance the component received during `setup()`.
+Mutate it, then `await nextTick()` to let the template react.
+
+```ts
+import { nextTick } from "vue";
+
+it("should show dark mode tooltip when color mode is light.", async () => {
+  const colorMode = useColorMode();
+  colorMode.value = "light";
+  await nextTick();
+
+  const tooltip = wrapper.getComponent<typeof UTooltip>("#my-tooltip");
+  expect(tooltip.props("text")).toBe("navigation.switchOnDarkMode");
+});
+```
+
+The same pattern works for any composable listed in the table above (e.g. `useI18n()`, `useRouter()`, `useAppToast()`).
 
 ### Repository mock setup files (nuxt + composables + stores)
 
