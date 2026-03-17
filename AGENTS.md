@@ -8,7 +8,7 @@ handling, Nuxt conventions, and other repo-specific rules).
 ## Build / Run / Lint / Test commands
 
 - Package manager: `pnpm@10.32.1` (see `package.json` -> `packageManager`).
-- Node requirement: >=25.8.0 (see `package.json` -> `engines.node`).
+- Node requirement: >=25.8.1 (see `package.json` -> `engines.node`).
 - Dev server: `pnpm run dev` (nuxt dev, port 4000, dotenv `envs/.env.development`)
 - Build: `pnpm run build`; preview: `pnpm run preview` / `pnpm run start:prod`
 
@@ -140,9 +140,9 @@ Pre-PR sanity checklist (run in order):
   - `repositories` – `app/**/*.repository.spec.ts` (plain Node env, no Nuxt)
   - `node`         – `*.mappers.spec.ts`, `*.helpers.spec.ts` under app/, server/, shared/
 - Coverage threshold: 100% (`thresholds: { 100: true }`).
-  - Collected for `app/**/*.ts`, `app/**/*.vue`, `server/**/*.ts`.
+  - Collected for `app/**/*.ts`, `app/**/*.vue`, `server/**/*.ts`, `shared/**/*.ts`.
   - Excluded: `*.constants.ts`, `*.enums.ts`, `*.types.ts`, `*.d.ts`, `*.config.ts`,
-    `*.spec.ts`, `server/api/**/*.{get,post,put,delete}.ts`.
+    `*.spec.ts`, `server/api/**/*.{get,post,put,patch,delete}.ts`.
 
 - Mocks in `tests/unit/utils/mocks/` — `composables/` and `repositories/` sub-dirs.
   - Non-trivial mocks use a triplet: `.mock.ts` + optionally `.mock.constants.ts` + `.mock.types.ts`.
@@ -182,12 +182,25 @@ Pre-PR sanity checklist (run in order):
 
 Each skill has a `SKILL.md` entry point. Load only the relevant skill for the task.
 
-- `nuxt`     – Nuxt 4 routing, composables, data fetching, server routes, SSR, testing.
+- `nuxt`         – Nuxt 4 routing, composables, data fetching, server routes, SSR, testing.
   Load before writing or modifying any Nuxt-specific code.
-- `nuxt-ui`  – `@nuxt/ui` v4 components, Tailwind CSS theming, layout patterns.
-- `vueuse`   – VueUse composables (state, sensors, browser APIs). Check here before
+- `nuxt-ui`      – `@nuxt/ui` v4 components, Tailwind CSS theming, layout patterns.
+- `vueuse`       – VueUse composables (state, sensors, browser APIs). Check here before
   writing any custom composable; auto-imported via `@vueuse/nuxt`.
+- `unit-testing` – Complete unit test reference (patterns, mocks, faketories, Vitest projects).
+  Load before writing or modifying any `*.spec.ts` file. Full reference at `docs/unit-testing.md`.
   Do NOT load all skill files at once; read the relevant `SKILL.md` first.
+
+## OpenCode commands (`.opencode/commands/`)
+
+Slash commands available in OpenCode sessions:
+
+- `/complete-i18n`   – Translate all French locale JSON files into every other locale.
+- `/write-unit-test` – Write a complete, passing unit test for a given source file.
+
+## Useful docs (`docs/`)
+
+- `docs/unit-testing.md` – Full human-readable unit testing guide (patterns, examples, pitfalls).
 
 ## Copilot instructions (`.github/copilot-instructions.md`)
 
