@@ -15,6 +15,7 @@
     "useAppToast": "readonly",
     "useFetchStatus": "readonly",
     "useAsyncAction": "readonly",
+    "useColorMode": "readonly",
     "defineAppConfig": "readonly",
     "defineNuxtConfig": "readonly",
     "defineEmits": "readonly",
