@@ -25,10 +25,10 @@ It covers the test infrastructure, every file type that needs tests, exact patte
    - [Shared helpers](#69-shared-helpers)
    - [i18n translation parity](#610-i18n-translation-parity)
 7. [Mock infrastructure](#7-mock-infrastructure)
-   - [ToMock type](#71-tomock-type)
-   - [MockedPiniaStore type](#72-mockedpiniastore-type)
+   - [ToMock type](#71-tomockt-type)
+   - [MockedPiniaStore type](#72-mockedpiniastoretstoredefinition-type)
    - [mockStore helper](#73-mockstore-helper)
-   - [MountSuspendedOptions type](#74-mountsuspendedoptions-type)
+   - [MountSuspendedOptions type](#74-mountsuspendedoptionscomponent-type)
    - [Composable mock files](#75-composable-mock-files)
    - [Repository mock files](#76-repository-mock-files)
    - [Registering new mocks](#77-registering-new-mocks)
@@ -299,6 +299,7 @@ import MyPage from "@/pages/my-page.vue";
 describe(MyPage, () => {
   let wrapper: VueWrapper;
   let pinia: TestingPinia;
+  let myStore: ReturnType<typeof mockStore<typeof useMyStore>>;
 
   async function mountMyPage(options: MountSuspendedOptions<typeof MyPage> = {}): Promise<VueWrapper> {
     return mountSuspended(MyPage, {
