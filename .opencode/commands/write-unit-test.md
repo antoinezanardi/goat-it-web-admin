@@ -21,12 +21,14 @@ Otherwise, identify the source file that needs a test from context.
 ### 3. Determine the Vitest project and pattern
 
 Use the decision tree in the skill to determine:
+
 - Which **Vitest project** the spec file belongs to (`nuxt`, `composables`, `stores`, `repositories`, or `node`).
 - Which **pattern** to follow for this file type.
 
 ### 4. Gather context
 
 Before writing the test:
+
 - Read the source file completely.
 - Read any types, interfaces, or constants it imports.
 - Check whether a faketory already exists for the domain types involved (look in `tests/unit/utils/faketories/`).
@@ -35,6 +37,7 @@ Before writing the test:
 ### 5. Write the test
 
 Follow these rules:
+
 - Place the spec file colocated with the source (exceptions: layouts → `spec/` subfolder, i18n → `app/i18n/specs/`).
 - Use the exact pattern from the skill for the file type.
 - Describe label: pass the function/component reference directly (`describe(myFn, ...)`). Use a string only when no single symbol applies.
@@ -79,6 +82,7 @@ Fix any lint errors.
 ### 9. Finish
 
 Report:
+
 - The spec file path created (or updated).
 - Any new faketory or mock files created.
 - The test count and a summary of what is covered.

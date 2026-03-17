@@ -49,7 +49,7 @@ It covers the test infrastructure, every file type that needs tests, exact patte
 | [`@pinia/testing`](https://pinia.vuejs.org/cookbook/testing.html)   | Pinia testing utilities                                        |
 | [`@faker-js/faker`](https://fakerjs.dev)                            | Fake data generation                                           |
 
-All tests use **Vitest globals** (`describe`, `it`, `expect`, `vi`, `beforeEach`, etc.) — you must import them from Vitest in every test file. No auto-imports.
+All tests use the standard **Vitest APIs** (`describe`, `it`, `expect`, `vi`, `beforeEach`, etc.). Vitest is configured with `globals: true`, but by convention you must still import these from `vitest` in every test file. No auto-imports.
 
 ---
 
@@ -284,8 +284,11 @@ it("should define page metadata when mounted.", () => {
 ```ts
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { createTestingPinia } from "@pinia/testing";
+import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
+
+import { useMyStore } from "@/stores/my-store";
 
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
@@ -295,6 +298,7 @@ import MyPage from "@/pages/my-page.vue";
 
 describe(MyPage, () => {
   let wrapper: VueWrapper;
+  let pinia: TestingPinia;
 
   async function mountMyPage(options: MountSuspendedOptions<typeof MyPage> = {}): Promise<VueWrapper> {
     return mountSuspended(MyPage, {

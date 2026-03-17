@@ -23,15 +23,15 @@ Read it for complete examples. This skill contains the non-negotiable rules and 
 
 ## Vitest project decision tree
 
-| Source file path                                | Spec suffix                               | Project        |
-|-------------------------------------------------|-------------------------------------------|----------------|
-| `app/composables/**/*.ts`                       | `.spec.ts`                                | `composables`  |
-| `app/**/*.store.ts`                             | `.store.spec.ts`                          | `stores`       |
-| `app/**/*.repository.ts`                        | `.repository.spec.ts`                     | `repositories` |
-| `app/**/*.{mappers,helpers,translations}.ts`    | `.{mappers,helpers,translations}.spec.ts` | `node`         |
-| `server/**/*.{mappers,helpers}.ts`              | `.spec.ts`                                | `node`         |
-| `shared/**/*.{mappers,helpers}.ts`              | `.spec.ts`                                | `node`         |
-| Everything else in `app/`, `server/`, `shared/` | `.spec.ts`                                | `nuxt`         |
+| Source file path                                                               | Spec suffix                               | Project        |
+|--------------------------------------------------------------------------------|-------------------------------------------|----------------|
+| `app/composables/**/*.ts`                                                      | `.spec.ts`                                | `composables`  |
+| `app/**/*.store.ts`                                                            | `.store.spec.ts`                          | `stores`       |
+| `app/**/*.repository.ts`                                                       | `.repository.spec.ts`                     | `repositories` |
+| `app/**/*.{mappers,helpers,translations}.ts`                                   | `.{mappers,helpers,translations}.spec.ts` | `node`         |
+| `server/**/*.{mappers,helpers}.ts`                                             | `.{mappers,helpers}.spec.ts`              | `node`         |
+| `shared/**/*.{mappers,helpers}.ts`                                             | `.{mappers,helpers}.spec.ts`              | `node`         |
+| Everything else in `app/`, `server`, `shared/` that does not match a row above | `.spec.ts`                                | `nuxt`         |
 
 The `repositories` and `node` projects have **no Nuxt environment**. No `mountSuspended`, no `mockNuxtImport`, no global `$fetch`.
 
