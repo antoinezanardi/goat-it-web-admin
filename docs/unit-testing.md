@@ -90,7 +90,7 @@ Every line of every non-excluded source file must be reachable by at least one t
 
 ### 3.1. Mutation testing
 
-In addition to code coverage, we also run mutation testing with Stryker. Mutation testing creates random mutations in the source code and checks if the tests fail as expected. 
+In addition to code coverage, we also run mutation testing with Stryker. Mutation testing creates random mutations in the source code and checks if the tests fail as expected.
 
 This ensures that our tests are effective at catching bugs.
 
@@ -936,7 +936,7 @@ Faketories generate typed fake data for tests. They live in `tests/unit/utils/fa
 
 Each entity typically has two layers:
 
-```
+```text
 tests/unit/utils/faketories/
   my-entity/
     entity/
