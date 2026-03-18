@@ -19,6 +19,7 @@ export default defineNuxtConfig({
     {
       path: "~/components",
       pathPrefix: false,
+      extensions: [".vue"],
     },
   ],
   imports: {
@@ -34,6 +35,12 @@ export default defineNuxtConfig({
     pageTransition: {
       name: "page",
       mode: "out-in",
+    },
+    head: {
+      htmlAttrs: {
+        lang: process.env.NUXT_PUBLIC_DEFAULT_LOCALE,
+      },
+      title: "Goat It Web Admin",
     },
   },
   css: ["~/assets/css/main.css"],

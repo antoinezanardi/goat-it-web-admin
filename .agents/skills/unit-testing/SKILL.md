@@ -16,7 +16,7 @@ Read it for complete examples. This skill contains the non-negotiable rules and 
 2. Identify the **file type** of the source file under test (component, page, layout, composable, store, repository, server handler, server util/mapper/helper, shared helper, i18n translation).
 3. Determine the **Vitest project** from the table below.
 4. Follow the exact pattern for that file type — no shortcuts.
-5. After writing the test, run it: `pnpm run test:unit -- path/to/file.spec.ts`
+5. After writing the test, run it: `pnpm run test:unit file.spec.ts`
 6. Run coverage to confirm 100%: `pnpm run test:unit:cov`
 
 ---
@@ -211,6 +211,8 @@ In `nuxt`, `composables`, and `stores` projects, the following are available wit
 - `getRouterParam` → global stub
 - `readBody` → global stub
 - `createError` → mock via `vi.hoisted`
+- `useHead` → mock
+- `callOnce` → mock
 - `questionThemesRepository` → `vi.mock(...)` mock (nuxt + composables + stores projects)
 - fake timers pinned to `2026-04-14` UTC
 - **Globally-mocked composables** (nuxt + stores projects only) — the list grows over time.

@@ -26,11 +26,10 @@ handling, Nuxt conventions, and other repo-specific rules).
 
 Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
 
-- By path:    `pnpm run test:unit -- app/pages/index.spec.ts`
-- By name:    `pnpm run test:unit -- -t "should render"`
-- Watch file: `pnpm run test:unit:watch -- app/pages/index.spec.ts`
+- By filename:    `pnpm run test:unit index.spec.ts`
+- By test name:    `pnpm run test:unit -t "should render"`
+- Watch file: `pnpm run test:unit:watch app/pages/index.spec.ts`
 - Direct:     `pnpm exec cross-env NODE_OPTIONS='--no-webstorage' vitest --config configs/vitest/vitest.config.ts path/to/file.spec.ts`
-  Always use `--` separator when passing extra args through `pnpm run`.
 
 Pre-PR sanity checklist (run in order):
 
@@ -87,6 +86,7 @@ Pre-PR sanity checklist (run in order):
   2. External packages
   3. Project aliases (`~~/`, `#server/`, `#components`, `@/`, `~/`)
   4. Relative imports
+
   - Use `type` imports for type-only symbols (`import type { Foo } from '...'`).
   - Prefer named exports; avoid default exports for utilities and composables.
 

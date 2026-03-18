@@ -58,7 +58,7 @@ If you create a new composable or repository mock setup file, also register it i
 Run the test:
 
 ```bash
-pnpm run test:unit -- path/to/file.spec.ts
+pnpm run test:unit file.spec.ts
 ```
 
 Fix any failures before proceeding.

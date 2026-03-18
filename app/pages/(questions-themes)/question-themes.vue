@@ -4,8 +4,13 @@ import { PageHeader, LoadingSpinner, QuestionThemesTable, UContainer } from "#co
 import { QUESTION_THEMES_PAGE_ICON, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
 
 const questionThemesStore = useQuestionThemesStore();
+const { t } = useI18n();
 
 const { isFetchingQuestionThemes } = storeToRefs(questionThemesStore);
+
+useHead(() => ({
+  title: t(QUESTION_THEMES_PAGE_TITLE_KEY),
+}));
 
 definePageMeta({
   titleKey: QUESTION_THEMES_PAGE_TITLE_KEY,

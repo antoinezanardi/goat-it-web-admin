@@ -3,6 +3,12 @@ import { PageHeader } from "#components";
 
 import { QUESTIONS_PAGE_ICON, QUESTIONS_PAGE_TITLE_KEY } from "~/pages/(questions)/questions.constants";
 
+const { t } = useI18n();
+
+useHead(() => ({
+  title: t(QUESTIONS_PAGE_TITLE_KEY),
+}));
+
 definePageMeta({
   titleKey: QUESTIONS_PAGE_TITLE_KEY,
   icon: QUESTIONS_PAGE_ICON,

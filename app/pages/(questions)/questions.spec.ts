@@ -1,6 +1,6 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
@@ -34,6 +34,15 @@ describe("Questions Page", () => {
     };
 
     expect(definePageMeta).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);
+  });
+
+  it("should set the page title via useHead when mounted.", () => {
+    const expectedHeadInput = {
+      title: QUESTIONS_PAGE_TITLE_KEY,
+    };
+    const extractedHeadFunction = vi.mocked(useHead).mock.calls[0]?.[0] as () => Record<string, unknown>;
+
+    expect(extractedHeadFunction()).toStrictEqual(expectedHeadInput);
   });
 
   describe("Page Header", () => {

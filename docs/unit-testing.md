@@ -189,16 +189,14 @@ pnpm run test:unit:cov
 pnpm run test:unit:watch
 
 # Single file
-pnpm run test:unit -- path/to/file.spec.ts
+pnpm run test:unit file.spec.ts
 
 # By test name
-pnpm run test:unit -- -t "should render"
+pnpm run test:unit -t "should render"
 
 # Watch a single file
-pnpm run test:unit:watch -- path/to/file.spec.ts
+pnpm run test:unit:watch file.spec.ts
 ```
-
-Always use `--` to separate extra arguments from the `pnpm run` command.
 
 ---
 

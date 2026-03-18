@@ -6,9 +6,10 @@ export default {
   testRunner: "vitest",
   ignoreStatic: true,
   mutate: [
-    "app/App.vue",
     "app/**/*.{ts,vue}",
     "server/**/*.ts",
+    "shared/**/*.ts",
+    "!app/App.vue",
     "!**/*.config.ts",
     "!**/*.constants.ts",
     "!**/*.d.ts",
