@@ -132,8 +132,8 @@ describe(QuestionThemesTable, () => {
       const expectedQuestionThemeRows: QuestionThemesTableRow[] = questionThemes.map(questionTheme => ({
         id: questionTheme.id,
         slug: questionTheme.slug,
-        label: questionTheme.label[DEFAULT_MOCKED_LOCALE],
-        description: questionTheme.description[DEFAULT_MOCKED_LOCALE],
+        label: questionTheme.label,
+        description: questionTheme.description,
         aliases: questionTheme.aliases[DEFAULT_MOCKED_LOCALE],
         status: questionTheme.status,
       }));
@@ -218,7 +218,7 @@ describe(QuestionThemesTable, () => {
 
       const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>({ name: "QuestionThemeAliasesList" });
 
-      expect(aliasesList.props("aliases")).toStrictEqual(["one", "two"]);
+      expect(aliasesList.props("aliases")).toStrictEqual<string[]>(["one", "two"]);
     });
   });
 });

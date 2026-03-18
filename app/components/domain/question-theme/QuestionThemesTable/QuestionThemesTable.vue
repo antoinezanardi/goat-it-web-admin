@@ -2,6 +2,7 @@
 import type { TableColumn } from "@nuxt/ui";
 
 import type { QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
+import LocalizedText from "~/components/shared/core/localization/LocalizedText/LocalizedText.vue";
 
 const { t, locale: currentLocale } = useI18n();
 
@@ -19,8 +20,8 @@ const columns = computed<TableColumn<QuestionThemesTableRow>[]>(() => [
 const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(theme => ({
   id: theme.id,
   slug: theme.slug,
-  label: theme.label[currentLocale.value],
-  description: theme.description[currentLocale.value],
+  label: theme.label,
+  description: theme.description,
   aliases: theme.aliases[currentLocale.value],
   status: theme.status,
 })));
@@ -48,8 +49,16 @@ function createTableColumn(accessorKey: keyof QuestionThemesTableRow, isCentered
       :columns="columns"
       :data="rows"
     >
+      <template #label-cell="{ row }">
+        <LocalizedText :localized-text="row.original.label"/>
+      </template>
+
       <template #slug-cell="{ row }">
         <QuestionThemeSlugBadge :slug="row.original.slug"/>
+      </template>
+
+      <template #description-cell="{ row }">
+        <LocalizedText :localized-text="row.original.description"/>
       </template>
 
       <template #aliases-cell="{ row }">

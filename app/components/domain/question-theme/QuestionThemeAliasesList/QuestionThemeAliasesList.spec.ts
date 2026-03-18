@@ -9,7 +9,7 @@ import { QuestionThemeAliasesList } from "#components";
 
 import type { QuestionThemeAliasesListProperties } from "~/components/domain/question-theme/QuestionThemeAliasesList/question-theme-aliases-list.types";
 
-describe(QuestionThemeAliasesList, () => {
+describe("Question Theme Aliases List Component", () => {
   let wrapper: VueWrapper;
   const defaultQuestionThemeAliasesListProperties: QuestionThemeAliasesListProperties = {
     aliases: ["alias-1", "alias-2"],
@@ -53,27 +53,11 @@ describe(QuestionThemeAliasesList, () => {
     expect(badge.exists()).toBeTruthy();
   });
 
-  it("should render the none badge color as neutral when there is no alias.", async() => {
+  it("should render the none badge  when there is no alias.", async() => {
     wrapper = await mountQuestionThemeAliasesListComponent({ props: { aliases: [] } });
 
-    const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
+    const badge = wrapper.findComponent<typeof UBadge>({ name: "UBadge" });
 
-    expect(badge.props("color")).toBe("neutral");
-  });
-
-  it("should render the none badge with outline variant when there is no alias.", async() => {
-    wrapper = await mountQuestionThemeAliasesListComponent({ props: { aliases: [] } });
-
-    const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-    expect(badge.props("variant")).toBe("outline");
-  });
-
-  it("should render the none badge with the circle-slash icon when there is no alias.", async() => {
-    wrapper = await mountQuestionThemeAliasesListComponent({ props: { aliases: [] } });
-
-    const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-    expect(badge.props("icon")).toBe("i-lucide-circle-slash");
+    expect(badge.exists()).toBeTruthy();
   });
 });

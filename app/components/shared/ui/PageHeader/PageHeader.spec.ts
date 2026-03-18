@@ -7,7 +7,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UIcon, UPageHeader } from "#components";
 import { PageHeader } from "#components";
 
-import type { PageHeaderProperties } from "~/components/shared/PageHeader/page-header.types";
+import type { PageHeaderProperties } from "~/components/shared/ui/PageHeader/page-header.types";
 
 describe("Page Header Component", () => {
   let wrapper: VueWrapper;

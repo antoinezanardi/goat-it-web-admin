@@ -25,10 +25,10 @@ describe("Loading Spinner Component", () => {
   });
 
   describe("Spinner Icon", () => {
-    it("should pass the loader circle icon name to the icon component when mounted.", () => {
-      const icon = wrapper.getComponent<typeof UIcon>({ name: "UIcon" });
+    it("should render the icon component when mounted.", () => {
+      const icon = wrapper.findComponent<typeof UIcon>({ name: "UIcon" });
 
-      expect(icon.props("name")).toBe("i-lucide-loader-circle");
+      expect(icon.exists()).toBeTruthy();
     });
   });
 

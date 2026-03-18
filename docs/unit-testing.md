@@ -127,12 +127,12 @@ These setup files run automatically before tests in the relevant projects. You d
 The list below reflects what is registered at the time of writing, but **it will grow** as the project adds new composables.
 To see the current full list, scan `tests/unit/setup/nuxt/composables/` — every file there registers one global mock.
 
-| File                                    | Mock it registers |
-|-----------------------------------------|-------------------|
-| `use-fetch-status.nuxt.unit-setup.ts`   | `useFetchStatus`  |
-| `use-async-action.nuxt.unit-setup.ts`   | `useAsyncAction`  |
-| `use-app-toast.nuxt.unit-setup.ts`      | `useAppToast`     |
-| `use-color-mode.nuxt.unit-setup.ts`     | `useColorMode`    |
+| File                                  | Mock it registers |
+|---------------------------------------|-------------------|
+| `use-fetch-status.nuxt.unit-setup.ts` | `useFetchStatus`  |
+| `use-async-action.nuxt.unit-setup.ts` | `useAsyncAction`  |
+| `use-app-toast.nuxt.unit-setup.ts`    | `useAppToast`     |
+| `use-color-mode.nuxt.unit-setup.ts`   | `useColorMode`    |
 
 #### Accessing and mutating a globally-mocked composable inside a component test
 
@@ -222,14 +222,18 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 
 import { MyComponent } from "#components";
 
-describe(MyComponent, () => {
+describe("MyComponent Component", () => {
   let wrapper: VueWrapper;
   let pinia: TestingPinia;                                                  // only if uses a store
   let myStore: ReturnType<typeof mockStore<typeof useMyStore>>;             // only if uses a store
 
+  const defaultMyComponentProperties: MyComponentProperties = {            // only if has props
+    /* default props */
+  } as const;
+
   async function mountMyComponent(options: MountSuspendedOptions<typeof MyComponent> = {}): Promise<VueWrapper> {
     return mountSuspended(MyComponent, {
-      props: { /* default props */ },
+      props: defaultMyComponentProperties,   // only if has props
       global: { plugins: [pinia] },   // only if uses a store
       ...options,
     });
@@ -251,8 +255,9 @@ describe(MyComponent, () => {
 
 #### Key rules
 
-- Import the component from `#components` (Nuxt auto-import).
-- Use `describe(MyComponent, ...)` — pass the component reference as the label, not a string.
+- Import the component from `#components` (Nuxt auto-import). If not present yet, run `nuxt prepare` to generate the auto-imports.
+- Use `describe("MyComponent Component", ...)` — always pass a string label in the form `"<ComponentName> Component"`, **never** a direct component reference.
+- Declare default props as a `const` at the top of the `describe` block (before the mount helper), so every test can reference or override them.
 - Create a `mountXxxComponent` helper that accepts `MountSuspendedOptions<typeof Xxx>` and spreads it after defaults. This allows individual tests to override any option.
 - Do **not** use `shallow: true` for components (use it only for pages and layouts).
 - Call `mockStore(useXxxStore)` **after** `mountSuspended` inside `beforeEach`.
@@ -260,6 +265,8 @@ describe(MyComponent, () => {
 - Mutate store state directly: `myStore.someField = value`, then re-mount if the template needs to re-render.
 - Find child components with `wrapper.findComponent<typeof UBadge>({ name: "UBadge" })`.
 - Check prop values with `component.props("propName")`.
+- Only test props that are **dynamically bound** (prefixed with `:` in the template, e.g. `:label="slug"`). Skip static string props without `:` (e.g. `variant="subtle"`, `color="neutral"`) — they are implementation constants, not behaviour to verify.
+- Every named slot in the template must be exercised by at least one test to achieve 100% coverage.
 
 #### Example — finding child components and asserting props
 
@@ -1006,16 +1013,16 @@ export { createFakeMyEntity };
 
 ## 9. Naming conventions
 
-| Item               | Convention                                                                                                                                                                                                                                      |
-|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Spec files         | `SourceFile.spec.ts`, colocated with source (exceptions: layouts → `spec/`, i18n → `app/i18n/specs/`)                                                                                                                                           |
-| `describe` label   | Pass the function/component reference directly: `describe(MyComponent, ...)` or `describe(myFunction, ...)`. Use a string only when no single symbol represents the test subject (e.g. `describe("Server Goat It API Items Get Handler", ...)`) |
-| Test names         | `"should <action> when <condition>."` — always end with a period                                                                                                                                                                                |
-| Mount helpers      | `async function mountXxxComponent(options: MountSuspendedOptions<typeof Xxx> = {}): Promise<VueWrapper>`                                                                                                                                        |
-| Faketory functions | `createFake<Entity>(partial: Partial<Entity> = {}): Entity`                                                                                                                                                                                     |
-| Mock type          | `UseXxxMock`                                                                                                                                                                                                                                    |
-| Mock factory       | `createUseXxxMock(): UseXxxMock`                                                                                                                                                                                                                |
-| Captured variables | `capturedAction`, `capturedOnError` (store tests)                                                                                                                                                                                               |
+| Item               | Convention                                                                                                                                                                                                                                                                                                                                         |
+|--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Spec files         | `SourceFile.spec.ts`, colocated with source (exceptions: layouts → `spec/`, i18n → `app/i18n/specs/`)                                                                                                                                                                                                                                              |
+| `describe` label   | **Components:** always use a string in the form `"MyComponent Component"` — never a direct reference. **Functions/composables/stores/repositories:** pass the reference directly (`describe(myFn, ...)`). Use a free-form string only when no single symbol represents the subject (e.g. `describe("Server Goat It API Items Get Handler", ...)`). |
+| Test names         | `"should <action> when <condition>."` — always end with a period                                                                                                                                                                                                                                                                                   |
+| Mount helpers      | `async function mountXxxComponent(options: MountSuspendedOptions<typeof Xxx> = {}): Promise<VueWrapper>`                                                                                                                                                                                                                                           |
+| Faketory functions | `createFake<Entity>(partial: Partial<Entity> = {}): Entity`                                                                                                                                                                                                                                                                                        |
+| Mock type          | `UseXxxMock`                                                                                                                                                                                                                                                                                                                                       |
+| Mock factory       | `createUseXxxMock(): UseXxxMock`                                                                                                                                                                                                                                                                                                                   |
+| Captured variables | `capturedAction`, `capturedOnError` (store tests)                                                                                                                                                                                                                                                                                                  |
 
 ### Single-call assertion
 

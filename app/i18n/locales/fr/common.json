@@ -5,6 +5,7 @@
     },
     "gitHub": "GitHub",
     "success": "Succès",
-    "error": "Erreur"
+    "error": "Erreur",
+    "noTranslation": "Aucune traduction disponible"
   }
 }
