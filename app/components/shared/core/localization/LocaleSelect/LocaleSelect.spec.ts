@@ -10,7 +10,7 @@ import { DEFAULT_MOCKED_LOCALE, MOCKED_LOCALE_CODES } from "~~/tests/unit/utils/
 import type { ULocaleSelect } from "#components";
 import { LocaleSelect } from "#components";
 
-describe("Locale Select Component", () => {
+describe("LocaleSelect Component", () => {
   let wrapper: VueWrapper;
 
   async function mountLocaleSelectComponent(options: MountSuspendedOptions<typeof LocaleSelect> = {}): Promise<VueWrapper> {

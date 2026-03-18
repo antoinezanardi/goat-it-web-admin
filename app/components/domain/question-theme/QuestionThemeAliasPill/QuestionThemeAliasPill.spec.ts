@@ -9,7 +9,7 @@ import { QuestionThemeAliasPill } from "#components";
 
 import type { QuestionThemeAliasPillProperties } from "~/components/domain/question-theme/QuestionThemeAliasPill/question-theme-alias-pill.types";
 
-describe("Question Theme Alias Pill Component", () => {
+describe("QuestionThemeAliasPill Component", () => {
   let wrapper: VueWrapper;
   const defaultQuestionThemeAliasPillProperties: QuestionThemeAliasPillProperties = {
     alias: "alias-1",

@@ -8,7 +8,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UButton, UTooltip } from "#components";
 import { DefaultLayoutHeaderRightContent } from "#components";
 
-describe(DefaultLayoutHeaderRightContent, () => {
+describe("DefaultLayoutHeaderRightContent Component", () => {
   let wrapper: VueWrapper;
 
   async function mountDefaultLayoutHeaderRightContentComponent(options: MountSuspendedOptions<typeof DefaultLayoutHeaderRightContent> = {}): Promise<VueWrapper> {

@@ -8,7 +8,7 @@ import { MOCKED_ROUTES } from "~~/tests/unit/utils/mocks/composables/nuxt/useRou
 
 import { DefaultLayoutHeader } from "#components";
 
-describe(DefaultLayoutHeader, () => {
+describe("DefaultLayoutHeader Component", () => {
   let wrapper: VueWrapper;
 
   async function mountDefaultLayoutHeaderComponent(options: MountSuspendedOptions<typeof DefaultLayoutHeader> = {}): Promise<VueWrapper> {

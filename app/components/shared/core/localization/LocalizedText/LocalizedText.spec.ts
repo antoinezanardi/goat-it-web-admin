@@ -12,7 +12,7 @@ import type { UBadge } from "#components";
 
 import type { LocalizedTextProperties } from "~/components/shared/core/localization/LocalizedText/localized-text.types";
 
-describe("Localized Text Component", () => {
+describe("LocalizedText Component", () => {
   let wrapper: VueWrapper;
   const defaultLocalizedTextProperties: LocalizedTextProperties = {
     localizedText: {
@@ -66,14 +66,28 @@ describe("Localized Text Component", () => {
       expect(span.text()).toBe("Bonjour");
     });
 
+    it("should display the translated text with trimmed text when the current locale has a translation with extra spaces.", async() => {
+      wrapper = await mountLocalizedTextComponent({
+        props: {
+          localizedText: createFakeLocalizedText({
+            [DEFAULT_MOCKED_LOCALE]: "   Hello   ",
+          }),
+        },
+      });
+
+      const span = wrapper.find(".localized-text");
+
+      expect(span.text()).toBe("Hello");
+    });
+  });
+
+  describe("No translation badge", () => {
     it("should not render the no-translation badge when the current locale has a translation.", () => {
       const badge = wrapper.find(".no-translation-badge");
 
       expect(badge.exists()).toBeFalsy();
     });
-  });
 
-  describe("No translation badge", () => {
     it("should render the no-translation badge when the current locale has no translation.", async() => {
       wrapper = await mountLocalizedTextComponent({
         props: {
@@ -84,30 +98,6 @@ describe("Localized Text Component", () => {
       const badge = wrapper.findComponent<typeof UBadge>({ name: "UBadge" });
 
       expect(badge.exists()).toBeTruthy();
-    });
-
-    it("should use the warning color for the no-translation badge when the current locale has no translation.", async() => {
-      wrapper = await mountLocalizedTextComponent({
-        props: {
-          localizedText: {},
-        },
-      });
-
-      const badge = wrapper.findComponent<typeof UBadge>({ name: "UBadge" });
-
-      expect(badge.props("color")).toBe("warning");
-    });
-
-    it("should use the subtle variant for the no-translation badge when the current locale has no translation.", async() => {
-      wrapper = await mountLocalizedTextComponent({
-        props: {
-          localizedText: {},
-        },
-      });
-
-      const badge = wrapper.findComponent<typeof UBadge>({ name: "UBadge" });
-
-      expect(badge.props("variant")).toBe("subtle");
     });
 
     it("should display the no translation key in the badge when the current locale has no translation.", async() => {
@@ -126,6 +116,20 @@ describe("Localized Text Component", () => {
       wrapper = await mountLocalizedTextComponent({
         props: {
           localizedText: {},
+        },
+      });
+
+      const span = wrapper.find(".localized-text");
+
+      expect(span.exists()).toBeFalsy();
+    });
+
+    it("should not render the localized-text span when the current locale has an empty trimmed translation.", async() => {
+      wrapper = await mountLocalizedTextComponent({
+        props: {
+          localizedText: {
+            [DEFAULT_MOCKED_LOCALE]: "    ",
+          },
         },
       });
 

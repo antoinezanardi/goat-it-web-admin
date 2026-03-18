@@ -50,7 +50,10 @@ function createTableColumn(accessorKey: keyof QuestionThemesTableRow, isCentered
       :data="rows"
     >
       <template #label-cell="{ row }">
-        <LocalizedText :localized-text="row.original.label"/>
+        <LocalizedText
+          data-testid="label-cell-text"
+          :localized-text="row.original.label"
+        />
       </template>
 
       <template #slug-cell="{ row }">
@@ -58,7 +61,10 @@ function createTableColumn(accessorKey: keyof QuestionThemesTableRow, isCentered
       </template>
 
       <template #description-cell="{ row }">
-        <LocalizedText :localized-text="row.original.description"/>
+        <LocalizedText
+          data-testid="description-cell-text"
+          :localized-text="row.original.description"
+        />
       </template>
 
       <template #aliases-cell="{ row }">

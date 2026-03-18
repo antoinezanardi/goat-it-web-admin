@@ -9,7 +9,7 @@ import { QuestionThemeSlugBadge } from "#components";
 
 import type { QuestionThemeSlugBadgeProperties } from "~/components/domain/question-theme/QuestionThemeSlugBadge/question-theme-slug-badge.types";
 
-describe("Question Theme Slug Badge Component", () => {
+describe("QuestionThemeSlugBadgeComponent", () => {
   let wrapper: VueWrapper;
   const defaultQuestionThemeSlugBadgeProperties: QuestionThemeSlugBadgeProperties = {
     slug: "math-algebra",

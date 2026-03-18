@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import type { LocalizedTextProperties } from "~/components/shared/core/localization/LocalizedText/localized-text.types";
+import { isNonEmptyString } from "#shared/utils/helpers/string.helpers";
 
 const props = defineProps<LocalizedTextProperties>();
 
 const { locale: currentLocale, t } = useI18n();
 
-const translatedText = computed<string | undefined>(() => props.localizedText[currentLocale.value]);
+const trimmedTranslatedText = computed<string | undefined>(() => props.localizedText[currentLocale.value]?.trim());
+
+const isTranslatedTextAvailable = computed<boolean>(() => isNonEmptyString(trimmedTranslatedText.value));
 </script>
 
 <template>
   <div class="localized-text-container">
     <UBadge
-      v-if="translatedText === undefined"
+      v-if="!isTranslatedTextAvailable"
       class="no-translation-badge"
       color="warning"
       icon="i-lucide-globe-x"
@@ -24,7 +27,7 @@ const translatedText = computed<string | undefined>(() => props.localizedText[cu
       v-else
       class="localized-text"
     >
-      {{ translatedText }}
+      {{ trimmedTranslatedText }}
     </span>
   </div>
 </template>

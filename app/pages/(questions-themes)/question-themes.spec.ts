@@ -12,7 +12,7 @@ import type { PageHeader } from "#components";
 import { QUESTION_THEMES_PAGE_ICON, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
 import QuestionThemesPage from "@/pages/(questions-themes)/question-themes.vue";
 
-describe(QuestionThemesPage, () => {
+describe("Question Themes Page", () => {
   let wrapper: VueWrapper;
   let pinia: TestingPinia;
   let questionThemesStore: ReturnType<typeof mockStore<typeof useQuestionThemesStore>>;

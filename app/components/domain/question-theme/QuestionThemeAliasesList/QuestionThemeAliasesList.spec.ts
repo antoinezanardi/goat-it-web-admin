@@ -9,7 +9,7 @@ import { QuestionThemeAliasesList } from "#components";
 
 import type { QuestionThemeAliasesListProperties } from "~/components/domain/question-theme/QuestionThemeAliasesList/question-theme-aliases-list.types";
 
-describe("Question Theme Aliases List Component", () => {
+describe("QuestionThemeAliasesListComponent", () => {
   let wrapper: VueWrapper;
   const defaultQuestionThemeAliasesListProperties: QuestionThemeAliasesListProperties = {
     aliases: ["alias-1", "alias-2"],
@@ -53,7 +53,7 @@ describe("Question Theme Aliases List Component", () => {
     expect(badge.exists()).toBeTruthy();
   });
 
-  it("should render the none badge  when there is no alias.", async() => {
+  it("should render the none badge when there is no alias.", async() => {
     wrapper = await mountQuestionThemeAliasesListComponent({ props: { aliases: [] } });
 
     const badge = wrapper.findComponent<typeof UBadge>({ name: "UBadge" });

@@ -9,7 +9,7 @@ import { PageHeader } from "#components";
 
 import type { PageHeaderProperties } from "~/components/shared/ui/PageHeader/page-header.types";
 
-describe("Page Header Component", () => {
+describe("PageHeader Component", () => {
   let wrapper: VueWrapper;
   const defaultPageHeaderProperties: PageHeaderProperties = {
     title: "Test Title",

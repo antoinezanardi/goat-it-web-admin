@@ -7,7 +7,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UIcon } from "#components";
 import { LoadingSpinner } from "#components";
 
-describe("Loading Spinner Component", () => {
+describe("LoadingSpinner Component", () => {
   let wrapper: VueWrapper;
 
   async function mountLoadingSpinnerComponent(options: MountSuspendedOptions<typeof LoadingSpinner> = {}): Promise<VueWrapper> {
