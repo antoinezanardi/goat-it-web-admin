@@ -9,7 +9,7 @@ import { QuestionThemeAliasesList } from "#components";
 
 import type { QuestionThemeAliasesListProperties } from "~/components/domain/question-theme/QuestionThemeAliasesList/question-theme-aliases-list.types";
 
-describe("QuestionThemeAliasesListComponent", () => {
+describe("QuestionThemeAliasesList Component", () => {
   let wrapper: VueWrapper;
   const defaultQuestionThemeAliasesListProperties: QuestionThemeAliasesListProperties = {
     aliases: ["alias-1", "alias-2"],

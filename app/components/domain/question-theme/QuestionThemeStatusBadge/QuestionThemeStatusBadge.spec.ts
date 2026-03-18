@@ -9,7 +9,7 @@ import { QuestionThemeStatusBadge } from "#components";
 
 import type { QuestionThemeStatusBadgeProperties } from "~/components/domain/question-theme/QuestionThemeStatusBadge/question-theme-status-badge.types";
 
-describe("QuestionThemeStatusBadgeComponent", () => {
+describe("QuestionThemeStatusBadge Component", () => {
   let wrapper: VueWrapper;
   const defaultQuestionThemeStatusBadgeProperties: QuestionThemeStatusBadgeProperties = {
     status: "active",
