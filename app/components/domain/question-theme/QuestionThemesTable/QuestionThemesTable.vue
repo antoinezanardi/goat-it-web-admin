@@ -25,7 +25,7 @@ const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(t
   status: theme.status,
 })));
 
-function createTableColumn(accessorKey: keyof QuestionTheme, isCentered = false): TableColumn<QuestionThemesTableRow> {
+function createTableColumn(accessorKey: keyof QuestionThemesTableRow, isCentered = false): TableColumn<QuestionThemesTableRow> {
   const tableColumn: TableColumn<QuestionThemesTableRow> = {
     accessorKey,
     header: t(`questionThemes.fields.${accessorKey}`),

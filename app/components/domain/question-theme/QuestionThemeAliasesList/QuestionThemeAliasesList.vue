@@ -10,7 +10,7 @@ const isAtLeastOneAlias = computed<boolean>(() => !!props.aliases && props.alias
   <div id="question-theme-aliases-list">
     <div
       v-if="isAtLeastOneAlias"
-      class="flex gap-2 justify-center"
+      class="flex flex-wrap gap-2 justify-center"
     >
       <QuestionThemeAliasPill
         v-for="alias in aliases"

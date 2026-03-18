@@ -211,6 +211,8 @@ In `nuxt`, `composables`, and `stores` projects, the following are available wit
 - `getRouterParam` → global stub
 - `readBody` → global stub
 - `createError` → mock via `vi.hoisted`
+- `useHead` → mock
+- `callOnce` → mock
 - `questionThemesRepository` → `vi.mock(...)` mock (nuxt + composables + stores projects)
 - fake timers pinned to `2026-04-14` UTC
 - **Globally-mocked composables** (nuxt + stores projects only) — the list grows over time.

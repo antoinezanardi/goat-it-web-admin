@@ -38,7 +38,7 @@ export default defineNuxtConfig({
     },
     head: {
       htmlAttrs: {
-        lang: "en",
+        lang: process.env.NUXT_PUBLIC_DEFAULT_LOCALE,
       },
       title: "Goat It Web Admin",
     },
