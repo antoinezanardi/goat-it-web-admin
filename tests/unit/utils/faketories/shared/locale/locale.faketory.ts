@@ -1,26 +1,26 @@
 import { faker } from "@faker-js/faker";
 import type { LocalizedText, LocalizedTexts } from "@goat-it/schemas/shared/locale";
 
-function createFakeLocalizedText(localizedText: Partial<LocalizedText> = {}): LocalizedText {
+function createFakeLocalizedText(localizedText: Partial<LocalizedText> = {}): Partial<LocalizedText> {
   return {
-    en: faker.word.sample(),
-    de: faker.word.sample(),
-    es: faker.word.sample(),
-    fr: faker.word.sample(),
-    it: faker.word.sample(),
-    pt: faker.word.sample(),
+    en: faker.datatype.boolean() ? faker.word.sample() : undefined,
+    de: faker.datatype.boolean() ? faker.word.sample() : undefined,
+    es: faker.datatype.boolean() ? faker.word.sample() : undefined,
+    fr: faker.datatype.boolean() ? faker.word.sample() : undefined,
+    it: faker.datatype.boolean() ? faker.word.sample() : undefined,
+    pt: faker.datatype.boolean() ? faker.word.sample() : undefined,
     ...localizedText,
   };
 }
 
-function createFakeLocalizedTexts(localizedTexts: Partial<LocalizedTexts> = {}): LocalizedTexts {
+function createFakeLocalizedTexts(localizedTexts: Partial<LocalizedTexts> = {}): Partial<LocalizedTexts> {
   return {
-    en: faker.word.words(3).split(" "),
-    de: faker.word.words(3).split(" "),
-    es: faker.word.words(3).split(" "),
-    fr: faker.word.words(3).split(" "),
-    it: faker.word.words(3).split(" "),
-    pt: faker.word.words(3).split(" "),
+    en: faker.datatype.boolean() ? faker.word.words(3).split(" ") : undefined,
+    de: faker.datatype.boolean() ? faker.word.words(3).split(" ") : undefined,
+    es: faker.datatype.boolean() ? faker.word.words(3).split(" ") : undefined,
+    fr: faker.datatype.boolean() ? faker.word.words(3).split(" ") : undefined,
+    it: faker.datatype.boolean() ? faker.word.words(3).split(" ") : undefined,
+    pt: faker.datatype.boolean() ? faker.word.words(3).split(" ") : undefined,
     ...localizedTexts,
   };
 }

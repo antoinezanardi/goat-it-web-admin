@@ -1,3 +1,4 @@
+import type { LocalizedText } from "@goat-it/schemas/shared/locale";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { TableColumn } from "@nuxt/ui";
 import { createTestingPinia } from "@pinia/testing";
@@ -6,16 +7,17 @@ import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
+import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionThemesTable } from "#components";
-import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList } from "#components";
+import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList, LocalizedText as LocalizedTextComponent } from "#components";
 
 import type { QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 
-describe(QuestionThemesTable, () => {
+describe("QuestionThemesTable Component", () => {
   let wrapper: VueWrapper;
   let pinia: TestingPinia;
   let questionThemesStore: ReturnType<typeof mockStore<typeof useQuestionThemesStore>>;
@@ -132,8 +134,8 @@ describe(QuestionThemesTable, () => {
       const expectedQuestionThemeRows: QuestionThemesTableRow[] = questionThemes.map(questionTheme => ({
         id: questionTheme.id,
         slug: questionTheme.slug,
-        label: questionTheme.label[DEFAULT_MOCKED_LOCALE],
-        description: questionTheme.description[DEFAULT_MOCKED_LOCALE],
+        label: questionTheme.label,
+        description: questionTheme.description,
         aliases: questionTheme.aliases[DEFAULT_MOCKED_LOCALE],
         status: questionTheme.status,
       }));
@@ -218,7 +220,39 @@ describe(QuestionThemesTable, () => {
 
       const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>({ name: "QuestionThemeAliasesList" });
 
-      expect(aliasesList.props("aliases")).toStrictEqual(["one", "two"]);
+      expect(aliasesList.props("aliases")).toStrictEqual<string[]>(["one", "two"]);
+    });
+  });
+
+  describe("Label cell slot", () => {
+    it("should pass the label to the localized text component when in the label cell slot.", async() => {
+      const label = createFakeLocalizedText({
+        en: "Math",
+        fr: "Mathématiques",
+      });
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ label })];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const localizedText = wrapper.findComponent<typeof LocalizedTextComponent>("[data-testid='label-cell-text']");
+
+      expect(localizedText.props("localizedText")).toStrictEqual<Partial<LocalizedText>>(label);
+    });
+  });
+
+  describe("Description cell slot", () => {
+    it("should pass the description to the localized text component when in the description cell slot.", async() => {
+      const description = createFakeLocalizedText({
+        en: "Math description",
+        fr: "Description mathématiques",
+      });
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ description })];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const localizedText = wrapper.findComponent<typeof LocalizedTextComponent>("[data-testid='description-cell-text']");
+
+      expect(localizedText.props("localizedText")).toStrictEqual<Partial<LocalizedText>>(description);
     });
   });
 });

@@ -46,8 +46,9 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 
 ### Describe labels
 
-- Pass the **function or component reference** as the `describe` label: `describe(myFn, ...)`, `describe(MyComponent, ...)`.
-- Use a string label only when no single symbol represents the subject.
+- **Components:** always use a string label in the form `"<ComponentName> Component"` — never a direct reference: `describe("MyComponent Component", ...)`.
+- **Functions / composables / stores / repositories:** pass the reference directly: `describe(myFn, ...)`.
+- Use a free-form string only when no single symbol represents the subject (e.g. `describe("Server Goat It API Items Get Handler", ...)`).
 
 ### Test names
 
@@ -73,12 +74,15 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 ### Component (`nuxt` project)
 
 - [ ] Import component from `#components`
-- [ ] `describe(MyComponent, ...)`
+- [ ] `describe("MyComponent Component", ...)` — string label, **not** a component reference
+- [ ] Default props declared as a `const` at the top of `describe`, before the mount helper
 - [ ] Mount helper: `async function mountXxxComponent(options: MountSuspendedOptions<typeof Xxx> = {})`
 - [ ] Helper spreads options after defaults so tests can override anything
 - [ ] `beforeEach`: mount with defaults, then `mockStore(useXxxStore)` **after** `mountSuspended`
 - [ ] No `shallow: true`
 - [ ] Assert translation keys, not translated strings
+- [ ] Only test props that are **dynamically bound** (prefixed with `:` in the template). Skip static string props without `:` (e.g. `variant="subtle"`, `color="neutral"`)
+- [ ] Every named slot in the template must be exercised by at least one test
 - [ ] Cover loading/empty/populated states
 
 ### Page (`nuxt` project)

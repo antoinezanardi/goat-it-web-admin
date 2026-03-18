@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PageHeaderProperties } from "~/components/shared/PageHeader/page-header.types";
+import type { PageHeaderProperties } from "~/components/shared/ui/PageHeader/page-header.types";
 
 defineProps<PageHeaderProperties>();
 </script>

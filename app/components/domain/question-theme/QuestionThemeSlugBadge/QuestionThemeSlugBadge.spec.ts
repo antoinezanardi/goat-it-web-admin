@@ -9,7 +9,7 @@ import { QuestionThemeSlugBadge } from "#components";
 
 import type { QuestionThemeSlugBadgeProperties } from "~/components/domain/question-theme/QuestionThemeSlugBadge/question-theme-slug-badge.types";
 
-describe(QuestionThemeSlugBadge, () => {
+describe("QuestionThemeSlugBadge Component", () => {
   let wrapper: VueWrapper;
   const defaultQuestionThemeSlugBadgeProperties: QuestionThemeSlugBadgeProperties = {
     slug: "math-algebra",
@@ -35,18 +35,6 @@ describe(QuestionThemeSlugBadge, () => {
       const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
 
       expect(badge.props("label")).toBe(defaultQuestionThemeSlugBadgeProperties.slug);
-    });
-
-    it("should use the neutral color for the badge component when mounted.", () => {
-      const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-      expect(badge.props("color")).toBe("neutral");
-    });
-
-    it("should use the outline variant for the badge component when mounted.", () => {
-      const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-      expect(badge.props("variant")).toBe("outline");
     });
   });
 });

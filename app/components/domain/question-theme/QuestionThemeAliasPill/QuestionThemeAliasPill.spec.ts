@@ -9,7 +9,7 @@ import { QuestionThemeAliasPill } from "#components";
 
 import type { QuestionThemeAliasPillProperties } from "~/components/domain/question-theme/QuestionThemeAliasPill/question-theme-alias-pill.types";
 
-describe(QuestionThemeAliasPill, () => {
+describe("QuestionThemeAliasPill Component", () => {
   let wrapper: VueWrapper;
   const defaultQuestionThemeAliasPillProperties: QuestionThemeAliasPillProperties = {
     alias: "alias-1",
@@ -35,18 +35,6 @@ describe(QuestionThemeAliasPill, () => {
       const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
 
       expect(badge.text()).toBe(defaultQuestionThemeAliasPillProperties.alias);
-    });
-
-    it("should use the secondary color for the badge component when mounted.", () => {
-      const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-      expect(badge.props("color")).toBe("secondary");
-    });
-
-    it("should use the outline variant for the badge component when mounted.", () => {
-      const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-      expect(badge.props("variant")).toBe("outline");
     });
   });
 });

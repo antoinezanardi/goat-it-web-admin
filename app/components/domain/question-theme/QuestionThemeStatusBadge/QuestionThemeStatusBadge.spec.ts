@@ -9,7 +9,7 @@ import { QuestionThemeStatusBadge } from "#components";
 
 import type { QuestionThemeStatusBadgeProperties } from "~/components/domain/question-theme/QuestionThemeStatusBadge/question-theme-status-badge.types";
 
-describe(QuestionThemeStatusBadge, () => {
+describe("QuestionThemeStatusBadge Component", () => {
   let wrapper: VueWrapper;
   const defaultQuestionThemeStatusBadgeProperties: QuestionThemeStatusBadgeProperties = {
     status: "active",
@@ -31,12 +31,6 @@ describe(QuestionThemeStatusBadge, () => {
   });
 
   describe("Badge", () => {
-    it("should use the subtle variant for the badge component when mounted.", () => {
-      const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-      expect(badge.props("variant")).toBe("subtle");
-    });
-
     describe("Label", () => {
       it("should pass the active status i18n key as label to the badge component when status is active.", () => {
         const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
