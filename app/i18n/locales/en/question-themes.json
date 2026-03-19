@@ -1,5 +1,21 @@
 {
   "questionThemes": {
-    "pageTitle": "Question Themes"
+    "pageTitle": "Question Themes",
+    "cantFetch": "Unable to fetch question themes",
+    "fetching": "Fetching question themes...",
+    "fields": {
+      "slug": "Slug",
+      "label": "Label",
+      "description": "Description",
+      "aliases": "Aliases",
+      "status": "Status"
+    },
+    "status": {
+      "active": "Active",
+      "archived": "Archived"
+    },
+    "aliases": {
+      "noneForLocale": "No aliases for this locale"
+    }
   }
 }

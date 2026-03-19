@@ -15,6 +15,9 @@ const ESLINT_GLOBAL_FLAT_CONFIG: Linter.Config = {
       clearTimeout: "readonly",
       console: "readonly",
       URL: "readonly",
+      getRouterParam: "readonly",
+      readBody: "readonly",
+      createError: "readonly",
     },
   },
   rules: {
@@ -89,7 +92,7 @@ const ESLINT_GLOBAL_FLAT_CONFIG: Linter.Config = {
       "error",
       "always",
       {
-        ignorePattern: "oxlint|eslint",
+        ignorePattern: "oxlint|eslint|v8",
         ignoreInlineComments: true,
         ignoreConsecutiveComments: true,
       },
@@ -110,7 +113,7 @@ const ESLINT_GLOBAL_FLAT_CONFIG: Linter.Config = {
     "grouped-accessor-pairs": "error",
     "guard-for-in": "error",
     "id-denylist": "off",
-    "id-length": ["error", { exceptions: ["t", "i", "j", "k", "x", "y"] }],
+    "id-length": ["error", { exceptions: ["t", "k", "i", "j", "x", "y"] }],
     "id-match": "off",
     "init-declarations": "off",
     "logical-assignment-operators": "error",

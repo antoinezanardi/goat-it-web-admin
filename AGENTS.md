@@ -1,184 +1,223 @@
-AGENTS
+# AGENTS
 
 This file is a concise, actionable guide for automated agents working in this repository.
 It explains how to build, lint and run tests (including running a single test), plus
 the coding conventions agents must follow (imports, formatting, types, naming, error
 handling, Nuxt conventions, and other repo-specific rules).
 
-1) Build / Run / Lint / Test commands
-- Package manager: `pnpm` (see `package.json` -> `packageManager`). Use `pnpm` for
-  installs and for running scripts when possible.
-- Node requirement: see `package.json` -> `engines.node`.
+## Build / Run / Lint / Test commands
 
-- Dev server: `pnpm run dev`
-  - Equivalent script: `nuxt dev --dotenv envs/.env.development --port 4000`
+- Package manager: `pnpm@10.32.1` (see `package.json` -> `packageManager`).
+- Node requirement: >=25.8.1 (see `package.json` -> `engines.node`).
+- Dev server: `pnpm run dev` (nuxt dev, port 4000, dotenv `envs/.env.development`)
+- Build: `pnpm run build`; preview: `pnpm run preview` / `pnpm run start:prod`
 
-- Build: `pnpm run build` (runs `nuxt build`)
-- Preview production build: `pnpm run preview` or `pnpm run start:prod`
-
-- Linting:
-  - Full lint: `pnpm run lint` (runs both oxlint + eslint)
-  - ESLint only: `pnpm run lint:eslint`
-  - ESLint fix: `pnpm run lint:eslint:fix`
-  - Oxlint only: `pnpm run lint:oxlint`
-  - Oxlint fix: `pnpm run lint:oxlint:fix`
-  - Staged auto-fix: `pnpm run lint:staged:fix`
-
-- Typecheck: `pnpm run typecheck` (runs `nuxt typecheck` / `vue-tsc` based check)
+- Linting (always run both linters):
+  - Full lint: `pnpm run lint`         Full lint + fix: `pnpm run lint:fix`
+  - ESLint only: `pnpm run lint:eslint` / `pnpm run lint:eslint:fix`
+  - Oxlint only: `pnpm run lint:oxlint` / `pnpm run lint:oxlint:fix`
+- Typecheck: `pnpm run typecheck` (nuxt typecheck / vue-tsc, strict mode)
 
 - Tests:
-  - Unit tests (full): `pnpm run test:unit`
-  - Unit tests (watch): `pnpm run test:unit:watch`
-  - Unit tests with coverage: `pnpm run test:unit:cov`
-  - Mutation tests (Stryker): `pnpm run test:mutation`
-  - Force incremental mutation run: `pnpm run test:mutation:force`
+  - Full unit run:   `pnpm run test:unit`
+  - With coverage:   `pnpm run test:unit:cov`
+  - Watch mode:      `pnpm run test:unit:watch`
+  - Mutation (Stryker): `pnpm run test:mutation` / `pnpm run test:mutation:force`
 
-Notes on running a single test or a single test file
-- The repository uses Vitest (see `package.json`), with config at
-  `configs/vitest/vitest.config.ts` and `cross-env NODE_OPTIONS='--no-webstorage'` in
-  npm scripts. There are multiple ways to run a single test:
+Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
 
-  1) Run a single test file by path (recommended for deterministic runs):
-     - `pnpm run test:unit -- path/to/file.spec.ts`
-     - Example: `pnpm run test:unit -- app/pages/index.spec.ts`
+- By filename:    `pnpm run test:unit index.spec.ts`
+- By test name:    `pnpm run test:unit -t "should render"`
+- Watch file: `pnpm run test:unit:watch app/pages/index.spec.ts`
+- Direct:     `pnpm exec cross-env NODE_OPTIONS='--no-webstorage' vitest --config configs/vitest/vitest.config.ts path/to/file.spec.ts`
 
-  2) Run tests filtered by name/regex (Vitest `-t` / `--testNamePattern`):
-     - `pnpm run test:unit -- -t "should render"`
+Pre-PR sanity checklist (run in order):
 
-  3) Run via direct vitest call if you need custom flags (still set NODE_OPTIONS):
-     - `pnpm exec cross-env NODE_OPTIONS='--no-webstorage' vitest --config configs/vitest/vitest.config.ts path/to/file.spec.ts`
+- `pnpm install`
+- `pnpm run lint:fix && pnpm run lint`
+- `pnpm run typecheck`
+- `pnpm run test:unit:cov`
 
-  4) Run a single test in watch mode:
-     - `pnpm run test:unit:watch -- path/to/file.spec.ts`
+## Repository structure
 
-  When passing extra args to npm scripts, use `--` separator so args reach Vitest.
+- `app/`              – Nuxt application source
+  - `components/`     – `layouts/` and `shared/` sub-dirs; PascalCase `.vue` files
+  - `composables/`    – Organised as `core/`, `domain/`, `ui/`; each composable in its own sub-dir
+  - `repositories/`   – Client-side data access (`*.repository.ts`); factory functions, auto-imported by Nuxt
+  - `stores/`         – Pinia stores under `domain/`; store names from `stores/store.enums.ts`
+  - `i18n/`           – Locale JSON files (`fr/`, `en/`)
+  - `pages/`, `layouts/`, `assets/`
+- `server/`           – Nitro server routes and utilities (API handlers, mappers, helpers)
+  - `api/**/handlers/` – Route handler files (`*.handler.ts`); thin wrappers in `api/**/index.*.ts`
+  - `utils/goat-it-api/` – Helpers, mappers, types, constants for the external API
+- `shared/types/`     – Types shared between app and server (e.g. `QuestionTheme`)
+- `shared/utils/`     – Helpers auto-imported in both app and server
+- `tests/unit/`       – Test utilities: `setup/nuxt/`, `utils/faketories/`, `utils/mocks/`
+- `configs/`          – Vitest, ESLint, Oxlint, Stryker, lint-staged configs
+- `envs/`             – `.env.development`, `.env.test`, `.env.example`
+- `modules/`          – Custom Nuxt modules; `scripts/` – shell utilities
+- `docker/goat-it-api-sandbox/` – Local API sandbox via docker-compose
 
-2) Project conventions & style (high level)
-- Frameworks / paradigms to prefer:
-  - Nuxt 4 conventions (file-based routing, composables, auto-imports). Prefer Nuxt
-    idiomatic patterns over inventing new layouts.
-  - Use Vue 3 `script setup` syntax in single-file components.
-  - Pinia for global state; create per-entity stores (e.g. `useQuestionStore`).
-  - Use composables for reusable logic.
-  - Favor Nuxt UI components and VueUse composables where appropriate.
+## Project conventions & style
+
+- Frameworks / paradigms:
+  - Nuxt 4 file-based routing, composables, auto-imports. Prefer idiomatic Nuxt patterns.
+  - Vue 3 `script setup` in all SFCs. Keep `<script>` before `<template>` in every `.vue`.
+  - Pinia for global state; stores named `use<Entity>Store`, store ID from `StoreNames` enum.
+  - Composables use `use*` prefix; repositories use `*Repository` suffix.
+  - Prefer `@nuxt/ui` components and `@vueuse/core` composables where applicable.
+  - i18n via `@nuxtjs/i18n`; use `$t()` / `useI18n()` — no hardcoded user-visible strings.
 
 - TypeScript:
-  - No `any` in repository (README explicitly forbids `any`). Prefer precise types,
-    `unknown` when needed then narrow, or create small type definitions.
-  - Use `zod` or explicit DTOs for runtime validation where necessary.
-  - Keep types colocated where they make sense (component props, composable return
-    shapes, or `types/` when shared across modules).
+  - `any` is forbidden. Use precise types; `unknown` + narrowing when truly needed.
+  - No unsafe type assertions without an explicit ESLint disable comment explaining why.
+  - Use `zod` for runtime validation of external data (API responses, request bodies, env vars).
+  - Types colocated: component props inline, shared in `shared/types/`, server-local in
+    `server/utils/**/*.types.ts`.
+  - `type-fest` utilities (e.g. `TupleToUnion`, `ArrayValues`) preferred over manual mapped types.
 
-- Formatting / Editor settings:
-  - See `.editorconfig`:
-    - Indent: 2 spaces
-    - EOL: LF
-    - Charset: UTF-8
-    - Max line length: 150
-    - No final newline by default (exceptions for .md, .json, .sh, .env)
-  - Run `pnpm run lint:eslint:fix` and `pnpm run lint:oxlint:fix` to auto-fix style
-    issues; prefer automated fixes over manual reformatting.
+- Formatting / Editor settings (see `.editorconfig`):
+  - Indent: 2 spaces; EOL: LF; charset: UTF-8; max line length: 150.
+  - Final newline: YES for `.md`, `.json`, `.yaml`, `.yml`, `.sh`, `.env*`; NO for everything else.
+  - Use `pnpm run lint:fix` for reformatting; avoid manual reformatting.
 
-- Imports and module layout:
-  - Use absolute/aliased imports provided by Nuxt when appropriate (e.g. `~`, `@`)
-    and auto-imported composables, but prefer explicit relative paths for local
-    components when clarity helps.
-  - Keep import groups ordered and separated by a blank line:
-    1) Node / builtin
-    2) External packages (third-party)
-    3) Project aliases / shared modules
-    4) Relative imports
-  - Prefer named imports from local modules; avoid default exports for complex
-    utilities and composables.
+- Imports and module layout (groups separated by blank lines, in order):
+  1. Node builtins (`node:path`)
+  2. External packages
+  3. Project aliases (`~~/`, `#server/`, `#components`, `@/`, `~/`)
+  4. Relative imports
+
+  - Use `type` imports for type-only symbols (`import type { Foo } from '...'`).
+  - Prefer named exports; avoid default exports for utilities and composables.
+
+- Import aliases:
+  - `@/` and `~/` → `app/`
+  - `~~/` → repo root (use for `~~/tests/unit/...` in tests)
+  - `#server/utils/...` → inside `server/` only
+  - `#shared/` → `shared/`
 
 - Naming conventions:
-  - Files:
-    - Components: PascalCase for file and component name, e.g. `MyButton.vue`.
-    - Composables: `use*` prefix, e.g. `useQuestions.ts`.
-    - Stores: `use<Entity>Store`, e.g. `useQuestionStore`.
-    - Tests: `*.spec.ts` placed next to the file under test when possible.
-  - Symbols:
-    - Types / Interfaces: `PascalCase`, prefixed when helpful (e.g. `QuestionDto`).
-    - Variables / functions: `camelCase`.
-    - Constants: `UPPER_SNAKE_CASE` for exported constants.
+  - Files: Components: `PascalCase.vue` | Composables: `use*.ts` | Stores: `<entity>.store.ts`
+    Repositories: `<resource>.repository.ts` | Server handlers: `<resource>.<method>.handler.ts`
+    Types: `*.types.ts` | Constants: `*.constants.ts` | Enums: `*.enums.ts`
+    Tests: `*.spec.ts` next to source | Faketories: `<entity>.<layer>.faketory.ts`
+    Mocks: `<composable>.mock.ts` (+ `.mock.constants.ts` + `.mock.types.ts` as needed)
+  - Symbols: Types/Interfaces: `PascalCase` | Variables/functions: `camelCase`
+    Exported constants: `UPPER_SNAKE_CASE`
 
 - Vue / component rules:
-  - Keep components small and single-responsibility; prefer composition over
-    monolithic components.
+  - Keep components small and single-responsibility.
   - Prefer props + emits over global state for reusable components.
-  - Template: keep logic minimal; complex logic belongs in `script setup` or
-    composables.
+  - Minimal logic in templates; move complexity to `script setup` or composables.
+  - Components with tests use `mountSuspended` from `@nuxt/test-utils/runtime`.
+  - Use `shallow: true` in `mountSuspended` for layout/page tests to avoid deep rendering.
+
+- Server-side (Nitro) rules:
+  - API route files (`*.get.ts`, etc.) are 3-line thin wrappers: import handler + `defineEventHandler`.
+  - All logic lives in `*.handler.ts` (accepts `H3Event`).
+  - Validate all external API responses with `zod` before mapping to domain types.
+  - Validate request bodies with `zod` via `readBody(event)` + `SCHEMA.parse(body)`.
+  - Use `createGoatItApiEndpoint` / `createGoatItApiFetchOptions` helpers; never inline fetch options.
+  - Map DTOs to domain types via dedicated mapper functions in `goat-it-api.mappers.ts`.
+
+- Repository pattern:
+  - Factory function: `export const fooRepository: FooRepository = (fetch: $Fetch) => ({ ... })`.
+  - Calls internal Nuxt server routes (`/api/goat-it-api/...`), never the external API directly.
+  - Auto-imported by Nuxt; instantiated in stores as `fooRepository($fetch)`.
 
 - Error handling and logging:
-  - Prefer returning Result-like objects or throwing typed Errors for exceptional
-    conditions; centralize translation in UI (i18n) rather than strings in services.
-  - Never swallow exceptions silently. If catching, always do one of:
-    1) Re-throw with more context
-    2) Return a typed failure value that the caller can handle
-    3) Log the error with context and show a user-friendly message in UI
-  - Avoid console.log in production code; use structured logs only in dev helpers.
+  - Never swallow exceptions silently — re-throw with context, return typed failure, or log + show i18n UI message.
+  - Zod parse errors propagate naturally; do not catch unless you can recover.
+  - No `console.log` in production code.
 
-- Types of checks expected by CI / maintainers:
-  - Lint must pass (oxlint + eslint)
-  - Typecheck must pass (`pnpm run typecheck`)
-  - Unit tests with coverage (`pnpm run test:unit:cov`) are important for PRs
-  - Mutation tests (Stryker) are used by the project (`pnpm run test:mutation`)
+## Tests and test style
 
-3) Tests and test style
-- Use Vitest with `happy-dom` / `@vue/test-utils` for component tests.
-- Test file naming: `*.spec.ts`.
-- Keep tests isolated: mock network and global stores when needed.
-- Prefer unit tests for logic and small component rendering checks. Acceptance
-  tests are separate (none configured currently).
-- When writing tests:
-  - Use explicit setup/teardown (beforeEach/afterEach) when state is shared.
-  - Avoid heavy integration in unit tests; create focused asserts.
-  - `100%` coverage is required, never decrease coverage in a PR.
+- Framework: Vitest + `@nuxt/test-utils` + `@vue/test-utils` + `happy-dom`.
+- Vitest runs five projects (defined in `configs/vitest/vitest.config.ts`):
+  - `nuxt`         – `app/**/*.spec.ts`, `server/**/*.spec.ts`, `shared/**/*.spec.ts` (excluding composables/stores/repositories/node)
+  - `composables`  – `app/composables/**/*.spec.ts`
+  - `stores`       – `app/**/*.store.spec.ts` (includes Pinia + composables + repository mock setup)
+  - `repositories` – `app/**/*.repository.spec.ts` (plain Node env, no Nuxt)
+  - `node`         – `*.mappers.spec.ts`, `*.helpers.spec.ts` under app/, server/, shared/
+- Coverage threshold: 100% (`thresholds: { 100: true }`).
+  - Collected for `app/**/*.ts`, `app/**/*.vue`, `server/**/*.ts`, `shared/**/*.ts`.
+  - Excluded: `*.constants.ts`, `*.enums.ts`, `*.types.ts`, `*.d.ts`, `*.config.ts`,
+    `*.spec.ts`, `server/api/**/*.{get,post,put,patch,delete}.ts`.
 
-4) Git / commit / PR expectations for agents
-- Do not commit secrets, env files, or credentials. `.env.example` exists for
-  reference; `.env.*` files are under `envs/` and should not be committed with
-  secrets.
-- Husky is configured (pre-commit hooks). Agents should not bypass hooks.
-- Follow conventional commits (commitlint devDependency present) when creating
-  human-facing commits. Automated agent commits should be short, explain why,
-  and run linters / tests locally before committing.
+- Mocks in `tests/unit/utils/mocks/` — `composables/` and `repositories/` sub-dirs.
+  - Non-trivial mocks use a triplet: `.mock.ts` + optionally `.mock.constants.ts` + `.mock.types.ts`.
+  - Use `ToMock<T>` from `~~/tests/unit/utils/types/mock.types.ts` to type mock objects:
+    ```ts
+    type ToMock<Stub> = { [Key in keyof Stub]: Stub[Key] extends (...args: unknown[]) => unknown ? Mock<Stub[Key]> : Stub[Key] };
+    ```
+- Mock setup files in `tests/unit/setup/nuxt/` sub-dirs `composables/` and `repositories/`.
+  - New repository mocks: use `vi.mock(...)` (NOT `mockNuxtImport`).
+  - New composable mocks: use `mockNuxtImport`.
+  - Register in `VITEST_COMPOSABLES_MOCK_SETUP_FILES` or `VITEST_REPOSITORIES_MOCK_SETUP_FILES`
+    in `configs/vitest/vitest.config.constants.ts`. Load in `nuxt`, `composables`, `stores`; NOT in `repositories` or `node`.
 
-5) Copilot / Cursor rules present in repository
-- Copilot instructions: see `.github/copilot-instructions.md` — agents must
-  follow it. In short it says:
-  - Always read and follow `AGENTS.md` when working in this repo.
-  - If `AGENTS.md` is not in the chat context, ask the repo owner to attach it
-    and then comply with its rules.
-  - Prefer minimal edits, respect Nuxt conventions, write unit tests first and
-    ensure `lint`, `typecheck`, and `test:unit:cov` pass.
-  - Location: `.github/copilot-instructions.md`
+- Fake data: faketory functions (`@faker-js/faker`) in `tests/unit/utils/faketories/`.
+  - Accept `Partial<T>`; named `create<Entity><Layer>` (e.g. `createQuestionThemeEntity`).
+  - Two layers per entity: `entity/` (domain type) and `dto/` (raw API DTO).
 
-- Cursor rules: none found under `.cursor/rules/` or `.cursorrules` in the
-  repository root. If Cursor rules are added, update this file to include them.
+- Config per project: `mockReset: true`, `clearMocks: true`, `restoreMocks: true`.
+- `describe(functionName, ...)` — pass the function/composable/store reference as label.
+- Test names: `"should <action> when <condition>."` pattern.
+- Use `expect(...).toHaveBeenCalledExactlyOnceWith(...)` for single-call assertions.
 
-6) Recommended agent behaviors
-- Prefer making minimal, local changes in a single PR. Do not rewrite large
-  files unless necessary.
-- Run the following sanity checks before proposing a PR:
-  1) `pnpm install` (or `pnpm i`)
-  2) `pnpm run lint` and fix lints or explain why exceptions are needed
-  3) `pnpm run typecheck`
-  4) `pnpm run test:unit` (or `pnpm run test:unit -- path/to/test.spec.ts` for
-     focused runs)
+- Composable tests with dependencies: use `mockNuxtImport` + `vi.resetModules()` + dynamic
+  `await import(...)` inside `beforeEach` to pick up fresh mock instances.
+- Store tests: `setActivePinia(createPinia())` is handled by the shared stores setup file;
+  capture `action`/`onError` arguments via closure inside `mockNuxtImport` factories.
 
-- When adding tests, aim to place them next to code under test, use `*.spec.ts`
-  and update coverage expectations if necessary. Keep tests deterministic.
+## Git / commit / PR expectations
 
-7) Useful paths
-- Vitest config: `configs/vitest/vitest.config.ts`
-- ESLint config: `eslint.config.ts` and `configs/eslint/` (flat configs)
-- Oxlint config: `configs/oxlint/oxlint.config.jsonc`
-- Stryker (mutation) config: `configs/stryker/stryker.config.mjs`
-- Environment files: `envs/.env.development`, `envs/.env.test`, `envs/.env.example`
-- Package scripts: `package.json` (root)
-- Copilot instructions: `.github/copilot-instructions.md`
+- Do not commit `.env.*` files with real secrets (`.env.example` is safe).
+- Husky pre-commit hooks are active; never bypass with `--no-verify`.
+- Conventional commits enforced by commitlint: `type(scope): message`.
+  Common types: `feat`, `fix`, `refactor`, `test`, `chore`, `docs`.
+- Validate branch names: `pnpm run validate:branch-name`.
 
-If anything here is unclear or you need repository-specific decisions that
-require human input (e.g. change CI gates, bump coverage policy, add a new test
-report format), add one focused question and propose a sensible default.
+## Agent skills (`.agents/skills/`)
+
+Each skill has a `SKILL.md` entry point. Load only the relevant skill for the task.
+
+- `nuxt`         – Nuxt 4 routing, composables, data fetching, server routes, SSR, testing.
+  Load before writing or modifying any Nuxt-specific code.
+- `nuxt-ui`      – `@nuxt/ui` v4 components, Tailwind CSS theming, layout patterns.
+- `vueuse`       – VueUse composables (state, sensors, browser APIs). Check here before
+  writing any custom composable; auto-imported via `@vueuse/nuxt`.
+- `unit-testing` – Complete unit test reference (patterns, mocks, faketories, Vitest projects).
+  Load before writing or modifying any `*.spec.ts` file. Full reference at `docs/unit-testing.md`.
+  Do NOT load all skill files at once; read the relevant `SKILL.md` first.
+
+## OpenCode commands (`.opencode/commands/`)
+
+Slash commands available in OpenCode sessions:
+
+- `/complete-i18n`   – Translate all French locale JSON files into every other locale.
+- `/write-unit-test` – Write a complete, passing unit test for a given source file.
+
+## Useful docs (`docs/`)
+
+- `docs/unit-testing.md` – Full human-readable unit testing guide (patterns, examples, pitfalls).
+
+## Copilot instructions (`.github/copilot-instructions.md`)
+
+- Always read and follow `AGENTS.md` when working in this repo.
+- If `AGENTS.md` is not in the chat context, ask the repo owner to attach it.
+- Prefer minimal edits, Nuxt conventions, write unit tests first, and ensure
+  `lint`, `typecheck`, and `test:unit:cov` pass before submitting changes.
+- Cursor rules: none (`.cursor/rules/` and `.cursorrules` do not exist).
+
+## Useful paths
+
+- Vitest config:    `configs/vitest/vitest.config.ts` + `vitest.config.constants.ts`
+- ESLint config:    `eslint.config.ts` + `configs/eslint/flat-configs/`
+- Oxlint config:    `configs/oxlint/oxlint.config.jsonc`
+- Stryker config:   `configs/stryker/stryker.config.mjs`
+- Nuxt config:      `nuxt.config.ts`
+- Env files:        `envs/.env.development`, `envs/.env.test`, `envs/.env.example`
+- Test setup:       `tests/unit/setup/nuxt/` (base + `composables/` + `repositories/`)
+- Test utilities:   `tests/unit/utils/` (faketories, mocks, types)
+- API sandbox:      `docker/goat-it-api-sandbox/docker-compose.yml`

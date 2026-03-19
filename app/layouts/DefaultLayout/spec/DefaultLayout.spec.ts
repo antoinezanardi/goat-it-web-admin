@@ -9,7 +9,7 @@ import DefaultLayout from "~/layouts/DefaultLayout/DefaultLayout.vue";
 describe("Default Layout", () => {
   let wrapper: VueWrapper;
 
-  async function mountDefaultLayout(options: MountSuspendedOptions = {}): Promise<VueWrapper> {
+  async function mountDefaultLayout(options: MountSuspendedOptions<typeof DefaultLayout> = {}): Promise<VueWrapper> {
     return mountSuspended(DefaultLayout, {
       shallow: true,
       ...options,

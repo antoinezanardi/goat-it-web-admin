@@ -29,26 +29,7 @@ const navigationMenuItems = computed<NavigationMenuItem[]>(() => router.getRoute
     />
 
     <template #right>
-      <UColorModeButton
-        class="cursor-pointer"
-      />
-
-      <UTooltip
-        id="default-layout-header-github-link-tooltip"
-        :text="$t('navigation.openOnGitHub')"
-      >
-        <UButton
-          id="default-layout-header-github-link"
-          :aria-label="$t('navigation.openOnGitHub')"
-          color="neutral"
-          icon="i-lucide-github"
-          target="_blank"
-          to="https://github.com/antoinezanardi/goat-it-web-admin"
-          variant="ghost"
-        />
-      </UTooltip>
-
-      <LocaleSelect/>
+      <DefaultLayoutHeaderRightContent/>
     </template>
   </UHeader>
 </template>

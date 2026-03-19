@@ -1,5 +1,4 @@
-ARG NODE_VERSION=25.7.0
-FROM --platform=$BUILDPLATFORM node:${NODE_VERSION}-alpine AS base
+FROM --platform=$BUILDPLATFORM node:25.8.1-alpine AS base
 LABEL maintainer="Antoine ZANARDI"
 
 ARG TARGETPLATFORM
@@ -36,6 +35,8 @@ COPY --chown=node:node scripts/post-install-prepare.sh ./scripts/post-install-pr
 RUN pnpm install --frozen-lockfile
 
 COPY --chown=node:node app app/
+COPY --chown=node:node server server/
+COPY --chown=node:node shared shared/
 
 CMD [ "pnpm", "run", "start:dev" ]
 
@@ -56,6 +57,8 @@ COPY --chown=node:node nuxt.config.ts ./
 COPY --chown=node:node tsconfig.json ./
 
 COPY --chown=node:node app ./app
+COPY --chown=node:node server ./server
+COPY --chown=node:node shared ./shared
 COPY --chown=node:node modules ./modules
 COPY --chown=node:node public ./public
 
@@ -63,7 +66,8 @@ COPY --chown=node:node --from=development /app/node_modules ./node_modules
 
 RUN pnpm run build
 
-FROM node:${NODE_VERSION}-alpine AS production
+FROM node:25.8.1-alpine AS production
+
 
 ENV NODE_ENV="production"
 ENV PORT=3001

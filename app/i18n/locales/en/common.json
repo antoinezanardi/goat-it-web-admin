@@ -3,6 +3,9 @@
     "app": {
       "name": "Goat It Admin"
     },
-    "gitHub": "GitHub"
+    "gitHub": "GitHub",
+    "success": "Success",
+    "error": "Error",
+    "noTranslation": "No translation available"
   }
 }

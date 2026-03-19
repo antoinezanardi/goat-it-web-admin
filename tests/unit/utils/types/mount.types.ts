@@ -1,5 +1,5 @@
 import type { mountSuspended } from "@nuxt/test-utils/runtime";
 
-type MountSuspendedOptions = Parameters<typeof mountSuspended>[1];
+type MountSuspendedOptions<Component> = Parameters<typeof mountSuspended<Component>>[1];
 
 export type { MountSuspendedOptions };

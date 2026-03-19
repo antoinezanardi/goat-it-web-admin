@@ -1,5 +1,5 @@
 import { config } from "@vue/test-utils";
-import { beforeAll, afterAll, vi } from "vitest";
+import { beforeAll, afterAll, vi, beforeEach } from "vitest";
 
 const originalGlobalConfig = { ...config.global };
 
@@ -14,6 +14,10 @@ beforeAll(() => {
     $t: vi.fn<(key: string) => string>(key => key),
     $tc: vi.fn<(key: string, count: number) => string>(key => key),
   };
+});
+
+beforeEach(() => {
+  vi.resetModules();
 });
 
 afterAll(() => {

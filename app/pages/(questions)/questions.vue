@@ -1,14 +1,25 @@
 <script setup lang="ts">
+import { PageHeader } from "#components";
+
+import { QUESTIONS_PAGE_ICON, QUESTIONS_PAGE_TITLE_KEY } from "~/pages/(questions)/questions.constants";
+
+const { t } = useI18n();
+
+useHead(() => ({
+  title: t(QUESTIONS_PAGE_TITLE_KEY),
+}));
+
 definePageMeta({
-  titleKey: "questions.pageTitle",
-  icon: "i-lucide-message-circle-question-mark",
+  titleKey: QUESTIONS_PAGE_TITLE_KEY,
+  icon: QUESTIONS_PAGE_ICON,
 });
 </script>
 
 <template>
   <div id="questions-page">
-    <h1>
-      {{ $t("questions.pageTitle") }}
-    </h1>
+    <PageHeader
+      :icon="QUESTIONS_PAGE_ICON"
+      :title="$t(QUESTIONS_PAGE_TITLE_KEY)"
+    />
   </div>
 </template>

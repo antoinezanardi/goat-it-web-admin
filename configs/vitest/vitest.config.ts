@@ -3,6 +3,9 @@ import path from "node:path";
 import { defineConfig } from "vitest/config";
 import { defineVitestProject } from "@nuxt/test-utils/config";
 
+import { VITEST_COMPOSABLES_MOCK_SETUP_FILES, VITEST_COMPOSABLES_PROJECT_INCLUDES, VITEST_IGNORED_STARTING_BY_LOGS, VITEST_NODE_PROJECT_INCLUDES, VITEST_NUXT_PROJECT_SETUP_FILES, VITEST_PROJECT_COMMON_INLINE_CONFIG, VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG, VITEST_REPOSITORIES_MOCK_SETUP_FILES, VITEST_REPOSITORIES_PROJECT_INCLUDES, VITEST_STORES_PROJECT_INCLUDES } from "./vitest.config.constants";
+import { VitestProjectNames } from "./vitest.config.enums";
+
 const processCwd = process.cwd();
 
 export default defineConfig({
@@ -10,44 +13,85 @@ export default defineConfig({
     projects: [
       await defineVitestProject({
         test: {
-          name: "nuxt",
-          globals: true,
-          mockReset: true,
-          clearMocks: true,
-          restoreMocks: true,
+          ...VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG,
+          name: VitestProjectNames.NUXT,
           include: [
-            "app/App.spec.ts",
-            "app/pages/**/*.spec.ts",
-            "app/components/**/*.spec.ts",
-            "app/composables/**/*.spec.ts",
-            "app/layouts/**/*.spec.ts",
+            "app/**/*.spec.ts",
+            "server/**/*.spec.ts",
+            "shared/**/*.spec.ts",
           ],
-          environment: "nuxt",
+          exclude: [
+            ...VITEST_NODE_PROJECT_INCLUDES,
+            ...VITEST_STORES_PROJECT_INCLUDES,
+            ...VITEST_COMPOSABLES_PROJECT_INCLUDES,
+            ...VITEST_REPOSITORIES_PROJECT_INCLUDES,
+          ],
           setupFiles: [
-            path.resolve(processCwd, "tests/unit/setup/nuxt/vtu-config.nuxt.unit-setup.ts"),
-            path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts"),
-            path.resolve(processCwd, "tests/unit/setup/nuxt/define-page-meta.nuxt.unit-setup.ts"),
-            path.resolve(processCwd, "tests/unit/setup/nuxt/use-i18n.nuxt.unit-setup.ts"),
-            path.resolve(processCwd, "tests/unit/setup/nuxt/use-router.nuxt.unit-setup.ts"),
+            ...VITEST_NUXT_PROJECT_SETUP_FILES,
+            ...VITEST_COMPOSABLES_MOCK_SETUP_FILES,
+            ...VITEST_REPOSITORIES_MOCK_SETUP_FILES,
           ],
         },
       }),
+      await defineVitestProject({
+        test: {
+          ...VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG,
+          name: VitestProjectNames.COMPOSABLES,
+          include: [...VITEST_COMPOSABLES_PROJECT_INCLUDES],
+          setupFiles: [
+            ...VITEST_NUXT_PROJECT_SETUP_FILES,
+            ...VITEST_REPOSITORIES_MOCK_SETUP_FILES,
+          ],
+        },
+      }),
+      await defineVitestProject({
+        test: {
+          ...VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG,
+          name: VitestProjectNames.STORES,
+          include: [...VITEST_STORES_PROJECT_INCLUDES],
+          setupFiles: [
+            ...VITEST_NUXT_PROJECT_SETUP_FILES,
+            ...VITEST_COMPOSABLES_MOCK_SETUP_FILES,
+            ...VITEST_REPOSITORIES_MOCK_SETUP_FILES,
+            path.resolve(processCwd, "tests/unit/setup/nuxt/stores.nuxt.unit-setup.ts"),
+          ],
+        },
+      }),
+      await defineVitestProject({
+        test: {
+          ...VITEST_PROJECT_COMMON_INLINE_CONFIG,
+          name: VitestProjectNames.REPOSITORIES,
+          include: [...VITEST_REPOSITORIES_PROJECT_INCLUDES],
+          setupFiles: [path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts")],
+        },
+      }),
+      await defineVitestProject({
+        test: {
+          ...VITEST_PROJECT_COMMON_INLINE_CONFIG,
+          name: VitestProjectNames.NODE,
+          include: [...VITEST_NODE_PROJECT_INCLUDES],
+          setupFiles: [path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts")],
+        },
+      }),
     ],
-    onConsoleLog: (log: string): boolean => !log.startsWith("<Suspense> is an experimental feature"),
+    onConsoleLog: (log: string): boolean => !VITEST_IGNORED_STARTING_BY_LOGS.some(ignoredLogStart => log.startsWith(ignoredLogStart)),
     watch: false,
     coverage: {
       provider: "v8",
       include: [
         "app/**/*.ts",
         "app/**/*.vue",
+        "server/**/*.ts",
+        "shared/**/*.ts",
       ],
       exclude: [
-        "app/**/*.constants.ts",
-        "app/**/*.enums.ts",
-        "app/**/*.types.ts",
-        "app/**/*.d.ts",
-        "app/**/*.config.ts",
-        "app/**/*.spec.ts",
+        "**/*.constants.ts",
+        "**/*.enums.ts",
+        "**/*.types.ts",
+        "**/*.d.ts",
+        "**/*.config.ts",
+        "**/*.spec.ts",
+        "server/api/**/*.{get,post,put,patch,delete}.ts",
       ],
       reportsDirectory: "tests/unit/coverage",
       reporter: [

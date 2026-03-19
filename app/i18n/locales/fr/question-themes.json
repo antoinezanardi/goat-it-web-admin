@@ -1,5 +1,21 @@
 {
   "questionThemes": {
-    "pageTitle": "Thèmes de questions"
+    "pageTitle": "Thèmes de questions",
+    "cantFetch": "Impossible de récupérer les thèmes de questions",
+    "fetching": "Récupération des thèmes de questions…",
+    "fields": {
+      "slug": "Slug",
+      "label": "Libellé",
+      "description": "Description",
+      "aliases": "Alias",
+      "status": "Statut"
+    },
+    "status": {
+      "active": "Actif",
+      "archived": "Archivé"
+    },
+    "aliases": {
+      "noneForLocale": "Aucun alias pour cette langue"
+    }
   }
 }

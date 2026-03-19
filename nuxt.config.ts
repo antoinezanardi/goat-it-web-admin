@@ -1,23 +1,85 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import type { NuxtConfig } from "@nuxt/schema";
-
-const config: NuxtConfig = {
+export default defineNuxtConfig({
+  modules: [
+    "@nuxt/ui",
+    "@nuxtjs/i18n",
+    "@vueuse/nuxt",
+    "@nuxt/hints",
+    "@pinia/nuxt",
+    "@nuxt/eslint",
+  ],
+  ssr: false,
+  pages: {
+    pattern: [
+      "**/*.vue",
+      "!**/*.ts",
+    ],
+  },
+  components: [
+    {
+      path: "~/components",
+      pathPrefix: false,
+      extensions: [".vue"],
+    },
+  ],
+  imports: {
+    dirs: [
+      "~/composables/**/use*.ts",
+      "~/repositories/**/*.repository.ts",
+    ],
+  },
+  devtools: {
+    enabled: true,
+  },
   app: {
     pageTransition: {
       name: "page",
       mode: "out-in",
     },
-  },
-  compatibilityDate: "2025-01-15",
-  components: [
-    {
-      path: "~/components",
-      pathPrefix: false,
+    head: {
+      htmlAttrs: {
+        lang: process.env.NUXT_PUBLIC_DEFAULT_LOCALE,
+      },
+      title: "Goat It Web Admin",
     },
-  ],
+  },
   css: ["~/assets/css/main.css"],
-  devtools: {
-    enabled: true,
+  ui: {
+    experimental: {
+      componentDetection: true,
+    },
+  },
+  runtimeConfig: {
+    goatItApi: {
+      baseUrl: "",
+      adminKey: "",
+    },
+  },
+  ignore: [
+    "configs/**/*.ts",
+    "eslint.config.ts",
+  ],
+  compatibilityDate: "2025-01-15",
+  nitro: {
+    imports: {
+      dirs: ["shared/utils/helpers/*.helpers.ts"],
+    },
+  },
+  typescript: {
+    shim: true,
+    strict: true,
+    typeCheck: true,
+    tsConfig: {
+      compilerOptions: {
+        noImplicitReturns: true,
+        noImplicitAny: true,
+      },
+      include: [
+        "../tests/",
+        "../eslint.config.ts",
+        "../configs/",
+      ],
+    },
   },
   eslint: {
     config: {
@@ -31,8 +93,18 @@ const config: NuxtConfig = {
     families: [
       {
         name: "General Sans",
-        weights: [200, 300, 400, 500, 600, 700],
-        styles: ["normal", "italic"],
+        weights: [
+          200,
+          300,
+          400,
+          500,
+          600,
+          700,
+        ],
+        styles: [
+          "normal",
+          "italic",
+        ],
         provider: "local",
       },
     ],
@@ -73,35 +145,7 @@ const config: NuxtConfig = {
       redirectOn: "root",
     },
   },
-  ignore: [
-    "configs/**/*.ts",
-    "eslint.config.ts",
-  ],
-  modules: [
-    "@nuxt/ui",
-    "@nuxtjs/i18n",
-    "@vueuse/nuxt",
-    "@nuxt/hints",
-    "@pinia/nuxt",
-    "@nuxt/eslint",
-  ],
-  typescript: {
-    shim: true,
-    strict: true,
-    typeCheck: true,
-    tsConfig: {
-      include: [
-        "../tests/",
-        "../eslint.config.ts",
-        "../configs/",
-      ],
-    },
+  pinia: {
+    storesDirs: ["stores/**"],
   },
-  ui: {
-    experimental: {
-      componentDetection: true,
-    },
-  },
-};
-
-export default defineNuxtConfig(config) as NuxtConfig;
+});

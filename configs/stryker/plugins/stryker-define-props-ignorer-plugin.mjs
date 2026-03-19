@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/prevent-abbreviations */
 import { PluginKind, declareValuePlugin } from "@stryker-mutator/api/plugin";
 
 function isDefinePropsCall(node) {
