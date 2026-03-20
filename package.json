@@ -96,7 +96,7 @@
     "@goat-it/schemas": "^0.0.4-beta",
     "@iconify-json/lucide": "^1.2.98",
     "@nuxt/eslint": "^1.15.2",
-    "@nuxt/hints": "^1.0.0",
+    "@nuxt/hints": "^1.0.1",
     "@nuxt/test-utils": "^4.0.0",
     "@nuxt/ui": "^4.5.1",
     "@nuxtjs/i18n": "^10.2.3",
