@@ -1,6 +1,9 @@
 import path from "node:path";
 
+import type { TestProjectInlineConfiguration } from "vitest/config";
 import type { InlineConfig } from "vitest/node";
+
+import { VitestProjectNames } from "./vitest.config.enums";
 
 const processCwd = process.cwd();
 
@@ -72,6 +75,73 @@ const VITEST_IGNORED_STARTING_BY_LOGS = [
   "[Vue warn]: App already provides property with key \"Symbol(pinia)\"",
 ] as const;
 
+const VITEST_REPOSITORIES_PROJECT_CONFIG: TestProjectInlineConfiguration = {
+  test: {
+    ...VITEST_PROJECT_COMMON_INLINE_CONFIG,
+    name: VitestProjectNames.REPOSITORIES,
+    include: [...VITEST_REPOSITORIES_PROJECT_INCLUDES],
+    setupFiles: [path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts")],
+  },
+} as const;
+
+const VITEST_NODE_PROJECT_CONFIG: TestProjectInlineConfiguration = {
+  test: {
+    ...VITEST_PROJECT_COMMON_INLINE_CONFIG,
+    name: VitestProjectNames.NODE,
+    include: [...VITEST_NODE_PROJECT_INCLUDES],
+    setupFiles: [path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts")],
+  },
+} as const;
+
+const VITEST_NUXT_PROJECT_CONFIG: TestProjectInlineConfiguration = {
+  test: {
+    ...VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG,
+    name: VitestProjectNames.NUXT,
+    include: [
+      "app/**/*.spec.ts",
+      "server/**/*.spec.ts",
+      "shared/**/*.spec.ts",
+    ],
+    exclude: [
+      ...VITEST_NODE_PROJECT_INCLUDES,
+      ...VITEST_STORES_PROJECT_INCLUDES,
+      ...VITEST_COMPOSABLES_PROJECT_INCLUDES,
+      ...VITEST_REPOSITORIES_PROJECT_INCLUDES,
+    ],
+    setupFiles: [
+      ...VITEST_NUXT_PROJECT_SETUP_FILES,
+      ...VITEST_COMPOSABLES_MOCK_SETUP_FILES,
+      ...VITEST_REPOSITORIES_MOCK_SETUP_FILES,
+    ],
+  },
+} as const;
+
+const VITEST_COMPOSABLES_PROJECT_CONFIG: TestProjectInlineConfiguration = {
+  test: {
+    ...VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG,
+    name: VitestProjectNames.COMPOSABLES,
+    include: [...VITEST_COMPOSABLES_PROJECT_INCLUDES],
+    setupFiles: [
+      ...VITEST_NUXT_PROJECT_SETUP_FILES,
+      ...VITEST_REPOSITORIES_MOCK_SETUP_FILES,
+    ],
+  },
+} as const;
+
+const VITEST_STORES_PROJECT_CONFIG: TestProjectInlineConfiguration = {
+  test: {
+    ...VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG,
+    name: VitestProjectNames.STORES,
+    include: [...VITEST_STORES_PROJECT_INCLUDES],
+    setupFiles: [
+      ...VITEST_NUXT_PROJECT_SETUP_FILES,
+      ...VITEST_COMPOSABLES_MOCK_SETUP_FILES,
+      ...VITEST_REPOSITORIES_MOCK_SETUP_FILES,
+      path.resolve(processCwd, "tests/unit/setup/nuxt/stores.nuxt.unit-setup.ts"),
+    ],
+  },
+} as const;
+
 export {
   VITEST_PROJECT_COMMON_INLINE_CONFIG,
   VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG,
@@ -83,4 +153,9 @@ export {
   VITEST_REPOSITORIES_MOCK_SETUP_FILES,
   VITEST_NODE_PROJECT_INCLUDES,
   VITEST_IGNORED_STARTING_BY_LOGS,
+  VITEST_REPOSITORIES_PROJECT_CONFIG,
+  VITEST_NODE_PROJECT_CONFIG,
+  VITEST_NUXT_PROJECT_CONFIG,
+  VITEST_COMPOSABLES_PROJECT_CONFIG,
+  VITEST_STORES_PROJECT_CONFIG,
 };
