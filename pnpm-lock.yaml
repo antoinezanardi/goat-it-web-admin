@@ -18,8 +18,8 @@ importers:
         specifier: ^10.3.0
         version: 10.3.0
       '@goat-it/schemas':
-        specifier: ^0.0.4-beta
-        version: 0.0.4-beta(zod@4.3.6)
+        specifier: ^0.0.6
+        version: 0.0.6(zod@4.3.6)
       '@iconify-json/lucide':
         specifier: ^1.2.98
         version: 1.2.98
@@ -861,8 +861,8 @@ packages:
   '@floating-ui/vue@1.1.11':
     resolution: {integrity: sha512-HzHKCNVxnGS35r9fCHBc3+uCnjw9IWIlCPL683cGgM9Kgj2BiAl8x1mS7vtvP6F9S/e/q4O6MApwSHj8hNLGfw==}
 
-  '@goat-it/schemas@0.0.4-beta':
-    resolution: {integrity: sha512-XFaJxaAyPl9dxZQ9uDRjRbl46hV0/gJRX9CVOgNdyEgUgFfGOHsOzL3btIsTXyfOyEvh8qG2UKoCc1Quv7xFJQ==}
+  '@goat-it/schemas@0.0.6':
+    resolution: {integrity: sha512-A3HBFQIu4OYvsVbVzzNuMpHYXa5Ca/GrHhNgBTaF07g5/prT479MwNI4tts8p7iu0KOjVHuLb3Bn0WIB6XJ0Yw==}
     peerDependencies:
       zod: ^4.3.6
 
@@ -8469,7 +8469,7 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@goat-it/schemas@0.0.4-beta(zod@4.3.6)':
+  '@goat-it/schemas@0.0.6(zod@4.3.6)':
     dependencies:
       type-fest: 5.5.0
       zod: 4.3.6
