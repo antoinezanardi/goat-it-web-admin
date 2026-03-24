@@ -6,6 +6,12 @@ import { QUESTION_THEMES_PAGE_ICON, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pag
 const questionThemesStore = useQuestionThemesStore();
 const { t } = useI18n();
 
+const isQuestionThemeFormModalOpen = ref<boolean>(false);
+
+function onStartCreateFromQuestionThemesTable(): void {
+  isQuestionThemeFormModalOpen.value = true;
+}
+
 const { isFetchingQuestionThemes } = storeToRefs(questionThemesStore);
 
 useHead(() => ({
@@ -39,8 +45,11 @@ definePageMeta({
         <QuestionThemesTable
           v-else
           id="question-themes-table"
+          @start-create="onStartCreateFromQuestionThemesTable"
         />
       </Transition>
+
+      <LazyQuestionThemeFormModal v-model:open="isQuestionThemeFormModalOpen"/>
     </UContainer>
   </div>
 </template>

@@ -3,6 +3,7 @@
     "pageTitle": "Thèmes de questions",
     "cantFetch": "Impossible de récupérer les thèmes de questions",
     "fetching": "Récupération des thèmes de questions…",
+    "createNew": "Créer un nouveau thème",
     "fields": {
       "slug": "Slug",
       "label": "Libellé",
