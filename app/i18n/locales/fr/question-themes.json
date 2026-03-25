@@ -9,6 +9,7 @@
       "label": "Libellé",
       "description": "Description",
       "aliases": "Alias",
+      "color": "Couleur",
       "status": "Statut"
     },
     "status": {

@@ -3,11 +3,13 @@
     "pageTitle": "Question Themes",
     "cantFetch": "Unable to fetch question themes",
     "fetching": "Fetching question themes...",
+    "createNew": "Create a new theme",
     "fields": {
       "slug": "Slug",
       "label": "Label",
       "description": "Description",
       "aliases": "Aliases",
+      "color": "Color",
       "status": "Status"
     },
     "status": {

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { QuestionThemeCreationDto } from "@goat-it/schemas/question-theme";
+
 import { PageHeader, LoadingSpinner, QuestionThemesTable, UContainer } from "#components";
 
 import { QUESTION_THEMES_PAGE_ICON, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
@@ -6,13 +8,17 @@ import { QUESTION_THEMES_PAGE_ICON, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pag
 const questionThemesStore = useQuestionThemesStore();
 const { t } = useI18n();
 
+const { isFetchingQuestionThemes } = storeToRefs(questionThemesStore);
+
 const isQuestionThemeFormModalOpen = ref<boolean>(false);
 
 function onStartCreateFromQuestionThemesTable(): void {
   isQuestionThemeFormModalOpen.value = true;
 }
 
-const { isFetchingQuestionThemes } = storeToRefs(questionThemesStore);
+function onSubmitCreationFromQuestionThemeFormModal(questionThemeCreationDto: QuestionThemeCreationDto): void {
+  console.log("submitCreationFromQuestionThemeFormModal", questionThemeCreationDto);
+}
 
 useHead(() => ({
   title: t(QUESTION_THEMES_PAGE_TITLE_KEY),
@@ -49,7 +55,10 @@ definePageMeta({
         />
       </Transition>
 
-      <LazyQuestionThemeFormModal v-model:open="isQuestionThemeFormModalOpen"/>
+      <LazyQuestionThemeFormModal
+        v-model:open="isQuestionThemeFormModalOpen"
+        @submit-creation="onSubmitCreationFromQuestionThemeFormModal"
+      />
     </UContainer>
   </div>
 </template>

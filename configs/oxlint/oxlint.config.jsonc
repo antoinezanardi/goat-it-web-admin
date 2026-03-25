@@ -17,6 +17,7 @@
     "useAsyncAction": "readonly",
     "useHead": "readonly",
     "useColorMode": "readonly",
+    "useTemplateRef": "readonly",
     "defineAppConfig": "readonly",
     "defineNuxtConfig": "readonly",
     "defineEmits": "readonly",

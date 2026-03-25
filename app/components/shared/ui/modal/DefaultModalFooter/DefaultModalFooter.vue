@@ -17,6 +17,10 @@ const closeButtonDisplayedLabel = computed<string>(() => {
 function onClickFromCloseButton(): void {
   emit("closeModal");
 }
+
+function onClickFromPrimaryButton(): void {
+  emit("primaryButtonClick");
+}
 </script>
 
 <template>
@@ -29,8 +33,10 @@ function onClickFromCloseButton(): void {
     />
 
     <UButton
+      :disabled="props.isPrimaryButtonDisabled"
       :icon="props.primaryButtonIcon"
       :label="props.primaryButtonLabel"
+      @click="onClickFromPrimaryButton"
     />
   </div>
 </template>
