@@ -2,6 +2,7 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { createTestingPinia } from "@pinia/testing";
 import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
+import { nextTick } from "vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
@@ -106,6 +107,67 @@ describe("Question Themes Page", () => {
       const table = wrapper.find("#question-themes-table");
 
       expect(table.exists()).toBeFalsy();
+    });
+  });
+
+  describe("Question theme form modal", () => {
+    it("should pass isCreatingQuestionTheme as false to the modal when not creating.", () => {
+      questionThemesStore.isCreatingQuestionTheme = false;
+      const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
+
+      expect(modal.attributes("is-creating")).toBe("false");
+    });
+
+    it("should pass isCreatingQuestionTheme as true to the modal when creating.", async() => {
+      questionThemesStore.isCreatingQuestionTheme = true;
+      wrapper = await mountQuestionThemesPage();
+
+      const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
+
+      expect(modal.attributes("is-creating")).toBe("true");
+    });
+
+    it("should open the modal when the table emits startCreate.", async() => {
+      const table = wrapper.findComponent({ name: "QuestionThemesTable" });
+      await table.vm.$emit("startCreate");
+
+      const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
+
+      expect(modal.attributes("open")).toBe("true");
+    });
+
+    it("should call createAndStoreQuestionTheme when the modal emits submitCreation.", async() => {
+      const fakeCreationDto = { slug: "my-slug", label: { en: "My Label" }, description: { en: "Desc" }, aliases: { en: [] } };
+      const modal = wrapper.findComponent({ name: "AsyncComponentWrapper" });
+      await modal.vm.$emit("submitCreation", fakeCreationDto);
+
+      expect(questionThemesStore.createAndStoreQuestionTheme).toHaveBeenCalledExactlyOnceWith(fakeCreationDto);
+    });
+
+    it("should close the modal after submitCreation when isCreateQuestionThemeSuccess is true.", async() => {
+      questionThemesStore.isCreateQuestionThemeSuccess = true;
+      const table = wrapper.findComponent({ name: "QuestionThemesTable" });
+      await table.vm.$emit("startCreate");
+
+      const fakeCreationDto = { slug: "my-slug", label: { en: "My Label" }, description: { en: "Desc" }, aliases: { en: [] } };
+      const modal = wrapper.findComponent({ name: "AsyncComponentWrapper" });
+      await modal.vm.$emit("submitCreation", fakeCreationDto);
+      await nextTick();
+
+      expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("false");
+    });
+
+    it("should not close the modal after submitCreation when isCreateQuestionThemeSuccess is false.", async() => {
+      questionThemesStore.isCreateQuestionThemeSuccess = false;
+      const table = wrapper.findComponent({ name: "QuestionThemesTable" });
+      await table.vm.$emit("startCreate");
+
+      const fakeCreationDto = { slug: "my-slug", label: { en: "My Label" }, description: { en: "Desc" }, aliases: { en: [] } };
+      const modal = wrapper.findComponent({ name: "AsyncComponentWrapper" });
+      await modal.vm.$emit("submitCreation", fakeCreationDto);
+      await nextTick();
+
+      expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("true");
     });
   });
 });

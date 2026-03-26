@@ -255,4 +255,13 @@ describe("QuestionThemesTable Component", () => {
       expect(localizedText.props("localizedText")).toStrictEqual<Partial<LocalizedText>>(description);
     });
   });
+
+  describe("startCreate event", () => {
+    it("should emit startCreate when the table header emits startCreate.", async() => {
+      const header = wrapper.findComponent({ name: "QuestionThemesTableHeader" });
+      await header.vm.$emit("startCreate");
+
+      expect(wrapper.emitted("startCreate")).toBeDefined();
+    });
+  });
 });

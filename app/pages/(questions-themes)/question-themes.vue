@@ -61,6 +61,7 @@ definePageMeta({
 
       <LazyQuestionThemeFormModal
         v-model:open="isQuestionThemeFormModalOpen"
+        data-testid="question-theme-form-modal"
         :is-creating="isCreatingQuestionTheme"
         @submit-creation="onSubmitCreationFromQuestionThemeFormModal"
       />

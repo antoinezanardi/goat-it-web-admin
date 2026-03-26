@@ -1,4 +1,5 @@
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
+import type { vi } from "vitest";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { createUseAsyncActionMock } from "~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock";
@@ -7,24 +8,41 @@ import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question
 
 import type { useQuestionThemesStore as UseQuestionThemesStoreType } from "@/stores/domain/question-theme/question-themes.store";
 
-let useAsyncActionMock: UseAsyncActionMock;
-let capturedAction: (() => Promise<QuestionTheme[]>) | undefined;
-let capturedOnError: (() => void) | undefined;
+let fetchAsyncActionMock: UseAsyncActionMock;
+let createAsyncActionMock: UseAsyncActionMock;
+let capturedFetchAction: (() => Promise<QuestionTheme[]>) | undefined;
+let capturedFetchOnError: (() => void) | undefined;
+let capturedCreateAction: ((creationDto: unknown) => Promise<QuestionTheme>) | undefined;
+let capturedCreateOnError: (() => void) | undefined;
+
+let useAsyncActionCallCount = 0;
 
 mockNuxtImport("useAsyncAction", () => (action: unknown, onError: unknown): UseAsyncActionMock => {
-  capturedAction = action as () => Promise<QuestionTheme[]>;
-  capturedOnError = onError as () => void;
-  useAsyncActionMock = createUseAsyncActionMock();
+  useAsyncActionCallCount++;
+  if (useAsyncActionCallCount === 1) {
+    capturedFetchAction = action as () => Promise<QuestionTheme[]>;
+    capturedFetchOnError = onError as () => void;
+    fetchAsyncActionMock = createUseAsyncActionMock();
 
-  return useAsyncActionMock;
+    return fetchAsyncActionMock;
+  }
+
+  capturedCreateAction = action as (creationDto: unknown) => Promise<QuestionTheme>;
+  capturedCreateOnError = onError as () => void;
+  createAsyncActionMock = createUseAsyncActionMock();
+
+  return createAsyncActionMock;
 });
 
 let useQuestionThemesStore: typeof UseQuestionThemesStoreType;
 
 describe("useQuestionThemesStore", () => {
   beforeEach(async() => {
-    capturedAction = undefined;
-    capturedOnError = undefined;
+    useAsyncActionCallCount = 0;
+    capturedFetchAction = undefined;
+    capturedFetchOnError = undefined;
+    capturedCreateAction = undefined;
+    capturedCreateOnError = undefined;
     ({ useQuestionThemesStore } = await import("@/stores/domain/question-theme/question-themes.store"));
   });
 
@@ -40,12 +58,12 @@ describe("useQuestionThemesStore", () => {
     it("should reflect the fetchStatus value from useAsyncAction when created.", () => {
       const store = useQuestionThemesStore();
 
-      expect(store.fetchQuestionThemesStatus).toBe(useAsyncActionMock.fetchStatus.value);
+      expect(store.fetchQuestionThemesStatus).toBe(fetchAsyncActionMock.fetchStatus.value);
     });
 
     it("should update when the fetchStatus changes to pending.", () => {
       const store = useQuestionThemesStore();
-      useAsyncActionMock.fetchStatus.value = "pending";
+      fetchAsyncActionMock.fetchStatus.value = "pending";
 
       expect(store.fetchQuestionThemesStatus).toBe("pending");
     });
@@ -60,7 +78,7 @@ describe("useQuestionThemesStore", () => {
 
     it("should be true when fetchStatus is pending.", () => {
       const store = useQuestionThemesStore();
-      useAsyncActionMock.fetchStatus.value = "pending";
+      fetchAsyncActionMock.fetchStatus.value = "pending";
 
       expect(store.isFetchingQuestionThemes).toBeTruthy();
     });
@@ -75,7 +93,7 @@ describe("useQuestionThemesStore", () => {
 
     it("should be true when fetchStatus is success.", () => {
       const store = useQuestionThemesStore();
-      useAsyncActionMock.fetchStatus.value = "success";
+      fetchAsyncActionMock.fetchStatus.value = "success";
 
       expect(store.isFetchQuestionThemesSuccess).toBeTruthy();
     });
@@ -90,7 +108,7 @@ describe("useQuestionThemesStore", () => {
 
     it("should be true when fetchStatus is error.", () => {
       const store = useQuestionThemesStore();
-      useAsyncActionMock.fetchStatus.value = "error";
+      fetchAsyncActionMock.fetchStatus.value = "error";
 
       expect(store.isFetchingQuestionThemesError).toBeTruthy();
     });
@@ -102,7 +120,7 @@ describe("useQuestionThemesStore", () => {
 
       await store.fetchQuestionThemes();
 
-      expect(useAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith();
+      expect(fetchAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith();
     });
   });
 
@@ -112,7 +130,7 @@ describe("useQuestionThemesStore", () => {
 
       await store.fetchAndStoreQuestionThemes();
 
-      expect(useAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith();
+      expect(fetchAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith();
     });
 
     it("should update questionThemes with the fetched themes when fetchQuestionThemes resolves with data.", async() => {
@@ -121,7 +139,7 @@ describe("useQuestionThemesStore", () => {
         createFakeQuestionTheme(),
       ];
       const store = useQuestionThemesStore();
-      useAsyncActionMock.execute.mockResolvedValue(fakeQuestionThemes);
+      fetchAsyncActionMock.execute.mockResolvedValue(fakeQuestionThemes);
 
       await store.fetchAndStoreQuestionThemes();
 
@@ -137,20 +155,153 @@ describe("useQuestionThemesStore", () => {
     });
   });
 
-  describe("useAsyncAction setup", () => {
+  describe("createQuestionThemeStatus", () => {
+    it("should reflect the fetchStatus value from useAsyncAction when created.", () => {
+      const store = useQuestionThemesStore();
+
+      expect(store.createQuestionThemeStatus).toBe(createAsyncActionMock.fetchStatus.value);
+    });
+
+    it("should update when the fetchStatus changes to pending.", () => {
+      const store = useQuestionThemesStore();
+      createAsyncActionMock.fetchStatus.value = "pending";
+
+      expect(store.createQuestionThemeStatus).toBe("pending");
+    });
+  });
+
+  describe("isCreatingQuestionTheme", () => {
+    it("should be false when createStatus is idle.", () => {
+      const store = useQuestionThemesStore();
+
+      expect(store.isCreatingQuestionTheme).toBeFalsy();
+    });
+
+    it("should be true when createStatus is pending.", () => {
+      const store = useQuestionThemesStore();
+      createAsyncActionMock.fetchStatus.value = "pending";
+
+      expect(store.isCreatingQuestionTheme).toBeTruthy();
+    });
+  });
+
+  describe("isCreateQuestionThemeSuccess", () => {
+    it("should be false when createStatus is idle.", () => {
+      const store = useQuestionThemesStore();
+
+      expect(store.isCreateQuestionThemeSuccess).toBeFalsy();
+    });
+
+    it("should be true when createStatus is success.", () => {
+      const store = useQuestionThemesStore();
+      createAsyncActionMock.fetchStatus.value = "success";
+
+      expect(store.isCreateQuestionThemeSuccess).toBeTruthy();
+    });
+  });
+
+  describe("isCreatingQuestionThemeError", () => {
+    it("should be false when createStatus is idle.", () => {
+      const store = useQuestionThemesStore();
+
+      expect(store.isCreatingQuestionThemeError).toBeFalsy();
+    });
+
+    it("should be true when createStatus is error.", () => {
+      const store = useQuestionThemesStore();
+      createAsyncActionMock.fetchStatus.value = "error";
+
+      expect(store.isCreatingQuestionThemeError).toBeTruthy();
+    });
+  });
+
+  describe("createAndStoreQuestionTheme", () => {
+    it("should call the create execute function with the creation dto when invoked.", async() => {
+      const store = useQuestionThemesStore();
+      const fakeCreationDto = {
+        slug: "my-slug",
+        label: { en: "My Label", fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined },
+        description: { en: "My Description", fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined },
+        aliases: { en: undefined, fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined },
+      };
+
+      await store.createAndStoreQuestionTheme(fakeCreationDto as QuestionTheme);
+
+      expect(createAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith(fakeCreationDto);
+    });
+
+    it("should unshift the created theme and add success toast when creation resolves with a theme.", async() => {
+      const fakeCreatedTheme = createFakeQuestionTheme();
+      const store = useQuestionThemesStore();
+      createAsyncActionMock.execute.mockResolvedValue(fakeCreatedTheme);
+      const fakeCreationDto = {
+        slug: "my-slug",
+        label: { en: "My Label", fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined },
+        description: { en: "My Description", fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined },
+        aliases: { en: undefined, fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined },
+      };
+
+      await store.createAndStoreQuestionTheme(fakeCreationDto as QuestionTheme);
+
+      expect(store.questionThemes).toStrictEqual<QuestionTheme[]>([fakeCreatedTheme]);
+      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({
+        description: "questionThemes.createSuccessfully",
+      });
+    });
+
+    it("should not update questionThemes when creation resolves with undefined.", async() => {
+      const store = useQuestionThemesStore();
+      const fakeCreationDto = {
+        slug: "my-slug",
+        label: { en: "My Label", fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined },
+        description: { en: "My Description", fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined },
+        aliases: { en: undefined, fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined },
+      };
+
+      await store.createAndStoreQuestionTheme(fakeCreationDto as QuestionTheme);
+
+      expect(store.questionThemes).toStrictEqual<QuestionTheme[]>([]);
+    });
+  });
+
+  describe("useAsyncAction setup for fetch", () => {
     it("should pass the repository getAll function as action to useAsyncAction when created.", () => {
       useQuestionThemesStore();
 
-      expect(capturedAction).toBe(questionThemesRepository($fetch).getAll);
+      expect(capturedFetchAction).toBe(questionThemesRepository($fetch).getAll);
     });
 
-    it("should call addErrorToast with the questionThemes.cantFetch translation key when the error callback is invoked.", () => {
+    it("should call addErrorToast with the questionThemes.cantFetch translation key when the fetch error callback is invoked.", () => {
       useQuestionThemesStore();
 
-      capturedOnError?.();
+      capturedFetchOnError?.();
 
       expect(useAppToast().addErrorToast).toHaveBeenCalledExactlyOnceWith({
         description: "questionThemes.cantFetch",
+      });
+    });
+  });
+
+  describe("useAsyncAction setup for create", () => {
+    it("should pass an async function wrapping repository.create as action to useAsyncAction when created.", async() => {
+      const fakeTheme = createFakeQuestionTheme();
+      useQuestionThemesStore();
+      const mockCreate = questionThemesRepository($fetch).create as ReturnType<typeof vi.fn>;
+      mockCreate.mockResolvedValue(fakeTheme);
+
+      const result = await capturedCreateAction?.({ slug: "my-slug" });
+
+      expect(mockCreate).toHaveBeenCalledExactlyOnceWith({ slug: "my-slug" });
+      expect(result).toBe(fakeTheme);
+    });
+
+    it("should call addErrorToast with the questionThemes.cantCreate translation key when the create error callback is invoked.", () => {
+      useQuestionThemesStore();
+
+      capturedCreateOnError?.();
+
+      expect(useAppToast().addErrorToast).toHaveBeenCalledExactlyOnceWith({
+        description: "questionThemes.cantCreate",
       });
     });
   });

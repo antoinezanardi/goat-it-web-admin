@@ -23,7 +23,10 @@ function onCloseModal(): void {
 }
 
 function onClickFromFooterPrimaryButton(): void {
-  formReference.value?.triggerFormSubmit();
+  if (!formReference.value) {
+    return;
+  }
+  formReference.value.triggerFormSubmit();
 }
 
 function onSubmitCreationFromForm(data: QuestionThemeCreationDto): void {

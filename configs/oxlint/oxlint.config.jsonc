@@ -176,8 +176,9 @@
       "error",
       {
         "exceptions": [
+          "T",
+          "K",
           "t",
-          "k",
           "i",
           "j",
           "k",
@@ -1429,6 +1430,21 @@
     {
       "files": [
         "**/*.types.ts"
+      ],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
+    // ---- Override for helpers files -----
+    {
+      "files": [
+        "**/*.helpers.ts"
       ],
       "rules": {
         "unicorn/filename-case": [
