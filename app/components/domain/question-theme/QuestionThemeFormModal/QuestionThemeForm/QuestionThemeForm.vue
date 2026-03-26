@@ -3,8 +3,10 @@ import type { FormSubmitEvent } from "@nuxt/ui";
 import { QUESTION_THEME_CREATION_DTO } from "@goat-it/schemas/question-theme";
 import type { QuestionThemeCreationDto } from "@goat-it/schemas/question-theme";
 
+import type { QuestionThemeCreationDtoShell } from "#shared/types/question-theme.types";
 import type { Form } from "#ui/types";
 import type { QuestionThemeFormEmits } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
+import { createQuestionThemeCreationDtoShell } from "~/composables/domain/question-theme/helpers/shell/question-theme.shell.helpers";
 
 const emit = defineEmits<QuestionThemeFormEmits>();
 
@@ -14,20 +16,14 @@ const form = useTemplateRef<Form<QuestionThemeCreationDto>>("form");
 
 const isFormValid = ref<boolean>(false);
 
-const formState = reactive<QuestionThemeCreationDto>({
-  slug: "",
-  label: { en: undefined, fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined },
-  description: { en: undefined, fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined },
-  aliases: { en: undefined, fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined },
-  color: undefined,
-});
+const formState = reactive<QuestionThemeCreationDtoShell>(createQuestionThemeCreationDtoShell());
 
 async function validateForm(): Promise<void> {
   if (!form.value) {
     return;
   }
   const result = await form.value.validate({ silent: true });
-  isFormValid.value = result !== false;
+  isFormValid.value = typeof result === "object";
 }
 
 async function onSubmit(event: FormSubmitEvent<QuestionThemeCreationDto>): Promise<void> {

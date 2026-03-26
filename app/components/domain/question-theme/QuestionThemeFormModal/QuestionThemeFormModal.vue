@@ -34,7 +34,8 @@ function onSubmitCreationFromForm(data: QuestionThemeCreationDto): void {
 <template>
   <LazyUModal
     v-model:open="open"
-    :prevent-close="isCreating"
+    :close="!isCreating"
+    :dismissible="!isCreating"
     :ui="QUESTION_THEME_FORM_MODAL_UI"
     @close="onCloseModal"
   >
@@ -55,8 +56,9 @@ function onSubmitCreationFromForm(data: QuestionThemeCreationDto): void {
     <template #footer>
       <DefaultModalFooter
         :is-close-button-disabled="isCreating"
-        :is-primary-button-disabled="!formReference?.isFormValid || isCreating"
-        :primary-button-icon="isCreating ? 'i-lucide-loader' : 'i-lucide-circle-plus'"
+        :is-primary-button-disabled="!formReference?.isFormValid"
+        :is-primary-button-loading="isCreating"
+        primary-button-icon="i-lucide-circle-plus"
         :primary-button-label="$t('common.create')"
         @close-modal="onCloseModal"
         @primary-button-click="onClickFromFooterPrimaryButton"

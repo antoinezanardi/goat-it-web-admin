@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import type { DefaultModalFooterEmits, DefaultModalFooterProperties } from "~/components/shared/ui/modal/DefaultModalFooter/default-modal-footer.types";
 
-const props = withDefaults(defineProps<DefaultModalFooterProperties>(), {
-  isCloseButtonDisabled: false,
-});
+const props = defineProps<DefaultModalFooterProperties>();
 
 const emit = defineEmits<DefaultModalFooterEmits>();
 
@@ -36,9 +34,10 @@ function onClickFromPrimaryButton(): void {
     />
 
     <UButton
-      :disabled="props.isPrimaryButtonDisabled"
-      :icon="props.primaryButtonIcon"
-      :label="props.primaryButtonLabel"
+      :disabled="isPrimaryButtonDisabled"
+      :icon="primaryButtonIcon"
+      :label="primaryButtonLabel"
+      :loading="isPrimaryButtonLoading"
       @click="onClickFromPrimaryButton"
     />
   </div>
