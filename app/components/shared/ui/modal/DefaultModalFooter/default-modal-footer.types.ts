@@ -3,6 +3,7 @@ type DefaultModalFooterProperties = {
   primaryButtonIcon?: string;
   closeButtonLabel?: string;
   isPrimaryButtonDisabled?: boolean;
+  isCloseButtonDisabled?: boolean;
 };
 
 type DefaultModalFooterEmits = {

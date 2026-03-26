@@ -6,6 +6,8 @@
     "gitHub": "GitHub",
     "success": "Success",
     "error": "Error",
-    "noTranslation": "No translation available"
+    "noTranslation": "No translation available",
+    "close": "Close",
+    "create": "Create"
   }
 }

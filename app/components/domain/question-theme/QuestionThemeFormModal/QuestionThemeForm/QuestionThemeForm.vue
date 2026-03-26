@@ -21,7 +21,6 @@ const formState = reactive<QuestionThemeCreationDto>({
   aliases: { en: undefined, fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined },
   color: undefined,
 });
-const chip = computed(() => ({ backgroundColor: formState.color }));
 
 async function validateForm(): Promise<void> {
   if (!form.value) {
@@ -58,27 +57,38 @@ defineExpose({
     @change="validateForm"
     @submit="onSubmit"
   >
-    <UFormField
-      :label="$t('questionThemes.fields.slug')"
-      name="slug"
-      required
-    >
-      <UInput
-        v-model="formState.slug"
-        :placeholder="$t('questionThemes.fields.slug')"
-      />
-    </UFormField>
+    <div class="gap-4 grid grid-cols-1 sm:grid-cols-3">
+      <UFormField
+        :label="$t('questionThemes.fields.label')"
+        :name="`label.${currentLocale}`"
+        required
+      >
+        <UInput
+          v-model="formState.label[currentLocale]"
+          :placeholder="$t('questionThemes.fields.label')"
+        />
+      </UFormField>
 
-    <UFormField
-      :label="$t('questionThemes.fields.label')"
-      :name="`label.${currentLocale}`"
-      required
-    >
-      <UInput
-        v-model="formState.label[currentLocale]"
-        :placeholder="$t('questionThemes.fields.label')"
-      />
-    </UFormField>
+      <UFormField
+        :label="$t('questionThemes.fields.slug')"
+        name="slug"
+        required
+      >
+        <UInput
+          v-model="formState.slug"
+          :placeholder="$t('questionThemes.fields.slug')"
+        />
+      </UFormField>
+
+      <UFormField
+        :label="$t('questionThemes.fields.color')"
+        name="color"
+      >
+        <InputColorPicker
+          v-model:color="formState.color"
+        />
+      </UFormField>
+    </div>
 
     <UFormField
       class="w-full"
@@ -100,35 +110,10 @@ defineExpose({
     >
       <UInputTags
         v-model="formState.aliases[currentLocale]"
+        add-on-blur
+        add-on-tab
         :placeholder="$t('questionThemes.fields.aliases')"
       />
-    </UFormField>
-
-    <UFormField
-      :label="$t('questionThemes.fields.color')"
-      name="color"
-    >
-      <UPopover>
-        <UButton
-          color="neutral"
-          label="Choose color"
-          variant="outline"
-        >
-          <template #leading>
-            <span
-              class="rounded-full size-3"
-              :style="chip"
-            />
-          </template>
-        </UButton>
-
-        <template #content>
-          <UColorPicker
-            v-model="formState.color"
-            format="hex"
-          />
-        </template>
-      </UPopover>
     </UFormField>
   </UForm>
 </template>

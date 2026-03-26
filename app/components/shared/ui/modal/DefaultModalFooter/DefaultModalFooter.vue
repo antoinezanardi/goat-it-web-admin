@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import type { DefaultModalFooterEmits, DefaultModalFooterProperties } from "~/components/shared/ui/modal/DefaultModalFooter/default-modal-footer.types";
 
-const props = defineProps<DefaultModalFooterProperties>();
+const props = withDefaults(defineProps<DefaultModalFooterProperties>(), {
+  isCloseButtonDisabled: false,
+});
 
 const emit = defineEmits<DefaultModalFooterEmits>();
 
@@ -27,6 +29,7 @@ function onClickFromPrimaryButton(): void {
   <div class="default-modal-footer flex gap-2 justify-end w-full">
     <UButton
       color="neutral"
+      :disabled="isCloseButtonDisabled"
       icon="i-lucide-x"
       :label="closeButtonDisplayedLabel"
       @click="onClickFromCloseButton"

@@ -23,6 +23,7 @@
     "defineEmits": "readonly",
     "defineExpose": "readonly",
     "defineProps": "readonly",
+    "withDefaults": "readonly",
     "defineSlots": "readonly",
     "defineModel": "readonly",
     "definePageMeta": "readonly",
@@ -1322,51 +1323,6 @@
         "typescript/use-unknown-in-catch-callback-variable": "error"
       }
     },
-    // ---- Override for constants files -----
-    {
-      "files": [
-        "**/*.constants.ts"
-      ],
-      "rules": {
-        "unicorn/filename-case": [
-          "error",
-          {
-            "case": "kebabCase",
-            "multipleFileExtensions": true
-          }
-        ]
-      }
-    },
-    // ---- Override for enums files -----
-    {
-      "files": [
-        "**/*.enums.ts"
-      ],
-      "rules": {
-        "unicorn/filename-case": [
-          "error",
-          {
-            "case": "kebabCase",
-            "multipleFileExtensions": true
-          }
-        ]
-      }
-    },
-    // ---- Override for types files -----
-    {
-      "files": [
-        "**/*.types.ts"
-      ],
-      "rules": {
-        "unicorn/filename-case": [
-          "error",
-          {
-            "case": "kebabCase",
-            "multipleFileExtensions": true
-          }
-        ]
-      }
-    },
     // ---- Override for component files -----
     {
       "files": [
@@ -1430,6 +1386,51 @@
       ],
       "rules": {
         "eslint/max-lines-per-function": "off",
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
+    // ---- Override for constants files -----
+    {
+      "files": [
+        "**/*.constants.ts"
+      ],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
+    // ---- Override for enums files -----
+    {
+      "files": [
+        "**/*.enums.ts"
+      ],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
+    // ---- Override for types files -----
+    {
+      "files": [
+        "**/*.types.ts"
+      ],
+      "rules": {
         "unicorn/filename-case": [
           "error",
           {

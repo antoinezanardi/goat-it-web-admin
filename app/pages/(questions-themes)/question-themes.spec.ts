@@ -9,7 +9,8 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 
 import type { PageHeader } from "#components";
 
-import { QUESTION_THEMES_PAGE_ICON, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
+import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/question-theme.constants";
+import { QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
 import QuestionThemesPage from "@/pages/(questions-themes)/question-themes.vue";
 
 describe("Question Themes Page", () => {
@@ -39,7 +40,7 @@ describe("Question Themes Page", () => {
 
   it("should define page metadata when mounted.", () => {
     const expectedPageMeta: Parameters<typeof definePageMeta>[0] = {
-      icon: QUESTION_THEMES_PAGE_ICON,
+      icon: QUESTION_THEME_ICON,
       titleKey: QUESTION_THEMES_PAGE_TITLE_KEY,
     };
 
@@ -65,7 +66,7 @@ describe("Question Themes Page", () => {
     it("should pass the page icon to the page header component when mounted.", () => {
       const pageHeader = wrapper.getComponent<typeof PageHeader>({ name: "PageHeader" });
 
-      expect(pageHeader.props("icon")).toBe(QUESTION_THEMES_PAGE_ICON);
+      expect(pageHeader.props("icon")).toBe(QUESTION_THEME_ICON);
     });
   });
 

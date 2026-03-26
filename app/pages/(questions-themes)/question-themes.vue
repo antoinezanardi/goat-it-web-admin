@@ -3,12 +3,13 @@ import type { QuestionThemeCreationDto } from "@goat-it/schemas/question-theme";
 
 import { PageHeader, LoadingSpinner, QuestionThemesTable, UContainer } from "#components";
 
-import { QUESTION_THEMES_PAGE_ICON, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
+import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/question-theme.constants";
+import { QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
 
 const questionThemesStore = useQuestionThemesStore();
 const { t } = useI18n();
 
-const { isFetchingQuestionThemes } = storeToRefs(questionThemesStore);
+const { isFetchingQuestionThemes, isCreatingQuestionTheme, isCreateQuestionThemeSuccess } = storeToRefs(questionThemesStore);
 
 const isQuestionThemeFormModalOpen = ref<boolean>(false);
 
@@ -16,8 +17,11 @@ function onStartCreateFromQuestionThemesTable(): void {
   isQuestionThemeFormModalOpen.value = true;
 }
 
-function onSubmitCreationFromQuestionThemeFormModal(questionThemeCreationDto: QuestionThemeCreationDto): void {
-  console.log("submitCreationFromQuestionThemeFormModal", questionThemeCreationDto);
+async function onSubmitCreationFromQuestionThemeFormModal(questionThemeCreationDto: QuestionThemeCreationDto): Promise<void> {
+  await questionThemesStore.createAndStoreQuestionTheme(questionThemeCreationDto);
+  if (isCreateQuestionThemeSuccess.value) {
+    isQuestionThemeFormModalOpen.value = false;
+  }
 }
 
 useHead(() => ({
@@ -26,14 +30,14 @@ useHead(() => ({
 
 definePageMeta({
   titleKey: QUESTION_THEMES_PAGE_TITLE_KEY,
-  icon: QUESTION_THEMES_PAGE_ICON,
+  icon: QUESTION_THEME_ICON,
 });
 </script>
 
 <template>
   <div id="question-themes-page">
     <PageHeader
-      :icon="QUESTION_THEMES_PAGE_ICON"
+      :icon="QUESTION_THEME_ICON"
       :title="$t(QUESTION_THEMES_PAGE_TITLE_KEY)"
     />
 
@@ -57,6 +61,7 @@ definePageMeta({
 
       <LazyQuestionThemeFormModal
         v-model:open="isQuestionThemeFormModalOpen"
+        :is-creating="isCreatingQuestionTheme"
         @submit-creation="onSubmitCreationFromQuestionThemeFormModal"
       />
     </UContainer>
