@@ -1,11 +1,13 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
+import { nextTick } from "vue";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import type { ComponentVmWithEmit } from "~~/tests/unit/utils/types/mock.types";
+import { createFakeQuestionThemeCreationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 
-import type { QuestionThemeForm, QuestionThemeFormModal } from "#components";
-import type { DefaultModalFooter, DefaultModalTitle } from "#components";
+import { DefaultModalFooter, DefaultModalTitle, QuestionThemeFormModal } from "#components";
 
 import type { QuestionThemeFormModalProperties } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.types";
 import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/question-theme.constants";
@@ -24,9 +26,8 @@ describe("QuestionThemeFormModal Component", () => {
       props: {
         ...defaultQuestionThemeFormModalProperties,
         open: true,
-        ...optionProperties,
+        ...(optionProperties as object),
       },
-      attachTo: document.body,
       ...restOptions,
     });
   }
@@ -41,13 +42,13 @@ describe("QuestionThemeFormModal Component", () => {
 
   describe("Modal title", () => {
     it("should pass the question theme icon to the default modal title when mounted.", () => {
-      const modalTitle = wrapper.findComponent<typeof DefaultModalTitle>({ name: "DefaultModalTitle" });
+      const modalTitle = wrapper.findComponent(DefaultModalTitle);
 
       expect(modalTitle.props("icon")).toBe(QUESTION_THEME_ICON);
     });
 
     it("should pass the createNew i18n key as title to the default modal title when mounted.", () => {
-      const modalTitle = wrapper.findComponent<typeof DefaultModalTitle>({ name: "DefaultModalTitle" });
+      const modalTitle = wrapper.findComponent(DefaultModalTitle);
 
       expect(modalTitle.props("title")).toBe("questionThemes.createNew");
     });
@@ -55,7 +56,7 @@ describe("QuestionThemeFormModal Component", () => {
 
   describe("Modal footer", () => {
     it("should pass isCreating as isCloseButtonDisabled to the footer when isCreating is false.", () => {
-      const footer = wrapper.findComponent<typeof DefaultModalFooter>({ name: "DefaultModalFooter" });
+      const footer = wrapper.findComponent(DefaultModalFooter);
 
       expect(footer.props("isCloseButtonDisabled")).toBeFalsy();
     });
@@ -63,13 +64,13 @@ describe("QuestionThemeFormModal Component", () => {
     it("should pass isCreating as isCloseButtonDisabled to the footer when isCreating is true.", async() => {
       wrapper = await mountQuestionThemeFormModalComponent({ props: { isCreating: true } });
 
-      const footer = wrapper.findComponent<typeof DefaultModalFooter>({ name: "DefaultModalFooter" });
+      const footer = wrapper.findComponent(DefaultModalFooter);
 
       expect(footer.props("isCloseButtonDisabled")).toBeTruthy();
     });
 
     it("should pass isCreating as isPrimaryButtonLoading to the footer when isCreating is false.", () => {
-      const footer = wrapper.findComponent<typeof DefaultModalFooter>({ name: "DefaultModalFooter" });
+      const footer = wrapper.findComponent(DefaultModalFooter);
 
       expect(footer.props("isPrimaryButtonLoading")).toBeFalsy();
     });
@@ -77,19 +78,19 @@ describe("QuestionThemeFormModal Component", () => {
     it("should pass isCreating as isPrimaryButtonLoading to the footer when isCreating is true.", async() => {
       wrapper = await mountQuestionThemeFormModalComponent({ props: { isCreating: true } });
 
-      const footer = wrapper.findComponent<typeof DefaultModalFooter>({ name: "DefaultModalFooter" });
+      const footer = wrapper.findComponent(DefaultModalFooter);
 
       expect(footer.props("isPrimaryButtonLoading")).toBeTruthy();
     });
 
     it("should pass the common.create i18n key as primaryButtonLabel to the footer when mounted.", () => {
-      const footer = wrapper.findComponent<typeof DefaultModalFooter>({ name: "DefaultModalFooter" });
+      const footer = wrapper.findComponent(DefaultModalFooter);
 
       expect(footer.props("primaryButtonLabel")).toBe("common.create");
     });
 
     it("should pass the primary button icon to the footer when mounted.", () => {
-      const footer = wrapper.findComponent<typeof DefaultModalFooter>({ name: "DefaultModalFooter" });
+      const footer = wrapper.findComponent(DefaultModalFooter);
 
       expect(footer.props("primaryButtonIcon")).toBe("i-lucide-circle-plus");
     });
@@ -101,8 +102,9 @@ describe("QuestionThemeFormModal Component", () => {
         props: { isCreating: false },
       });
 
-      const footer = wrapper.findComponent<typeof DefaultModalFooter>({ name: "DefaultModalFooter" });
-      await footer.vm.$emit("closeModal");
+      const footer = wrapper.findComponent({ name: "DefaultModalFooter" });
+      (footer.vm as unknown as ComponentVmWithEmit).$emit("closeModal");
+      await nextTick();
 
       expect(wrapper.emitted("update:open")).toBeDefined();
     });
@@ -112,30 +114,9 @@ describe("QuestionThemeFormModal Component", () => {
         props: { isCreating: true },
       });
 
-      const footer = wrapper.findComponent<typeof DefaultModalFooter>({ name: "DefaultModalFooter" });
-      await footer.vm.$emit("closeModal");
-
-      expect(wrapper.emitted("update:open")).toBeUndefined();
-    });
-
-    it("should close the modal when close event is emitted from LazyUModal and isCreating is false.", async() => {
-      wrapper = await mountQuestionThemeFormModalComponent({
-        props: { isCreating: false },
-      });
-
-      const modal = wrapper.findComponent({ name: "UModal" });
-      await modal.vm.$emit("close");
-
-      expect(wrapper.emitted("update:open")).toBeDefined();
-    });
-
-    it("should not close the modal when close event is emitted from LazyUModal and isCreating is true.", async() => {
-      wrapper = await mountQuestionThemeFormModalComponent({
-        props: { isCreating: true },
-      });
-
-      const modal = wrapper.findComponent({ name: "UModal" });
-      await modal.vm.$emit("close");
+      const footer = wrapper.findComponent({ name: "DefaultModalFooter" });
+      (footer.vm as unknown as ComponentVmWithEmit).$emit("closeModal");
+      await nextTick();
 
       expect(wrapper.emitted("update:open")).toBeUndefined();
     });
@@ -143,9 +124,9 @@ describe("QuestionThemeFormModal Component", () => {
 
   describe("Primary button click", () => {
     it("should trigger form submission when primaryButtonClick is emitted from the footer.", async() => {
-      const footer = wrapper.findComponent<typeof DefaultModalFooter>({ name: "DefaultModalFooter" });
-      await footer.vm.$emit("primaryButtonClick");
-      await wrapper.vm.$nextTick();
+      const footer = wrapper.findComponent({ name: "DefaultModalFooter" });
+      (footer.vm as unknown as ComponentVmWithEmit).$emit("primaryButtonClick");
+      await nextTick();
 
       const form = wrapper.findComponent({ name: "QuestionThemeForm" });
 
@@ -155,15 +136,11 @@ describe("QuestionThemeFormModal Component", () => {
 
   describe("Submit creation", () => {
     it("should emit submitCreation when the form emits submitCreation.", async() => {
-      const form = wrapper.getComponent<typeof QuestionThemeForm>({ name: "QuestionThemeForm" });
-      const fakeData = {
-        slug: "my-slug",
-        label: { en: "My Label" },
-        description: { en: "My Description" },
-        aliases: { en: ["alias1"] },
-      };
+      const fakeData = createFakeQuestionThemeCreationDto();
+      const form = wrapper.findComponent({ name: "QuestionThemeForm" });
 
-      await form.vm.$emit("submitCreation", fakeData);
+      (form.vm as unknown as ComponentVmWithEmit).$emit("submitCreation", fakeData);
+      await nextTick();
 
       expect(wrapper.emitted("submitCreation")).toStrictEqual([[fakeData]]);
     });

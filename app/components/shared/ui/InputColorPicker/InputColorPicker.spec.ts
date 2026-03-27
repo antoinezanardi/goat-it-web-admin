@@ -1,10 +1,14 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
+import { nextTick } from "vue";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { InputColorPicker } from "#components";
+import type { UColorPicker } from "#components";
+
+type UColorPickerWrapper = VueWrapper<InstanceType<typeof UColorPicker>>;
 
 describe("InputColorPicker Component", () => {
   let wrapper: VueWrapper;
@@ -70,8 +74,9 @@ describe("InputColorPicker Component", () => {
       const button = wrapper.findAll("button").at(0);
       await button?.trigger("click");
 
-      const colorPicker = wrapper.findComponent({ name: "UColorPicker" });
-      await colorPicker.vm.$emit("update:modelValue", "#AABBCC");
+      const colorPicker = wrapper.findComponent({ name: "UColorPicker" }) as UColorPickerWrapper;
+      colorPicker.vm.$emit("update:modelValue", "#AABBCC");
+      await nextTick();
 
       expect(wrapper.emitted("update:color")).toStrictEqual([["#AABBCC"]]);
     });

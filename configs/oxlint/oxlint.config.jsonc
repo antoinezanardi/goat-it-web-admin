@@ -4,6 +4,7 @@
     "builtin": true
   },
   "globals": {
+    "document": "readonly",
     "process": "readonly",
     "console": "readonly",
     "useRouter": "readonly",

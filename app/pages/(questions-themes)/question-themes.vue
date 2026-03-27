@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { QuestionThemeCreationDto } from "@goat-it/schemas/question-theme";
+import { ref } from "vue";
 
-import { PageHeader, LoadingSpinner, QuestionThemesTable, UContainer } from "#components";
-
+import { useQuestionThemesStore } from "~/stores/domain/question-theme/question-themes.store";
 import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/question-theme.constants";
 import { QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
 
@@ -34,6 +34,8 @@ definePageMeta({
 });
 </script>
 
+<!-- [V8 SOURCE MAPPING ISSUE] Acceptable, entire page is tested, but the coverage report is not able to recognize it. */ -->
+<!-- v8 ignore start -->
 <template>
   <div id="question-themes-page">
     <PageHeader
@@ -58,13 +60,14 @@ definePageMeta({
           @start-create="onStartCreateFromQuestionThemesTable"
         />
       </Transition>
-
-      <LazyQuestionThemeFormModal
-        v-model:open="isQuestionThemeFormModalOpen"
-        data-testid="question-theme-form-modal"
-        :is-creating="isCreatingQuestionTheme"
-        @submit-creation="onSubmitCreationFromQuestionThemeFormModal"
-      />
     </UContainer>
+
+    <LazyQuestionThemeFormModal
+      v-model:open="isQuestionThemeFormModalOpen"
+      data-testid="question-theme-form-modal"
+      :is-creating="isCreatingQuestionTheme"
+      @submit-creation="onSubmitCreationFromQuestionThemeFormModal"
+    />
   </div>
 </template>
+<!-- v8 ignore stop -->

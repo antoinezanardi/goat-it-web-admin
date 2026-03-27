@@ -4,6 +4,7 @@ import type { TableColumn } from "@nuxt/ui";
 import { createTestingPinia } from "@pinia/testing";
 import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
+import { nextTick } from "vue";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
@@ -11,6 +12,7 @@ import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/l
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import type { ComponentVmWithEmit } from "~~/tests/unit/utils/types/mock.types";
 
 import { QuestionThemesTable } from "#components";
 import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList, LocalizedText as LocalizedTextComponent } from "#components";
@@ -259,7 +261,8 @@ describe("QuestionThemesTable Component", () => {
   describe("startCreate event", () => {
     it("should emit startCreate when the table header emits startCreate.", async() => {
       const header = wrapper.findComponent({ name: "QuestionThemesTableHeader" });
-      await header.vm.$emit("startCreate");
+      (header.vm as unknown as ComponentVmWithEmit).$emit("startCreate");
+      await nextTick();
 
       expect(wrapper.emitted("startCreate")).toBeDefined();
     });

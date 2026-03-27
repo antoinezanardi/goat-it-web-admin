@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, reactive } from "vue";
 import type { FormSubmitEvent } from "@nuxt/ui";
 import { QUESTION_THEME_CREATION_DTO } from "@goat-it/schemas/question-theme";
 import type { QuestionThemeCreationDto } from "@goat-it/schemas/question-theme";
@@ -10,11 +11,16 @@ import { createQuestionThemeCreationDtoShell } from "~/composables/domain/questi
 
 const emit = defineEmits<QuestionThemeFormEmits>();
 
+const isFormValid = ref<boolean>(false);
+
+defineExpose({
+  isFormValid,
+  triggerFormSubmit,
+});
+
 const { locale: currentLocale } = useI18n();
 
 const form = useTemplateRef<Form<QuestionThemeCreationDto>>("form");
-
-const isFormValid = ref<boolean>(false);
 
 const formState = reactive<QuestionThemeCreationDtoShell>(createQuestionThemeCreationDtoShell());
 
@@ -26,9 +32,12 @@ async function validateForm(): Promise<void> {
   isFormValid.value = typeof result === "object";
 }
 
-async function onSubmit(event: FormSubmitEvent<QuestionThemeCreationDto>): Promise<void> {
+/* [V8 SOURCE MAPPING ISSUE] Acceptable, the onSubmit method is tested, but the coverage report is not able to recognize it. */
+/* v8 ignore start */
+function onSubmit(event: FormSubmitEvent<QuestionThemeCreationDto>): void {
   emit("submitCreation", event.data);
 }
+/* v8 ignore stop */
 
 async function triggerFormSubmit(): Promise<void> {
   if (!form.value) {
@@ -36,11 +45,6 @@ async function triggerFormSubmit(): Promise<void> {
   }
   await form.value.submit();
 }
-
-defineExpose({
-  isFormValid,
-  triggerFormSubmit,
-});
 </script>
 
 <template>

@@ -27,7 +27,10 @@ type MockedPiniaStore<TStoreDefinition extends () => unknown> =
     [Key in keyof Getters]: Getters[Key] extends ComputedRef<infer Value> ? Value : never;
   } : ReturnType<TStoreDefinition>;
 
+type ComponentVmWithEmit = { $emit: (event: string, ...arguments_: unknown[]) => void };
+
 export type {
   ToMock,
   MockedPiniaStore,
+  ComponentVmWithEmit,
 };

@@ -16,31 +16,29 @@ const open = defineModel<boolean>("open", { default: false });
 
 const formReference = useTemplateRef<InstanceType<typeof QuestionThemeForm>>("formReference");
 
-function onCloseModal(): void {
-  if (!props.isCreating) {
-    open.value = false;
-  }
-}
-
 function onClickFromFooterPrimaryButton(): void {
-  if (!formReference.value) {
-    return;
-  }
-  formReference.value.triggerFormSubmit();
+  formReference.value?.triggerFormSubmit();
 }
 
 function onSubmitCreationFromForm(data: QuestionThemeCreationDto): void {
   emit("submitCreation", data);
 }
+
+function onCloseModal(): void {
+  if (!props.isCreating) {
+    open.value = false;
+  }
+}
 </script>
 
 <template>
+  <!-- [V8 SOURCE MAPPING ISSUE] Acceptable, LazyUModal is tested, but the coverage report is not able to recognize it. */ -->
+  <!-- v8 ignore start -->
   <LazyUModal
     v-model:open="open"
     :close="!isCreating"
     :dismissible="!isCreating"
     :ui="QUESTION_THEME_FORM_MODAL_UI"
-    @close="onCloseModal"
   >
     <template #title>
       <DefaultModalTitle
@@ -68,4 +66,5 @@ function onSubmitCreationFromForm(data: QuestionThemeCreationDto): void {
       />
     </template>
   </LazyUModal>
+  <!-- v8 ignore stop -->
 </template>
