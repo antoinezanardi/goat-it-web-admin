@@ -116,7 +116,7 @@
     "cross-env": "^10.1.0",
     "eslint": "^10.1.0",
     "eslint-plugin-oxlint": "^1.57.0",
-    "eslint-plugin-unicorn": "^63.0.0",
+    "eslint-plugin-unicorn": "^64.0.0",
     "happy-dom": "^20.8.9",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
