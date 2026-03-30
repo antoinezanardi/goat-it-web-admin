@@ -2,12 +2,16 @@
   "questionThemes": {
     "pageTitle": "Thèmes de questions",
     "cantFetch": "Impossible de récupérer les thèmes de questions",
+    "cantCreate": "Impossible de créer le thème de question",
     "fetching": "Récupération des thèmes de questions…",
+    "createNew": "Créer un nouveau thème",
+    "createSuccessfully": "Thème de question créé avec succès",
     "fields": {
       "slug": "Slug",
       "label": "Libellé",
       "description": "Description",
       "aliases": "Alias",
+      "color": "Couleur",
       "status": "Statut"
     },
     "status": {

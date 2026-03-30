@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
 
-import type { QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
+import type { QuestionThemesTableEmits, QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 import LocalizedText from "~/components/shared/core/localization/LocalizedText/LocalizedText.vue";
+
+const emit = defineEmits<QuestionThemesTableEmits>();
 
 const { t, locale: currentLocale } = useI18n();
 
@@ -41,10 +43,18 @@ function createTableColumn(accessorKey: keyof QuestionThemesTableRow, isCentered
   }
   return tableColumn;
 }
+
+function onStartCreateFromQuestionThemesTableHeader(): void {
+  emit("startCreate");
+}
 </script>
 
 <template>
-  <div id="question-themes-table">
+  <UCard id="question-themes-table">
+    <template #header>
+      <QuestionThemesTableHeader @start-create="onStartCreateFromQuestionThemesTableHeader"/>
+    </template>
+
     <UTable
       :columns="columns"
       :data="rows"
@@ -75,5 +85,5 @@ function createTableColumn(accessorKey: keyof QuestionThemesTableRow, isCentered
         <QuestionThemeStatusBadge :status="row.original.status"/>
       </template>
     </UTable>
-  </div>
+  </UCard>
 </template>

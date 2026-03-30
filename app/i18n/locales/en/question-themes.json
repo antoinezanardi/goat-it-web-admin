@@ -2,12 +2,16 @@
   "questionThemes": {
     "pageTitle": "Question Themes",
     "cantFetch": "Unable to fetch question themes",
+    "cantCreate": "Unable to create question theme",
     "fetching": "Fetching question themes...",
+    "createNew": "Create a new theme",
+    "createSuccessfully": "Question theme created successfully",
     "fields": {
       "slug": "Slug",
       "label": "Label",
       "description": "Description",
       "aliases": "Aliases",
+      "color": "Color",
       "status": "Status"
     },
     "status": {

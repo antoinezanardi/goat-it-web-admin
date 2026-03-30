@@ -38,7 +38,7 @@ describe("QuestionThemeAliasesList Component", () => {
 
   it("should pass the alias to the badge when there is at least one alias.", async() => {
     const aliases = ["alias"];
-    wrapper = await mountQuestionThemeAliasesListComponent({ props: { aliases } });
+    await wrapper.setProps({ aliases });
 
     const pill = wrapper.getComponent<typeof QuestionThemeAliasPill>({ name: "QuestionThemeAliasPill" });
 
@@ -46,7 +46,7 @@ describe("QuestionThemeAliasesList Component", () => {
   });
 
   it("should render a none badge when aliases are not defined.", async() => {
-    wrapper = await mountQuestionThemeAliasesListComponent({ props: { aliases: undefined } });
+    await wrapper.setProps({ aliases: undefined });
 
     const badge = wrapper.findComponent<typeof UBadge>({ name: "UBadge" });
 
@@ -54,7 +54,7 @@ describe("QuestionThemeAliasesList Component", () => {
   });
 
   it("should render the none badge when there is no alias.", async() => {
-    wrapper = await mountQuestionThemeAliasesListComponent({ props: { aliases: [] } });
+    await wrapper.setProps({ aliases: [] });
 
     const badge = wrapper.findComponent<typeof UBadge>({ name: "UBadge" });
 

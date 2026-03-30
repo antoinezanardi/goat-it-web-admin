@@ -122,6 +122,7 @@ export default defineNuxtConfig({
           "fr/question-themes.json",
           "fr/common.json",
           "fr/navigation.json",
+          "fr/form.json",
         ],
       },
       {
@@ -134,6 +135,7 @@ export default defineNuxtConfig({
           "en/question-themes.json",
           "en/common.json",
           "en/navigation.json",
+          "en/form.json",
         ],
       },
     ],

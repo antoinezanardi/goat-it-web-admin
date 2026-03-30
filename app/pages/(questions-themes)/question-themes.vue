@@ -1,12 +1,28 @@
 <script setup lang="ts">
-import { PageHeader, LoadingSpinner, QuestionThemesTable, UContainer } from "#components";
+import type { QuestionThemeCreationDto } from "@goat-it/schemas/question-theme";
+import { ref } from "vue";
 
-import { QUESTION_THEMES_PAGE_ICON, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
+import { useQuestionThemesStore } from "~/stores/domain/question-theme/question-themes.store";
+import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/question-theme.constants";
+import { QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
 
 const questionThemesStore = useQuestionThemesStore();
 const { t } = useI18n();
 
-const { isFetchingQuestionThemes } = storeToRefs(questionThemesStore);
+const { isFetchingQuestionThemes, isCreatingQuestionTheme, isCreateQuestionThemeSuccess } = storeToRefs(questionThemesStore);
+
+const isQuestionThemeFormModalOpen = ref<boolean>(false);
+
+function onStartCreateFromQuestionThemesTable(): void {
+  isQuestionThemeFormModalOpen.value = true;
+}
+
+async function onSubmitCreationFromQuestionThemeFormModal(questionThemeCreationDto: QuestionThemeCreationDto): Promise<void> {
+  await questionThemesStore.createAndStoreQuestionTheme(questionThemeCreationDto);
+  if (isCreateQuestionThemeSuccess.value) {
+    isQuestionThemeFormModalOpen.value = false;
+  }
+}
 
 useHead(() => ({
   title: t(QUESTION_THEMES_PAGE_TITLE_KEY),
@@ -14,14 +30,16 @@ useHead(() => ({
 
 definePageMeta({
   titleKey: QUESTION_THEMES_PAGE_TITLE_KEY,
-  icon: QUESTION_THEMES_PAGE_ICON,
+  icon: QUESTION_THEME_ICON,
 });
 </script>
 
+<!-- [V8 SOURCE MAPPING ISSUE] Acceptable, entire page is tested, but the coverage report is not able to recognize it. */ -->
+<!-- v8 ignore start -->
 <template>
   <div id="question-themes-page">
     <PageHeader
-      :icon="QUESTION_THEMES_PAGE_ICON"
+      :icon="QUESTION_THEME_ICON"
       :title="$t(QUESTION_THEMES_PAGE_TITLE_KEY)"
     />
 
@@ -39,8 +57,17 @@ definePageMeta({
         <QuestionThemesTable
           v-else
           id="question-themes-table"
+          @start-create="onStartCreateFromQuestionThemesTable"
         />
       </Transition>
     </UContainer>
+
+    <LazyQuestionThemeFormModal
+      v-model:open="isQuestionThemeFormModalOpen"
+      data-testid="question-theme-form-modal"
+      :is-creating="isCreatingQuestionTheme"
+      @submit-creation="onSubmitCreationFromQuestionThemeFormModal"
+    />
   </div>
 </template>
+<!-- v8 ignore stop -->

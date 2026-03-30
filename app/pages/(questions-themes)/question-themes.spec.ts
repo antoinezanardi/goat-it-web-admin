@@ -2,14 +2,19 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { createTestingPinia } from "@pinia/testing";
 import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
+import { nextTick } from "vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import { createFakeQuestionThemeCreationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 
-import type { PageHeader } from "#components";
+import type { PageHeader, UModal } from "#components";
 
-import { QUESTION_THEMES_PAGE_ICON, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
+import type QuestionThemesTable from "@/components/domain/question-theme/QuestionThemesTable/QuestionThemesTable.vue";
+import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/question-theme.constants";
+import { QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
 import QuestionThemesPage from "@/pages/(questions-themes)/question-themes.vue";
 
 describe("Question Themes Page", () => {
@@ -39,7 +44,7 @@ describe("Question Themes Page", () => {
 
   it("should define page metadata when mounted.", () => {
     const expectedPageMeta: Parameters<typeof definePageMeta>[0] = {
-      icon: QUESTION_THEMES_PAGE_ICON,
+      icon: QUESTION_THEME_ICON,
       titleKey: QUESTION_THEMES_PAGE_TITLE_KEY,
     };
 
@@ -65,7 +70,7 @@ describe("Question Themes Page", () => {
     it("should pass the page icon to the page header component when mounted.", () => {
       const pageHeader = wrapper.getComponent<typeof PageHeader>({ name: "PageHeader" });
 
-      expect(pageHeader.props("icon")).toBe(QUESTION_THEMES_PAGE_ICON);
+      expect(pageHeader.props("icon")).toBe(QUESTION_THEME_ICON);
     });
   });
 
@@ -105,6 +110,67 @@ describe("Question Themes Page", () => {
       const table = wrapper.find("#question-themes-table");
 
       expect(table.exists()).toBeFalsy();
+    });
+  });
+
+  describe("Question theme form modal", () => {
+    it("should pass isCreatingQuestionTheme as false to the modal when not creating.", () => {
+      questionThemesStore.isCreatingQuestionTheme = false;
+      const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
+
+      expect(modal.attributes("is-creating")).toBe("false");
+    });
+
+    it("should pass isCreatingQuestionTheme as true to the modal when creating.", async() => {
+      questionThemesStore.isCreatingQuestionTheme = true;
+      wrapper = await mountQuestionThemesPage();
+
+      const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
+
+      expect(modal.attributes("is-creating")).toBe("true");
+    });
+
+    it("should open the modal when the table emits startCreate.", async() => {
+      const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
+      getWrapperVm(table).$emit("startCreate");
+      await nextTick();
+
+      const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
+
+      expect(modal.attributes("open")).toBe("true");
+    });
+
+    it("should call createAndStoreQuestionTheme when the modal emits submitCreation.", () => {
+      const fakeCreationDto = createFakeQuestionThemeCreationDto();
+      const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
+      getWrapperVm(modal).$emit("submitCreation", fakeCreationDto);
+
+      expect(questionThemesStore.createAndStoreQuestionTheme).toHaveBeenCalledExactlyOnceWith(fakeCreationDto);
+    });
+
+    it("should close the modal after submitCreation when isCreateQuestionThemeSuccess is true.", () => {
+      questionThemesStore.isCreateQuestionThemeSuccess = true;
+      const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
+      getWrapperVm(table).$emit("startCreate");
+
+      const fakeCreationDto = createFakeQuestionThemeCreationDto();
+      const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
+      getWrapperVm(modal).$emit("submitCreation", fakeCreationDto);
+
+      expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("false");
+    });
+
+    it("should not close the modal after submitCreation when isCreateQuestionThemeSuccess is false.", async() => {
+      questionThemesStore.isCreateQuestionThemeSuccess = false;
+      const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
+      getWrapperVm(table).$emit("startCreate");
+
+      const fakeCreationDto = createFakeQuestionThemeCreationDto();
+      const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
+      getWrapperVm(modal).$emit("submitCreation", fakeCreationDto);
+      await nextTick();
+
+      expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("true");
     });
   });
 });

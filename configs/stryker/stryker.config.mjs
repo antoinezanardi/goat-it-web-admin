@@ -16,6 +16,7 @@ export default {
     "!**/*.d.ts",
     "!**/*.types.ts",
     "!**/*.spec.ts",
+    "!tests/**/*.ts",
   ],
   plugins: ["@stryker-mutator/vitest-runner"],
   ignorePatterns: [

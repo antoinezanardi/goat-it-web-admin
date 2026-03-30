@@ -33,24 +33,14 @@ describe("PageHeader Component", () => {
 
   describe("Page Header", () => {
     it("should pass the title prop to the page header component when mounted.", async() => {
-      wrapper = await mountPageHeaderComponent({
-        props: {
-          ...defaultPageHeaderProperties,
-          title: "My Page",
-        },
-      });
+      await wrapper.setProps({ ...defaultPageHeaderProperties, title: "My Page" });
       const pageHeader = wrapper.getComponent<typeof UPageHeader>({ name: "UPageHeader" });
 
       expect(pageHeader.text()).toContain("My Page");
     });
 
     it("should pass the icon name prop to the icon component when mounted.", async() => {
-      wrapper = await mountPageHeaderComponent({
-        props: {
-          ...defaultPageHeaderProperties,
-          icon: "i-lucide-star",
-        },
-      });
+      await wrapper.setProps({ ...defaultPageHeaderProperties, icon: "i-lucide-star" });
       const icon = wrapper.getComponent<typeof UIcon>({ name: "UIcon" });
 
       expect(icon.props("name")).toBe("i-lucide-star");

@@ -4,6 +4,11 @@ export default defineAppConfig({
       primary: "green",
       neutral: "slate",
     },
+    button: {
+      slots: {
+        base: ["cursor-pointer"],
+      },
+    },
     pageHeader: {
       slots: {
         title: "text-xl sm:text-2xl font-medium",

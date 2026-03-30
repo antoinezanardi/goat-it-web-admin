@@ -1,5 +1,9 @@
 import type { LocalizedText } from "@goat-it/schemas/shared/locale";
 
+type QuestionThemesTableEmits = {
+  startCreate: [];
+};
+
 type QuestionThemesTableRow = {
   id: QuestionTheme["id"];
   slug: QuestionTheme["slug"];
@@ -9,4 +13,7 @@ type QuestionThemesTableRow = {
   status: QuestionTheme["status"];
 };
 
-export type { QuestionThemesTableRow };
+export type {
+  QuestionThemesTableEmits,
+  QuestionThemesTableRow,
+};

@@ -40,11 +40,7 @@ describe("LoadingSpinner Component", () => {
     });
 
     it("should not render the label when label prop is an empty string.", async() => {
-      wrapper = await mountLoadingSpinnerComponent({
-        props: {
-          label: "",
-        },
-      });
+      await wrapper.setProps({ label: "" });
 
       const label = wrapper.find("#loading-spinner-label");
 
@@ -52,7 +48,7 @@ describe("LoadingSpinner Component", () => {
     });
 
     it("should render the label when label prop is a non-empty string.", async() => {
-      wrapper = await mountLoadingSpinnerComponent({ props: { label: "Loading..." } });
+      await wrapper.setProps({ label: "Loading..." });
 
       const label = wrapper.find("#loading-spinner-label");
 
@@ -60,7 +56,7 @@ describe("LoadingSpinner Component", () => {
     });
 
     it("should display the provided label text when label prop is a non-empty string.", async() => {
-      wrapper = await mountLoadingSpinnerComponent({ props: { label: "Please wait" } });
+      await wrapper.setProps({ label: "Please wait" });
 
       const label = wrapper.find("#loading-spinner-label");
 
