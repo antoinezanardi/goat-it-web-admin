@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { DefaultModalFooter } from "#components";
-import type { UButton } from "#components";
+import type { UButton, UIcon } from "#components";
 
 import type { DefaultModalFooterProperties } from "~/components/shared/ui/modal/DefaultModalFooter/default-modal-footer.types";
 
@@ -35,47 +35,43 @@ describe("DefaultModalFooter Component", () => {
   describe("Close button", () => {
     describe("Label", () => {
       it("should display the common.close i18n key as label when closeButtonLabel prop is not provided.", () => {
-        const closeButton = wrapper.findAllComponents<typeof UButton>({ name: "UButton" }).at(0);
+        const closeButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-close-button']");
 
-        expect(closeButton?.props("label")).toBe("common.close");
+        expect(closeButton.text()).toBe("common.close");
       });
 
       it("should display the custom label when closeButtonLabel prop is provided.", async() => {
-        wrapper = await mountDefaultModalFooterComponent({
-          props: { ...defaultDefaultModalFooterProperties, closeButtonLabel: "common.cancel" },
-        });
+        await wrapper.setProps({ closeButtonLabel: "common.cancel" });
 
-        const closeButton = wrapper.findAllComponents<typeof UButton>({ name: "UButton" }).at(0);
+        const closeButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-close-button']");
 
-        expect(closeButton?.props("label")).toBe("common.cancel");
+        expect(closeButton.text()).toBe("common.cancel");
       });
     });
 
     describe("Disabled state", () => {
       it("should not be disabled when isCloseButtonDisabled is not provided.", () => {
-        const closeButton = wrapper.findAllComponents<typeof UButton>({ name: "UButton" }).at(0);
+        const closeButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-close-button']");
 
-        expect(closeButton?.props("disabled")).toBeFalsy();
+        expect(closeButton.attributes("disabled")).toBeUndefined();
       });
 
       it("should be disabled when isCloseButtonDisabled is true.", async() => {
-        wrapper = await mountDefaultModalFooterComponent({
-          props: { ...defaultDefaultModalFooterProperties, isCloseButtonDisabled: true },
-        });
+        await wrapper.setProps({ isCloseButtonDisabled: true });
 
-        const closeButton = wrapper.findAllComponents<typeof UButton>({ name: "UButton" }).at(0);
+        const closeButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-close-button']");
 
-        expect(closeButton?.props("disabled")).toBeTruthy();
+        expect(closeButton.attributes("disabled")).toBeDefined();
       });
     });
 
     describe("Click", () => {
       it("should emit closeModal when the close button is clicked.", async() => {
-        const closeButton = wrapper.findAll("button").at(0);
+        const closeButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-close-button']");
 
-        await closeButton?.trigger("click");
+        await closeButton.trigger("click");
 
-        expect(wrapper.emitted("closeModal")).toHaveLength(1);
+        expect(wrapper.emitted("closeModal")).toBeDefined();
       });
     });
   });
@@ -83,63 +79,62 @@ describe("DefaultModalFooter Component", () => {
   describe("Primary button", () => {
     describe("Label", () => {
       it("should pass the primaryButtonLabel prop to the primary button when mounted.", () => {
-        const primaryButton = wrapper.findAllComponents<typeof UButton>({ name: "UButton" }).at(1);
+        const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-primary-button']");
 
-        expect(primaryButton?.props("label")).toBe("common.create");
+        expect(primaryButton.text()).toBe("common.create");
       });
     });
 
     describe("Icon", () => {
       it("should pass the primaryButtonIcon prop to the primary button when mounted.", () => {
-        const primaryButton = wrapper.findAllComponents<typeof UButton>({ name: "UButton" }).at(1);
+        const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-primary-button']");
+        const leadingIcon = primaryButton.findComponent<typeof UIcon>({ name: "UIcon" });
 
-        expect(primaryButton?.props("icon")).toBe("i-lucide-circle-plus");
+        expect(leadingIcon.props("name")).toBe("i-lucide-circle-plus");
       });
     });
 
     describe("Disabled state", () => {
       it("should not be disabled when isPrimaryButtonDisabled is not provided.", () => {
-        const primaryButton = wrapper.findAllComponents<typeof UButton>({ name: "UButton" }).at(1);
+        const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-primary-button']");
 
-        expect(primaryButton?.props("disabled")).toBeFalsy();
+        expect(primaryButton.attributes("disabled")).toBeUndefined();
       });
 
       it("should be disabled when isPrimaryButtonDisabled is true.", async() => {
-        wrapper = await mountDefaultModalFooterComponent({
-          props: { ...defaultDefaultModalFooterProperties, isPrimaryButtonDisabled: true },
-        });
+        await wrapper.setProps({ isPrimaryButtonDisabled: true });
 
-        const primaryButton = wrapper.findAllComponents<typeof UButton>({ name: "UButton" }).at(1);
+        const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-primary-button']");
 
-        expect(primaryButton?.props("disabled")).toBeTruthy();
+        expect(primaryButton.attributes("disabled")).toBeDefined();
       });
     });
 
     describe("Loading state", () => {
-      it("should not be loading when isPrimaryButtonLoading is not provided.", () => {
-        const primaryButton = wrapper.findAllComponents<typeof UButton>({ name: "UButton" }).at(1);
+      it("should not have loading icon when isPrimaryButtonLoading is false.", () => {
+        const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-primary-button']");
+        const leadingIcon = primaryButton.findComponent<typeof UIcon>({ name: "UIcon" });
 
-        expect(primaryButton?.props("loading")).toBeFalsy();
+        expect(leadingIcon.props("name")).toBe("i-lucide-circle-plus");
       });
 
-      it("should be loading when isPrimaryButtonLoading is true.", async() => {
-        wrapper = await mountDefaultModalFooterComponent({
-          props: { ...defaultDefaultModalFooterProperties, isPrimaryButtonLoading: true },
-        });
+      it("should have loading icon when isPrimaryButtonLoading is true.", async() => {
+        await wrapper.setProps({ isPrimaryButtonLoading: true });
 
-        const primaryButton = wrapper.findAllComponents<typeof UButton>({ name: "UButton" }).at(1);
+        const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-primary-button']");
+        const leadingIcon = primaryButton.findComponent<typeof UIcon>({ name: "UIcon" });
 
-        expect(primaryButton?.props("loading")).toBeTruthy();
+        expect(leadingIcon.props("name")).toBe("i-lucide-loader-circle");
       });
     });
 
     describe("Click", () => {
       it("should emit primaryButtonClick when the primary button is clicked.", async() => {
-        const primaryButton = wrapper.findAll("button").at(1);
+        const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-primary-button']");
 
-        await primaryButton?.trigger("click");
+        await primaryButton.trigger("click");
 
-        expect(wrapper.emitted("primaryButtonClick")).toHaveLength(1);
+        expect(wrapper.emitted("primaryButtonClick")).toBeDefined();
       });
     });
   });

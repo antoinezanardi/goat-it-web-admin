@@ -59,6 +59,7 @@ async function triggerFormSubmit(): Promise<void> {
   >
     <div class="gap-4 grid grid-cols-1 sm:grid-cols-3">
       <UFormField
+        data-testid="question-theme-form-label-field"
         :label="$t('questionThemes.fields.label')"
         :name="`label.${currentLocale}`"
         required
@@ -70,6 +71,7 @@ async function triggerFormSubmit(): Promise<void> {
       </UFormField>
 
       <UFormField
+        data-testid="question-theme-form-slug-field"
         :label="$t('questionThemes.fields.slug')"
         name="slug"
         required
@@ -81,6 +83,7 @@ async function triggerFormSubmit(): Promise<void> {
       </UFormField>
 
       <UFormField
+        data-testid="question-theme-form-color-field"
         :label="$t('questionThemes.fields.color')"
         name="color"
       >
@@ -92,6 +95,7 @@ async function triggerFormSubmit(): Promise<void> {
 
     <UFormField
       class="w-full"
+      data-testid="question-theme-form-description-field"
       :label="$t('questionThemes.fields.description')"
       :name="`description.${currentLocale}`"
       required
@@ -105,6 +109,7 @@ async function triggerFormSubmit(): Promise<void> {
     </UFormField>
 
     <UFormField
+      data-testid="question-theme-form-aliases-field"
       :label="$t('questionThemes.fields.aliases')"
       :name="`aliases.${currentLocale}`"
     >

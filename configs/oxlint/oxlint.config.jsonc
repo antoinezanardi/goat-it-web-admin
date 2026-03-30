@@ -277,7 +277,8 @@
     "eslint/no-param-reassign": [
       "error",
       {
-        "props": true
+        "props": true,
+        "ignorePropertyModificationsFor": ["agg"]
       }
     ],
     "eslint/no-plusplus": "off",

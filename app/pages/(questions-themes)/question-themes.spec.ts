@@ -1,19 +1,18 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { createTestingPinia } from "@pinia/testing";
 import type { TestingPinia } from "@pinia/testing";
-import { flushPromises } from "@vue/test-utils";
 import type { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { getWrapperWm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
-import type { ComponentVmWithEmit } from "~~/tests/unit/utils/types/mock.types";
 import { createFakeQuestionThemeCreationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 
-import type { PageHeader } from "#components";
+import type { PageHeader, UModal } from "#components";
 
-import QuestionThemesTable from "@/components/domain/question-theme/QuestionThemesTable/QuestionThemesTable.vue";
+import type QuestionThemesTable from "@/components/domain/question-theme/QuestionThemesTable/QuestionThemesTable.vue";
 import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/question-theme.constants";
 import { QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
 import QuestionThemesPage from "@/pages/(questions-themes)/question-themes.vue";
@@ -132,8 +131,8 @@ describe("Question Themes Page", () => {
     });
 
     it("should open the modal when the table emits startCreate.", async() => {
-      const table = wrapper.getComponent<typeof QuestionThemesTable>(QuestionThemesTable);
-      (table.vm as unknown as ComponentVmWithEmit).$emit("startCreate");
+      const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
+      getWrapperWm(table).$emit("startCreate");
       await nextTick();
 
       const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
@@ -141,38 +140,34 @@ describe("Question Themes Page", () => {
       expect(modal.attributes("open")).toBe("true");
     });
 
-    it("should call createAndStoreQuestionTheme when the modal emits submitCreation.", async() => {
+    it("should call createAndStoreQuestionTheme when the modal emits submitCreation.", () => {
       const fakeCreationDto = createFakeQuestionThemeCreationDto();
-      const modal = wrapper.findComponent({ name: "AsyncComponentWrapper" });
-      (modal.vm as unknown as ComponentVmWithEmit).$emit("submitCreation", fakeCreationDto);
-      await nextTick();
+      const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
+      getWrapperWm(modal).$emit("submitCreation", fakeCreationDto);
 
       expect(questionThemesStore.createAndStoreQuestionTheme).toHaveBeenCalledExactlyOnceWith(fakeCreationDto);
     });
 
-    it("should close the modal after submitCreation when isCreateQuestionThemeSuccess is true.", async() => {
+    it("should close the modal after submitCreation when isCreateQuestionThemeSuccess is true.", () => {
       questionThemesStore.isCreateQuestionThemeSuccess = true;
-      const table = wrapper.findComponent({ name: "QuestionThemesTable" });
-      (table.vm as unknown as ComponentVmWithEmit).$emit("startCreate");
-      await nextTick();
+      const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
+      getWrapperWm(table).$emit("startCreate");
 
       const fakeCreationDto = createFakeQuestionThemeCreationDto();
-      const modal = wrapper.findComponent({ name: "AsyncComponentWrapper" });
-      (modal.vm as unknown as ComponentVmWithEmit).$emit("submitCreation", fakeCreationDto);
-      await flushPromises();
+      const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
+      getWrapperWm(modal).$emit("submitCreation", fakeCreationDto);
 
       expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("false");
     });
 
     it("should not close the modal after submitCreation when isCreateQuestionThemeSuccess is false.", async() => {
       questionThemesStore.isCreateQuestionThemeSuccess = false;
-      const table = wrapper.findComponent({ name: "QuestionThemesTable" });
-      (table.vm as unknown as ComponentVmWithEmit).$emit("startCreate");
-      await nextTick();
+      const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
+      getWrapperWm(table).$emit("startCreate");
 
       const fakeCreationDto = createFakeQuestionThemeCreationDto();
-      const modal = wrapper.findComponent({ name: "AsyncComponentWrapper" });
-      (modal.vm as unknown as ComponentVmWithEmit).$emit("submitCreation", fakeCreationDto);
+      const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
+      getWrapperWm(modal).$emit("submitCreation", fakeCreationDto);
       await nextTick();
 
       expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("true");

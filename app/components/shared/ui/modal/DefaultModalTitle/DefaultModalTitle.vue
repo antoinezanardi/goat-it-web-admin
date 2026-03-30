@@ -11,7 +11,9 @@ defineProps<DefaultModalTitleProperties>();
       :name="icon"
     />
 
-    <span>
+    <span
+      data-testid="default-modal-title-text"
+    >
       {{ title }}
     </span>
   </div>

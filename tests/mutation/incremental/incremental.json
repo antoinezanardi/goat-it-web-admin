@@ -11,7 +11,7 @@
           "status": "Killed",
           "testsCompleted": 2,
           "killedBy": [
-            "27"
+            "22"
           ],
           "location": {
             "end": {
@@ -32,7 +32,7 @@
           "status": "Killed",
           "testsCompleted": 5,
           "killedBy": [
-            "30"
+            "25"
           ],
           "location": {
             "end": {
@@ -53,7 +53,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "killedBy": [
-            "26"
+            "21"
           ],
           "location": {
             "end": {
@@ -67,27 +67,6 @@
           }
         },
         {
-          "id": "5",
-          "mutatorName": "BlockStatement",
-          "replacement": "{}",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: []\u001b[90m\n\nNumber of calls: \u001b[1m0\u001b[22m\n\u001b[39m",
-          "status": "Killed",
-          "testsCompleted": 1,
-          "killedBy": [
-            "26"
-          ],
-          "location": {
-            "end": {
-              "column": 4,
-              "line": 46
-            },
-            "start": {
-              "column": 83,
-              "line": 34
-            }
-          }
-        },
-        {
           "id": "4",
           "mutatorName": "BlockStatement",
           "replacement": "{}",
@@ -95,7 +74,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "killedBy": [
-            "26"
+            "21"
           ],
           "location": {
             "end": {
@@ -107,6 +86,27 @@
               "line": 22
             }
           }
+        },
+        {
+          "id": "5",
+          "mutatorName": "BlockStatement",
+          "replacement": "{}",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: []\u001b[90m\n\nNumber of calls: \u001b[1m0\u001b[22m\n\u001b[39m",
+          "status": "Killed",
+          "testsCompleted": 1,
+          "killedBy": [
+            "21"
+          ],
+          "location": {
+            "end": {
+              "column": 4,
+              "line": 46
+            },
+            "start": {
+              "column": 83,
+              "line": 34
+            }
+          }
         }
       ],
       "source": "import type { AsyncDataRequestStatus } from \"#app\";\n\ntype UseAsyncAction<TResult, TArguments extends unknown[]> = {\n  execute: (...arguments_: TArguments) => Promise<TResult | undefined>;\n  fetchStatus: Ref<AsyncDataRequestStatus>;\n  isIdle: ComputedRef<boolean>;\n  isPending: ComputedRef<boolean>;\n  isSuccess: ComputedRef<boolean>;\n  isError: ComputedRef<boolean>;\n};\n\n/**\n * This composable is useful to execute an asynchronous action and track its status.\n * For example, when fetching a resource or creating it.\n * @param action The async function to be executed, the associated status is returned.\n * @param onError What to do when the action throws an error, the error is passed as parameter.\n * @returns An object containing the execute function, the status of the action and some helper computed properties.\n */\nfunction useAsyncAction<TResult, TArguments extends unknown[] = []>(\n  action: (...arguments_: TArguments) => Promise<TResult>,\n  onError: (error: unknown) => void,\n): UseAsyncAction<TResult, TArguments> {\n  const {\n    fetchStatus,\n    isIdle,\n    isPending,\n    isSuccess,\n    isError,\n    setFetchStatusToPending,\n    setFetchStatusToSuccess,\n    setFetchStatusToError,\n  } = useFetchStatus();\n\n  async function execute(...arguments_: TArguments): Promise<TResult | undefined> {\n    setFetchStatusToPending();\n    try {\n      const result = await action(...arguments_);\n      setFetchStatusToSuccess();\n\n      return result;\n    } catch(error: unknown) {\n      setFetchStatusToError();\n      onError(error);\n    }\n    return undefined;\n  }\n  return {\n    execute,\n    fetchStatus,\n    isIdle,\n    isPending,\n    isSuccess,\n    isError,\n  };\n}\n\nexport type {\n  UseAsyncAction,\n};\n\nexport { useAsyncAction };"
@@ -115,14 +115,35 @@
       "language": "typescript",
       "mutants": [
         {
-          "id": "1",
-          "mutatorName": "ObjectLiteral",
+          "id": "3",
+          "mutatorName": "BlockStatement",
           "replacement": "{}",
-          "statusReason": "expected {} to strictly equal { en: undefined, fr: undefined, …(4) }",
+          "statusReason": "expected { slug: undefined, …(4) } to strictly equal { slug: undefined, …(4) }",
           "status": "Killed",
           "testsCompleted": 1,
           "killedBy": [
-            "40"
+            "0"
+          ],
+          "location": {
+            "end": {
+              "column": 4,
+              "line": 23
+            },
+            "start": {
+              "column": 64,
+              "line": 17
+            }
+          }
+        },
+        {
+          "id": "1",
+          "mutatorName": "BlockStatement",
+          "replacement": "{}",
+          "statusReason": "expected { slug: undefined, …(4) } to strictly equal { slug: undefined, …(4) }",
+          "status": "Killed",
+          "testsCompleted": 1,
+          "killedBy": [
+            "0"
           ],
           "location": {
             "end": {
@@ -130,29 +151,8 @@
               "line": 13
             },
             "start": {
-              "column": 10,
-              "line": 6
-            }
-          }
-        },
-        {
-          "id": "0",
-          "mutatorName": "BlockStatement",
-          "replacement": "{}",
-          "statusReason": "expected undefined to strictly equal { en: undefined, fr: undefined, …(4) }",
-          "status": "Killed",
-          "testsCompleted": 1,
-          "killedBy": [
-            "40"
-          ],
-          "location": {
-            "end": {
-              "column": 2,
-              "line": 14
-            },
-            "start": {
-              "column": 59,
-              "line": 5
+              "column": 42,
+              "line": 7
             }
           }
         },
@@ -160,16 +160,16 @@
           "id": "2",
           "mutatorName": "BlockStatement",
           "replacement": "{}",
-          "statusReason": "expected undefined to strictly equal { en: undefined, fr: undefined, …(4) }",
+          "statusReason": "expected { slug: undefined, …(4) } to strictly equal { slug: undefined, …(4) }",
           "status": "Killed",
-          "testsCompleted": 2,
+          "testsCompleted": 1,
           "killedBy": [
-            "41"
+            "0"
           ],
           "location": {
             "end": {
               "column": 2,
-              "line": 25
+              "line": 24
             },
             "start": {
               "column": 61,
@@ -178,71 +178,50 @@
           }
         },
         {
-          "id": "3",
-          "mutatorName": "ObjectLiteral",
+          "id": "0",
+          "mutatorName": "BlockStatement",
           "replacement": "{}",
-          "statusReason": "expected {} to strictly equal { en: undefined, fr: undefined, …(4) }",
+          "statusReason": "expected { slug: undefined, …(4) } to strictly equal { slug: undefined, …(4) }",
           "status": "Killed",
-          "testsCompleted": 2,
+          "testsCompleted": 1,
           "killedBy": [
-            "41"
+            "0"
           ],
           "location": {
             "end": {
-              "column": 4,
-              "line": 24
+              "column": 2,
+              "line": 14
             },
             "start": {
-              "column": 10,
-              "line": 17
+              "column": 59,
+              "line": 6
             }
           }
         }
       ],
-      "source": "import type { LocalizedText, LocalizedTexts } from \"@goat-it/schemas/shared/locale\";\n\nimport type { Shell } from \"#shared/types/object.types\";\n\nfunction createLocalizedTextShell(): Shell<LocalizedText> {\n  return {\n    en: undefined,\n    fr: undefined,\n    es: undefined,\n    de: undefined,\n    it: undefined,\n    pt: undefined,\n  };\n}\n\nfunction createLocalizedTextsShell(): Shell<LocalizedTexts> {\n  return {\n    en: undefined,\n    fr: undefined,\n    es: undefined,\n    de: undefined,\n    it: undefined,\n    pt: undefined,\n  };\n}\n\nexport {\n  createLocalizedTextShell,\n  createLocalizedTextsShell,\n};"
+      "source": "import { LOCALES } from \"@goat-it/schemas/shared/locale\";\nimport type { LocalizedText, LocalizedTexts } from \"@goat-it/schemas/shared/locale\";\n\nimport type { Shell } from \"#shared/types/object.types\";\n\nfunction createLocalizedTextShell(): Shell<LocalizedText> {\n  return LOCALES.reduce((agg, locale) => {\n    agg[locale] = undefined;\n\n    return agg;\n    // Acceptable as we are sure that LOCALES are key of LocalizedText\n    // oxlint-disable-next-line typescript/no-unsafe-type-assertion\n  }, {} as Shell<LocalizedText>);\n}\n\nfunction createLocalizedTextsShell(): Shell<LocalizedTexts> {\n  return LOCALES.reduce((agg, locale: keyof LocalizedTexts) => {\n    agg[locale] = undefined;\n\n    return agg;\n    // Acceptable as we are sure that LOCALES are key of LocalizedTexts\n    // oxlint-disable-next-line typescript/no-unsafe-type-assertion\n  }, {} as Shell<LocalizedTexts>);\n}\n\nexport {\n  createLocalizedTextShell,\n  createLocalizedTextsShell,\n};"
     },
     "app/composables/core/useFetchStatus/useFetchStatus.ts": {
       "language": "typescript",
       "mutants": [
         {
-          "id": "11",
-          "mutatorName": "ArrowFunction",
-          "replacement": "() => undefined",
-          "statusReason": "expected undefined to be truthy",
+          "id": "10",
+          "mutatorName": "StringLiteral",
+          "replacement": "\"\"",
+          "statusReason": "expected '' to be 'idle' // Object.is equality",
           "status": "Killed",
-          "testsCompleted": 2,
+          "testsCompleted": 1,
           "killedBy": [
-            "7"
+            "1"
           ],
           "location": {
             "end": {
-              "column": 70,
-              "line": 17
+              "column": 57,
+              "line": 15
             },
             "start": {
-              "column": 36,
-              "line": 17
-            }
-          }
-        },
-        {
-          "id": "12",
-          "mutatorName": "ConditionalExpression",
-          "replacement": "true",
-          "statusReason": "expected true to be falsy",
-          "status": "Killed",
-          "testsCompleted": 3,
-          "killedBy": [
-            "8"
-          ],
-          "location": {
-            "end": {
-              "column": 70,
-              "line": 17
-            },
-            "start": {
-              "column": 42,
-              "line": 17
+              "column": 51,
+              "line": 15
             }
           }
         },
@@ -254,7 +233,7 @@
           "status": "Killed",
           "testsCompleted": 2,
           "killedBy": [
-            "7"
+            "2"
           ],
           "location": {
             "end": {
@@ -275,7 +254,7 @@
           "status": "Killed",
           "testsCompleted": 2,
           "killedBy": [
-            "7"
+            "2"
           ],
           "location": {
             "end": {
@@ -289,6 +268,27 @@
           }
         },
         {
+          "id": "15",
+          "mutatorName": "StringLiteral",
+          "replacement": "\"\"",
+          "statusReason": "expected false to be truthy",
+          "status": "Killed",
+          "testsCompleted": 2,
+          "killedBy": [
+            "2"
+          ],
+          "location": {
+            "end": {
+              "column": 70,
+              "line": 17
+            },
+            "start": {
+              "column": 64,
+              "line": 17
+            }
+          }
+        },
+        {
           "id": "9",
           "mutatorName": "BlockStatement",
           "replacement": "{}",
@@ -296,7 +296,7 @@
           "status": "Killed",
           "testsCompleted": 15,
           "killedBy": [
-            "6"
+            "1"
           ],
           "location": {
             "end": {
@@ -310,48 +310,6 @@
           }
         },
         {
-          "id": "16",
-          "mutatorName": "ArrowFunction",
-          "replacement": "() => undefined",
-          "statusReason": "expected undefined to be truthy",
-          "status": "Killed",
-          "testsCompleted": 7,
-          "killedBy": [
-            "12"
-          ],
-          "location": {
-            "end": {
-              "column": 76,
-              "line": 18
-            },
-            "start": {
-              "column": 39,
-              "line": 18
-            }
-          }
-        },
-        {
-          "id": "10",
-          "mutatorName": "StringLiteral",
-          "replacement": "\"\"",
-          "statusReason": "expected '' to be 'idle' // Object.is equality",
-          "status": "Killed",
-          "testsCompleted": 15,
-          "killedBy": [
-            "6"
-          ],
-          "location": {
-            "end": {
-              "column": 57,
-              "line": 15
-            },
-            "start": {
-              "column": 51,
-              "line": 15
-            }
-          }
-        },
-        {
           "id": "17",
           "mutatorName": "ConditionalExpression",
           "replacement": "true",
@@ -359,7 +317,7 @@
           "status": "Killed",
           "testsCompleted": 6,
           "killedBy": [
-            "11"
+            "6"
           ],
           "location": {
             "end": {
@@ -373,6 +331,69 @@
           }
         },
         {
+          "id": "16",
+          "mutatorName": "ArrowFunction",
+          "replacement": "() => undefined",
+          "statusReason": "expected undefined to be truthy",
+          "status": "Killed",
+          "testsCompleted": 7,
+          "killedBy": [
+            "7"
+          ],
+          "location": {
+            "end": {
+              "column": 76,
+              "line": 18
+            },
+            "start": {
+              "column": 39,
+              "line": 18
+            }
+          }
+        },
+        {
+          "id": "11",
+          "mutatorName": "ArrowFunction",
+          "replacement": "() => undefined",
+          "statusReason": "expected undefined to be truthy",
+          "status": "Killed",
+          "testsCompleted": 16,
+          "killedBy": [
+            "2"
+          ],
+          "location": {
+            "end": {
+              "column": 70,
+              "line": 17
+            },
+            "start": {
+              "column": 36,
+              "line": 17
+            }
+          }
+        },
+        {
+          "id": "12",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "true",
+          "statusReason": "expected true to be falsy",
+          "status": "Killed",
+          "testsCompleted": 17,
+          "killedBy": [
+            "3"
+          ],
+          "location": {
+            "end": {
+              "column": 70,
+              "line": 17
+            },
+            "start": {
+              "column": 42,
+              "line": 17
+            }
+          }
+        },
+        {
           "id": "18",
           "mutatorName": "ConditionalExpression",
           "replacement": "false",
@@ -380,7 +401,7 @@
           "status": "Killed",
           "testsCompleted": 7,
           "killedBy": [
-            "12"
+            "7"
           ],
           "location": {
             "end": {
@@ -401,7 +422,7 @@
           "status": "Killed",
           "testsCompleted": 6,
           "killedBy": [
-            "11"
+            "6"
           ],
           "location": {
             "end": {
@@ -415,23 +436,23 @@
           }
         },
         {
-          "id": "15",
-          "mutatorName": "StringLiteral",
-          "replacement": "\"\"",
+          "id": "23",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "false",
           "statusReason": "expected false to be truthy",
           "status": "Killed",
-          "testsCompleted": 16,
+          "testsCompleted": 12,
           "killedBy": [
-            "7"
+            "12"
           ],
           "location": {
             "end": {
-              "column": 70,
-              "line": 17
+              "column": 76,
+              "line": 19
             },
             "start": {
-              "column": 64,
-              "line": 17
+              "column": 45,
+              "line": 19
             }
           }
         },
@@ -443,7 +464,7 @@
           "status": "Killed",
           "testsCompleted": 12,
           "killedBy": [
-            "17"
+            "12"
           ],
           "location": {
             "end": {
@@ -457,14 +478,14 @@
           }
         },
         {
-          "id": "23",
+          "id": "22",
           "mutatorName": "ConditionalExpression",
-          "replacement": "false",
-          "statusReason": "expected false to be truthy",
+          "replacement": "true",
+          "statusReason": "expected true to be falsy",
           "status": "Killed",
-          "testsCompleted": 12,
+          "testsCompleted": 10,
           "killedBy": [
-            "17"
+            "10"
           ],
           "location": {
             "end": {
@@ -485,7 +506,7 @@
           "status": "Killed",
           "testsCompleted": 10,
           "killedBy": [
-            "15"
+            "10"
           ],
           "location": {
             "end": {
@@ -506,7 +527,7 @@
           "status": "Killed",
           "testsCompleted": 12,
           "killedBy": [
-            "17"
+            "12"
           ],
           "location": {
             "end": {
@@ -527,7 +548,7 @@
           "status": "Killed",
           "testsCompleted": 17,
           "killedBy": [
-            "22"
+            "17"
           ],
           "location": {
             "end": {
@@ -548,7 +569,7 @@
           "status": "Killed",
           "testsCompleted": 21,
           "killedBy": [
-            "12"
+            "7"
           ],
           "location": {
             "end": {
@@ -562,48 +583,6 @@
           }
         },
         {
-          "id": "27",
-          "mutatorName": "ConditionalExpression",
-          "replacement": "true",
-          "statusReason": "expected true to be falsy",
-          "status": "Killed",
-          "testsCompleted": 14,
-          "killedBy": [
-            "19"
-          ],
-          "location": {
-            "end": {
-              "column": 72,
-              "line": 20
-            },
-            "start": {
-              "column": 43,
-              "line": 20
-            }
-          }
-        },
-        {
-          "id": "22",
-          "mutatorName": "ConditionalExpression",
-          "replacement": "true",
-          "statusReason": "expected true to be falsy",
-          "status": "Killed",
-          "testsCompleted": 24,
-          "killedBy": [
-            "15"
-          ],
-          "location": {
-            "end": {
-              "column": 76,
-              "line": 19
-            },
-            "start": {
-              "column": 45,
-              "line": 19
-            }
-          }
-        },
-        {
           "id": "28",
           "mutatorName": "ConditionalExpression",
           "replacement": "false",
@@ -611,7 +590,7 @@
           "status": "Killed",
           "testsCompleted": 17,
           "killedBy": [
-            "22"
+            "17"
           ],
           "location": {
             "end": {
@@ -620,27 +599,6 @@
             },
             "start": {
               "column": 43,
-              "line": 20
-            }
-          }
-        },
-        {
-          "id": "30",
-          "mutatorName": "StringLiteral",
-          "replacement": "\"\"",
-          "statusReason": "expected false to be truthy",
-          "status": "Killed",
-          "testsCompleted": 17,
-          "killedBy": [
-            "22"
-          ],
-          "location": {
-            "end": {
-              "column": 72,
-              "line": 20
-            },
-            "start": {
-              "column": 65,
               "line": 20
             }
           }
@@ -653,7 +611,7 @@
           "status": "Killed",
           "testsCompleted": 14,
           "killedBy": [
-            "19"
+            "14"
           ],
           "location": {
             "end": {
@@ -674,7 +632,7 @@
           "status": "Killed",
           "testsCompleted": 3,
           "killedBy": [
-            "8"
+            "3"
           ],
           "location": {
             "end": {
@@ -688,23 +646,107 @@
           }
         },
         {
-          "id": "33",
+          "id": "32",
+          "mutatorName": "StringLiteral",
+          "replacement": "\"\"",
+          "statusReason": "expected false to be truthy",
+          "status": "Killed",
+          "testsCompleted": 7,
+          "killedBy": [
+            "7"
+          ],
+          "location": {
+            "end": {
+              "column": 34,
+              "line": 23
+            },
+            "start": {
+              "column": 25,
+              "line": 23
+            }
+          }
+        },
+        {
+          "id": "27",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "true",
+          "statusReason": "expected true to be falsy",
+          "status": "Killed",
+          "testsCompleted": 28,
+          "killedBy": [
+            "14"
+          ],
+          "location": {
+            "end": {
+              "column": 72,
+              "line": 20
+            },
+            "start": {
+              "column": 43,
+              "line": 20
+            }
+          }
+        },
+        {
+          "id": "34",
+          "mutatorName": "StringLiteral",
+          "replacement": "\"\"",
+          "statusReason": "expected false to be truthy",
+          "status": "Killed",
+          "testsCompleted": 12,
+          "killedBy": [
+            "12"
+          ],
+          "location": {
+            "end": {
+              "column": 34,
+              "line": 27
+            },
+            "start": {
+              "column": 25,
+              "line": 27
+            }
+          }
+        },
+        {
+          "id": "30",
+          "mutatorName": "StringLiteral",
+          "replacement": "\"\"",
+          "statusReason": "expected false to be truthy",
+          "status": "Killed",
+          "testsCompleted": 31,
+          "killedBy": [
+            "17"
+          ],
+          "location": {
+            "end": {
+              "column": 72,
+              "line": 20
+            },
+            "start": {
+              "column": 65,
+              "line": 20
+            }
+          }
+        },
+        {
+          "id": "35",
           "mutatorName": "BlockStatement",
           "replacement": "{}",
           "statusReason": "expected true to be falsy",
           "status": "Killed",
-          "testsCompleted": 4,
+          "testsCompleted": 5,
           "killedBy": [
-            "9"
+            "5"
           ],
           "location": {
             "end": {
               "column": 4,
-              "line": 28
+              "line": 32
             },
             "start": {
-              "column": 44,
-              "line": 26
+              "column": 42,
+              "line": 30
             }
           }
         },
@@ -716,7 +758,7 @@
           "status": "Killed",
           "testsCompleted": 17,
           "killedBy": [
-            "22"
+            "17"
           ],
           "location": {
             "end": {
@@ -737,7 +779,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "killedBy": [
-            "6"
+            "1"
           ],
           "location": {
             "end": {
@@ -751,65 +793,23 @@
           }
         },
         {
-          "id": "35",
+          "id": "33",
           "mutatorName": "BlockStatement",
           "replacement": "{}",
           "statusReason": "expected true to be falsy",
           "status": "Killed",
-          "testsCompleted": 5,
+          "testsCompleted": 18,
           "killedBy": [
-            "10"
+            "4"
           ],
           "location": {
             "end": {
               "column": 4,
-              "line": 32
+              "line": 28
             },
             "start": {
-              "column": 42,
-              "line": 30
-            }
-          }
-        },
-        {
-          "id": "32",
-          "mutatorName": "StringLiteral",
-          "replacement": "\"\"",
-          "statusReason": "expected false to be truthy",
-          "status": "Killed",
-          "testsCompleted": 21,
-          "killedBy": [
-            "12"
-          ],
-          "location": {
-            "end": {
-              "column": 34,
-              "line": 23
-            },
-            "start": {
-              "column": 25,
-              "line": 23
-            }
-          }
-        },
-        {
-          "id": "34",
-          "mutatorName": "StringLiteral",
-          "replacement": "\"\"",
-          "statusReason": "expected false to be truthy",
-          "status": "Killed",
-          "testsCompleted": 26,
-          "killedBy": [
-            "17"
-          ],
-          "location": {
-            "end": {
-              "column": 34,
-              "line": 27
-            },
-            "start": {
-              "column": 25,
-              "line": 27
+              "column": 44,
+              "line": 26
             }
           }
         }
@@ -820,27 +820,6 @@
       "language": "typescript",
       "mutants": [
         {
-          "id": "38",
-          "mutatorName": "BlockStatement",
-          "replacement": "{}",
-          "statusReason": "expected undefined to strictly equal { slug: undefined, …(4) }",
-          "status": "Killed",
-          "testsCompleted": 1,
-          "killedBy": [
-            "42"
-          ],
-          "location": {
-            "end": {
-              "column": 2,
-              "line": 12
-            },
-            "start": {
-              "column": 79,
-              "line": 4
-            }
-          }
-        },
-        {
           "id": "39",
           "mutatorName": "ObjectLiteral",
           "replacement": "{}",
@@ -848,7 +827,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "killedBy": [
-            "42"
+            "0"
           ],
           "location": {
             "end": {
@@ -858,6 +837,27 @@
             "start": {
               "column": 10,
               "line": 5
+            }
+          }
+        },
+        {
+          "id": "38",
+          "mutatorName": "BlockStatement",
+          "replacement": "{}",
+          "statusReason": "expected undefined to strictly equal { slug: undefined, …(4) }",
+          "status": "Killed",
+          "testsCompleted": 1,
+          "killedBy": [
+            "0"
+          ],
+          "location": {
+            "end": {
+              "column": 2,
+              "line": 12
+            },
+            "start": {
+              "column": 79,
+              "line": 4
             }
           }
         }
@@ -875,7 +875,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "killedBy": [
-            "0"
+            "35"
           ],
           "location": {
             "end": {
@@ -896,7 +896,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "killedBy": [
-            "0"
+            "35"
           ],
           "location": {
             "end": {
@@ -917,7 +917,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "killedBy": [
-            "0"
+            "35"
           ],
           "location": {
             "end": {
@@ -938,7 +938,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "killedBy": [
-            "0"
+            "35"
           ],
           "location": {
             "end": {
@@ -959,7 +959,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "killedBy": [
-            "0"
+            "35"
           ],
           "location": {
             "end": {
@@ -980,7 +980,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "killedBy": [
-            "0"
+            "35"
           ],
           "location": {
             "end": {
@@ -1001,7 +1001,7 @@
           "status": "Killed",
           "testsCompleted": 4,
           "killedBy": [
-            "3"
+            "38"
           ],
           "location": {
             "end": {
@@ -1015,27 +1015,6 @@
           }
         },
         {
-          "id": "48",
-          "mutatorName": "StringLiteral",
-          "replacement": "\"\"",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ { icon: 'i-lucide-ban', …(2) } ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[2m    {\u001b[22m\n\u001b[2m      \"color\": \"error\",\u001b[22m\n\u001b[32m-     \"icon\": \"i-lucide-ban\",\u001b[90m\n\u001b[31m+     \"icon\": \"\",\u001b[90m\n\u001b[2m      \"title\": \"common.error\",\u001b[22m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
-          "status": "Killed",
-          "testsCompleted": 4,
-          "killedBy": [
-            "3"
-          ],
-          "location": {
-            "end": {
-              "column": 27,
-              "line": 23
-            },
-            "start": {
-              "column": 13,
-              "line": 23
-            }
-          }
-        },
-        {
           "id": "47",
           "mutatorName": "ObjectLiteral",
           "replacement": "{}",
@@ -1043,7 +1022,7 @@
           "status": "Killed",
           "testsCompleted": 4,
           "killedBy": [
-            "3"
+            "38"
           ],
           "location": {
             "end": {
@@ -1057,6 +1036,27 @@
           }
         },
         {
+          "id": "48",
+          "mutatorName": "StringLiteral",
+          "replacement": "\"\"",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ { icon: 'i-lucide-ban', …(2) } ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[2m    {\u001b[22m\n\u001b[2m      \"color\": \"error\",\u001b[22m\n\u001b[32m-     \"icon\": \"i-lucide-ban\",\u001b[90m\n\u001b[31m+     \"icon\": \"\",\u001b[90m\n\u001b[2m      \"title\": \"common.error\",\u001b[22m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
+          "status": "Killed",
+          "testsCompleted": 4,
+          "killedBy": [
+            "38"
+          ],
+          "location": {
+            "end": {
+              "column": 27,
+              "line": 23
+            },
+            "start": {
+              "column": 13,
+              "line": 23
+            }
+          }
+        },
+        {
           "id": "49",
           "mutatorName": "StringLiteral",
           "replacement": "\"\"",
@@ -1064,7 +1064,7 @@
           "status": "Killed",
           "testsCompleted": 4,
           "killedBy": [
-            "3"
+            "38"
           ],
           "location": {
             "end": {
@@ -1085,7 +1085,7 @@
           "status": "Killed",
           "testsCompleted": 4,
           "killedBy": [
-            "3"
+            "38"
           ],
           "location": {
             "end": {
@@ -1106,7 +1106,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "killedBy": [
-            "0"
+            "35"
           ],
           "location": {
             "end": {
@@ -1143,27 +1143,6 @@
             "start": {
               "column": 79,
               "line": 21
-            }
-          }
-        },
-        {
-          "id": "55",
-          "mutatorName": "StringLiteral",
-          "replacement": "\"\"",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ '/api/goat-it-api/question-themes' ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[32m-   \"/api/goat-it-api/question-themes\",\u001b[90m\n\u001b[31m+   \"\",\u001b[90m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
-          "status": "Killed",
-          "testsCompleted": 2,
-          "killedBy": [
-            "52"
-          ],
-          "location": {
-            "end": {
-              "column": 69,
-              "line": 14
-            },
-            "start": {
-              "column": 35,
-              "line": 14
             }
           }
         },
@@ -1231,6 +1210,48 @@
           }
         },
         {
+          "id": "55",
+          "mutatorName": "StringLiteral",
+          "replacement": "\"\"",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ '/api/goat-it-api/question-themes' ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[32m-   \"/api/goat-it-api/question-themes\",\u001b[90m\n\u001b[31m+   \"\",\u001b[90m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
+          "status": "Killed",
+          "testsCompleted": 2,
+          "killedBy": [
+            "52"
+          ],
+          "location": {
+            "end": {
+              "column": 69,
+              "line": 14
+            },
+            "start": {
+              "column": 35,
+              "line": 14
+            }
+          }
+        },
+        {
+          "id": "59",
+          "mutatorName": "StringLiteral",
+          "replacement": "\"\"",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ …(2) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[33m@@ -1,7 +1,7 @@\u001b[90m\n\u001b[2m  [\u001b[22m\n\u001b[32m-   \"/api/goat-it-api/question-themes\",\u001b[90m\n\u001b[31m+   \"\",\u001b[90m\n\u001b[2m    {\u001b[22m\n\u001b[2m      \"body\": {\u001b[22m\n\u001b[2m        \"aliases\": {\u001b[22m\n\u001b[2m          \"de\": [\u001b[22m\n\u001b[2m            \"inasmuch\",\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
+          "status": "Killed",
+          "testsCompleted": 6,
+          "killedBy": [
+            "56"
+          ],
+          "location": {
+            "end": {
+              "column": 67,
+              "line": 22
+            },
+            "start": {
+              "column": 33,
+              "line": 22
+            }
+          }
+        },
+        {
           "id": "56",
           "mutatorName": "BlockStatement",
           "replacement": "{}",
@@ -1248,27 +1269,6 @@
             "start": {
               "column": 53,
               "line": 17
-            }
-          }
-        },
-        {
-          "id": "59",
-          "mutatorName": "StringLiteral",
-          "replacement": "\"\"",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ …(2) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[33m@@ -1,7 +1,7 @@\u001b[90m\n\u001b[2m  [\u001b[22m\n\u001b[32m-   \"/api/goat-it-api/question-themes\",\u001b[90m\n\u001b[31m+   \"\",\u001b[90m\n\u001b[2m    {\u001b[22m\n\u001b[2m      \"body\": {\u001b[22m\n\u001b[2m        \"aliases\": {\u001b[22m\n\u001b[2m          \"de\": [\u001b[22m\n\u001b[2m            \"as\",\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
-          "status": "Killed",
-          "testsCompleted": 6,
-          "killedBy": [
-            "56"
-          ],
-          "location": {
-            "end": {
-              "column": 67,
-              "line": 22
-            },
-            "start": {
-              "column": 33,
-              "line": 22
             }
           }
         },
@@ -1294,31 +1294,10 @@
           }
         },
         {
-          "id": "61",
-          "mutatorName": "StringLiteral",
-          "replacement": "\"\"",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ …(2) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[33m@@ -46,8 +46,8 @@\u001b[90m\n\u001b[2m          \"it\": \"writhing\",\u001b[22m\n\u001b[2m          \"pt\": undefined,\u001b[22m\n\u001b[2m        },\u001b[22m\n\u001b[2m        \"slug\": \"clam-adsidue-argentum\",\u001b[22m\n\u001b[2m      },\u001b[22m\n\u001b[32m-     \"method\": \"POST\",\u001b[90m\n\u001b[31m+     \"method\": \"\",\u001b[90m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
-          "status": "Killed",
-          "testsCompleted": 6,
-          "killedBy": [
-            "56"
-          ],
-          "location": {
-            "end": {
-              "column": 21,
-              "line": 23
-            },
-            "start": {
-              "column": 15,
-              "line": 23
-            }
-          }
-        },
-        {
           "id": "60",
           "mutatorName": "ObjectLiteral",
           "replacement": "{}",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ …(2) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[2m    \"/api/goat-it-api/question-themes\",\u001b[22m\n\u001b[32m-   {\u001b[90m\n\u001b[32m-     \"body\": {\u001b[90m\n\u001b[32m-       \"aliases\": {\u001b[90m\n\u001b[32m-         \"de\": [\u001b[90m\n\u001b[32m-           \"softly\",\u001b[90m\n\u001b[32m-           \"than\",\u001b[90m\n\u001b[32m-           \"loosely\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-         \"en\": [\u001b[90m\n\u001b[32m-           \"glider\",\u001b[90m\n\u001b[32m-           \"going\",\u001b[90m\n\u001b[32m-           \"orient\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-         \"es\": [\u001b[90m\n\u001b[32m-           \"hearten\",\u001b[90m\n\u001b[32m-           \"broadcast\",\u001b[90m\n\u001b[32m-           \"upon\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-         \"fr\": undefined,\u001b[90m\n\u001b[32m-         \"it\": undefined,\u001b[90m\n\u001b[32m-         \"pt\": [\u001b[90m\n\u001b[32m-           \"tedious\",\u001b[90m\n\u001b[32m-           \"ick\",\u001b[90m\n\u001b[32m-           \"bog\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-       },\u001b[90m\n\u001b[32m-       \"description\": {\u001b[90m\n\u001b[32m-         \"de\": undefined,\u001b[90m\n\u001b[32m-         \"en\": undefined,\u001b[90m\n\u001b[32m-         \"es\": undefined,\u001b[90m\n\u001b[32m-         \"fr\": undefined,\u001b[90m\n\u001b[32m-         \"it\": \"weary\",\u001b[90m\n\u001b[32m-         \"pt\": undefined,\u001b[90m\n\u001b[32m-       },\u001b[90m\n\u001b[32m-       \"label\": {\u001b[90m\n\u001b[32m-         \"de\": undefined,\u001b[90m\n\u001b[32m-         \"en\": \"jaggedly\",\u001b[90m\n\u001b[32m-         \"es\": undefined,\u001b[90m\n\u001b[32m-         \"fr\": \"motivate\",\u001b[90m\n\u001b[32m-         \"it\": undefined,\u001b[90m\n\u001b[32m-         \"pt\": undefined,\u001b[90m\n\u001b[32m-       },\u001b[90m\n\u001b[32m-       \"slug\": \"arceo-tego-clarus\",\u001b[90m\n\u001b[32m-     },\u001b[90m\n\u001b[32m-     \"method\": \"POST\",\u001b[90m\n\u001b[32m-   },\u001b[90m\n\u001b[31m+   {},\u001b[90m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ …(2) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[2m    \"/api/goat-it-api/question-themes\",\u001b[22m\n\u001b[32m-   {\u001b[90m\n\u001b[32m-     \"body\": {\u001b[90m\n\u001b[32m-       \"aliases\": {\u001b[90m\n\u001b[32m-         \"de\": undefined,\u001b[90m\n\u001b[32m-         \"en\": undefined,\u001b[90m\n\u001b[32m-         \"es\": [\u001b[90m\n\u001b[32m-           \"upright\",\u001b[90m\n\u001b[32m-           \"graffiti\",\u001b[90m\n\u001b[32m-           \"uselessly\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-         \"fr\": [\u001b[90m\n\u001b[32m-           \"even\",\u001b[90m\n\u001b[32m-           \"save\",\u001b[90m\n\u001b[32m-           \"sheepishly\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-         \"it\": [\u001b[90m\n\u001b[32m-           \"chasuble\",\u001b[90m\n\u001b[32m-           \"tomatillo\",\u001b[90m\n\u001b[32m-           \"ew\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-         \"pt\": undefined,\u001b[90m\n\u001b[32m-       },\u001b[90m\n\u001b[32m-       \"description\": {\u001b[90m\n\u001b[32m-         \"de\": undefined,\u001b[90m\n\u001b[32m-         \"en\": \"onto\",\u001b[90m\n\u001b[32m-         \"es\": undefined,\u001b[90m\n\u001b[32m-         \"fr\": \"red\",\u001b[90m\n\u001b[32m-         \"it\": undefined,\u001b[90m\n\u001b[32m-         \"pt\": \"orientate\",\u001b[90m\n\u001b[32m-       },\u001b[90m\n\u001b[32m-       \"label\": {\u001b[90m\n\u001b[32m-         \"de\": \"unlike\",\u001b[90m\n\u001b[32m-         \"en\": undefined,\u001b[90m\n\u001b[32m-         \"es\": undefined,\u001b[90m\n\u001b[32m-         \"fr\": \"oddly\",\u001b[90m\n\u001b[32m-         \"it\": undefined,\u001b[90m\n\u001b[32m-         \"pt\": \"reckless\",\u001b[90m\n\u001b[32m-       },\u001b[90m\n\u001b[32m-       \"slug\": \"triumphus-creator-venustas\",\u001b[90m\n\u001b[32m-     },\u001b[90m\n\u001b[32m-     \"method\": \"POST\",\u001b[90m\n\u001b[32m-   },\u001b[90m\n\u001b[31m+   {},\u001b[90m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
           "status": "Killed",
           "testsCompleted": 6,
           "killedBy": [
@@ -1357,10 +1336,31 @@
           }
         },
         {
+          "id": "61",
+          "mutatorName": "StringLiteral",
+          "replacement": "\"\"",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ …(2) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[33m@@ -38,8 +38,8 @@\u001b[90m\n\u001b[2m          \"it\": \"floss\",\u001b[22m\n\u001b[2m          \"pt\": undefined,\u001b[22m\n\u001b[2m        },\u001b[22m\n\u001b[2m        \"slug\": \"balbus-doloremque-suscipit\",\u001b[22m\n\u001b[2m      },\u001b[22m\n\u001b[32m-     \"method\": \"POST\",\u001b[90m\n\u001b[31m+     \"method\": \"\",\u001b[90m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
+          "status": "Killed",
+          "testsCompleted": 6,
+          "killedBy": [
+            "56"
+          ],
+          "location": {
+            "end": {
+              "column": 21,
+              "line": 23
+            },
+            "start": {
+              "column": 15,
+              "line": 23
+            }
+          }
+        },
+        {
           "id": "63",
           "mutatorName": "StringLiteral",
           "replacement": "``",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ …(2) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[33m@@ -1,7 +1,7 @@\u001b[90m\n\u001b[2m  [\u001b[22m\n\u001b[32m-   \"/api/goat-it-api/question-themes/fake-id-456\",\u001b[90m\n\u001b[31m+   \"\",\u001b[90m\n\u001b[2m    {\u001b[22m\n\u001b[2m      \"body\": {\u001b[22m\n\u001b[2m        \"aliases\": {\u001b[22m\n\u001b[2m          \"de\": undefined,\u001b[22m\n\u001b[2m          \"en\": undefined,\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ …(2) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[33m@@ -1,7 +1,7 @@\u001b[90m\n\u001b[2m  [\u001b[22m\n\u001b[32m-   \"/api/goat-it-api/question-themes/fake-id-456\",\u001b[90m\n\u001b[31m+   \"\",\u001b[90m\n\u001b[2m    {\u001b[22m\n\u001b[2m      \"body\": {\u001b[22m\n\u001b[2m        \"aliases\": {\u001b[22m\n\u001b[2m          \"de\": [\u001b[22m\n\u001b[2m            \"intensely\",\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
           "status": "Killed",
           "testsCompleted": 8,
           "killedBy": [
@@ -1378,31 +1378,10 @@
           }
         },
         {
-          "id": "65",
-          "mutatorName": "StringLiteral",
-          "replacement": "\"\"",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ …(2) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[33m@@ -34,8 +34,8 @@\u001b[90m\n\u001b[2m          \"it\": undefined,\u001b[22m\n\u001b[2m          \"pt\": undefined,\u001b[22m\n\u001b[2m        },\u001b[22m\n\u001b[2m        \"slug\": \"optio-verus-denique\",\u001b[22m\n\u001b[2m      },\u001b[22m\n\u001b[32m-     \"method\": \"PATCH\",\u001b[90m\n\u001b[31m+     \"method\": \"\",\u001b[90m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
-          "status": "Killed",
-          "testsCompleted": 8,
-          "killedBy": [
-            "58"
-          ],
-          "location": {
-            "end": {
-              "column": 22,
-              "line": 30
-            },
-            "start": {
-              "column": 15,
-              "line": 30
-            }
-          }
-        },
-        {
           "id": "64",
           "mutatorName": "ObjectLiteral",
           "replacement": "{}",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ …(2) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[2m    \"/api/goat-it-api/question-themes/fake-id-456\",\u001b[22m\n\u001b[32m-   {\u001b[90m\n\u001b[32m-     \"body\": {\u001b[90m\n\u001b[32m-       \"aliases\": {\u001b[90m\n\u001b[32m-         \"de\": undefined,\u001b[90m\n\u001b[32m-         \"en\": [\u001b[90m\n\u001b[32m-           \"promptly\",\u001b[90m\n\u001b[32m-           \"adventurously\",\u001b[90m\n\u001b[32m-           \"than\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-         \"es\": [\u001b[90m\n\u001b[32m-           \"furthermore\",\u001b[90m\n\u001b[32m-           \"alligator\",\u001b[90m\n\u001b[32m-           \"after\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-         \"fr\": [\u001b[90m\n\u001b[32m-           \"atop\",\u001b[90m\n\u001b[32m-           \"burdensome\",\u001b[90m\n\u001b[32m-           \"why\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-         \"it\": [\u001b[90m\n\u001b[32m-           \"joshingly\",\u001b[90m\n\u001b[32m-           \"although\",\u001b[90m\n\u001b[32m-           \"hydrocarbon\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-         \"pt\": [\u001b[90m\n\u001b[32m-           \"unaccountably\",\u001b[90m\n\u001b[32m-           \"surprisingly\",\u001b[90m\n\u001b[32m-           \"yippee\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-       },\u001b[90m\n\u001b[32m-       \"description\": {\u001b[90m\n\u001b[32m-         \"de\": undefined,\u001b[90m\n\u001b[32m-         \"en\": \"yahoo\",\u001b[90m\n\u001b[32m-         \"es\": \"adrenalin\",\u001b[90m\n\u001b[32m-         \"fr\": undefined,\u001b[90m\n\u001b[32m-         \"it\": \"synergy\",\u001b[90m\n\u001b[32m-         \"pt\": undefined,\u001b[90m\n\u001b[32m-       },\u001b[90m\n\u001b[32m-       \"label\": {\u001b[90m\n\u001b[32m-         \"de\": undefined,\u001b[90m\n\u001b[32m-         \"en\": undefined,\u001b[90m\n\u001b[32m-         \"es\": \"unfortunate\",\u001b[90m\n\u001b[32m-         \"fr\": undefined,\u001b[90m\n\u001b[32m-         \"it\": undefined,\u001b[90m\n\u001b[32m-         \"pt\": undefined,\u001b[90m\n\u001b[32m-       },\u001b[90m\n\u001b[32m-       \"slug\": \"summisse-cornu-ocer\",\u001b[90m\n\u001b[32m-     },\u001b[90m\n\u001b[32m-     \"method\": \"PATCH\",\u001b[90m\n\u001b[32m-   },\u001b[90m\n\u001b[31m+   {},\u001b[90m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ …(2) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[2m    \"/api/goat-it-api/question-themes/fake-id-456\",\u001b[22m\n\u001b[32m-   {\u001b[90m\n\u001b[32m-     \"body\": {\u001b[90m\n\u001b[32m-       \"aliases\": {\u001b[90m\n\u001b[32m-         \"de\": [\u001b[90m\n\u001b[32m-           \"till\",\u001b[90m\n\u001b[32m-           \"naturally\",\u001b[90m\n\u001b[32m-           \"weakly\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-         \"en\": [\u001b[90m\n\u001b[32m-           \"slap\",\u001b[90m\n\u001b[32m-           \"woot\",\u001b[90m\n\u001b[32m-           \"gee\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-         \"es\": undefined,\u001b[90m\n\u001b[32m-         \"fr\": [\u001b[90m\n\u001b[32m-           \"scruple\",\u001b[90m\n\u001b[32m-           \"often\",\u001b[90m\n\u001b[32m-           \"mmm\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-         \"it\": [\u001b[90m\n\u001b[32m-           \"unnecessarily\",\u001b[90m\n\u001b[32m-           \"puzzled\",\u001b[90m\n\u001b[32m-           \"roger\",\u001b[90m\n\u001b[32m-         ],\u001b[90m\n\u001b[32m-         \"pt\": undefined,\u001b[90m\n\u001b[32m-       },\u001b[90m\n\u001b[32m-       \"description\": {\u001b[90m\n\u001b[32m-         \"de\": undefined,\u001b[90m\n\u001b[32m-         \"en\": undefined,\u001b[90m\n\u001b[32m-         \"es\": \"greatly\",\u001b[90m\n\u001b[32m-         \"fr\": \"roughly\",\u001b[90m\n\u001b[32m-         \"it\": \"fedora\",\u001b[90m\n\u001b[32m-         \"pt\": undefined,\u001b[90m\n\u001b[32m-       },\u001b[90m\n\u001b[32m-       \"label\": {\u001b[90m\n\u001b[32m-         \"de\": \"considering\",\u001b[90m\n\u001b[32m-         \"en\": undefined,\u001b[90m\n\u001b[32m-         \"es\": undefined,\u001b[90m\n\u001b[32m-         \"fr\": undefined,\u001b[90m\n\u001b[32m-         \"it\": \"baseboard\",\u001b[90m\n\u001b[32m-         \"pt\": undefined,\u001b[90m\n\u001b[32m-       },\u001b[90m\n\u001b[32m-       \"slug\": \"amo-bellum-vinum\",\u001b[90m\n\u001b[32m-     },\u001b[90m\n\u001b[32m-     \"method\": \"PATCH\",\u001b[90m\n\u001b[32m-   },\u001b[90m\n\u001b[31m+   {},\u001b[90m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
           "status": "Killed",
           "testsCompleted": 8,
           "killedBy": [
@@ -1441,23 +1420,23 @@
           }
         },
         {
-          "id": "68",
-          "mutatorName": "ObjectLiteral",
-          "replacement": "{}",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ …(2) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[2m    \"/api/goat-it-api/question-themes/fake-id-789/archive\",\u001b[22m\n\u001b[32m-   {\u001b[90m\n\u001b[32m-     \"method\": \"POST\",\u001b[90m\n\u001b[32m-   },\u001b[90m\n\u001b[31m+   {},\u001b[90m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
+          "id": "65",
+          "mutatorName": "StringLiteral",
+          "replacement": "\"\"",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ …(2) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[33m@@ -42,8 +42,8 @@\u001b[90m\n\u001b[2m          \"it\": \"slowly\",\u001b[22m\n\u001b[2m          \"pt\": \"colorless\",\u001b[22m\n\u001b[2m        },\u001b[22m\n\u001b[2m        \"slug\": \"amoveo-quisquam-vulgivagus\",\u001b[22m\n\u001b[2m      },\u001b[22m\n\u001b[32m-     \"method\": \"PATCH\",\u001b[90m\n\u001b[31m+     \"method\": \"\",\u001b[90m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
           "status": "Killed",
-          "testsCompleted": 10,
+          "testsCompleted": 8,
           "killedBy": [
-            "60"
+            "58"
           ],
           "location": {
             "end": {
-              "column": 101,
-              "line": 36
+              "column": 22,
+              "line": 30
             },
             "start": {
-              "column": 83,
-              "line": 36
+              "column": 15,
+              "line": 30
             }
           }
         },
@@ -1478,6 +1457,27 @@
             },
             "start": {
               "column": 33,
+              "line": 36
+            }
+          }
+        },
+        {
+          "id": "68",
+          "mutatorName": "ObjectLiteral",
+          "replacement": "{}",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ …(2) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[2m    \"/api/goat-it-api/question-themes/fake-id-789/archive\",\u001b[22m\n\u001b[32m-   {\u001b[90m\n\u001b[32m-     \"method\": \"POST\",\u001b[90m\n\u001b[32m-   },\u001b[90m\n\u001b[31m+   {},\u001b[90m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
+          "status": "Killed",
+          "testsCompleted": 10,
+          "killedBy": [
+            "60"
+          ],
+          "location": {
+            "end": {
+              "column": 101,
+              "line": 36
+            },
+            "start": {
+              "column": 83,
               "line": 36
             }
           }
@@ -1573,27 +1573,6 @@
           }
         },
         {
-          "id": "73",
-          "mutatorName": "ObjectLiteral",
-          "replacement": "{}",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ Array(1) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[32m-   {\u001b[90m\n\u001b[32m-     \"description\": \"questionThemes.cantFetch\",\u001b[90m\n\u001b[32m-   },\u001b[90m\n\u001b[31m+   {},\u001b[90m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
-          "status": "Killed",
-          "testsCompleted": 27,
-          "killedBy": [
-            "88"
-          ],
-          "location": {
-            "end": {
-              "column": 71,
-              "line": 18
-            },
-            "start": {
-              "column": 25,
-              "line": 18
-            }
-          }
-        },
-        {
           "id": "72",
           "mutatorName": "ArrowFunction",
           "replacement": "() => undefined",
@@ -1636,6 +1615,27 @@
           }
         },
         {
+          "id": "73",
+          "mutatorName": "ObjectLiteral",
+          "replacement": "{}",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ Array(1) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[32m-   {\u001b[90m\n\u001b[32m-     \"description\": \"questionThemes.cantFetch\",\u001b[90m\n\u001b[32m-   },\u001b[90m\n\u001b[31m+   {},\u001b[90m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
+          "status": "Killed",
+          "testsCompleted": 27,
+          "killedBy": [
+            "88"
+          ],
+          "location": {
+            "end": {
+              "column": 71,
+              "line": 18
+            },
+            "start": {
+              "column": 25,
+              "line": 18
+            }
+          }
+        },
+        {
           "id": "75",
           "mutatorName": "ArrowFunction",
           "replacement": "() => undefined",
@@ -1653,6 +1653,27 @@
             "start": {
               "column": 5,
               "line": 28
+            }
+          }
+        },
+        {
+          "id": "78",
+          "mutatorName": "StringLiteral",
+          "replacement": "\"\"",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ Array(1) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[2m    {\u001b[22m\n\u001b[32m-     \"description\": \"questionThemes.cantCreate\",\u001b[90m\n\u001b[31m+     \"description\": \"\",\u001b[90m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
+          "status": "Killed",
+          "testsCompleted": 30,
+          "killedBy": [
+            "91"
+          ],
+          "location": {
+            "end": {
+              "column": 69,
+              "line": 29
+            },
+            "start": {
+              "column": 42,
+              "line": 29
             }
           }
         },
@@ -1699,48 +1720,6 @@
           }
         },
         {
-          "id": "78",
-          "mutatorName": "StringLiteral",
-          "replacement": "\"\"",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ Array(1) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[2m    {\u001b[22m\n\u001b[32m-     \"description\": \"questionThemes.cantCreate\",\u001b[90m\n\u001b[31m+     \"description\": \"\",\u001b[90m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
-          "status": "Killed",
-          "testsCompleted": 30,
-          "killedBy": [
-            "91"
-          ],
-          "location": {
-            "end": {
-              "column": 69,
-              "line": 29
-            },
-            "start": {
-              "column": 42,
-              "line": 29
-            }
-          }
-        },
-        {
-          "id": "81",
-          "mutatorName": "ConditionalExpression",
-          "replacement": "false",
-          "statusReason": "expected [] to strictly equal [ { …(8) }, { …(8) } ]",
-          "status": "Killed",
-          "testsCompleted": 12,
-          "killedBy": [
-            "73"
-          ],
-          "location": {
-            "end": {
-              "column": 30,
-              "line": 34
-            },
-            "start": {
-              "column": 9,
-              "line": 34
-            }
-          }
-        },
-        {
           "id": "80",
           "mutatorName": "ConditionalExpression",
           "replacement": "true",
@@ -1778,6 +1757,27 @@
             },
             "start": {
               "column": 32,
+              "line": 34
+            }
+          }
+        },
+        {
+          "id": "81",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "false",
+          "statusReason": "expected [] to strictly equal [ { …(8) }, { …(8) } ]",
+          "status": "Killed",
+          "testsCompleted": 12,
+          "killedBy": [
+            "73"
+          ],
+          "location": {
+            "end": {
+              "column": 30,
+              "line": 34
+            },
+            "start": {
+              "column": 9,
               "line": 34
             }
           }
@@ -1867,27 +1867,6 @@
           }
         },
         {
-          "id": "88",
-          "mutatorName": "StringLiteral",
-          "replacement": "\"\"",
-          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ Array(1) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[2m    {\u001b[22m\n\u001b[32m-     \"description\": \"questionThemes.createSuccessfully\",\u001b[90m\n\u001b[31m+     \"description\": \"\",\u001b[90m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
-          "status": "Killed",
-          "testsCompleted": 24,
-          "killedBy": [
-            "85"
-          ],
-          "location": {
-            "end": {
-              "column": 75,
-              "line": 43
-            },
-            "start": {
-              "column": 40,
-              "line": 43
-            }
-          }
-        },
-        {
           "id": "87",
           "mutatorName": "ObjectLiteral",
           "replacement": "{}",
@@ -1928,6 +1907,27 @@
               "line": 46
             }
           }
+        },
+        {
+          "id": "88",
+          "mutatorName": "StringLiteral",
+          "replacement": "\"\"",
+          "statusReason": "expected \"vi.fn()\" to be called once with arguments: [ Array(1) ]\u001b[90m\n\nReceived:\n\n\u001b[1m  1st vi.fn() call:\n\n\u001b[22m\u001b[2m  [\u001b[22m\n\u001b[2m    {\u001b[22m\n\u001b[32m-     \"description\": \"questionThemes.createSuccessfully\",\u001b[90m\n\u001b[31m+     \"description\": \"\",\u001b[90m\n\u001b[2m    },\u001b[22m\n\u001b[2m  ]\u001b[22m\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m",
+          "status": "Killed",
+          "testsCompleted": 24,
+          "killedBy": [
+            "85"
+          ],
+          "location": {
+            "end": {
+              "column": 75,
+              "line": 43
+            },
+            "start": {
+              "column": 40,
+              "line": 43
+            }
+          }
         }
       ],
       "source": "import type { QuestionThemeCreationDto } from \"@goat-it/schemas/question-theme\";\n\nexport const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, () => {\n  const questionThemes = ref<QuestionTheme[]>([]);\n\n  const repository = questionThemesRepository($fetch);\n  const { addSuccessToast, addErrorToast } = useAppToast();\n  const { t } = useI18n();\n\n  const {\n    execute: fetchQuestionThemes,\n    fetchStatus: fetchQuestionThemesStatus,\n    isPending: isFetchingQuestionThemes,\n    isSuccess: isFetchQuestionThemesSuccess,\n    isError: isFetchingQuestionThemesError,\n  } = useAsyncAction(\n    repository.getAll,\n    () => addErrorToast({ description: t(\"questionThemes.cantFetch\") }),\n  );\n\n  const {\n    execute: createQuestionTheme,\n    fetchStatus: createQuestionThemeStatus,\n    isPending: isCreatingQuestionTheme,\n    isSuccess: isCreateQuestionThemeSuccess,\n    isError: isCreatingQuestionThemeError,\n  } = useAsyncAction(\n    async(creationDto: QuestionThemeCreationDto) => repository.create(creationDto),\n    () => addErrorToast({ description: t(\"questionThemes.cantCreate\") }),\n  );\n\n  async function fetchAndStoreQuestionThemes(): Promise<void> {\n    const fetchedQuestionThemes = await fetchQuestionThemes();\n    if (fetchedQuestionThemes) {\n      questionThemes.value = fetchedQuestionThemes;\n    }\n  }\n\n  async function createAndStoreQuestionTheme(creationDto: QuestionThemeCreationDto): Promise<void> {\n    const createdQuestionTheme = await createQuestionTheme(creationDto);\n    if (createdQuestionTheme) {\n      questionThemes.value.unshift(createdQuestionTheme);\n      addSuccessToast({ description: t(\"questionThemes.createSuccessfully\") });\n    }\n  }\n  return {\n    questionThemes,\n    fetchQuestionThemesStatus,\n    isFetchingQuestionThemes,\n    isFetchQuestionThemesSuccess,\n    isFetchingQuestionThemesError,\n    fetchQuestionThemes,\n    fetchAndStoreQuestionThemes,\n    createQuestionThemeStatus,\n    isCreatingQuestionTheme,\n    isCreateQuestionThemeSuccess,\n    isCreatingQuestionThemeError,\n    createAndStoreQuestionTheme,\n  };\n});"
@@ -1935,6 +1935,48 @@
     "server/utils/goat-it-api/helpers/goat-it-api.helpers.ts": {
       "language": "typescript",
       "mutants": [
+        {
+          "id": "93",
+          "mutatorName": "BlockStatement",
+          "replacement": "{}",
+          "statusReason": "expected undefined to strictly equal { …(2) }",
+          "status": "Killed",
+          "testsCompleted": 4,
+          "killedBy": [
+            "46"
+          ],
+          "location": {
+            "end": {
+              "column": 2,
+              "line": 19
+            },
+            "start": {
+              "column": 126,
+              "line": 12
+            }
+          }
+        },
+        {
+          "id": "90",
+          "mutatorName": "BlockStatement",
+          "replacement": "{}",
+          "statusReason": "expected undefined to be '/admin/question-themes' // Object.is equality",
+          "status": "Killed",
+          "testsCompleted": 1,
+          "killedBy": [
+            "43"
+          ],
+          "location": {
+            "end": {
+              "column": 2,
+              "line": 10
+            },
+            "start": {
+              "column": 92,
+              "line": 6
+            }
+          }
+        },
         {
           "id": "92",
           "mutatorName": "StringLiteral",
@@ -1974,48 +2016,6 @@
             "start": {
               "column": 16,
               "line": 7
-            }
-          }
-        },
-        {
-          "id": "90",
-          "mutatorName": "BlockStatement",
-          "replacement": "{}",
-          "statusReason": "expected undefined to be '/admin/question-themes' // Object.is equality",
-          "status": "Killed",
-          "testsCompleted": 1,
-          "killedBy": [
-            "43"
-          ],
-          "location": {
-            "end": {
-              "column": 2,
-              "line": 10
-            },
-            "start": {
-              "column": 92,
-              "line": 6
-            }
-          }
-        },
-        {
-          "id": "93",
-          "mutatorName": "BlockStatement",
-          "replacement": "{}",
-          "statusReason": "expected undefined to strictly equal { …(2) }",
-          "status": "Killed",
-          "testsCompleted": 4,
-          "killedBy": [
-            "46"
-          ],
-          "location": {
-            "end": {
-              "column": 2,
-              "line": 19
-            },
-            "start": {
-              "column": 126,
-              "line": 12
             }
           }
         },
@@ -2068,27 +2068,6 @@
       "language": "typescript",
       "mutants": [
         {
-          "id": "96",
-          "mutatorName": "BlockStatement",
-          "replacement": "{}",
-          "statusReason": "expected undefined to strictly equal { Object (id, slug, ...) }",
-          "status": "Killed",
-          "testsCompleted": 1,
-          "killedBy": [
-            "47"
-          ],
-          "location": {
-            "end": {
-              "column": 2,
-              "line": 14
-            },
-            "start": {
-              "column": 116,
-              "line": 3
-            }
-          }
-        },
-        {
           "id": "97",
           "mutatorName": "ObjectLiteral",
           "replacement": "{}",
@@ -2106,6 +2085,27 @@
             "start": {
               "column": 10,
               "line": 4
+            }
+          }
+        },
+        {
+          "id": "96",
+          "mutatorName": "BlockStatement",
+          "replacement": "{}",
+          "statusReason": "expected undefined to strictly equal { Object (id, slug, ...) }",
+          "status": "Killed",
+          "testsCompleted": 1,
+          "killedBy": [
+            "47"
+          ],
+          "location": {
+            "end": {
+              "column": 2,
+              "line": 14
+            },
+            "start": {
+              "column": 116,
+              "line": 3
             }
           }
         }
@@ -2221,27 +2221,6 @@
           }
         },
         {
-          "id": "104",
-          "mutatorName": "StringLiteral",
-          "replacement": "\"\"",
-          "statusReason": "expected '/admin/question-themes' to be '/admin/question-themes/abc123' // Object.is equality",
-          "status": "Killed",
-          "testsCompleted": 2,
-          "killedBy": [
-            "44"
-          ],
-          "location": {
-            "end": {
-              "column": 35,
-              "line": 2
-            },
-            "start": {
-              "column": 27,
-              "line": 2
-            }
-          }
-        },
-        {
           "id": "103",
           "mutatorName": "EqualityOperator",
           "replacement": "typeof input !== \"string\"",
@@ -2258,6 +2237,27 @@
             },
             "start": {
               "column": 10,
+              "line": 2
+            }
+          }
+        },
+        {
+          "id": "104",
+          "mutatorName": "StringLiteral",
+          "replacement": "\"\"",
+          "statusReason": "expected '/admin/question-themes' to be '/admin/question-themes/abc123' // Object.is equality",
+          "status": "Killed",
+          "testsCompleted": 2,
+          "killedBy": [
+            "44"
+          ],
+          "location": {
+            "end": {
+              "column": 35,
+              "line": 2
+            },
+            "start": {
+              "column": 27,
               "line": 2
             }
           }
@@ -2336,115 +2336,95 @@
     "break": 100
   },
   "testFiles": {
-    "app/composables/ui/useAppToast/useAppToast.spec.ts": {
+    "app/composables/domain/question-theme/helpers/shell/questionTheme.shell.helpers.spec.ts": {
       "tests": [
         {
           "id": "0",
-          "name": "useAppToast addSuccessToast should add toast with success defaults when called with no extra options."
-        },
-        {
-          "id": "1",
-          "name": "useAppToast addSuccessToast should add toast with merged options when called with extra options."
-        },
-        {
-          "id": "2",
-          "name": "useAppToast addSuccessToast should override default title when a title is provided in options."
-        },
-        {
-          "id": "3",
-          "name": "useAppToast addErrorToast should add toast with error defaults when called with no extra options."
-        },
-        {
-          "id": "4",
-          "name": "useAppToast addErrorToast should add toast with merged options when called with extra options."
-        },
-        {
-          "id": "5",
-          "name": "useAppToast addErrorToast should override default title when a title is provided in options."
+          "name": "createQuestionThemeCreationDtoShell should return a shell with all fields set to undefined when called."
         }
       ],
-      "source": "import { beforeEach, describe, expect, it } from \"vitest\";\n\nimport type { useAppToast as UseAppToastType } from \"@/composables/ui/useAppToast/useAppToast\";\n\nlet useAppToast: typeof UseAppToastType;\n\ndescribe(\"useAppToast\", () => {\n  beforeEach(async() => {\n    ({ useAppToast } = await import(\"@/composables/ui/useAppToast/useAppToast\"));\n  });\n\n  describe(\"addSuccessToast\", () => {\n    it(\"should add toast with success defaults when called with no extra options.\", () => {\n      const { addSuccessToast } = useAppToast();\n\n      addSuccessToast({});\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-circle-check-big\",\n        color: \"success\",\n        title: \"common.success\",\n      });\n    });\n\n    it(\"should add toast with merged options when called with extra options.\", () => {\n      const { addSuccessToast } = useAppToast();\n\n      addSuccessToast({ description: \"Item saved\", duration: 3000 });\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-circle-check-big\",\n        color: \"success\",\n        title: \"common.success\",\n        description: \"Item saved\",\n        duration: 3000,\n      });\n    });\n\n    it(\"should override default title when a title is provided in options.\", () => {\n      const { addSuccessToast } = useAppToast();\n\n      addSuccessToast({ title: \"Custom success title\" });\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-circle-check-big\",\n        color: \"success\",\n        title: \"Custom success title\",\n      });\n    });\n  });\n\n  describe(\"addErrorToast\", () => {\n    it(\"should add toast with error defaults when called with no extra options.\", () => {\n      const { addErrorToast } = useAppToast();\n\n      addErrorToast({});\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-ban\",\n        color: \"error\",\n        title: \"common.error\",\n      });\n    });\n\n    it(\"should add toast with merged options when called with extra options.\", () => {\n      const { addErrorToast } = useAppToast();\n\n      addErrorToast({ description: \"Something went wrong\", duration: 5000 });\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-ban\",\n        color: \"error\",\n        title: \"common.error\",\n        description: \"Something went wrong\",\n        duration: 5000,\n      });\n    });\n\n    it(\"should override default title when a title is provided in options.\", () => {\n      const { addErrorToast } = useAppToast();\n\n      addErrorToast({ title: \"Custom error title\" });\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-ban\",\n        color: \"error\",\n        title: \"Custom error title\",\n      });\n    });\n  });\n});"
+      "source": "import { describe, expect, it } from \"vitest\";\n\nimport type { QuestionThemeCreationDtoShell } from \"#shared/types/question-theme.types\";\nimport { createQuestionThemeCreationDtoShell } from \"~/composables/domain/question-theme/helpers/shell/question-theme.shell.helpers\";\n\ndescribe(createQuestionThemeCreationDtoShell, () => {\n  it(\"should return a shell with all fields set to undefined when called.\", () => {\n    const result = createQuestionThemeCreationDtoShell();\n\n    expect(result).toStrictEqual<QuestionThemeCreationDtoShell>({\n      slug: undefined,\n      color: undefined,\n      label: {\n        en: undefined,\n        fr: undefined,\n        es: undefined,\n        de: undefined,\n        it: undefined,\n        pt: undefined,\n      },\n      description: {\n        en: undefined,\n        fr: undefined,\n        es: undefined,\n        de: undefined,\n        it: undefined,\n        pt: undefined,\n      },\n      aliases: {\n        en: undefined,\n        fr: undefined,\n        es: undefined,\n        de: undefined,\n        it: undefined,\n        pt: undefined,\n      },\n    });\n  });\n});"
     },
     "app/composables/core/useFetchStatus/useFetchStatus.spec.ts": {
       "tests": [
         {
-          "id": "6",
+          "id": "1",
           "name": "useFetchStatus fetchStatus should have idle status when initialized."
         },
         {
-          "id": "7",
+          "id": "2",
           "name": "useFetchStatus isIdle should be true when status is idle."
         },
         {
-          "id": "8",
+          "id": "3",
           "name": "useFetchStatus isIdle should be false when status is pending."
         },
         {
-          "id": "9",
+          "id": "4",
           "name": "useFetchStatus isIdle should be false when status is success."
         },
         {
-          "id": "10",
+          "id": "5",
           "name": "useFetchStatus isIdle should be false when status is error."
         },
         {
-          "id": "11",
+          "id": "6",
           "name": "useFetchStatus isPending should be false when status is idle."
         },
         {
-          "id": "12",
+          "id": "7",
           "name": "useFetchStatus isPending should be true when status is pending."
         },
         {
-          "id": "13",
+          "id": "8",
           "name": "useFetchStatus isPending should be false when status is success."
         },
         {
-          "id": "14",
+          "id": "9",
           "name": "useFetchStatus isPending should be false when status is error."
         },
         {
-          "id": "15",
+          "id": "10",
           "name": "useFetchStatus isSuccess should be false when status is idle."
         },
         {
-          "id": "16",
+          "id": "11",
           "name": "useFetchStatus isSuccess should be false when status is pending."
         },
         {
-          "id": "17",
+          "id": "12",
           "name": "useFetchStatus isSuccess should be true when status is success."
         },
         {
-          "id": "18",
+          "id": "13",
           "name": "useFetchStatus isSuccess should be false when status is error."
         },
         {
-          "id": "19",
+          "id": "14",
           "name": "useFetchStatus isError should be false when status is idle."
         },
         {
-          "id": "20",
+          "id": "15",
           "name": "useFetchStatus isError should be false when status is pending."
         },
         {
-          "id": "21",
+          "id": "16",
           "name": "useFetchStatus isError should be false when status is success."
         },
         {
-          "id": "22",
+          "id": "17",
           "name": "useFetchStatus isError should be true when status is error."
         },
         {
-          "id": "23",
+          "id": "18",
           "name": "useFetchStatus setFetchStatusToPending should set status to pending when called."
         },
         {
-          "id": "24",
+          "id": "19",
           "name": "useFetchStatus setFetchStatusToSuccess should set status to success when called."
         },
         {
-          "id": "25",
+          "id": "20",
           "name": "useFetchStatus setFetchStatusToError should set status to error when called."
         }
       ],
@@ -2453,85 +2433,105 @@
     "app/composables/core/useAsyncAction/useAsyncAction.spec.ts": {
       "tests": [
         {
-          "id": "26",
+          "id": "21",
           "name": "useAsyncAction execute should call setFetchStatusToPending when called."
         },
         {
-          "id": "27",
+          "id": "22",
           "name": "useAsyncAction execute should call the action with provided arguments when called."
         },
         {
-          "id": "28",
+          "id": "23",
           "name": "useAsyncAction execute should call setFetchStatusToSuccess when action resolves."
         },
         {
-          "id": "29",
+          "id": "24",
           "name": "useAsyncAction execute should return the result when action resolves."
         },
         {
-          "id": "30",
+          "id": "25",
           "name": "useAsyncAction execute should call setFetchStatusToError when action rejects."
         },
         {
-          "id": "31",
+          "id": "26",
           "name": "useAsyncAction execute should call onError with the error when action rejects."
         },
         {
-          "id": "32",
+          "id": "27",
           "name": "useAsyncAction execute should return undefined when action rejects."
         },
         {
-          "id": "33",
+          "id": "28",
           "name": "useAsyncAction execute should not call setFetchStatusToSuccess when action rejects."
         },
         {
-          "id": "34",
+          "id": "29",
           "name": "useAsyncAction execute should not call setFetchStatusToError when action resolves."
         },
         {
-          "id": "35",
+          "id": "30",
           "name": "useAsyncAction fetchStatus should expose the fetchStatus ref from useFetchStatus when called."
         },
         {
-          "id": "36",
+          "id": "31",
           "name": "useAsyncAction isIdle should expose the isIdle computed ref from useFetchStatus when called."
         },
         {
-          "id": "37",
+          "id": "32",
           "name": "useAsyncAction isPending should expose the isPending computed ref from useFetchStatus when called."
         },
         {
-          "id": "38",
+          "id": "33",
           "name": "useAsyncAction isSuccess should expose the isSuccess computed ref from useFetchStatus when called."
         },
         {
-          "id": "39",
+          "id": "34",
           "name": "useAsyncAction isError should expose the isError computed ref from useFetchStatus when called."
         }
       ],
       "source": "import { mockNuxtImport } from \"@nuxt/test-utils/runtime\";\nimport { beforeEach, describe, expect, it, vi } from \"vitest\";\n\nimport { createUseFetchStatusMock } from \"~~/tests/unit/utils/mocks/composables/core/useFetchStatus/useFetchStatus.mock\";\nimport type { UseFetchStatusMock } from \"~~/tests/unit/utils/mocks/composables/core/useFetchStatus/useFetchStatus.mock\";\n\nimport type { useAsyncAction as UseAsyncActionType } from \"@/composables/core/useAsyncAction/useAsyncAction\";\n\nlet useFetchStatusMock: UseFetchStatusMock;\n\nmockNuxtImport(\"useFetchStatus\", () => (): UseFetchStatusMock => useFetchStatusMock);\n\nlet useAsyncAction: typeof UseAsyncActionType;\n\ndescribe(\"useAsyncAction\", () => {\n  beforeEach(async() => {\n    useFetchStatusMock = createUseFetchStatusMock();\n    ({ useAsyncAction } = await import(\"@/composables/core/useAsyncAction/useAsyncAction\"));\n  });\n\n  describe(\"execute\", () => {\n    it(\"should call setFetchStatusToPending when called.\", async() => {\n      const action = vi.fn<() => Promise<void>>();\n      const { execute } = useAsyncAction(action, vi.fn<(error: unknown) => void>());\n\n      await execute();\n\n      expect(useFetchStatusMock.setFetchStatusToPending).toHaveBeenCalledExactlyOnceWith();\n    });\n\n    it(\"should call the action with provided arguments when called.\", async() => {\n      const action = vi.fn<(count: number, label: string) => Promise<void>>();\n      const { execute } = useAsyncAction(action, vi.fn<(error: unknown) => void>());\n\n      await execute(42, \"hello\");\n\n      expect(action).toHaveBeenCalledExactlyOnceWith(42, \"hello\");\n    });\n\n    it(\"should call setFetchStatusToSuccess when action resolves.\", async() => {\n      const action = vi.fn<() => Promise<string>>().mockResolvedValue(\"result\");\n      const { execute } = useAsyncAction(action, vi.fn<(error: unknown) => void>());\n\n      await execute();\n\n      expect(useFetchStatusMock.setFetchStatusToSuccess).toHaveBeenCalledExactlyOnceWith();\n    });\n\n    it(\"should return the result when action resolves.\", async() => {\n      const action = vi.fn<() => Promise<string>>().mockResolvedValue(\"result\");\n      const { execute } = useAsyncAction(action, vi.fn<(error: unknown) => void>());\n\n      const result = await execute();\n\n      expect(result).toBe(\"result\");\n    });\n\n    it(\"should call setFetchStatusToError when action rejects.\", async() => {\n      const action = vi.fn<() => Promise<void>>().mockRejectedValue(new Error(\"something went wrong\"));\n      const { execute } = useAsyncAction(action, vi.fn<(error: unknown) => void>());\n\n      await execute();\n\n      expect(useFetchStatusMock.setFetchStatusToError).toHaveBeenCalledExactlyOnceWith();\n    });\n\n    it(\"should call onError with the error when action rejects.\", async() => {\n      const error = new Error(\"something went wrong\");\n      const action = vi.fn<() => Promise<void>>().mockRejectedValue(error);\n      const onError = vi.fn<(error: unknown) => void>();\n      const { execute } = useAsyncAction(action, onError);\n\n      await execute();\n\n      expect(onError).toHaveBeenCalledExactlyOnceWith(error);\n    });\n\n    it(\"should return undefined when action rejects.\", async() => {\n      const action = vi.fn<() => Promise<string>>().mockRejectedValue(new Error(\"fail\"));\n      const { execute } = useAsyncAction(action, vi.fn<(error: unknown) => void>());\n\n      const result = await execute();\n\n      expect(result).toBeUndefined();\n    });\n\n    it(\"should not call setFetchStatusToSuccess when action rejects.\", async() => {\n      const action = vi.fn<() => Promise<void>>().mockRejectedValue(new Error(\"fail\"));\n      const { execute } = useAsyncAction(action, vi.fn<(error: unknown) => void>());\n\n      await execute();\n\n      expect(useFetchStatusMock.setFetchStatusToSuccess).not.toHaveBeenCalled();\n    });\n\n    it(\"should not call setFetchStatusToError when action resolves.\", async() => {\n      const action = vi.fn<() => Promise<void>>();\n      const { execute } = useAsyncAction(action, vi.fn<(error: unknown) => void>());\n\n      await execute();\n\n      expect(useFetchStatusMock.setFetchStatusToError).not.toHaveBeenCalled();\n    });\n  });\n\n  describe(\"fetchStatus\", () => {\n    it(\"should expose the fetchStatus ref from useFetchStatus when called.\", () => {\n      const { fetchStatus } = useAsyncAction(vi.fn<() => Promise<void>>(), vi.fn<(error: unknown) => void>());\n\n      expect(fetchStatus).toBe(useFetchStatusMock.fetchStatus);\n    });\n  });\n\n  describe(\"isIdle\", () => {\n    it(\"should expose the isIdle computed ref from useFetchStatus when called.\", () => {\n      const { isIdle } = useAsyncAction(vi.fn<() => Promise<void>>(), vi.fn<(error: unknown) => void>());\n\n      expect(isIdle).toBe(useFetchStatusMock.isIdle);\n    });\n  });\n\n  describe(\"isPending\", () => {\n    it(\"should expose the isPending computed ref from useFetchStatus when called.\", () => {\n      const { isPending } = useAsyncAction(vi.fn<() => Promise<void>>(), vi.fn<(error: unknown) => void>());\n\n      expect(isPending).toBe(useFetchStatusMock.isPending);\n    });\n  });\n\n  describe(\"isSuccess\", () => {\n    it(\"should expose the isSuccess computed ref from useFetchStatus when called.\", () => {\n      const { isSuccess } = useAsyncAction(vi.fn<() => Promise<void>>(), vi.fn<(error: unknown) => void>());\n\n      expect(isSuccess).toBe(useFetchStatusMock.isSuccess);\n    });\n  });\n\n  describe(\"isError\", () => {\n    it(\"should expose the isError computed ref from useFetchStatus when called.\", () => {\n      const { isError } = useAsyncAction(vi.fn<() => Promise<void>>(), vi.fn<(error: unknown) => void>());\n\n      expect(isError).toBe(useFetchStatusMock.isError);\n    });\n  });\n});"
     },
+    "app/composables/ui/useAppToast/useAppToast.spec.ts": {
+      "tests": [
+        {
+          "id": "35",
+          "name": "useAppToast addSuccessToast should add toast with success defaults when called with no extra options."
+        },
+        {
+          "id": "36",
+          "name": "useAppToast addSuccessToast should add toast with merged options when called with extra options."
+        },
+        {
+          "id": "37",
+          "name": "useAppToast addSuccessToast should override default title when a title is provided in options."
+        },
+        {
+          "id": "38",
+          "name": "useAppToast addErrorToast should add toast with error defaults when called with no extra options."
+        },
+        {
+          "id": "39",
+          "name": "useAppToast addErrorToast should add toast with merged options when called with extra options."
+        },
+        {
+          "id": "40",
+          "name": "useAppToast addErrorToast should override default title when a title is provided in options."
+        }
+      ],
+      "source": "import { beforeEach, describe, expect, it } from \"vitest\";\n\nimport type { useAppToast as UseAppToastType } from \"@/composables/ui/useAppToast/useAppToast\";\n\nlet useAppToast: typeof UseAppToastType;\n\ndescribe(\"useAppToast\", () => {\n  beforeEach(async() => {\n    ({ useAppToast } = await import(\"@/composables/ui/useAppToast/useAppToast\"));\n  });\n\n  describe(\"addSuccessToast\", () => {\n    it(\"should add toast with success defaults when called with no extra options.\", () => {\n      const { addSuccessToast } = useAppToast();\n\n      addSuccessToast({});\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-circle-check-big\",\n        color: \"success\",\n        title: \"common.success\",\n      });\n    });\n\n    it(\"should add toast with merged options when called with extra options.\", () => {\n      const { addSuccessToast } = useAppToast();\n\n      addSuccessToast({ description: \"Item saved\", duration: 3000 });\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-circle-check-big\",\n        color: \"success\",\n        title: \"common.success\",\n        description: \"Item saved\",\n        duration: 3000,\n      });\n    });\n\n    it(\"should override default title when a title is provided in options.\", () => {\n      const { addSuccessToast } = useAppToast();\n\n      addSuccessToast({ title: \"Custom success title\" });\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-circle-check-big\",\n        color: \"success\",\n        title: \"Custom success title\",\n      });\n    });\n  });\n\n  describe(\"addErrorToast\", () => {\n    it(\"should add toast with error defaults when called with no extra options.\", () => {\n      const { addErrorToast } = useAppToast();\n\n      addErrorToast({});\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-ban\",\n        color: \"error\",\n        title: \"common.error\",\n      });\n    });\n\n    it(\"should add toast with merged options when called with extra options.\", () => {\n      const { addErrorToast } = useAppToast();\n\n      addErrorToast({ description: \"Something went wrong\", duration: 5000 });\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-ban\",\n        color: \"error\",\n        title: \"common.error\",\n        description: \"Something went wrong\",\n        duration: 5000,\n      });\n    });\n\n    it(\"should override default title when a title is provided in options.\", () => {\n      const { addErrorToast } = useAppToast();\n\n      addErrorToast({ title: \"Custom error title\" });\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-ban\",\n        color: \"error\",\n        title: \"Custom error title\",\n      });\n    });\n  });\n});"
+    },
     "app/composables/core/localization/helpers/shell/localization.shell.helpers.spec.ts": {
       "tests": [
         {
-          "id": "40",
+          "id": "41",
           "name": "Localization Shell Helpers createLocalizedTextShell should return a shell with all locales set to undefined when called."
         },
         {
-          "id": "41",
+          "id": "42",
           "name": "Localization Shell Helpers createLocalizedTextsShell should return a shell with all locales set to undefined when called."
         }
       ],
       "source": "import type { LocalizedText, LocalizedTexts } from \"@goat-it/schemas/shared/locale\";\nimport { describe, expect, it } from \"vitest\";\n\nimport type { Shell } from \"#shared/types/object.types\";\nimport { createLocalizedTextShell, createLocalizedTextsShell } from \"~/composables/core/localization/helpers/shell/localization.shell.helpers\";\n\ndescribe(\"Localization Shell Helpers\", () => {\n  describe(createLocalizedTextShell, () => {\n    it(\"should return a shell with all locales set to undefined when called.\", () => {\n      const result = createLocalizedTextShell();\n\n      expect(result).toStrictEqual<Shell<LocalizedText>>({\n        en: undefined,\n        fr: undefined,\n        es: undefined,\n        de: undefined,\n        it: undefined,\n        pt: undefined,\n      });\n    });\n  });\n\n  describe(createLocalizedTextsShell, () => {\n    it(\"should return a shell with all locales set to undefined when called.\", () => {\n      const result = createLocalizedTextsShell();\n\n      expect(result).toStrictEqual<Shell<LocalizedTexts>>({\n        en: undefined,\n        fr: undefined,\n        es: undefined,\n        de: undefined,\n        it: undefined,\n        pt: undefined,\n      });\n    });\n  });\n});"
-    },
-    "app/composables/domain/question-theme/helpers/shell/questionTheme.shell.helpers.spec.ts": {
-      "tests": [
-        {
-          "id": "42",
-          "name": "createQuestionThemeCreationDtoShell should return a shell with all fields set to undefined when called."
-        }
-      ],
-      "source": "import { describe, expect, it } from \"vitest\";\n\nimport type { QuestionThemeCreationDtoShell } from \"#shared/types/question-theme.types\";\nimport { createQuestionThemeCreationDtoShell } from \"~/composables/domain/question-theme/helpers/shell/question-theme.shell.helpers\";\n\ndescribe(createQuestionThemeCreationDtoShell, () => {\n  it(\"should return a shell with all fields set to undefined when called.\", () => {\n    const result = createQuestionThemeCreationDtoShell();\n\n    expect(result).toStrictEqual<QuestionThemeCreationDtoShell>({\n      slug: undefined,\n      color: undefined,\n      label: {\n        en: undefined,\n        fr: undefined,\n        es: undefined,\n        de: undefined,\n        it: undefined,\n        pt: undefined,\n      },\n      description: {\n        en: undefined,\n        fr: undefined,\n        es: undefined,\n        de: undefined,\n        it: undefined,\n        pt: undefined,\n      },\n      aliases: {\n        en: undefined,\n        fr: undefined,\n        es: undefined,\n        de: undefined,\n        it: undefined,\n        pt: undefined,\n      },\n    });\n  });\n});"
     },
     "server/utils/goat-it-api/helpers/goat-it-api.helpers.spec.ts": {
       "tests": [
@@ -2773,7 +2773,8 @@
       "!**/*.constants.ts",
       "!**/*.d.ts",
       "!**/*.types.ts",
-      "!**/*.spec.ts"
+      "!**/*.spec.ts",
+      "!tests/**/*.ts"
     ],
     "plugins": [
       "@stryker-mutator/vitest-runner"

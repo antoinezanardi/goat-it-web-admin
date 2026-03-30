@@ -49,13 +49,11 @@ describe("LocalizedText Component", () => {
     });
 
     it("should update the displayed text when the locale changes to another locale with a translation.", async() => {
-      wrapper = await mountLocalizedTextComponent({
-        props: {
-          localizedText: createFakeLocalizedText({
-            en: "Hello",
-            fr: "Bonjour",
-          }),
-        },
+      await wrapper.setProps({
+        localizedText: createFakeLocalizedText({
+          en: "Hello",
+          fr: "Bonjour",
+        }),
       });
       const { locale } = useI18n();
       locale.value = "fr";
@@ -67,12 +65,10 @@ describe("LocalizedText Component", () => {
     });
 
     it("should display the translated text with trimmed text when the current locale has a translation with extra spaces.", async() => {
-      wrapper = await mountLocalizedTextComponent({
-        props: {
-          localizedText: createFakeLocalizedText({
-            [DEFAULT_MOCKED_LOCALE]: "   Hello   ",
-          }),
-        },
+      await wrapper.setProps({
+        localizedText: createFakeLocalizedText({
+          [DEFAULT_MOCKED_LOCALE]: "   Hello   ",
+        }),
       });
 
       const span = wrapper.find(".localized-text");
@@ -89,11 +85,7 @@ describe("LocalizedText Component", () => {
     });
 
     it("should render the no-translation badge when the current locale has no translation.", async() => {
-      wrapper = await mountLocalizedTextComponent({
-        props: {
-          localizedText: {},
-        },
-      });
+      await wrapper.setProps({ localizedText: {} });
 
       const badge = wrapper.findComponent<typeof UBadge>({ name: "UBadge" });
 
@@ -101,11 +93,7 @@ describe("LocalizedText Component", () => {
     });
 
     it("should display the no translation key in the badge when the current locale has no translation.", async() => {
-      wrapper = await mountLocalizedTextComponent({
-        props: {
-          localizedText: {},
-        },
-      });
+      await wrapper.setProps({ localizedText: {} });
 
       const badge = wrapper.findComponent<typeof UBadge>({ name: "UBadge" });
 
@@ -113,11 +101,7 @@ describe("LocalizedText Component", () => {
     });
 
     it("should not render the localized-text span when the current locale has no translation.", async() => {
-      wrapper = await mountLocalizedTextComponent({
-        props: {
-          localizedText: {},
-        },
-      });
+      await wrapper.setProps({ localizedText: {} });
 
       const span = wrapper.find(".localized-text");
 
@@ -125,13 +109,7 @@ describe("LocalizedText Component", () => {
     });
 
     it("should not render the localized-text span when the current locale has an empty trimmed translation.", async() => {
-      wrapper = await mountLocalizedTextComponent({
-        props: {
-          localizedText: {
-            [DEFAULT_MOCKED_LOCALE]: "    ",
-          },
-        },
-      });
+      await wrapper.setProps({ localizedText: { [DEFAULT_MOCKED_LOCALE]: "    " } });
 
       const span = wrapper.find(".localized-text");
 
@@ -139,13 +117,11 @@ describe("LocalizedText Component", () => {
     });
 
     it("should show the no-translation badge when the locale changes to one with no translation.", async() => {
-      wrapper = await mountLocalizedTextComponent({
-        props: {
-          localizedText: createFakeLocalizedText({
-            en: "Hello",
-            fr: undefined,
-          }),
-        },
+      await wrapper.setProps({
+        localizedText: createFakeLocalizedText({
+          en: "Hello",
+          fr: undefined,
+        }),
       });
       const { locale } = useI18n();
       locale.value = "fr";

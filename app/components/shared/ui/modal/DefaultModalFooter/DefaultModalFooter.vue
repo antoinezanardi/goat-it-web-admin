@@ -27,6 +27,7 @@ function onClickFromPrimaryButton(): void {
   <div class="default-modal-footer flex gap-2 justify-end w-full">
     <UButton
       color="neutral"
+      data-testid="default-modal-footer-close-button"
       :disabled="isCloseButtonDisabled"
       icon="i-lucide-x"
       :label="closeButtonDisplayedLabel"
@@ -34,6 +35,7 @@ function onClickFromPrimaryButton(): void {
     />
 
     <UButton
+      data-testid="default-modal-footer-primary-button"
       :disabled="isPrimaryButtonDisabled"
       :icon="primaryButtonIcon"
       :label="primaryButtonLabel"

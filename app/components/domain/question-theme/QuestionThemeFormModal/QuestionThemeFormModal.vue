@@ -16,8 +16,8 @@ const open = defineModel<boolean>("open", { default: false });
 
 const formReference = useTemplateRef<InstanceType<typeof QuestionThemeForm>>("formReference");
 
-function onClickFromFooterPrimaryButton(): void {
-  formReference.value?.triggerFormSubmit();
+async function onClickFromFooterPrimaryButton(): Promise<void> {
+  await formReference.value?.triggerFormSubmit();
 }
 
 function onSubmitCreationFromForm(data: QuestionThemeCreationDto): void {

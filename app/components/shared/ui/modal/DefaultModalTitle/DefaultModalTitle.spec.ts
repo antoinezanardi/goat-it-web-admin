@@ -40,7 +40,7 @@ describe("DefaultModalTitle Component", () => {
     });
 
     it("should pass a different icon name to the UIcon component when icon prop changes.", async() => {
-      wrapper = await mountDefaultModalTitleComponent({ props: { icon: "i-lucide-star", title: "Title" } });
+      await wrapper.setProps({ icon: "i-lucide-star", title: "Title" });
 
       const icon = wrapper.getComponent<typeof UIcon>({ name: "UIcon" });
 
@@ -50,13 +50,16 @@ describe("DefaultModalTitle Component", () => {
 
   describe("Title", () => {
     it("should display the title text when mounted.", () => {
-      expect(wrapper.text()).toContain("My modal title");
+      const container = wrapper.find("[data-testid='default-modal-title-text']");
+
+      expect(container.text()).toBe("My modal title");
     });
 
     it("should display a different title when title prop changes.", async() => {
-      wrapper = await mountDefaultModalTitleComponent({ props: { icon: "i-lucide-palette", title: "Another title" } });
+      await wrapper.setProps({ icon: "i-lucide-palette", title: "Another title" });
+      const container = wrapper.find("[data-testid='default-modal-title-text']");
 
-      expect(wrapper.text()).toContain("Another title");
+      expect(container.text()).toContain("Another title");
     });
   });
 });

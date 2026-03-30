@@ -15,12 +15,14 @@ const buttonLabel = computed<string>(() => color.value ?? t("form.chooseColor"))
     <UButton
       class="w-full"
       color="neutral"
+      data-testid="input-color-picker-button"
       :label="buttonLabel"
       variant="outline"
     >
       <template #leading>
         <span
           class="rounded-full size-3"
+          data-testid="input-color-picker-chip"
           :style="chipStyle"
         />
       </template>
