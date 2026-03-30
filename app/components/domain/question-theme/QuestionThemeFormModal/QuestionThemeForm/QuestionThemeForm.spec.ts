@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
 import { createFakeQuestionThemeCreationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
-import { getWrapperWm } from "~~/tests/unit/utils/helpers/vtu.helpers";
+import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
 import type { UForm, UFormField } from "#components";
@@ -86,7 +86,7 @@ describe("QuestionThemeForm Component", () => {
 
   describe("Exposed isFormValid", () => {
     it("should expose isFormValid as false initially when mounted.", () => {
-      expect(getWrapperWm<QuestionThemeFormVm>(wrapper).isFormValid).toBeFalsy();
+      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).isFormValid).toBeFalsy();
     });
   });
 
@@ -98,9 +98,9 @@ describe("QuestionThemeForm Component", () => {
       state.slug = fakeCreationDto.slug;
       state.label = fakeCreationDto.label;
 
-      await getWrapperWm<QuestionThemeFormVm>(wrapper).triggerFormSubmit();
+      await getWrapperVm<QuestionThemeFormVm>(wrapper).triggerFormSubmit();
 
-      expect(wrapper.emitted("submitCreation")).toBeDefined();
+      expect(wrapper.emitted("submitCreation")).toStrictEqual([[state]]);
     });
   });
 
@@ -109,7 +109,7 @@ describe("QuestionThemeForm Component", () => {
       const form = wrapper.find<HTMLFormElement>("form");
       await form.trigger("blur");
 
-      expect(getWrapperWm<QuestionThemeFormVm>(wrapper).isFormValid).toBeFalsy();
+      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).isFormValid).toBeFalsy();
     });
 
     it("should set isFormValid to true when form has valid data and blur is triggered.", async() => {
@@ -123,14 +123,14 @@ describe("QuestionThemeForm Component", () => {
       await form.trigger("blur");
       await nextTick();
 
-      expect(getWrapperWm<QuestionThemeFormVm>(wrapper).isFormValid).toBeTruthy();
+      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).isFormValid).toBeTruthy();
     });
 
     it("should also validate when the form triggers change event.", async() => {
       const form = wrapper.find("form");
       await form.trigger("change");
 
-      expect(getWrapperWm<QuestionThemeFormVm>(wrapper).isFormValid).toBeFalsy();
+      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).isFormValid).toBeFalsy();
     });
   });
 });

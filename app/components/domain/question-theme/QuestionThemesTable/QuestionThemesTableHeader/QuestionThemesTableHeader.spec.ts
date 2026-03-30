@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionThemesTableHeader } from "#components";
+import type { UButton } from "#components";
 
 describe("QuestionThemesTableHeader Component", () => {
   let wrapper: VueWrapper;
@@ -25,21 +26,21 @@ describe("QuestionThemesTableHeader Component", () => {
 
   describe("Create button", () => {
     it("should render the create question theme button with the correct i18n key when mounted.", () => {
-      const button = wrapper.findComponent({ name: "UButton" });
+      const button = wrapper.findComponent<typeof UButton>({ name: "UButton" });
 
       expect(button.props("label")).toBe("questionThemes.createNew");
     });
 
     it("should render the create question theme button with the correct icon when mounted.", () => {
-      const button = wrapper.findComponent({ name: "UButton" });
+      const button = wrapper.findComponent<typeof UButton>({ name: "UButton" });
 
       expect(button.props("icon")).toBe("i-lucide-circle-plus");
     });
 
     it("should emit startCreate when the create button is clicked.", async() => {
-      const button = wrapper.findAll("button").at(0);
+      const button = wrapper.find<HTMLButtonElement>("#create-question-theme-button");
 
-      await button?.trigger("click");
+      await button.trigger("click");
 
       expect(wrapper.emitted("startCreate")).toBeDefined();
     });

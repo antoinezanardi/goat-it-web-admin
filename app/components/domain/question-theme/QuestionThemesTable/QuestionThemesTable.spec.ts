@@ -8,7 +8,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
-import { getWrapperWm } from "~~/tests/unit/utils/helpers/vtu.helpers";
+import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
@@ -260,7 +260,7 @@ describe("QuestionThemesTable Component", () => {
   describe("Table header", () => {
     it("should emit startCreate when the table header emits startCreate.", () => {
       const header = wrapper.findComponent({ name: "QuestionThemesTableHeader" });
-      getWrapperWm(header).$emit("startCreate");
+      getWrapperVm(header).$emit("startCreate");
 
       expect(wrapper.emitted("startCreate")).toBeDefined();
     });

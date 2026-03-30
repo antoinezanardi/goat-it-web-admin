@@ -5,7 +5,7 @@ import type { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getWrapperWm } from "~~/tests/unit/utils/helpers/vtu.helpers";
+import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import { createFakeQuestionThemeCreationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
@@ -132,7 +132,7 @@ describe("Question Themes Page", () => {
 
     it("should open the modal when the table emits startCreate.", async() => {
       const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
-      getWrapperWm(table).$emit("startCreate");
+      getWrapperVm(table).$emit("startCreate");
       await nextTick();
 
       const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
@@ -143,7 +143,7 @@ describe("Question Themes Page", () => {
     it("should call createAndStoreQuestionTheme when the modal emits submitCreation.", () => {
       const fakeCreationDto = createFakeQuestionThemeCreationDto();
       const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
-      getWrapperWm(modal).$emit("submitCreation", fakeCreationDto);
+      getWrapperVm(modal).$emit("submitCreation", fakeCreationDto);
 
       expect(questionThemesStore.createAndStoreQuestionTheme).toHaveBeenCalledExactlyOnceWith(fakeCreationDto);
     });
@@ -151,11 +151,11 @@ describe("Question Themes Page", () => {
     it("should close the modal after submitCreation when isCreateQuestionThemeSuccess is true.", () => {
       questionThemesStore.isCreateQuestionThemeSuccess = true;
       const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
-      getWrapperWm(table).$emit("startCreate");
+      getWrapperVm(table).$emit("startCreate");
 
       const fakeCreationDto = createFakeQuestionThemeCreationDto();
       const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
-      getWrapperWm(modal).$emit("submitCreation", fakeCreationDto);
+      getWrapperVm(modal).$emit("submitCreation", fakeCreationDto);
 
       expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("false");
     });
@@ -163,11 +163,11 @@ describe("Question Themes Page", () => {
     it("should not close the modal after submitCreation when isCreateQuestionThemeSuccess is false.", async() => {
       questionThemesStore.isCreateQuestionThemeSuccess = false;
       const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
-      getWrapperWm(table).$emit("startCreate");
+      getWrapperVm(table).$emit("startCreate");
 
       const fakeCreationDto = createFakeQuestionThemeCreationDto();
       const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
-      getWrapperWm(modal).$emit("submitCreation", fakeCreationDto);
+      getWrapperVm(modal).$emit("submitCreation", fakeCreationDto);
       await nextTick();
 
       expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("true");

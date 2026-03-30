@@ -4,7 +4,7 @@ import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
 /**
  * Retrieves the wrapped component's view model from a Vue test wrapper.
- * This function is useful as VTU doesn't succeed everytime to correctly type the wrapper.vm property, especially when the component is wrapped in a suspense component.
+ * This function is useful as VTU doesn't always correctly type the wrapper.vm property, especially when the component is wrapped in a suspense component.
  * This is a TS workaround to resolve the issue https://github.com/vuejs/test-utils/issues/972
  * Only used in unit tests.
  *
@@ -12,11 +12,11 @@ import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
  * @return {ComponentVm} The extracted component's view model.
  */
 // oxlint-disable-next-line typescript/no-unnecessary-type-parameters, typescript/no-explicit-any
-function getWrapperWm<T extends ComponentVm = ComponentVm>(wrapper: VueWrapper<any>): T {
+function getWrapperVm<T extends ComponentVm = ComponentVm>(wrapper: VueWrapper<any>): T {
   // oxlint-disable-next-line typescript/no-unsafe-type-assertion
   return wrapper.vm as unknown as T;
 }
 
 export {
-  getWrapperWm,
+  getWrapperVm,
 };

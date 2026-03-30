@@ -2,7 +2,7 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { getWrapperWm } from "~~/tests/unit/utils/helpers/vtu.helpers";
+import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import { createFakeQuestionThemeCreationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 
@@ -96,7 +96,7 @@ describe("QuestionThemeFormModal Component", () => {
       await wrapper.setProps({ isCreating: false });
 
       const footer = wrapper.findComponent<typeof DefaultModalFooter>({ name: "DefaultModalFooter" });
-      getWrapperWm(footer).$emit("closeModal");
+      getWrapperVm(footer).$emit("closeModal");
 
       expect(wrapper.emitted("update:open")).toBeDefined();
     });
@@ -105,20 +105,9 @@ describe("QuestionThemeFormModal Component", () => {
       await wrapper.setProps({ isCreating: true });
 
       const footer = wrapper.findComponent<typeof DefaultModalFooter>({ name: "DefaultModalFooter" });
-      getWrapperWm(footer).$emit("closeModal");
+      getWrapperVm(footer).$emit("closeModal");
 
       expect(wrapper.emitted("update:open")).toBeUndefined();
-    });
-  });
-
-  describe("Primary button click", () => {
-    it("should trigger form submission when primaryButtonClick is emitted from the footer.", () => {
-      const footer = wrapper.findComponent<typeof DefaultModalFooter>({ name: "DefaultModalFooter" });
-      getWrapperWm(footer).$emit("primaryButtonClick");
-
-      const form = wrapper.findComponent<typeof QuestionThemeForm>({ name: "QuestionThemeForm" });
-
-      expect(form.exists()).toBeTruthy();
     });
   });
 
@@ -127,7 +116,7 @@ describe("QuestionThemeFormModal Component", () => {
       const fakeData = createFakeQuestionThemeCreationDto();
       const form = wrapper.findComponent<typeof QuestionThemeForm>({ name: "QuestionThemeForm" });
 
-      getWrapperWm(form).$emit("submitCreation", fakeData);
+      getWrapperVm(form).$emit("submitCreation", fakeData);
 
       expect(wrapper.emitted("submitCreation")).toStrictEqual([[fakeData]]);
     });
