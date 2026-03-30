@@ -1,4 +1,5 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
+import { flushPromises } from "@vue/test-utils";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 
@@ -108,6 +109,23 @@ describe("QuestionThemeFormModal Component", () => {
       getWrapperVm(footer).$emit("closeModal");
 
       expect(wrapper.emitted("update:open")).toBeUndefined();
+    });
+  });
+
+  describe("Primary button click", () => {
+    it("should trigger form submission when primaryButtonClick is emitted from the footer.", async() => {
+      const fakeData = createFakeQuestionThemeCreationDto();
+      const form = wrapper.findComponent<typeof QuestionThemeForm>({ name: "QuestionThemeForm" });
+      const uForm = form.findComponent({ name: "UForm" });
+      const state = uForm.props("state") as Record<string, unknown>;
+      state.slug = fakeData.slug;
+      state.label = fakeData.label;
+
+      const footer = wrapper.findComponent<typeof DefaultModalFooter>({ name: "DefaultModalFooter" });
+      getWrapperVm(footer).$emit("primaryButtonClick");
+      await flushPromises();
+
+      expect(wrapper.emitted("submitCreation")).toBeDefined();
     });
   });
 
