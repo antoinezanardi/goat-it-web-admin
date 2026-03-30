@@ -42,6 +42,7 @@ function onCloseModal(): void {
   >
     <template #title>
       <DefaultModalTitle
+        data-testid="question-theme-form-modal-title"
         :icon="QUESTION_THEME_ICON"
         :title="$t('questionThemes.createNew')"
       />
@@ -50,12 +51,14 @@ function onCloseModal(): void {
     <template #body>
       <QuestionThemeForm
         ref="formReference"
+        data-testid="question-theme-form-modal-form"
         @submit-creation="onSubmitCreationFromForm"
       />
     </template>
 
     <template #footer>
       <DefaultModalFooter
+        data-testid="question-theme-form-modal-footer"
         :is-close-button-disabled="isCreating"
         :is-primary-button-disabled="!formReference?.isFormValid"
         :is-primary-button-loading="isCreating"

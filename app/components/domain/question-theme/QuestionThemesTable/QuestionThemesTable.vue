@@ -52,12 +52,16 @@ function onStartCreateFromQuestionThemesTableHeader(): void {
 <template>
   <UCard id="question-themes-table">
     <template #header>
-      <QuestionThemesTableHeader @start-create="onStartCreateFromQuestionThemesTableHeader"/>
+      <QuestionThemesTableHeader
+        data-testid="question-themes-table-header"
+        @start-create="onStartCreateFromQuestionThemesTableHeader"
+      />
     </template>
 
     <UTable
       :columns="columns"
       :data="rows"
+      data-testid="question-themes-table-data"
     >
       <template #label-cell="{ row }">
         <LocalizedText
@@ -67,7 +71,10 @@ function onStartCreateFromQuestionThemesTableHeader(): void {
       </template>
 
       <template #slug-cell="{ row }">
-        <QuestionThemeSlugBadge :slug="row.original.slug"/>
+        <QuestionThemeSlugBadge
+          data-testid="question-themes-table-slug-badge"
+          :slug="row.original.slug"
+        />
       </template>
 
       <template #description-cell="{ row }">
@@ -78,11 +85,17 @@ function onStartCreateFromQuestionThemesTableHeader(): void {
       </template>
 
       <template #aliases-cell="{ row }">
-        <QuestionThemeAliasesList :aliases="row.original.aliases"/>
+        <QuestionThemeAliasesList
+          :aliases="row.original.aliases"
+          data-testid="question-themes-table-aliases-list"
+        />
       </template>
 
       <template #status-cell="{ row }">
-        <QuestionThemeStatusBadge :status="row.original.status"/>
+        <QuestionThemeStatusBadge
+          data-testid="question-themes-table-status-badge"
+          :status="row.original.status"
+        />
       </template>
     </UTable>
   </UCard>

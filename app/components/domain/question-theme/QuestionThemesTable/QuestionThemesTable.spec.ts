@@ -14,7 +14,7 @@ import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionThemesTable } from "#components";
-import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList, LocalizedText as LocalizedTextComponent } from "#components";
+import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList, QuestionThemesTableHeader, LocalizedText as LocalizedTextComponent } from "#components";
 
 import type { QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 
@@ -155,7 +155,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const slugBadge = wrapper.findComponent<typeof QuestionThemeSlugBadge>({ name: "QuestionThemeSlugBadge" });
+      const slugBadge = wrapper.findComponent<typeof QuestionThemeSlugBadge>("[data-testid='question-themes-table-slug-badge']");
 
       expect(slugBadge.exists()).toBeTruthy();
     });
@@ -165,7 +165,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const slugBadge = wrapper.findComponent<typeof QuestionThemeSlugBadge>({ name: "QuestionThemeSlugBadge" });
+      const slugBadge = wrapper.findComponent<typeof QuestionThemeSlugBadge>("[data-testid='question-themes-table-slug-badge']");
 
       expect(slugBadge.props("slug")).toBe("science-biology");
     });
@@ -177,7 +177,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const statusBadge = wrapper.findComponent<typeof QuestionThemeStatusBadge>({ name: "QuestionThemeStatusBadge" });
+      const statusBadge = wrapper.findComponent<typeof QuestionThemeStatusBadge>("[data-testid='question-themes-table-status-badge']");
 
       expect(statusBadge.exists()).toBeTruthy();
     });
@@ -187,7 +187,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const statusBadge = wrapper.findComponent<typeof QuestionThemeStatusBadge>({ name: "QuestionThemeStatusBadge" });
+      const statusBadge = wrapper.findComponent<typeof QuestionThemeStatusBadge>("[data-testid='question-themes-table-status-badge']");
 
       expect(statusBadge.props("status")).toBe("active");
     });
@@ -197,7 +197,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const statusBadge = wrapper.findComponent<typeof QuestionThemeStatusBadge>({ name: "QuestionThemeStatusBadge" });
+      const statusBadge = wrapper.findComponent<typeof QuestionThemeStatusBadge>("[data-testid='question-themes-table-status-badge']");
 
       expect(statusBadge.props("status")).toBe("archived");
     });
@@ -209,7 +209,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>({ name: "QuestionThemeAliasesList" });
+      const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>("[data-testid='question-themes-table-aliases-list']");
 
       expect(aliasesList.exists()).toBeTruthy();
     });
@@ -219,7 +219,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>({ name: "QuestionThemeAliasesList" });
+      const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>("[data-testid='question-themes-table-aliases-list']");
 
       expect(aliasesList.props("aliases")).toStrictEqual<string[]>(["one", "two"]);
     });
@@ -259,7 +259,8 @@ describe("QuestionThemesTable Component", () => {
 
   describe("Table header", () => {
     it("should emit startCreate when the table header emits startCreate.", () => {
-      const header = wrapper.findComponent({ name: "QuestionThemesTableHeader" });
+      // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']") as VueWrapper;
       getWrapperVm(header).$emit("startCreate");
 
       expect(wrapper.emitted("startCreate")).toBeDefined();

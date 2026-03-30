@@ -51,6 +51,7 @@ async function triggerFormSubmit(): Promise<void> {
   <UForm
     ref="form"
     class="space-y-2"
+    data-testid="question-theme-form"
     :schema="QUESTION_THEME_CREATION_DTO"
     :state="formState"
     @blur="validateForm"

@@ -46,9 +46,11 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 
 ### Describe labels
 
-- **Components:** always use a string label in the form `"<ComponentName> Component"` — never a direct reference: `describe("MyComponent Component", ...)`.
-- **Functions / composables / stores / repositories:** pass the reference directly: `describe(myFn, ...)`.
-- Use a free-form string only when no single symbol represents the subject (e.g. `describe("Server Goat It API Items Get Handler", ...)`).
+- **Components:** string `"<ComponentName> Component"` — never a direct reference: `describe("MyComponent Component", ...)`.
+- **Pages:** string `"<PageName> Page"` — e.g. `describe("Home Page", ...)`.
+- **Layouts:** string `"<LayoutName> Layout"` — e.g. `describe("DefaultLayout Layout", ...)`.
+- **Functions / composables / stores / repositories:** pass the reference directly (`describe(myFn, ...)`) or a free-form string when no single symbol represents the subject (e.g. `describe("useAppToast", ...)`, `describe("Server Goat It API Items Get Handler", ...)`).
+- **Never** use a direct component/page/layout reference as a describe label.
 
 ### Test names
 
@@ -66,6 +68,7 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 
 - `vi.resetModules()` runs before every test (global setup).
 - Import the composable/store with `await import(...)` inside `beforeEach` — never at the top level.
+- **Exception (Pattern C):** If a composable has **zero** external dependencies (no `mockNuxtImport`, no globally-mocked composables), a static top-level import is safe.
 
 ---
 
@@ -88,28 +91,34 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 ### Page (`nuxt` project)
 
 - [ ] Import page directly: `import MyPage from "@/pages/my-page.vue"`
+- [ ] `describe("My Page", ...)` — string label in the form `"<PageName> Page"`
 - [ ] `shallow: true` in mount helper
 - [ ] Assert `definePageMeta` was called with expected metadata
+- [ ] Assert `useHead` via `vi.mocked(useHead).mock.calls[0]?.[0]` — extract and call the function argument
 - [ ] Cover conditional render states (loading, empty, etc.)
 
 ### Layout (`nuxt` project)
 
 - [ ] Spec in `spec/` subfolder: `app/layouts/MyLayout/spec/MyLayout.spec.ts`
 - [ ] Import directly (not from `#components`)
+- [ ] `describe("MyLayout Layout", ...)` — string label in the form `"<LayoutName> Layout"`
 - [ ] `shallow: true`
 
 ### Composable (`composables` project)
 
-- [ ] `mockNuxtImport(...)` at module level for each dependency
+- [ ] **Pattern A** (has mocked dependencies): `mockNuxtImport(...)` at module level for each dependency; dynamic import in `beforeEach`
+- [ ] **Pattern B** (only globally-mocked deps): dynamic import in `beforeEach`; no extra `mockNuxtImport` needed
+- [ ] **Pattern C** (zero external deps): static top-level import is correct; no dynamic import needed
 - [ ] Declare composable type with `import type { useFoo as UseFooType }`
-- [ ] `let useFoo: typeof UseFooType` at module level
-- [ ] `beforeEach`: recreate mocks, then `({ useFoo } = await import(...))`
+- [ ] `let useFoo: typeof UseFooType` at module level (Patterns A and B)
+- [ ] `beforeEach`: recreate mocks (Pattern A), then `({ useFoo } = await import(...))`
 - [ ] Test every returned ref, computed, and function
 
 ### Store (`stores` project)
 
 - [ ] `mockNuxtImport("useAsyncAction", ...)` to capture `capturedAction` and `capturedOnError`
-- [ ] Reset captured vars to `undefined` at the top of each `beforeEach`
+- [ ] If the store calls `useAsyncAction` multiple times, use a `useAsyncActionCallCount` counter to return distinct mock instances per invocation
+- [ ] Reset captured vars (and `useAsyncActionCallCount`) to `undefined` / `0` at the top of each `beforeEach`
 - [ ] Dynamic import of store in `beforeEach`
 - [ ] Test initial state, reactive getters, action wiring, and error callback
 - [ ] Assert `capturedAction` is `toBe(repository($fetch).method)` (strict reference equality)
@@ -118,6 +127,7 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 ### Repository (`repositories` project)
 
 - [ ] No Nuxt — plain Node environment
+- [ ] `describe("myRepository", ...)` — string matching the exported function name; no nested duplicate describe
 - [ ] `fetchMock = vi.fn<$Fetch>()` in `beforeEach`
 - [ ] Pass `fetchMock as $Fetch` to the factory
 - [ ] Test every method: endpoint, options, return value
@@ -133,6 +143,8 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 - [ ] Assert `$fetch` call with correct endpoint + options
 - [ ] Assert return value (mapped domain objects)
 - [ ] Assert `ZodError` is thrown for invalid API data
+- [ ] For `createError` assertions: `vi.mocked(createError).mockImplementation(...)` + `try/catch` to let the throw happen, then assert the call arguments
+- [ ] Use `HttpStatusCode` enum from `#server/utils/http/http.enums` for status code values
 
 ### Server util / mapper / helper (`node` project)
 
@@ -208,15 +220,15 @@ In `nuxt`, `composables`, and `stores` projects, the following are available wit
 - `$t(key)` → returns `key` unchanged (global Vue mock)
 - `$tc(key, count)` → returns `key` unchanged (global Vue mock)
 - `definePageMeta` → Vitest spy (accessible globally)
-- `useI18n()` → mock returning `{ t: (key) => key, locale: ref("en") }`
+- `useI18n()` → mock returning `{ t: (key) => key, locale: ref("en"), localeCodes: ref(["en","fr"]), locales: ref([...]), setLocale: vi.fn() }`
 - `useRouter()` → mock
 - `$fetch` → `vi.fn()` spy (reset each test)
 - `useToast()` → mock
 - `getRouterParam` → global stub
 - `readBody` → global stub
 - `createError` → mock via `vi.hoisted`
-- `useHead` → mock
-- `callOnce` → mock
+- `useHead` → `vi.fn()` spy via `vi.hoisted` + `mockNuxtImport` — access via `vi.mocked(useHead)`
+- `callOnce` → `vi.fn()` spy via `vi.hoisted` + `mockNuxtImport`
 - `questionThemesRepository` → `vi.mock(...)` mock (nuxt + composables + stores projects)
 - fake timers pinned to `2026-04-14` UTC
 - **Globally-mocked composables** (nuxt + stores projects only) — the list grows over time.
@@ -247,3 +259,69 @@ it("should show dark tooltip when color mode is light.", async () => {
 This pattern applies to any composable listed in `tests/unit/setup/nuxt/composables/` (e.g. `useColorMode`, `useAsyncAction`, `useAppToast`, `useFetchStatus`, …).
 
 > **Pitfall:** Do NOT add `mockNuxtImport("useFoo", ...)` in a component spec when `useFoo` is already globally mocked. Just call `useFoo()` directly in the test body.
+
+---
+
+## Component VTU helpers quick reference
+
+### `getWrapperVm<T>` — emit events from / read properties of child components
+
+```ts
+import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
+import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
+
+// Emit an event from a child component
+const footer = wrapper.findComponent<typeof DefaultModalFooter>({ name: "DefaultModalFooter" });
+getWrapperVm(footer).$emit("closeModal");
+
+// Access exposed properties — extend ComponentVm with a local type
+type MyFormVm = ComponentVm & { isFormValid: boolean };
+const vm = getWrapperVm<MyFormVm>(wrapper);
+expect(vm.isFormValid).toBeFalsy();
+```
+
+### `wrapper.emitted()` — assert emitted events
+
+```ts
+expect(wrapper.emitted("update:open")).toBeDefined();           // was emitted
+expect(wrapper.emitted("update:open")).toBeUndefined();        // was NOT emitted
+expect(wrapper.emitted("submit")).toStrictEqual([[fakeData]]); // emitted with payload
+```
+
+### `wrapper.setProps()` — mutate props reactively after mount
+
+```ts
+await wrapper.setProps({ isCreating: true });
+```
+
+### `flushPromises` — wait for all async operations
+
+```ts
+import { flushPromises } from "@vue/test-utils";
+
+getWrapperVm(footer).$emit("primaryButtonClick");
+await flushPromises();
+expect(wrapper.emitted("submitCreation")).toBeDefined();
+```
+
+### Finding components and elements
+
+```ts
+// Primary — always use data-testid (add it to the source .vue file if missing)
+const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='my-modal-footer']");
+const form   = wrapper.getComponent<typeof MyForm>("[data-testid='my-form']");
+
+// DOM elements by data-testid, ID, CSS selector
+wrapper.find("[data-testid='my-button']");
+wrapper.find("#some-id");
+
+// Fallback — { name: "..." } only for third-party stubs (e.g. UColorPicker) whose source cannot be edited
+const colorPicker = wrapper.findComponent<typeof UColorPicker>({ name: "UColorPicker" });
+
+// Dynamic data-testid in v-for (in the .vue source)
+// :data-testid="`alias-pill-${alias}`"
+// → in spec: wrapper.findComponent("[data-testid='alias-pill-my-value']")
+
+// Trigger DOM events
+await wrapper.find("form").trigger("submit");
+```

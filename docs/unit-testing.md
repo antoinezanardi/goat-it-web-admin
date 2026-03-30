@@ -24,17 +24,22 @@ It covers the test infrastructure, every file type that needs tests, exact patte
    - [Server utils / mappers / helpers](#68-server-utils--mappers--helpers)
    - [Shared helpers](#69-shared-helpers)
    - [i18n translation parity](#610-i18n-translation-parity)
-7. [Mock infrastructure](#7-mock-infrastructure)
-   - [ToMock type](#71-tomockt-type)
-   - [MockedPiniaStore type](#72-mockedpiniastoretstoredefinition-type)
-   - [mockStore helper](#73-mockstore-helper)
-   - [MountSuspendedOptions type](#74-mountsuspendedoptionscomponent-type)
-   - [Composable mock files](#75-composable-mock-files)
-   - [Repository mock files](#76-repository-mock-files)
-   - [Registering new mocks](#77-registering-new-mocks)
-8. [Faketories](#8-faketories)
-9. [Naming conventions](#9-naming-conventions)
-10. [Common pitfalls](#10-common-pitfalls)
+7. [Component test utilities](#7-component-test-utilities)
+   - [getWrapperVm and ComponentVm](#71-getwrappervmt-and-componentvm)
+   - [wrapper.emitted()](#72-wrapperemitted)
+   - [wrapper.setProps()](#73-wrappersetprops)
+   - [Finding elements and components](#74-finding-elements-and-components)
+8. [Mock infrastructure](#8-mock-infrastructure)
+   - [ToMock type](#81-tomockt-type)
+   - [MockedPiniaStore type](#82-mockedpiniastoretstoredefinition-type)
+   - [mockStore helper](#83-mockstore-helper)
+   - [MountSuspendedOptions type](#84-mountsuspendedoptionscomponent-type)
+   - [Composable mock files](#85-composable-mock-files)
+   - [Repository mock files](#86-repository-mock-files)
+   - [Registering new mocks](#87-registering-new-mocks)
+9. [Faketories](#9-faketories)
+10. [Naming conventions](#10-naming-conventions)
+11. [Common pitfalls](#11-common-pitfalls)
 
 ---
 
@@ -109,12 +114,14 @@ These setup files run automatically before tests in the relevant projects. You d
 | `vtu-config.nuxt.unit-setup.ts`       | Sets `renderStubDefaultSlot: true`; stubs `u-tooltip: true`; adds `$t` and `$tc` global mocks (return the key as-is); runs `vi.resetModules()` in each `beforeEach` |
 | `dates.nuxt.unit-setup.ts`            | Sets `process.env.TZ = "UTC"`; enables fake timers pinned to `2026-04-14`                                                                                           |
 | `define-page-meta.nuxt.unit-setup.ts` | Mocks `definePageMeta` via `vi.hoisted` + `mockNuxtImport`; exposes as global `definePageMeta` spy                                                                  |
-| `use-i18n.nuxt.unit-setup.ts`         | Mocks `useI18n` via `mockNuxtImport`; `t` returns key as-is; `locale` is `"en"`                                                                                     |
+| `use-i18n.nuxt.unit-setup.ts`         | Mocks `useI18n` via `mockNuxtImport`; see [useI18n mock details](#usei18n-mock) below                                                                               |
 | `use-router.nuxt.unit-setup.ts`       | Mocks `useRouter` via `mockNuxtImport`                                                                                                                              |
 | `fetch.nuxt.unit-setup.ts`            | Stubs `$fetch` globally with a `vi.fn`; recreated each `beforeEach`                                                                                                 |
 | `use-toast.nuxt.unit-setup.ts`        | Mocks `useToast` via `mockNuxtImport`                                                                                                                               |
 | `h3.nuxt.unit-setup.ts`               | Stubs globals `getRouterParam` and `readBody`                                                                                                                       |
 | `create-error.nuxt.unit-setup.ts`     | Mocks `createError` via `vi.hoisted` + `mockNuxtImport`                                                                                                             |
+| `use-head.nuxt.unit-setup.ts`         | Mocks `useHead` via `vi.hoisted` + `mockNuxtImport`; exposes as a `vi.fn` spy                                                                                       |
+| `call-once.nuxt.unit-setup.ts`        | Mocks `callOnce` via `vi.hoisted` + `mockNuxtImport`; exposes as a `vi.fn` spy                                                                                      |
 
 ### Stores project only
 
@@ -154,6 +161,40 @@ it("should show dark mode tooltip when color mode is light.", async () => {
 ```
 
 The same pattern works for any composable listed in the table above (e.g. `useI18n()`, `useRouter()`, `useAppToast()`).
+
+#### useI18n mock
+
+`useI18n()` returns a mock (defined in `tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.ts`).
+
+Exported constants from `useI18n.mock.constants.ts`:
+
+- `DEFAULT_MOCKED_LOCALE` — `"en"`
+- `MOCKED_LOCALE_CODES` — `["en", "fr"]`
+- `MOCKED_LOCALES` — array of `{ code, name, dir }` objects
+
+To test locale-dependent behavior, mutate `locale.value` directly and `await nextTick()`:
+
+```ts
+it("should display the french label when locale is fr.", async () => {
+  const { locale } = useI18n();
+  locale.value = "fr";
+  await nextTick();
+
+  expect(wrapper.find(".locale-label").text()).toBe("fr");
+});
+```
+
+#### useHead mock
+
+`useHead` is a global `vi.fn()` spy. To assert what was passed to it, extract the function argument and call it:
+
+```ts
+it("should set the page title via useHead when mounted.", () => {
+  const extractedHeadFunction = vi.mocked(useHead).mock.calls[0]?.[0] as () => Record<string, unknown>;
+
+  expect(extractedHeadFunction()).toStrictEqual({ title: HOME_PAGE_TITLE_KEY });
+});
+```
 
 ### Repository mock setup files (nuxt + composables + stores)
 
@@ -263,7 +304,7 @@ describe("MyComponent Component", () => {
 - Call `mockStore(useXxxStore)` **after** `mountSuspended` inside `beforeEach`.
 - `$t` returns the key as-is — assert translation keys directly: `expect(...).toBe("questionThemes.fields.label")`.
 - Mutate store state directly: `myStore.someField = value`, then re-mount if the template needs to re-render.
-- Find child components with `wrapper.findComponent<typeof UBadge>({ name: "UBadge" })`.
+- Always use `data-testid` to find child components and elements — see [Section 7.4](#74-finding-elements-and-components).
 - Check prop values with `component.props("propName")`.
 - Only test props that are **dynamically bound** (prefixed with `:` in the template, e.g. `:label="slug"`). Skip static string props without `:` (e.g. `variant="subtle"`, `color="neutral"`) — they are implementation constants, not behaviour to verify.
 - Every named slot in the template must be exercised by at least one test to achieve 100% coverage.
@@ -275,7 +316,7 @@ it("should pass the status to the badge when mounted.", async () => {
   myStore.item = createFakeItem({ status: "active" });
   wrapper = await mountMyComponent();
 
-  const badge = wrapper.findComponent<typeof MyBadge>({ name: "MyBadge" });
+  const badge = wrapper.findComponent<typeof MyBadge>("[data-testid='my-badge']");
   expect(badge.props("status")).toBe("active");
 });
 ```
@@ -296,16 +337,38 @@ Pages follow the same structure as components with two differences:
 import MyPage from "@/pages/my-page.vue";
 ```
 
+3. **Use a string label** in the form `"<PageName> Page"`:
+
+```ts
+describe("My Page", () => {
+  // ...
+});
+```
+
 #### Asserting `definePageMeta`
 
 `definePageMeta` is globally mocked by `define-page-meta.nuxt.unit-setup.ts` and exposed as a Vitest spy:
 
 ```ts
 it("should define page metadata when mounted.", () => {
-  expect(definePageMeta).toHaveBeenCalledExactlyOnceWith({
+  const expectedPageMeta: Parameters<typeof definePageMeta>[0] = {
     icon: MY_PAGE_ICON,
     titleKey: MY_PAGE_TITLE_KEY,
-  });
+  };
+
+  expect(definePageMeta).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);
+});
+```
+
+#### Asserting `useHead`
+
+`useHead` is globally mocked as a `vi.fn()` spy. Extract and call its argument to assert the head input:
+
+```ts
+it("should set the page title via useHead when mounted.", () => {
+  const extractedHeadFunction = vi.mocked(useHead).mock.calls[0]?.[0] as () => Record<string, unknown>;
+
+  expect(extractedHeadFunction()).toStrictEqual({ title: MY_PAGE_TITLE_KEY });
 });
 ```
 
@@ -313,42 +376,47 @@ it("should define page metadata when mounted.", () => {
 
 ```ts
 import { mountSuspended } from "@nuxt/test-utils/runtime";
-import { createTestingPinia } from "@pinia/testing";
-import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { useMyStore } from "@/stores/my-store";
-
-import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import { MY_PAGE_ICON, MY_PAGE_TITLE_KEY } from "~/pages/my-page.constants";
+import type { PageHeader } from "#components";
+
+import { MY_PAGE_ICON, MY_PAGE_TITLE_KEY } from "@/pages/my-page.constants";
 import MyPage from "@/pages/my-page.vue";
 
-describe(MyPage, () => {
+describe("My Page", () => {
   let wrapper: VueWrapper;
-  let pinia: TestingPinia;
-  let myStore: ReturnType<typeof mockStore<typeof useMyStore>>;
 
   async function mountMyPage(options: MountSuspendedOptions<typeof MyPage> = {}): Promise<VueWrapper> {
     return mountSuspended(MyPage, {
       shallow: true,
-      global: { plugins: [pinia] }, ...options,
+      ...options,
     });
   }
 
   beforeEach(async () => {
-    pinia = createTestingPinia();
     wrapper = await mountMyPage();
-    myStore = mockStore(useMyStore);
+  });
+
+  it("should render the page when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
   });
 
   it("should define page metadata when mounted.", () => {
-    expect(definePageMeta).toHaveBeenCalledExactlyOnceWith({
+    const expectedPageMeta: Parameters<typeof definePageMeta>[0] = {
       icon: MY_PAGE_ICON,
       titleKey: MY_PAGE_TITLE_KEY,
-    });
+    };
+
+    expect(definePageMeta).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);
+  });
+
+  it("should set the page title via useHead when mounted.", () => {
+    const extractedHeadFunction = vi.mocked(useHead).mock.calls[0]?.[0] as () => Record<string, unknown>;
+
+    expect(extractedHeadFunction()).toStrictEqual({ title: MY_PAGE_TITLE_KEY });
   });
 });
 ```
@@ -362,17 +430,33 @@ describe(MyPage, () => {
 
 - Always use `shallow: true`.
 - Import directly from the component path (not `#components`).
+- Use a string label in the form `"<LayoutName> Layout"`.
 - Tests are typically minimal — just existence checks.
 
 ```ts
 import { mountSuspended } from "@nuxt/test-utils/runtime";
+import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
+
+import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import DefaultLayout from "@/layouts/DefaultLayout/DefaultLayout.vue";
 
-describe(DefaultLayout, () => {
-  it("should render the layout when mounted.", async () => {
-    const wrapper = await mountSuspended(DefaultLayout, { shallow: true });
+describe("DefaultLayout Layout", () => {
+  let wrapper: VueWrapper;
+
+  async function mountDefaultLayout(options: MountSuspendedOptions<typeof DefaultLayout> = {}): Promise<VueWrapper> {
+    return mountSuspended(DefaultLayout, {
+      shallow: true,
+      ...options,
+    });
+  }
+
+  beforeEach(async () => {
+    wrapper = await mountDefaultLayout();
+  });
+
+  it("should render the layout when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
   });
 });
@@ -385,11 +469,13 @@ describe(DefaultLayout, () => {
 **Project:** `composables`
 **Spec file location:** Colocated with the composable file.
 
-Composable tests require a **dynamic import pattern** because `vi.resetModules()` runs before every test (set up by `vtu-config.nuxt.unit-setup.ts`). This ensures mocks are picked up fresh each time.
+Composable tests require special import handling because `vi.resetModules()` runs before every test (set up by `vtu-config.nuxt.unit-setup.ts`). This ensures mocks are picked up fresh each time.
+
+There are three patterns depending on the composable's dependencies.
 
 #### Pattern A — composable with mocked dependencies
 
-Use this when the composable calls other composables (e.g. `useAsyncAction` calls `useFetchStatus`).
+Use this when the composable calls other composables that must be mocked (e.g. `useAsyncAction` calls `useFetchStatus`).
 
 ```ts
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
@@ -428,9 +514,9 @@ describe("useAsyncAction", () => {
 });
 ```
 
-#### Pattern B — composable without mocked dependencies
+#### Pattern B — composable that depends only on globally-mocked composables
 
-Use this when the composable only depends on globally-mocked things (e.g. `useToast` is already mocked globally).
+Use this when the composable only depends on things already mocked globally (e.g. `useToast` is globally mocked). You still need the dynamic import because `vi.resetModules()` runs before each test, but you do **not** need to declare any `mockNuxtImport`.
 
 ```ts
 import { beforeEach, describe, expect, it } from "vitest";
@@ -444,17 +530,38 @@ describe("useAppToast", () => {
     ({ useAppToast } = await import("@/composables/ui/useAppToast/useAppToast"));
   });
 
-  it("should call addSuccessToast when invoked.", () => {
+  it("should call useToast().add when addSuccessToast is called.", () => {
     const { addSuccessToast } = useAppToast();
     addSuccessToast({ title: "Done" });
-    // assert via the global useToast mock
+
+    expect(useToast().add).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ title: "Done" }));
   });
 });
 ```
 
-#### Why the dynamic import?
+#### Pattern C — composable with no external dependencies at all
+
+Use this when the composable has **zero** external dependencies — no globally-mocked composables, no `mockNuxtImport`. Because the module has nothing to reset, a static import at the top level is safe and correct.
+
+```ts
+import { describe, expect, it } from "vitest";
+
+import { useFetchStatus } from "@/composables/core/useFetchStatus/useFetchStatus";
+
+describe("useFetchStatus", () => {
+  it("should have idle status when initialized.", () => {
+    const { fetchStatus } = useFetchStatus();
+
+    expect(fetchStatus.value).toBe("idle");
+  });
+});
+```
+
+#### Why the dynamic import (Patterns A and B)?
 
 `vi.resetModules()` runs before every test (from the global setup). This clears the module registry, so any module imported at the top level is effectively stale after the first test. By dynamically importing inside `beforeEach`, the composable always sees the freshly-reset mock values.
+
+Pattern C does not need this because the composable has no dependencies that can become stale.
 
 ---
 
@@ -465,7 +572,9 @@ describe("useAppToast", () => {
 
 Stores depend on `useAsyncAction` and repository functions. Both are mocked globally, but the store test needs to **capture** the arguments passed to `useAsyncAction` to test internal wiring.
 
-#### Full pattern
+#### Single-action store
+
+When the store calls `useAsyncAction` once:
 
 ```ts
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
@@ -536,7 +645,54 @@ describe("useMyStore", () => {
 });
 ```
 
-#### Key rules
+#### Multi-action store (store calls `useAsyncAction` more than once)
+
+When the store calls `useAsyncAction` multiple times (e.g. once for fetch, once for create), use a **call counter** to differentiate each invocation and return distinct mock instances:
+
+```ts
+let fetchAsyncActionMock: UseAsyncActionMock;
+let createAsyncActionMock: UseAsyncActionMock;
+let capturedFetchAction: (() => Promise<MyEntity[]>) | undefined;
+let capturedFetchOnError: (() => void) | undefined;
+let capturedCreateAction: ((dto: unknown) => Promise<MyEntity>) | undefined;
+let capturedCreateOnError: (() => void) | undefined;
+
+let useAsyncActionCallCount: number;
+
+mockNuxtImport("useAsyncAction", () => (action: unknown, onError: unknown): UseAsyncActionMock => {
+  useAsyncActionCallCount++;
+  if (useAsyncActionCallCount === 1) {
+    capturedFetchAction = action as () => Promise<MyEntity[]>;
+    capturedFetchOnError = onError as () => void;
+    fetchAsyncActionMock = createUseAsyncActionMock();
+    return fetchAsyncActionMock;
+  }
+
+  capturedCreateAction = action as (dto: unknown) => Promise<MyEntity>;
+  capturedCreateOnError = onError as () => void;
+  createAsyncActionMock = createUseAsyncActionMock();
+  return createAsyncActionMock;
+});
+
+describe("useMyStore", () => {
+  beforeEach(async () => {
+    useAsyncActionCallCount = 0;   // reset counter each test
+    capturedFetchAction = undefined;
+    capturedFetchOnError = undefined;
+    capturedCreateAction = undefined;
+    capturedCreateOnError = undefined;
+    ({ useMyStore } = await import("@/stores/domain/my-entity/my.store"));
+  });
+  // ...
+});
+```
+
+Key rules:
+
+- Reset `useAsyncActionCallCount = 0` at the top of `beforeEach`.
+- Each mocked instance (`fetchAsyncActionMock`, `createAsyncActionMock`) is independent — mutate their `fetchStatus.value` separately to drive reactive getter assertions.
+
+#### Key rules (all stores)
 
 - `setActivePinia(createPinia())` runs automatically before each test — no need to call it manually.
 - `vi.resetModules()` runs automatically — use dynamic import in `beforeEach`.
@@ -570,14 +726,12 @@ describe(myRepository, () => {
     fetchMock = vi.fn<$Fetch>();
   });
 
-  describe(myRepository, () => {
-    it("should return the repository object when called.", () => {
-      const repository = myRepository(fetchMock as $Fetch);
-      expect(repository).toStrictEqual({
-        getAll: expect.any(Function),
-        getById: expect.any(Function),
-        create: expect.any(Function),
-      });
+  it("should return the repository object when called.", () => {
+    const repository = myRepository(fetchMock as $Fetch);
+    expect(repository).toStrictEqual({
+      getAll: expect.any(Function),
+      getById: expect.any(Function),
+      create: expect.any(Function),
     });
   });
 
@@ -608,6 +762,7 @@ describe(myRepository, () => {
 #### Key rules
 
 - No `mockNuxtImport` — the repository is a plain function.
+- Use `describe(myRepository, ...)`
 - `fetchMock = vi.fn<$Fetch>()` in `beforeEach`; cast as `$Fetch` when passing to the factory.
 - Test each method: what endpoint it calls, what options it passes, and what it returns.
 - Use `toStrictEqual<ExpectedType>(value)` for return value assertions.
@@ -725,6 +880,33 @@ it("should call readBody to extract the request body when called.", async () => 
 });
 ```
 
+#### Testing `createError` calls
+
+When a handler throws via `createError`, test it by catching the thrown error and asserting the `createError` call:
+
+```ts
+import { HttpStatusCode } from "#server/utils/http/http.enums";
+
+it("should call createError with the correct status code when the item is not found.", async () => {
+  vi.mocked($fetch).mockResolvedValue(null);
+  vi.mocked(createError).mockImplementation((args) => {
+    throw new Error(String(args.message));
+  });
+  const event = {} as unknown as H3Event;
+
+  try {
+    await getItemHandler(event);
+  } catch (error: unknown) {
+    void error;
+  }
+
+  expect(createError).toHaveBeenCalledExactlyOnceWith({
+    statusCode: HttpStatusCode.NotFound,
+    message: "Item not found.",
+  });
+});
+```
+
 #### Key rules
 
 - Always mock the helpers module: `vi.mock(import("#server/utils/goat-it-api/helpers/goat-it-api.helpers"))`.
@@ -732,6 +914,7 @@ it("should call readBody to extract the request body when called.", async () => 
 - Use `vi.mocked($fetch).mockResolvedValue(...)` — `$fetch` is already a global spy.
 - The runtime config values injected are `baseUrl: "https://api.goat-it.com"` and `adminKey: "test-admin-key"`.
 - Always test the Zod validation error path with invalid data.
+- Use `HttpStatusCode` enum from `#server/utils/http/http.enums` for status code assertions.
 
 ---
 
@@ -754,12 +937,13 @@ describe(createGoatItApiEndpoint, () => {
 });
 ```
 
-For mapper tests:
+For mapper tests, build the expected entity using the entity faketory with spread from the DTO to ensure field alignment:
 
 ```ts
 import { describe, it, expect } from "vitest";
 
 import { createFakeItemDto } from "~~/tests/unit/utils/faketories/.../item.dto.faketory";
+import { createFakeItem } from "~~/tests/unit/utils/faketories/.../item.entity.faketory";
 import { createItemFromDto } from "#server/utils/goat-it-api/mappers/goat-it-api.mappers";
 
 describe(createItemFromDto, () => {
@@ -767,9 +951,11 @@ describe(createItemFromDto, () => {
     const dto = createFakeItemDto();
     const result = createItemFromDto(dto);
 
-    expect(result).toStrictEqual<MyEntity>({
-      id: dto.id, // ... all mapped fields
-    });
+    expect(result).toStrictEqual<MyEntity>(createFakeItem({
+      ...dto,
+      createdAt: new Date(dto.createdAt),   // convert ISO string → Date
+      updatedAt: new Date(dto.updatedAt),
+    }));
   });
 });
 ```
@@ -837,11 +1023,182 @@ describe("my-feature.json translations", () => {
 
 ---
 
-## 7. Mock infrastructure
+## 7. Component test utilities
+
+### 7.1 `getWrapperVm<T>` and `ComponentVm`
+
+**Location:** `tests/unit/utils/helpers/vtu.helpers.ts`
+
+`getWrapperVm` is a typed helper that extracts the component VM from a `VueWrapper`. VTU does not always type `wrapper.vm` correctly (especially with `mountSuspended`); this helper works around that by casting to a known interface.
+
+```ts
+import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
+```
+
+The base `ComponentVm` type (in `tests/unit/utils/types/vtu.types.ts`) exposes only `$emit`:
+
+```ts
+type ComponentVm = {
+  $emit: (event: string, ...arguments_: unknown[]) => void;
+};
+```
+
+#### Emitting events from a child component
+
+Use `getWrapperVm(childWrapper).$emit(...)` to trigger events on child components as if they were emitted by the real component:
+
+```ts
+it("should close the modal when the footer emits closeModal.", async () => {
+  const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
+  getWrapperVm(footer).$emit("closeModal");
+
+  expect(wrapper.emitted("update:open")).toBeDefined();
+});
+```
+
+#### Accessing exposed component properties
+
+When the component under test exposes properties via `defineExpose`, extend `ComponentVm` with a local type:
+
+```ts
+import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
+
+type MyFormVm = ComponentVm & {
+  isFormValid: boolean; triggerFormSubmit: () => Promise<void>;
+};
+
+it("should disable submit when form is invalid.", () => {
+  const vm = getWrapperVm<MyFormVm>(wrapper);
+  expect(vm.isFormValid).toBeFalsy();
+});
+```
+
+---
+
+### 7.2 `wrapper.emitted()`
+
+Use `wrapper.emitted("eventName")` to check that an event was emitted by the component under test:
+
+```ts
+// Assert event was NOT emitted
+expect(wrapper.emitted("update:open")).toBeUndefined();
+
+// Assert event was emitted without payload
+expect(wrapper.emitted("submitCreation")).toStrictEqual([[]]);
+
+// Assert event was emitted with specific payload
+expect(wrapper.emitted("submitCreation")).toStrictEqual([[fakeData]]);
+```
+
+Note: `wrapper.emitted()` returns an array of arrays — each inner array contains the arguments of one emission.
+
+---
+
+### 7.3 `wrapper.setProps()`
+
+Use `wrapper.setProps(partialProps)` to reactively mutate props after mounting, without remounting the component. Always `await` it:
+
+```ts
+it("should disable the close button when isCreating is true.", async () => {
+  await wrapper.setProps({ isCreating: true });
+
+  const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
+  expect(footer.props("isCloseButtonDisabled")).toBeTruthy();
+});
+```
+
+---
+
+### 7.4 Finding elements and components
+
+#### `data-testid` is the required selector for child components
+
+**Always add `data-testid` to the source `.vue` file and use `"[data-testid='...']"` to find components and elements in tests.** This is the only approach that is unambiguous, order-independent, and resilient to component tree refactoring.
+
+`{ name: "ComponentName" }` is a **last-resort fallback** only — use it when the component is a third-party stub (e.g. a `@nuxt/ui` primitive like `UColorPicker`) that cannot have `data-testid` added to its source.
+
+If a component in the template does not yet have a `data-testid`, add one to the source `.vue` file before writing the test.
+
+**Never use `findAllComponents` with `{ name: "..." }` when multiple sibling instances of the same component exist** — the order is fragile. Add a `data-testid` (using `:data-testid` with a dynamic key when in a `v-for`) so each instance is uniquely addressable.
+
+#### `wrapper.findComponent` vs `wrapper.getComponent`
+
+| Method                       | Behavior when not found  | Use when                                        |
+|------------------------------|--------------------------|-------------------------------------------------|
+| `wrapper.findComponent(...)` | Returns an empty wrapper | You need to check if a component exists         |
+| `wrapper.getComponent(...)`  | Throws immediately       | You know the component must exist (prefer this) |
+
+Always provide the generic type parameter for prop assertions:
+
+```ts
+// Primary pattern — data-testid selector
+const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
+const form   = wrapper.getComponent<typeof QuestionThemeForm>("[data-testid='question-theme-form-modal-form']");
+
+// Fallback — { name: "..." } only for third-party stubs without accessible source
+const colorPicker = wrapper.findComponent<typeof UColorPicker>({ name: "UColorPicker" });
+```
+
+#### DOM selectors: element type, ID, CSS class, and `data-testid`
+
+Use `wrapper.find(selector)` for native DOM elements:
+
+```ts
+// By element type
+const form = wrapper.find("form");
+
+// By ID
+const container = wrapper.find("#question-themes-table");
+
+// By CSS class
+const label = wrapper.find(".label-text");
+
+// By data-testid — preferred
+const button = wrapper.find("[data-testid='input-color-picker-button']");
+```
+
+Use `wrapper.findComponent(selector)` to find a Vue component by its `data-testid`:
+
+```ts
+const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
+```
+
+#### Dynamic `data-testid` in `v-for` loops
+
+When the same component is rendered multiple times in a `v-for`, use a dynamic `:data-testid` binding so each instance is uniquely addressable:
+
+```vue
+<!-- In the source .vue -->
+<QuestionThemeAliasPill
+  v-for="alias in aliases"
+  :key="alias"
+  :data-testid="`alias-pill-${alias}`"
+  :alias="alias"
+/>
+```
+
+```ts
+// In the spec
+const pill = wrapper.findComponent<typeof QuestionThemeAliasPill>("[data-testid='alias-pill-my-alias']");
+expect(pill.props("alias")).toBe("my-alias");
+```
+
+#### Triggering DOM events
+
+```ts
+// Trigger a native event on a DOM element
+await wrapper.find("form").trigger("submit");
+await wrapper.find("input").trigger("blur");
+await wrapper.find("input").trigger("change");
+```
+
+---
+
+## 8. Mock infrastructure
 
 All shared mock utilities live in `tests/unit/utils/`.
 
-### 7.1 `ToMock<T>` type
+### 8.1 `ToMock<T>` type
 
 Replaces every function property of `T` with a Vitest `Mock<Fn>`, leaving non-function properties as-is.
 
@@ -858,7 +1215,7 @@ Use it to type your mock objects:
 type MyComposableMock = ToMock<MyComposable>;
 ```
 
-### 7.2 `MockedPiniaStore<TStoreDefinition>` type
+### 8.2 `MockedPiniaStore<TStoreDefinition>` type
 
 Produces a typed Pinia store where all actions are replaced by Vitest `Mock` functions and getters are unwrapped from `ComputedRef`.
 
@@ -866,7 +1223,7 @@ Produces a typed Pinia store where all actions are replaced by Vitest `Mock` fun
 type MyStoreMock = MockedPiniaStore<typeof useMyStore>;
 ```
 
-### 7.3 `mockStore` helper
+### 8.3 `mockStore` helper
 
 Casts `useStore()` to `MockedPiniaStore<typeof useStore>`. Use it after `mountSuspended` to get a typed store reference with mocked actions.
 
@@ -877,7 +1234,7 @@ const myStore = mockStore(useMyStore);
 // myStore.someAction is a Mock; myStore.someState is writable
 ```
 
-### 7.4 `MountSuspendedOptions<Component>` type
+### 8.4 `MountSuspendedOptions<Component>` type
 
 A convenience type for the second argument of `mountSuspended`:
 
@@ -889,7 +1246,7 @@ async function mountMyComponent(options: MountSuspendedOptions<typeof MyComponen
 }
 ```
 
-### 7.5 Composable mock files
+### 8.5 Composable mock files
 
 Each non-trivial composable has a mock triplet in `tests/unit/utils/mocks/composables/<category>/<ComposableName>/`:
 
@@ -922,7 +1279,7 @@ export type { UseMyComposableMock };
 export { createUseMyComposableMock };
 ```
 
-### 7.6 Repository mock files
+### 8.6 Repository mock files
 
 Repository mocks live in `tests/unit/utils/mocks/repositories/goat-it-api/<RepositoryName>/`.
 
@@ -945,7 +1302,7 @@ export type { MyRepositoryMock };
 export { createMyRepositoryMock };
 ```
 
-### 7.7 Registering new mocks
+### 8.7 Registering new mocks
 
 #### New composable mock
 
@@ -963,7 +1320,7 @@ export { createMyRepositoryMock };
 
 ---
 
-## 8. Faketories
+## 9. Faketories
 
 Faketories generate typed fake data for tests. They live in `tests/unit/utils/faketories/`.
 
@@ -978,6 +1335,9 @@ tests/unit/utils/faketories/
       my-entity.entity.faketory.ts   ← domain type (QuestionTheme, etc.)
     dto/
       my-entity.dto.faketory.ts      ← raw API DTO type
+  shared/
+    locale/
+      locale.faketory.ts             ← shared locale helpers (createFakeLocalizedText, etc.)
 ```
 
 ### Pattern
@@ -1000,6 +1360,15 @@ function createFakeMyEntity(myEntity: Partial<MyEntity> = {}): MyEntity {
 export { createFakeMyEntity };
 ```
 
+### Shared faketories
+
+`tests/unit/utils/faketories/shared/locale/locale.faketory.ts` provides helpers for localized text fields:
+
+- `createFakeLocalizedText(partial?)` — returns a `Partial<LocalizedText>` with random optional values.
+- `createFakeLocalizedTexts(partial?)` — returns an array of localized text objects.
+
+Import and use them when building entities or DTOs that have localized fields.
+
 ### Rules
 
 - Accept `Partial<T>` as the only parameter, default to `{}`.
@@ -1007,22 +1376,22 @@ export { createFakeMyEntity };
 - Use `faker.database.mongodbObjectId()` for IDs.
 - Use `faker.lorem.slug()` for slugs.
 - Use `faker.helpers.arrayElement(ENUM_VALUES)` for enum fields.
-- DTO faketories produce raw API shapes (dates as ISO strings, etc.); entity faketories produce domain shapes (dates as `Date` objects, etc.).
+- DTO faketories produce raw API shapes (dates as ISO strings via `.toISOString()`); entity faketories produce domain shapes (dates as `Date` objects via `faker.date.anytime()`).
 
 ---
 
-## 9. Naming conventions
+## 10. Naming conventions
 
-| Item               | Convention                                                                                                                                                                                                                                                                                                                                         |
-|--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Spec files         | `SourceFile.spec.ts`, colocated with source (exceptions: layouts → `spec/`, i18n → `app/i18n/specs/`)                                                                                                                                                                                                                                              |
-| `describe` label   | **Components:** always use a string in the form `"MyComponent Component"` — never a direct reference. **Functions/composables/stores/repositories:** pass the reference directly (`describe(myFn, ...)`). Use a free-form string only when no single symbol represents the subject (e.g. `describe("Server Goat It API Items Get Handler", ...)`). |
-| Test names         | `"should <action> when <condition>."` — always end with a period                                                                                                                                                                                                                                                                                   |
-| Mount helpers      | `async function mountXxxComponent(options: MountSuspendedOptions<typeof Xxx> = {}): Promise<VueWrapper>`                                                                                                                                                                                                                                           |
-| Faketory functions | `createFake<Entity>(partial: Partial<Entity> = {}): Entity`                                                                                                                                                                                                                                                                                        |
-| Mock type          | `UseXxxMock`                                                                                                                                                                                                                                                                                                                                       |
-| Mock factory       | `createUseXxxMock(): UseXxxMock`                                                                                                                                                                                                                                                                                                                   |
-| Captured variables | `capturedAction`, `capturedOnError` (store tests)                                                                                                                                                                                                                                                                                                  |
+| Item               | Convention                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Spec files         | `SourceFile.spec.ts`, colocated with source (exceptions: layouts → `spec/`, i18n → `app/i18n/specs/`)                                                                                                                                                                                                                                                                                                                                                   |
+| `describe` label   | **Components:** string `"<ComponentName> Component"` (e.g. `"LocaleSelect Component"`). **Pages:** string `"<PageName> Page"` (e.g. `"Home Page"`). **Layouts:** string `"<LayoutName> Layout"` (e.g. `"DefaultLayout Layout"`). **Functions/composables/stores/repositories:** pass the exported symbol directly (`describe(myFn, ...)`) or use a free-form string when no single symbol represents the subject (e.g. `describe("useAppToast", ...)`). |
+| Test names         | `"should <action> when <condition>."` — always end with a period                                                                                                                                                                                                                                                                                                                                                                                        |
+| Mount helpers      | `async function mountXxxComponent(options: MountSuspendedOptions<typeof Xxx> = {}): Promise<VueWrapper>`                                                                                                                                                                                                                                                                                                                                                |
+| Faketory functions | `createFake<Entity>(partial: Partial<Entity> = {}): Entity`                                                                                                                                                                                                                                                                                                                                                                                             |
+| Mock type          | `UseXxxMock`                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| Mock factory       | `createUseXxxMock(): UseXxxMock`                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| Captured variables | `capturedAction`, `capturedOnError` (store tests); `capturedFetchAction`, `capturedCreateAction` etc. for multi-action stores                                                                                                                                                                                                                                                                                                                           |
 
 ### Single-call assertion
 
@@ -1039,7 +1408,7 @@ expect(myMock).toHaveBeenCalledWith(expectedArg);
 
 ---
 
-## 10. Common pitfalls
+## 11. Common pitfalls
 
 ### Missing dynamic import in composable/store tests
 
@@ -1057,6 +1426,8 @@ describe("useMyComposable", () => {
 
 **Correct:** Import dynamically inside `beforeEach` so the module is re-evaluated after `vi.resetModules()`.
 
+**Exception:** Pattern C — composables with zero external dependencies (no mocked imports) may use a static top-level import.
+
 ---
 
 ### Calling `mockStore` before `mountSuspended`
@@ -1067,15 +1438,15 @@ describe("useMyComposable", () => {
 
 ---
 
-### Forgetting `shallow: true` on pages
+### Forgetting `shallow: true` on pages and layouts
 
-Page tests stub child components. Without `shallow: true`, the test will attempt to fully render every child (including deeply-nested ones), causing failures and slow tests.
+Page and layout tests stub child components. Without `shallow: true`, the test will attempt to fully render every child (including deeply-nested ones), causing failures and slow tests.
 
 ---
 
-### Forgetting to reset `capturedAction` / `capturedOnError` in store tests
+### Forgetting to reset captured variables in store tests
 
-The `mockNuxtImport` factory runs once per module load (not per test). Reset `capturedAction = undefined` and `capturedOnError = undefined` at the top of each `beforeEach` to avoid cross-test contamination.
+The `mockNuxtImport` factory runs once per module load (not per test). Reset `capturedAction = undefined`, `capturedOnError = undefined`, and `useAsyncActionCallCount = 0` (for multi-action stores) at the top of each `beforeEach` to avoid cross-test contamination.
 
 ---
 
@@ -1102,3 +1473,37 @@ expect(badge.props("label")).toBe("Status"); // hardcoded translated text
 ### Not covering all branches
 
 Coverage is enforced at 100%. Make sure to test both truthy and falsy branches, empty vs. non-empty arrays, all status values, and error paths.
+
+---
+
+### Using `describe(MyPage, ...)` for pages, layouts, or components
+
+**Wrong:**
+
+```ts
+describe(MyPage, () => {
+  // …
+});
+describe(DefaultLayout, () => {
+  // …
+});
+describe(MyComponent, () => {
+  // …
+});
+```
+
+**Correct:** Always use a string label for visual file types:
+
+```ts
+describe("My Page", () => {
+  // …
+});
+describe("DefaultLayout Layout", () => {
+  // …
+});
+describe("MyComponent Component", () => {
+  // …
+});
+```
+
+Only functions, composables, stores, and repositories use the symbol reference form.
