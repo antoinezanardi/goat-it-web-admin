@@ -111,8 +111,14 @@ pnpm run docker:api-sandbox:start
 # Stop the Goat It API sandbox
 pnpm run docker:api-sandbox:stop
 
+# Restart the Goat It API sandbox (stops and starts again)
+pnpm run docker:api-sandbox:restart
+
 # Reset the Goat It API sandbox (stops, removes data, and starts fresh)
 pnpm run docker:api-sandbox:reset
+
+# Update the Goat It API sandbox image (pulls the latest develop image from Docker Hub) and restart the sandbox with the new image
+pnpm run docker:api-sandbox:update
 ```
 
 ## <a name="tests">💯 Tests</a>
