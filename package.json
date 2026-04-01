@@ -123,7 +123,7 @@
     "lint-staged": "^16.4.0",
     "nuxt": "^4.4.2",
     "oxlint": "^1.57.0",
-    "oxlint-tsgolint": "^0.18.1",
+    "oxlint-tsgolint": "^0.19.0",
     "pinia": "^3.0.4",
     "radashi": "^12.7.2",
     "rimraf": "^6.1.3",
