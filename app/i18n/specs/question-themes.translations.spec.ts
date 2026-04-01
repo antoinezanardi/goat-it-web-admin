@@ -9,6 +9,6 @@ describe("question-themes.json translations", () => {
     const crushedFrQuestionThemesKeys = Object.keys(crush(frQuestionThemes)).toSorted();
     const crushedEnQuestionThemesKeys = Object.keys(crush(enQuestionThemes)).toSorted();
 
-    expect(crushedEnQuestionThemesKeys).toStrictEqual<string[]>(crushedFrQuestionThemesKeys);
+    expect(crushedEnQuestionThemesKeys).toStrictEqual(crushedFrQuestionThemesKeys);
   });
 });

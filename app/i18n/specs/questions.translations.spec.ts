@@ -9,6 +9,6 @@ describe("questions.json translations", () => {
     const crushedFrQuestionsKeys = Object.keys(crush(frQuestions)).toSorted();
     const crushedEnQuestionsKeys = Object.keys(crush(enQuestions)).toSorted();
 
-    expect(crushedEnQuestionsKeys).toStrictEqual<string[]>(crushedFrQuestionsKeys);
+    expect(crushedEnQuestionsKeys).toStrictEqual(crushedFrQuestionsKeys);
   });
 });

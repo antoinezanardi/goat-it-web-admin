@@ -45,7 +45,7 @@ Follow these rules:
 - Use `toHaveBeenCalledExactlyOnceWith(...)` for single-call assertions.
 - Assert translation keys, not translated strings.
 - Cover 100% of branches — truthy/falsy, empty/populated, success/error.
-- Never use `any`. Use precise types and `toStrictEqual<ExpectedType>(value)`.
+- Never use `any`. Use precise types and `toStrictEqual(value)`. If type can't be inferred, use `toStrictEqual<T>(value)` for example `toStrictEqual<QuestionTheme[]>([]);`
 
 ### 6. Create missing infrastructure if needed
 

@@ -9,6 +9,6 @@ describe("common.json translations", () => {
     const crushedFrCommonKeys = Object.keys(crush(frCommon)).toSorted();
     const crushedEnCommonKeys = Object.keys(crush(enCommon)).toSorted();
 
-    expect(crushedEnCommonKeys).toStrictEqual<string[]>(crushedFrCommonKeys);
+    expect(crushedEnCommonKeys).toStrictEqual(crushedFrCommonKeys);
   });
 });

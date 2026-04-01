@@ -74,7 +74,7 @@ describe("InputColorPicker Component", () => {
       const colorPicker = wrapper.findComponent<typeof UColorPicker>({ name: "UColorPicker" });
       getWrapperVm(colorPicker).$emit("update:modelValue", "#AABBCC");
 
-      expect(wrapper.emitted("update:color")).toStrictEqual<string[][]>([["#AABBCC"]]);
+      expect(wrapper.emitted("update:color")).toStrictEqual([["#AABBCC"]]);
     });
   });
 });

@@ -43,7 +43,7 @@ describe(questionThemesRepository, () => {
       fetchMock.mockResolvedValue(fakeQuestionThemes);
       const result = await repository.getAll();
 
-      expect(result).toStrictEqual<QuestionTheme[]>(fakeQuestionThemes);
+      expect(result).toStrictEqual(fakeQuestionThemes);
     });
   });
 
@@ -63,7 +63,7 @@ describe(questionThemesRepository, () => {
       fetchMock.mockResolvedValue(fakeQuestionTheme);
       const result = await repository.getById("fake-id-123");
 
-      expect(result).toStrictEqual<QuestionTheme>(fakeQuestionTheme);
+      expect(result).toStrictEqual(fakeQuestionTheme);
     });
   });
 
@@ -83,7 +83,7 @@ describe(questionThemesRepository, () => {
       fetchMock.mockResolvedValue(fakeQuestionTheme);
       const result = await repository.create(createFakeQuestionThemeCreationDto());
 
-      expect(result).toStrictEqual<QuestionTheme>(fakeQuestionTheme);
+      expect(result).toStrictEqual(fakeQuestionTheme);
     });
   });
 
@@ -104,7 +104,7 @@ describe(questionThemesRepository, () => {
       fetchMock.mockResolvedValue(fakeQuestionTheme);
       const result = await repository.patch("fake-id-456", createFakeQuestionThemeModificationDto());
 
-      expect(result).toStrictEqual<QuestionTheme>(fakeQuestionTheme);
+      expect(result).toStrictEqual(fakeQuestionTheme);
     });
   });
 
@@ -124,7 +124,7 @@ describe(questionThemesRepository, () => {
       fetchMock.mockResolvedValue(fakeQuestionTheme);
       const result = await repository.archive("fake-id-789");
 
-      expect(result).toStrictEqual<QuestionTheme>(fakeQuestionTheme);
+      expect(result).toStrictEqual(fakeQuestionTheme);
     });
   });
 });

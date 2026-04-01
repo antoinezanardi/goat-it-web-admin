@@ -1,4 +1,3 @@
-import type { LocalizedText } from "@goat-it/schemas/shared/locale";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { TableColumn } from "@nuxt/ui";
 import { createTestingPinia } from "@pinia/testing";
@@ -100,7 +99,7 @@ describe("QuestionThemesTable Component", () => {
         },
       ];
 
-      expect(table.props("columns")).toStrictEqual<TableColumn<QuestionTheme>[]>(expectedColumns);
+      expect(table.props("columns")).toStrictEqual(expectedColumns);
     });
   });
 
@@ -145,7 +144,7 @@ describe("QuestionThemesTable Component", () => {
 
       const table = wrapper.getComponent({ name: "UTable" });
 
-      expect(table.props("data")).toStrictEqual<QuestionThemesTableRow[]>(expectedQuestionThemeRows);
+      expect(table.props("data")).toStrictEqual(expectedQuestionThemeRows);
     });
   });
 
@@ -247,7 +246,7 @@ describe("QuestionThemesTable Component", () => {
 
       const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>("[data-testid='aliases-cell-list-science-biology']");
 
-      expect(aliasesList.props("aliases")).toStrictEqual<string[]>(["one", "two"]);
+      expect(aliasesList.props("aliases")).toStrictEqual(["one", "two"]);
     });
 
     it("should render an aliases list for each row when the store has multiple question themes.", async() => {
@@ -276,7 +275,7 @@ describe("QuestionThemesTable Component", () => {
 
       const localizedText = wrapper.findComponent<typeof LocalizedTextComponent>("[data-testid='label-cell-text-math']");
 
-      expect(localizedText.props("localizedText")).toStrictEqual<Partial<LocalizedText>>(label);
+      expect(localizedText.props("localizedText")).toStrictEqual(label);
     });
 
     it("should render a label localized text for each row when the store has multiple question themes.", async() => {
@@ -305,7 +304,7 @@ describe("QuestionThemesTable Component", () => {
 
       const localizedText = wrapper.findComponent<typeof LocalizedTextComponent>("[data-testid='description-cell-text-math']");
 
-      expect(localizedText.props("localizedText")).toStrictEqual<Partial<LocalizedText>>(description);
+      expect(localizedText.props("localizedText")).toStrictEqual(description);
     });
 
     it("should render a description localized text for each row when the store has multiple question themes.", async() => {

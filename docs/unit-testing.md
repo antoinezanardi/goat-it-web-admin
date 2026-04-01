@@ -753,7 +753,7 @@ describe(myRepository, () => {
       fetchMock.mockResolvedValue(fakeItems);
       const result = await repository.getAll();
 
-      expect(result).toStrictEqual<MyEntity[]>(fakeItems);
+      expect(result).toStrictEqual(fakeItems);
     });
   });
 });
@@ -765,7 +765,7 @@ describe(myRepository, () => {
 - Use `describe(myRepository, ...)`
 - `fetchMock = vi.fn<$Fetch>()` in `beforeEach`; cast as `$Fetch` when passing to the factory.
 - Test each method: what endpoint it calls, what options it passes, and what it returns.
-- Use `toStrictEqual<ExpectedType>(value)` for return value assertions.
+- Use `toStrictEqual(value)` for return value assertions. If type can't be inferred, use `toStrictEqual<T>(value)` for example `toStrictEqual<QuestionTheme[]>([]);`
 
 ---
 
@@ -951,7 +951,7 @@ describe(createItemFromDto, () => {
     const dto = createFakeItemDto();
     const result = createItemFromDto(dto);
 
-    expect(result).toStrictEqual<MyEntity>(createFakeItem({
+    expect(result).toStrictEqual(createFakeItem({
       ...dto,
       createdAt: new Date(dto.createdAt),   // convert ISO string → Date
       updatedAt: new Date(dto.updatedAt),

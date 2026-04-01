@@ -131,7 +131,7 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 - [ ] `fetchMock = vi.fn<$Fetch>()` in `beforeEach`
 - [ ] Pass `fetchMock as $Fetch` to the factory
 - [ ] Test every method: endpoint, options, return value
-- [ ] Use `toStrictEqual<ExpectedType>(value)` for return assertions
+- [ ] Use `toStrictEqual(value)` for return assertions. If type can't be inferred, use `toStrictEqual<T>(value)` for example `toStrictEqual<QuestionTheme[]>([]);`
 
 ### Server handler (`nuxt` project)
 

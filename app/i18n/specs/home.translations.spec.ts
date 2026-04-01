@@ -9,6 +9,6 @@ describe("home.json translations", () => {
     const crushedFrHomeKeys = Object.keys(crush(frHome)).toSorted();
     const crushedEnHomeKeys = Object.keys(crush(enHome)).toSorted();
 
-    expect(crushedEnHomeKeys).toStrictEqual<string[]>(crushedFrHomeKeys);
+    expect(crushedEnHomeKeys).toStrictEqual(crushedFrHomeKeys);
   });
 });

@@ -16,7 +16,7 @@ describe("Goat It Api Mappers", () => {
       });
       const questionTheme = createQuestionThemeFromAdminQuestionThemeDto(adminQuestionThemeDto);
 
-      expect(questionTheme).toStrictEqual<QuestionTheme>(expectedQuestionTheme);
+      expect(questionTheme).toStrictEqual(expectedQuestionTheme);
     });
   });
 });

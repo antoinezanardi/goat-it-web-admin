@@ -29,13 +29,13 @@ describe("App Component", () => {
     it("should pass tooltip props to the Nuxt UI App component when mounted.", () => {
       const nuxtUIApp = wrapper.getComponent({ name: "App" });
 
-      expect(nuxtUIApp.props("tooltip")).toStrictEqual<typeof APP_TOOLTIP_CONFIG>(APP_TOOLTIP_CONFIG);
+      expect(nuxtUIApp.props("tooltip")).toStrictEqual(APP_TOOLTIP_CONFIG);
     });
 
     it("should pass toaster props to the Nuxt UI App component when mounted.", () => {
       const nuxtUIApp = wrapper.getComponent({ name: "App" });
 
-      expect(nuxtUIApp.props("toaster")).toStrictEqual<typeof APP_TOAST_CONFIG>(APP_TOAST_CONFIG);
+      expect(nuxtUIApp.props("toaster")).toStrictEqual(APP_TOAST_CONFIG);
     });
   });
 });
