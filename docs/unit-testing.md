@@ -386,7 +386,7 @@ import type { PageHeader } from "#components";
 import { MY_PAGE_ICON, MY_PAGE_TITLE_KEY } from "@/pages/my-page.constants";
 import MyPage from "@/pages/my-page.vue";
 
-describe("My Page", () => {
+describe("Entity Page", () => {
   let wrapper: VueWrapper;
 
   async function mountMyPage(options: MountSuspendedOptions<typeof MyPage> = {}): Promise<VueWrapper> {
@@ -1495,7 +1495,7 @@ describe(MyComponent, () => {
 **Correct:** Always use a string label for visual file types:
 
 ```ts
-describe("My Page", () => {
+describe("Entity Page", () => {
   // …
 });
 describe("DefaultLayout Layout", () => {

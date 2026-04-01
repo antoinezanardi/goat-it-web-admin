@@ -91,7 +91,7 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 ### Page (`nuxt` project)
 
 - [ ] Import page directly: `import MyPage from "@/pages/my-page.vue"`
-- [ ] `describe("My Page", ...)` — string label in the form `"<PageName> Page"`
+- [ ] `describe("Entity Page", ...)` — string label in the form `"<PageName> Page"`
 - [ ] `shallow: true` in mount helper
 - [ ] Assert `definePageMeta` was called with expected metadata
 - [ ] Assert `useHead` via `vi.mocked(useHead).mock.calls[0]?.[0]` — extract and call the function argument
