@@ -127,7 +127,7 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 ### Repository (`repositories` project)
 
 - [ ] No Nuxt — plain Node environment
-- [ ] `describe("myRepository", ...)` — string matching the exported function name; no nested duplicate describe
+- [ ] `describe(myRepository, ...)` — use the exported symbol; no nested duplicate describe
 - [ ] `fetchMock = vi.fn<$Fetch>()` in `beforeEach`
 - [ ] Pass `fetchMock as $Fetch` to the factory
 - [ ] Test every method: endpoint, options, return value
@@ -271,7 +271,7 @@ import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
 // Emit an event from a child component
-const footer = wrapper.findComponent<typeof DefaultModalFooter>({ name: "DefaultModalFooter" });
+const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
 getWrapperVm(footer).$emit("closeModal");
 
 // Access exposed properties — extend ComponentVm with a local type

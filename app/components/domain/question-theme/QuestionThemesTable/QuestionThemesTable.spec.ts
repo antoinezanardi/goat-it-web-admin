@@ -155,7 +155,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const slugBadge = wrapper.findComponent<typeof QuestionThemeSlugBadge>("[data-testid='question-themes-table-slug-badge']");
+      const slugBadge = wrapper.findComponent<typeof QuestionThemeSlugBadge>("[data-testid='slug-cell-badge-science-biology']");
 
       expect(slugBadge.exists()).toBeTruthy();
     });
@@ -165,63 +165,102 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const slugBadge = wrapper.findComponent<typeof QuestionThemeSlugBadge>("[data-testid='question-themes-table-slug-badge']");
+      const slugBadge = wrapper.findComponent<typeof QuestionThemeSlugBadge>("[data-testid='slug-cell-badge-science-biology']");
 
       expect(slugBadge.props("slug")).toBe("science-biology");
+    });
+
+    it("should render a slug badge for each row when the store has multiple question themes.", async() => {
+      questionThemesStore.questionThemes = [
+        createFakeQuestionTheme({ slug: "science-biology" }),
+        createFakeQuestionTheme({ slug: "math" }),
+      ];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const slugBadges = wrapper.findAllComponents<typeof QuestionThemeSlugBadge>("[data-testid^='slug-cell-badge-']");
+
+      expect(slugBadges).toHaveLength(2);
     });
   });
 
   describe("Status cell slot", () => {
     it("should render the question theme status badge for each row when in the status cell slot.", async() => {
-      questionThemesStore.questionThemes = [createFakeQuestionTheme({ status: "active" })];
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "science-biology", status: "active" })];
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const statusBadge = wrapper.findComponent<typeof QuestionThemeStatusBadge>("[data-testid='question-themes-table-status-badge']");
+      const statusBadge = wrapper.findComponent<typeof QuestionThemeStatusBadge>("[data-testid='status-cell-badge-science-biology']");
 
       expect(statusBadge.exists()).toBeTruthy();
     });
 
     it("should pass the status to the question theme status badge when in the status cell slot.", async() => {
-      questionThemesStore.questionThemes = [createFakeQuestionTheme({ status: "active" })];
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "science-biology", status: "active" })];
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const statusBadge = wrapper.findComponent<typeof QuestionThemeStatusBadge>("[data-testid='question-themes-table-status-badge']");
+      const statusBadge = wrapper.findComponent<typeof QuestionThemeStatusBadge>("[data-testid='status-cell-badge-science-biology']");
 
       expect(statusBadge.props("status")).toBe("active");
     });
 
     it("should pass the archived status to the question theme status badge when the theme status is archived.", async() => {
-      questionThemesStore.questionThemes = [createFakeQuestionTheme({ status: "archived" })];
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "science-biology", status: "archived" })];
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const statusBadge = wrapper.findComponent<typeof QuestionThemeStatusBadge>("[data-testid='question-themes-table-status-badge']");
+      const statusBadge = wrapper.findComponent<typeof QuestionThemeStatusBadge>("[data-testid='status-cell-badge-science-biology']");
 
       expect(statusBadge.props("status")).toBe("archived");
+    });
+
+    it("should render a status badge for each row when the store has multiple question themes.", async() => {
+      questionThemesStore.questionThemes = [
+        createFakeQuestionTheme({ slug: "science-biology", status: "active" }),
+        createFakeQuestionTheme({ slug: "math", status: "archived" }),
+      ];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const statusBadges = wrapper.findAllComponents<typeof QuestionThemeStatusBadge>("[data-testid^='status-cell-badge-']");
+
+      expect(statusBadges).toHaveLength(2);
     });
   });
 
   describe("Aliases cell slot", () => {
     it("should render the question theme aliases list for each row when in the aliases cell slot.", async() => {
-      questionThemesStore.questionThemes = [createFakeQuestionTheme({ aliases: { en: ["a"], fr: ["a"] } })];
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "science-biology", aliases: { en: ["a"], fr: ["a"] } })];
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>("[data-testid='question-themes-table-aliases-list']");
+      const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>("[data-testid='aliases-cell-list-science-biology']");
 
       expect(aliasesList.exists()).toBeTruthy();
     });
 
     it("should pass the aliases to the question theme aliases list when in the aliases cell slot.", async() => {
-      questionThemesStore.questionThemes = [createFakeQuestionTheme({ aliases: { en: ["one", "two"], fr: ["one", "two"] } })];
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "science-biology", aliases: { en: ["one", "two"], fr: ["one", "two"] } })];
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>("[data-testid='question-themes-table-aliases-list']");
+      const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>("[data-testid='aliases-cell-list-science-biology']");
 
       expect(aliasesList.props("aliases")).toStrictEqual<string[]>(["one", "two"]);
+    });
+
+    it("should render an aliases list for each row when the store has multiple question themes.", async() => {
+      questionThemesStore.questionThemes = [
+        createFakeQuestionTheme({ slug: "science-biology", aliases: { en: ["a"], fr: ["a"] } }),
+        createFakeQuestionTheme({ slug: "math", aliases: { en: ["maths"], fr: ["maths"] } }),
+      ];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const aliasesLists = wrapper.findAllComponents<typeof QuestionThemeAliasesList>("[data-testid^='aliases-cell-list-']");
+
+      expect(aliasesLists).toHaveLength(2);
     });
   });
 
@@ -231,13 +270,26 @@ describe("QuestionThemesTable Component", () => {
         en: "Math",
         fr: "Mathématiques",
       });
-      questionThemesStore.questionThemes = [createFakeQuestionTheme({ label })];
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "math", label })];
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const localizedText = wrapper.findComponent<typeof LocalizedTextComponent>("[data-testid='label-cell-text']");
+      const localizedText = wrapper.findComponent<typeof LocalizedTextComponent>("[data-testid='label-cell-text-math']");
 
       expect(localizedText.props("localizedText")).toStrictEqual<Partial<LocalizedText>>(label);
+    });
+
+    it("should render a label localized text for each row when the store has multiple question themes.", async() => {
+      questionThemesStore.questionThemes = [
+        createFakeQuestionTheme({ slug: "math" }),
+        createFakeQuestionTheme({ slug: "science-biology" }),
+      ];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const labelTexts = wrapper.findAllComponents<typeof LocalizedTextComponent>("[data-testid^='label-cell-text-']");
+
+      expect(labelTexts).toHaveLength(2);
     });
   });
 
@@ -247,20 +299,32 @@ describe("QuestionThemesTable Component", () => {
         en: "Math description",
         fr: "Description mathématiques",
       });
-      questionThemesStore.questionThemes = [createFakeQuestionTheme({ description })];
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "math", description })];
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const localizedText = wrapper.findComponent<typeof LocalizedTextComponent>("[data-testid='description-cell-text']");
+      const localizedText = wrapper.findComponent<typeof LocalizedTextComponent>("[data-testid='description-cell-text-math']");
 
       expect(localizedText.props("localizedText")).toStrictEqual<Partial<LocalizedText>>(description);
+    });
+
+    it("should render a description localized text for each row when the store has multiple question themes.", async() => {
+      questionThemesStore.questionThemes = [
+        createFakeQuestionTheme({ slug: "math" }),
+        createFakeQuestionTheme({ slug: "science-biology" }),
+      ];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const descriptionTexts = wrapper.findAllComponents<typeof LocalizedTextComponent>("[data-testid^='description-cell-text-']");
+
+      expect(descriptionTexts).toHaveLength(2);
     });
   });
 
   describe("Table header", () => {
     it("should emit startCreate when the table header emits startCreate.", () => {
-      // oxlint-disable-next-line typescript/no-unsafe-type-assertion
-      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']") as VueWrapper;
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
       getWrapperVm(header).$emit("startCreate");
 
       expect(wrapper.emitted("startCreate")).toBeDefined();

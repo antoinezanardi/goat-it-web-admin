@@ -96,7 +96,6 @@ describe("QuestionThemeFormModal Component", () => {
     it("should close the modal when closeModal is emitted from the footer and isCreating is false.", async() => {
       await wrapper.setProps({ isCreating: false });
 
-      // oxlint-disable-next-line typescript/no-unsafe-type-assertion
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']") as VueWrapper;
       getWrapperVm(footer).$emit("closeModal");
 
@@ -106,7 +105,6 @@ describe("QuestionThemeFormModal Component", () => {
     it("should not close the modal when closeModal is emitted from the footer and isCreating is true.", async() => {
       await wrapper.setProps({ isCreating: true });
 
-      // oxlint-disable-next-line typescript/no-unsafe-type-assertion
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']") as VueWrapper;
       getWrapperVm(footer).$emit("closeModal");
 
@@ -117,14 +115,12 @@ describe("QuestionThemeFormModal Component", () => {
   describe("Primary button click", () => {
     it("should trigger form submission when primaryButtonClick is emitted from the footer.", async() => {
       const fakeData = createFakeQuestionThemeCreationDto();
-      // oxlint-disable-next-line typescript/no-unsafe-type-assertion
       const form = wrapper.findComponent<typeof QuestionThemeForm>("[data-testid='question-theme-form-modal-form']") as VueWrapper;
       const uForm = form.findComponent({ name: "UForm" });
       const state = uForm.props("state") as Record<string, unknown>;
       state.slug = fakeData.slug;
       state.label = fakeData.label;
 
-      // oxlint-disable-next-line typescript/no-unsafe-type-assertion
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']") as VueWrapper;
       getWrapperVm(footer).$emit("primaryButtonClick");
       await flushPromises();
@@ -136,7 +132,6 @@ describe("QuestionThemeFormModal Component", () => {
   describe("Submit creation", () => {
     it("should emit submitCreation when the form emits submitCreation.", () => {
       const fakeData = createFakeQuestionThemeCreationDto();
-      // oxlint-disable-next-line typescript/no-unsafe-type-assertion
       const form = wrapper.findComponent<typeof QuestionThemeForm>("[data-testid='question-theme-form-modal-form']") as VueWrapper;
 
       getWrapperVm(form).$emit("submitCreation", fakeData);

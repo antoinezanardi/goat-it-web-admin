@@ -65,21 +65,21 @@ function onStartCreateFromQuestionThemesTableHeader(): void {
     >
       <template #label-cell="{ row }">
         <LocalizedText
-          data-testid="label-cell-text"
+          :data-testid="`label-cell-text-${row.original.slug}`"
           :localized-text="row.original.label"
         />
       </template>
 
       <template #slug-cell="{ row }">
         <QuestionThemeSlugBadge
-          data-testid="question-themes-table-slug-badge"
+          :data-testid="`slug-cell-badge-${row.original.slug}`"
           :slug="row.original.slug"
         />
       </template>
 
       <template #description-cell="{ row }">
         <LocalizedText
-          data-testid="description-cell-text"
+          :data-testid="`description-cell-text-${row.original.slug}`"
           :localized-text="row.original.description"
         />
       </template>
@@ -87,13 +87,13 @@ function onStartCreateFromQuestionThemesTableHeader(): void {
       <template #aliases-cell="{ row }">
         <QuestionThemeAliasesList
           :aliases="row.original.aliases"
-          data-testid="question-themes-table-aliases-list"
+          :data-testid="`aliases-cell-list-${row.original.slug}`"
         />
       </template>
 
       <template #status-cell="{ row }">
         <QuestionThemeStatusBadge
-          data-testid="question-themes-table-status-badge"
+          :data-testid="`status-cell-badge-${row.original.slug}`"
           :status="row.original.status"
         />
       </template>

@@ -340,7 +340,7 @@ import MyPage from "@/pages/my-page.vue";
 3. **Use a string label** in the form `"<PageName> Page"`:
 
 ```ts
-describe("My Page", () => {
+describe("Questions Page", () => {
   // ...
 });
 ```
