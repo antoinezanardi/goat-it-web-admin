@@ -65,7 +65,7 @@ describe("Server Goat It API Question Theme Get Handler", () => {
       const expectedQuestionTheme = createQuestionThemeFromAdminQuestionThemeDto(fakeAdminQuestionThemeDto);
       const result = await getQuestionThemeHandler(mockedEvent);
 
-      expect(result).toStrictEqual<QuestionTheme>(expectedQuestionTheme);
+      expect(result).toStrictEqual(expectedQuestionTheme);
     });
 
     it("should throw an error when the fetched data is invalid.", async() => {

@@ -9,6 +9,6 @@ describe("form.json translations", () => {
     const crushedFrFormKeys = Object.keys(crush(frForm)).toSorted();
     const crushedEnFormKeys = Object.keys(crush(enForm)).toSorted();
 
-    expect(crushedEnFormKeys).toStrictEqual<string[]>(crushedFrFormKeys);
+    expect(crushedEnFormKeys).toStrictEqual(crushedFrFormKeys);
   });
 });

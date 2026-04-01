@@ -51,7 +51,7 @@ describe("useQuestionThemesStore", () => {
     it("should expose an empty array as initial state when created.", () => {
       const store = useQuestionThemesStore();
 
-      expect(store.questionThemes).toStrictEqual<QuestionTheme[]>([]);
+      expect(store.questionThemes).toStrictEqual([]);
     });
   });
 
@@ -144,7 +144,7 @@ describe("useQuestionThemesStore", () => {
 
       await store.fetchAndStoreQuestionThemes();
 
-      expect(store.questionThemes).toStrictEqual<QuestionTheme[]>(fakeQuestionThemes);
+      expect(store.questionThemes).toStrictEqual(fakeQuestionThemes);
     });
 
     it("should not update questionThemes when fetchQuestionThemes resolves with undefined.", async() => {
@@ -234,7 +234,7 @@ describe("useQuestionThemesStore", () => {
 
       await store.createAndStoreQuestionTheme(fakeCreationDto);
 
-      expect(store.questionThemes).toStrictEqual<QuestionTheme[]>([fakeCreatedTheme]);
+      expect(store.questionThemes).toStrictEqual([fakeCreatedTheme]);
     });
 
     it("should add success toast when creation resolves with a theme.", async() => {

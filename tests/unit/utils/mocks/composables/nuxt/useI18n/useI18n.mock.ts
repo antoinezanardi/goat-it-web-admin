@@ -24,7 +24,7 @@ function createUseI18nMock(): UseI18nMock {
   return {
     t: vi.fn<UseI18nStub["t"]>((key: string) => key),
     locale: ref<SupportedLocaleCodeForMock>(DEFAULT_MOCKED_LOCALE),
-    localeCodes: ref<SupportedLocaleCodeForMock[]>([...MOCKED_LOCALE_CODES]),
+    localeCodes: ref([...MOCKED_LOCALE_CODES]),
     locales: ref<SupportedMockedLocale[]>([...MOCKED_LOCALES]),
     setLocale: vi.fn<UseI18nStub["setLocale"]>(),
   };

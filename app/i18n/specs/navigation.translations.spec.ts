@@ -9,6 +9,6 @@ describe("navigation.json translations", () => {
     const crushedFrNavigationKeys = Object.keys(crush(frNavigation)).toSorted();
     const crushedEnNavigationKeys = Object.keys(crush(enNavigation)).toSorted();
 
-    expect(crushedEnNavigationKeys).toStrictEqual<string[]>(crushedFrNavigationKeys);
+    expect(crushedEnNavigationKeys).toStrictEqual(crushedFrNavigationKeys);
   });
 });

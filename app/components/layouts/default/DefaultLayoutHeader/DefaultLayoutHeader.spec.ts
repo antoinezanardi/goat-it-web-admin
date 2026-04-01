@@ -57,7 +57,7 @@ describe("DefaultLayoutHeader Component", () => {
         },
       ];
 
-      expect(navigationMenu.props("items")).toStrictEqual<NavigationMenuItem[]>(expectedNavigationMenuItems);
+      expect(navigationMenu.props("items")).toStrictEqual(expectedNavigationMenuItems);
     });
   });
 });
