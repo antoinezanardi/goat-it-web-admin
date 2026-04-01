@@ -52,37 +52,50 @@ function onStartCreateFromQuestionThemesTableHeader(): void {
 <template>
   <UCard id="question-themes-table">
     <template #header>
-      <QuestionThemesTableHeader @start-create="onStartCreateFromQuestionThemesTableHeader"/>
+      <QuestionThemesTableHeader
+        data-testid="question-themes-table-header"
+        @start-create="onStartCreateFromQuestionThemesTableHeader"
+      />
     </template>
 
     <UTable
       :columns="columns"
       :data="rows"
+      data-testid="question-themes-table-data"
     >
       <template #label-cell="{ row }">
         <LocalizedText
-          data-testid="label-cell-text"
+          :data-testid="`label-cell-text-${row.original.slug}`"
           :localized-text="row.original.label"
         />
       </template>
 
       <template #slug-cell="{ row }">
-        <QuestionThemeSlugBadge :slug="row.original.slug"/>
+        <QuestionThemeSlugBadge
+          :data-testid="`slug-cell-badge-${row.original.slug}`"
+          :slug="row.original.slug"
+        />
       </template>
 
       <template #description-cell="{ row }">
         <LocalizedText
-          data-testid="description-cell-text"
+          :data-testid="`description-cell-text-${row.original.slug}`"
           :localized-text="row.original.description"
         />
       </template>
 
       <template #aliases-cell="{ row }">
-        <QuestionThemeAliasesList :aliases="row.original.aliases"/>
+        <QuestionThemeAliasesList
+          :aliases="row.original.aliases"
+          :data-testid="`aliases-cell-list-${row.original.slug}`"
+        />
       </template>
 
       <template #status-cell="{ row }">
-        <QuestionThemeStatusBadge :status="row.original.status"/>
+        <QuestionThemeStatusBadge
+          :data-testid="`status-cell-badge-${row.original.slug}`"
+          :status="row.original.status"
+        />
       </template>
     </UTable>
   </UCard>

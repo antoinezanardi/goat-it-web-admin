@@ -13,17 +13,15 @@ describe(questionThemesRepository, () => {
     fetchMock = vi.fn<$Fetch>();
   });
 
-  describe(questionThemesRepository, () => {
-    it("should return the repository object when called.", () => {
-      const repository = questionThemesRepository(fetchMock as $Fetch);
+  it("should return the repository object when called.", () => {
+    const repository = questionThemesRepository(fetchMock as $Fetch);
 
-      expect(repository).toStrictEqual({
-        getAll: expect.any(Function) as () => Promise<QuestionTheme[]>,
-        getById: expect.any(Function) as (id: string) => Promise<QuestionTheme>,
-        create: expect.any(Function) as (creationDto: unknown) => Promise<QuestionTheme>,
-        patch: expect.any(Function) as (id: string, modificationDto: unknown) => Promise<QuestionTheme>,
-        archive: expect.any(Function) as (id: string) => Promise<QuestionTheme>,
-      });
+    expect(repository).toStrictEqual({
+      getAll: expect.any(Function) as () => Promise<QuestionTheme[]>,
+      getById: expect.any(Function) as (id: string) => Promise<QuestionTheme>,
+      create: expect.any(Function) as (creationDto: unknown) => Promise<QuestionTheme>,
+      patch: expect.any(Function) as (id: string, modificationDto: unknown) => Promise<QuestionTheme>,
+      archive: expect.any(Function) as (id: string) => Promise<QuestionTheme>,
     });
   });
 
