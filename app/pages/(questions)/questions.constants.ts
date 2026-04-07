@@ -1,5 +1,8 @@
 const QUESTIONS_PAGE_TITLE_KEY = "questions.pageTitle";
 
+const QUESTIONS_PAGE_ORDER = 2;
+
 export {
   QUESTIONS_PAGE_TITLE_KEY,
+  QUESTIONS_PAGE_ORDER,
 };

@@ -7,7 +7,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { PageHeader } from "#components";
 
 import { QUESTION_ICON } from "~/composables/domain/question/question.constants";
-import { QUESTIONS_PAGE_TITLE_KEY } from "@/pages/(questions)/questions.constants";
+import { QUESTIONS_PAGE_ORDER, QUESTIONS_PAGE_TITLE_KEY } from "@/pages/(questions)/questions.constants";
 import QuestionPage from "@/pages/(questions)/questions.vue";
 
 describe("Questions Page", () => {
@@ -32,6 +32,7 @@ describe("Questions Page", () => {
     const expectedPageMeta: Parameters<typeof definePageMeta>[0] = {
       icon: QUESTION_ICON,
       titleKey: QUESTIONS_PAGE_TITLE_KEY,
+      order: QUESTIONS_PAGE_ORDER,
     };
 
     expect(definePageMeta).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);
