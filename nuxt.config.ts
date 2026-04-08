@@ -65,6 +65,14 @@ export default defineNuxtConfig({
       dirs: ["shared/utils/helpers/*.helpers.ts"],
     },
   },
+  vite: {
+    optimizeDeps: {
+      include: [
+        "@goat-it/schemas/question-theme",
+        "@goat-it/schemas/shared/locale",
+      ],
+    },
+  },
   typescript: {
     shim: true,
     strict: true,
