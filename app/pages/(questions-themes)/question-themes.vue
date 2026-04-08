@@ -4,7 +4,7 @@ import { ref } from "vue";
 
 import { useQuestionThemesStore } from "~/stores/domain/question-theme/question-themes.store";
 import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/question-theme.constants";
-import { QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
+import { QUESTION_THEMES_PAGE_ORDER, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
 
 const questionThemesStore = useQuestionThemesStore();
 const { t } = useI18n();
@@ -31,6 +31,7 @@ useHead(() => ({
 definePageMeta({
   titleKey: QUESTION_THEMES_PAGE_TITLE_KEY,
   icon: QUESTION_THEME_ICON,
+  order: QUESTION_THEMES_PAGE_ORDER,
 });
 </script>
 

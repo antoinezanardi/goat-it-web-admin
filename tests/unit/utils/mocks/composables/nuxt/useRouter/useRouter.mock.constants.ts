@@ -6,20 +6,23 @@ const DEFAULT_MOCKED_ROUTE: RouteMock = {
   meta: {
     titleKey: "home.pageTitle",
     icon: "i-lucide-home",
+    order: 1,
   },
 } as const;
 
 const MOCKED_ROUTES = [
-  DEFAULT_MOCKED_ROUTE,
-  {
-    name: "questions",
-    path: "/questions",
-    meta: {},
-  },
   {
     path: "/question/:id",
     meta: {},
   },
+  {
+    name: "questions",
+    path: "/questions",
+    meta: {
+      order: 2,
+    },
+  },
+  DEFAULT_MOCKED_ROUTE,
 ] as const satisfies readonly RouteMock[];
 
 export {

@@ -2,7 +2,7 @@
 import { PageHeader } from "#components";
 
 import { QUESTION_ICON } from "~/composables/domain/question/question.constants";
-import { QUESTIONS_PAGE_TITLE_KEY } from "~/pages/(questions)/questions.constants";
+import { QUESTIONS_PAGE_ORDER, QUESTIONS_PAGE_TITLE_KEY } from "~/pages/(questions)/questions.constants";
 
 const { t } = useI18n();
 
@@ -13,6 +13,7 @@ useHead(() => ({
 definePageMeta({
   titleKey: QUESTIONS_PAGE_TITLE_KEY,
   icon: QUESTION_ICON,
+  order: QUESTIONS_PAGE_ORDER,
 });
 </script>
 

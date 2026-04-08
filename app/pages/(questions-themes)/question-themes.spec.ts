@@ -14,7 +14,7 @@ import type { PageHeader, UModal } from "#components";
 
 import type QuestionThemesTable from "@/components/domain/question-theme/QuestionThemesTable/QuestionThemesTable.vue";
 import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/question-theme.constants";
-import { QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
+import { QUESTION_THEMES_PAGE_ORDER, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
 import QuestionThemesPage from "@/pages/(questions-themes)/question-themes.vue";
 
 describe("Question Themes Page", () => {
@@ -46,6 +46,7 @@ describe("Question Themes Page", () => {
     const expectedPageMeta: Parameters<typeof definePageMeta>[0] = {
       icon: QUESTION_THEME_ICON,
       titleKey: QUESTION_THEMES_PAGE_TITLE_KEY,
+      order: QUESTION_THEMES_PAGE_ORDER,
     };
 
     expect(definePageMeta).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { HOME_PAGE_ICON, HOME_PAGE_TITLE_KEY } from "~/pages/index.constants";
+import { HOME_PAGE_ICON, HOME_PAGE_ORDER, HOME_PAGE_TITLE_KEY } from "~/pages/index.constants";
 
 const { t } = useI18n();
 
@@ -10,6 +10,7 @@ useHead(() => ({
 definePageMeta({
   titleKey: HOME_PAGE_TITLE_KEY,
   icon: HOME_PAGE_ICON,
+  order: HOME_PAGE_ORDER,
 });
 </script>
 

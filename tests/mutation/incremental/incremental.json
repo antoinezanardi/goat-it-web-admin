@@ -12,7 +12,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "40"
+            "20"
           ],
           "coveredBy": [],
           "location": {
@@ -35,7 +35,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "40"
+            "20"
           ],
           "coveredBy": [],
           "location": {
@@ -58,7 +58,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "40"
+            "20"
           ],
           "coveredBy": [],
           "location": {
@@ -81,7 +81,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "40"
+            "20"
           ],
           "coveredBy": [],
           "location": {
@@ -110,7 +110,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "20"
+            "21"
           ],
           "coveredBy": [],
           "location": {
@@ -133,7 +133,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "20"
+            "21"
           ],
           "coveredBy": [],
           "location": {
@@ -156,7 +156,7 @@
           "testsCompleted": 2,
           "static": false,
           "killedBy": [
-            "21"
+            "22"
           ],
           "coveredBy": [],
           "location": {
@@ -179,7 +179,7 @@
           "testsCompleted": 5,
           "static": false,
           "killedBy": [
-            "24"
+            "25"
           ],
           "coveredBy": [],
           "location": {
@@ -202,7 +202,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "20"
+            "21"
           ],
           "coveredBy": [],
           "location": {
@@ -904,7 +904,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "40"
+            "20"
           ],
           "coveredBy": [],
           "location": {
@@ -927,7 +927,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "40"
+            "20"
           ],
           "coveredBy": [],
           "location": {
@@ -956,7 +956,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "34"
+            "35"
           ],
           "coveredBy": [],
           "location": {
@@ -979,7 +979,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "34"
+            "35"
           ],
           "coveredBy": [],
           "location": {
@@ -1002,7 +1002,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "34"
+            "35"
           ],
           "coveredBy": [],
           "location": {
@@ -1025,7 +1025,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "34"
+            "35"
           ],
           "coveredBy": [],
           "location": {
@@ -1048,7 +1048,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "34"
+            "35"
           ],
           "coveredBy": [],
           "location": {
@@ -1071,7 +1071,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "34"
+            "35"
           ],
           "coveredBy": [],
           "location": {
@@ -1094,7 +1094,7 @@
           "testsCompleted": 4,
           "static": false,
           "killedBy": [
-            "37"
+            "38"
           ],
           "coveredBy": [],
           "location": {
@@ -1117,7 +1117,7 @@
           "testsCompleted": 4,
           "static": false,
           "killedBy": [
-            "37"
+            "38"
           ],
           "coveredBy": [],
           "location": {
@@ -1140,7 +1140,7 @@
           "testsCompleted": 4,
           "static": false,
           "killedBy": [
-            "37"
+            "38"
           ],
           "coveredBy": [],
           "location": {
@@ -1163,7 +1163,7 @@
           "testsCompleted": 4,
           "static": false,
           "killedBy": [
-            "37"
+            "38"
           ],
           "coveredBy": [],
           "location": {
@@ -1186,7 +1186,7 @@
           "testsCompleted": 4,
           "static": false,
           "killedBy": [
-            "37"
+            "38"
           ],
           "coveredBy": [],
           "location": {
@@ -1209,7 +1209,7 @@
           "testsCompleted": 1,
           "static": false,
           "killedBy": [
-            "34"
+            "35"
           ],
           "coveredBy": [],
           "location": {
@@ -1621,9 +1621,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "static": false,
-          "killedBy": [
-            "62"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1644,9 +1642,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "static": false,
-          "killedBy": [
-            "62"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1667,9 +1663,7 @@
           "status": "Killed",
           "testsCompleted": 27,
           "static": false,
-          "killedBy": [
-            "88"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1690,9 +1684,7 @@
           "status": "Killed",
           "testsCompleted": 27,
           "static": false,
-          "killedBy": [
-            "88"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1713,9 +1705,7 @@
           "status": "Killed",
           "testsCompleted": 27,
           "static": false,
-          "killedBy": [
-            "88"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1736,9 +1726,7 @@
           "status": "Killed",
           "testsCompleted": 28,
           "static": false,
-          "killedBy": [
-            "89"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1759,9 +1747,7 @@
           "status": "Killed",
           "testsCompleted": 30,
           "static": false,
-          "killedBy": [
-            "91"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1782,9 +1768,7 @@
           "status": "Killed",
           "testsCompleted": 30,
           "static": false,
-          "killedBy": [
-            "91"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1805,9 +1789,7 @@
           "status": "Killed",
           "testsCompleted": 30,
           "static": false,
-          "killedBy": [
-            "91"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1828,9 +1810,7 @@
           "status": "Killed",
           "testsCompleted": 11,
           "static": false,
-          "killedBy": [
-            "72"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1851,9 +1831,7 @@
           "status": "Killed",
           "testsCompleted": 13,
           "static": false,
-          "killedBy": [
-            "74"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1874,9 +1852,7 @@
           "status": "Killed",
           "testsCompleted": 12,
           "static": false,
-          "killedBy": [
-            "73"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1897,9 +1873,7 @@
           "status": "Killed",
           "testsCompleted": 12,
           "static": false,
-          "killedBy": [
-            "73"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1920,9 +1894,7 @@
           "status": "Killed",
           "testsCompleted": 22,
           "static": false,
-          "killedBy": [
-            "83"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1943,9 +1915,7 @@
           "status": "Killed",
           "testsCompleted": 25,
           "static": false,
-          "killedBy": [
-            "86"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1966,9 +1936,7 @@
           "status": "Killed",
           "testsCompleted": 23,
           "static": false,
-          "killedBy": [
-            "84"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -1989,9 +1957,7 @@
           "status": "Killed",
           "testsCompleted": 23,
           "static": false,
-          "killedBy": [
-            "84"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -2012,9 +1978,7 @@
           "status": "Killed",
           "testsCompleted": 24,
           "static": false,
-          "killedBy": [
-            "85"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -2035,9 +1999,7 @@
           "status": "Killed",
           "testsCompleted": 24,
           "static": false,
-          "killedBy": [
-            "85"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -2058,9 +2020,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "static": false,
-          "killedBy": [
-            "62"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -2231,9 +2191,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "static": false,
-          "killedBy": [
-            "50"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -2254,9 +2212,7 @@
           "status": "Killed",
           "testsCompleted": 1,
           "static": false,
-          "killedBy": [
-            "50"
-          ],
+          "killedBy": [],
           "coveredBy": [],
           "location": {
             "end": {
@@ -2601,62 +2557,71 @@
       ],
       "source": "import { describe, expect, it } from \"vitest\";\n\nimport { useFetchStatus } from \"@/composables/core/useFetchStatus/useFetchStatus\";\n\ndescribe(useFetchStatus, () => {\n  describe(\"fetchStatus\", () => {\n    it(\"should have idle status when initialized.\", () => {\n      const { fetchStatus } = useFetchStatus();\n\n      expect(fetchStatus.value).toBe(\"idle\");\n    });\n  });\n\n  describe(\"isIdle\", () => {\n    it(\"should be true when status is idle.\", () => {\n      const { isIdle } = useFetchStatus();\n\n      expect(isIdle.value).toBeTruthy();\n    });\n\n    it(\"should be false when status is pending.\", () => {\n      const { isIdle, setFetchStatusToPending } = useFetchStatus();\n\n      setFetchStatusToPending();\n\n      expect(isIdle.value).toBeFalsy();\n    });\n\n    it(\"should be false when status is success.\", () => {\n      const { isIdle, setFetchStatusToSuccess } = useFetchStatus();\n\n      setFetchStatusToSuccess();\n\n      expect(isIdle.value).toBeFalsy();\n    });\n\n    it(\"should be false when status is error.\", () => {\n      const { isIdle, setFetchStatusToError } = useFetchStatus();\n\n      setFetchStatusToError();\n\n      expect(isIdle.value).toBeFalsy();\n    });\n  });\n\n  describe(\"isPending\", () => {\n    it(\"should be false when status is idle.\", () => {\n      const { isPending } = useFetchStatus();\n\n      expect(isPending.value).toBeFalsy();\n    });\n\n    it(\"should be true when status is pending.\", () => {\n      const { isPending, setFetchStatusToPending } = useFetchStatus();\n\n      setFetchStatusToPending();\n\n      expect(isPending.value).toBeTruthy();\n    });\n\n    it(\"should be false when status is success.\", () => {\n      const { isPending, setFetchStatusToSuccess } = useFetchStatus();\n\n      setFetchStatusToSuccess();\n\n      expect(isPending.value).toBeFalsy();\n    });\n\n    it(\"should be false when status is error.\", () => {\n      const { isPending, setFetchStatusToError } = useFetchStatus();\n\n      setFetchStatusToError();\n\n      expect(isPending.value).toBeFalsy();\n    });\n  });\n\n  describe(\"isSuccess\", () => {\n    it(\"should be false when status is idle.\", () => {\n      const { isSuccess } = useFetchStatus();\n\n      expect(isSuccess.value).toBeFalsy();\n    });\n\n    it(\"should be false when status is pending.\", () => {\n      const { isSuccess, setFetchStatusToPending } = useFetchStatus();\n\n      setFetchStatusToPending();\n\n      expect(isSuccess.value).toBeFalsy();\n    });\n\n    it(\"should be true when status is success.\", () => {\n      const { isSuccess, setFetchStatusToSuccess } = useFetchStatus();\n\n      setFetchStatusToSuccess();\n\n      expect(isSuccess.value).toBeTruthy();\n    });\n\n    it(\"should be false when status is error.\", () => {\n      const { isSuccess, setFetchStatusToError } = useFetchStatus();\n\n      setFetchStatusToError();\n\n      expect(isSuccess.value).toBeFalsy();\n    });\n  });\n\n  describe(\"isError\", () => {\n    it(\"should be false when status is idle.\", () => {\n      const { isError } = useFetchStatus();\n\n      expect(isError.value).toBeFalsy();\n    });\n\n    it(\"should be false when status is pending.\", () => {\n      const { isError, setFetchStatusToPending } = useFetchStatus();\n\n      setFetchStatusToPending();\n\n      expect(isError.value).toBeFalsy();\n    });\n\n    it(\"should be false when status is success.\", () => {\n      const { isError, setFetchStatusToSuccess } = useFetchStatus();\n\n      setFetchStatusToSuccess();\n\n      expect(isError.value).toBeFalsy();\n    });\n\n    it(\"should be true when status is error.\", () => {\n      const { isError, setFetchStatusToError } = useFetchStatus();\n\n      setFetchStatusToError();\n\n      expect(isError.value).toBeTruthy();\n    });\n  });\n\n  describe(\"setFetchStatusToPending\", () => {\n    it(\"should set status to pending when called.\", () => {\n      const { fetchStatus, setFetchStatusToPending } = useFetchStatus();\n\n      setFetchStatusToPending();\n\n      expect(fetchStatus.value).toBe(\"pending\");\n    });\n  });\n\n  describe(\"setFetchStatusToSuccess\", () => {\n    it(\"should set status to success when called.\", () => {\n      const { fetchStatus, setFetchStatusToSuccess } = useFetchStatus();\n\n      setFetchStatusToSuccess();\n\n      expect(fetchStatus.value).toBe(\"success\");\n    });\n  });\n\n  describe(\"setFetchStatusToError\", () => {\n    it(\"should set status to error when called.\", () => {\n      const { fetchStatus, setFetchStatusToError } = useFetchStatus();\n\n      setFetchStatusToError();\n\n      expect(fetchStatus.value).toBe(\"error\");\n    });\n  });\n});"
     },
-    "app/composables/core/useAsyncAction/useAsyncAction.spec.ts": {
+    "app/composables/domain/question-theme/helpers/shell/questionTheme.shell.helpers.spec.ts": {
       "tests": [
         {
           "id": "20",
+          "name": "createQuestionThemeCreationDtoShell should return a shell with all fields set to undefined when called."
+        }
+      ],
+      "source": "import { describe, expect, it } from \"vitest\";\n\nimport type { QuestionThemeCreationDtoShell } from \"#shared/types/question-theme.types\";\nimport { createQuestionThemeCreationDtoShell } from \"~/composables/domain/question-theme/helpers/shell/question-theme.shell.helpers\";\n\ndescribe(createQuestionThemeCreationDtoShell, () => {\n  it(\"should return a shell with all fields set to undefined when called.\", () => {\n    const result = createQuestionThemeCreationDtoShell();\n\n    expect(result).toStrictEqual<QuestionThemeCreationDtoShell>({\n      slug: undefined,\n      color: undefined,\n      label: {\n        en: undefined,\n        fr: undefined,\n        es: undefined,\n        de: undefined,\n        it: undefined,\n        pt: undefined,\n      },\n      description: {\n        en: undefined,\n        fr: undefined,\n        es: undefined,\n        de: undefined,\n        it: undefined,\n        pt: undefined,\n      },\n      aliases: {\n        en: undefined,\n        fr: undefined,\n        es: undefined,\n        de: undefined,\n        it: undefined,\n        pt: undefined,\n      },\n    });\n  });\n});"
+    },
+    "app/composables/core/useAsyncAction/useAsyncAction.spec.ts": {
+      "tests": [
+        {
+          "id": "21",
           "name": "useAsyncAction execute should call setFetchStatusToPending when called."
         },
         {
-          "id": "21",
+          "id": "22",
           "name": "useAsyncAction execute should call the action with provided arguments when called."
         },
         {
-          "id": "22",
+          "id": "23",
           "name": "useAsyncAction execute should call setFetchStatusToSuccess when action resolves."
         },
         {
-          "id": "23",
+          "id": "24",
           "name": "useAsyncAction execute should return the result when action resolves."
         },
         {
-          "id": "24",
+          "id": "25",
           "name": "useAsyncAction execute should call setFetchStatusToError when action rejects."
         },
         {
-          "id": "25",
+          "id": "26",
           "name": "useAsyncAction execute should call onError with the error when action rejects."
         },
         {
-          "id": "26",
+          "id": "27",
           "name": "useAsyncAction execute should return undefined when action rejects."
         },
         {
-          "id": "27",
+          "id": "28",
           "name": "useAsyncAction execute should not call setFetchStatusToSuccess when action rejects."
         },
         {
-          "id": "28",
+          "id": "29",
           "name": "useAsyncAction execute should not call setFetchStatusToError when action resolves."
         },
         {
-          "id": "29",
+          "id": "30",
           "name": "useAsyncAction fetchStatus should expose the fetchStatus ref from useFetchStatus when called."
         },
         {
-          "id": "30",
+          "id": "31",
           "name": "useAsyncAction isIdle should expose the isIdle computed ref from useFetchStatus when called."
         },
         {
-          "id": "31",
+          "id": "32",
           "name": "useAsyncAction isPending should expose the isPending computed ref from useFetchStatus when called."
         },
         {
-          "id": "32",
+          "id": "33",
           "name": "useAsyncAction isSuccess should expose the isSuccess computed ref from useFetchStatus when called."
         },
         {
-          "id": "33",
+          "id": "34",
           "name": "useAsyncAction isError should expose the isError computed ref from useFetchStatus when called."
         }
       ],
@@ -2665,40 +2630,31 @@
     "app/composables/ui/useAppToast/useAppToast.spec.ts": {
       "tests": [
         {
-          "id": "34",
+          "id": "35",
           "name": "useAppToast addSuccessToast should add toast with success defaults when called with no extra options."
         },
         {
-          "id": "35",
+          "id": "36",
           "name": "useAppToast addSuccessToast should add toast with merged options when called with extra options."
         },
         {
-          "id": "36",
+          "id": "37",
           "name": "useAppToast addSuccessToast should override default title when a title is provided in options."
         },
         {
-          "id": "37",
+          "id": "38",
           "name": "useAppToast addErrorToast should add toast with error defaults when called with no extra options."
         },
         {
-          "id": "38",
+          "id": "39",
           "name": "useAppToast addErrorToast should add toast with merged options when called with extra options."
         },
         {
-          "id": "39",
+          "id": "40",
           "name": "useAppToast addErrorToast should override default title when a title is provided in options."
         }
       ],
       "source": "import { beforeEach, describe, expect, it } from \"vitest\";\n\nimport type { useAppToast as UseAppToastType } from \"@/composables/ui/useAppToast/useAppToast\";\n\nlet useAppToast: typeof UseAppToastType;\n\ndescribe(\"useAppToast\", () => {\n  beforeEach(async() => {\n    ({ useAppToast } = await import(\"@/composables/ui/useAppToast/useAppToast\"));\n  });\n\n  describe(\"addSuccessToast\", () => {\n    it(\"should add toast with success defaults when called with no extra options.\", () => {\n      const { addSuccessToast } = useAppToast();\n\n      addSuccessToast({});\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-circle-check-big\",\n        color: \"success\",\n        title: \"common.success\",\n      });\n    });\n\n    it(\"should add toast with merged options when called with extra options.\", () => {\n      const { addSuccessToast } = useAppToast();\n\n      addSuccessToast({ description: \"Item saved\", duration: 3000 });\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-circle-check-big\",\n        color: \"success\",\n        title: \"common.success\",\n        description: \"Item saved\",\n        duration: 3000,\n      });\n    });\n\n    it(\"should override default title when a title is provided in options.\", () => {\n      const { addSuccessToast } = useAppToast();\n\n      addSuccessToast({ title: \"Custom success title\" });\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-circle-check-big\",\n        color: \"success\",\n        title: \"Custom success title\",\n      });\n    });\n  });\n\n  describe(\"addErrorToast\", () => {\n    it(\"should add toast with error defaults when called with no extra options.\", () => {\n      const { addErrorToast } = useAppToast();\n\n      addErrorToast({});\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-ban\",\n        color: \"error\",\n        title: \"common.error\",\n      });\n    });\n\n    it(\"should add toast with merged options when called with extra options.\", () => {\n      const { addErrorToast } = useAppToast();\n\n      addErrorToast({ description: \"Something went wrong\", duration: 5000 });\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-ban\",\n        color: \"error\",\n        title: \"common.error\",\n        description: \"Something went wrong\",\n        duration: 5000,\n      });\n    });\n\n    it(\"should override default title when a title is provided in options.\", () => {\n      const { addErrorToast } = useAppToast();\n\n      addErrorToast({ title: \"Custom error title\" });\n\n      expect(useToast().add).toHaveBeenCalledExactlyOnceWith({\n        icon: \"i-lucide-ban\",\n        color: \"error\",\n        title: \"Custom error title\",\n      });\n    });\n  });\n});"
-    },
-    "app/composables/domain/question-theme/helpers/shell/questionTheme.shell.helpers.spec.ts": {
-      "tests": [
-        {
-          "id": "40",
-          "name": "createQuestionThemeCreationDtoShell should return a shell with all fields set to undefined when called."
-        }
-      ],
-      "source": "import { describe, expect, it } from \"vitest\";\n\nimport type { QuestionThemeCreationDtoShell } from \"#shared/types/question-theme.types\";\nimport { createQuestionThemeCreationDtoShell } from \"~/composables/domain/question-theme/helpers/shell/question-theme.shell.helpers\";\n\ndescribe(createQuestionThemeCreationDtoShell, () => {\n  it(\"should return a shell with all fields set to undefined when called.\", () => {\n    const result = createQuestionThemeCreationDtoShell();\n\n    expect(result).toStrictEqual<QuestionThemeCreationDtoShell>({\n      slug: undefined,\n      color: undefined,\n      label: {\n        en: undefined,\n        fr: undefined,\n        es: undefined,\n        de: undefined,\n        it: undefined,\n        pt: undefined,\n      },\n      description: {\n        en: undefined,\n        fr: undefined,\n        es: undefined,\n        de: undefined,\n        it: undefined,\n        pt: undefined,\n      },\n      aliases: {\n        en: undefined,\n        fr: undefined,\n        es: undefined,\n        de: undefined,\n        it: undefined,\n        pt: undefined,\n      },\n    });\n  });\n});"
     },
     "app/composables/core/localization/helpers/shell/localization.shell.helpers.spec.ts": {
       "tests": [
@@ -2734,31 +2690,31 @@
       ],
       "source": "import { describe, it, expect } from \"vitest\";\n\nimport type { SharedRuntimeConfig } from \"#build/types/runtime-config\";\nimport { createGoatItApiEndpoint, createGoatItApiFetchOptions } from \"#server/utils/goat-it-api/helpers/goat-it-api.helpers\";\n\ndescribe(\"Goat It API Helpers\", () => {\n  describe(createGoatItApiEndpoint, () => {\n    it(\"should create the correct endpoint for a given resource name when called.\", () => {\n      const resourceName = \"question-themes\";\n      const expectedEndpoint = \"/admin/question-themes\";\n      const endpoint = createGoatItApiEndpoint(resourceName);\n\n      expect(endpoint).toBe(expectedEndpoint);\n    });\n\n    it(\"should create the correct endpoint with id for a given resource name when called.\", () => {\n      const resourceName = \"question-themes\";\n      const id = \"abc123\";\n      const expectedEndpoint = \"/admin/question-themes/abc123\";\n      const endpoint = createGoatItApiEndpoint(resourceName, id);\n\n      expect(endpoint).toBe(expectedEndpoint);\n    });\n\n    it(\"should create the correct endpoint without id when empty string id is provided.\", () => {\n      const resourceName = \"question-themes\";\n      const expectedEndpoint = \"/admin/question-themes\";\n      const endpoint = createGoatItApiEndpoint(resourceName, \"\");\n\n      expect(endpoint).toBe(expectedEndpoint);\n    });\n  });\n\n  describe(createGoatItApiFetchOptions, () => {\n    it(\"should create the correct fetch options for a given Goat It API runtime config when called.\", () => {\n      const goatItApiRuntimeConfig: SharedRuntimeConfig[\"goatItApi\"] = {\n        baseUrl: \"https://api.example.com\",\n        adminKey: \"secret-admin-key\",\n      };\n      const expectedFetchOptions: Parameters<typeof $fetch>[1] = {\n        baseURL: goatItApiRuntimeConfig.baseUrl,\n        headers: {\n          \"goat-it-api-key\": goatItApiRuntimeConfig.adminKey,\n        },\n      };\n      const fetchOptions = createGoatItApiFetchOptions(goatItApiRuntimeConfig);\n\n      expect(fetchOptions).toStrictEqual<Parameters<typeof $fetch>[1]>(expectedFetchOptions);\n    });\n  });\n});"
     },
-    "shared/utils/helpers/string.helpers.spec.ts": {
+    "server/utils/goat-it-api/mappers/goat-it-api.mappers.spec.ts": {
       "tests": [
         {
           "id": "47",
+          "name": "Goat It Api Mappers createQuestionThemeFromAdminQuestionThemeDto should create question theme from admin question theme dto with correct properties when called."
+        }
+      ],
+      "source": "import { describe, expect, it } from \"vitest\";\n\nimport { createFakeAdminQuestionThemeDto } from \"~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory\";\nimport { createFakeQuestionTheme } from \"~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory\";\n\nimport { createQuestionThemeFromAdminQuestionThemeDto } from \"#server/utils/goat-it-api/mappers/goat-it-api.mappers\";\n\ndescribe(\"Goat It Api Mappers\", () => {\n  describe(createQuestionThemeFromAdminQuestionThemeDto, () => {\n    it(\"should create question theme from admin question theme dto with correct properties when called.\", () => {\n      const adminQuestionThemeDto = createFakeAdminQuestionThemeDto();\n      const expectedQuestionTheme = createFakeQuestionTheme({\n        ...adminQuestionThemeDto,\n        createdAt: new Date(adminQuestionThemeDto.createdAt),\n        updatedAt: new Date(adminQuestionThemeDto.updatedAt),\n      });\n      const questionTheme = createQuestionThemeFromAdminQuestionThemeDto(adminQuestionThemeDto);\n\n      expect(questionTheme).toStrictEqual(expectedQuestionTheme);\n    });\n  });\n});"
+    },
+    "shared/utils/helpers/string.helpers.spec.ts": {
+      "tests": [
+        {
+          "id": "48",
           "name": "String Helpers isNonEmptyString should return true when input is a non-empty string."
         },
         {
-          "id": "48",
+          "id": "49",
           "name": "String Helpers isNonEmptyString should return false when input is an empty string."
         },
         {
-          "id": "49",
+          "id": "50",
           "name": "String Helpers isNonEmptyString should return false when input is undefined."
         }
       ],
       "source": "import { describe, it, expect } from \"vitest\";\n\nimport { isNonEmptyString } from \"~~/shared/utils/helpers/string.helpers\";\n\ndescribe(\"String Helpers\", () => {\n  describe(isNonEmptyString, () => {\n    it(\"should return true when input is a non-empty string.\", () => {\n      expect(isNonEmptyString(\"hello\")).toBeTruthy();\n    });\n\n    it(\"should return false when input is an empty string.\", () => {\n      expect(isNonEmptyString(\"\")).toBeFalsy();\n    });\n\n    it(\"should return false when input is undefined.\", () => {\n      expect(isNonEmptyString()).toBeFalsy();\n    });\n  });\n});"
-    },
-    "server/utils/goat-it-api/mappers/goat-it-api.mappers.spec.ts": {
-      "tests": [
-        {
-          "id": "50",
-          "name": "Goat It Api Mappers createQuestionThemeFromAdminQuestionThemeDto should create question theme from admin question theme dto with correct properties when called."
-        }
-      ],
-      "source": "import { describe, expect, it } from \"vitest\";\n\nimport { createFakeAdminQuestionThemeDto } from \"~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory\";\nimport { createFakeQuestionTheme } from \"~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory\";\n\nimport { createQuestionThemeFromAdminQuestionThemeDto } from \"#server/utils/goat-it-api/mappers/goat-it-api.mappers\";\n\ndescribe(\"Goat It Api Mappers\", () => {\n  describe(createQuestionThemeFromAdminQuestionThemeDto, () => {\n    it(\"should create question theme from admin question theme dto with correct properties when called.\", () => {\n      const adminQuestionThemeDto = createFakeAdminQuestionThemeDto();\n      const expectedQuestionTheme = createFakeQuestionTheme({\n        ...adminQuestionThemeDto,\n        createdAt: new Date(adminQuestionThemeDto.createdAt),\n        updatedAt: new Date(adminQuestionThemeDto.updatedAt),\n      });\n      const questionTheme = createQuestionThemeFromAdminQuestionThemeDto(adminQuestionThemeDto);\n\n      expect(questionTheme).toStrictEqual<QuestionTheme>(expectedQuestionTheme);\n    });\n  });\n});"
     },
     "app/repositories/goat-it-api/question-themes/question-themes.repository.spec.ts": {
       "tests": [
@@ -2807,7 +2763,7 @@
           "name": "questionThemesRepository2 archive should return the archived question theme when fetch resolves."
         }
       ],
-      "source": "import { vi, describe, it, expect, beforeEach } from \"vitest\";\nimport type { $Fetch } from \"nitropack\";\n\nimport { createFakeQuestionTheme } from \"~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory\";\nimport { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from \"~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory\";\n\nimport { questionThemesRepository } from \"@/repositories/goat-it-api/question-themes/question-themes.repository\";\n\ndescribe(questionThemesRepository, () => {\n  let fetchMock: ReturnType<typeof vi.fn<$Fetch>>;\n\n  beforeEach(() => {\n    fetchMock = vi.fn<$Fetch>();\n  });\n\n  it(\"should return the repository object when called.\", () => {\n    const repository = questionThemesRepository(fetchMock as $Fetch);\n\n    expect(repository).toStrictEqual({\n      getAll: expect.any(Function) as () => Promise<QuestionTheme[]>,\n      getById: expect.any(Function) as (id: string) => Promise<QuestionTheme>,\n      create: expect.any(Function) as (creationDto: unknown) => Promise<QuestionTheme>,\n      patch: expect.any(Function) as (id: string, modificationDto: unknown) => Promise<QuestionTheme>,\n      archive: expect.any(Function) as (id: string) => Promise<QuestionTheme>,\n    });\n  });\n\n  describe(\"getAll\", () => {\n    it(\"should call fetch with the correct endpoint when called.\", async() => {\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue([]);\n      await repository.getAll();\n\n      expect(fetchMock).toHaveBeenCalledExactlyOnceWith(\"/api/goat-it-api/question-themes\");\n    });\n\n    it(\"should return question themes when fetch resolves.\", async() => {\n      const fakeQuestionThemes: QuestionTheme[] = [\n        createFakeQuestionTheme(),\n        createFakeQuestionTheme(),\n      ];\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(fakeQuestionThemes);\n      const result = await repository.getAll();\n\n      expect(result).toStrictEqual<QuestionTheme[]>(fakeQuestionThemes);\n    });\n  });\n\n  describe(\"getById\", () => {\n    it(\"should call fetch with the correct endpoint when called.\", async() => {\n      const fakeId = \"fake-id-123\";\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(createFakeQuestionTheme());\n      await repository.getById(fakeId);\n\n      expect(fetchMock).toHaveBeenCalledExactlyOnceWith(`/api/goat-it-api/question-themes/${fakeId}`);\n    });\n\n    it(\"should return the question theme when fetch resolves.\", async() => {\n      const fakeQuestionTheme = createFakeQuestionTheme();\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(fakeQuestionTheme);\n      const result = await repository.getById(\"fake-id-123\");\n\n      expect(result).toStrictEqual<QuestionTheme>(fakeQuestionTheme);\n    });\n  });\n\n  describe(\"create\", () => {\n    it(\"should call fetch with the correct endpoint and body when called.\", async() => {\n      const fakeCreationDto = createFakeQuestionThemeCreationDto();\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(createFakeQuestionTheme());\n      await repository.create(fakeCreationDto);\n\n      expect(fetchMock).toHaveBeenCalledExactlyOnceWith(\"/api/goat-it-api/question-themes\", { method: \"POST\", body: fakeCreationDto });\n    });\n\n    it(\"should return the created question theme when fetch resolves.\", async() => {\n      const fakeQuestionTheme = createFakeQuestionTheme();\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(fakeQuestionTheme);\n      const result = await repository.create(createFakeQuestionThemeCreationDto());\n\n      expect(result).toStrictEqual<QuestionTheme>(fakeQuestionTheme);\n    });\n  });\n\n  describe(\"patch\", () => {\n    it(\"should call fetch with the correct endpoint and body when called.\", async() => {\n      const fakeId = \"fake-id-456\";\n      const fakeModificationDto = createFakeQuestionThemeModificationDto();\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(createFakeQuestionTheme());\n      await repository.patch(fakeId, fakeModificationDto);\n\n      expect(fetchMock).toHaveBeenCalledExactlyOnceWith(`/api/goat-it-api/question-themes/${fakeId}`, { method: \"PATCH\", body: fakeModificationDto });\n    });\n\n    it(\"should return the patched question theme when fetch resolves.\", async() => {\n      const fakeQuestionTheme = createFakeQuestionTheme();\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(fakeQuestionTheme);\n      const result = await repository.patch(\"fake-id-456\", createFakeQuestionThemeModificationDto());\n\n      expect(result).toStrictEqual<QuestionTheme>(fakeQuestionTheme);\n    });\n  });\n\n  describe(\"archive\", () => {\n    it(\"should call fetch with the correct endpoint when called.\", async() => {\n      const fakeId = \"fake-id-789\";\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(createFakeQuestionTheme());\n      await repository.archive(fakeId);\n\n      expect(fetchMock).toHaveBeenCalledExactlyOnceWith(`/api/goat-it-api/question-themes/${fakeId}/archive`, { method: \"POST\" });\n    });\n\n    it(\"should return the archived question theme when fetch resolves.\", async() => {\n      const fakeQuestionTheme = createFakeQuestionTheme();\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(fakeQuestionTheme);\n      const result = await repository.archive(\"fake-id-789\");\n\n      expect(result).toStrictEqual<QuestionTheme>(fakeQuestionTheme);\n    });\n  });\n});"
+      "source": "import { vi, describe, it, expect, beforeEach } from \"vitest\";\nimport type { $Fetch } from \"nitropack\";\n\nimport { createFakeQuestionTheme } from \"~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory\";\nimport { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from \"~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory\";\n\nimport { questionThemesRepository } from \"@/repositories/goat-it-api/question-themes/question-themes.repository\";\n\ndescribe(questionThemesRepository, () => {\n  let fetchMock: ReturnType<typeof vi.fn<$Fetch>>;\n\n  beforeEach(() => {\n    fetchMock = vi.fn<$Fetch>();\n  });\n\n  it(\"should return the repository object when called.\", () => {\n    const repository = questionThemesRepository(fetchMock as $Fetch);\n\n    expect(repository).toStrictEqual({\n      getAll: expect.any(Function) as () => Promise<QuestionTheme[]>,\n      getById: expect.any(Function) as (id: string) => Promise<QuestionTheme>,\n      create: expect.any(Function) as (creationDto: unknown) => Promise<QuestionTheme>,\n      patch: expect.any(Function) as (id: string, modificationDto: unknown) => Promise<QuestionTheme>,\n      archive: expect.any(Function) as (id: string) => Promise<QuestionTheme>,\n    });\n  });\n\n  describe(\"getAll\", () => {\n    it(\"should call fetch with the correct endpoint when called.\", async() => {\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue([]);\n      await repository.getAll();\n\n      expect(fetchMock).toHaveBeenCalledExactlyOnceWith(\"/api/goat-it-api/question-themes\");\n    });\n\n    it(\"should return question themes when fetch resolves.\", async() => {\n      const fakeQuestionThemes: QuestionTheme[] = [\n        createFakeQuestionTheme(),\n        createFakeQuestionTheme(),\n      ];\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(fakeQuestionThemes);\n      const result = await repository.getAll();\n\n      expect(result).toStrictEqual(fakeQuestionThemes);\n    });\n  });\n\n  describe(\"getById\", () => {\n    it(\"should call fetch with the correct endpoint when called.\", async() => {\n      const fakeId = \"fake-id-123\";\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(createFakeQuestionTheme());\n      await repository.getById(fakeId);\n\n      expect(fetchMock).toHaveBeenCalledExactlyOnceWith(`/api/goat-it-api/question-themes/${fakeId}`);\n    });\n\n    it(\"should return the question theme when fetch resolves.\", async() => {\n      const fakeQuestionTheme = createFakeQuestionTheme();\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(fakeQuestionTheme);\n      const result = await repository.getById(\"fake-id-123\");\n\n      expect(result).toStrictEqual(fakeQuestionTheme);\n    });\n  });\n\n  describe(\"create\", () => {\n    it(\"should call fetch with the correct endpoint and body when called.\", async() => {\n      const fakeCreationDto = createFakeQuestionThemeCreationDto();\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(createFakeQuestionTheme());\n      await repository.create(fakeCreationDto);\n\n      expect(fetchMock).toHaveBeenCalledExactlyOnceWith(\"/api/goat-it-api/question-themes\", { method: \"POST\", body: fakeCreationDto });\n    });\n\n    it(\"should return the created question theme when fetch resolves.\", async() => {\n      const fakeQuestionTheme = createFakeQuestionTheme();\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(fakeQuestionTheme);\n      const result = await repository.create(createFakeQuestionThemeCreationDto());\n\n      expect(result).toStrictEqual(fakeQuestionTheme);\n    });\n  });\n\n  describe(\"patch\", () => {\n    it(\"should call fetch with the correct endpoint and body when called.\", async() => {\n      const fakeId = \"fake-id-456\";\n      const fakeModificationDto = createFakeQuestionThemeModificationDto();\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(createFakeQuestionTheme());\n      await repository.patch(fakeId, fakeModificationDto);\n\n      expect(fetchMock).toHaveBeenCalledExactlyOnceWith(`/api/goat-it-api/question-themes/${fakeId}`, { method: \"PATCH\", body: fakeModificationDto });\n    });\n\n    it(\"should return the patched question theme when fetch resolves.\", async() => {\n      const fakeQuestionTheme = createFakeQuestionTheme();\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(fakeQuestionTheme);\n      const result = await repository.patch(\"fake-id-456\", createFakeQuestionThemeModificationDto());\n\n      expect(result).toStrictEqual(fakeQuestionTheme);\n    });\n  });\n\n  describe(\"archive\", () => {\n    it(\"should call fetch with the correct endpoint when called.\", async() => {\n      const fakeId = \"fake-id-789\";\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(createFakeQuestionTheme());\n      await repository.archive(fakeId);\n\n      expect(fetchMock).toHaveBeenCalledExactlyOnceWith(`/api/goat-it-api/question-themes/${fakeId}/archive`, { method: \"POST\" });\n    });\n\n    it(\"should return the archived question theme when fetch resolves.\", async() => {\n      const fakeQuestionTheme = createFakeQuestionTheme();\n      const repository = questionThemesRepository(fetchMock as $Fetch);\n      fetchMock.mockResolvedValue(fakeQuestionTheme);\n      const result = await repository.archive(\"fake-id-789\");\n\n      expect(result).toStrictEqual(fakeQuestionTheme);\n    });\n  });\n});"
     },
     "app/stores/domain/question-theme/question-themes.store.spec.ts": {
       "tests": [
@@ -2932,7 +2888,7 @@
           "name": "useQuestionThemesStore useAsyncAction setup for create should call addErrorToast with the questionThemes.cantCreate translation key when the create error callback is invoked."
         }
       ],
-      "source": "import { mockNuxtImport } from \"@nuxt/test-utils/runtime\";\nimport type { vi } from \"vitest\";\nimport { beforeEach, describe, expect, it } from \"vitest\";\n\nimport { createUseAsyncActionMock } from \"~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock\";\nimport type { UseAsyncActionMock } from \"~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock\";\nimport { createFakeQuestionThemeCreationDto } from \"~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory\";\nimport { createFakeQuestionTheme } from \"~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory\";\n\nimport type { useQuestionThemesStore as UseQuestionThemesStoreType } from \"@/stores/domain/question-theme/question-themes.store\";\n\nlet fetchAsyncActionMock: UseAsyncActionMock;\nlet createAsyncActionMock: UseAsyncActionMock;\nlet capturedFetchAction: (() => Promise<QuestionTheme[]>) | undefined;\nlet capturedFetchOnError: (() => void) | undefined;\nlet capturedCreateAction: ((creationDto: unknown) => Promise<QuestionTheme>) | undefined;\nlet capturedCreateOnError: (() => void) | undefined;\n\nlet useAsyncActionCallCount: number;\n\nmockNuxtImport(\"useAsyncAction\", () => (action: unknown, onError: unknown): UseAsyncActionMock => {\n  useAsyncActionCallCount++;\n  if (useAsyncActionCallCount === 1) {\n    capturedFetchAction = action as () => Promise<QuestionTheme[]>;\n    capturedFetchOnError = onError as () => void;\n    fetchAsyncActionMock = createUseAsyncActionMock();\n\n    return fetchAsyncActionMock;\n  }\n\n  capturedCreateAction = action as (creationDto: unknown) => Promise<QuestionTheme>;\n  capturedCreateOnError = onError as () => void;\n  createAsyncActionMock = createUseAsyncActionMock();\n\n  return createAsyncActionMock;\n});\n\nlet useQuestionThemesStore: typeof UseQuestionThemesStoreType;\n\ndescribe(\"useQuestionThemesStore\", () => {\n  beforeEach(async() => {\n    useAsyncActionCallCount = 0;\n    capturedFetchAction = undefined;\n    capturedFetchOnError = undefined;\n    capturedCreateAction = undefined;\n    capturedCreateOnError = undefined;\n    ({ useQuestionThemesStore } = await import(\"@/stores/domain/question-theme/question-themes.store\"));\n  });\n\n  describe(\"questionThemes\", () => {\n    it(\"should expose an empty array as initial state when created.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.questionThemes).toStrictEqual<QuestionTheme[]>([]);\n    });\n  });\n\n  describe(\"fetchQuestionThemesStatus\", () => {\n    it(\"should reflect the fetchStatus value from useAsyncAction when created.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.fetchQuestionThemesStatus).toBe(fetchAsyncActionMock.fetchStatus.value);\n    });\n\n    it(\"should update when the fetchStatus changes to pending.\", () => {\n      const store = useQuestionThemesStore();\n      fetchAsyncActionMock.fetchStatus.value = \"pending\";\n\n      expect(store.fetchQuestionThemesStatus).toBe(\"pending\");\n    });\n  });\n\n  describe(\"isFetchingQuestionThemes\", () => {\n    it(\"should be false when fetchStatus is idle.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.isFetchingQuestionThemes).toBeFalsy();\n    });\n\n    it(\"should be true when fetchStatus is pending.\", () => {\n      const store = useQuestionThemesStore();\n      fetchAsyncActionMock.fetchStatus.value = \"pending\";\n\n      expect(store.isFetchingQuestionThemes).toBeTruthy();\n    });\n  });\n\n  describe(\"isFetchQuestionThemesSuccess\", () => {\n    it(\"should be false when fetchStatus is idle.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.isFetchQuestionThemesSuccess).toBeFalsy();\n    });\n\n    it(\"should be true when fetchStatus is success.\", () => {\n      const store = useQuestionThemesStore();\n      fetchAsyncActionMock.fetchStatus.value = \"success\";\n\n      expect(store.isFetchQuestionThemesSuccess).toBeTruthy();\n    });\n  });\n\n  describe(\"isFetchingQuestionThemesError\", () => {\n    it(\"should be false when fetchStatus is idle.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.isFetchingQuestionThemesError).toBeFalsy();\n    });\n\n    it(\"should be true when fetchStatus is error.\", () => {\n      const store = useQuestionThemesStore();\n      fetchAsyncActionMock.fetchStatus.value = \"error\";\n\n      expect(store.isFetchingQuestionThemesError).toBeTruthy();\n    });\n  });\n\n  describe(\"fetchQuestionThemes\", () => {\n    it(\"should call the execute function from useAsyncAction when invoked.\", async() => {\n      const store = useQuestionThemesStore();\n\n      await store.fetchQuestionThemes();\n\n      expect(fetchAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith();\n    });\n  });\n\n  describe(\"fetchAndStoreQuestionThemes\", () => {\n    it(\"should call fetchQuestionThemes when called.\", async() => {\n      const store = useQuestionThemesStore();\n\n      await store.fetchAndStoreQuestionThemes();\n\n      expect(fetchAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith();\n    });\n\n    it(\"should update questionThemes with the fetched themes when fetchQuestionThemes resolves with data.\", async() => {\n      const fakeQuestionThemes: QuestionTheme[] = [\n        createFakeQuestionTheme(),\n        createFakeQuestionTheme(),\n      ];\n      const store = useQuestionThemesStore();\n      fetchAsyncActionMock.execute.mockResolvedValue(fakeQuestionThemes);\n\n      await store.fetchAndStoreQuestionThemes();\n\n      expect(store.questionThemes).toStrictEqual<QuestionTheme[]>(fakeQuestionThemes);\n    });\n\n    it(\"should not update questionThemes when fetchQuestionThemes resolves with undefined.\", async() => {\n      const store = useQuestionThemesStore();\n\n      await store.fetchAndStoreQuestionThemes();\n\n      expect(store.questionThemes).toStrictEqual<QuestionTheme[]>([]);\n    });\n  });\n\n  describe(\"createQuestionThemeStatus\", () => {\n    it(\"should reflect the fetchStatus value from useAsyncAction when created.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.createQuestionThemeStatus).toBe(createAsyncActionMock.fetchStatus.value);\n    });\n\n    it(\"should update when the fetchStatus changes to pending.\", () => {\n      const store = useQuestionThemesStore();\n      createAsyncActionMock.fetchStatus.value = \"pending\";\n\n      expect(store.createQuestionThemeStatus).toBe(\"pending\");\n    });\n  });\n\n  describe(\"isCreatingQuestionTheme\", () => {\n    it(\"should be false when createStatus is idle.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.isCreatingQuestionTheme).toBeFalsy();\n    });\n\n    it(\"should be true when createStatus is pending.\", () => {\n      const store = useQuestionThemesStore();\n      createAsyncActionMock.fetchStatus.value = \"pending\";\n\n      expect(store.isCreatingQuestionTheme).toBeTruthy();\n    });\n  });\n\n  describe(\"isCreateQuestionThemeSuccess\", () => {\n    it(\"should be false when createStatus is idle.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.isCreateQuestionThemeSuccess).toBeFalsy();\n    });\n\n    it(\"should be true when createStatus is success.\", () => {\n      const store = useQuestionThemesStore();\n      createAsyncActionMock.fetchStatus.value = \"success\";\n\n      expect(store.isCreateQuestionThemeSuccess).toBeTruthy();\n    });\n  });\n\n  describe(\"isCreatingQuestionThemeError\", () => {\n    it(\"should be false when createStatus is idle.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.isCreatingQuestionThemeError).toBeFalsy();\n    });\n\n    it(\"should be true when createStatus is error.\", () => {\n      const store = useQuestionThemesStore();\n      createAsyncActionMock.fetchStatus.value = \"error\";\n\n      expect(store.isCreatingQuestionThemeError).toBeTruthy();\n    });\n  });\n\n  describe(\"createAndStoreQuestionTheme\", () => {\n    it(\"should call the create execute function with the creation dto when invoked.\", async() => {\n      const store = useQuestionThemesStore();\n      const fakeCreationDto = createFakeQuestionThemeCreationDto();\n\n      await store.createAndStoreQuestionTheme(fakeCreationDto);\n\n      expect(createAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith(fakeCreationDto);\n    });\n\n    it(\"should unshift the created theme when creation resolves with a theme.\", async() => {\n      const fakeCreatedTheme = createFakeQuestionTheme();\n      const store = useQuestionThemesStore();\n      createAsyncActionMock.execute.mockResolvedValue(fakeCreatedTheme);\n      const fakeCreationDto = createFakeQuestionThemeCreationDto();\n\n      await store.createAndStoreQuestionTheme(fakeCreationDto);\n\n      expect(store.questionThemes).toStrictEqual<QuestionTheme[]>([fakeCreatedTheme]);\n    });\n\n    it(\"should add success toast when creation resolves with a theme.\", async() => {\n      const fakeCreatedTheme = createFakeQuestionTheme();\n      const store = useQuestionThemesStore();\n      createAsyncActionMock.execute.mockResolvedValue(fakeCreatedTheme);\n      const fakeCreationDto = createFakeQuestionThemeCreationDto();\n\n      await store.createAndStoreQuestionTheme(fakeCreationDto);\n\n      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({\n        description: \"questionThemes.createSuccessfully\",\n      });\n    });\n\n    it(\"should not update questionThemes when creation resolves with undefined.\", async() => {\n      const store = useQuestionThemesStore();\n      const fakeCreationDto = createFakeQuestionThemeCreationDto();\n\n      await store.createAndStoreQuestionTheme(fakeCreationDto);\n\n      expect(store.questionThemes).toStrictEqual<QuestionTheme[]>([]);\n    });\n  });\n\n  describe(\"useAsyncAction setup for fetch\", () => {\n    it(\"should pass the repository getAll function as action to useAsyncAction when created.\", () => {\n      useQuestionThemesStore();\n\n      expect(capturedFetchAction).toBe(questionThemesRepository($fetch).getAll);\n    });\n\n    it(\"should call addErrorToast with the questionThemes.cantFetch translation key when the fetch error callback is invoked.\", () => {\n      useQuestionThemesStore();\n\n      capturedFetchOnError?.();\n\n      expect(useAppToast().addErrorToast).toHaveBeenCalledExactlyOnceWith({\n        description: \"questionThemes.cantFetch\",\n      });\n    });\n  });\n\n  describe(\"useAsyncAction setup for create\", () => {\n    it(\"should pass an async function calling repository.create as action to useAsyncAction when created.\", async() => {\n      const fakeTheme = createFakeQuestionTheme();\n      const fakeCreationDto = createFakeQuestionThemeCreationDto();\n      useQuestionThemesStore();\n      const mockCreate = questionThemesRepository($fetch).create as ReturnType<typeof vi.fn>;\n      mockCreate.mockResolvedValue(fakeTheme);\n\n      await capturedCreateAction?.(fakeCreationDto);\n\n      expect(mockCreate).toHaveBeenCalledExactlyOnceWith(fakeCreationDto);\n    });\n\n    it(\"should return the result from repository.create when the captured action is invoked.\", async() => {\n      const fakeTheme = createFakeQuestionTheme();\n      const fakeCreationDto = createFakeQuestionThemeCreationDto();\n      useQuestionThemesStore();\n      const mockCreate = questionThemesRepository($fetch).create as ReturnType<typeof vi.fn>;\n      mockCreate.mockResolvedValue(fakeTheme);\n\n      const result = await capturedCreateAction?.(fakeCreationDto);\n\n      expect(result).toBe(fakeTheme);\n    });\n\n    it(\"should call addErrorToast with the questionThemes.cantCreate translation key when the create error callback is invoked.\", () => {\n      useQuestionThemesStore();\n\n      capturedCreateOnError?.();\n\n      expect(useAppToast().addErrorToast).toHaveBeenCalledExactlyOnceWith({\n        description: \"questionThemes.cantCreate\",\n      });\n    });\n  });\n});"
+      "source": "import { mockNuxtImport } from \"@nuxt/test-utils/runtime\";\nimport type { vi } from \"vitest\";\nimport { beforeEach, describe, expect, it } from \"vitest\";\n\nimport { createUseAsyncActionMock } from \"~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock\";\nimport type { UseAsyncActionMock } from \"~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock\";\nimport { createFakeQuestionThemeCreationDto } from \"~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory\";\nimport { createFakeQuestionTheme } from \"~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory\";\n\nimport type { useQuestionThemesStore as UseQuestionThemesStoreType } from \"@/stores/domain/question-theme/question-themes.store\";\n\nlet fetchAsyncActionMock: UseAsyncActionMock;\nlet createAsyncActionMock: UseAsyncActionMock;\nlet capturedFetchAction: (() => Promise<QuestionTheme[]>) | undefined;\nlet capturedFetchOnError: (() => void) | undefined;\nlet capturedCreateAction: ((creationDto: unknown) => Promise<QuestionTheme>) | undefined;\nlet capturedCreateOnError: (() => void) | undefined;\n\nlet useAsyncActionCallCount: number;\n\nmockNuxtImport(\"useAsyncAction\", () => (action: unknown, onError: unknown): UseAsyncActionMock => {\n  useAsyncActionCallCount++;\n  if (useAsyncActionCallCount === 1) {\n    capturedFetchAction = action as () => Promise<QuestionTheme[]>;\n    capturedFetchOnError = onError as () => void;\n    fetchAsyncActionMock = createUseAsyncActionMock();\n\n    return fetchAsyncActionMock;\n  }\n\n  capturedCreateAction = action as (creationDto: unknown) => Promise<QuestionTheme>;\n  capturedCreateOnError = onError as () => void;\n  createAsyncActionMock = createUseAsyncActionMock();\n\n  return createAsyncActionMock;\n});\n\nlet useQuestionThemesStore: typeof UseQuestionThemesStoreType;\n\ndescribe(\"useQuestionThemesStore\", () => {\n  beforeEach(async() => {\n    useAsyncActionCallCount = 0;\n    capturedFetchAction = undefined;\n    capturedFetchOnError = undefined;\n    capturedCreateAction = undefined;\n    capturedCreateOnError = undefined;\n    ({ useQuestionThemesStore } = await import(\"@/stores/domain/question-theme/question-themes.store\"));\n  });\n\n  describe(\"questionThemes\", () => {\n    it(\"should expose an empty array as initial state when created.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.questionThemes).toStrictEqual([]);\n    });\n  });\n\n  describe(\"fetchQuestionThemesStatus\", () => {\n    it(\"should reflect the fetchStatus value from useAsyncAction when created.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.fetchQuestionThemesStatus).toBe(fetchAsyncActionMock.fetchStatus.value);\n    });\n\n    it(\"should update when the fetchStatus changes to pending.\", () => {\n      const store = useQuestionThemesStore();\n      fetchAsyncActionMock.fetchStatus.value = \"pending\";\n\n      expect(store.fetchQuestionThemesStatus).toBe(\"pending\");\n    });\n  });\n\n  describe(\"isFetchingQuestionThemes\", () => {\n    it(\"should be false when fetchStatus is idle.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.isFetchingQuestionThemes).toBeFalsy();\n    });\n\n    it(\"should be true when fetchStatus is pending.\", () => {\n      const store = useQuestionThemesStore();\n      fetchAsyncActionMock.fetchStatus.value = \"pending\";\n\n      expect(store.isFetchingQuestionThemes).toBeTruthy();\n    });\n  });\n\n  describe(\"isFetchQuestionThemesSuccess\", () => {\n    it(\"should be false when fetchStatus is idle.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.isFetchQuestionThemesSuccess).toBeFalsy();\n    });\n\n    it(\"should be true when fetchStatus is success.\", () => {\n      const store = useQuestionThemesStore();\n      fetchAsyncActionMock.fetchStatus.value = \"success\";\n\n      expect(store.isFetchQuestionThemesSuccess).toBeTruthy();\n    });\n  });\n\n  describe(\"isFetchingQuestionThemesError\", () => {\n    it(\"should be false when fetchStatus is idle.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.isFetchingQuestionThemesError).toBeFalsy();\n    });\n\n    it(\"should be true when fetchStatus is error.\", () => {\n      const store = useQuestionThemesStore();\n      fetchAsyncActionMock.fetchStatus.value = \"error\";\n\n      expect(store.isFetchingQuestionThemesError).toBeTruthy();\n    });\n  });\n\n  describe(\"fetchQuestionThemes\", () => {\n    it(\"should call the execute function from useAsyncAction when invoked.\", async() => {\n      const store = useQuestionThemesStore();\n\n      await store.fetchQuestionThemes();\n\n      expect(fetchAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith();\n    });\n  });\n\n  describe(\"fetchAndStoreQuestionThemes\", () => {\n    it(\"should call fetchQuestionThemes when called.\", async() => {\n      const store = useQuestionThemesStore();\n\n      await store.fetchAndStoreQuestionThemes();\n\n      expect(fetchAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith();\n    });\n\n    it(\"should update questionThemes with the fetched themes when fetchQuestionThemes resolves with data.\", async() => {\n      const fakeQuestionThemes: QuestionTheme[] = [\n        createFakeQuestionTheme(),\n        createFakeQuestionTheme(),\n      ];\n      const store = useQuestionThemesStore();\n      fetchAsyncActionMock.execute.mockResolvedValue(fakeQuestionThemes);\n\n      await store.fetchAndStoreQuestionThemes();\n\n      expect(store.questionThemes).toStrictEqual(fakeQuestionThemes);\n    });\n\n    it(\"should not update questionThemes when fetchQuestionThemes resolves with undefined.\", async() => {\n      const store = useQuestionThemesStore();\n\n      await store.fetchAndStoreQuestionThemes();\n\n      expect(store.questionThemes).toStrictEqual<QuestionTheme[]>([]);\n    });\n  });\n\n  describe(\"createQuestionThemeStatus\", () => {\n    it(\"should reflect the fetchStatus value from useAsyncAction when created.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.createQuestionThemeStatus).toBe(createAsyncActionMock.fetchStatus.value);\n    });\n\n    it(\"should update when the fetchStatus changes to pending.\", () => {\n      const store = useQuestionThemesStore();\n      createAsyncActionMock.fetchStatus.value = \"pending\";\n\n      expect(store.createQuestionThemeStatus).toBe(\"pending\");\n    });\n  });\n\n  describe(\"isCreatingQuestionTheme\", () => {\n    it(\"should be false when createStatus is idle.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.isCreatingQuestionTheme).toBeFalsy();\n    });\n\n    it(\"should be true when createStatus is pending.\", () => {\n      const store = useQuestionThemesStore();\n      createAsyncActionMock.fetchStatus.value = \"pending\";\n\n      expect(store.isCreatingQuestionTheme).toBeTruthy();\n    });\n  });\n\n  describe(\"isCreateQuestionThemeSuccess\", () => {\n    it(\"should be false when createStatus is idle.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.isCreateQuestionThemeSuccess).toBeFalsy();\n    });\n\n    it(\"should be true when createStatus is success.\", () => {\n      const store = useQuestionThemesStore();\n      createAsyncActionMock.fetchStatus.value = \"success\";\n\n      expect(store.isCreateQuestionThemeSuccess).toBeTruthy();\n    });\n  });\n\n  describe(\"isCreatingQuestionThemeError\", () => {\n    it(\"should be false when createStatus is idle.\", () => {\n      const store = useQuestionThemesStore();\n\n      expect(store.isCreatingQuestionThemeError).toBeFalsy();\n    });\n\n    it(\"should be true when createStatus is error.\", () => {\n      const store = useQuestionThemesStore();\n      createAsyncActionMock.fetchStatus.value = \"error\";\n\n      expect(store.isCreatingQuestionThemeError).toBeTruthy();\n    });\n  });\n\n  describe(\"createAndStoreQuestionTheme\", () => {\n    it(\"should call the create execute function with the creation dto when invoked.\", async() => {\n      const store = useQuestionThemesStore();\n      const fakeCreationDto = createFakeQuestionThemeCreationDto();\n\n      await store.createAndStoreQuestionTheme(fakeCreationDto);\n\n      expect(createAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith(fakeCreationDto);\n    });\n\n    it(\"should unshift the created theme when creation resolves with a theme.\", async() => {\n      const fakeCreatedTheme = createFakeQuestionTheme();\n      const store = useQuestionThemesStore();\n      createAsyncActionMock.execute.mockResolvedValue(fakeCreatedTheme);\n      const fakeCreationDto = createFakeQuestionThemeCreationDto();\n\n      await store.createAndStoreQuestionTheme(fakeCreationDto);\n\n      expect(store.questionThemes).toStrictEqual([fakeCreatedTheme]);\n    });\n\n    it(\"should add success toast when creation resolves with a theme.\", async() => {\n      const fakeCreatedTheme = createFakeQuestionTheme();\n      const store = useQuestionThemesStore();\n      createAsyncActionMock.execute.mockResolvedValue(fakeCreatedTheme);\n      const fakeCreationDto = createFakeQuestionThemeCreationDto();\n\n      await store.createAndStoreQuestionTheme(fakeCreationDto);\n\n      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({\n        description: \"questionThemes.createSuccessfully\",\n      });\n    });\n\n    it(\"should not update questionThemes when creation resolves with undefined.\", async() => {\n      const store = useQuestionThemesStore();\n      const fakeCreationDto = createFakeQuestionThemeCreationDto();\n\n      await store.createAndStoreQuestionTheme(fakeCreationDto);\n\n      expect(store.questionThemes).toStrictEqual<QuestionTheme[]>([]);\n    });\n  });\n\n  describe(\"useAsyncAction setup for fetch\", () => {\n    it(\"should pass the repository getAll function as action to useAsyncAction when created.\", () => {\n      useQuestionThemesStore();\n\n      expect(capturedFetchAction).toBe(questionThemesRepository($fetch).getAll);\n    });\n\n    it(\"should call addErrorToast with the questionThemes.cantFetch translation key when the fetch error callback is invoked.\", () => {\n      useQuestionThemesStore();\n\n      capturedFetchOnError?.();\n\n      expect(useAppToast().addErrorToast).toHaveBeenCalledExactlyOnceWith({\n        description: \"questionThemes.cantFetch\",\n      });\n    });\n  });\n\n  describe(\"useAsyncAction setup for create\", () => {\n    it(\"should pass an async function calling repository.create as action to useAsyncAction when created.\", async() => {\n      const fakeTheme = createFakeQuestionTheme();\n      const fakeCreationDto = createFakeQuestionThemeCreationDto();\n      useQuestionThemesStore();\n      const mockCreate = questionThemesRepository($fetch).create as ReturnType<typeof vi.fn>;\n      mockCreate.mockResolvedValue(fakeTheme);\n\n      await capturedCreateAction?.(fakeCreationDto);\n\n      expect(mockCreate).toHaveBeenCalledExactlyOnceWith(fakeCreationDto);\n    });\n\n    it(\"should return the result from repository.create when the captured action is invoked.\", async() => {\n      const fakeTheme = createFakeQuestionTheme();\n      const fakeCreationDto = createFakeQuestionThemeCreationDto();\n      useQuestionThemesStore();\n      const mockCreate = questionThemesRepository($fetch).create as ReturnType<typeof vi.fn>;\n      mockCreate.mockResolvedValue(fakeTheme);\n\n      const result = await capturedCreateAction?.(fakeCreationDto);\n\n      expect(result).toBe(fakeTheme);\n    });\n\n    it(\"should call addErrorToast with the questionThemes.cantCreate translation key when the create error callback is invoked.\", () => {\n      useQuestionThemesStore();\n\n      capturedCreateOnError?.();\n\n      expect(useAppToast().addErrorToast).toHaveBeenCalledExactlyOnceWith({\n        description: \"questionThemes.cantCreate\",\n      });\n    });\n  });\n});"
     }
   },
   "projectRoot": "/Users/antoinezanardi/WebstormProjects/goat-it-web-admin",

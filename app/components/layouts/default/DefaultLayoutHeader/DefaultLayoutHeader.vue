@@ -5,17 +5,19 @@ const router = useRouter();
 
 const { t } = useI18n();
 
-const navigationMenuItems = computed<NavigationMenuItem[]>(() => router.getRoutes().map(route => {
-  const routeLabel = typeof route.meta.titleKey === "string" ? t(route.meta.titleKey) : route.name?.toString();
-  const isRouteActive = router.currentRoute.value.path === route.path;
+const navigationMenuItems = computed<NavigationMenuItem[]>(() => router.getRoutes()
+  .toSorted((routeA, routeB) => (routeA.meta.order ?? Number.MAX_SAFE_INTEGER) - (routeB.meta.order ?? Number.MAX_SAFE_INTEGER))
+  .map(route => {
+    const routeLabel = typeof route.meta.titleKey === "string" ? t(route.meta.titleKey) : route.name?.toString();
+    const isRouteActive = router.currentRoute.value.path === route.path;
 
-  return {
-    label: routeLabel,
-    to: route.path,
-    active: isRouteActive,
-    icon: route.meta.icon,
-  };
-}));
+    return {
+      label: routeLabel,
+      to: route.path,
+      active: isRouteActive,
+      icon: route.meta.icon,
+    };
+  }));
 </script>
 
 <template>
