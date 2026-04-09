@@ -58,3 +58,6 @@ tests/acceptance/logs
 
 # Stryker temp files
 .stryker-tmp
+
+# Superpowers
+docs/superpowers
