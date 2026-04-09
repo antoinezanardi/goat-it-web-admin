@@ -130,7 +130,7 @@ const ESLINT_GLOBAL_FLAT_CONFIG: Linter.Config = {
     "no-bitwise": "error",
     "no-caller": "error",
     "no-case-declarations": "error",
-    "no-console": "error",
+    "no-console": ["error", { allow: ["error"] }],
     "no-continue": "error",
     "no-delete-var": "error",
     "no-div-regex": "error",

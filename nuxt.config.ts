@@ -132,6 +132,7 @@ export default defineNuxtConfig({
           "fr/common.json",
           "fr/navigation.json",
           "fr/form.json",
+          "fr/errors.json",
         ],
       },
       {
@@ -145,6 +146,7 @@ export default defineNuxtConfig({
           "en/common.json",
           "en/navigation.json",
           "en/form.json",
+          "en/errors.json",
         ],
       },
     ],

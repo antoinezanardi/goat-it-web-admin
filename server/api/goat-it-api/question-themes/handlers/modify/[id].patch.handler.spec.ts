@@ -84,7 +84,11 @@ describe("Server Goat It API Question Theme Patch Handler", () => {
       vi.mocked($fetch).mockRejectedValue(fetchError);
       vi.mocked(getRouterParam).mockReturnValue("valid-id");
 
-      await patchQuestionThemeHandler(mockedEvent).catch(() => null);
+      try {
+        await patchQuestionThemeHandler(mockedEvent);
+      } catch(error: unknown) {
+        void error;
+      }
 
       expect(handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(fetchError);
     });
@@ -102,7 +106,11 @@ describe("Server Goat It API Question Theme Patch Handler", () => {
         description: "This question theme has an invalid structure.",
       });
 
-      await patchQuestionThemeHandler(mockedEvent).catch(() => null);
+      try {
+        await patchQuestionThemeHandler(mockedEvent);
+      } catch(error: unknown) {
+        void error;
+      }
 
       expect(handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(expect.any(ZodError));
     });

@@ -987,6 +987,29 @@ it("should call createError with the correct status code when the item is not fo
 - For routes with params: assert `getRouterParam` was called with `(event, "id")`.
 - For routes with body (POST/PATCH): assert `readBody` was called with `(event)`.
 
+#### Swallowing errors to assert side-effect calls
+
+When a handler is expected to throw but the test needs to assert a side-effect call (e.g. `handleGoatItApiError`), use a `try/catch` block — **never** `.catch(() => null)`:
+
+```ts
+// GOOD — try/catch with void error
+it("should call handleGoatItApiError when $fetch throws an error.", async () => {
+  const fetchError = new Error("Network error");
+  vi.mocked($fetch).mockRejectedValue(fetchError);
+
+  try {
+    await myHandler(mockedEvent);
+  } catch (error: unknown) {
+    void error;
+  }
+
+  expect(handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(fetchError);
+});
+
+// BAD — .catch(() => null)
+await myHandler(mockedEvent).catch(() => null);
+```
+
 ---
 
 ### 6.8 Server utils / mappers / helpers

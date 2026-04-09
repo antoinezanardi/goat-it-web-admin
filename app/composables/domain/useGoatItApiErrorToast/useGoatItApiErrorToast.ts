@@ -1,12 +1,10 @@
 import { FetchError } from "ofetch";
 
+import { isRecord } from "#shared/utils/helpers/object.helpers";
+
 type UseGoatItApiErrorToast = {
   handleGoatItApiError: (error: unknown, title: string) => void;
 };
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null;
-}
 
 function extractErrorCode(error: unknown): string | undefined {
   if (!(error instanceof FetchError)) {
@@ -36,19 +34,21 @@ function useGoatItApiErrorToast(): UseGoatItApiErrorToast {
   function handleGoatItApiError(error: unknown, title: string): void {
     const errorCodeValue = extractErrorCode(error);
 
-    if (errorCodeValue !== undefined && errorCodeValue !== "") {
-      const i18nKey = `errors.goatItApi.${errorCodeValue}`;
+    if (errorCodeValue === undefined || errorCodeValue === "") {
+      addErrorToast({ title, description: i18n.t("errors.unknown") });
 
-      if (i18n.te(i18nKey)) {
-        addErrorToast({ title, description: i18n.t(i18nKey) });
-
-        return;
-      }
-
-      // eslint-disable-next-line no-console -- Intentional: log unknown API error codes for debugging
-      console.error(`Unknown Goat It API error code: ${errorCodeValue}`);
+      return;
     }
 
+    const i18nKey = `errors.goatItApi.${errorCodeValue}`;
+
+    if (i18n.te(i18nKey)) {
+      addErrorToast({ title, description: i18n.t(i18nKey) });
+
+      return;
+    }
+
+    console.error(`Unknown Goat It API error code: ${errorCodeValue}`);
     addErrorToast({ title, description: i18n.t("errors.unknown") });
   }
   return { handleGoatItApiError };
@@ -56,4 +56,4 @@ function useGoatItApiErrorToast(): UseGoatItApiErrorToast {
 
 export type { UseGoatItApiErrorToast };
 
-export { useGoatItApiErrorToast };
+export { useGoatItApiErrorToast, extractErrorCode };

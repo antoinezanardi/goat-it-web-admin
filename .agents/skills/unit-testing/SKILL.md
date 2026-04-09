@@ -160,6 +160,7 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 - [ ] Assert return value (mapped domain objects)
 - [ ] Assert `ZodError` is thrown for invalid API data
 - [ ] For `createError` assertions: `vi.mocked(createError).mockImplementation(...)` + `try/catch` to let the throw happen, then assert the call arguments
+- [ ] For side-effect assertions on throwing handlers: use `try/catch` with `void error` — **never** `.catch(() => null)`
 - [ ] Use `HttpStatusCode` enum from `#server/utils/http/http.enums` for status code values
 - [ ] For routes with params: assert `getRouterParam` was called with `(event, "id")`
 - [ ] For routes with body: assert `readBody` was called with `(event)`
