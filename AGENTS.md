@@ -132,6 +132,11 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
   - Zod parse errors propagate naturally; do not catch unless you can recover.
   - No `console.log` in production code.
 
+- Control flow:
+  - Prefer early returns over deeply nested `if/else` blocks. Guard clauses at the top
+    of a function improve readability and reduce indentation depth.
+  - Apply the same principle in all layers: composables, helpers, handlers, and mappers.
+
 ## Tests and test style
 
 - Framework: Vitest + `@nuxt/test-utils` + `@vue/test-utils` + `happy-dom`.

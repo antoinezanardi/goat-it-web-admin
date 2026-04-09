@@ -4,7 +4,8 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
   const questionThemes = ref<QuestionTheme[]>([]);
 
   const repository = questionThemesRepository($fetch);
-  const { addSuccessToast, addErrorToast } = useAppToast();
+  const { addSuccessToast } = useAppToast();
+  const { handleGoatItApiError } = useGoatItApiErrorToast();
   const { t } = useI18n();
 
   const {
@@ -15,7 +16,7 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
     isError: isFetchingQuestionThemesError,
   } = useAsyncAction(
     repository.getAll,
-    () => addErrorToast({ description: t("questionThemes.cantFetch") }),
+    (thrownError: unknown) => handleGoatItApiError(thrownError, t("questionThemes.cantFetch")),
   );
 
   const {
@@ -26,7 +27,7 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
     isError: isCreatingQuestionThemeError,
   } = useAsyncAction(
     async(creationDto: QuestionThemeCreationDto) => repository.create(creationDto),
-    () => addErrorToast({ description: t("questionThemes.cantCreate") }),
+    (thrownError: unknown) => handleGoatItApiError(thrownError, t("questionThemes.cantCreate")),
   );
 
   async function fetchAndStoreQuestionThemes(): Promise<void> {

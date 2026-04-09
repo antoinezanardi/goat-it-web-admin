@@ -12,9 +12,9 @@ import type { useQuestionThemesStore as UseQuestionThemesStoreType } from "@/sto
 let fetchAsyncActionMock: UseAsyncActionMock;
 let createAsyncActionMock: UseAsyncActionMock;
 let capturedFetchAction: (() => Promise<QuestionTheme[]>) | undefined;
-let capturedFetchOnError: (() => void) | undefined;
+let capturedFetchOnError: ((error: unknown) => void) | undefined;
 let capturedCreateAction: ((creationDto: unknown) => Promise<QuestionTheme>) | undefined;
-let capturedCreateOnError: (() => void) | undefined;
+let capturedCreateOnError: ((error: unknown) => void) | undefined;
 
 let useAsyncActionCallCount: number;
 
@@ -22,14 +22,14 @@ mockNuxtImport("useAsyncAction", () => (action: unknown, onError: unknown): UseA
   useAsyncActionCallCount++;
   if (useAsyncActionCallCount === 1) {
     capturedFetchAction = action as () => Promise<QuestionTheme[]>;
-    capturedFetchOnError = onError as () => void;
+    capturedFetchOnError = onError as (error: unknown) => void;
     fetchAsyncActionMock = createUseAsyncActionMock();
 
     return fetchAsyncActionMock;
   }
 
   capturedCreateAction = action as (creationDto: unknown) => Promise<QuestionTheme>;
-  capturedCreateOnError = onError as () => void;
+  capturedCreateOnError = onError as (error: unknown) => void;
   createAsyncActionMock = createUseAsyncActionMock();
 
   return createAsyncActionMock;
@@ -267,14 +267,13 @@ describe("useQuestionThemesStore", () => {
       expect(capturedFetchAction).toBe(questionThemesRepository($fetch).getAll);
     });
 
-    it("should call addErrorToast with the questionThemes.cantFetch translation key when the fetch error callback is invoked.", () => {
+    it("should call handleGoatItApiError with the error and cantFetch translation key when the fetch error callback is invoked.", () => {
       useQuestionThemesStore();
+      const fakeError = new Error("fetch failed");
 
-      capturedFetchOnError?.();
+      capturedFetchOnError?.(fakeError);
 
-      expect(useAppToast().addErrorToast).toHaveBeenCalledExactlyOnceWith({
-        description: "questionThemes.cantFetch",
-      });
+      expect(useGoatItApiErrorToast().handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(fakeError, "questionThemes.cantFetch");
     });
   });
 
@@ -303,14 +302,13 @@ describe("useQuestionThemesStore", () => {
       expect(result).toBe(fakeTheme);
     });
 
-    it("should call addErrorToast with the questionThemes.cantCreate translation key when the create error callback is invoked.", () => {
+    it("should call handleGoatItApiError with the error and cantCreate translation key when the create error callback is invoked.", () => {
       useQuestionThemesStore();
+      const fakeError = new Error("create failed");
 
-      capturedCreateOnError?.();
+      capturedCreateOnError?.(fakeError);
 
-      expect(useAppToast().addErrorToast).toHaveBeenCalledExactlyOnceWith({
-        description: "questionThemes.cantCreate",
-      });
+      expect(useGoatItApiErrorToast().handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(fakeError, "questionThemes.cantCreate");
     });
   });
 });

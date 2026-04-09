@@ -1,15 +1,35 @@
 {
   "version": 1,
   "skills": {
+    "brainstorming": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "computedHash": "8df9b47092524833138b58682d03f2e153a242e550d1693657afdbee0cc9cdb0"
+    },
     "nuxt-ui": {
       "source": "nuxt/ui",
       "sourceType": "github",
       "computedHash": "8651be79f0cdca057348fe1a6814758436c293369f7ff3d14cad97d00558a381"
     },
+    "subagent-driven-development": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "computedHash": "a197f8e5fba5ea59013e1adbaa90dd42db35de8f074feca200c8038de584a83b"
+    },
+    "using-superpowers": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "computedHash": "e0eced9fbb205c212f420aded0c6f2bf5d5f059254679a8459b4fe72390160be"
+    },
     "vueuse": {
       "source": "onmax/nuxt-skills",
       "sourceType": "github",
       "computedHash": "17a528979081261da67a003f6aa66bd6a2c6ec5cbb1c2348c14cc776c3d69f10"
+    },
+    "writing-plans": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "computedHash": "bfaed11054ad8021c66860244e2d2e0d1eca483ae9f5fbfcb956e99c61f5c3d7"
     }
   }
 }

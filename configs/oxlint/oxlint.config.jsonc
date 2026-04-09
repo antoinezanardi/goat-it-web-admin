@@ -14,6 +14,7 @@
     "useFetch": "readonly",
     "useToast": "readonly",
     "useAppToast": "readonly",
+    "useGoatItApiErrorToast": "readonly",
     "useFetchStatus": "readonly",
     "useAsyncAction": "readonly",
     "useHead": "readonly",
