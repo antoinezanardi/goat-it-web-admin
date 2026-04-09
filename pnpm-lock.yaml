@@ -50,6 +50,9 @@ importers:
       '@semantic-release/git':
         specifier: ^10.0.1
         version: 10.0.1(semantic-release@25.0.3(typescript@6.0.2))
+      '@semantic-release/release-notes-generator':
+        specifier: ^14.1.0
+        version: 14.1.0(semantic-release@25.0.3(typescript@6.0.2))
       '@stryker-mutator/api':
         specifier: ^9.6.0
         version: 9.6.0
