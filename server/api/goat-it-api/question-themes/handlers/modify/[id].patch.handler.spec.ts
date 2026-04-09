@@ -82,7 +82,6 @@ describe("Server Goat It API Question Theme Patch Handler", () => {
     it("should call handleGoatItApiError when $fetch throws an error.", async() => {
       const fetchError = new Error("Network error");
       vi.mocked($fetch).mockRejectedValue(fetchError);
-      vi.mocked(getRouterParam).mockReturnValue("valid-id");
 
       try {
         await patchQuestionThemeHandler(mockedEvent);

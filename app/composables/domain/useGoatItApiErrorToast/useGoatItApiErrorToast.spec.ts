@@ -20,6 +20,7 @@ let extractErrorCode: typeof ExtractErrorCodeType;
 
 describe("useGoatItApiErrorToast", () => {
   beforeEach(async() => {
+    vi.resetModules();
     useAppToastMock = createUseAppToastMock();
     useI18nMock = createUseI18nMock();
     ({ useGoatItApiErrorToast, extractErrorCode } = await import("~/composables/domain/useGoatItApiErrorToast/useGoatItApiErrorToast"));

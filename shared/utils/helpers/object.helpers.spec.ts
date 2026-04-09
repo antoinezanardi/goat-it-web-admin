@@ -12,8 +12,30 @@ describe("Object Helpers", () => {
       expect(isRecord({})).toBeTruthy();
     });
 
-    it("should return true when value is an array.", () => {
-      expect(isRecord([1, 2, 3])).toBeTruthy();
+    it("should return false when value is an array.", () => {
+      expect(isRecord([1, 2, 3])).toBeFalsy();
+    });
+
+    it("should return false when value is a Date.", () => {
+      expect(isRecord(new Date())).toBeFalsy();
+    });
+
+    it("should return false when value is a RegExp.", () => {
+      expect(isRecord(/abc/u)).toBeFalsy();
+    });
+
+    it("should return false when value is a Map.", () => {
+      expect(isRecord(new Map())).toBeFalsy();
+    });
+
+    it("should return false when value is a Set.", () => {
+      expect(isRecord(new Set())).toBeFalsy();
+    });
+
+    it("should return false when value is a class instance.", () => {
+      class Foo {}
+
+      expect(isRecord(new Foo())).toBeFalsy();
     });
 
     it("should return false when value is null.", () => {
