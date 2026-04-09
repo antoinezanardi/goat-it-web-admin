@@ -13,11 +13,6 @@ const emit = defineEmits<QuestionThemeFormEmits>();
 
 const isFormValid = ref<boolean>(false);
 
-defineExpose({
-  isFormValid,
-  triggerFormSubmit,
-});
-
 const { locale: currentLocale } = useI18n();
 
 const form = useTemplateRef<Form<QuestionThemeCreationDto>>("form");
@@ -25,10 +20,7 @@ const form = useTemplateRef<Form<QuestionThemeCreationDto>>("form");
 const formState = reactive<QuestionThemeCreationDtoShell>(createQuestionThemeCreationDtoShell());
 
 async function validateForm(): Promise<void> {
-  if (!form.value) {
-    return;
-  }
-  const result = await form.value.validate({ silent: true });
+  const result = await form.value?.validate({ silent: true });
   isFormValid.value = typeof result === "object";
 }
 
@@ -37,11 +29,13 @@ function onSubmit(event: FormSubmitEvent<QuestionThemeCreationDto>): void {
 }
 
 async function triggerFormSubmit(): Promise<void> {
-  if (!form.value) {
-    return;
-  }
-  await form.value.submit();
+  await form.value?.submit();
 }
+
+defineExpose({
+  isFormValid,
+  triggerFormSubmit,
+});
 </script>
 
 <template>

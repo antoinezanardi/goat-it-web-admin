@@ -129,6 +129,8 @@ describe("QuestionThemeFormModal Component", () => {
       const state = uForm.props("state") as Record<string, unknown>;
       state.slug = fakeData.slug;
       state.label = fakeData.label;
+      state.description = fakeData.description;
+      state.aliases = fakeData.aliases;
 
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']") as VueWrapper;
       getWrapperVm(footer).$emit("primaryButtonClick");
