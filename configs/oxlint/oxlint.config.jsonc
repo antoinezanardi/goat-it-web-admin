@@ -885,6 +885,7 @@
         "typescript/no-unsafe-type-assertion": "off",
         "typescript/init-declarations": "off",
         "typescript/no-magic-numbers": "off",
+        "unicorn/no-null": "off",
         "import/no-namespace": "off",
         "import/max-dependencies": [
           "error",

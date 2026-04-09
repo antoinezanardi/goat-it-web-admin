@@ -1,6 +1,7 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { flushPromises } from "@vue/test-utils";
 import type { VueWrapper } from "@vue/test-utils";
+import { nextTick } from "vue";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
@@ -110,6 +111,14 @@ describe("QuestionThemeFormModal Component", () => {
 
       expect(wrapper.emitted("update:open")).toBeUndefined();
     });
+
+    it("should emit update:open when the modal itself emits update:open.", async() => {
+      const modal = wrapper.findComponent({ name: "UModal" });
+      getWrapperVm(modal).$emit("update:open", false);
+      await nextTick();
+
+      expect(wrapper.emitted("update:open")).toStrictEqual([[false]]);
+    });
   });
 
   describe("Primary button click", () => {
@@ -126,6 +135,16 @@ describe("QuestionThemeFormModal Component", () => {
       await flushPromises();
 
       expect(wrapper.emitted("submitCreation")).toBeDefined();
+    });
+
+    it("should not trigger form submission when primaryButtonClick is emitted and form reference is null.", async() => {
+      getWrapperVm(wrapper).$.refs.formReference = null;
+
+      const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']") as VueWrapper;
+      getWrapperVm(footer).$emit("primaryButtonClick");
+      await flushPromises();
+
+      expect(wrapper.emitted("submitCreation")).toBeUndefined();
     });
   });
 

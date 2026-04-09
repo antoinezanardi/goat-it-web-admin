@@ -25,15 +25,14 @@ function onSubmitCreationFromForm(data: QuestionThemeCreationDto): void {
 }
 
 function onCloseModal(): void {
-  if (!props.isCreating) {
-    open.value = false;
+  if (props.isCreating) {
+    return;
   }
+  open.value = false;
 }
 </script>
 
 <template>
-  <!-- [V8 SOURCE MAPPING ISSUE] Acceptable, LazyUModal is tested, but the coverage report is not able to recognize it. */ -->
-  <!-- v8 ignore start -->
   <LazyUModal
     v-model:open="open"
     :close="!isCreating"
@@ -69,5 +68,4 @@ function onCloseModal(): void {
       />
     </template>
   </LazyUModal>
-  <!-- v8 ignore stop -->
 </template>

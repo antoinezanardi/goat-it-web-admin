@@ -35,8 +35,6 @@ definePageMeta({
 });
 </script>
 
-<!-- [V8 SOURCE MAPPING ISSUE] Acceptable, entire page is tested, but the coverage report is not able to recognize it. */ -->
-<!-- v8 ignore start -->
 <template>
   <div id="question-themes-page">
     <PageHeader
@@ -71,4 +69,3 @@ definePageMeta({
     />
   </div>
 </template>
-<!-- v8 ignore stop -->

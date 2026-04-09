@@ -22,6 +22,11 @@ const MOCKED_ROUTES = [
       order: 2,
     },
   },
+  {
+    path: "/settings",
+    name: "settings",
+    meta: {},
+  },
   DEFAULT_MOCKED_ROUTE,
 ] as const satisfies readonly RouteMock[];
 

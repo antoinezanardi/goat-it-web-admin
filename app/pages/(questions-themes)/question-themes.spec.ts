@@ -2,6 +2,7 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { createTestingPinia } from "@pinia/testing";
 import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
+import { flushPromises } from "@vue/test-utils";
 import { nextTick } from "vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -141,15 +142,16 @@ describe("Question Themes Page", () => {
       expect(modal.attributes("open")).toBe("true");
     });
 
-    it("should call createAndStoreQuestionTheme when the modal emits submitCreation.", () => {
+    it("should call createAndStoreQuestionTheme when the modal emits submitCreation.", async() => {
       const fakeCreationDto = createFakeQuestionThemeCreationDto();
       const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
       getWrapperVm(modal).$emit("submitCreation", fakeCreationDto);
+      await flushPromises();
 
       expect(questionThemesStore.createAndStoreQuestionTheme).toHaveBeenCalledExactlyOnceWith(fakeCreationDto);
     });
 
-    it("should close the modal after submitCreation when isCreateQuestionThemeSuccess is true.", () => {
+    it("should close the modal after submitCreation when isCreateQuestionThemeSuccess is true.", async() => {
       questionThemesStore.isCreateQuestionThemeSuccess = true;
       const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
       getWrapperVm(table).$emit("startCreate");
@@ -157,6 +159,7 @@ describe("Question Themes Page", () => {
       const fakeCreationDto = createFakeQuestionThemeCreationDto();
       const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
       getWrapperVm(modal).$emit("submitCreation", fakeCreationDto);
+      await flushPromises();
 
       expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("false");
     });
@@ -169,9 +172,21 @@ describe("Question Themes Page", () => {
       const fakeCreationDto = createFakeQuestionThemeCreationDto();
       const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
       getWrapperVm(modal).$emit("submitCreation", fakeCreationDto);
-      await nextTick();
+      await flushPromises();
 
       expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("true");
+    });
+
+    it("should update the modal open state when the modal emits update:open.", async() => {
+      const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
+      getWrapperVm(table).$emit("startCreate");
+      await nextTick();
+
+      const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
+      getWrapperVm(modal).$emit("update:open", false);
+      await nextTick();
+
+      expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("false");
     });
   });
 });
