@@ -74,7 +74,7 @@ describe("Server Goat It API Question Themes Get Handler", () => {
       vi.mocked($fetch).mockRejectedValue(fetchError);
       const mockedEvent = {} as unknown as H3Event;
 
-      await getQuestionThemesHandler(mockedEvent).catch(() => {});
+      await getQuestionThemesHandler(mockedEvent).catch(() => null);
 
       expect(handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(fetchError);
     });
@@ -89,7 +89,7 @@ describe("Server Goat It API Question Themes Get Handler", () => {
         },
       ]);
 
-      await getQuestionThemesHandler(mockedEvent).catch(() => {});
+      await getQuestionThemesHandler(mockedEvent).catch(() => null);
 
       expect(handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(expect.any(ZodError));
     });

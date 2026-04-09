@@ -69,7 +69,7 @@ describe("Server Goat It API Question Theme Create Handler", () => {
       const fetchError = new Error("Network error");
       vi.mocked($fetch).mockRejectedValue(fetchError);
 
-      await createQuestionThemeHandler(mockedEvent).catch(() => {});
+      await createQuestionThemeHandler(mockedEvent).catch(() => null);
 
       expect(handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(fetchError);
     });
@@ -87,7 +87,7 @@ describe("Server Goat It API Question Theme Create Handler", () => {
         description: "This question theme has an invalid structure.",
       });
 
-      await createQuestionThemeHandler(mockedEvent).catch(() => {});
+      await createQuestionThemeHandler(mockedEvent).catch(() => null);
 
       expect(handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(expect.any(ZodError));
     });
