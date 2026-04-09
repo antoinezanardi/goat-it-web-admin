@@ -59,6 +59,7 @@ export default defineNuxtConfig({
     "configs/**/*.ts",
     "eslint.config.ts",
   ],
+  sourcemap: { client: "hidden" },
   compatibilityDate: "2025-01-15",
   nitro: {
     imports: {

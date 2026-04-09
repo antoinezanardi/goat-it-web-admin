@@ -38,10 +38,10 @@ describe("DefaultLayoutHeader Component", () => {
       const navigationMenu = wrapper.getComponent({ name: "UNavigationMenu" });
       const expectedNavigationMenuItems: NavigationMenuItem[] = [
         {
-          label: MOCKED_ROUTES[2].meta.titleKey,
-          to: MOCKED_ROUTES[2].path,
+          label: MOCKED_ROUTES[3].meta.titleKey,
+          to: MOCKED_ROUTES[3].path,
           active: true,
-          icon: MOCKED_ROUTES[2].meta.icon,
+          icon: MOCKED_ROUTES[3].meta.icon,
         },
         {
           label: MOCKED_ROUTES[1].name,
@@ -52,6 +52,12 @@ describe("DefaultLayoutHeader Component", () => {
         {
           to: MOCKED_ROUTES[0].path,
           label: undefined,
+          active: false,
+          icon: undefined,
+        },
+        {
+          label: MOCKED_ROUTES[2].name,
+          to: MOCKED_ROUTES[2].path,
           active: false,
           icon: undefined,
         },

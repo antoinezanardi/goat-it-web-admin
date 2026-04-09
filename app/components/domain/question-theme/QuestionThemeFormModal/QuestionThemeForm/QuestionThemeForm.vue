@@ -32,12 +32,9 @@ async function validateForm(): Promise<void> {
   isFormValid.value = typeof result === "object";
 }
 
-/* [V8 SOURCE MAPPING ISSUE] Acceptable, the onSubmit method is tested, but the coverage report is not able to recognize it. */
-/* v8 ignore start */
 function onSubmit(event: FormSubmitEvent<QuestionThemeCreationDto>): void {
   emit("submitCreation", event.data);
 }
-/* v8 ignore stop */
 
 async function triggerFormSubmit(): Promise<void> {
   if (!form.value) {
