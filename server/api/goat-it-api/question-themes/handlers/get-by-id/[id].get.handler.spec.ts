@@ -6,7 +6,7 @@ import { createFakeAdminQuestionThemeDto } from "~~/tests/unit/utils/faketories/
 
 import { createQuestionThemeFromAdminQuestionThemeDto } from "#server/utils/goat-it-api/mappers/goat-it-api.mappers";
 import type { SharedRuntimeConfig } from "#build/types/runtime-config";
-import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
+import { createGoatItApiEndpoint, createGoatItApiFetchOptions, handleGoatItApiError } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
 import { getQuestionThemeHandler } from "#server/api/goat-it-api/question-themes/handlers/get-by-id/[id].get.handler";
 import { HttpStatusCode } from "#server/utils/http/http.enums";
 
@@ -68,14 +68,26 @@ describe("Server Goat It API Question Theme Get Handler", () => {
       expect(result).toStrictEqual(expectedQuestionTheme);
     });
 
-    it("should throw an error when the fetched data is invalid.", async() => {
+    it("should call handleGoatItApiError when $fetch throws an error.", async() => {
+      const fetchError = new Error("Network error");
+      vi.mocked($fetch).mockRejectedValue(fetchError);
+      vi.mocked(getRouterParam).mockReturnValue("valid-id");
+
+      await getQuestionThemeHandler(mockedEvent).catch(() => {});
+
+      expect(handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(fetchError);
+    });
+
+    it("should call handleGoatItApiError with zod error when the fetched data is invalid.", async() => {
       vi.mocked($fetch).mockResolvedValue({
         id: "invalid-id",
         name: "Invalid Question Theme",
         description: "This question theme has an invalid structure.",
       });
 
-      await expect(getQuestionThemeHandler(mockedEvent)).rejects.toThrow(ZodError);
+      await getQuestionThemeHandler(mockedEvent).catch(() => {});
+
+      expect(handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(expect.any(ZodError));
     });
 
     it("should throw a 400 error when router param id is undefined.", async() => {

@@ -6,7 +6,7 @@ import { createFakeAdminQuestionThemeDto, createFakeQuestionThemeCreationDto } f
 
 import { createQuestionThemeFromAdminQuestionThemeDto } from "#server/utils/goat-it-api/mappers/goat-it-api.mappers";
 import type { SharedRuntimeConfig } from "#build/types/runtime-config";
-import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
+import { createGoatItApiEndpoint, createGoatItApiFetchOptions, handleGoatItApiError } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
 import { createQuestionThemeHandler } from "#server/api/goat-it-api/question-themes/handlers/create/index.post.handler";
 
 vi.mock(import("#server/utils/goat-it-api/helpers/goat-it-api.helpers"));
@@ -65,20 +65,31 @@ describe("Server Goat It API Question Theme Create Handler", () => {
       expect(result).toStrictEqual(expectedQuestionTheme);
     });
 
+    it("should call handleGoatItApiError when $fetch throws an error.", async() => {
+      const fetchError = new Error("Network error");
+      vi.mocked($fetch).mockRejectedValue(fetchError);
+
+      await createQuestionThemeHandler(mockedEvent).catch(() => {});
+
+      expect(handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(fetchError);
+    });
+
     it("should throw an error when the request body is invalid.", async() => {
       vi.mocked(readBody).mockResolvedValue({ invalid: "body" });
 
       await expect(createQuestionThemeHandler(mockedEvent)).rejects.toThrow(ZodError);
     });
 
-    it("should throw an error when the fetched response is invalid.", async() => {
+    it("should call handleGoatItApiError with zod error when the fetched response is invalid.", async() => {
       vi.mocked($fetch).mockResolvedValue({
         id: "invalid-id",
         name: "Invalid Question Theme",
         description: "This question theme has an invalid structure.",
       });
 
-      await expect(createQuestionThemeHandler(mockedEvent)).rejects.toThrow(ZodError);
+      await createQuestionThemeHandler(mockedEvent).catch(() => {});
+
+      expect(handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(expect.any(ZodError));
     });
   });
 });

@@ -2,7 +2,7 @@ import { ADMIN_QUESTION_THEME_DTO, QUESTION_THEME_CREATION_DTO } from "@goat-it/
 import type { H3Event } from "h3";
 
 import { createQuestionThemeFromAdminQuestionThemeDto } from "#server/utils/goat-it-api/mappers/goat-it-api.mappers";
-import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
+import { createGoatItApiEndpoint, createGoatItApiFetchOptions, handleGoatItApiError } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
 
 async function createQuestionThemeHandler(event: H3Event): Promise<QuestionTheme> {
   const config = useRuntimeConfig(event);
@@ -11,14 +11,18 @@ async function createQuestionThemeHandler(event: H3Event): Promise<QuestionTheme
   const endpoint = createGoatItApiEndpoint("question-themes");
   const fetchOptions = createGoatItApiFetchOptions(config.goatItApi);
 
-  const rawData = await $fetch(endpoint, {
-    ...fetchOptions,
-    method: "POST",
-    body: creationDto,
-  });
-  const adminQuestionTheme = ADMIN_QUESTION_THEME_DTO.parse(rawData);
+  try {
+    const rawData = await $fetch(endpoint, {
+      ...fetchOptions,
+      method: "POST",
+      body: creationDto,
+    });
+    const adminQuestionTheme = ADMIN_QUESTION_THEME_DTO.parse(rawData);
 
-  return createQuestionThemeFromAdminQuestionThemeDto(adminQuestionTheme);
+    return createQuestionThemeFromAdminQuestionThemeDto(adminQuestionTheme);
+  } catch(error: unknown) {
+    handleGoatItApiError(error);
+  }
 }
 
 export {
