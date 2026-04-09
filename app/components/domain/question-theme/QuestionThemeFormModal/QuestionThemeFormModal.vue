@@ -6,7 +6,7 @@ import type { QuestionThemeFormModalEmits, QuestionThemeFormModalProperties } fr
 import type QuestionThemeForm from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/QuestionThemeForm.vue";
 import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/question-theme.constants";
 
-const props = withDefaults(defineProps<QuestionThemeFormModalProperties>(), {
+withDefaults(defineProps<QuestionThemeFormModalProperties>(), {
   isCreating: false,
 });
 
@@ -25,9 +25,6 @@ function onSubmitCreationFromForm(data: QuestionThemeCreationDto): void {
 }
 
 function onCloseModal(): void {
-  if (props.isCreating) {
-    return;
-  }
   open.value = false;
 }
 </script>

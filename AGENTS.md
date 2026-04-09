@@ -31,12 +31,14 @@ Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
 - Watch file: `pnpm run test:unit:watch app/pages/index.spec.ts`
 - Direct:     `pnpm exec cross-env NODE_OPTIONS='--no-webstorage' vitest --config configs/vitest/vitest.config.ts path/to/file.spec.ts`
 
-Pre-PR sanity checklist (run in order):
+**Mandatory quality gates** — agents MUST run all three commands below **in order**
+before considering any task complete. Do NOT skip any gate, even for "trivial" changes:
 
-- `pnpm install`
-- `pnpm run lint:fix && pnpm run lint`
-- `pnpm run typecheck`
-- `pnpm run test:unit:cov`
+1. `pnpm run lint:fix`
+2. `pnpm run typecheck`
+3. `pnpm run test:unit:cov`
+
+If any gate fails, fix the issue and re-run from that gate onward until all four pass.
 
 ## Repository structure
 

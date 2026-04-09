@@ -162,6 +162,8 @@ describe("QuestionThemeForm Component", () => {
       const state = uForm.props("state") as Record<string, unknown>;
       state.slug = fakeCreationDto.slug;
       state.label = fakeCreationDto.label;
+      state.description = fakeCreationDto.description;
+      state.aliases = fakeCreationDto.aliases;
 
       await getWrapperVm<QuestionThemeFormVm>(wrapper).triggerFormSubmit();
 
@@ -202,6 +204,8 @@ describe("QuestionThemeForm Component", () => {
       const state = uForm.props("state") as Record<string, unknown>;
       state.slug = fakeCreationDto.slug;
       state.label = fakeCreationDto.label;
+      state.description = fakeCreationDto.description;
+      state.aliases = fakeCreationDto.aliases;
 
       const form = wrapper.find<HTMLFormElement>("form");
       await form.trigger("blur");

@@ -94,22 +94,12 @@ describe("QuestionThemeFormModal Component", () => {
   });
 
   describe("Close modal", () => {
-    it("should close the modal when closeModal is emitted from the footer and isCreating is false.", async() => {
-      await wrapper.setProps({ isCreating: false });
-
+    it("should close the modal when the close button is clicked from the footer.", async() => {
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']") as VueWrapper;
-      getWrapperVm(footer).$emit("closeModal");
+      const closeButton = footer.find("[data-testid='default-modal-footer-close-button']");
+      await closeButton.trigger("click");
 
       expect(wrapper.emitted("update:open")).toBeDefined();
-    });
-
-    it("should not close the modal when closeModal is emitted from the footer and isCreating is true.", async() => {
-      await wrapper.setProps({ isCreating: true });
-
-      const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']") as VueWrapper;
-      getWrapperVm(footer).$emit("closeModal");
-
-      expect(wrapper.emitted("update:open")).toBeUndefined();
     });
 
     it("should emit update:open when the modal itself emits update:open.", async() => {
@@ -129,6 +119,8 @@ describe("QuestionThemeFormModal Component", () => {
       const state = uForm.props("state") as Record<string, unknown>;
       state.slug = fakeData.slug;
       state.label = fakeData.label;
+      state.description = fakeData.description;
+      state.aliases = fakeData.aliases;
 
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']") as VueWrapper;
       getWrapperVm(footer).$emit("primaryButtonClick");
