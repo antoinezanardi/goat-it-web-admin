@@ -25,9 +25,10 @@ function onSubmitCreationFromForm(data: QuestionThemeCreationDto): void {
 }
 
 function onCloseModal(): void {
-  if (!props.isCreating) {
-    open.value = false;
+  if (props.isCreating) {
+    return;
   }
+  open.value = false;
 }
 </script>
 
