@@ -1,7 +1,7 @@
 type ComponentVm = {
   // oxlint-disable-next-line id-length
   $: {
-    refs: Record<string, unknown>;
+    refs: Record<string, Element | ComponentPublicInstance | null>;
   };
   $emit: (event: string, ...arguments_: unknown[]) => void;
 };
