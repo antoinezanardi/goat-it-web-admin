@@ -8,6 +8,7 @@ import type { QuestionThemeCreationDtoShell } from "#shared/types/question-theme
 import type { Form } from "#ui/types";
 import type { QuestionThemeFormProperties, QuestionThemeFormEmits } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
 import { createQuestionThemeCreationDtoShell } from "~/composables/domain/question-theme/helpers/shell/question-theme.shell.helpers";
+import { stripSchemaLevelRegexErrors } from "~/composables/core/zod/useZodLocale/useZodLocale";
 
 const props = defineProps<QuestionThemeFormProperties>();
 
@@ -19,13 +20,17 @@ const form = useTemplateRef<Form<QuestionThemeCreationDto>>("form");
 
 const formState = reactive<QuestionThemeCreationDtoShell>(createQuestionThemeCreationDtoShell());
 
+stripSchemaLevelRegexErrors(QUESTION_THEME_CREATION_DTO.def.shape.slug);
+stripSchemaLevelRegexErrors(QUESTION_THEME_CREATION_DTO.def.shape.color);
+
 const canSubmit = computed<boolean>(() => {
   const hasSlug = !!formState.slug;
   const hasLabel = !!formState.label[currentLocale.value];
   const hasDescription = !!formState.description[currentLocale.value];
   const hasAliases = !!formState.aliases[currentLocale.value]?.length;
+  const hasNoFormErrors = !form.value?.getErrors()?.length;
 
-  return hasSlug && hasLabel && hasDescription && hasAliases;
+  return hasSlug && hasLabel && hasDescription && hasAliases && hasNoFormErrors;
 });
 
 function validateSlugUniqueness(state: Partial<QuestionThemeCreationDto>): FormError[] {

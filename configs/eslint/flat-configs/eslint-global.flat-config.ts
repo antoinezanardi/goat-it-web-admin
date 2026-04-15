@@ -194,7 +194,7 @@ const ESLINT_GLOBAL_FLAT_CONFIG: Linter.Config = {
     "no-throw-literal": "error",
     "no-undef-init": "error",
     "no-undefined": "off",
-    "no-underscore-dangle": ["error", { allow: ["_id"] }],
+    "no-underscore-dangle": ["error", { allow: ["_id", "_zod"] }],
     "no-unneeded-ternary": "error",
     "no-unused-expressions": "error",
     "no-unused-labels": "error",

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { isRecord } from "~~/shared/utils/helpers/object.helpers";
+import { isRecord } from "#shared/utils/helpers/object/object.helpers";
 
 describe("Object Helpers", () => {
   describe(isRecord, () => {

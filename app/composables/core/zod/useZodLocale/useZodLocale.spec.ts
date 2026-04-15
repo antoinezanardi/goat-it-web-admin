@@ -1,27 +1,46 @@
 import { nextTick, ref } from "vue";
+import type { Ref } from "vue";
+import type { Composer } from "vue-i18n";
 import { z } from "zod";
 import { vi, beforeEach, describe, expect, it } from "vitest";
 
-import type { useZodLocale as UseZodLocaleType, ZodLocaleI18n } from "@/composables/core/zod/useZodLocale/useZodLocale";
+import { SLUG_REGEX_PATTERN, HEX_COLOR_REGEX_PATTERN } from "@/composables/core/zod/useZodLocale/use-zod-locale.constants";
+import type {
+  useZodLocale as UseZodLocaleType,
+  getInvalidFormatTranslation as GetInvalidFormatTranslationType,
+  getCustomErrorMessage as GetCustomErrorMessageType,
+  isLocaleSupported as IsLocaleSupportedType,
+  stripSchemaLevelRegexErrors as StripSchemaLevelRegexErrorsType,
+} from "@/composables/core/zod/useZodLocale/useZodLocale";
 
-const SLUG_REGEX_PATTERN = String.raw`^[\da-z]+(?:-[\da-z]+)*$`;
-const HEX_COLOR_REGEX_PATTERN = String.raw`^#[\dA-Fa-f]{6}$`;
+const SLUG_REGEX = new RegExp(SLUG_REGEX_PATTERN.slice(1, -2), "u");
+const HEX_COLOR_REGEX = new RegExp(HEX_COLOR_REGEX_PATTERN.slice(1, -2), "u");
 
 let useZodLocale: typeof UseZodLocaleType;
+let getInvalidFormatTranslation: typeof GetInvalidFormatTranslationType;
+let getCustomErrorMessage: typeof GetCustomErrorMessageType;
+let isLocaleSupported: typeof IsLocaleSupportedType;
+let stripSchemaLevelRegexErrors: typeof StripSchemaLevelRegexErrorsType;
 
-function createI18nMock(): ZodLocaleI18n {
+function createI18nMock(): Composer {
   return {
     locale: ref("en"),
-    t: vi.fn<ZodLocaleI18n["t"]>((key: string) => key),
-  };
+    t: vi.fn<Composer["t"]>((key: string) => key),
+  } as unknown as Composer;
 }
 
 describe("useZodLocale", () => {
-  let i18nMock: ZodLocaleI18n;
+  let i18nMock: Composer;
 
   beforeEach(async() => {
     i18nMock = createI18nMock();
-    ({ useZodLocale } = await import("@/composables/core/zod/useZodLocale/useZodLocale"));
+    ({
+      useZodLocale,
+      getInvalidFormatTranslation,
+      getCustomErrorMessage,
+      isLocaleSupported,
+      stripSchemaLevelRegexErrors,
+    } = await import("@/composables/core/zod/useZodLocale/useZodLocale"));
   });
 
   describe("Zod locale configuration", () => {
@@ -53,7 +72,7 @@ describe("useZodLocale", () => {
     it("should translate the slug regex validation error to i18n key when an invalid slug is validated.", () => {
       useZodLocale(i18nMock);
 
-      const schema = z.string().regex(new RegExp(SLUG_REGEX_PATTERN, "u"));
+      const schema = z.string().regex(SLUG_REGEX);
       const result = schema.safeParse("INVALID SLUG!");
 
       expect(result.error?.issues[0]?.message).toBe("validation.invalidKebabCase");
@@ -62,7 +81,7 @@ describe("useZodLocale", () => {
     it("should translate the hex color regex validation error to i18n key when an invalid color is validated.", () => {
       useZodLocale(i18nMock);
 
-      const schema = z.string().regex(new RegExp(HEX_COLOR_REGEX_PATTERN, "u"));
+      const schema = z.string().regex(HEX_COLOR_REGEX);
       const result = schema.safeParse("not-a-color");
 
       expect(result.error?.issues[0]?.message).toBe("validation.invalidHexColor");
@@ -96,9 +115,8 @@ describe("useZodLocale", () => {
       expect(result.error?.issues[0]?.message).not.toBe("validation.invalidHexColor");
     });
 
-    it("should fall back to the en locale error map when the current locale has no matching Zod locale.", async() => {
-      i18nMock.locale.value = "ja";
-      await nextTick();
+    it("should fall back to the en locale error map when the current locale has no matching Zod locale.", () => {
+      (i18nMock.locale as Ref<string>).value = "ja";
 
       useZodLocale(i18nMock);
 
@@ -106,6 +124,163 @@ describe("useZodLocale", () => {
       const result = schema.safeParse("ab");
 
       expect(result.error?.issues[0]?.message).toBeDefined();
+    });
+  });
+
+  describe(getInvalidFormatTranslation, () => {
+    it("should return translated slug key when issue is invalid_format with slug pattern.", () => {
+      const issue: z.core.$ZodRawIssue = {
+        code: "invalid_format",
+        pattern: SLUG_REGEX_PATTERN,
+      } as unknown as z.core.$ZodRawIssue;
+      const t = vi.fn<Composer["t"]>((key: string) => key);
+
+      const result = getInvalidFormatTranslation(issue, t as unknown as Composer["t"]);
+
+      expect(result).toBe("validation.invalidKebabCase");
+    });
+
+    it("should return translated hex color key when issue is invalid_format with hex color pattern.", () => {
+      const issue: z.core.$ZodRawIssue = {
+        code: "invalid_format",
+        pattern: HEX_COLOR_REGEX_PATTERN,
+      } as unknown as z.core.$ZodRawIssue;
+      const t = vi.fn<Composer["t"]>((key: string) => key);
+
+      const result = getInvalidFormatTranslation(issue, t as unknown as Composer["t"]);
+
+      expect(result).toBe("validation.invalidHexColor");
+    });
+
+    it("should return undefined without calling t when issue code is not invalid_format.", () => {
+      const issue: z.core.$ZodRawIssue = {
+        code: "too_small",
+        pattern: SLUG_REGEX_PATTERN,
+      } as unknown as z.core.$ZodRawIssue;
+      const t = vi.fn<Composer["t"]>(() => "translated");
+
+      const result = getInvalidFormatTranslation(issue, t as unknown as Composer["t"]);
+
+      expect(result).toBeUndefined();
+    });
+
+    it("should return undefined without calling t when issue has no pattern property.", () => {
+      const issue: z.core.$ZodRawIssue = {
+        code: "invalid_format",
+      } as unknown as z.core.$ZodRawIssue;
+      const t = vi.fn<Composer["t"]>(() => "translated");
+
+      const result = getInvalidFormatTranslation(issue, t as unknown as Composer["t"]);
+
+      expect(result).toBeUndefined();
+    });
+
+    it("should return undefined without calling t when issue pattern is not a string.", () => {
+      const patternLikeObject = { toString: (): string => SLUG_REGEX_PATTERN };
+      const issue: z.core.$ZodRawIssue = {
+        code: "invalid_format",
+        pattern: patternLikeObject,
+      } as unknown as z.core.$ZodRawIssue;
+      const t = vi.fn<Composer["t"]>(() => "translated");
+
+      const result = getInvalidFormatTranslation(issue, t as unknown as Composer["t"]);
+
+      expect(result).toBeUndefined();
+    });
+
+    it("should return undefined without calling t when pattern does not match any known regex pattern.", () => {
+      const issue: z.core.$ZodRawIssue = {
+        code: "invalid_format",
+        pattern: "/^unknown$/u",
+      } as unknown as z.core.$ZodRawIssue;
+      const t = vi.fn<Composer["t"]>(() => "translated");
+
+      const result = getInvalidFormatTranslation(issue, t as unknown as Composer["t"]);
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe(getCustomErrorMessage, () => {
+    it("should return translated key when issue matches a known invalid format pattern.", () => {
+      const issue: z.core.$ZodRawIssue = {
+        code: "invalid_format",
+        pattern: SLUG_REGEX_PATTERN,
+      } as unknown as z.core.$ZodRawIssue;
+      const t = vi.fn<Composer["t"]>((key: string) => key);
+
+      const result = getCustomErrorMessage(issue, t as unknown as Composer["t"]);
+
+      expect(result).toBe("validation.invalidKebabCase");
+    });
+
+    it("should return undefined when issue does not match any known invalid format pattern.", () => {
+      const issue: z.core.$ZodRawIssue = {
+        code: "too_small",
+      } as unknown as z.core.$ZodRawIssue;
+      const t = vi.fn<Composer["t"]>((key: string) => key);
+
+      const result = getCustomErrorMessage(issue, t as unknown as Composer["t"]);
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe(isLocaleSupported, () => {
+    it("should return true when locale is supported.", () => {
+      expect(isLocaleSupported("fr")).toBeTruthy();
+    });
+
+    it("should return false when locale is not supported.", () => {
+      expect(isLocaleSupported("ja")).toBeFalsy();
+    });
+  });
+
+  describe(stripSchemaLevelRegexErrors, () => {
+    it("should allow custom error translation when schema regex had a hardcoded error.", () => {
+      const schema = z.string().regex(SLUG_REGEX, { error: "hardcoded error" });
+
+      stripSchemaLevelRegexErrors(schema);
+      useZodLocale(i18nMock);
+      const result = schema.safeParse("INVALID!");
+
+      expect(result.error?.issues[0]?.message).toBe("validation.invalidKebabCase");
+    });
+
+    it("should allow custom error translation when optional schema regex had a hardcoded error.", () => {
+      const schema = z.string().regex(HEX_COLOR_REGEX, { error: "hardcoded error" }).optional();
+
+      stripSchemaLevelRegexErrors(schema);
+      useZodLocale(i18nMock);
+      const result = schema.safeParse("not-a-color");
+
+      expect(result.error?.issues[0]?.message).toBe("validation.invalidHexColor");
+    });
+
+    it("should not throw when schema has no checks.", () => {
+      const schema = z.string();
+
+      expect(() => stripSchemaLevelRegexErrors(schema)).not.toThrow();
+    });
+
+    it("should not remove error from non-regex checks when schema has min length error.", () => {
+      const schema = z.string().min(3, { error: "too short" });
+      stripSchemaLevelRegexErrors(schema);
+      const result = schema.safeParse("ab");
+
+      expect(result.error?.issues[0]?.message).toBe("too short");
+    });
+
+    it("should not delete error property from regex check when error is undefined.", () => {
+      const schema = z.string().regex(SLUG_REGEX);
+      const checks = (schema as unknown as { _zod: { def: { checks: { _zod: { def: Record<string, unknown> } }[] } } })._zod.def.checks;
+      const regexCheck = checks.find(check => check._zod.def.format === "regex");
+      // oxlint-disable-next-line typescript/no-non-null-assertion
+      regexCheck!._zod.def.error = undefined;
+
+      stripSchemaLevelRegexErrors(schema);
+
+      expect(regexCheck?._zod.def).toHaveProperty("error");
     });
   });
 });

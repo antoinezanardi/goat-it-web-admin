@@ -1,6 +1,6 @@
 import { FetchError } from "ofetch";
 
-import { isRecord } from "#shared/utils/helpers/object.helpers";
+import { isRecord } from "#shared/utils/helpers/object/object.helpers";
 
 type UseGoatItApiErrorToast = {
   handleGoatItApiError: (error: unknown, title: string) => void;
