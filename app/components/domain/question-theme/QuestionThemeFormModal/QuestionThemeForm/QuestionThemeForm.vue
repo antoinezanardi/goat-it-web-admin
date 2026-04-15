@@ -7,7 +7,7 @@ import type { QuestionThemeCreationDto } from "@goat-it/schemas/question-theme";
 import type { QuestionThemeCreationDtoShell } from "#shared/types/question-theme.types";
 import type { Form } from "#ui/types";
 import type { QuestionThemeFormProperties, QuestionThemeFormEmits } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
-import { stripSchemaLevelRegexErrors } from "~/composables/core/zod/useZodLocale/useZodLocale";
+import { prepareZodSchemaForFormValidation } from "~/utils/helpers/zod/zod.helpers";
 import { createQuestionThemeCreationDtoShell } from "~/composables/domain/question-theme/helpers/shell/question-theme.shell.helpers";
 
 const props = defineProps<QuestionThemeFormProperties>();
@@ -20,8 +20,7 @@ const form = useTemplateRef<Form<QuestionThemeCreationDto>>("form");
 
 const formState = reactive<QuestionThemeCreationDtoShell>(createQuestionThemeCreationDtoShell());
 
-stripSchemaLevelRegexErrors(QUESTION_THEME_CREATION_DTO.def.shape.slug);
-stripSchemaLevelRegexErrors(QUESTION_THEME_CREATION_DTO.def.shape.color);
+prepareZodSchemaForFormValidation(QUESTION_THEME_CREATION_DTO);
 
 const canSubmit = computed<boolean>(() => {
   const hasSlug = !!formState.slug;

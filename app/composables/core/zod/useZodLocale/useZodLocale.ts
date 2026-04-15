@@ -19,33 +19,6 @@ function getCustomErrorMessage(issue: z.core.$ZodRawIssue, t: Composer["t"]): st
   return getInvalidFormatTranslation(issue, t);
 }
 
-type ZodInternalCheck = { _zod: { def: { format?: string; error?: unknown } } };
-
-type ZodInternalDefinition = { checks?: ZodInternalCheck[]; innerType?: z.ZodType };
-
-type ZodInternalSchema = { _zod: { def: ZodInternalDefinition } };
-
-function stripSchemaLevelRegexErrors(schema: z.ZodType): void {
-  // oxlint-disable-next-line typescript/no-unsafe-type-assertion -- accessing zod v4 internal `_zod.def` which is not exposed in public types
-  const { def } = (schema as unknown as ZodInternalSchema)._zod;
-
-  if (def.innerType) {
-    stripSchemaLevelRegexErrors(def.innerType);
-
-    return;
-  }
-
-  if (!def.checks) {
-    return;
-  }
-
-  for (const check of def.checks) {
-    if (check._zod.def.format === "regex") {
-      delete check._zod.def.error;
-    }
-  }
-}
-
 function isLocaleSupported(locale: string): locale is keyof typeof ZOD_LOCALE_MAP {
   return locale in ZOD_LOCALE_MAP;
 }
@@ -73,6 +46,5 @@ export {
   getCustomErrorMessage,
   getInvalidFormatTranslation,
   isLocaleSupported,
-  stripSchemaLevelRegexErrors,
   useZodLocale,
 };
