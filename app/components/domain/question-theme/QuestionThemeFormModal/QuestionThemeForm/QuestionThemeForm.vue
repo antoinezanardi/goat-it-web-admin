@@ -7,8 +7,8 @@ import type { QuestionThemeCreationDto } from "@goat-it/schemas/question-theme";
 import type { QuestionThemeCreationDtoShell } from "#shared/types/question-theme.types";
 import type { Form } from "#ui/types";
 import type { QuestionThemeFormProperties, QuestionThemeFormEmits } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
-import { createQuestionThemeCreationDtoShell } from "~/composables/domain/question-theme/helpers/shell/question-theme.shell.helpers";
 import { stripSchemaLevelRegexErrors } from "~/composables/core/zod/useZodLocale/useZodLocale";
+import { createQuestionThemeCreationDtoShell } from "~/composables/domain/question-theme/helpers/shell/question-theme.shell.helpers";
 
 const props = defineProps<QuestionThemeFormProperties>();
 

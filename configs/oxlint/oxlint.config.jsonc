@@ -1182,6 +1182,21 @@
           }
         ]
       }
+    },
+    // ---- Override for helpers spec files -----
+    {
+      "files": [
+        "**/*.helpers.spec.ts"
+      ],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
     }
   ]
 }

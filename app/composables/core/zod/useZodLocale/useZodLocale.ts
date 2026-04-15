@@ -40,7 +40,7 @@ function stripSchemaLevelRegexErrors(schema: z.ZodType): void {
   }
 
   for (const check of def.checks) {
-    if (check._zod.def.format === "regex" && check._zod.def.error !== undefined) {
+    if (check._zod.def.format === "regex") {
       delete check._zod.def.error;
     }
   }

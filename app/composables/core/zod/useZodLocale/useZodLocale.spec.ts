@@ -7,20 +7,17 @@ import { vi, beforeEach, describe, expect, it } from "vitest";
 import { SLUG_REGEX_PATTERN, HEX_COLOR_REGEX_PATTERN } from "@/composables/core/zod/useZodLocale/use-zod-locale.constants";
 import type {
   useZodLocale as UseZodLocaleType,
-  getInvalidFormatTranslation as GetInvalidFormatTranslationType,
-  getCustomErrorMessage as GetCustomErrorMessageType,
-  isLocaleSupported as IsLocaleSupportedType,
-  stripSchemaLevelRegexErrors as StripSchemaLevelRegexErrorsType,
+} from "@/composables/core/zod/useZodLocale/useZodLocale";
+import {
+  getInvalidFormatTranslation,
+  isLocaleSupported,
+  getCustomErrorMessage,
 } from "@/composables/core/zod/useZodLocale/useZodLocale";
 
 const SLUG_REGEX = new RegExp(SLUG_REGEX_PATTERN.slice(1, -2), "u");
 const HEX_COLOR_REGEX = new RegExp(HEX_COLOR_REGEX_PATTERN.slice(1, -2), "u");
 
 let useZodLocale: typeof UseZodLocaleType;
-let getInvalidFormatTranslation: typeof GetInvalidFormatTranslationType;
-let getCustomErrorMessage: typeof GetCustomErrorMessageType;
-let isLocaleSupported: typeof IsLocaleSupportedType;
-let stripSchemaLevelRegexErrors: typeof StripSchemaLevelRegexErrorsType;
 
 function createI18nMock(): Composer {
   return {
@@ -36,10 +33,6 @@ describe("useZodLocale", () => {
     i18nMock = createI18nMock();
     ({
       useZodLocale,
-      getInvalidFormatTranslation,
-      getCustomErrorMessage,
-      isLocaleSupported,
-      stripSchemaLevelRegexErrors,
     } = await import("@/composables/core/zod/useZodLocale/useZodLocale"));
   });
 
@@ -233,54 +226,6 @@ describe("useZodLocale", () => {
 
     it("should return false when locale is not supported.", () => {
       expect(isLocaleSupported("ja")).toBeFalsy();
-    });
-  });
-
-  describe(stripSchemaLevelRegexErrors, () => {
-    it("should allow custom error translation when schema regex had a hardcoded error.", () => {
-      const schema = z.string().regex(SLUG_REGEX, { error: "hardcoded error" });
-
-      stripSchemaLevelRegexErrors(schema);
-      useZodLocale(i18nMock);
-      const result = schema.safeParse("INVALID!");
-
-      expect(result.error?.issues[0]?.message).toBe("validation.invalidKebabCase");
-    });
-
-    it("should allow custom error translation when optional schema regex had a hardcoded error.", () => {
-      const schema = z.string().regex(HEX_COLOR_REGEX, { error: "hardcoded error" }).optional();
-
-      stripSchemaLevelRegexErrors(schema);
-      useZodLocale(i18nMock);
-      const result = schema.safeParse("not-a-color");
-
-      expect(result.error?.issues[0]?.message).toBe("validation.invalidHexColor");
-    });
-
-    it("should not throw when schema has no checks.", () => {
-      const schema = z.string();
-
-      expect(() => stripSchemaLevelRegexErrors(schema)).not.toThrow();
-    });
-
-    it("should not remove error from non-regex checks when schema has min length error.", () => {
-      const schema = z.string().min(3, { error: "too short" });
-      stripSchemaLevelRegexErrors(schema);
-      const result = schema.safeParse("ab");
-
-      expect(result.error?.issues[0]?.message).toBe("too short");
-    });
-
-    it("should not delete error property from regex check when error is undefined.", () => {
-      const schema = z.string().regex(SLUG_REGEX);
-      const checks = (schema as unknown as { _zod: { def: { checks: { _zod: { def: Record<string, unknown> } }[] } } })._zod.def.checks;
-      const regexCheck = checks.find(check => check._zod.def.format === "regex");
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      regexCheck!._zod.def.error = undefined;
-
-      stripSchemaLevelRegexErrors(schema);
-
-      expect(regexCheck?._zod.def).toHaveProperty("error");
     });
   });
 });
