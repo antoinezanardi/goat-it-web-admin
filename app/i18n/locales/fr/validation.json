@@ -1,0 +1,8 @@
+{
+  "validation": {
+    "atLeastOneLocaleRequired": "Au moins une traduction doit être renseignée",
+    "invalidKebabCase": "Doit être au format kebab-case (ex : mon-nom-de-theme)",
+    "invalidHexColor": "Doit être une couleur hexadécimale valide (ex : #FF5733)",
+    "slugAlreadyTaken": "Ce slug est déjà utilisé par un autre thème"
+  }
+}

@@ -19,6 +19,7 @@ describe("QuestionThemeFormModal Component", () => {
 
   const defaultQuestionThemeFormModalProperties: QuestionThemeFormModalProperties & { open: boolean } = {
     isCreating: false,
+    existingSlugs: [],
     open: true,
   } as const;
 
@@ -90,6 +91,32 @@ describe("QuestionThemeFormModal Component", () => {
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
 
       expect(footer.props("primaryButtonIcon")).toBe("i-lucide-circle-plus");
+    });
+
+    it("should pass true as isPrimaryButtonDisabled to the footer when canSubmit is false on the form.", () => {
+      const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
+
+      expect(footer.props("isPrimaryButtonDisabled")).toBeTruthy();
+    });
+  });
+
+  describe("Existing slugs", () => {
+    it("should pass an empty existingSlugs array to the QuestionThemeForm component when no existing slugs are provided.", () => {
+      const form = wrapper.findComponent<typeof QuestionThemeForm>("[data-testid='question-theme-form-modal-form']");
+
+      expect(form.props("existingSlugs")).toStrictEqual([]);
+    });
+
+    it("should pass the provided existingSlugs to the QuestionThemeForm component when existingSlugs are provided.", async() => {
+      wrapper = await mountQuestionThemeFormModalComponent({
+        props: {
+          ...defaultQuestionThemeFormModalProperties,
+          existingSlugs: ["slug-one", "slug-two"],
+        },
+      });
+      const form = wrapper.findComponent<typeof QuestionThemeForm>("[data-testid='question-theme-form-modal-form']");
+
+      expect(form.props("existingSlugs")).toStrictEqual(["slug-one", "slug-two"]);
     });
   });
 

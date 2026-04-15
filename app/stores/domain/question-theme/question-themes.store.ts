@@ -2,6 +2,7 @@ import type { QuestionThemeCreationDto } from "@goat-it/schemas/question-theme";
 
 export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, () => {
   const questionThemes = ref<QuestionTheme[]>([]);
+  const questionThemeSlugs = computed<string[]>(() => questionThemes.value.map(theme => theme.slug));
 
   const repository = questionThemesRepository($fetch);
   const { addSuccessToast } = useAppToast();
@@ -46,6 +47,7 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
   }
   return {
     questionThemes,
+    questionThemeSlugs,
     fetchQuestionThemesStatus,
     isFetchingQuestionThemes,
     isFetchQuestionThemesSuccess,

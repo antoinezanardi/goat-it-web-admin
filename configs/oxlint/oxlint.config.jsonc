@@ -42,7 +42,11 @@
     "readBody": "readonly",
     "createError": "readonly",
     "StoreNames": "readonly",
-    "storeToRefs": "readonly"
+    "storeToRefs": "readonly",
+    "watch": "readonly",
+    "useNuxtApp": "readonly",
+    "defineNuxtPlugin": "readonly",
+    "useZodLocale": "readonly"
   },
   "ignorePatterns": [
     ".output/**/*",
@@ -779,6 +783,23 @@
           "error",
           {
             "case": "camelCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
+    // ---- Override for plugin files -----
+    {
+      "files": [
+        "**/app/plugins/**/*.ts"
+      ],
+      "rules": {
+        "import/no-default-export": "off",
+        "unicorn/no-anonymous-default-export": "off",
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
             "multipleFileExtensions": true
           }
         ]

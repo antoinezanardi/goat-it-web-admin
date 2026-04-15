@@ -133,6 +133,7 @@ export default defineNuxtConfig({
           "fr/navigation.json",
           "fr/form.json",
           "fr/errors.json",
+          "fr/validation.json",
         ],
       },
       {
@@ -147,6 +148,7 @@ export default defineNuxtConfig({
           "en/navigation.json",
           "en/form.json",
           "en/errors.json",
+          "en/validation.json",
         ],
       },
     ],

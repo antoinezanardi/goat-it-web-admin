@@ -59,5 +59,6 @@ tests/acceptance/logs
 # Stryker temp files
 .stryker-tmp
 
-# Superpowers
+# Agents
 docs/superpowers
+.playwright-mcp

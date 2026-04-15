@@ -1,27 +1,38 @@
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import type { FormSubmitEvent } from "@nuxt/ui";
+import { reactive, computed } from "vue";
+import type { FormSubmitEvent, FormError } from "@nuxt/ui";
 import { QUESTION_THEME_CREATION_DTO } from "@goat-it/schemas/question-theme";
 import type { QuestionThemeCreationDto } from "@goat-it/schemas/question-theme";
 
 import type { QuestionThemeCreationDtoShell } from "#shared/types/question-theme.types";
 import type { Form } from "#ui/types";
-import type { QuestionThemeFormEmits } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
+import type { QuestionThemeFormProperties, QuestionThemeFormEmits } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
 import { createQuestionThemeCreationDtoShell } from "~/composables/domain/question-theme/helpers/shell/question-theme.shell.helpers";
+
+const props = defineProps<QuestionThemeFormProperties>();
 
 const emit = defineEmits<QuestionThemeFormEmits>();
 
-const isFormValid = ref<boolean>(false);
-
-const { locale: currentLocale } = useI18n();
+const { locale: currentLocale, t } = useI18n();
 
 const form = useTemplateRef<Form<QuestionThemeCreationDto>>("form");
 
 const formState = reactive<QuestionThemeCreationDtoShell>(createQuestionThemeCreationDtoShell());
 
-async function validateForm(): Promise<void> {
-  const result = await form.value?.validate({ silent: true });
-  isFormValid.value = typeof result === "object";
+const canSubmit = computed<boolean>(() => {
+  const hasSlug = !!formState.slug;
+  const hasLabel = !!formState.label[currentLocale.value];
+  const hasDescription = !!formState.description[currentLocale.value];
+  const hasAliases = !!formState.aliases[currentLocale.value]?.length;
+
+  return hasSlug && hasLabel && hasDescription && hasAliases;
+});
+
+function validateSlugUniqueness(state: Partial<QuestionThemeCreationDto>): FormError[] {
+  if (state.slug && props.existingSlugs.includes(state.slug)) {
+    return [{ name: "slug", message: t("validation.slugAlreadyTaken") }];
+  }
+  return [];
 }
 
 function onSubmit(event: FormSubmitEvent<QuestionThemeCreationDto>): void {
@@ -33,7 +44,7 @@ async function triggerFormSubmit(): Promise<void> {
 }
 
 defineExpose({
-  isFormValid,
+  canSubmit,
   triggerFormSubmit,
 });
 </script>
@@ -45,8 +56,7 @@ defineExpose({
     data-testid="question-theme-form"
     :schema="QUESTION_THEME_CREATION_DTO"
     :state="formState"
-    @blur="validateForm"
-    @change="validateForm"
+    :validate="validateSlugUniqueness"
     @submit="onSubmit"
   >
     <div class="gap-4 grid grid-cols-1 sm:grid-cols-3">
@@ -104,6 +114,7 @@ defineExpose({
       data-testid="question-theme-form-aliases-field"
       :label="$t('questionThemes.fields.aliases')"
       :name="`aliases.${currentLocale}`"
+      required
     >
       <UInputTags
         v-model="formState.aliases[currentLocale]"

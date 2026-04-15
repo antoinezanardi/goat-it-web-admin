@@ -12,16 +12,23 @@ import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 import type { UForm, UFormField, UInput, UTextarea, UInputTags, InputColorPicker } from "#components";
 import { QuestionThemeForm } from "#components";
 
+import type { QuestionThemeFormProperties } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
+
 type QuestionThemeFormVm = ComponentVm & {
-  isFormValid: boolean;
+  canSubmit: boolean;
   triggerFormSubmit: () => Promise<void>;
 };
 
 describe("QuestionThemeForm Component", () => {
   let wrapper: VueWrapper;
 
+  const defaultQuestionThemeFormProperties: QuestionThemeFormProperties = {
+    existingSlugs: [],
+  } as const;
+
   async function mountQuestionThemeFormComponent(options: MountSuspendedOptions<typeof QuestionThemeForm> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionThemeForm, {
+      props: defaultQuestionThemeFormProperties,
       ...options,
     });
   }
@@ -81,6 +88,12 @@ describe("QuestionThemeForm Component", () => {
       const aliasesFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-aliases-field']");
 
       expect(aliasesFormField.props("name")).toBe(`aliases.${DEFAULT_MOCKED_LOCALE}`);
+    });
+
+    it("should render the aliases form field as required when mounted.", () => {
+      const aliasesFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-aliases-field']");
+
+      expect(aliasesFormField.props("required")).toBeTruthy();
     });
   });
 
@@ -149,9 +162,98 @@ describe("QuestionThemeForm Component", () => {
     });
   });
 
-  describe("Exposed isFormValid", () => {
-    it("should expose isFormValid as false initially when mounted.", () => {
-      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).isFormValid).toBeFalsy();
+  describe("Exposed canSubmit", () => {
+    it("should expose canSubmit as false when no required fields are filled.", () => {
+      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).canSubmit).toBeFalsy();
+    });
+
+    it("should expose canSubmit as false when only slug is filled.", async() => {
+      const slugFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-slug-field']");
+      const slugInput = slugFormField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(slugInput).$emit("update:modelValue", "test-slug");
+      await nextTick();
+
+      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).canSubmit).toBeFalsy();
+    });
+
+    it("should expose canSubmit as false when aliases are missing.", async() => {
+      const slugFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-slug-field']");
+      const slugInput = slugFormField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(slugInput).$emit("update:modelValue", "test-slug");
+
+      const labelFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-label-field']");
+      const labelInput = labelFormField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(labelInput).$emit("update:modelValue", "Test Label");
+
+      const descriptionFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-description-field']");
+      const descriptionTextarea = descriptionFormField.findComponent<typeof UTextarea>({ name: "UTextarea" });
+      getWrapperVm(descriptionTextarea).$emit("update:modelValue", "Test Description");
+      await nextTick();
+
+      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).canSubmit).toBeFalsy();
+    });
+
+    it("should expose canSubmit as true when all required fields are filled.", async() => {
+      const slugFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-slug-field']");
+      const slugInput = slugFormField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(slugInput).$emit("update:modelValue", "test-slug");
+
+      const labelFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-label-field']");
+      const labelInput = labelFormField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(labelInput).$emit("update:modelValue", "Test Label");
+
+      const descriptionFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-description-field']");
+      const descriptionTextarea = descriptionFormField.findComponent<typeof UTextarea>({ name: "UTextarea" });
+      getWrapperVm(descriptionTextarea).$emit("update:modelValue", "Test Description");
+
+      const aliasesFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-aliases-field']");
+      const aliasesInputTags = aliasesFormField.findComponent<typeof UInputTags>({ name: "UInputTags" });
+      getWrapperVm(aliasesInputTags).$emit("update:modelValue", ["alias1"]);
+      await nextTick();
+
+      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).canSubmit).toBeTruthy();
+    });
+  });
+
+  describe("Slug uniqueness validation", () => {
+    it("should pass the validate function to the UForm when mounted.", () => {
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+
+      expect(uForm.props("validate")).toBeDefined();
+    });
+
+    it("should return a slug error when the slug matches an existing slug.", async() => {
+      wrapper = await mountQuestionThemeFormComponent({
+        props: {
+          existingSlugs: ["existing-slug"],
+        },
+      });
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const validateFunction = uForm.props("validate") as (state: Record<string, unknown>) => { name: string; message: string }[];
+      const errors = validateFunction({ slug: "existing-slug" });
+
+      expect(errors).toStrictEqual([{ name: "slug", message: "validation.slugAlreadyTaken" }]);
+    });
+
+    it("should return no errors when the slug does not match any existing slug.", async() => {
+      wrapper = await mountQuestionThemeFormComponent({
+        props: {
+          existingSlugs: ["existing-slug"],
+        },
+      });
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const validateFunction = uForm.props("validate") as (state: Record<string, unknown>) => { name: string; message: string }[];
+      const errors = validateFunction({ slug: "new-slug" });
+
+      expect(errors).toStrictEqual([]);
+    });
+
+    it("should return no errors when the slug is undefined.", () => {
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const validateFunction = uForm.props("validate") as (state: Record<string, unknown>) => { name: string; message: string }[];
+      const errors = validateFunction({ slug: undefined });
+
+      expect(errors).toStrictEqual([]);
     });
   });
 
@@ -177,48 +279,6 @@ describe("QuestionThemeForm Component", () => {
       await vm.triggerFormSubmit();
 
       expect(wrapper.emitted("submitCreation")).toBeUndefined();
-    });
-  });
-
-  describe("Form validation", () => {
-    it("should not validate when the form reference is null.", async() => {
-      const vm = getWrapperVm<QuestionThemeFormVm>(wrapper);
-      vm.$.refs.form = null;
-
-      const form = wrapper.find<HTMLFormElement>("form");
-      await form.trigger("blur");
-
-      expect(vm.isFormValid).toBeFalsy();
-    });
-
-    it("should set isFormValid to false when form has invalid data and blur is triggered.", async() => {
-      const form = wrapper.find<HTMLFormElement>("form");
-      await form.trigger("blur");
-
-      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).isFormValid).toBeFalsy();
-    });
-
-    it("should set isFormValid to true when form has valid data and blur is triggered.", async() => {
-      const fakeCreationDto = createFakeQuestionThemeCreationDto();
-      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
-      const state = uForm.props("state") as Record<string, unknown>;
-      state.slug = fakeCreationDto.slug;
-      state.label = fakeCreationDto.label;
-      state.description = fakeCreationDto.description;
-      state.aliases = fakeCreationDto.aliases;
-
-      const form = wrapper.find<HTMLFormElement>("form");
-      await form.trigger("blur");
-      await nextTick();
-
-      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).isFormValid).toBeTruthy();
-    });
-
-    it("should also validate when the form triggers change event.", async() => {
-      const form = wrapper.find("form");
-      await form.trigger("change");
-
-      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).isFormValid).toBeFalsy();
     });
   });
 });

@@ -2,6 +2,7 @@ import type { QuestionThemeCreationDto } from "@goat-it/schemas/question-theme";
 
 type QuestionThemeFormModalProperties = {
   isCreating?: boolean;
+  existingSlugs: string[];
 };
 
 type QuestionThemeFormModalEmits = {

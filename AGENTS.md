@@ -179,6 +179,8 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
 
 ## Git / commit / PR expectations
 
+- **Never commit unless the user explicitly asks for it.** Do not create commits
+  autonomously after completing tasks or passing quality gates.
 - Do not commit `.env.*` files with real secrets (`.env.example` is safe).
 - Husky pre-commit hooks are active; never bypass with `--no-verify`.
 - Conventional commits enforced by commitlint: `type(scope): message`.
@@ -197,6 +199,16 @@ Each skill has a `SKILL.md` entry point. Load only the relevant skill for the ta
 - `unit-testing` – Complete unit test reference (patterns, mocks, faketories, Vitest projects).
   Load before writing or modifying any `*.spec.ts` file. Full reference at `docs/unit-testing.md`.
   Do NOT load all skill files at once; read the relevant `SKILL.md` first.
+
+### Skill usage rules
+
+- **When writing unit tests** (including inside plans): always load the `unit-testing`
+  skill first. It contains all the patterns, mock wiring, faketory conventions, and
+  Vitest project rules needed to write correct tests.
+- **When brainstorming or writing plans**: always consult the `nuxt`, `nuxt-ui`, and
+  `vueuse` skills to make informed design decisions. These skills provide framework
+  conventions, component APIs, and composable references that should guide approach
+  selection and implementation details.
 
 ## OpenCode commands (`.opencode/commands/`)
 
