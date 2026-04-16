@@ -12,6 +12,7 @@ const questionThemesStore = useQuestionThemesStore();
 const { questionThemes } = storeToRefs(questionThemesStore);
 
 const columns = computed<TableColumn<QuestionThemesTableRow>[]>(() => [
+  createTableColumn("icon", true, ""),
   createTableColumn("label", true),
   createTableColumn("slug", true),
   createTableColumn("description"),
@@ -28,10 +29,10 @@ const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(t
   status: theme.status,
 })));
 
-function createTableColumn(accessorKey: keyof QuestionThemesTableRow, isCentered = false): TableColumn<QuestionThemesTableRow> {
+function createTableColumn(accessorKey: keyof QuestionThemesTableRow | "icon", isCentered = false, header?: string): TableColumn<QuestionThemesTableRow> {
   const tableColumn: TableColumn<QuestionThemesTableRow> = {
     accessorKey,
-    header: t(`questionThemes.fields.${accessorKey}`),
+    header: header ?? t(`questionThemes.fields.${accessorKey}`),
   };
   if (isCentered) {
     tableColumn.meta = {
@@ -63,6 +64,13 @@ function onStartCreateFromQuestionThemesTableHeader(): void {
       :data="rows"
       data-testid="question-themes-table-data"
     >
+      <template #icon-cell="{ row }">
+        <QuestionThemeIcon
+          :data-testid="`icon-cell-${row.original.slug}`"
+          :slug="row.original.slug"
+        />
+      </template>
+
       <template #label-cell="{ row }">
         <LocalizedText
           :data-testid="`label-cell-text-${row.original.slug}`"
