@@ -1,4 +1,5 @@
 type QuestionThemeIconProperties = {
+  color?: string;
   size?: string | number;
   slug: string;
 };

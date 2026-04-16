@@ -19,6 +19,7 @@
     "useAsyncAction": "readonly",
     "useHead": "readonly",
     "useColorMode": "readonly",
+    "useHexColor": "readonly",
     "useTemplateRef": "readonly",
     "defineAppConfig": "readonly",
     "defineNuxtConfig": "readonly",
@@ -908,6 +909,7 @@
         "typescript/init-declarations": "off",
         "typescript/no-magic-numbers": "off",
         "unicorn/no-null": "off",
+        "unicorn/no-useless-undefined": "off",
         "import/no-namespace": "off",
         "import/max-dependencies": [
           "error",

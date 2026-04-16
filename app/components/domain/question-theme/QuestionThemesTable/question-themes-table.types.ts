@@ -7,6 +7,7 @@ type QuestionThemesTableEmits = {
 type QuestionThemesTableRow = {
   id: QuestionTheme["id"];
   slug: QuestionTheme["slug"];
+  color: QuestionTheme["color"];
   label: Partial<LocalizedText>;
   description: Partial<LocalizedText>;
   aliases?: string[];

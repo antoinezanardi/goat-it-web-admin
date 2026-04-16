@@ -1,10 +1,12 @@
 <script lang="ts" setup>
+import { LIGHT_COLOR_MODE } from "~/utils/constants/color/color.constants";
+
 const colorMode = useColorMode();
 
 const { t } = useI18n();
 
 const colorModeSwitchTooltipText = computed<string>(() => {
-  const capitalizedNextColorMode = colorMode.value === "light" ? "Dark" : "Light";
+  const capitalizedNextColorMode = colorMode.value === LIGHT_COLOR_MODE ? "Dark" : "Light";
 
   return t(`navigation.switchOn${capitalizedNextColorMode}Mode`);
 });
