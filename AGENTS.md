@@ -130,7 +130,7 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
 - Error handling and logging:
   - Never swallow exceptions silently — re-throw with context, return typed failure, or log + show i18n UI message.
   - Zod parse errors propagate naturally; do not catch unless you can recover.
-  - No `console.log` in production code.
+  - No `console.log` in production code. `console.error` only for unexpected errors that are caught and handled gracefully.
 
 - Control flow:
   - Prefer early returns over deeply nested `if/else` blocks. Guard clauses at the top

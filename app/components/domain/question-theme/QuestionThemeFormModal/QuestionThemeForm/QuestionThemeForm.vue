@@ -20,7 +20,7 @@ const form = useTemplateRef<Form<QuestionThemeCreationDto>>("form");
 
 const formState = reactive<QuestionThemeCreationDtoShell>(createQuestionThemeCreationDtoShell());
 
-prepareZodSchemaForFormValidation(QUESTION_THEME_CREATION_DTO);
+const formSchema = prepareZodSchemaForFormValidation(QUESTION_THEME_CREATION_DTO);
 
 const canSubmit = computed<boolean>(() => {
   const hasSlug = !!formState.slug;
@@ -58,7 +58,7 @@ defineExpose({
     ref="form"
     class="space-y-2"
     data-testid="question-theme-form"
-    :schema="QUESTION_THEME_CREATION_DTO"
+    :schema="formSchema"
     :state="formState"
     :validate="validateSlugUniqueness"
     @submit="onSubmit"
