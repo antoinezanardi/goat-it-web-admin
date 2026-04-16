@@ -5,13 +5,22 @@ import { QUESTION_THEME_SLUG_ICON_MAP, QUESTION_THEME_UNKNOWN_ICON } from "~/com
 const props = defineProps<QuestionThemeIconProperties>();
 
 const icon = computed<string>(() => QUESTION_THEME_SLUG_ICON_MAP[props.slug] ?? QUESTION_THEME_UNKNOWN_ICON);
+
+const colorReference = computed<string | undefined>(() => props.color);
+const { adaptedColor } = useHexColor(colorReference);
 </script>
 
 <template>
-  <UIcon
-    class="question-theme-icon"
-    :data-testid="`question-theme-icon-${slug}`"
-    :name="icon"
-    :size="size"
-  />
+  <div
+    class="border-2 inline-flex items-center justify-center p-1.5 question-theme-icon-container rounded-full"
+    :data-testid="`question-theme-icon-container-${slug}`"
+    :style="{ 'borderColor': adaptedColor, 'color': adaptedColor }"
+  >
+    <UIcon
+      class="question-theme-icon"
+      :data-testid="`question-theme-icon-${slug}`"
+      :name="icon"
+      :size="size"
+    />
+  </div>
 </template>

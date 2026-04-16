@@ -82,4 +82,34 @@ describe("QuestionThemeIcon Component", () => {
       expect(iconComponent.props("size")).toBe(24);
     });
   });
+
+  describe("Color container", () => {
+    it("should render the icon inside a container element when mounted.", () => {
+      const container = wrapper.find("[data-testid='question-theme-icon-container-music']");
+
+      expect(container.exists()).toBeTruthy();
+    });
+
+    it("should apply border color style on the container when color is provided.", async() => {
+      wrapper = await mountQuestionThemeIconComponent({ props: { slug: "music", color: "#FF0000" } });
+
+      const container = wrapper.find("[data-testid='question-theme-icon-container-music']");
+
+      expect(container.attributes("style")).toContain("border-color");
+    });
+
+    it("should apply color style on the container when color is provided.", async() => {
+      wrapper = await mountQuestionThemeIconComponent({ props: { slug: "music", color: "#FF0000" } });
+
+      const container = wrapper.find("[data-testid='question-theme-icon-container-music']");
+
+      expect(container.attributes("style")).toContain("color:");
+    });
+
+    it("should render the container with neutral styling when no color is provided.", () => {
+      const container = wrapper.find("[data-testid='question-theme-icon-container-music']");
+
+      expect(container.attributes("style")).toContain("border-color");
+    });
+  });
 });

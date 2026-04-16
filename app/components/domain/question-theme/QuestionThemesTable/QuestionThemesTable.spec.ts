@@ -144,6 +144,7 @@ describe("QuestionThemesTable Component", () => {
       const expectedQuestionThemeRows: QuestionThemesTableRow[] = questionThemes.map(questionTheme => ({
         id: questionTheme.id,
         slug: questionTheme.slug,
+        color: questionTheme.color,
         label: questionTheme.label,
         description: questionTheme.description,
         aliases: questionTheme.aliases[DEFAULT_MOCKED_LOCALE],
@@ -200,6 +201,16 @@ describe("QuestionThemesTable Component", () => {
       const icons = wrapper.findAllComponents<typeof QuestionThemeIcon>("[data-testid^='icon-cell-']");
 
       expect(icons).toHaveLength(2);
+    });
+
+    it("should pass the color to the question theme icon when the theme has a color.", async() => {
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "music", color: "#FF0000" })];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const icon = wrapper.findComponent<typeof QuestionThemeIcon>("[data-testid='icon-cell-music']");
+
+      expect(icon.props("color")).toBe("#FF0000");
     });
   });
 

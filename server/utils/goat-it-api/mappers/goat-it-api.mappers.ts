@@ -4,6 +4,7 @@ function createQuestionThemeFromAdminQuestionThemeDto(adminQuestionThemeDto: Adm
   return {
     id: adminQuestionThemeDto.id,
     slug: adminQuestionThemeDto.slug,
+    color: adminQuestionThemeDto.color,
     label: adminQuestionThemeDto.label,
     aliases: adminQuestionThemeDto.aliases,
     description: adminQuestionThemeDto.description,

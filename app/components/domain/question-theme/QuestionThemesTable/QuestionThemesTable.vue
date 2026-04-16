@@ -24,6 +24,7 @@ const columns = computed<TableColumn<QuestionThemesTableRow>[]>(() => [
 const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(theme => ({
   id: theme.id,
   slug: theme.slug,
+  color: theme.color,
   label: theme.label,
   description: theme.description,
   aliases: theme.aliases[currentLocale.value],
@@ -51,6 +52,7 @@ function onStartCreateFromQuestionThemesTableHeader(): void {
     >
       <template #icon-cell="{ row }">
         <QuestionThemeIcon
+          :color="row.original.color"
           :data-testid="`icon-cell-${row.original.slug}`"
           :size="24"
           :slug="row.original.slug"
