@@ -42,7 +42,11 @@
     "readBody": "readonly",
     "createError": "readonly",
     "StoreNames": "readonly",
-    "storeToRefs": "readonly"
+    "storeToRefs": "readonly",
+    "watch": "readonly",
+    "useNuxtApp": "readonly",
+    "defineNuxtPlugin": "readonly",
+    "useZodLocale": "readonly"
   },
   "ignorePatterns": [
     ".output/**/*",
@@ -784,6 +788,23 @@
         ]
       }
     },
+    // ---- Override for plugin files -----
+    {
+      "files": [
+        "**/app/plugins/**/*.ts"
+      ],
+      "rules": {
+        "import/no-default-export": "off",
+        "unicorn/no-anonymous-default-export": "off",
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
     // ---- Override for repository files and attached files -----
     {
       "files": [
@@ -966,9 +987,9 @@
         "vitest/prefer-strict-boolean-matchers": "off",
         "vitest/prefer-strict-equal": "error",
         "vitest/prefer-to-be": "error",
-        "vitest/prefer-to-be-falsy": "error",
+        "vitest/prefer-to-be-falsy": "off",
         "vitest/prefer-to-be-object": "error",
-        "vitest/prefer-to-be-truthy": "error",
+        "vitest/prefer-to-be-truthy": "off",
         "vitest/prefer-to-contain": "error",
         "vitest/prefer-to-have-been-called-times": "error",
         "vitest/prefer-to-have-length": "error",
@@ -1151,6 +1172,21 @@
     {
       "files": [
         "**/*.translations.spec.ts"
+      ],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
+    // ---- Override for helpers spec files -----
+    {
+      "files": [
+        "**/*.helpers.spec.ts"
       ],
       "rules": {
         "unicorn/filename-case": [

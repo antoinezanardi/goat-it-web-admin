@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { LocalizedTextProperties } from "~/components/shared/core/localization/LocalizedText/localized-text.types";
-import { isNonEmptyString } from "#shared/utils/helpers/string.helpers";
+import { isNonEmptyString } from "#shared/utils/helpers/string/string.helpers";
 
 const props = defineProps<LocalizedTextProperties>();
 

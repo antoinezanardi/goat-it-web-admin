@@ -48,6 +48,7 @@ function onCloseModal(): void {
       <QuestionThemeForm
         ref="formReference"
         data-testid="question-theme-form-modal-form"
+        :existing-slugs="existingSlugs"
         @submit-creation="onSubmitCreationFromForm"
       />
     </template>
@@ -56,7 +57,7 @@ function onCloseModal(): void {
       <DefaultModalFooter
         data-testid="question-theme-form-modal-footer"
         :is-close-button-disabled="isCreating"
-        :is-primary-button-disabled="!formReference?.isFormValid"
+        :is-primary-button-disabled="!formReference?.canSubmit"
         :is-primary-button-loading="isCreating"
         primary-button-icon="i-lucide-circle-plus"
         :primary-button-label="$t('common.create')"

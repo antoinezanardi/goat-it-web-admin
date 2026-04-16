@@ -34,13 +34,14 @@ describe(questionThemesRepository, () => {
       expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/question-themes");
     });
 
-    it("should return question themes when fetch resolves.", async() => {
+    it("should return question themes from fetch when called.", async() => {
       const fakeQuestionThemes: QuestionTheme[] = [
         createFakeQuestionTheme(),
         createFakeQuestionTheme(),
       ];
       const repository = questionThemesRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(fakeQuestionThemes);
+
       const result = await repository.getAll();
 
       expect(result).toStrictEqual(fakeQuestionThemes);
@@ -57,10 +58,11 @@ describe(questionThemesRepository, () => {
       expect(fetchMock).toHaveBeenCalledExactlyOnceWith(`/api/goat-it-api/question-themes/${fakeId}`);
     });
 
-    it("should return the question theme when fetch resolves.", async() => {
+    it("should return the question theme from fetch when called.", async() => {
       const fakeQuestionTheme = createFakeQuestionTheme();
       const repository = questionThemesRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(fakeQuestionTheme);
+
       const result = await repository.getById("fake-id-123");
 
       expect(result).toStrictEqual(fakeQuestionTheme);
@@ -77,10 +79,11 @@ describe(questionThemesRepository, () => {
       expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/question-themes", { method: "POST", body: fakeCreationDto });
     });
 
-    it("should return the created question theme when fetch resolves.", async() => {
+    it("should return the created question theme from fetch when called.", async() => {
       const fakeQuestionTheme = createFakeQuestionTheme();
       const repository = questionThemesRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(fakeQuestionTheme);
+
       const result = await repository.create(createFakeQuestionThemeCreationDto());
 
       expect(result).toStrictEqual(fakeQuestionTheme);
@@ -98,10 +101,11 @@ describe(questionThemesRepository, () => {
       expect(fetchMock).toHaveBeenCalledExactlyOnceWith(`/api/goat-it-api/question-themes/${fakeId}`, { method: "PATCH", body: fakeModificationDto });
     });
 
-    it("should return the patched question theme when fetch resolves.", async() => {
+    it("should return the patched question theme from fetch when called.", async() => {
       const fakeQuestionTheme = createFakeQuestionTheme();
       const repository = questionThemesRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(fakeQuestionTheme);
+
       const result = await repository.patch("fake-id-456", createFakeQuestionThemeModificationDto());
 
       expect(result).toStrictEqual(fakeQuestionTheme);
@@ -118,10 +122,11 @@ describe(questionThemesRepository, () => {
       expect(fetchMock).toHaveBeenCalledExactlyOnceWith(`/api/goat-it-api/question-themes/${fakeId}/archive`, { method: "POST" });
     });
 
-    it("should return the archived question theme when fetch resolves.", async() => {
+    it("should return the archived question theme from fetch when called.", async() => {
       const fakeQuestionTheme = createFakeQuestionTheme();
       const repository = questionThemesRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(fakeQuestionTheme);
+
       const result = await repository.archive("fake-id-789");
 
       expect(result).toStrictEqual(fakeQuestionTheme);

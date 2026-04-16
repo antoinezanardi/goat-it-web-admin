@@ -188,5 +188,20 @@ describe("Question Themes Page", () => {
 
       expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("false");
     });
+
+    it("should pass the question theme slugs from the store as existingSlugs to the modal when there are slugs.", async() => {
+      questionThemesStore.questionThemeSlugs = ["slug-one", "slug-two"];
+      wrapper = await mountQuestionThemesPage();
+
+      const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
+
+      expect(modal.attributes("existing-slugs")).toBe("slug-one,slug-two");
+    });
+
+    it("should pass an empty existingSlugs to the modal when there are no question theme slugs.", () => {
+      const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
+
+      expect(modal.attributes("existing-slugs")).toBe("");
+    });
   });
 });

@@ -9,7 +9,7 @@ import { QUESTION_THEMES_PAGE_ORDER, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pa
 const questionThemesStore = useQuestionThemesStore();
 const { t } = useI18n();
 
-const { isFetchingQuestionThemes, isCreatingQuestionTheme, isCreateQuestionThemeSuccess } = storeToRefs(questionThemesStore);
+const { isFetchingQuestionThemes, isCreatingQuestionTheme, isCreateQuestionThemeSuccess, questionThemeSlugs } = storeToRefs(questionThemesStore);
 
 const isQuestionThemeFormModalOpen = ref<boolean>(false);
 
@@ -64,6 +64,7 @@ definePageMeta({
     <LazyQuestionThemeFormModal
       v-model:open="isQuestionThemeFormModalOpen"
       data-testid="question-theme-form-modal"
+      :existing-slugs="questionThemeSlugs"
       :is-creating="isCreatingQuestionTheme"
       @submit-creation="onSubmitCreationFromQuestionThemeFormModal"
     />

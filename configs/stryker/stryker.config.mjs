@@ -52,6 +52,7 @@ export default {
     "README.md",
     ".coderabbit.yaml",
   ],
+  concurrency: 2,
   vitest: { configFile: "configs/vitest/vitest-stryker.config.ts" },
   reporters: ["clear-text", "progress", "html", "json"],
   htmlReporter: { fileName: "tests/mutation/coverage/index.html" },

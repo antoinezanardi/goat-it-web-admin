@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { isNonEmptyString } from "~~/shared/utils/helpers/string.helpers";
+import { isNonEmptyString } from "#shared/utils/helpers/string/string.helpers";
 
 describe("String Helpers", () => {
   describe(isNonEmptyString, () => {
