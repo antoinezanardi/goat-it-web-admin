@@ -179,7 +179,7 @@ describe("QuestionThemesTable Component", () => {
       expect(icon.props("slug")).toBe("music");
     });
 
-    it("should pass size-6 to the question theme icon when in the icon cell slot.", async() => {
+    it("should pass 24 to the question theme icon size when in the icon cell slot.", async() => {
       questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "music" })];
 
       wrapper = await mountQuestionThemesTableComponent();

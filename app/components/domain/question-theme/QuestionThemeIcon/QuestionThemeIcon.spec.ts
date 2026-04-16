@@ -8,7 +8,7 @@ import type { UIcon } from "#components";
 import { QuestionThemeIcon } from "#components";
 
 import type { QuestionThemeIconProperties } from "~/components/domain/question-theme/QuestionThemeIcon/question-theme-icon.types";
-import { QUESTION_THEME_SLUG_ICON_MAP, QUESTION_THEME_UNKNOWN_ICON } from "~/composables/domain/question-theme/question-theme.constants";
+import { QUESTION_THEME_UNKNOWN_ICON } from "~/composables/domain/question-theme/question-theme.constants";
 
 describe("QuestionThemeIcon Component", () => {
   let wrapper: VueWrapper;
@@ -64,10 +64,6 @@ describe("QuestionThemeIcon Component", () => {
       const iconComponent = wrapper.getComponent<typeof UIcon>({ name: "UIcon" });
 
       expect(iconComponent.props("name")).toBe(QUESTION_THEME_UNKNOWN_ICON);
-    });
-
-    it(`should have exactly ${Object.keys(QUESTION_THEME_SLUG_ICON_MAP).length} entries in the slug icon map.`, () => {
-      expect(Object.keys(QUESTION_THEME_SLUG_ICON_MAP)).toHaveLength(Object.keys(QUESTION_THEME_SLUG_ICON_MAP).length);
     });
   });
 

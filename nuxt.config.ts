@@ -60,6 +60,9 @@ export default defineNuxtConfig({
     "eslint.config.ts",
   ],
   sourcemap: { client: "hidden" },
+  experimental: {
+    serverAppConfig: false,
+  },
   compatibilityDate: "2025-01-15",
   nitro: {
     imports: {
@@ -71,6 +74,7 @@ export default defineNuxtConfig({
       include: [
         "@goat-it/schemas/question-theme",
         "@goat-it/schemas/shared/locale",
+        "zod",
       ],
     },
   },
