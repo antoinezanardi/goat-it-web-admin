@@ -2,6 +2,7 @@ import type { RgbColor } from "~/utils/helpers/color/color.helpers.types";
 import {
   HEX_BLUE_END_INDEX,
   HEX_BLUE_START_INDEX,
+  HEX_COLOR_PATTERN,
   HEX_GREEN_END_INDEX,
   HEX_GREEN_START_INDEX,
   HEX_PAD_LENGTH,
@@ -12,12 +13,15 @@ import {
 } from "~/utils/helpers/color/color.helpers.constants";
 
 function toHex(value: number): string {
-  return Math.round(value).toString(HEX_RADIX).padStart(HEX_PAD_LENGTH, "0");
+  return Math.min(MAX_RGB_VALUE, Math.max(0, Math.round(value))).toString(HEX_RADIX).padStart(HEX_PAD_LENGTH, "0");
 }
 
 function parseHexToRgb(hex: string): RgbColor {
   const sanitized = hex.replace("#", "");
 
+  if (!HEX_COLOR_PATTERN.test(sanitized)) {
+    throw new Error(`Invalid hex color: ${hex}`);
+  }
   return {
     red: Number.parseInt(sanitized.slice(HEX_RED_START_INDEX, HEX_RED_END_INDEX), HEX_RADIX),
     green: Number.parseInt(sanitized.slice(HEX_GREEN_START_INDEX, HEX_GREEN_END_INDEX), HEX_RADIX),

@@ -8,7 +8,7 @@ function createFakeAdminQuestionThemeDto(adminQuestionThemeDto: Partial<AdminQue
   return {
     id: faker.database.mongodbObjectId(),
     slug: faker.lorem.slug(),
-    color: faker.color.rgb().toUpperCase(),
+    color: faker.color.rgb({ casing: "upper" }),
     label: createFakeLocalizedText(),
     aliases: createFakeLocalizedTexts(),
     description: createFakeLocalizedText(),
@@ -22,7 +22,7 @@ function createFakeAdminQuestionThemeDto(adminQuestionThemeDto: Partial<AdminQue
 function createFakeQuestionThemeCreationDto(questionThemeCreationDto: Partial<QuestionThemeCreationDto> = {}): QuestionThemeCreationDto {
   return {
     slug: faker.lorem.slug(),
-    color: faker.color.rgb().toUpperCase(),
+    color: faker.color.rgb({ casing: "upper" }),
     label: createFakeLocalizedText(),
     aliases: createFakeLocalizedTexts(),
     description: createFakeLocalizedText(),
@@ -33,7 +33,7 @@ function createFakeQuestionThemeCreationDto(questionThemeCreationDto: Partial<Qu
 function createFakeQuestionThemeModificationDto(questionThemeModificationDto: Partial<QuestionThemeModificationDto> = {}): QuestionThemeModificationDto {
   return {
     slug: faker.lorem.slug(),
-    color: faker.color.rgb().toUpperCase(),
+    color: faker.color.rgb({ casing: "upper" }),
     label: createFakeLocalizedText(),
     aliases: createFakeLocalizedTexts(),
     description: createFakeLocalizedText(),

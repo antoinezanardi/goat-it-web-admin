@@ -36,7 +36,7 @@ describe("useHexColor", () => {
     });
 
     it("should return the default neutral color when color is undefined.", () => {
-      const color = computed<string | undefined>(() => { /* empty */ });
+      const color = computed<string | undefined>(() => undefined);
       const { adaptedColor } = useHexColor(color);
 
       expect(adaptedColor.value).toBe(HEX_COLOR_DEFAULT_NEUTRAL);

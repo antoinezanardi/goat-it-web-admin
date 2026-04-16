@@ -103,7 +103,7 @@ describe("QuestionThemeIcon Component", () => {
 
       const container = wrapper.find("[data-testid='question-theme-icon-container-music']");
 
-      expect(container.attributes("style")).toContain("color:");
+      expect(container.attributes("style")).toMatch(/(?:^|;\s*)color:\s*#[\dA-Fa-f]{6}(?:;|$)/u);
     });
 
     it("should render the container with neutral styling when no color is provided.", () => {

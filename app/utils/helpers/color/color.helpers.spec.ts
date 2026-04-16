@@ -11,12 +11,23 @@ describe("Color Helpers", () => {
       { value: 128, expected: "80" },
       { value: 15, expected: "0f" },
       { value: 204.4, expected: "cc" },
+      { value: -10, expected: "00" },
+      { value: 300, expected: "ff" },
     ])("should return $expected when value is $value.", ({ value, expected }) => {
       expect(toHex(value)).toBe(expected);
     });
   });
 
   describe(parseHexToRgb, () => {
+    it.each<{ hex: string }>([
+      { hex: "ZZZZZZ" },
+      { hex: "#GG0000" },
+      { hex: "12" },
+      { hex: "" },
+    ])("should throw an error when hex is $hex.", ({ hex }) => {
+      expect(() => parseHexToRgb(hex)).toThrow(`Invalid hex color: ${hex}`);
+    });
+
     it.each<{ hex: string; expected: RgbColor }>([
       { hex: "#FF0000", expected: { red: 255, green: 0, blue: 0 } },
       { hex: "#00FF00", expected: { red: 0, green: 255, blue: 0 } },
