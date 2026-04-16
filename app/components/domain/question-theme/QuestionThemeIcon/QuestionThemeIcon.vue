@@ -9,7 +9,9 @@ const icon = computed<string>(() => QUESTION_THEME_SLUG_ICON_MAP[props.slug] ?? 
 
 <template>
   <UIcon
-    id="question-theme-icon"
+    class="question-theme-icon"
+    :data-testid="`question-theme-icon-${slug}`"
     :name="icon"
+    :size="size"
   />
 </template>

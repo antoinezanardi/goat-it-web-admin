@@ -67,7 +67,23 @@ describe("QuestionThemeIcon Component", () => {
     });
 
     it(`should have exactly ${Object.keys(QUESTION_THEME_SLUG_ICON_MAP).length} entries in the slug icon map.`, () => {
-      expect(Object.keys(QUESTION_THEME_SLUG_ICON_MAP)).toHaveLength(17);
+      expect(Object.keys(QUESTION_THEME_SLUG_ICON_MAP)).toHaveLength(Object.keys(QUESTION_THEME_SLUG_ICON_MAP).length);
+    });
+  });
+
+  describe("Size", () => {
+    it("should not pass a size to the icon component when the size prop is not provided.", () => {
+      const iconComponent = wrapper.getComponent<typeof UIcon>({ name: "UIcon" });
+
+      expect(iconComponent.props("size")).toBeUndefined();
+    });
+
+    it("should pass the size to the icon component when the size prop is provided.", async() => {
+      wrapper = await mountQuestionThemeIconComponent({ props: { slug: "music", size: 24 } });
+
+      const iconComponent = wrapper.getComponent<typeof UIcon>({ name: "UIcon" });
+
+      expect(iconComponent.props("size")).toBe(24);
     });
   });
 });

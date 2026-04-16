@@ -179,6 +179,16 @@ describe("QuestionThemesTable Component", () => {
       expect(icon.props("slug")).toBe("music");
     });
 
+    it("should pass size-6 to the question theme icon when in the icon cell slot.", async() => {
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "music" })];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const icon = wrapper.findComponent<typeof QuestionThemeIcon>("[data-testid='icon-cell-music']");
+
+      expect(icon.props("size")).toBe(24);
+    });
+
     it("should render an icon for each row when the store has multiple question themes.", async() => {
       questionThemesStore.questionThemes = [
         createFakeQuestionTheme({ slug: "music" }),

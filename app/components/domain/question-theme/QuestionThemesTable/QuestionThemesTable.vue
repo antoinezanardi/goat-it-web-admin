@@ -3,6 +3,7 @@ import type { TableColumn } from "@nuxt/ui";
 
 import type { QuestionThemesTableEmits, QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 import LocalizedText from "~/components/shared/core/localization/LocalizedText/LocalizedText.vue";
+import { createTableColumn } from "~/utils/helpers/table/table.helpers";
 
 const emit = defineEmits<QuestionThemesTableEmits>();
 
@@ -12,12 +13,12 @@ const questionThemesStore = useQuestionThemesStore();
 const { questionThemes } = storeToRefs(questionThemesStore);
 
 const columns = computed<TableColumn<QuestionThemesTableRow>[]>(() => [
-  createTableColumn("icon", true, ""),
-  createTableColumn("label", true),
-  createTableColumn("slug", true),
-  createTableColumn("description"),
-  createTableColumn("aliases", true),
-  createTableColumn("status", true),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "icon", isCentered: true }),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "label", header: t("questionThemes.fields.label"), isCentered: true }),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "slug", header: t("questionThemes.fields.slug"), isCentered: true }),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "description", header: t("questionThemes.fields.description") }),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "aliases", header: t("questionThemes.fields.aliases"), isCentered: true }),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "status", header: t("questionThemes.fields.status"), isCentered: true }),
 ]);
 
 const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(theme => ({
@@ -28,22 +29,6 @@ const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(t
   aliases: theme.aliases[currentLocale.value],
   status: theme.status,
 })));
-
-function createTableColumn(accessorKey: keyof QuestionThemesTableRow | "icon", isCentered = false, header?: string): TableColumn<QuestionThemesTableRow> {
-  const tableColumn: TableColumn<QuestionThemesTableRow> = {
-    accessorKey,
-    header: header ?? t(`questionThemes.fields.${accessorKey}`),
-  };
-  if (isCentered) {
-    tableColumn.meta = {
-      class: {
-        th: "text-center",
-        td: "text-center",
-      },
-    };
-  }
-  return tableColumn;
-}
 
 function onStartCreateFromQuestionThemesTableHeader(): void {
   emit("startCreate");
@@ -67,6 +52,7 @@ function onStartCreateFromQuestionThemesTableHeader(): void {
       <template #icon-cell="{ row }">
         <QuestionThemeIcon
           :data-testid="`icon-cell-${row.original.slug}`"
+          :size="24"
           :slug="row.original.slug"
         />
       </template>
