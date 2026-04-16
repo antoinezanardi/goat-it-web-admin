@@ -13,7 +13,7 @@ import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionThemesTable } from "#components";
-import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList, QuestionThemesTableHeader, LocalizedText as LocalizedTextComponent } from "#components";
+import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList, QuestionThemesTableHeader, LocalizedText as LocalizedTextComponent, QuestionThemeIcon } from "#components";
 
 import type { QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 
@@ -53,6 +53,16 @@ describe("QuestionThemesTable Component", () => {
     it("should pass columns with translated header to the table component when mounted.", () => {
       const table = wrapper.getComponent({ name: "UTable" });
       const expectedColumns: TableColumn<QuestionTheme>[] = [
+        {
+          accessorKey: "icon",
+          header: "",
+          meta: {
+            class: {
+              th: "text-center",
+              td: "text-center",
+            },
+          },
+        },
         {
           accessorKey: "label",
           header: "questionThemes.fields.label",
@@ -145,6 +155,51 @@ describe("QuestionThemesTable Component", () => {
       const table = wrapper.getComponent({ name: "UTable" });
 
       expect(table.props("data")).toStrictEqual(expectedQuestionThemeRows);
+    });
+  });
+
+  describe("Icon cell slot", () => {
+    it("should render the question theme icon for each row when in the icon cell slot.", async() => {
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "music" })];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const icon = wrapper.findComponent<typeof QuestionThemeIcon>("[data-testid='icon-cell-music']");
+
+      expect(icon.exists()).toBeTruthy();
+    });
+
+    it("should pass the slug to the question theme icon when in the icon cell slot.", async() => {
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "music" })];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const icon = wrapper.findComponent<typeof QuestionThemeIcon>("[data-testid='icon-cell-music']");
+
+      expect(icon.props("slug")).toBe("music");
+    });
+
+    it("should pass 24 to the question theme icon size when in the icon cell slot.", async() => {
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "music" })];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const icon = wrapper.findComponent<typeof QuestionThemeIcon>("[data-testid='icon-cell-music']");
+
+      expect(icon.props("size")).toBe(24);
+    });
+
+    it("should render an icon for each row when the store has multiple question themes.", async() => {
+      questionThemesStore.questionThemes = [
+        createFakeQuestionTheme({ slug: "music" }),
+        createFakeQuestionTheme({ slug: "animals" }),
+      ];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const icons = wrapper.findAllComponents<typeof QuestionThemeIcon>("[data-testid^='icon-cell-']");
+
+      expect(icons).toHaveLength(2);
     });
   });
 
