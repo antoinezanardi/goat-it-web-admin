@@ -111,7 +111,7 @@
     "@stryker-mutator/core": "^9.6.1",
     "@stryker-mutator/vitest-runner": "^9.6.1",
     "@vitest/coverage-v8": "^4.1.4",
-    "@vitest/eslint-plugin": "^1.6.15",
+    "@vitest/eslint-plugin": "^1.6.16",
     "@vue/test-utils": "^2.4.6",
     "@vueuse/core": "^14.2.1",
     "@vueuse/nuxt": "^14.2.1",
