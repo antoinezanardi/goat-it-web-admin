@@ -38,7 +38,6 @@ describe("ArchiveQuestionThemeButton Component", () => {
 
   beforeEach(async() => {
     overlayInstance = createUseOverlayInstanceMock();
-    // oxlint-disable-next-line typescript/no-unsafe-type-assertion
     overlayMock = useOverlay() as unknown as UseOverlayMock;
     overlayMock.create.mockReturnValue(overlayInstance);
     pinia = createTestingPinia();
