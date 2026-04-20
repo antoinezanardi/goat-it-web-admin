@@ -13,6 +13,7 @@
     "useI18n": "readonly",
     "useFetch": "readonly",
     "useToast": "readonly",
+    "useOverlay": "readonly",
     "useAppToast": "readonly",
     "useGoatItApiErrorToast": "readonly",
     "useFetchStatus": "readonly",

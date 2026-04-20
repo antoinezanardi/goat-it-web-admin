@@ -13,7 +13,7 @@ import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionThemesTable } from "#components";
-import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList, QuestionThemesTableHeader, LocalizedText as LocalizedTextComponent, QuestionThemeIcon } from "#components";
+import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList, QuestionThemesTableHeader, LocalizedText as LocalizedTextComponent, QuestionThemeIcon, QuestionThemesTableActions } from "#components";
 
 import type { QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 
@@ -100,6 +100,16 @@ describe("QuestionThemesTable Component", () => {
         {
           accessorKey: "status",
           header: "questionThemes.fields.status",
+          meta: {
+            class: {
+              th: "text-center",
+              td: "text-center",
+            },
+          },
+        },
+        {
+          accessorKey: "actions",
+          header: "",
           meta: {
             class: {
               th: "text-center",
@@ -384,6 +394,46 @@ describe("QuestionThemesTable Component", () => {
       const descriptionTexts = wrapper.findAllComponents<typeof LocalizedTextComponent>("[data-testid^='description-cell-text-']");
 
       expect(descriptionTexts).toHaveLength(2);
+    });
+  });
+
+  describe("Actions cell slot", () => {
+    it("should render the actions component for each row when in the actions cell slot.", async() => {
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "music" })];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const actions = wrapper.findComponent<typeof QuestionThemesTableActions>("[data-testid='actions-cell-music']");
+
+      expect(actions.exists()).toBeTruthy();
+    });
+
+    it("should pass the row question theme fields to the actions component when in the actions cell slot.", async() => {
+      const theme = createFakeQuestionTheme({ id: "theme-id-123", slug: "music", status: "active" });
+      questionThemesStore.questionThemes = [theme];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const actions = wrapper.findComponent<typeof QuestionThemesTableActions>("[data-testid='actions-cell-music']");
+
+      expect(actions.props("questionTheme")).toStrictEqual(expect.objectContaining({
+        id: "theme-id-123",
+        slug: "music",
+        status: "active",
+      }));
+    });
+
+    it("should render an actions component for each row when the store has multiple question themes.", async() => {
+      questionThemesStore.questionThemes = [
+        createFakeQuestionTheme({ slug: "music", status: "active" }),
+        createFakeQuestionTheme({ slug: "animals", status: "active" }),
+      ];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const actions = wrapper.findAllComponents<typeof QuestionThemesTableActions>("[data-testid^='actions-cell-']");
+
+      expect(actions).toHaveLength(2);
     });
   });
 

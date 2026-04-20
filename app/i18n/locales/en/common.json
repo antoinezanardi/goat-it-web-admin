@@ -8,6 +8,8 @@
     "error": "Error",
     "noTranslation": "No translation available",
     "close": "Close",
-    "create": "Create"
+    "create": "Create",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   }
 }
