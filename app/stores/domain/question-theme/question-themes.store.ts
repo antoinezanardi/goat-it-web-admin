@@ -1,4 +1,4 @@
-import type { QuestionThemeCreationDto } from "@goat-it/schemas/question-theme";
+import type { QuestionThemeCreationDto, QuestionThemeModificationDto } from "@goat-it/schemas/question-theme";
 
 export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, () => {
   const questionThemes = ref<QuestionTheme[]>([]);
@@ -42,6 +42,17 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
     (thrownError: unknown) => handleGoatItApiError(thrownError, t("questionThemes.cantArchive")),
   );
 
+  const {
+    execute: modifyQuestionTheme,
+    fetchStatus: modifyQuestionThemeStatus,
+    isPending: isModifyingQuestionTheme,
+    isSuccess: isModifyQuestionThemeSuccess,
+    isError: isModifyingQuestionThemeError,
+  } = useAsyncAction(
+    async(id: string, modificationDto: QuestionThemeModificationDto) => repository.patch(id, modificationDto),
+    (thrownError: unknown) => handleGoatItApiError(thrownError, t("questionThemes.cantModify")),
+  );
+
   async function fetchAndStoreQuestionThemes(): Promise<void> {
     const fetchedQuestionThemes = await fetchQuestionThemes();
     if (fetchedQuestionThemes) {
@@ -69,6 +80,19 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
     questionThemes.value.splice(index, 1, archivedQuestionTheme);
     addSuccessToast({ description: t("questionThemes.archiveSuccessfully") });
   }
+
+  async function modifyAndStoreQuestionTheme(id: string, modificationDto: QuestionThemeModificationDto): Promise<void> {
+    const modifiedQuestionTheme = await modifyQuestionTheme(id, modificationDto);
+    if (!modifiedQuestionTheme) {
+      return;
+    }
+    const index = questionThemes.value.findIndex(theme => theme.id === id);
+    if (index === -1) {
+      return;
+    }
+    questionThemes.value.splice(index, 1, modifiedQuestionTheme);
+    addSuccessToast({ description: t("questionThemes.modifySuccessfully") });
+  }
   return {
     questionThemes,
     questionThemeSlugs,
@@ -88,5 +112,10 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
     isArchiveQuestionThemeSuccess,
     isArchivingQuestionThemeError,
     archiveAndStoreQuestionTheme,
+    modifyQuestionThemeStatus,
+    isModifyingQuestionTheme,
+    isModifyQuestionThemeSuccess,
+    isModifyingQuestionThemeError,
+    modifyAndStoreQuestionTheme,
   };
 });

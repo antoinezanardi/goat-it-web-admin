@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormSubmitEvent, FormError } from "@nuxt/ui";
-import { QUESTION_THEME_CREATION_DTO } from "@goat-it/schemas/question-theme";
-import type { QuestionThemeCreationDto } from "@goat-it/schemas/question-theme";
+import { QUESTION_THEME_CREATION_DTO, QUESTION_THEME_MODIFICATION_DTO } from "@goat-it/schemas/question-theme";
+import type { QuestionThemeCreationDto, QuestionThemeModificationDto } from "@goat-it/schemas/question-theme";
 
 import type { QuestionThemeCreationDtoShell } from "#shared/types/question-theme.types";
 import type { Form } from "#ui/types";
@@ -9,7 +9,10 @@ import type { QuestionThemeFormProperties, QuestionThemeFormEmits } from "~/comp
 import { prepareZodSchemaForFormValidation } from "~/utils/helpers/zod/zod.helpers";
 import { createQuestionThemeCreationDtoShell } from "~/composables/domain/question-theme/helpers/shell/question-theme.shell.helpers";
 
-const props = defineProps<QuestionThemeFormProperties>();
+const props = withDefaults(defineProps<QuestionThemeFormProperties>(), {
+  mode: "create",
+  questionTheme: undefined,
+});
 
 const emit = defineEmits<QuestionThemeFormEmits>();
 
@@ -17,9 +20,25 @@ const { locale: currentLocale, t } = useI18n();
 
 const form = useTemplateRef<Form<QuestionThemeCreationDto>>("form");
 
-const formState = reactive<QuestionThemeCreationDtoShell>(createQuestionThemeCreationDtoShell());
+function createInitialFormState(): QuestionThemeCreationDtoShell {
+  if (props.mode !== "edit" || !props.questionTheme) {
+    return createQuestionThemeCreationDtoShell();
+  }
+  const theme = props.questionTheme;
 
-const formSchema = prepareZodSchemaForFormValidation(QUESTION_THEME_CREATION_DTO);
+  return {
+    slug: theme.slug,
+    color: theme.color,
+    label: { [currentLocale.value]: theme.label[currentLocale.value] },
+    description: { [currentLocale.value]: theme.description[currentLocale.value] },
+    aliases: { [currentLocale.value]: theme.aliases[currentLocale.value] ?? [] },
+  };
+}
+
+const formState = reactive<QuestionThemeCreationDtoShell>(createInitialFormState());
+
+const dtoSchema = computed(() => (props.mode === "edit" ? QUESTION_THEME_MODIFICATION_DTO : QUESTION_THEME_CREATION_DTO));
+const formSchema = computed(() => prepareZodSchemaForFormValidation(dtoSchema.value));
 
 const canSubmit = computed<boolean>(() => {
   const hasSlug = !!formState.slug;
@@ -32,14 +51,23 @@ const canSubmit = computed<boolean>(() => {
 });
 
 function validateSlugUniqueness(state: Partial<QuestionThemeCreationDto>): FormError[] {
-  if (state.slug && props.existingSlugs.includes(state.slug)) {
+  const hasSlug = !!state.slug;
+  const isOwnSlugInEditMode = props.mode === "edit" && state.slug === props.questionTheme?.slug;
+  const isSlugTaken = hasSlug && !isOwnSlugInEditMode && props.existingSlugs.includes(state.slug as string);
+
+  if (isSlugTaken) {
     return [{ name: "slug", message: t("validation.slugAlreadyTaken") }];
   }
   return [];
 }
 
-function onSubmit(event: FormSubmitEvent<QuestionThemeCreationDto>): void {
-  emit("submitCreation", event.data);
+function onSubmit(event: FormSubmitEvent<QuestionThemeCreationDto | QuestionThemeModificationDto>): void {
+  if (props.mode === "edit") {
+    emit("submitModification", event.data as QuestionThemeModificationDto);
+
+    return;
+  }
+  emit("submitCreation", event.data as QuestionThemeCreationDto);
 }
 
 async function triggerFormSubmit(): Promise<void> {

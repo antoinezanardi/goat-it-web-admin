@@ -9,7 +9,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
-import { createFakeQuestionThemeCreationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
+import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
+import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 
 import type { PageHeader, UModal } from "#components";
 
@@ -116,20 +117,30 @@ describe("Question Themes Page", () => {
   });
 
   describe("Question theme form modal", () => {
-    it("should pass isCreatingQuestionTheme as false to the modal when not creating.", () => {
+    it("should pass isSubmitting as false to the modal when not creating and not modifying.", () => {
       questionThemesStore.isCreatingQuestionTheme = false;
+      questionThemesStore.isModifyingQuestionTheme = false;
       const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
 
-      expect(modal.attributes("is-creating")).toBe("false");
+      expect(modal.attributes("is-submitting")).toBe("false");
     });
 
-    it("should pass isCreatingQuestionTheme as true to the modal when creating.", async() => {
+    it("should pass isSubmitting as true to the modal when creating.", async() => {
       questionThemesStore.isCreatingQuestionTheme = true;
       wrapper = await mountQuestionThemesPage();
 
       const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
 
-      expect(modal.attributes("is-creating")).toBe("true");
+      expect(modal.attributes("is-submitting")).toBe("true");
+    });
+
+    it("should pass isSubmitting as true to the modal when modifying.", async() => {
+      questionThemesStore.isModifyingQuestionTheme = true;
+      wrapper = await mountQuestionThemesPage();
+
+      const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
+
+      expect(modal.attributes("is-submitting")).toBe("true");
     });
 
     it("should open the modal when the table emits startCreate.", async() => {
@@ -202,6 +213,138 @@ describe("Question Themes Page", () => {
       const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
 
       expect(modal.attributes("existing-slugs")).toBe("");
+    });
+  });
+
+  describe("Edit flow", () => {
+    it("should open the modal when the table emits startEdit for an existing theme.", async() => {
+      const fakeTheme = createFakeQuestionTheme({ id: "theme-id-123" });
+      questionThemesStore.questionThemes = [fakeTheme];
+      wrapper = await mountQuestionThemesPage();
+
+      const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
+      getWrapperVm(table).$emit("startEdit", "theme-id-123");
+      await nextTick();
+
+      const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
+
+      expect(modal.attributes("open")).toBe("true");
+    });
+
+    it("should set the modal mode to edit when the table emits startEdit for an existing theme.", async() => {
+      const fakeTheme = createFakeQuestionTheme({ id: "theme-id-123" });
+      questionThemesStore.questionThemes = [fakeTheme];
+      wrapper = await mountQuestionThemesPage();
+
+      const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
+      getWrapperVm(table).$emit("startEdit", "theme-id-123");
+      await nextTick();
+
+      const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
+
+      expect(modal.attributes("mode")).toBe("edit");
+    });
+
+    it("should pass the question theme to the modal when the table emits startEdit for an existing theme.", async() => {
+      const fakeTheme = createFakeQuestionTheme({ id: "theme-id-123" });
+      questionThemesStore.questionThemes = [fakeTheme];
+      wrapper = await mountQuestionThemesPage();
+
+      const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
+      getWrapperVm(table).$emit("startEdit", "theme-id-123");
+      await nextTick();
+
+      const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
+
+      expect(modal.attributes("question-theme")).toBe("[object Object]");
+    });
+
+    it("should not open the modal when the table emits startEdit for an unknown theme id.", async() => {
+      wrapper = await mountQuestionThemesPage();
+      const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
+      getWrapperVm(table).$emit("startEdit", "unknown-id");
+      await nextTick();
+
+      const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
+
+      expect(modal.attributes("open")).toBe("false");
+    });
+
+    it("should not call modifyAndStoreQuestionTheme when the modal emits submitModification without a theme being edited.", async() => {
+      wrapper = await mountQuestionThemesPage();
+
+      const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
+      getWrapperVm(modal).$emit("submitModification", createFakeQuestionThemeModificationDto());
+      await flushPromises();
+
+      expect(questionThemesStore.modifyAndStoreQuestionTheme).not.toHaveBeenCalled();
+    });
+
+    it("should call modifyAndStoreQuestionTheme with the id and dto when the modal emits submitModification.", async() => {
+      const fakeTheme = createFakeQuestionTheme({ id: "theme-id-123" });
+      const fakeModificationDto = createFakeQuestionThemeModificationDto();
+      questionThemesStore.questionThemes = [fakeTheme];
+      wrapper = await mountQuestionThemesPage();
+
+      const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
+      getWrapperVm(table).$emit("startEdit", "theme-id-123");
+      await nextTick();
+
+      const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
+      getWrapperVm(modal).$emit("submitModification", fakeModificationDto);
+      await flushPromises();
+
+      expect(questionThemesStore.modifyAndStoreQuestionTheme).toHaveBeenCalledExactlyOnceWith("theme-id-123", fakeModificationDto);
+    });
+
+    it("should close the modal after submitModification when isModifyQuestionThemeSuccess is true.", async() => {
+      const fakeTheme = createFakeQuestionTheme({ id: "theme-id-123" });
+      questionThemesStore.questionThemes = [fakeTheme];
+      questionThemesStore.isModifyQuestionThemeSuccess = true;
+      wrapper = await mountQuestionThemesPage();
+
+      const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
+      getWrapperVm(table).$emit("startEdit", "theme-id-123");
+      await nextTick();
+
+      const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
+      getWrapperVm(modal).$emit("submitModification", createFakeQuestionThemeModificationDto());
+      await flushPromises();
+
+      expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("false");
+    });
+
+    it("should not close the modal after submitModification when isModifyQuestionThemeSuccess is false.", async() => {
+      const fakeTheme = createFakeQuestionTheme({ id: "theme-id-123" });
+      questionThemesStore.questionThemes = [fakeTheme];
+      questionThemesStore.isModifyQuestionThemeSuccess = false;
+      wrapper = await mountQuestionThemesPage();
+
+      const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
+      getWrapperVm(table).$emit("startEdit", "theme-id-123");
+      await nextTick();
+
+      const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
+      getWrapperVm(modal).$emit("submitModification", createFakeQuestionThemeModificationDto());
+      await flushPromises();
+
+      expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("true");
+    });
+
+    it("should reset the mode to create when the table emits startCreate after an edit.", async() => {
+      const fakeTheme = createFakeQuestionTheme({ id: "theme-id-123" });
+      questionThemesStore.questionThemes = [fakeTheme];
+      wrapper = await mountQuestionThemesPage();
+
+      const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
+      getWrapperVm(table).$emit("startEdit", "theme-id-123");
+      await nextTick();
+      getWrapperVm(table).$emit("startCreate");
+      await nextTick();
+
+      const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
+
+      expect(modal.attributes("mode")).toBe("create");
     });
   });
 });

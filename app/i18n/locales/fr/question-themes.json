@@ -4,12 +4,16 @@
     "cantFetch": "Impossible de récupérer les thèmes de questions",
     "cantCreate": "Impossible de créer le thème de question",
     "cantArchive": "Impossible d'archiver le thème de question",
+    "cantModify": "Impossible de modifier le thème de question",
     "fetching": "Récupération des thèmes de questions…",
     "createNew": "Créer un nouveau thème",
+    "editTheme": "Modifier le thème",
     "createSuccessfully": "Thème de question créé avec succès",
     "archiveSuccessfully": "Thème de question archivé avec succès",
+    "modifySuccessfully": "Thème de question modifié avec succès",
     "actions": {
-      "archive": "Archiver"
+      "archive": "Archiver",
+      "edit": "Modifier"
     },
     "archive": {
       "confirmTitle": "Archiver ce thème ?",

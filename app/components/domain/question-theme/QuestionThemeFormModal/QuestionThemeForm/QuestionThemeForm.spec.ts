@@ -5,7 +5,8 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
-import { createFakeQuestionThemeCreationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
+import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
+import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
@@ -277,6 +278,148 @@ describe("QuestionThemeForm Component", () => {
       vm.$.refs.form = null;
 
       await vm.triggerFormSubmit();
+
+      expect(wrapper.emitted("submitCreation")).toBeUndefined();
+    });
+  });
+
+  describe("Edit mode", () => {
+    const editThemeProperties = {
+      slug: "existing-slug",
+      color: "#123456",
+      label: { [DEFAULT_MOCKED_LOCALE]: "Existing Label" },
+      description: { [DEFAULT_MOCKED_LOCALE]: "Existing Description" },
+      aliases: { [DEFAULT_MOCKED_LOCALE]: ["alias-one", "alias-two"] },
+    };
+
+    async function mountEditModeComponent(): Promise<VueWrapper> {
+      const fakeTheme = createFakeQuestionTheme(editThemeProperties);
+
+      return mountQuestionThemeFormComponent({
+        props: {
+          mode: "edit",
+          questionTheme: fakeTheme,
+          existingSlugs: ["existing-slug"],
+        },
+      });
+    }
+
+    it("should initialize the slug from the provided question theme when mode is edit.", async() => {
+      wrapper = await mountEditModeComponent();
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const state = uForm.props("state") as Record<string, unknown>;
+
+      expect(state.slug).toBe("existing-slug");
+    });
+
+    it("should initialize the color from the provided question theme when mode is edit.", async() => {
+      wrapper = await mountEditModeComponent();
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const state = uForm.props("state") as Record<string, unknown>;
+
+      expect(state.color).toBe("#123456");
+    });
+
+    it("should initialize the label from the provided question theme when mode is edit.", async() => {
+      wrapper = await mountEditModeComponent();
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const state = uForm.props("state") as Record<string, unknown>;
+      const label = state.label as Record<string, unknown>;
+
+      expect(label[DEFAULT_MOCKED_LOCALE]).toBe("Existing Label");
+    });
+
+    it("should initialize the description from the provided question theme when mode is edit.", async() => {
+      wrapper = await mountEditModeComponent();
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const state = uForm.props("state") as Record<string, unknown>;
+      const description = state.description as Record<string, unknown>;
+
+      expect(description[DEFAULT_MOCKED_LOCALE]).toBe("Existing Description");
+    });
+
+    it("should initialize the aliases from the provided question theme when mode is edit.", async() => {
+      wrapper = await mountEditModeComponent();
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const state = uForm.props("state") as Record<string, unknown>;
+      const aliases = state.aliases as Record<string, unknown>;
+
+      expect(aliases[DEFAULT_MOCKED_LOCALE]).toStrictEqual(["alias-one", "alias-two"]);
+    });
+
+    it("should not return a slug error when the slug equals the edited theme's own slug.", async() => {
+      const fakeTheme = createFakeQuestionTheme({ slug: "existing-slug" });
+      wrapper = await mountQuestionThemeFormComponent({
+        props: {
+          mode: "edit",
+          questionTheme: fakeTheme,
+          existingSlugs: ["existing-slug", "another-slug"],
+        },
+      });
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const validateFunction = uForm.props("validate") as (state: Record<string, unknown>) => { name: string; message: string }[];
+      const errors = validateFunction({ slug: "existing-slug" });
+
+      expect(errors).toStrictEqual([]);
+    });
+
+    it("should return a slug error when the slug matches another existing slug in edit mode.", async() => {
+      const fakeTheme = createFakeQuestionTheme({ slug: "existing-slug" });
+      wrapper = await mountQuestionThemeFormComponent({
+        props: {
+          mode: "edit",
+          questionTheme: fakeTheme,
+          existingSlugs: ["existing-slug", "another-slug"],
+        },
+      });
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const validateFunction = uForm.props("validate") as (state: Record<string, unknown>) => { name: string; message: string }[];
+      const errors = validateFunction({ slug: "another-slug" });
+
+      expect(errors).toStrictEqual([{ name: "slug", message: "validation.slugAlreadyTaken" }]);
+    });
+
+    it("should emit submitModification with the form data when the form is submitted in edit mode.", async() => {
+      const fakeTheme = createFakeQuestionTheme({ slug: "existing-slug" });
+      const fakeModificationDto = createFakeQuestionThemeModificationDto();
+      wrapper = await mountQuestionThemeFormComponent({
+        props: {
+          mode: "edit",
+          questionTheme: fakeTheme,
+          existingSlugs: [],
+        },
+      });
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const state = uForm.props("state") as Record<string, unknown>;
+      state.slug = fakeModificationDto.slug;
+      state.label = fakeModificationDto.label;
+      state.description = fakeModificationDto.description;
+      state.aliases = fakeModificationDto.aliases;
+      state.color = fakeModificationDto.color;
+
+      await getWrapperVm<QuestionThemeFormVm>(wrapper).triggerFormSubmit();
+
+      expect(wrapper.emitted("submitModification")).toStrictEqual([[state]]);
+    });
+
+    it("should not emit submitCreation when the form is submitted in edit mode.", async() => {
+      const fakeTheme = createFakeQuestionTheme({ slug: "existing-slug" });
+      const fakeModificationDto = createFakeQuestionThemeModificationDto();
+      wrapper = await mountQuestionThemeFormComponent({
+        props: {
+          mode: "edit",
+          questionTheme: fakeTheme,
+          existingSlugs: [],
+        },
+      });
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const state = uForm.props("state") as Record<string, unknown>;
+      state.slug = fakeModificationDto.slug;
+      state.label = fakeModificationDto.label;
+      state.description = fakeModificationDto.description;
+      state.aliases = fakeModificationDto.aliases;
+
+      await getWrapperVm<QuestionThemeFormVm>(wrapper).triggerFormSubmit();
 
       expect(wrapper.emitted("submitCreation")).toBeUndefined();
     });
