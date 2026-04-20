@@ -19,6 +19,7 @@ const columns = computed<TableColumn<QuestionThemesTableRow>[]>(() => [
   createTableColumn<QuestionThemesTableRow>({ accessorKey: "description", header: t("questionThemes.fields.description") }),
   createTableColumn<QuestionThemesTableRow>({ accessorKey: "aliases", header: t("questionThemes.fields.aliases"), isCentered: true }),
   createTableColumn<QuestionThemesTableRow>({ accessorKey: "status", header: t("questionThemes.fields.status"), isCentered: true }),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "actions", isCentered: true }),
 ]);
 
 const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(theme => ({
@@ -91,6 +92,13 @@ function onStartCreateFromQuestionThemesTableHeader(): void {
         <QuestionThemeStatusBadge
           :data-testid="`status-cell-badge-${row.original.slug}`"
           :status="row.original.status"
+        />
+      </template>
+
+      <template #actions-cell="{ row }">
+        <QuestionThemesTableActions
+          :data-testid="`actions-cell-${row.original.slug}`"
+          :question-theme="row.original"
         />
       </template>
     </UTable>

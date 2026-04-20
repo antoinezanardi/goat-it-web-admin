@@ -11,10 +11,13 @@ import type { useQuestionThemesStore as UseQuestionThemesStoreType } from "@/sto
 
 let fetchAsyncActionMock: UseAsyncActionMock;
 let createAsyncActionMock: UseAsyncActionMock;
+let archiveAsyncActionMock: UseAsyncActionMock;
 let capturedFetchAction: (() => Promise<QuestionTheme[]>) | undefined;
 let capturedFetchOnError: ((error: unknown) => void) | undefined;
 let capturedCreateAction: ((creationDto: unknown) => Promise<QuestionTheme>) | undefined;
 let capturedCreateOnError: ((error: unknown) => void) | undefined;
+let capturedArchiveAction: ((id: string) => Promise<QuestionTheme>) | undefined;
+let capturedArchiveOnError: ((error: unknown) => void) | undefined;
 
 let useAsyncActionCallCount: number;
 
@@ -28,11 +31,19 @@ mockNuxtImport("useAsyncAction", () => (action: unknown, onError: unknown): UseA
     return fetchAsyncActionMock;
   }
 
-  capturedCreateAction = action as (creationDto: unknown) => Promise<QuestionTheme>;
-  capturedCreateOnError = onError as (error: unknown) => void;
-  createAsyncActionMock = createUseAsyncActionMock();
+  if (useAsyncActionCallCount === 2) {
+    capturedCreateAction = action as (creationDto: unknown) => Promise<QuestionTheme>;
+    capturedCreateOnError = onError as (error: unknown) => void;
+    createAsyncActionMock = createUseAsyncActionMock();
 
-  return createAsyncActionMock;
+    return createAsyncActionMock;
+  }
+
+  capturedArchiveAction = action as (id: string) => Promise<QuestionTheme>;
+  capturedArchiveOnError = onError as (error: unknown) => void;
+  archiveAsyncActionMock = createUseAsyncActionMock();
+
+  return archiveAsyncActionMock;
 });
 
 let useQuestionThemesStore: typeof UseQuestionThemesStoreType;
@@ -44,6 +55,8 @@ describe("useQuestionThemesStore", () => {
     capturedFetchOnError = undefined;
     capturedCreateAction = undefined;
     capturedCreateOnError = undefined;
+    capturedArchiveAction = undefined;
+    capturedArchiveOnError = undefined;
     ({ useQuestionThemesStore } = await import("@/stores/domain/question-theme/question-themes.store"));
   });
 
@@ -326,6 +339,143 @@ describe("useQuestionThemesStore", () => {
       capturedCreateOnError?.(fakeError);
 
       expect(useGoatItApiErrorToast().handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(fakeError, "questionThemes.cantCreate");
+    });
+  });
+
+  describe("archiveQuestionThemeStatus", () => {
+    it("should reflect the fetchStatus value from useAsyncAction when created.", () => {
+      const store = useQuestionThemesStore();
+
+      expect(store.archiveQuestionThemeStatus).toBe(archiveAsyncActionMock.fetchStatus.value);
+    });
+
+    it("should update when the fetchStatus changes to pending.", () => {
+      const store = useQuestionThemesStore();
+      archiveAsyncActionMock.fetchStatus.value = "pending";
+
+      expect(store.archiveQuestionThemeStatus).toBe("pending");
+    });
+  });
+
+  describe("isArchivingQuestionTheme", () => {
+    it("should be false when archiveStatus is idle.", () => {
+      const store = useQuestionThemesStore();
+
+      expect(store.isArchivingQuestionTheme).toBeFalsy();
+    });
+
+    it("should be true when archiveStatus is pending.", () => {
+      const store = useQuestionThemesStore();
+      archiveAsyncActionMock.fetchStatus.value = "pending";
+
+      expect(store.isArchivingQuestionTheme).toBeTruthy();
+    });
+  });
+
+  describe("isArchiveQuestionThemeSuccess", () => {
+    it("should be false when archiveStatus is idle.", () => {
+      const store = useQuestionThemesStore();
+
+      expect(store.isArchiveQuestionThemeSuccess).toBeFalsy();
+    });
+
+    it("should be true when archiveStatus is success.", () => {
+      const store = useQuestionThemesStore();
+      archiveAsyncActionMock.fetchStatus.value = "success";
+
+      expect(store.isArchiveQuestionThemeSuccess).toBeTruthy();
+    });
+  });
+
+  describe("isArchivingQuestionThemeError", () => {
+    it("should be false when archiveStatus is idle.", () => {
+      const store = useQuestionThemesStore();
+
+      expect(store.isArchivingQuestionThemeError).toBeFalsy();
+    });
+
+    it("should be true when archiveStatus is error.", () => {
+      const store = useQuestionThemesStore();
+      archiveAsyncActionMock.fetchStatus.value = "error";
+
+      expect(store.isArchivingQuestionThemeError).toBeTruthy();
+    });
+  });
+
+  describe("archiveAndStoreQuestionTheme", () => {
+    it("should call the archive execute function with the id when invoked.", async() => {
+      const store = useQuestionThemesStore();
+
+      await store.archiveAndStoreQuestionTheme("theme-id-123");
+
+      expect(archiveAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith("theme-id-123");
+    });
+
+    it("should replace the theme in the array when archive resolves with the updated theme.", async() => {
+      const existingTheme = createFakeQuestionTheme({ id: "theme-id-123", status: "active" });
+      const archivedTheme = createFakeQuestionTheme({ id: "theme-id-123", status: "archived" });
+      const store = useQuestionThemesStore();
+      store.questionThemes = [existingTheme];
+      archiveAsyncActionMock.execute.mockResolvedValue(archivedTheme);
+
+      await store.archiveAndStoreQuestionTheme("theme-id-123");
+
+      expect(store.questionThemes).toStrictEqual([archivedTheme]);
+    });
+
+    it("should add success toast when archive resolves with the updated theme.", async() => {
+      const archivedTheme = createFakeQuestionTheme({ status: "archived" });
+      const store = useQuestionThemesStore();
+      archiveAsyncActionMock.execute.mockResolvedValue(archivedTheme);
+
+      await store.archiveAndStoreQuestionTheme("theme-id-123");
+
+      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({
+        description: "questionThemes.archiveSuccessfully",
+      });
+    });
+
+    it("should not update questionThemes when archive resolves with undefined.", async() => {
+      const existingTheme = createFakeQuestionTheme({ id: "theme-id-123" });
+      const store = useQuestionThemesStore();
+      store.questionThemes = [existingTheme];
+
+      await store.archiveAndStoreQuestionTheme("theme-id-123");
+
+      expect(store.questionThemes).toStrictEqual([existingTheme]);
+    });
+  });
+
+  describe("useAsyncAction setup for archive", () => {
+    it("should pass an async function calling repository.archive as action to useAsyncAction when created.", async() => {
+      const fakeTheme = createFakeQuestionTheme();
+      useQuestionThemesStore();
+      const mockArchive = questionThemesRepository($fetch).archive as ReturnType<typeof vi.fn>;
+      mockArchive.mockResolvedValue(fakeTheme);
+
+      await capturedArchiveAction?.("theme-id-123");
+
+      expect(mockArchive).toHaveBeenCalledExactlyOnceWith("theme-id-123");
+    });
+
+    it("should return the result from repository.archive when the captured action is invoked.", async() => {
+      const fakeTheme = createFakeQuestionTheme();
+      useQuestionThemesStore();
+      const mockArchive = questionThemesRepository($fetch).archive as ReturnType<typeof vi.fn>;
+      mockArchive.mockResolvedValue(fakeTheme);
+
+      const result = await capturedArchiveAction?.("theme-id-123");
+
+      expect(result).toBe(fakeTheme);
+    });
+
+    it("should call handleGoatItApiError with the error and cantArchive translation key when the archive error callback is invoked.", () => {
+      useQuestionThemesStore();
+      const fakeError = new Error("archive failed");
+
+      capturedArchiveOnError?.(fakeError);
+
+      expect(useGoatItApiErrorToast().handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(fakeError, "questionThemes.cantArchive");
     });
   });
 });

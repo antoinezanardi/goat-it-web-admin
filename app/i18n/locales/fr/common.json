@@ -8,6 +8,8 @@
     "error": "Erreur",
     "noTranslation": "Aucune traduction disponible",
     "close": "Fermer",
-    "create": "Créer"
+    "create": "Créer",
+    "confirm": "Confirmer",
+    "cancel": "Annuler"
   }
 }

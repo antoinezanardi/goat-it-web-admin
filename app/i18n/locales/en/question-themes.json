@@ -3,9 +3,18 @@
     "pageTitle": "Question Themes",
     "cantFetch": "Unable to fetch question themes",
     "cantCreate": "Unable to create question theme",
+    "cantArchive": "Unable to archive question theme",
     "fetching": "Fetching question themes...",
     "createNew": "Create a new theme",
     "createSuccessfully": "Question theme created successfully",
+    "archiveSuccessfully": "Question theme archived successfully",
+    "actions": {
+      "archive": "Archive"
+    },
+    "archive": {
+      "confirmTitle": "Archive this theme?",
+      "confirmDescription": "This theme will be archived and no longer active. This action cannot be undone."
+    },
     "fields": {
       "slug": "Slug",
       "label": "Label",

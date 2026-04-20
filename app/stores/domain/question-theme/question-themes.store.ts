@@ -31,6 +31,17 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
     (thrownError: unknown) => handleGoatItApiError(thrownError, t("questionThemes.cantCreate")),
   );
 
+  const {
+    execute: archiveQuestionTheme,
+    fetchStatus: archiveQuestionThemeStatus,
+    isPending: isArchivingQuestionTheme,
+    isSuccess: isArchiveQuestionThemeSuccess,
+    isError: isArchivingQuestionThemeError,
+  } = useAsyncAction(
+    async(id: string) => repository.archive(id),
+    (thrownError: unknown) => handleGoatItApiError(thrownError, t("questionThemes.cantArchive")),
+  );
+
   async function fetchAndStoreQuestionThemes(): Promise<void> {
     const fetchedQuestionThemes = await fetchQuestionThemes();
     if (fetchedQuestionThemes) {
@@ -44,6 +55,18 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
       questionThemes.value.unshift(createdQuestionTheme);
       addSuccessToast({ description: t("questionThemes.createSuccessfully") });
     }
+  }
+
+  async function archiveAndStoreQuestionTheme(id: string): Promise<void> {
+    const archivedQuestionTheme = await archiveQuestionTheme(id);
+    if (!archivedQuestionTheme) {
+      return;
+    }
+    const index = questionThemes.value.findIndex(theme => theme.id === id);
+    if (index !== -1) {
+      questionThemes.value.splice(index, 1, archivedQuestionTheme);
+    }
+    addSuccessToast({ description: t("questionThemes.archiveSuccessfully") });
   }
   return {
     questionThemes,
@@ -59,5 +82,10 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
     isCreateQuestionThemeSuccess,
     isCreatingQuestionThemeError,
     createAndStoreQuestionTheme,
+    archiveQuestionThemeStatus,
+    isArchivingQuestionTheme,
+    isArchiveQuestionThemeSuccess,
+    isArchivingQuestionThemeError,
+    archiveAndStoreQuestionTheme,
   };
 });
