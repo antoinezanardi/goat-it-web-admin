@@ -1,28 +1,32 @@
 <script setup lang="ts">
 import type { ConfirmDialogEmits, ConfirmDialogProperties } from "~/components/shared/ui/modal/ConfirmDialog/confirm-dialog.types";
 
-defineProps<ConfirmDialogProperties>();
+const props = defineProps<ConfirmDialogProperties>();
 
 const emit = defineEmits<ConfirmDialogEmits>();
 
 const { t } = useI18n();
 
-const open = ref<boolean>(true);
+const isOpen = ref<boolean>(true);
+
+const closeButtonLabel = computed<string>(() => props.closeButtonLabel ?? t("common.cancel"));
+
+const primaryButtonLabel = computed<string>(() => props.primaryButtonLabel ?? t("common.confirm"));
 
 function onCloseModalFromFooter(): void {
-  open.value = false;
+  isOpen.value = false;
   emit("close", false);
 }
 
 function onPrimaryButtonClickFromFooter(): void {
-  open.value = false;
+  isOpen.value = false;
   emit("close", true);
 }
 </script>
 
 <template>
   <UModal
-    v-model:open="open"
+    v-model:open="isOpen"
     data-testid="confirm-dialog-modal"
   >
     <template #title>
@@ -41,9 +45,9 @@ function onPrimaryButtonClickFromFooter(): void {
 
     <template #footer>
       <DefaultModalFooter
-        :close-button-label="closeButtonLabel ?? t('common.cancel')"
+        :close-button-label="closeButtonLabel"
         data-testid="confirm-dialog-footer"
-        :primary-button-label="primaryButtonLabel ?? t('common.confirm')"
+        :primary-button-label="primaryButtonLabel"
         @close-modal="onCloseModalFromFooter"
         @primary-button-click="onPrimaryButtonClickFromFooter"
       />

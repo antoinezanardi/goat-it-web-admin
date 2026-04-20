@@ -63,9 +63,10 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
       return;
     }
     const index = questionThemes.value.findIndex(theme => theme.id === id);
-    if (index !== -1) {
-      questionThemes.value.splice(index, 1, archivedQuestionTheme);
+    if (index === -1) {
+      return;
     }
+    questionThemes.value.splice(index, 1, archivedQuestionTheme);
     addSuccessToast({ description: t("questionThemes.archiveSuccessfully") });
   }
   return {

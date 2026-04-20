@@ -413,6 +413,19 @@ describe("useQuestionThemesStore", () => {
 
     it("should replace the theme in the array when archive resolves with the updated theme.", async() => {
       const existingTheme = createFakeQuestionTheme({ id: "theme-id-123", status: "active" });
+      const otherTheme = createFakeQuestionTheme({ id: "other-id", status: "active" });
+      const archivedTheme = createFakeQuestionTheme({ id: "theme-id-123", status: "archived" });
+      const store = useQuestionThemesStore();
+      store.questionThemes = [otherTheme, existingTheme];
+      archiveAsyncActionMock.execute.mockResolvedValue(archivedTheme);
+
+      await store.archiveAndStoreQuestionTheme("theme-id-123");
+
+      expect(store.questionThemes).toStrictEqual([otherTheme, archivedTheme]);
+    });
+
+    it("should add success toast when archive resolves with the updated theme.", async() => {
+      const existingTheme = createFakeQuestionTheme({ id: "theme-id-123", status: "active" });
       const archivedTheme = createFakeQuestionTheme({ id: "theme-id-123", status: "archived" });
       const store = useQuestionThemesStore();
       store.questionThemes = [existingTheme];
@@ -420,19 +433,33 @@ describe("useQuestionThemesStore", () => {
 
       await store.archiveAndStoreQuestionTheme("theme-id-123");
 
-      expect(store.questionThemes).toStrictEqual([archivedTheme]);
+      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({
+        description: "questionThemes.archiveSuccessfully",
+      });
     });
 
-    it("should add success toast when archive resolves with the updated theme.", async() => {
-      const archivedTheme = createFakeQuestionTheme({ status: "archived" });
+    it("should not splice the array when the archived theme id is not found in the array.", async() => {
+      const existingTheme = createFakeQuestionTheme({ id: "other-id", status: "active" });
+      const archivedTheme = createFakeQuestionTheme({ id: "theme-id-123", status: "archived" });
       const store = useQuestionThemesStore();
+      store.questionThemes = [existingTheme];
       archiveAsyncActionMock.execute.mockResolvedValue(archivedTheme);
 
       await store.archiveAndStoreQuestionTheme("theme-id-123");
 
-      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({
-        description: "questionThemes.archiveSuccessfully",
-      });
+      expect(store.questionThemes).toStrictEqual([existingTheme]);
+    });
+
+    it("should not show toast when the archived theme id is not found in the array.", async() => {
+      const existingTheme = createFakeQuestionTheme({ id: "other-id", status: "active" });
+      const archivedTheme = createFakeQuestionTheme({ id: "theme-id-123", status: "archived" });
+      const store = useQuestionThemesStore();
+      store.questionThemes = [existingTheme];
+      archiveAsyncActionMock.execute.mockResolvedValue(archivedTheme);
+
+      await store.archiveAndStoreQuestionTheme("theme-id-123");
+
+      expect(useAppToast().addSuccessToast).not.toHaveBeenCalled();
     });
 
     it("should not update questionThemes when archive resolves with undefined.", async() => {

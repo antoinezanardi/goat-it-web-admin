@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { reactive, computed } from "vue";
 import type { FormSubmitEvent, FormError } from "@nuxt/ui";
 import { QUESTION_THEME_CREATION_DTO } from "@goat-it/schemas/question-theme";
 import type { QuestionThemeCreationDto } from "@goat-it/schemas/question-theme";

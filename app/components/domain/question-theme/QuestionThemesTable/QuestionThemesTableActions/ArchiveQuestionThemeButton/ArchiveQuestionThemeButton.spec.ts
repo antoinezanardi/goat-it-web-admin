@@ -58,6 +58,12 @@ describe("ArchiveQuestionThemeButton Component", () => {
     expect(tooltip.props("text")).toBe("questionThemes.actions.archive");
   });
 
+  it("should set the aria-label on the archive button when mounted.", () => {
+    const button = wrapper.find("[data-testid='archive-button-music']");
+
+    expect(button.attributes("aria-label")).toBe("questionThemes.actions.archive");
+  });
+
   it("should register the confirm dialog with the overlay when mounted.", () => {
     expect(overlayMock.create).toHaveBeenCalledExactlyOnceWith(ConfirmDialog);
   });

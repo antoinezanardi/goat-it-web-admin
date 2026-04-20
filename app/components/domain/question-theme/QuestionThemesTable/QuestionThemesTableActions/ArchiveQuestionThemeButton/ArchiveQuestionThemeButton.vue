@@ -26,10 +26,12 @@ async function onArchiveClick(): Promise<void> {
 <template>
   <UTooltip :text="t('questionThemes.actions.archive')">
     <UButton
+      :aria-label="t('questionThemes.actions.archive')"
+      color="error"
       :data-testid="`archive-button-${questionThemeSlug}`"
       icon="i-lucide-archive"
       size="xs"
-      variant="ghost"
+      variant="outline"
       @click="onArchiveClick"
     />
   </UTooltip>

@@ -1,35 +1,24 @@
 import { vi } from "vitest";
-import type { Mock } from "vitest";
 
-type UseOverlayInstanceOpenFunction = (properties?: unknown) => { result: Promise<unknown> };
+import type { ToMock } from "~~/tests/unit/utils/types/mock.types";
 
-type UseOverlayInstanceCloseFunction = (value?: unknown) => void;
-
-type UseOverlayInstancePatchFunction = (properties?: unknown) => void;
-
-type UseOverlayInstanceMock = {
-  open: Mock<UseOverlayInstanceOpenFunction>;
-  close: Mock<UseOverlayInstanceCloseFunction>;
-  patch: Mock<UseOverlayInstancePatchFunction>;
+type UseOverlayInstanceStub = {
+  open: (properties?: unknown) => { result: Promise<unknown> };
+  close: (value?: unknown) => void;
+  patch: (properties?: unknown) => void;
 };
 
-type UseOverlayCreateFunction = (component: unknown, options?: unknown) => UseOverlayInstanceMock;
+type UseOverlayInstanceMock = ToMock<UseOverlayInstanceStub>;
 
-type UseOverlayOpenFunction = (id: symbol, properties?: unknown) => { result: Promise<unknown> };
-
-type UseOverlayCloseFunction = (id: symbol, value?: unknown) => void;
-
-type UseOverlayCloseAllFunction = () => void;
-
-type UseOverlayPatchFunction = (id: symbol, properties?: unknown) => void;
-
-type UseOverlayMock = {
-  create: Mock<UseOverlayCreateFunction>;
-  open: Mock<UseOverlayOpenFunction>;
-  close: Mock<UseOverlayCloseFunction>;
-  closeAll: Mock<UseOverlayCloseAllFunction>;
-  patch: Mock<UseOverlayPatchFunction>;
+type UseOverlayStub = {
+  create: (component: unknown, options?: unknown) => UseOverlayInstanceStub;
+  open: (id: symbol, properties?: unknown) => { result: Promise<unknown> };
+  close: (id: symbol, value?: unknown) => void;
+  closeAll: () => void;
+  patch: (id: symbol, properties?: unknown) => void;
 };
+
+type UseOverlayMock = ToMock<UseOverlayStub>;
 
 /**
  * Creates a fresh overlay instance mock returned by the `create()` factory.
@@ -37,9 +26,9 @@ type UseOverlayMock = {
  */
 function createUseOverlayInstanceMock(): UseOverlayInstanceMock {
   return {
-    open: vi.fn<UseOverlayInstanceOpenFunction>(() => ({ result: Promise.resolve(true) })),
-    close: vi.fn<UseOverlayInstanceCloseFunction>(),
-    patch: vi.fn<UseOverlayInstancePatchFunction>(),
+    open: vi.fn<UseOverlayInstanceStub["open"]>(() => ({ result: Promise.resolve(true) })),
+    close: vi.fn<UseOverlayInstanceStub["close"]>(),
+    patch: vi.fn<UseOverlayInstanceStub["patch"]>(),
   };
 }
 
@@ -49,11 +38,11 @@ function createUseOverlayInstanceMock(): UseOverlayInstanceMock {
  */
 function createUseOverlayMock(): UseOverlayMock {
   return {
-    create: vi.fn<UseOverlayCreateFunction>(() => createUseOverlayInstanceMock()),
-    open: vi.fn<UseOverlayOpenFunction>(() => ({ result: Promise.resolve(true) })),
-    close: vi.fn<UseOverlayCloseFunction>(),
-    closeAll: vi.fn<UseOverlayCloseAllFunction>(),
-    patch: vi.fn<UseOverlayPatchFunction>(),
+    create: vi.fn<UseOverlayStub["create"]>(() => createUseOverlayInstanceMock()),
+    open: vi.fn<UseOverlayStub["open"]>(() => ({ result: Promise.resolve(true) })),
+    close: vi.fn<UseOverlayStub["close"]>(),
+    closeAll: vi.fn<UseOverlayStub["closeAll"]>(),
+    patch: vi.fn<UseOverlayStub["patch"]>(),
   };
 }
 
