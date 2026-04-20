@@ -5,6 +5,7 @@ import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
+import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionThemesTableActions } from "#components";
@@ -101,8 +102,8 @@ describe("QuestionThemesTableActions Component", () => {
     });
 
     it("should re-emit startEdit with the id when the edit button emits startEdit.", () => {
-      const editButton = wrapper.findComponent<typeof EditQuestionThemeButton>("[data-testid='question-themes-table-actions-edit-music']") as VueWrapper;
-      (editButton as unknown as { vm: { $emit: (name: string, ...arguments_: unknown[]) => void } }).vm.$emit("startEdit", "theme-id-123");
+      const editButton = wrapper.findComponent<typeof EditQuestionThemeButton>("[data-testid='question-themes-table-actions-edit-music']");
+      getWrapperVm(editButton).$emit("startEdit", "theme-id-123");
 
       expect(wrapper.emitted("startEdit")).toStrictEqual([["theme-id-123"]]);
     });

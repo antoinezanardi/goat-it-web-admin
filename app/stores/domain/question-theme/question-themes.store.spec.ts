@@ -463,7 +463,7 @@ describe("useQuestionThemesStore", () => {
       expect(store.questionThemes).toStrictEqual([existingTheme]);
     });
 
-    it("should not show toast when the archived theme id is not found in the array.", async() => {
+    it("should show toast even when the archived theme id is not found in the array.", async() => {
       const existingTheme = createFakeQuestionTheme({ id: "other-id", status: "active" });
       const archivedTheme = createFakeQuestionTheme({ id: "theme-id-123", status: "archived" });
       const store = useQuestionThemesStore();
@@ -472,7 +472,7 @@ describe("useQuestionThemesStore", () => {
 
       await store.archiveAndStoreQuestionTheme("theme-id-123");
 
-      expect(useAppToast().addSuccessToast).not.toHaveBeenCalled();
+      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questionThemes.archiveSuccessfully" });
     });
 
     it("should not update questionThemes when archive resolves with undefined.", async() => {
@@ -628,7 +628,7 @@ describe("useQuestionThemesStore", () => {
       expect(store.questionThemes).toStrictEqual([existingTheme]);
     });
 
-    it("should not show toast when the modified theme id is not found in the array.", async() => {
+    it("should show toast even when the modified theme id is not found in the array.", async() => {
       const existingTheme = createFakeQuestionTheme({ id: "other-id" });
       const modifiedTheme = createFakeQuestionTheme({ id: "theme-id-123" });
       const store = useQuestionThemesStore();
@@ -637,7 +637,7 @@ describe("useQuestionThemesStore", () => {
 
       await store.modifyAndStoreQuestionTheme("theme-id-123", createFakeQuestionThemeModificationDto());
 
-      expect(useAppToast().addSuccessToast).not.toHaveBeenCalled();
+      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questionThemes.modifySuccessfully" });
     });
 
     it("should not update questionThemes when modify resolves with undefined.", async() => {

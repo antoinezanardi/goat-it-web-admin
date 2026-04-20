@@ -51,9 +51,8 @@ const canSubmit = computed<boolean>(() => {
 });
 
 function validateSlugUniqueness(state: Partial<QuestionThemeCreationDto>): FormError[] {
-  const hasSlug = !!state.slug;
   const isOwnSlugInEditMode = props.mode === "edit" && state.slug === props.questionTheme?.slug;
-  const isSlugTaken = hasSlug && !isOwnSlugInEditMode && props.existingSlugs.includes(state.slug as string);
+  const isSlugTaken = !!state.slug && !isOwnSlugInEditMode && props.existingSlugs.includes(state.slug);
 
   if (isSlugTaken) {
     return [{ name: "slug", message: t("validation.slugAlreadyTaken") }];
@@ -63,11 +62,11 @@ function validateSlugUniqueness(state: Partial<QuestionThemeCreationDto>): FormE
 
 function onSubmit(event: FormSubmitEvent<QuestionThemeCreationDto | QuestionThemeModificationDto>): void {
   if (props.mode === "edit") {
-    emit("submitModification", event.data as QuestionThemeModificationDto);
+    emit("submitModification", QUESTION_THEME_MODIFICATION_DTO.parse(event.data));
 
     return;
   }
-  emit("submitCreation", event.data as QuestionThemeCreationDto);
+  emit("submitCreation", QUESTION_THEME_CREATION_DTO.parse(event.data));
 }
 
 async function triggerFormSubmit(): Promise<void> {

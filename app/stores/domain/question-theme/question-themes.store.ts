@@ -1,5 +1,7 @@
 import type { QuestionThemeCreationDto, QuestionThemeModificationDto } from "@goat-it/schemas/question-theme";
 
+import { replaceInArrayById } from "#shared/utils/helpers/array/array.helpers";
+
 export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, () => {
   const questionThemes = ref<QuestionTheme[]>([]);
   const questionThemeSlugs = computed<string[]>(() => questionThemes.value.map(theme => theme.slug));
@@ -73,11 +75,7 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
     if (!archivedQuestionTheme) {
       return;
     }
-    const index = questionThemes.value.findIndex(theme => theme.id === id);
-    if (index === -1) {
-      return;
-    }
-    questionThemes.value.splice(index, 1, archivedQuestionTheme);
+    questionThemes.value = replaceInArrayById(questionThemes.value, id, archivedQuestionTheme);
     addSuccessToast({ description: t("questionThemes.archiveSuccessfully") });
   }
 
@@ -86,11 +84,7 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
     if (!modifiedQuestionTheme) {
       return;
     }
-    const index = questionThemes.value.findIndex(theme => theme.id === id);
-    if (index === -1) {
-      return;
-    }
-    questionThemes.value.splice(index, 1, modifiedQuestionTheme);
+    questionThemes.value = replaceInArrayById(questionThemes.value, id, modifiedQuestionTheme);
     addSuccessToast({ description: t("questionThemes.modifySuccessfully") });
   }
   return {

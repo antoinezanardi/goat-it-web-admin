@@ -14,6 +14,7 @@ import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModification
 
 import type { PageHeader, UModal } from "#components";
 
+import type QuestionThemeFormModal from "@/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeFormModal.vue";
 import type QuestionThemesTable from "@/components/domain/question-theme/QuestionThemesTable/QuestionThemesTable.vue";
 import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/question-theme.constants";
 import { QUESTION_THEMES_PAGE_ORDER, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
@@ -254,9 +255,11 @@ describe("Question Themes Page", () => {
       getWrapperVm(table).$emit("startEdit", "theme-id-123");
       await nextTick();
 
-      const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
+      const modal = wrapper.findComponent<typeof QuestionThemeFormModal>("[data-testid='question-theme-form-modal']");
+      // oxlint-disable-next-line typescript/no-unsafe-member-access, typescript/no-unsafe-assignment -- shallow stub exposes props via $attrs, not .props()
+      const questionThemeProperty = getWrapperVm(modal).$attrs["question-theme"];
 
-      expect(modal.attributes("question-theme")).toBe("[object Object]");
+      expect(questionThemeProperty).toStrictEqual(fakeTheme);
     });
 
     it("should not open the modal when the table emits startEdit for an unknown theme id.", async() => {

@@ -21,6 +21,7 @@ const formReference = useTemplateRef<InstanceType<typeof QuestionThemeForm>>("fo
 const modalTitle = computed<string>(() => (props.mode === "edit" ? "questionThemes.editTheme" : "questionThemes.createNew"));
 const primaryButtonLabel = computed<string>(() => (props.mode === "edit" ? "common.edit" : "common.create"));
 const primaryButtonIcon = computed<string>(() => (props.mode === "edit" ? "i-lucide-pencil" : "i-lucide-circle-plus"));
+const formKey = computed<string>(() => `${props.mode}-${props.questionTheme?.id ?? "new"}`);
 
 async function onClickFromFooterPrimaryButton(): Promise<void> {
   await formReference.value?.triggerFormSubmit();
@@ -56,6 +57,7 @@ function onCloseModal(): void {
 
     <template #body>
       <QuestionThemeForm
+        :key="formKey"
         ref="formReference"
         data-testid="question-theme-form-modal-form"
         :existing-slugs="existingSlugs"
