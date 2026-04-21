@@ -7,7 +7,7 @@ import { VitestProjectNames } from "./vitest.config.enums";
 
 const processCwd = process.cwd();
 
-const VITEST_NON_NUXT_RESOLVE_ALIASES = [
+const VITEST_BASE_RESOLVE_ALIASES = [
   { find: /^~\//u, replacement: `${path.resolve(processCwd, "app")}/` },
   { find: /^@\//u, replacement: `${path.resolve(processCwd, "app")}/` },
   { find: /^~~\//u, replacement: `${processCwd}/` },
@@ -16,13 +16,10 @@ const VITEST_NON_NUXT_RESOLVE_ALIASES = [
   { find: /^#build\//u, replacement: `${path.resolve(processCwd, ".nuxt")}/` },
 ];
 
+const VITEST_NON_NUXT_RESOLVE_ALIASES = VITEST_BASE_RESOLVE_ALIASES;
+
 const VITEST_NODE_PROJECT_RESOLVE_ALIASES = [
-  { find: /^~\//u, replacement: `${path.resolve(processCwd, "app")}/` },
-  { find: /^@\//u, replacement: `${path.resolve(processCwd, "app")}/` },
-  { find: /^~~\//u, replacement: `${processCwd}/` },
-  { find: /^#shared\//u, replacement: `${path.resolve(processCwd, "shared")}/` },
-  { find: /^#server\//u, replacement: `${path.resolve(processCwd, "server")}/` },
-  { find: /^#build\//u, replacement: `${path.resolve(processCwd, ".nuxt")}/` },
+  ...VITEST_BASE_RESOLVE_ALIASES,
   { find: /^ofetch$/u, replacement: path.resolve(processCwd, "node_modules/.pnpm/node_modules/ofetch") },
   { find: /^h3$/u, replacement: path.resolve(processCwd, "node_modules/.pnpm/node_modules/h3") },
 ];
@@ -37,6 +34,16 @@ const VITEST_PROJECT_COMMON_INLINE_CONFIG: InlineConfig = {
 const VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG: InlineConfig = {
   ...VITEST_PROJECT_COMMON_INLINE_CONFIG,
   environment: "nuxt",
+  pool: "threads",
+  isolate: false,
+  deps: {
+    optimizer: {
+      client: {
+        enabled: true,
+        include: ["reka-ui"],
+      },
+    },
+  },
   environmentOptions: {
     nuxt: {
       overrides: {
@@ -95,6 +102,9 @@ const VITEST_NODE_PROJECT_INCLUDES = [
 const VITEST_IGNORED_STARTING_BY_LOGS = [
   "<Suspense> is an experimental feature",
   "[Vue warn]: App already provides property with key \"Symbol(pinia)\"",
+  "[nuxt] error caught during app initialization Error: Context conflict",
+  "[Vue warn]: There is already an app instance mounted on the host container",
+  "[Vue Router warn]: No match found for location with path \"",
 ] as const;
 
 const VITEST_REPOSITORIES_PROJECT_CONFIG: TestProjectInlineConfiguration = {
