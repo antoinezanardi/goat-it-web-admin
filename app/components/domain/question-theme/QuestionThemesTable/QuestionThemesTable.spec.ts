@@ -1,4 +1,4 @@
-import { nextTick } from "vue";
+import { nextTick, toValue } from "vue";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { TableColumn } from "@nuxt/ui";
 import { createTestingPinia } from "@pinia/testing";
@@ -467,10 +467,8 @@ describe("QuestionThemesTable Component", () => {
     });
 
     it("should update search term when the composable searchTerm changes.", async() => {
-      // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-call -- Composable is globally mocked via mockNuxtImport
-      const { searchTerm } = (useTableGlobalFilter as () => ReturnType<typeof useTableGlobalFilter>)();
+      const { searchTerm } = useTableGlobalFilter({ data: [], keys: [] });
 
-      // oxlint-disable-next-line typescript/no-unsafe-member-access -- Composable is globally mocked via mockNuxtImport
       searchTerm.value = "test search";
       await nextTick();
 
@@ -483,10 +481,8 @@ describe("QuestionThemesTable Component", () => {
       const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
       getWrapperVm(header).$emit("update:searchTerm", "updated from header");
 
-      // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-call -- Composable is globally mocked via mockNuxtImport
-      const { searchTerm } = (useTableGlobalFilter as () => ReturnType<typeof useTableGlobalFilter>)();
+      const { searchTerm } = useTableGlobalFilter({ data: [], keys: [] });
 
-      // oxlint-disable-next-line typescript/no-unsafe-member-access -- Composable is globally mocked via mockNuxtImport
       expect(searchTerm.value).toBe("updated from header");
     });
   });
@@ -509,10 +505,8 @@ describe("QuestionThemesTable Component", () => {
       const table = wrapper.findComponent({ name: "UTable" });
       getWrapperVm(table).$emit("update:globalFilter", "updated from table");
 
-      // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-call -- Composable is globally mocked via mockNuxtImport
-      const { globalFilter } = (useTableGlobalFilter as () => ReturnType<typeof useTableGlobalFilter>)();
+      const { globalFilter } = useTableGlobalFilter({ data: [], keys: [] });
 
-      // oxlint-disable-next-line typescript/no-unsafe-member-access -- Composable is globally mocked via mockNuxtImport
       expect(globalFilter.value).toBe("updated from table");
     });
   });
@@ -520,9 +514,9 @@ describe("QuestionThemesTable Component", () => {
   describe("Fuse keys", () => {
     it("should pass fuse keys including current locale label and description to useTableGlobalFilter when mounted.", () => {
       const mockFunction = useTableGlobalFilter as unknown as ReturnType<typeof vi.fn>;
-      const options = mockFunction.mock.calls[0]?.[0] as { keys: { value: string[] } };
+      const options = mockFunction.mock.calls[0]?.[0] as { keys: unknown };
 
-      expect(options.keys.value).toStrictEqual([
+      expect(toValue(options.keys)).toStrictEqual([
         "slug",
         `label.${DEFAULT_MOCKED_LOCALE}`,
         `description.${DEFAULT_MOCKED_LOCALE}`,
@@ -543,9 +537,7 @@ describe("QuestionThemesTable Component", () => {
 
     it("should pass hasActiveFilter as true to the empty state component when the filter is active.", async() => {
       questionThemesStore.questionThemes = [];
-      // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-call -- Composable is globally mocked via mockNuxtImport
-      const { globalFilter } = (useTableGlobalFilter as () => ReturnType<typeof useTableGlobalFilter>)();
-      // oxlint-disable-next-line typescript/no-unsafe-member-access -- Composable is globally mocked via mockNuxtImport
+      const { globalFilter } = useTableGlobalFilter({ data: [], keys: [] });
       globalFilter.value = "search text";
       await nextTick();
 

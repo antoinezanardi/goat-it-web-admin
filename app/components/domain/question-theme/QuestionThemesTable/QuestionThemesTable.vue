@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
+import type { GlobalFilterOptions } from "@tanstack/vue-table";
 
 import type { QuestionThemesTableEmits, QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 import LocalizedText from "~/components/shared/core/localization/LocalizedText/LocalizedText.vue";
@@ -45,7 +46,7 @@ const { searchTerm, globalFilter, globalFilterFn, hasActiveFilter } = useTableGl
   keys: fuseKeys,
 });
 
-const globalFilterOptions = computed(() => ({ globalFilterFn }));
+const globalFilterOptions = computed<Omit<GlobalFilterOptions<QuestionThemesTableRow>, "onGlobalFilterChange">>(() => ({ globalFilterFn }));
 
 function onStartCreateFromQuestionThemesTableHeader(): void {
   emit("startCreate");

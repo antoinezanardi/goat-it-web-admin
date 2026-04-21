@@ -1,11 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { FilterMeta } from "@tanstack/vue-table";
 import type { Ref } from "vue";
 import { nextTick, ref } from "vue";
 
 import { useTableGlobalFilter } from "~/composables/ui/useTableGlobalFilter/useTableGlobalFilter";
- 
-// oxlint-disable-next-line no-empty-function -- Intentional no-op callback for FilterFn parameters
-function noop(): void {}
 
 type TestRow = {
   id: string;
@@ -15,6 +13,7 @@ type TestRow = {
 
 describe(useTableGlobalFilter, () => {
   let data: Ref<TestRow[]>;
+  const addMetaMock = vi.fn<(meta: FilterMeta) => void>();
 
   beforeEach(() => {
     data = ref<TestRow[]>([
@@ -95,132 +94,106 @@ describe(useTableGlobalFilter, () => {
   });
 
   describe("globalFilterFn", () => {
-    it("should return false for all rows when globalFilter is empty.", () => {
-      // oxlint-disable-next-line typescript/no-unsafe-assignment -- FilterFn<T> type is not resolved by oxlint type-aware mode
-      const { globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
-
-      // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-call -- FilterFn<T> type is not resolved by oxlint type-aware mode
-      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "", noop);
-
-      expect(isMatching).toBe(false);
-    });
-
-    it("should return false for all rows when globalFilter contains only whitespace.", () => {
-      // oxlint-disable-next-line typescript/no-unsafe-assignment -- FilterFn<T> type is not resolved by oxlint type-aware mode
+    it.each<{ description: string; searchTermValue: string }>([
+      { description: "empty", searchTermValue: "" },
+      { description: "only whitespace", searchTermValue: "   " },
+    ])("should return true for all rows when globalFilter is $description.", ({ searchTermValue }) => {
       const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
 
-      searchTerm.value = "   ";
+      searchTerm.value = searchTermValue;
 
-      // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-call -- FilterFn<T> type is not resolved by oxlint type-aware mode
-      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "", noop);
+      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "", addMetaMock);
 
-      expect(isMatching).toBe(false);
+      expect(isMatching).toBe(true);
     });
 
     it("should return true for a row matching the search term when globalFilter matches by name.", () => {
-      // oxlint-disable-next-line typescript/no-unsafe-assignment -- FilterFn<T> type is not resolved by oxlint type-aware mode
       const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
 
       searchTerm.value = "Mathematics";
 
-      // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-call -- FilterFn<T> type is not resolved by oxlint type-aware mode
-      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "Mathematics", noop);
+      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "Mathematics", addMetaMock);
 
       expect(isMatching).toBe(true);
     });
 
     it("should return false for a row not matching the search term when globalFilter does not match.", () => {
-      // oxlint-disable-next-line typescript/no-unsafe-assignment -- FilterFn<T> type is not resolved by oxlint type-aware mode
       const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
 
       searchTerm.value = "Mathematics";
 
-      // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-call -- FilterFn<T> type is not resolved by oxlint type-aware mode
-      const isMatching = globalFilterFn({ index: 1 } as Parameters<typeof globalFilterFn>[0], "", "Mathematics", noop);
+      const isMatching = globalFilterFn({ index: 1 } as Parameters<typeof globalFilterFn>[0], "", "Mathematics", addMetaMock);
 
       expect(isMatching).toBe(false);
     });
 
     it("should perform fuzzy matching when search term has typos.", () => {
-      // oxlint-disable-next-line typescript/no-unsafe-assignment -- FilterFn<T> type is not resolved by oxlint type-aware mode
       const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
 
       searchTerm.value = "Mathmatcs";
 
-      // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-call -- FilterFn<T> type is not resolved by oxlint type-aware mode
-      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "Mathmatcs", noop);
+      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "Mathmatcs", addMetaMock);
 
       expect(isMatching).toBe(true);
     });
 
     it("should match on description field when search term matches description.", () => {
-      // oxlint-disable-next-line typescript/no-unsafe-assignment -- FilterFn<T> type is not resolved by oxlint type-aware mode
       const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
 
       searchTerm.value = "Biology";
 
-      // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-call -- FilterFn<T> type is not resolved by oxlint type-aware mode
-      const isMatching = globalFilterFn({ index: 1 } as Parameters<typeof globalFilterFn>[0], "", "Biology", noop);
+      const isMatching = globalFilterFn({ index: 1 } as Parameters<typeof globalFilterFn>[0], "", "Biology", addMetaMock);
 
       expect(isMatching).toBe(true);
     });
 
     it("should return false for a row when globalFilter matches description but only name key is configured.", () => {
       const keys = ref(["name"]);
-      // oxlint-disable-next-line typescript/no-unsafe-assignment -- FilterFn<T> type is not resolved by oxlint type-aware mode
       const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys });
 
       searchTerm.value = "equations";
 
-      // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-call -- FilterFn<T> type is not resolved by oxlint type-aware mode
-      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "equations", noop);
+      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "equations", addMetaMock);
 
       expect(isMatching).toBe(false);
     });
 
     it("should return true for a row when keys are updated to include the matching field.", async() => {
       const keys = ref(["name"]);
-      // oxlint-disable-next-line typescript/no-unsafe-assignment -- FilterFn<T> type is not resolved by oxlint type-aware mode
       const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys });
 
       searchTerm.value = "equations";
       keys.value = ["name", "description"];
       await nextTick();
 
-      // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-call -- FilterFn<T> type is not resolved by oxlint type-aware mode
-      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "equations", noop);
+      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "equations", addMetaMock);
 
       expect(isMatching).toBe(true);
     });
 
     it("should return false for a row index that does not exist in data when searching for a non-existent entry.", () => {
-      // oxlint-disable-next-line typescript/no-unsafe-assignment -- FilterFn<T> type is not resolved by oxlint type-aware mode
       const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
 
       searchTerm.value = "Geography";
 
-      // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-call -- FilterFn<T> type is not resolved by oxlint type-aware mode
-      const isMatching = globalFilterFn({ index: 3 } as Parameters<typeof globalFilterFn>[0], "", "Geography", noop);
+      const isMatching = globalFilterFn({ index: 3 } as Parameters<typeof globalFilterFn>[0], "", "Geography", addMetaMock);
 
       expect(isMatching).toBe(false);
     });
 
     it("should return true for the new row when data is updated with a matching entry.", async() => {
-      // oxlint-disable-next-line typescript/no-unsafe-assignment -- FilterFn<T> type is not resolved by oxlint type-aware mode
       const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
 
       searchTerm.value = "Geography";
       data.value = [...data.value, { id: "4", name: "Geography", description: "Earth and maps" }];
       await nextTick();
 
-      // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-call -- FilterFn<T> type is not resolved by oxlint type-aware mode
-      const isMatching = globalFilterFn({ index: 3 } as Parameters<typeof globalFilterFn>[0], "", "Geography", noop);
+      const isMatching = globalFilterFn({ index: 3 } as Parameters<typeof globalFilterFn>[0], "", "Geography", addMetaMock);
 
       expect(isMatching).toBe(true);
     });
 
     it("should respect custom fuse options when fuseOptions are provided.", () => {
-      // oxlint-disable-next-line typescript/no-unsafe-assignment -- FilterFn<T> type is not resolved by oxlint type-aware mode
       const { searchTerm, globalFilterFn } = useTableGlobalFilter({
         data,
         keys: ["name"],
@@ -229,10 +202,23 @@ describe(useTableGlobalFilter, () => {
 
       searchTerm.value = "Mathmatcs";
 
-      // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-call -- FilterFn<T> type is not resolved by oxlint type-aware mode
-      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "Mathmatcs", noop);
+      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "Mathmatcs", addMetaMock);
 
       expect(isMatching).toBe(false);
+    });
+  });
+
+  describe("autoRemove", () => {
+    it.each<{ description: string; filterValue: string; expected: boolean }>([
+      { description: "empty string", filterValue: "", expected: true },
+      { description: "only whitespace", filterValue: "   ", expected: true },
+      { description: "non-empty string", filterValue: "search", expected: false },
+    ])("should return $expected when the filter value is $description.", ({ filterValue, expected }) => {
+      const { globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
+
+      const shouldAutoRemove = globalFilterFn.autoRemove?.(filterValue);
+
+      expect(shouldAutoRemove).toBe(expected);
     });
   });
 });

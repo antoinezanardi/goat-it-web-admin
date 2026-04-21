@@ -16,7 +16,8 @@
       "noData": "Aucune donnée",
       "noResults": "Aucun résultat trouvé",
       "filter": {
-        "placeholder": "Filtrer..."
+        "placeholder": "Filtrer...",
+        "clear": "Effacer le filtre"
       }
     }
   }

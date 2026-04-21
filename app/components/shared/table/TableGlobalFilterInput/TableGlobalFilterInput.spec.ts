@@ -6,7 +6,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 
 import { TableGlobalFilterInput } from "#components";
-import type { UButton, UInput } from "#components";
+import type { UButton, UInput, UTooltip } from "#components";
 
 import type { TableGlobalFilterInputProps } from "~/components/shared/table/TableGlobalFilterInput/table-global-filter-input.types";
 
@@ -80,6 +80,22 @@ describe("TableGlobalFilterInput Component", () => {
       const clearButton = wrapper.findComponent<typeof UButton>("[data-testid='table-global-filter-clear-button']");
 
       expect(clearButton.exists()).toBe(true);
+    });
+
+    it("should render the clear button with the correct aria-label i18n key when modelValue is not empty.", async() => {
+      wrapper = await mountTableGlobalFilterInputComponent({ props: { modelValue: "search text" } });
+
+      const clearButton = wrapper.find("[data-testid='table-global-filter-clear-button']");
+
+      expect(clearButton.attributes("aria-label")).toBe("common.table.filter.clear");
+    });
+
+    it("should wrap the clear button in a tooltip with the correct i18n key when modelValue is not empty.", async() => {
+      wrapper = await mountTableGlobalFilterInputComponent({ props: { modelValue: "search text" } });
+
+      const tooltip = wrapper.findComponent<typeof UTooltip>({ name: "UTooltip" });
+
+      expect(tooltip.props("text")).toBe("common.table.filter.clear");
     });
 
     it("should emit update:modelValue with empty string when the clear button is clicked.", async() => {

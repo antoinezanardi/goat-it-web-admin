@@ -21,17 +21,20 @@ function useTableGlobalFilter<T>(options: UseTableGlobalFilterOptions<T>): UseTa
 
   const matchingReferenceIndices = computed<Set<number>>(() => {
     const filterValue = globalFilter.value.trim();
-
-    if (filterValue === "") {
-      return new Set<number>();
-    }
     const results = fuse.value.search(filterValue);
 
     return new Set(results.map(result => result.refIndex));
   });
 
   // oxlint-disable-next-line typescript/no-unsafe-member-access, typescript/no-unsafe-argument -- FilterFn<T> row parameter type is not resolved by oxlint type-aware mode
-  const globalFilterFunction: FilterFn<T> = (row: Row<T>): boolean => matchingReferenceIndices.value.has(row.index);
+  const globalFilterFunction: FilterFn<T> = (row: Row<T>): boolean => {
+    if (globalFilter.value.trim() === "") {
+      return true;
+    }
+    return matchingReferenceIndices.value.has(row.index);
+  };
+
+  globalFilterFunction.autoRemove = (value: string): boolean => !value.trim();
 
   const hasActiveFilter = computed<boolean>(() => globalFilter.value.trim().length > 0);
 

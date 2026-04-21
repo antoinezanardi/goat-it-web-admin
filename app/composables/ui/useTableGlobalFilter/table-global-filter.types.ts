@@ -1,10 +1,10 @@
 import type { IFuseOptions } from "fuse.js";
 import type { FilterFn } from "@tanstack/vue-table";
-import type { ComputedRef, Ref } from "vue";
+import type { ComputedRef, MaybeRefOrGetter, Ref } from "vue";
 
 type UseTableGlobalFilterOptions<T> = {
-  data: Ref<T[]> | ComputedRef<T[]>;
-  keys: Ref<string[]> | ComputedRef<string[]> | string[];
+  data: MaybeRefOrGetter<T[]>;
+  keys: MaybeRefOrGetter<string[]>;
   fuseOptions?: Partial<IFuseOptions<T>>;
   debounceMs?: number;
 };

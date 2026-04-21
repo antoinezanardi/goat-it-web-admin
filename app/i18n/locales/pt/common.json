@@ -16,7 +16,8 @@
       "noData": "Sem dados",
       "noResults": "Nenhum resultado encontrado",
       "filter": {
-        "placeholder": "Filtrar..."
+        "placeholder": "Filtrar...",
+        "clear": "Limpar filtro"
       }
     }
   }
