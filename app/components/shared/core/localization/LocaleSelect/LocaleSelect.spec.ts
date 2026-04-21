@@ -62,7 +62,7 @@ describe("LocaleSelect Component", () => {
       const { setLocale } = useI18n();
       const nuxtUILocaleSelect = wrapper.getComponent<typeof ULocaleSelect>({ name: "ULocaleSelect" });
 
-      nuxtUILocaleSelect.vm.$emit("update:modelValue", "es");
+      nuxtUILocaleSelect.vm.$emit("update:modelValue", "ja");
 
       expect(setLocale).not.toHaveBeenCalled();
     });

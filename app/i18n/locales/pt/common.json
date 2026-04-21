@@ -1,0 +1,16 @@
+{
+  "common": {
+    "app": {
+      "name": "Goat It Admin"
+    },
+    "gitHub": "GitHub",
+    "success": "Sucesso",
+    "error": "Erro",
+    "noTranslation": "Nenhuma tradução disponível",
+    "close": "Fechar",
+    "create": "Criar",
+    "edit": "Editar",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar"
+  }
+}
