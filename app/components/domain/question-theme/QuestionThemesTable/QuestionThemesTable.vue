@@ -32,6 +32,21 @@ const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(t
   status: theme.status,
 })));
 
+const fuseKeys = computed<string[]>(() => [
+  "slug",
+  `label.${currentLocale.value}`,
+  `description.${currentLocale.value}`,
+  "aliases",
+  "status",
+]);
+
+const { searchTerm, globalFilter, globalFilterFn, hasActiveFilter } = useTableGlobalFilter<QuestionThemesTableRow>({
+  data: rows,
+  keys: fuseKeys,
+});
+
+const globalFilterOptions = computed(() => ({ globalFilterFn }));
+
 function onStartCreateFromQuestionThemesTableHeader(): void {
   emit("startCreate");
 }
@@ -45,15 +60,18 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
   <UCard id="question-themes-table">
     <template #header>
       <QuestionThemesTableHeader
+        v-model:search-term="searchTerm"
         data-testid="question-themes-table-header"
         @start-create="onStartCreateFromQuestionThemesTableHeader"
       />
     </template>
 
     <UTable
+      v-model:global-filter="globalFilter"
       :columns="columns"
       :data="rows"
       data-testid="question-themes-table-data"
+      :global-filter-options="globalFilterOptions"
     >
       <template #icon-cell="{ row }">
         <QuestionThemeIcon
@@ -104,6 +122,13 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
           :data-testid="`actions-cell-${row.original.slug}`"
           :question-theme="row.original"
           @start-edit="onStartEditFromQuestionThemesTableActions"
+        />
+      </template>
+
+      <template #empty>
+        <TableEmptyState
+          data-testid="question-themes-table-empty-state"
+          :has-active-filter="hasActiveFilter"
         />
       </template>
     </UTable>

@@ -11,6 +11,13 @@
     "create": "Crea",
     "edit": "Modifica",
     "confirm": "Conferma",
-    "cancel": "Annulla"
+    "cancel": "Annulla",
+    "table": {
+      "noData": "Nessun dato",
+      "noResults": "Nessun risultato trovato",
+      "filter": {
+        "placeholder": "Filtra..."
+      }
+    }
   }
 }
