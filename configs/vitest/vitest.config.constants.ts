@@ -7,6 +7,26 @@ import { VitestProjectNames } from "./vitest.config.enums";
 
 const processCwd = process.cwd();
 
+const VITEST_NON_NUXT_RESOLVE_ALIASES = [
+  { find: /^~\//u, replacement: `${path.resolve(processCwd, "app")}/` },
+  { find: /^@\//u, replacement: `${path.resolve(processCwd, "app")}/` },
+  { find: /^~~\//u, replacement: `${processCwd}/` },
+  { find: /^#shared\//u, replacement: `${path.resolve(processCwd, "shared")}/` },
+  { find: /^#server\//u, replacement: `${path.resolve(processCwd, "server")}/` },
+  { find: /^#build\//u, replacement: `${path.resolve(processCwd, ".nuxt")}/` },
+];
+
+const VITEST_NODE_PROJECT_RESOLVE_ALIASES = [
+  { find: /^~\//u, replacement: `${path.resolve(processCwd, "app")}/` },
+  { find: /^@\//u, replacement: `${path.resolve(processCwd, "app")}/` },
+  { find: /^~~\//u, replacement: `${processCwd}/` },
+  { find: /^#shared\//u, replacement: `${path.resolve(processCwd, "shared")}/` },
+  { find: /^#server\//u, replacement: `${path.resolve(processCwd, "server")}/` },
+  { find: /^#build\//u, replacement: `${path.resolve(processCwd, ".nuxt")}/` },
+  { find: /^ofetch$/u, replacement: path.resolve(processCwd, "node_modules/.pnpm/node_modules/ofetch") },
+  { find: /^h3$/u, replacement: path.resolve(processCwd, "node_modules/.pnpm/node_modules/h3") },
+];
+
 const VITEST_PROJECT_COMMON_INLINE_CONFIG: InlineConfig = {
   globals: true,
   mockReset: true,
@@ -78,20 +98,33 @@ const VITEST_IGNORED_STARTING_BY_LOGS = [
 ] as const;
 
 const VITEST_REPOSITORIES_PROJECT_CONFIG: TestProjectInlineConfiguration = {
+  resolve: {
+    alias: VITEST_NON_NUXT_RESOLVE_ALIASES,
+  },
   test: {
     ...VITEST_PROJECT_COMMON_INLINE_CONFIG,
     name: VitestProjectNames.REPOSITORIES,
     include: [...VITEST_REPOSITORIES_PROJECT_INCLUDES],
     setupFiles: [path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts")],
+    pool: "threads",
+    isolate: false,
   },
 } as const;
 
 const VITEST_NODE_PROJECT_CONFIG: TestProjectInlineConfiguration = {
+  resolve: {
+    alias: VITEST_NODE_PROJECT_RESOLVE_ALIASES,
+  },
   test: {
     ...VITEST_PROJECT_COMMON_INLINE_CONFIG,
     name: VitestProjectNames.NODE,
     include: [...VITEST_NODE_PROJECT_INCLUDES],
-    setupFiles: [path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts")],
+    setupFiles: [
+      path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts"),
+      path.resolve(processCwd, "tests/unit/setup/node/nitro-auto-imports.node.unit-setup.ts"),
+    ],
+    pool: "threads",
+    isolate: false,
   },
 } as const;
 
