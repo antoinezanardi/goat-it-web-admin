@@ -8,8 +8,8 @@ export default defineConfig({
     projects: [
       await defineVitestProject(VITEST_COMPOSABLES_PROJECT_CONFIG),
       await defineVitestProject(VITEST_STORES_PROJECT_CONFIG),
-      await defineVitestProject(VITEST_REPOSITORIES_PROJECT_CONFIG),
-      await defineVitestProject(VITEST_NODE_PROJECT_CONFIG),
+      VITEST_REPOSITORIES_PROJECT_CONFIG,
+      VITEST_NODE_PROJECT_CONFIG,
     ],
     onConsoleLog: (log: string): boolean => !VITEST_IGNORED_STARTING_BY_LOGS.some(ignoredLogStart => log.startsWith(ignoredLogStart)),
   },
