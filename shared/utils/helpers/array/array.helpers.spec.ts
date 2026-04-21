@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { replaceInArrayById } from "~~/shared/utils/helpers/array/array.helpers";
+import { replaceInArrayById } from "#shared/utils/helpers/array/array.helpers";
 
 describe(replaceInArrayById, () => {
   it("should return a new array with the matching element replaced when an element with the given id exists.", () => {

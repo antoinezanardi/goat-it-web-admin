@@ -1,11 +1,11 @@
 /**
  * Returns a new array where the element with the matching `id` is replaced by `replacement`.
- * If no element matches, the original array is returned unchanged.
+ * If no element matches, a shallow copy of the original array is returned.
  *
- * @param {ReadonlyArray<T>} array - The source array.
+ * @param {ReadonlyArray<T>} array - The source array (never mutated).
  * @param {string} id - The id to match against.
  * @param {T} replacement - The value to substitute in.
- * @return {T[]} A new array with the replacement applied, or the original array if no match was found.
+ * @return {T[]} A new array with the replacement applied, or a shallow copy if no match was found.
  */
 function replaceInArrayById<T extends { id: string }>(array: readonly T[], id: string, replacement: T): T[] {
   const index = array.findIndex(item => item.id === id);
