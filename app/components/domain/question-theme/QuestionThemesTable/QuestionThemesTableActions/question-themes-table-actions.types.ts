@@ -2,4 +2,11 @@ type QuestionThemesTableActionsProperties = {
   questionTheme: Pick<QuestionTheme, "id" | "slug" | "status">;
 };
 
-export type { QuestionThemesTableActionsProperties };
+type QuestionThemesTableActionsEmits = {
+  startEdit: [id: string];
+};
+
+export type {
+  QuestionThemesTableActionsProperties,
+  QuestionThemesTableActionsEmits,
+};

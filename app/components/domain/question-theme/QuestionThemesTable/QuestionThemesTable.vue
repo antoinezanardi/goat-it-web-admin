@@ -35,6 +35,10 @@ const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(t
 function onStartCreateFromQuestionThemesTableHeader(): void {
   emit("startCreate");
 }
+
+function onStartEditFromQuestionThemesTableActions(id: string): void {
+  emit("startEdit", id);
+}
 </script>
 
 <template>
@@ -99,6 +103,7 @@ function onStartCreateFromQuestionThemesTableHeader(): void {
         <QuestionThemesTableActions
           :data-testid="`actions-cell-${row.original.slug}`"
           :question-theme="row.original"
+          @start-edit="onStartEditFromQuestionThemesTableActions"
         />
       </template>
     </UTable>

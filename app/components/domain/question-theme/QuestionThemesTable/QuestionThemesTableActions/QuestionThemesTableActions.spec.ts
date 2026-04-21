@@ -5,10 +5,11 @@ import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
+import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionThemesTableActions } from "#components";
-import type { ArchiveQuestionThemeButton } from "#components";
+import type { ArchiveQuestionThemeButton, EditQuestionThemeButton } from "#components";
 
 import type { QuestionThemesTableActionsProperties } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableActions/question-themes-table-actions.types";
 
@@ -67,6 +68,44 @@ describe("QuestionThemesTableActions Component", () => {
       const archiveButton = wrapper.find("[data-testid='question-themes-table-actions-archive-music']");
 
       expect(archiveButton.exists()).toBeFalsy();
+    });
+  });
+
+  describe("Edit button", () => {
+    it("should render the edit button when the question theme is active.", () => {
+      const editButton = wrapper.findComponent<typeof EditQuestionThemeButton>("[data-testid='question-themes-table-actions-edit-music']");
+
+      expect(editButton.exists()).toBeTruthy();
+    });
+
+    it("should render the edit button when the question theme is archived.", async() => {
+      wrapper = await mountQuestionThemesTableActionsComponent({
+        props: {
+          questionTheme: createFakeQuestionTheme({ slug: "music", status: "archived" }),
+        },
+      });
+      const editButton = wrapper.findComponent<typeof EditQuestionThemeButton>("[data-testid='question-themes-table-actions-edit-music']");
+
+      expect(editButton.exists()).toBeTruthy();
+    });
+
+    it("should pass the question theme id to the edit button when the question theme is active.", () => {
+      const editButton = wrapper.findComponent<typeof EditQuestionThemeButton>("[data-testid='question-themes-table-actions-edit-music']");
+
+      expect(editButton.props("questionThemeId")).toBe("theme-id-123");
+    });
+
+    it("should pass the question theme slug to the edit button when the question theme is active.", () => {
+      const editButton = wrapper.findComponent<typeof EditQuestionThemeButton>("[data-testid='question-themes-table-actions-edit-music']");
+
+      expect(editButton.props("questionThemeSlug")).toBe("music");
+    });
+
+    it("should re-emit startEdit with the id when the edit button emits startEdit.", () => {
+      const editButton = wrapper.findComponent<typeof EditQuestionThemeButton>("[data-testid='question-themes-table-actions-edit-music']");
+      getWrapperVm(editButton).$emit("startEdit", "theme-id-123");
+
+      expect(wrapper.emitted("startEdit")).toStrictEqual([["theme-id-123"]]);
     });
   });
 });

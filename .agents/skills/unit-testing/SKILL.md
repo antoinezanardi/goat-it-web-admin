@@ -173,7 +173,7 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 
 ### Shared helper (`node` project)
 
-- [ ] Import with `~~/shared/utils/...`
+- [ ] Import with `#shared/utils/...`
 - [ ] Test all branches including edge cases (empty string, undefined, etc.)
 
 ### i18n translation parity (`node` project)

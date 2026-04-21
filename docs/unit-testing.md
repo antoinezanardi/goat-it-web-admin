@@ -1064,7 +1064,7 @@ describe(createItemFromDto, () => {
 ```ts
 import { describe, it, expect } from "vitest";
 
-import { isNonEmptyString } from "~~/shared/utils/helpers/string.helpers";
+import { isNonEmptyString } from "#shared/utils/helpers/string.helpers";
 
 describe("String Helpers", () => {
   describe(isNonEmptyString, () => {
@@ -1083,7 +1083,7 @@ describe("String Helpers", () => {
 });
 ```
 
-Use `~~/shared/utils/...` import alias. No mocking. Test all branches including edge cases.
+Use `#shared/utils/...` import alias. No mocking. Test all branches including edge cases.
 
 ---
 

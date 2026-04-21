@@ -437,6 +437,19 @@ describe("QuestionThemesTable Component", () => {
     });
   });
 
+  describe("Start edit", () => {
+    it("should re-emit startEdit with the id when the actions component emits startEdit.", async() => {
+      const fakeTheme = createFakeQuestionTheme({ id: "theme-id-123", slug: "music" });
+      questionThemesStore.questionThemes = [fakeTheme];
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const actions = wrapper.findComponent<typeof QuestionThemesTableActions>("[data-testid='actions-cell-music']");
+      getWrapperVm(actions).$emit("startEdit", "theme-id-123");
+
+      expect(wrapper.emitted("startEdit")).toStrictEqual([["theme-id-123"]]);
+    });
+  });
+
   describe("Table header", () => {
     it("should emit startCreate when the table header emits startCreate.", () => {
       const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");

@@ -6,7 +6,8 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
-import { createFakeQuestionThemeCreationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
+import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
+import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 
 import { QuestionThemeFormModal } from "#components";
 import type { QuestionThemeForm, DefaultModalFooter, DefaultModalTitle } from "#components";
@@ -18,7 +19,7 @@ describe("QuestionThemeFormModal Component", () => {
   let wrapper: VueWrapper;
 
   const defaultQuestionThemeFormModalProperties: QuestionThemeFormModalProperties & { open: boolean } = {
-    isCreating: false,
+    isSubmitting: false,
     existingSlugs: [],
     open: true,
   } as const;
@@ -53,41 +54,41 @@ describe("QuestionThemeFormModal Component", () => {
   });
 
   describe("Modal footer", () => {
-    it("should pass isCreating as isCloseButtonDisabled to the footer when isCreating is false.", () => {
+    it("should pass isSubmitting as isCloseButtonDisabled to the footer when isSubmitting is false.", () => {
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
 
       expect(footer.props("isCloseButtonDisabled")).toBeFalsy();
     });
 
-    it("should pass isCreating as isCloseButtonDisabled to the footer when isCreating is true.", async() => {
-      await wrapper.setProps({ isCreating: true });
+    it("should pass isSubmitting as isCloseButtonDisabled to the footer when isSubmitting is true.", async() => {
+      await wrapper.setProps({ isSubmitting: true });
 
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
 
       expect(footer.props("isCloseButtonDisabled")).toBeTruthy();
     });
 
-    it("should pass isCreating as isPrimaryButtonLoading to the footer when isCreating is false.", () => {
+    it("should pass isSubmitting as isPrimaryButtonLoading to the footer when isSubmitting is false.", () => {
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
 
       expect(footer.props("isPrimaryButtonLoading")).toBeFalsy();
     });
 
-    it("should pass isCreating as isPrimaryButtonLoading to the footer when isCreating is true.", async() => {
-      await wrapper.setProps({ isCreating: true });
+    it("should pass isSubmitting as isPrimaryButtonLoading to the footer when isSubmitting is true.", async() => {
+      await wrapper.setProps({ isSubmitting: true });
 
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
 
       expect(footer.props("isPrimaryButtonLoading")).toBeTruthy();
     });
 
-    it("should pass the common.create i18n key as primaryButtonLabel to the footer when mounted.", () => {
+    it("should pass the common.create i18n key as primaryButtonLabel to the footer when mode is create.", () => {
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
 
       expect(footer.props("primaryButtonLabel")).toBe("common.create");
     });
 
-    it("should pass the primary button icon to the footer when mounted.", () => {
+    it("should pass the primary button create icon to the footer when mode is create.", () => {
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
 
       expect(footer.props("primaryButtonIcon")).toBe("i-lucide-circle-plus");
@@ -175,6 +176,90 @@ describe("QuestionThemeFormModal Component", () => {
       getWrapperVm(form).$emit("submitCreation", fakeData);
 
       expect(wrapper.emitted("submitCreation")).toStrictEqual([[fakeData]]);
+    });
+  });
+
+  describe("Edit mode", () => {
+    it("should pass the editTheme i18n key as title to the default modal title when mode is edit.", async() => {
+      wrapper = await mountQuestionThemeFormModalComponent({
+        props: {
+          ...defaultQuestionThemeFormModalProperties,
+          mode: "edit",
+          questionTheme: createFakeQuestionTheme(),
+        },
+      });
+      const modalTitle = wrapper.findComponent<typeof DefaultModalTitle>("[data-testid='question-theme-form-modal-title']");
+
+      expect(modalTitle.props("title")).toBe("questionThemes.editTheme");
+    });
+
+    it("should pass the common.edit i18n key as primaryButtonLabel to the footer when mode is edit.", async() => {
+      wrapper = await mountQuestionThemeFormModalComponent({
+        props: {
+          ...defaultQuestionThemeFormModalProperties,
+          mode: "edit",
+          questionTheme: createFakeQuestionTheme(),
+        },
+      });
+      const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
+
+      expect(footer.props("primaryButtonLabel")).toBe("common.edit");
+    });
+
+    it("should pass the pencil icon as primaryButtonIcon to the footer when mode is edit.", async() => {
+      wrapper = await mountQuestionThemeFormModalComponent({
+        props: {
+          ...defaultQuestionThemeFormModalProperties,
+          mode: "edit",
+          questionTheme: createFakeQuestionTheme(),
+        },
+      });
+      const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
+
+      expect(footer.props("primaryButtonIcon")).toBe("i-lucide-pencil");
+    });
+
+    it("should pass the question theme to the form when mode is edit.", async() => {
+      const fakeTheme = createFakeQuestionTheme();
+      wrapper = await mountQuestionThemeFormModalComponent({
+        props: {
+          ...defaultQuestionThemeFormModalProperties,
+          mode: "edit",
+          questionTheme: fakeTheme,
+        },
+      });
+      const form = wrapper.findComponent<typeof QuestionThemeForm>("[data-testid='question-theme-form-modal-form']");
+
+      expect(form.props("questionTheme")).toStrictEqual(fakeTheme);
+    });
+
+    it("should pass the mode to the form when mode is edit.", async() => {
+      wrapper = await mountQuestionThemeFormModalComponent({
+        props: {
+          ...defaultQuestionThemeFormModalProperties,
+          mode: "edit",
+          questionTheme: createFakeQuestionTheme(),
+        },
+      });
+      const form = wrapper.findComponent<typeof QuestionThemeForm>("[data-testid='question-theme-form-modal-form']");
+
+      expect(form.props("mode")).toBe("edit");
+    });
+
+    it("should emit submitModification when the form emits submitModification.", async() => {
+      const fakeData = createFakeQuestionThemeModificationDto();
+      wrapper = await mountQuestionThemeFormModalComponent({
+        props: {
+          ...defaultQuestionThemeFormModalProperties,
+          mode: "edit",
+          questionTheme: createFakeQuestionTheme(),
+        },
+      });
+      const form = wrapper.findComponent<typeof QuestionThemeForm>("[data-testid='question-theme-form-modal-form']") as VueWrapper;
+
+      getWrapperVm(form).$emit("submitModification", fakeData);
+
+      expect(wrapper.emitted("submitModification")).toStrictEqual([[fakeData]]);
     });
   });
 });

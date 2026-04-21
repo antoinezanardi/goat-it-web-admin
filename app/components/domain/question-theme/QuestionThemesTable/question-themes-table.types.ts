@@ -2,6 +2,7 @@ import type { LocalizedText } from "@goat-it/schemas/shared/locale";
 
 type QuestionThemesTableEmits = {
   startCreate: [];
+  startEdit: [id: string];
 };
 
 type QuestionThemesTableRow = {
