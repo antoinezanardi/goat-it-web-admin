@@ -1,0 +1,8 @@
+{
+  "validation": {
+    "atLeastOneLocaleRequired": "Mindestens eine Sprache muss angegeben werden",
+    "invalidKebabCase": "Muss im Kebab-Case-Format sein (z. B. mein-thema-name)",
+    "invalidHexColor": "Muss eine gültige Hex-Farbe sein (z. B. #FF5733)",
+    "slugAlreadyTaken": "Dieser Slug wird bereits von einem anderen Thema verwendet"
+  }
+}

@@ -47,7 +47,7 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
   - `composables/`    – Organised as `core/`, `domain/`, `ui/`; each composable in its own sub-dir
   - `repositories/`   – Client-side data access (`*.repository.ts`); factory functions, auto-imported by Nuxt
   - `stores/`         – Pinia stores under `domain/`; store names from `stores/store.enums.ts`
-  - `i18n/`           – Locale JSON files (`fr/`, `en/`)
+  - `i18n/`           – Locale JSON files (`de/`, `en/`, `es/`, `fr/`, `it/`, `pt/`)
   - `pages/`, `layouts/`, `assets/`
 - `server/`           – Nitro server routes and utilities (API handlers, mappers, helpers)
   - `api/**/handlers/` – Route handler files (`*.handler.ts`); thin wrappers in `api/**/index.*.ts`
