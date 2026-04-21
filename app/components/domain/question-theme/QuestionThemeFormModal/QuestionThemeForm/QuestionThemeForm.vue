@@ -18,7 +18,7 @@ const emit = defineEmits<QuestionThemeFormEmits>();
 
 const { locale: currentLocale, t } = useI18n();
 
-const form = useTemplateRef<Form<QuestionThemeCreationDto>>("form");
+const form = useTemplateRef<Form<QuestionThemeCreationDto | QuestionThemeModificationDto>>("form");
 
 function createInitialFormState(): QuestionThemeCreationDtoShell {
   if (props.mode !== "edit" || !props.questionTheme) {
