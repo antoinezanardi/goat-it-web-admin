@@ -93,108 +93,64 @@ describe(useTableGlobalFilter, () => {
     });
   });
 
-  describe("globalFilterFn", () => {
-    it.each<{ description: string; searchTermValue: string }>([
-      { description: "empty", searchTermValue: "" },
-      { description: "only whitespace", searchTermValue: "   " },
-    ])("should return true for all rows when globalFilter is $description.", ({ searchTermValue }) => {
-      const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
+  describe("globalFilterFunction", () => {
+    it.each<{ description: string; searchTermValue: string; index: number; filterValue: string; expected: boolean }>([
+      { description: "empty", searchTermValue: "", index: 0, filterValue: "", expected: true },
+      { description: "only whitespace", searchTermValue: "   ", index: 0, filterValue: "", expected: true },
+      { description: "matching by name", searchTermValue: "Mathematics", index: 0, filterValue: "Mathematics", expected: true },
+      { description: "not matching", searchTermValue: "Mathematics", index: 1, filterValue: "Mathematics", expected: false },
+      { description: "fuzzy matching with typos", searchTermValue: "Mathmatcs", index: 0, filterValue: "Mathmatcs", expected: true },
+      { description: "matching on description field", searchTermValue: "Biology", index: 1, filterValue: "Biology", expected: true },
+      { description: "matching with leading and trailing whitespace", searchTermValue: " Math ", index: 0, filterValue: " Math ", expected: true },
+      { description: "non-existent row index", searchTermValue: "Geography", index: 3, filterValue: "Geography", expected: false },
+    ])("should return $expected when globalFilter is $description.", ({ searchTermValue, index, filterValue, expected }) => {
+      const { searchTerm, globalFilterFunction } = useTableGlobalFilter({ data, keys: ["name", "description"] });
 
       searchTerm.value = searchTermValue;
 
-      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "", addMetaMock);
+      const isMatching = globalFilterFunction({ index } as Parameters<typeof globalFilterFunction>[0], "", filterValue, addMetaMock);
 
-      expect(isMatching).toBe(true);
-    });
-
-    it("should return true for a row matching the search term when globalFilter matches by name.", () => {
-      const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
-
-      searchTerm.value = "Mathematics";
-
-      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "Mathematics", addMetaMock);
-
-      expect(isMatching).toBe(true);
-    });
-
-    it("should return false for a row not matching the search term when globalFilter does not match.", () => {
-      const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
-
-      searchTerm.value = "Mathematics";
-
-      const isMatching = globalFilterFn({ index: 1 } as Parameters<typeof globalFilterFn>[0], "", "Mathematics", addMetaMock);
-
-      expect(isMatching).toBe(false);
-    });
-
-    it("should perform fuzzy matching when search term has typos.", () => {
-      const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
-
-      searchTerm.value = "Mathmatcs";
-
-      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "Mathmatcs", addMetaMock);
-
-      expect(isMatching).toBe(true);
-    });
-
-    it("should match on description field when search term matches description.", () => {
-      const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
-
-      searchTerm.value = "Biology";
-
-      const isMatching = globalFilterFn({ index: 1 } as Parameters<typeof globalFilterFn>[0], "", "Biology", addMetaMock);
-
-      expect(isMatching).toBe(true);
+      expect(isMatching).toBe(expected);
     });
 
     it("should return false for a row when globalFilter matches description but only name key is configured.", () => {
       const keys = ref(["name"]);
-      const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys });
+      const { searchTerm, globalFilterFunction } = useTableGlobalFilter({ data, keys });
 
       searchTerm.value = "equations";
 
-      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "equations", addMetaMock);
+      const isMatching = globalFilterFunction({ index: 0 } as Parameters<typeof globalFilterFunction>[0], "", "equations", addMetaMock);
 
       expect(isMatching).toBe(false);
     });
 
     it("should return true for a row when keys are updated to include the matching field.", async() => {
       const keys = ref(["name"]);
-      const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys });
+      const { searchTerm, globalFilterFunction } = useTableGlobalFilter({ data, keys });
 
       searchTerm.value = "equations";
       keys.value = ["name", "description"];
       await nextTick();
 
-      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "equations", addMetaMock);
+      const isMatching = globalFilterFunction({ index: 0 } as Parameters<typeof globalFilterFunction>[0], "", "equations", addMetaMock);
 
       expect(isMatching).toBe(true);
     });
 
-    it("should return false for a row index that does not exist in data when searching for a non-existent entry.", () => {
-      const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
-
-      searchTerm.value = "Geography";
-
-      const isMatching = globalFilterFn({ index: 3 } as Parameters<typeof globalFilterFn>[0], "", "Geography", addMetaMock);
-
-      expect(isMatching).toBe(false);
-    });
-
     it("should return true for the new row when data is updated with a matching entry.", async() => {
-      const { searchTerm, globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
+      const { searchTerm, globalFilterFunction } = useTableGlobalFilter({ data, keys: ["name", "description"] });
 
       searchTerm.value = "Geography";
       data.value = [...data.value, { id: "4", name: "Geography", description: "Earth and maps" }];
       await nextTick();
 
-      const isMatching = globalFilterFn({ index: 3 } as Parameters<typeof globalFilterFn>[0], "", "Geography", addMetaMock);
+      const isMatching = globalFilterFunction({ index: 3 } as Parameters<typeof globalFilterFunction>[0], "", "Geography", addMetaMock);
 
       expect(isMatching).toBe(true);
     });
 
     it("should respect custom fuse options when fuseOptions are provided.", () => {
-      const { searchTerm, globalFilterFn } = useTableGlobalFilter({
+      const { searchTerm, globalFilterFunction } = useTableGlobalFilter({
         data,
         keys: ["name"],
         fuseOptions: { threshold: 0 },
@@ -202,21 +158,24 @@ describe(useTableGlobalFilter, () => {
 
       searchTerm.value = "Mathmatcs";
 
-      const isMatching = globalFilterFn({ index: 0 } as Parameters<typeof globalFilterFn>[0], "", "Mathmatcs", addMetaMock);
+      const isMatching = globalFilterFunction({ index: 0 } as Parameters<typeof globalFilterFunction>[0], "", "Mathmatcs", addMetaMock);
 
       expect(isMatching).toBe(false);
     });
   });
 
   describe("autoRemove", () => {
-    it.each<{ description: string; filterValue: string; expected: boolean }>([
+    it.each<{ description: string; filterValue: unknown; expected: boolean }>([
       { description: "empty string", filterValue: "", expected: true },
       { description: "only whitespace", filterValue: "   ", expected: true },
       { description: "non-empty string", filterValue: "search", expected: false },
+      { description: "undefined", filterValue: undefined, expected: true },
+      { description: "null", filterValue: null, expected: true },
+      { description: "number", filterValue: 42, expected: true },
     ])("should return $expected when the filter value is $description.", ({ filterValue, expected }) => {
-      const { globalFilterFn } = useTableGlobalFilter({ data, keys: ["name", "description"] });
+      const { globalFilterFunction } = useTableGlobalFilter({ data, keys: ["name", "description"] });
 
-      const shouldAutoRemove = globalFilterFn.autoRemove?.(filterValue);
+      const shouldAutoRemove = globalFilterFunction.autoRemove?.(filterValue);
 
       expect(shouldAutoRemove).toBe(expected);
     });

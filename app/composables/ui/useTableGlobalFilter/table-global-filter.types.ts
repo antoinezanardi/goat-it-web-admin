@@ -12,7 +12,7 @@ type UseTableGlobalFilterOptions<T> = {
 type UseTableGlobalFilter<T> = {
   searchTerm: Ref<string>;
   globalFilter: Ref<string>;
-  globalFilterFn: FilterFn<T>;
+  globalFilterFunction: FilterFn<T>;
   hasActiveFilter: ComputedRef<boolean>;
 };
 

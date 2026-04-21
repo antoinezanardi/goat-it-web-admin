@@ -1,6 +1,7 @@
 import { nextTick, toValue } from "vue";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { TableColumn } from "@nuxt/ui";
+import type { FilterFn } from "@tanstack/vue-table";
 import { createTestingPinia } from "@pinia/testing";
 import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
@@ -497,8 +498,7 @@ describe("QuestionThemesTable Component", () => {
     it("should pass globalFilterOptions with the filterFn to the table component when mounted.", () => {
       const table = wrapper.getComponent({ name: "UTable" });
 
-      // oxlint-disable-next-line typescript/no-unsafe-assignment -- expect.any(Function) returns any
-      expect(table.props("globalFilterOptions")).toStrictEqual({ globalFilterFn: expect.any(Function) });
+      expect(table.props("globalFilterOptions")).toStrictEqual({ globalFilterFn: expect.any(Function) as FilterFn<QuestionThemesTableRow> });
     });
 
     it("should update the composable globalFilter when the table emits update:globalFilter.", () => {

@@ -1,4 +1,5 @@
 import type { LocalizedText } from "@goat-it/schemas/shared/locale";
+import type { GlobalFilterOptions } from "@tanstack/vue-table";
 
 type QuestionThemesTableEmits = {
   startCreate: [];
@@ -15,7 +16,10 @@ type QuestionThemesTableRow = {
   status: QuestionTheme["status"];
 };
 
+type QuestionThemesTableGlobalFilterOptions = Omit<GlobalFilterOptions<QuestionThemesTableRow>, "onGlobalFilterChange">;
+
 export type {
   QuestionThemesTableEmits,
+  QuestionThemesTableGlobalFilterOptions,
   QuestionThemesTableRow,
 };

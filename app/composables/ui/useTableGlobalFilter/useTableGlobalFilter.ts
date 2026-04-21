@@ -26,23 +26,16 @@ function useTableGlobalFilter<T>(options: UseTableGlobalFilterOptions<T>): UseTa
     return new Set(results.map(result => result.refIndex));
   });
 
-  // oxlint-disable-next-line typescript/no-unsafe-member-access, typescript/no-unsafe-argument -- FilterFn<T> row parameter type is not resolved by oxlint type-aware mode
-  const globalFilterFunction: FilterFn<T> = (row: Row<T>): boolean => {
-    if (globalFilter.value.trim() === "") {
-      return true;
-    }
-    return matchingReferenceIndices.value.has(row.index);
-  };
+  const globalFilterFunction: FilterFn<T> = (row: Row<T>): boolean => matchingReferenceIndices.value.has(row.index);
 
-  globalFilterFunction.autoRemove = (value: string): boolean => !value.trim();
+  globalFilterFunction.autoRemove = (value: unknown): boolean => typeof value !== "string" || !value.trim();
 
   const hasActiveFilter = computed<boolean>(() => globalFilter.value.trim().length > 0);
 
   return {
     searchTerm,
     globalFilter,
-    // oxlint-disable-next-line typescript/no-unsafe-assignment -- FilterFn<T> type is not resolved by oxlint type-aware mode
-    globalFilterFn: globalFilterFunction,
+    globalFilterFunction,
     hasActiveFilter,
   };
 }

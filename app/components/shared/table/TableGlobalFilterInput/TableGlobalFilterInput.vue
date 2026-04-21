@@ -11,6 +11,8 @@ const { t } = useI18n();
 
 const resolvedPlaceholder = computed<string>(() => props.placeholder ?? t("common.table.filter.placeholder"));
 
+const clearLabel = computed<string>(() => t("common.table.filter.clear"));
+
 function onClickClearFilterButton(): void {
   emit("update:modelValue", "");
 }
@@ -33,9 +35,9 @@ function onUpdateModelValue(event: string | number): void {
       v-if="modelValue.length > 0"
       #trailing
     >
-      <UTooltip :text="$t('common.table.filter.clear')">
+      <UTooltip :text="clearLabel">
         <UButton
-          :aria-label="$t('common.table.filter.clear')"
+          :aria-label="clearLabel"
           color="neutral"
           data-testid="table-global-filter-clear-button"
           icon="i-lucide-x"

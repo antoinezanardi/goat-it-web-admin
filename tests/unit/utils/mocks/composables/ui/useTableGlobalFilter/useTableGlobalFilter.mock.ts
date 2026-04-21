@@ -14,7 +14,7 @@ function createUseTableGlobalFilterMock(): UseTableGlobalFilterMock {
   return {
     searchTerm,
     globalFilter,
-    globalFilterFn: vi.fn<() => boolean>().mockReturnValue(true),
+    globalFilterFunction: vi.fn<() => boolean>().mockReturnValue(true),
     hasActiveFilter: computed<boolean>(() => globalFilter.value.trim().length > 0),
   };
 }
