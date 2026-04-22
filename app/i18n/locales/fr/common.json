@@ -11,6 +11,14 @@
     "create": "Créer",
     "edit": "Modifier",
     "confirm": "Confirmer",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "table": {
+      "noData": "Aucune donnée",
+      "noResults": "Aucun résultat trouvé",
+      "filter": {
+        "placeholder": "Filtrer...",
+        "clear": "Effacer le filtre"
+      }
+    }
   }
 }

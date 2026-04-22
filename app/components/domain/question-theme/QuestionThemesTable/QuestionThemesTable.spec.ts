@@ -1,9 +1,12 @@
+import { nextTick, toValue } from "vue";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { TableColumn } from "@nuxt/ui";
+import type { FilterFn } from "@tanstack/vue-table";
 import { createTestingPinia } from "@pinia/testing";
 import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
+import type { vi } from "vitest";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
@@ -13,7 +16,7 @@ import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionThemesTable } from "#components";
-import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList, QuestionThemesTableHeader, LocalizedText as LocalizedTextComponent, QuestionThemeIcon, QuestionThemesTableActions } from "#components";
+import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList, QuestionThemesTableHeader, LocalizedText as LocalizedTextComponent, QuestionThemeIcon, QuestionThemesTableActions, TableEmptyState } from "#components";
 
 import type { QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 
@@ -456,6 +459,91 @@ describe("QuestionThemesTable Component", () => {
       getWrapperVm(header).$emit("startCreate");
 
       expect(wrapper.emitted("startCreate")).toBeDefined();
+    });
+
+    it("should pass empty search term to the table header when no search has been performed.", () => {
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+
+      expect(header.props("searchTerm")).toBe("");
+    });
+
+    it("should update search term when the composable searchTerm changes.", async() => {
+      const { searchTerm } = useTableGlobalFilter({ data: [], keys: [] });
+
+      searchTerm.value = "test search";
+      await nextTick();
+
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+
+      expect(header.props("searchTerm")).toBe("test search");
+    });
+
+    it("should update the composable searchTerm when the header emits update:searchTerm.", () => {
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+      getWrapperVm(header).$emit("update:searchTerm", "updated from header");
+
+      const { searchTerm } = useTableGlobalFilter({ data: [], keys: [] });
+
+      expect(searchTerm.value).toBe("updated from header");
+    });
+  });
+
+  describe("Global filter", () => {
+    it("should pass globalFilter to the table component when mounted.", () => {
+      const table = wrapper.getComponent({ name: "UTable" });
+
+      expect(table.props("globalFilter")).toBe("");
+    });
+
+    it("should pass globalFilterOptions with the filterFn to the table component when mounted.", () => {
+      const table = wrapper.getComponent({ name: "UTable" });
+
+      expect(table.props("globalFilterOptions")).toStrictEqual({ globalFilterFn: expect.any(Function) as FilterFn<QuestionThemesTableRow> });
+    });
+
+    it("should update the composable globalFilter when the table emits update:globalFilter.", () => {
+      const table = wrapper.findComponent({ name: "UTable" });
+      getWrapperVm(table).$emit("update:globalFilter", "updated from table");
+
+      const { globalFilter } = useTableGlobalFilter({ data: [], keys: [] });
+
+      expect(globalFilter.value).toBe("updated from table");
+    });
+  });
+
+  describe("Fuse keys", () => {
+    it("should pass fuse keys including current locale label and description to useTableGlobalFilter when mounted.", () => {
+      const mockFunction = useTableGlobalFilter as unknown as ReturnType<typeof vi.fn>;
+      const options = mockFunction.mock.calls[0]?.[0] as { keys: unknown };
+
+      expect(toValue(options.keys)).toStrictEqual([
+        "slug",
+        `label.${DEFAULT_MOCKED_LOCALE}`,
+        `description.${DEFAULT_MOCKED_LOCALE}`,
+        "aliases",
+        "status",
+      ]);
+    });
+  });
+
+  describe("Empty state", () => {
+    it("should pass hasActiveFilter as false to the empty state component when no filter is active.", () => {
+      questionThemesStore.questionThemes = [];
+
+      const emptyState = wrapper.findComponent<typeof TableEmptyState>("[data-testid='question-themes-table-empty-state']");
+
+      expect(emptyState.props("hasActiveFilter")).toBe(false);
+    });
+
+    it("should pass hasActiveFilter as true to the empty state component when the filter is active.", async() => {
+      questionThemesStore.questionThemes = [];
+      const { globalFilter } = useTableGlobalFilter({ data: [], keys: [] });
+      globalFilter.value = "search text";
+      await nextTick();
+
+      const emptyState = wrapper.findComponent<typeof TableEmptyState>("[data-testid='question-themes-table-empty-state']");
+
+      expect(emptyState.props("hasActiveFilter")).toBe(true);
     });
   });
 });

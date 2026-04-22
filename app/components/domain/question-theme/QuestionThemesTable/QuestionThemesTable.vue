@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
 
-import type { QuestionThemesTableEmits, QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
+import type { QuestionThemesTableEmits, QuestionThemesTableGlobalFilterOptions, QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 import LocalizedText from "~/components/shared/core/localization/LocalizedText/LocalizedText.vue";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
 
@@ -32,6 +32,21 @@ const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(t
   status: theme.status,
 })));
 
+const fuseKeys = computed<string[]>(() => [
+  "slug",
+  `label.${currentLocale.value}`,
+  `description.${currentLocale.value}`,
+  "aliases",
+  "status",
+]);
+
+const { searchTerm, globalFilter, globalFilterFunction, hasActiveFilter } = useTableGlobalFilter<QuestionThemesTableRow>({
+  data: rows,
+  keys: fuseKeys,
+});
+
+const globalFilterOptions = computed<QuestionThemesTableGlobalFilterOptions>(() => ({ globalFilterFn: globalFilterFunction }));
+
 function onStartCreateFromQuestionThemesTableHeader(): void {
   emit("startCreate");
 }
@@ -45,15 +60,19 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
   <UCard id="question-themes-table">
     <template #header>
       <QuestionThemesTableHeader
+        v-model:search-term="searchTerm"
         data-testid="question-themes-table-header"
         @start-create="onStartCreateFromQuestionThemesTableHeader"
       />
     </template>
 
     <UTable
+      v-model:global-filter="globalFilter"
       :columns="columns"
       :data="rows"
       data-testid="question-themes-table-data"
+      :global-filter-options="globalFilterOptions"
+      sticky
     >
       <template #icon-cell="{ row }">
         <QuestionThemeIcon
@@ -104,6 +123,13 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
           :data-testid="`actions-cell-${row.original.slug}`"
           :question-theme="row.original"
           @start-edit="onStartEditFromQuestionThemesTableActions"
+        />
+      </template>
+
+      <template #empty>
+        <TableEmptyState
+          data-testid="question-themes-table-empty-state"
+          :has-active-filter="hasActiveFilter"
         />
       </template>
     </UTable>
