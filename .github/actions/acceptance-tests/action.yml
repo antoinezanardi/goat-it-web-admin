@@ -19,48 +19,37 @@ runs:
     - name: Install project 📦
       uses: ./.github/actions/install-project
 
-    # - name: Start Docker services 🐳
-    #  id: start-docker-services
-    #  shell: bash
-    # run: pnpm run docker:acceptance-tests:start
+    - name: Install Playwright Chromium 🎭
+      shell: bash
+      run: pnpm run test:acceptance:prepare
 
-#    - name: Acceptance tests ⚗️
-#      id: acceptance-tests
-#      continue-on-error: true
-#      shell: bash
-#      run: |
-#        pnpm run test:acceptance
-#        ${{ github.workspace }}/scripts/transform-cucumber-report-as-env-variables.sh >> "$GITHUB_ENV"
-#
-#    - name: Set Cucumber Results As Outputs 📝
-#      id: cucumber-results
-#      continue-on-error: true
-#      shell: bash
-#      run: echo "acceptance-tests-count=${{ env.CUCUMBER_SCENARIOS_COUNT }}" >> "$GITHUB_OUTPUT"
-#
-#    - name: Save acceptance tests reports as artifact 💎
-#      uses: actions/upload-artifact@v6
-#      with:
-#        name: acceptance-tests-reports
-#        path: ${{ inputs.acceptance-tests-reports-path }}
-#        if-no-files-found: ignore
-#        retention-days: 2
-#
-#    - name: Save acceptance logs as artifact 📋
-#      if: always()
-#      uses: actions/upload-artifact@v6
-#      with:
-#        name: acceptance-logs
-#        path: tests/acceptance/logs
-#        if-no-files-found: ignore
-#        retention-days: 2
-#
-#    - name: Exit with error if acceptance tests failed 🚨
-#      if: steps.acceptance-tests.outcome != 'success'
-#      shell: bash
-#      run: exit 1
+    - name: Acceptance tests ⚗️
+      id: acceptance-tests
+      continue-on-error: true
+      shell: bash
+      run: |
+        set +e
+        pnpm run test:acceptance
+        ACCEPTANCE_EXIT_CODE=$?
+        set -e
+        ${{ github.workspace }}/scripts/transform-cucumber-report-as-env-variables.sh >> "$GITHUB_ENV"
+        exit "$ACCEPTANCE_EXIT_CODE"
 
-    #- name: Stop Docker services 🛑
-    #  if: always()
-    #  shell: bash
-    #  run: pnpm run docker:acceptance-tests:stop
+    - name: Set Cucumber Results As Outputs 📝
+      id: cucumber-results
+      continue-on-error: true
+      shell: bash
+      run: echo "acceptance-tests-count=${{ env.CUCUMBER_SCENARIOS_COUNT }}" >> "$GITHUB_OUTPUT"
+
+    - name: Save acceptance tests reports as artifact 💎
+      uses: actions/upload-artifact@v6
+      with:
+        name: acceptance-tests-reports
+        path: ${{ inputs.acceptance-tests-reports-path }}
+        if-no-files-found: ignore
+        retention-days: 2
+
+    - name: Exit with error if acceptance tests failed 🚨
+      if: steps.acceptance-tests.outcome != 'success'
+      shell: bash
+      run: exit 1

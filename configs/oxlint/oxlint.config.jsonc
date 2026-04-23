@@ -51,7 +51,8 @@
     "watch": "readonly",
     "useNuxtApp": "readonly",
     "defineNuxtPlugin": "readonly",
-    "useZodLocale": "readonly"
+    "useZodLocale": "readonly",
+    "URL": "readonly"
   },
   "ignorePatterns": [
     ".output/**/*",
@@ -1202,6 +1203,32 @@
             "multipleFileExtensions": true
           }
         ]
+      }
+    },
+    // ---- Override for acceptance test file naming -----
+    {
+      "files": [
+        "**/tests/acceptance/**/*.ts"
+      ],
+      "rules": {
+        "unicorn/filename-case": [
+          "error",
+          {
+            "case": "kebabCase",
+            "multipleFileExtensions": true
+          }
+        ]
+      }
+    },
+    // ---- Override for Cucumber step definitions and hooks -----
+    {
+      "files": [
+        "**/tests/acceptance/features/step-definitions/**/*-steps.ts",
+        "**/tests/acceptance/features/support/hooks.ts"
+      ],
+      "rules": {
+        "new-cap": "off",
+        "func-names": "off"
       }
     }
   ]
