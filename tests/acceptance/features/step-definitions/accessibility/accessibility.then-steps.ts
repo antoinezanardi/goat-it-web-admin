@@ -17,7 +17,7 @@ Then(
 
     await this.page.setViewportSize(viewport);
     const results = await new AxeBuilder({ page: this.page })
-      .withTags(AXE_TAGS)
+      .withTags([...AXE_TAGS])
       .analyze();
 
     if (results.violations.length > 0) {

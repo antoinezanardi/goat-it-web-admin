@@ -2,13 +2,12 @@ import { Then } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
 
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
-import { ROLE_REGEX } from "#acceptance/features/step-definitions/element/element.steps.constants.ts";
-import { assertIsLocatorRole } from "#acceptance/features/step-definitions/element/helpers/element.steps.helpers.ts";
+import type { LocatorRole } from "#acceptance/features/support/types/playwright.types.ts";
+import { ROLE_ALTERNATION_PATTERN } from "#acceptance/features/step-definitions/element/element.steps.constants.ts";
 
 Then(
-  new RegExp(`^the (?<role>${ROLE_REGEX}) with(?<exact> exact)? name "(?<name>[^"]*)" should be visible$`, "u"),
-  async function(this: GoatItWorld, role: string, exact: string | undefined, name: string): Promise<void> {
-    assertIsLocatorRole(role);
+  new RegExp(`^the (?<role>${ROLE_ALTERNATION_PATTERN}) with(?<exact> exact)? name "(?<name>[^"]*)" should be visible$`, "u"),
+  async function(this: GoatItWorld, role: LocatorRole, exact: string | undefined, name: string): Promise<void> {
     const locator = this.page.getByRole(role, { name, exact: exact !== undefined });
 
     await expect(locator).toBeVisible();
@@ -16,9 +15,8 @@ Then(
 );
 
 Then(
-  new RegExp(`^the (?<role>${ROLE_REGEX}) with(?<exact> exact)? name "(?<name>[^"]*)" should be hidden$`, "u"),
-  async function(this: GoatItWorld, role: string, exact: string | undefined, name: string): Promise<void> {
-    assertIsLocatorRole(role);
+  new RegExp(`^the (?<role>${ROLE_ALTERNATION_PATTERN}) with(?<exact> exact)? name "(?<name>[^"]*)" should be hidden$`, "u"),
+  async function(this: GoatItWorld, role: LocatorRole, exact: string | undefined, name: string): Promise<void> {
     const locator = this.page.getByRole(role, { name, exact: exact !== undefined });
 
     await expect(locator).toBeHidden();
@@ -26,9 +24,8 @@ Then(
 );
 
 Then(
-  new RegExp(`^the (?<role>${ROLE_REGEX}) with(?<exact> exact)? name "(?<name>[^"]*)" should be disabled$`, "u"),
-  async function(this: GoatItWorld, role: string, exact: string | undefined, name: string): Promise<void> {
-    assertIsLocatorRole(role);
+  new RegExp(`^the (?<role>${ROLE_ALTERNATION_PATTERN}) with(?<exact> exact)? name "(?<name>[^"]*)" should be disabled$`, "u"),
+  async function(this: GoatItWorld, role: LocatorRole, exact: string | undefined, name: string): Promise<void> {
     const locator = this.page.getByRole(role, { name, exact: exact !== undefined });
 
     await expect(locator).toBeDisabled();
@@ -36,9 +33,8 @@ Then(
 );
 
 Then(
-  new RegExp(`^the (?<role>${ROLE_REGEX}) with(?<exact> exact)? name "(?<name>[^"]*)" should be enabled$`, "u"),
-  async function(this: GoatItWorld, role: string, exact: string | undefined, name: string): Promise<void> {
-    assertIsLocatorRole(role);
+  new RegExp(`^the (?<role>${ROLE_ALTERNATION_PATTERN}) with(?<exact> exact)? name "(?<name>[^"]*)" should be enabled$`, "u"),
+  async function(this: GoatItWorld, role: LocatorRole, exact: string | undefined, name: string): Promise<void> {
     const locator = this.page.getByRole(role, { name, exact: exact !== undefined });
 
     await expect(locator).toBeEnabled();

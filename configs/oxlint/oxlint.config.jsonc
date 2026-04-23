@@ -1227,9 +1227,7 @@
         "**/tests/acceptance/features/support/hooks.ts"
       ],
       "rules": {
-        // Cucumber's Given/When/Then/BeforeAll/Before/After/AfterAll are PascalCase API functions, not constructors
         "new-cap": "off",
-        // Step definitions use anonymous functions with `this` binding for Cucumber World access
         "func-names": "off"
       }
     }

@@ -24,7 +24,14 @@ async function hoverOnRoleWithText(world: GoatItWorld, role: LocatorRole, name: 
   await locator.hover();
 }
 
+async function scrollToRoleWithText(world: GoatItWorld, role: LocatorRole, name: string, isExact: boolean): Promise<void> {
+  const locator = await resolveVisibleRoleLocator(world, role, name, isExact);
+
+  await locator.scrollIntoViewIfNeeded();
+}
+
 export {
   clickOnRoleWithText,
   hoverOnRoleWithText,
+  scrollToRoleWithText,
 };

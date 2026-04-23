@@ -7,7 +7,7 @@ async function waitForPageLoadStates(world: GoatItWorld): Promise<void> {
 }
 
 async function waitForPageUrl(world: GoatItWorld, pageUrl: string): Promise<void> {
-  await world.page.waitForURL(new RegExp(`${pageUrl.replaceAll("/", String.raw`\/`)}$`, "u"));
+  await world.page.waitForURL(currentUrl => new URL(currentUrl).pathname === pageUrl);
 }
 
 async function goOnPage(world: GoatItWorld, pageName: string): Promise<void> {
