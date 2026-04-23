@@ -12,11 +12,8 @@ const AXE_TAGS = [
   "ACT",
 ] as const;
 
-const JSON_STRINGIFY_INDENT = 2;
-
 export {
   AXE_TAGS,
   DESKTOP_VIEWPORT,
-  JSON_STRINGIFY_INDENT,
   MOBILE_VIEWPORT,
 };
