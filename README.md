@@ -166,6 +166,23 @@ pnpm run test:mutation
 pnpm run test:mutation:force
 ```
 
+### 🥒 Acceptance tests
+
+![Playwright](https://img.shields.io/badge/-Playwright-black?style=for-the-badge&logoColor=white&logo=playwright&color=2EAD33)
+![Cucumber](https://img.shields.io/badge/-Cucumber-black?style=for-the-badge&logoColor=white&logo=cucumber&color=23D96C)
+
+This project uses `Playwright` and `Cucumber` for BDD acceptance tests.
+
+Features are written in Gherkin and located in **[tests/acceptance/features/](tests/acceptance/features/)**.
+
+```bash
+# Install Playwright Chromium (run once locally)
+pnpm run test:acceptance:prepare
+
+# Run acceptance tests
+pnpm run test:acceptance
+```
+
 ## <a name="code-analysis-and-consistency">☑️ Code analysis and consistency</a>
 
 ### 🔍 Code linting & formatting

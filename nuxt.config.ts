@@ -86,6 +86,7 @@ export default defineNuxtConfig({
       compilerOptions: {
         noImplicitReturns: true,
         noImplicitAny: true,
+        allowImportingTsExtensions: true,
       },
       include: [
         "../tests/",

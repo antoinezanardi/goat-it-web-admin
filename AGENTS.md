@@ -23,6 +23,8 @@ handling, Nuxt conventions, and other repo-specific rules).
   - With coverage:   `pnpm run test:unit:cov`
   - Watch mode:      `pnpm run test:unit:watch`
   - Mutation (Stryker): `pnpm run test:mutation` / `pnpm run test:mutation:force`
+  - Acceptance (Cucumber + Playwright): `pnpm run test:acceptance`
+  - Install Playwright: `pnpm run test:acceptance:prepare` (run once locally)
 
 Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
 
@@ -31,12 +33,13 @@ Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
 - Watch file: `pnpm run test:unit:watch app/pages/index.spec.ts`
 - Direct:     `pnpm exec cross-env NODE_OPTIONS='--no-webstorage' vitest --config configs/vitest/vitest.config.ts path/to/file.spec.ts`
 
-**Mandatory quality gates** — agents MUST run all three commands below **in order**
+**Mandatory quality gates** — agents MUST run all four commands below **in order**
 before considering any task complete. Do NOT skip any gate, even for "trivial" changes:
 
 1. `pnpm run lint:fix`
 2. `pnpm run typecheck`
 3. `pnpm run test:unit:cov`
+4. `pnpm run test:acceptance`
 
 If any gate fails, fix the issue and re-run from that gate onward until all four pass.
 
@@ -55,7 +58,8 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
 - `shared/types/`     – Types shared between app and server (e.g. `QuestionTheme`)
 - `shared/utils/`     – Helpers auto-imported in both app and server
 - `tests/unit/`       – Test utilities: `setup/nuxt/`, `utils/faketories/`, `utils/mocks/`
-- `configs/`          – Vitest, ESLint, Oxlint, Stryker, lint-staged configs
+- `tests/acceptance/` – Acceptance tests: Cucumber features, Playwright step definitions, hooks
+- `configs/`          – Vitest, Cucumber, ESLint, Oxlint, Stryker, lint-staged configs
 - `envs/`             – `.env.development`, `.env.test`, `.env.example`
 - `modules/`          – Custom Nuxt modules; `scripts/` – shell utilities
 - `docker/goat-it-api-sandbox/` – Local API sandbox via docker-compose
@@ -97,6 +101,7 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
   - `~~/` → repo root (use for `~~/tests/unit/...` in tests)
   - `#server/utils/...` → inside `server/` only
   - `#shared/` → `shared/`
+  - `#acceptance/` → `tests/acceptance/` (acceptance tests only, via Node subpath imports)
 
 - Naming conventions:
   - Files: Components: `PascalCase.vue` | Composables: `use*.ts` | Stores: `<entity>.store.ts`
@@ -235,6 +240,7 @@ Slash commands available in OpenCode sessions:
 - ESLint config:    `eslint.config.ts` + `configs/eslint/flat-configs/`
 - Oxlint config:    `configs/oxlint/oxlint.config.jsonc`
 - Stryker config:   `configs/stryker/stryker.config.mjs`
+- Cucumber config:  `configs/cucumber/cucumber.json`
 - Nuxt config:      `nuxt.config.ts`
 - Env files:        `envs/.env.development`, `envs/.env.test`, `envs/.env.example`
 - Test setup:       `tests/unit/setup/nuxt/` (base + `composables/` + `repositories/`)
