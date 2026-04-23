@@ -15,7 +15,7 @@ importers:
         specifier: ^20.5.0
         version: 20.5.0
       '@cucumber/cucumber':
-        specifier: ^12.2.0
+        specifier: ^12.8.1
         version: 12.8.1
       '@eslint/config-inspector':
         specifier: ^2.0.0
