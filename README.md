@@ -171,12 +171,14 @@ pnpm run test:mutation:force
 ![Playwright](https://img.shields.io/badge/-Playwright-black?style=for-the-badge&logoColor=white&logo=playwright&color=2EAD33)
 ![Cucumber](https://img.shields.io/badge/-Cucumber-black?style=for-the-badge&logoColor=white&logo=cucumber&color=23D96C)
 
+[![Scenarios count](https://byob.yarr.is/antoinezanardi/goat-it-web-admin/scenarios)](https://byob.yarr.is/antoinezanardi/goat-it-web-admin/scenarios)
+
 This project uses `Playwright` and `Cucumber` for BDD acceptance tests.
 
 Features are written in Gherkin and located in **[tests/acceptance/features/](tests/acceptance/features/)**.
 
 ```bash
-# Install Playwright Chromium (run once locally)
+# Install Playwright Chromium browser binary (required before running acceptance tests)
 pnpm run test:acceptance:prepare
 
 # Run acceptance tests

@@ -4,11 +4,10 @@ import type { GoatItWorld } from "#acceptance/features/support/types/world.types
 
 async function waitForPageLoadStates(world: GoatItWorld): Promise<void> {
   await world.page.waitForLoadState("load");
-  await world.page.waitForLoadState("networkidle");
 }
 
 async function waitForPageUrl(world: GoatItWorld, pageUrl: string): Promise<void> {
-  await world.page.waitForURL(`**${pageUrl}`);
+  await world.page.waitForURL(new RegExp(`${pageUrl.replaceAll("/", String.raw`\/`)}$`, "u"));
 }
 
 async function goOnPage(world: GoatItWorld, pageName: string): Promise<void> {

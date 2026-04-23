@@ -231,7 +231,8 @@ Slash commands available in OpenCode sessions:
 - Always read and follow `AGENTS.md` when working in this repo.
 - If `AGENTS.md` is not in the chat context, ask the repo owner to attach it.
 - Prefer minimal edits, Nuxt conventions, write unit tests first, and ensure
-  `lint`, `typecheck`, and `test:unit:cov` pass before submitting changes.
+  all mandatory quality gates pass (`pnpm run lint:fix` → `pnpm run typecheck` →
+  `pnpm run test:unit:cov` → `pnpm run test:acceptance`). Do NOT skip any gate.
 - Cursor rules: none (`.cursor/rules/` and `.cursorrules` do not exist).
 
 ## Useful paths

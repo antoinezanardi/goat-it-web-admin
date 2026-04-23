@@ -7,8 +7,6 @@ class GoatItWorld extends World {
 
   public context!: BrowserContext;
 
-  public pendingPagePromise!: Promise<Page>;
-
   public constructor(options: IWorldOptions<unknown>) {
     super(options);
   }

@@ -11,9 +11,21 @@ function removeAcceptanceTestsReportsScreenshotsDirectory(): void {
   rimraf.sync(acceptanceTestsReportsDirectoryFilesPath);
 }
 
+function sanitizeScenarioName(name: string): string {
+  const MAX_LENGTH = 200;
+
+  return name
+    .replaceAll(/["*/:<>?\\|]/gu, "-")
+    .replaceAll("..", "")
+    .replaceAll(/\s+/gu, "-")
+    .replaceAll(/^-+|-+$/gu, "")
+    .slice(0, MAX_LENGTH);
+}
+
 async function generateScreenshotOnScenarioFailure(world: GoatItWorld, scenario: ITestCaseHookParameter): Promise<void> {
   const screenShotExtension = ".png";
-  const screenShotRelativePath = `${ACCEPTANCE_TESTS_REPORTS_SCREENSHOTS_PATH}/${scenario.pickle.name}${screenShotExtension}`;
+  const sanitizedName = sanitizeScenarioName(scenario.pickle.name);
+  const screenShotRelativePath = `${ACCEPTANCE_TESTS_REPORTS_SCREENSHOTS_PATH}/${sanitizedName}-${Date.now()}${screenShotExtension}`;
   const screenShot = await world.page.screenshot({
     path: screenShotRelativePath,
     fullPage: true,
@@ -26,6 +38,7 @@ async function generateScreenshotOnScenarioFailure(world: GoatItWorld, scenario:
 }
 
 export {
-  removeAcceptanceTestsReportsScreenshotsDirectory,
   generateScreenshotOnScenarioFailure,
+  removeAcceptanceTestsReportsScreenshotsDirectory,
+  sanitizeScenarioName,
 };

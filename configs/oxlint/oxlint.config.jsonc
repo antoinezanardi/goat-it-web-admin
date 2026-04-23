@@ -1205,7 +1205,7 @@
         ]
       }
     },
-    // ---- Override for acceptance test files -----
+    // ---- Override for acceptance test file naming -----
     {
       "files": [
         "**/tests/acceptance/**/*.ts"
@@ -1217,13 +1217,20 @@
             "case": "kebabCase",
             "multipleFileExtensions": true
           }
-        ],
+        ]
+      }
+    },
+    // ---- Override for Cucumber step definitions and hooks -----
+    {
+      "files": [
+        "**/tests/acceptance/features/step-definitions/**/*-steps.ts",
+        "**/tests/acceptance/features/support/hooks.ts"
+      ],
+      "rules": {
         // Cucumber's Given/When/Then/BeforeAll/Before/After/AfterAll are PascalCase API functions, not constructors
         "new-cap": "off",
         // Step definitions use anonymous functions with `this` binding for Cucumber World access
-        "func-names": "off",
-        // `role as LocatorRole` is safe — the regex constrains captured groups to valid ARIA roles
-        "typescript/no-unsafe-type-assertion": "off"
+        "func-names": "off"
       }
     }
   ]

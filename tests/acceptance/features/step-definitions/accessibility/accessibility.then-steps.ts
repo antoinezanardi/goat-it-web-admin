@@ -3,22 +3,12 @@ import { Then } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
 
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
-
-const DESKTOP_VIEWPORT = { width: 1920, height: 800 };
-
-const MOBILE_VIEWPORT = { width: 375, height: 667 };
-
-const AXE_TAGS = [
-  "wcag2a",
-  "wcag2aa",
-  "wcag21a",
-  "wcag21aa",
-  "wcag22aa",
-  "best-practice",
-  "ACT",
-];
-
-const JSON_STRINGIFY_INDENT = 2;
+import {
+  AXE_TAGS,
+  DESKTOP_VIEWPORT,
+  JSON_STRINGIFY_INDENT,
+  MOBILE_VIEWPORT,
+} from "#acceptance/features/step-definitions/accessibility/accessibility.steps.constants.ts";
 
 Then(
   /^the page should not contain accessibility issues in (?<mode>desktop|mobile) mode$/u,
