@@ -103,7 +103,7 @@
     "@eslint/config-inspector": "^2.0.0",
     "@faker-js/faker": "^10.4.0",
     "@goat-it/schemas": "^0.0.8",
-    "@iconify-json/lucide": "^1.2.102",
+    "@iconify-json/lucide": "^1.2.103",
     "@nuxt/eslint": "^1.15.2",
     "@nuxt/hints": "^1.0.3",
     "@nuxt/test-utils": "^4.0.2",
