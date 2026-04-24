@@ -9,7 +9,7 @@ importers:
   .:
     devDependencies:
       '@axe-core/playwright':
-        specifier: ^4.10.2
+        specifier: ^4.11.2
         version: 4.11.2(playwright-core@1.59.1)
       '@commitlint/config-conventional':
         specifier: ^20.5.0
