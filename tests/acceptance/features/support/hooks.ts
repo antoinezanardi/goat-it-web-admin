@@ -15,6 +15,7 @@ import {
   generateScreenshotOnScenarioFailure,
   removeAcceptanceTestsReportsScreenshotsDirectory,
   resetSandbox,
+  resetSandboxData,
   waitForSandboxHealthCheck,
 } from "#acceptance/features/support/helpers/hooks.helpers.ts";
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
@@ -42,20 +43,32 @@ const { beforeEach, afterEach, afterAll, beforeAll } = createTest({
 });
 
 BeforeAll({ timeout: BEFORE_ALL_TIMEOUT }, async(): Promise<void> => {
+  console.info("Cleaning up previous acceptance test reports...");
   removeAcceptanceTestsReportsScreenshotsDirectory();
+
+  console.info("Resetting Goat It API sandbox...");
   resetSandbox();
-  await Promise.all([waitForSandboxHealthCheck(), beforeAll()]);
+
+  console.info("Waiting for Goat It API sandbox to become healthy...");
+  await waitForSandboxHealthCheck();
+  console.info("Goat It API sandbox is healthy.");
+
+  console.info("Starting Nuxt server...");
+  await beforeAll();
+  console.info("Nuxt server started successfully.");
 });
 
 Before({ timeout: BEFORE_TIMEOUT }, async function(this: GoatItWorld): Promise<void> {
+  console.info("Resetting Goat It API sandbox data...");
+  resetSandboxData();
+  console.info("Goat It API sandbox data reset successfully.");
+
   beforeEach();
   this.page = await createPage();
   this.context = this.page.context();
 });
 
 After(async function(this: GoatItWorld, scenario: ITestCaseHookParameter): Promise<void> {
-  afterEach();
-
   if (scenario.result?.status === Status.FAILED) {
     try {
       await generateScreenshotOnScenarioFailure(this, scenario);
@@ -63,6 +76,7 @@ After(async function(this: GoatItWorld, scenario: ITestCaseHookParameter): Promi
       console.error("Failed to generate screenshot on scenario failure:", error);
     }
   }
+  afterEach();
 
   try {
     await this.context.close();

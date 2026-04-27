@@ -50,7 +50,8 @@
   ],
   "packageManager": "pnpm@10.33.2",
   "imports": {
-    "#acceptance/*": "./tests/acceptance/*"
+    "#acceptance/*": "./tests/acceptance/*",
+    "#shared/*": "./shared/*"
   },
   "scripts": {
     "prepare": "scripts/post-install-prepare.sh",

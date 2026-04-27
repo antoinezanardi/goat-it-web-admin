@@ -73,6 +73,7 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
       data-testid="question-themes-table-data"
       :global-filter-options="globalFilterOptions"
       sticky
+      :tabindex="0"
     >
       <template #icon-cell="{ row }">
         <QuestionThemeIcon

@@ -54,7 +54,8 @@
     "useZodLocale": "readonly",
     "URL": "readonly",
     "setTimeout": "readonly",
-    "fetch": "readonly"
+    "fetch": "readonly",
+    "AbortSignal": "readonly"
   },
   "ignorePatterns": [
     ".output/**/*",

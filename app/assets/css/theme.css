@@ -13,3 +13,24 @@
   --color-green-900: #002212;
   --color-green-950: #001109;
 }
+
+:root,
+.light {
+  --ui-text: var(--ui-color-neutral-800);
+  --ui-text-toned: var(--ui-color-neutral-700);
+  --ui-text-muted: var(--ui-color-neutral-600);
+}
+
+.dark {
+  --ui-text: var(--ui-color-neutral-100);
+  --ui-text-toned: var(--ui-color-neutral-200);
+  --ui-text-muted: var(--ui-color-neutral-300);
+}
+
+/* Fix Reka UI toast viewport focus proxy accessibility violation (aria-hidden-focus).
+   These spans are focus sentinels used for focus trapping, but they combine aria-hidden="true"
+   with tabindex="0", which axe flags as a WCAG violation. Our toasts have no interactive actions,
+   so the focus trap is unnecessary. */
+div[role="region"] > span[aria-hidden="true"] {
+  display: none !important;
+}
