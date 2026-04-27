@@ -183,7 +183,7 @@ The acceptance tests require the **Goat It API sandbox** to be running. The sand
 # Install Playwright Chromium browser binary (required before first run)
 pnpm run test:acceptance:prepare
 
-# Run acceptance tests (sandbox is reset automatically in BeforeAll hook)
+# Run acceptance tests
 pnpm run test:acceptance
 ```
 
