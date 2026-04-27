@@ -1,5 +1,4 @@
 @home-page
-
 Feature: 🏡 Home Page
 
   Scenario: 🏡 Home Page is displayed with correct heading

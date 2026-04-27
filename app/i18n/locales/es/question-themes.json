@@ -20,6 +20,7 @@
       "confirmDescription": "Este tema será archivado y dejará de estar activo. Esta acción no se puede deshacer."
     },
     "fields": {
+      "icon": "Icono",
       "slug": "Slug",
       "label": "Etiqueta",
       "description": "Descripción",

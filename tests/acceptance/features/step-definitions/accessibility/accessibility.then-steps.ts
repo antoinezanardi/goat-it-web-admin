@@ -16,7 +16,9 @@ Then(
     const viewport = mode === "desktop" ? DESKTOP_VIEWPORT : MOBILE_VIEWPORT;
 
     await this.page.setViewportSize(viewport);
+    await this.page.waitForLoadState("networkidle");
     const results = await new AxeBuilder({ page: this.page })
+      .setLegacyMode()
       .withTags([...AXE_TAGS])
       .analyze();
 

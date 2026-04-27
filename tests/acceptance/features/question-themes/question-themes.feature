@@ -1,5 +1,4 @@
 @question-themes-page
-
 Feature: 🎨 Question Themes Page
 
   Scenario: 🎨 Question Themes Page is displayed with correct heading

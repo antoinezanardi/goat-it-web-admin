@@ -20,6 +20,7 @@
       "confirmDescription": "Dieses Thema wird archiviert und ist nicht mehr aktiv. Diese Aktion kann nicht rückgängig gemacht werden."
     },
     "fields": {
+      "icon": "Symbol",
       "slug": "Slug",
       "label": "Bezeichnung",
       "description": "Beschreibung",

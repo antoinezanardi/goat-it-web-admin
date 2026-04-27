@@ -13,13 +13,13 @@ const questionThemesStore = useQuestionThemesStore();
 const { questionThemes } = storeToRefs(questionThemesStore);
 
 const columns = computed<TableColumn<QuestionThemesTableRow>[]>(() => [
-  createTableColumn<QuestionThemesTableRow>({ accessorKey: "icon", isCentered: true }),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "icon", header: t("questionThemes.fields.icon"), isCentered: true }),
   createTableColumn<QuestionThemesTableRow>({ accessorKey: "label", header: t("questionThemes.fields.label"), isCentered: true }),
   createTableColumn<QuestionThemesTableRow>({ accessorKey: "slug", header: t("questionThemes.fields.slug"), isCentered: true }),
   createTableColumn<QuestionThemesTableRow>({ accessorKey: "description", header: t("questionThemes.fields.description") }),
   createTableColumn<QuestionThemesTableRow>({ accessorKey: "aliases", header: t("questionThemes.fields.aliases"), isCentered: true }),
   createTableColumn<QuestionThemesTableRow>({ accessorKey: "status", header: t("questionThemes.fields.status"), isCentered: true }),
-  createTableColumn<QuestionThemesTableRow>({ accessorKey: "actions", isCentered: true }),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "actions", header: t("common.table.actions"), isCentered: true }),
 ]);
 
 const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(theme => ({
@@ -73,6 +73,7 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
       data-testid="question-themes-table-data"
       :global-filter-options="globalFilterOptions"
       sticky
+      :tabindex="0"
     >
       <template #icon-cell="{ row }">
         <QuestionThemeIcon

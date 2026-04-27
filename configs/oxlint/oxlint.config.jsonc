@@ -52,7 +52,10 @@
     "useNuxtApp": "readonly",
     "defineNuxtPlugin": "readonly",
     "useZodLocale": "readonly",
-    "URL": "readonly"
+    "URL": "readonly",
+    "setTimeout": "readonly",
+    "fetch": "readonly",
+    "AbortSignal": "readonly"
   },
   "ignorePatterns": [
     ".output/**/*",
@@ -1224,7 +1227,8 @@
     {
       "files": [
         "**/tests/acceptance/features/step-definitions/**/*-steps.ts",
-        "**/tests/acceptance/features/support/hooks.ts"
+        "**/tests/acceptance/features/support/hooks.ts",
+        "**/tests/acceptance/features/support/helpers/**/*.ts"
       ],
       "rules": {
         "new-cap": "off",

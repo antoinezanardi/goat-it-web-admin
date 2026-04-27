@@ -177,8 +177,10 @@ This project uses `Playwright` and `Cucumber` for BDD acceptance tests.
 
 Features are written in Gherkin and located in **[tests/acceptance/features/](tests/acceptance/features/)**.
 
+The acceptance tests require the **Goat It API sandbox** to be running. The sandbox is automatically reset at the start of each test run to ensure clean state. See the **[Docker section](#docker)** for details on sandbox commands.
+
 ```bash
-# Install Playwright Chromium browser binary (required before running acceptance tests)
+# Install Playwright Chromium browser binary (required before first run)
 pnpm run test:acceptance:prepare
 
 # Run acceptance tests

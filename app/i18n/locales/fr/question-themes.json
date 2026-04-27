@@ -20,6 +20,7 @@
       "confirmDescription": "Ce thème sera archivé et ne sera plus actif. Cette action est irréversible."
     },
     "fields": {
+      "icon": "Icône",
       "slug": "Slug",
       "label": "Libellé",
       "description": "Description",

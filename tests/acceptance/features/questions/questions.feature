@@ -1,5 +1,4 @@
 @questions-page
-
 Feature: ❓ Questions Page
 
   Scenario: ❓ Questions Page is displayed with correct heading
