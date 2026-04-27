@@ -7,7 +7,6 @@ import { ACCEPTANCE_TESTS_REPORTS_SCREENSHOTS_PATH } from "#acceptance/features/
 import {
   DOCKER_COMPOSE_FILE_PATH,
   RESET_SANDBOX_DATA_TIMEOUT_IN_MS,
-  RESET_SANDBOX_TIMEOUT_IN_MS,
   SANDBOX_HEALTH_CHECK_INTERVAL_IN_MS,
   SANDBOX_HEALTH_CHECK_MAX_RETRIES,
   SANDBOX_HEALTH_CHECK_URL,
@@ -50,14 +49,6 @@ async function generateScreenshotOnScenarioFailure(world: GoatItWorld, scenario:
   console.info(`Screenshot for failure scenario: ${scenario.pickle.name} saved at: "${screenShotFullPath}"`);
 }
 
-function resetSandbox(): void {
-  try {
-    execSync("pnpm run docker:api-sandbox:reset", { stdio: "inherit", timeout: RESET_SANDBOX_TIMEOUT_IN_MS });
-  } catch(error: unknown) {
-    throw new Error(`Failed to reset the Goat It API sandbox within ${RESET_SANDBOX_TIMEOUT_IN_MS / MS_IN_SECOND}s.`, { cause: error });
-  }
-}
-
 function resetSandboxData(): void {
   try {
     execSync(
@@ -96,7 +87,6 @@ async function waitForSandboxHealthCheck(): Promise<void> {
 export {
   generateScreenshotOnScenarioFailure,
   removeAcceptanceTestsReportsScreenshotsDirectory,
-  resetSandbox,
   resetSandboxData,
   sanitizeScenarioName,
   waitForSandboxHealthCheck,

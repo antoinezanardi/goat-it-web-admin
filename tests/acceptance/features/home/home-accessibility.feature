@@ -1,20 +1,21 @@
 @home @accessibility
 Feature: 🏡 Home Page Accessibility
 
-  Scenario: 🏡 Home Page should not contain accessibility issues in light desktop mode
+  Scenario Outline: 🏡 Home Page should not contain accessibility issues in light <View> mode
     Given the user is on home page
-    Then the page should not contain accessibility issues in desktop mode
+    Then the page should not contain accessibility issues in <View> mode
 
-  Scenario: 🏡 Home Page should not contain accessibility issues in light mobile mode
-    Given the user is on home page
-    Then the page should not contain accessibility issues in mobile mode
+    Examples:
+      | View    |
+      | desktop |
+      | mobile  |
 
-  Scenario: 🏡 Home Page should not contain accessibility issues in dark desktop mode
+  Scenario Outline: 🏡 Home Page should not contain accessibility issues in dark <View> mode
     Given the user is on home page
     When the user switches to dark mode
-    Then the page should not contain accessibility issues in desktop mode
+    Then the page should not contain accessibility issues in <View> mode
 
-  Scenario: 🏡 Home Page should not contain accessibility issues in dark mobile mode
-    Given the user is on home page
-    When the user switches to dark mode
-    Then the page should not contain accessibility issues in mobile mode
+    Examples:
+      | View    |
+      | desktop |
+      | mobile  |

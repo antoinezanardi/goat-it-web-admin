@@ -23,6 +23,10 @@ runs:
       shell: bash
       run: pnpm run test:acceptance:prepare
 
+    - name: Start Goat It API Sandbox 🐐
+      shell: bash
+      run: pnpm run docker:api-sandbox:start
+
     - name: Acceptance tests ⚗️
       id: acceptance-tests
       continue-on-error: true

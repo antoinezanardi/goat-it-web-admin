@@ -14,7 +14,6 @@ import {
 import {
   generateScreenshotOnScenarioFailure,
   removeAcceptanceTestsReportsScreenshotsDirectory,
-  resetSandbox,
   resetSandboxData,
   waitForSandboxHealthCheck,
 } from "#acceptance/features/support/helpers/hooks.helpers.ts";
@@ -45,9 +44,6 @@ const { beforeEach, afterEach, afterAll, beforeAll } = createTest({
 BeforeAll({ timeout: BEFORE_ALL_TIMEOUT }, async(): Promise<void> => {
   console.info("Cleaning up previous acceptance test reports...");
   removeAcceptanceTestsReportsScreenshotsDirectory();
-
-  console.info("Resetting Goat It API sandbox...");
-  resetSandbox();
 
   console.info("Waiting for Goat It API sandbox to become healthy...");
   await waitForSandboxHealthCheck();
