@@ -19,6 +19,10 @@ runs:
     - name: Install project 📦
       uses: ./.github/actions/install-project
 
+    - name: Start Goat It API sandbox 🐐
+      shell: bash
+      run: pnpm run docker:api-sandbox:start
+
     - name: Install Playwright Chromium 🎭
       shell: bash
       run: pnpm run test:acceptance:prepare

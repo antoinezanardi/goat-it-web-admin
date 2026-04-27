@@ -20,6 +20,7 @@
       "confirmDescription": "Questo tema verrà archiviato e non sarà più attivo. Questa azione non può essere annullata."
     },
     "fields": {
+      "icon": "Icona",
       "slug": "Slug",
       "label": "Etichetta",
       "description": "Descrizione",

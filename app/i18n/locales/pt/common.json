@@ -15,6 +15,7 @@
     "table": {
       "noData": "Sem dados",
       "noResults": "Nenhum resultado encontrado",
+      "actions": "Ações",
       "filter": {
         "placeholder": "Filtrar...",
         "clear": "Limpar filtro"

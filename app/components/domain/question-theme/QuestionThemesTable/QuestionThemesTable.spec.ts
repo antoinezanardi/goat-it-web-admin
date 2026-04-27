@@ -58,7 +58,7 @@ describe("QuestionThemesTable Component", () => {
       const expectedColumns: TableColumn<QuestionTheme>[] = [
         {
           accessorKey: "icon",
-          header: "",
+          header: "questionThemes.fields.icon",
           meta: {
             class: {
               th: "text-center",
@@ -112,7 +112,7 @@ describe("QuestionThemesTable Component", () => {
         },
         {
           accessorKey: "actions",
-          header: "",
+          header: "common.table.actions",
           meta: {
             class: {
               th: "text-center",
