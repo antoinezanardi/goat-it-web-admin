@@ -13,9 +13,9 @@ function onEditClick(): void {
 </script>
 
 <template>
-  <UTooltip :text="t('questionThemes.actions.edit')">
+  <UTooltip :text="t('questionThemes.actions.edit', { 'slug': questionThemeSlug })">
     <UButton
-      :aria-label="t('questionThemes.actions.edit')"
+      :aria-label="t('questionThemes.actions.edit', { 'slug': questionThemeSlug })"
       color="primary"
       :data-testid="`edit-button-${questionThemeSlug}`"
       icon="i-lucide-pencil"

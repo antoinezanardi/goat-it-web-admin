@@ -24,9 +24,9 @@ async function onArchiveClick(): Promise<void> {
 </script>
 
 <template>
-  <UTooltip :text="t('questionThemes.actions.archive')">
+  <UTooltip :text="t('questionThemes.actions.archive', { 'slug': questionThemeSlug })">
     <UButton
-      :aria-label="t('questionThemes.actions.archive')"
+      :aria-label="t('questionThemes.actions.archive', { 'slug': questionThemeSlug })"
       color="error"
       :data-testid="`archive-button-${questionThemeSlug}`"
       icon="i-lucide-archive"

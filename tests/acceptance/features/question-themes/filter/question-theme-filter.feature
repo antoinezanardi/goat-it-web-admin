@@ -1,13 +1,11 @@
-@question-theme-filter
+@question-themes @question-theme-filter
 Feature: 🎨 Question Theme Filter
 
   Scenario: 🎨 Question themes are filtered and only matching rows are shown
     Given the user is on question-themes page
-    And a question theme exists with the following attributes:
-      | label | slug  | description | aliases |
-      | Music | music | All music   | tunes   |
-    And a question theme exists with the following attributes:
+    And multiple question themes exist with the following attributes:
       | label  | slug   | description | aliases |
+      | Music  | music  | All music   | tunes   |
       | Cinema | cinema | All cinema  | movies  |
     When the user fills the input with name "Filter..." with text "Music"
     Then the question theme table should contain a row with the following attributes:
@@ -19,11 +17,9 @@ Feature: 🎨 Question Theme Filter
 
   Scenario: 🎨 Question themes filter supports fuzzy search
     Given the user is on question-themes page
-    And a question theme exists with the following attributes:
-      | label | slug  | description | aliases |
-      | Music | music | All music   | tunes   |
-    And a question theme exists with the following attributes:
+    And multiple question themes exist with the following attributes:
       | label  | slug   | description | aliases |
+      | Music  | music  | All music   | tunes   |
       | Cinema | cinema | All cinema  | movies  |
     When the user fills the input with name "Filter..." with text "Musc"
     Then the question theme table should contain a row with the following attributes:
@@ -46,11 +42,9 @@ Feature: 🎨 Question Theme Filter
 
   Scenario: 🎨 Question themes filter is cleared and all rows are restored
     Given the user is on question-themes page
-    And a question theme exists with the following attributes:
-      | label | slug  | description | aliases |
-      | Music | music | All music   | tunes   |
-    And a question theme exists with the following attributes:
+    And multiple question themes exist with the following attributes:
       | label  | slug   | description | aliases |
+      | Music  | music  | All music   | tunes   |
       | Cinema | cinema | All cinema  | movies  |
     When the user fills the input with name "Filter..." with text "Music"
     Then the question theme table should not contain a row with the following attributes:

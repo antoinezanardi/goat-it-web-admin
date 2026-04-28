@@ -12,8 +12,8 @@
     "archiveSuccessfully": "Fragenthema erfolgreich archiviert",
     "modifySuccessfully": "Fragenthema erfolgreich geändert",
     "actions": {
-      "archive": "Archivieren",
-      "edit": "Bearbeiten"
+      "archive": "Fragenthema mit Slug {slug} archivieren",
+      "edit": "Fragenthema mit Slug {slug} bearbeiten"
     },
     "archive": {
       "confirmTitle": "Dieses Thema archivieren?",

@@ -8,7 +8,7 @@ import {
   QUESTION_THEME_FORM_ERROR_ROW_SCHEMA,
   QUESTION_THEME_TABLE_ROW_SCHEMA,
 } from "#acceptance/features/step-definitions/question-theme/datatables/question-theme.datatables.schemas.ts";
-import { findTableRowMatchingAttributes } from "#acceptance/features/step-definitions/question-theme/helpers/question-theme.then-steps.helpers.ts";
+import { doesTableContainRowMatchingAttributes } from "#acceptance/features/support/helpers/table.helpers.ts";
 
 Then(
   /^the question theme table should contain a row with the following attributes:$/u,
@@ -18,7 +18,7 @@ Then(
 
     await expect(table).toBeVisible();
 
-    const wasFound = await findTableRowMatchingAttributes(this.page, row);
+    const wasFound = await doesTableContainRowMatchingAttributes(this.page, row);
 
     expect(wasFound).toBe(true);
   },
@@ -32,7 +32,7 @@ Then(
 
     await expect(table).toBeVisible();
 
-    const wasFound = await findTableRowMatchingAttributes(this.page, row);
+    const wasFound = await doesTableContainRowMatchingAttributes(this.page, row);
 
     expect(wasFound).toBe(false);
   },
@@ -48,7 +48,7 @@ Then(
 
     for (const row of rows) {
       const fieldContainer = dialog.getByTestId(`question-theme-form-${row.field.toLowerCase()}-field`);
-      const errorText = fieldContainer.getByText(row.error);
+      const errorText = fieldContainer.getByText(row.error, { exact: true });
 
       // oxlint-disable-next-line eslint/no-await-in-loop -- Playwright assertions require sequential evaluation
       await expect(errorText).toBeVisible();

@@ -1,4 +1,4 @@
-@question-theme-creation
+@question-themes @question-theme-creation
 Feature: 🎨 Question Theme Creation
 
   Scenario: 🎨 Question Theme is created and displayed in the list
@@ -11,7 +11,7 @@ Feature: 🎨 Question Theme Creation
     Then the question theme table should contain a row with the following attributes:
       | label                 | slug                  | description                    | aliases | status |
       | Acceptance Test Theme | acceptance-test-theme | A theme for acceptance testing | test    | Active |
-    And the exact toast with text "Question theme created successfully" should be visible
+    And the toast with exact text "Question theme created successfully" should be visible
 
   Scenario: 🎨 Question Theme form shows errors for empty required text fields
     Given the user is on question-themes page

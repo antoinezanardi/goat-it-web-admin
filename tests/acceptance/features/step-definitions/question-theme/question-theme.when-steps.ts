@@ -14,6 +14,6 @@ When(
     const dialog = this.page.getByRole("dialog");
 
     await expect(dialog).toBeVisible();
-    await fillQuestionThemeForm(this.page, dialog, row);
+    await fillQuestionThemeForm(dialog, row);
   },
 );

@@ -1,9 +1,9 @@
 import { expect } from "@playwright/test";
-import type { Locator, Page } from "@playwright/test";
+import type { Locator } from "@playwright/test";
 
 import type { QuestionThemeFormRow } from "#acceptance/features/step-definitions/question-theme/datatables/question-theme.datatables.schemas.ts";
 
-async function fillQuestionThemeForm(page: Page, dialog: Locator, row: QuestionThemeFormRow): Promise<void> {
+async function fillQuestionThemeForm(dialog: Locator, row: QuestionThemeFormRow): Promise<void> {
   if (row.label !== undefined) {
     await dialog.getByRole("textbox", { name: "Label*" }).fill(row.label);
   }
@@ -21,7 +21,7 @@ async function fillQuestionThemeForm(page: Page, dialog: Locator, row: QuestionT
 
     await expect(aliasesInput).toBeVisible();
     await aliasesInput.fill(row.aliases);
-    await page.keyboard.press("Enter");
+    await aliasesInput.press("Enter");
   }
 }
 

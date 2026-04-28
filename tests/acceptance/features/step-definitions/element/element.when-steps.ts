@@ -18,7 +18,7 @@ When(
 );
 
 When(
-  /^the user clicks on the element with testid "(?<testid>[^"]*)"$/u,
+  /^the user clicks on the element with testid "(?<testid>[^"]+)"$/u,
   async function(this: GoatItWorld, testid: string): Promise<void> {
     const locator = this.page.getByTestId(testid);
 

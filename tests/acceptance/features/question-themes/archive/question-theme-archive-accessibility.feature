@@ -6,7 +6,7 @@ Feature: 🎨 Question Theme Archive Dialog Accessibility
     And a question theme exists with the following attributes:
       | label      | slug       | description  | aliases |
       | Test Theme | test-theme | A test theme | test    |
-    When the user clicks on the button with name "Archive"
+    When the user clicks on the button with exact name "Archive question theme with slug test-theme"
     Then the page should not contain accessibility issues in <View> mode
 
     Examples:
@@ -20,7 +20,7 @@ Feature: 🎨 Question Theme Archive Dialog Accessibility
       | label      | slug       | description  | aliases |
       | Test Theme | test-theme | A test theme | test    |
     When the user switches to dark mode
-    And the user clicks on the button with name "Archive"
+    And the user clicks on the button with exact name "Archive question theme with slug test-theme"
     Then the page should not contain accessibility issues in <View> mode
 
     Examples:
