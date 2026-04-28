@@ -8,6 +8,8 @@ handling, Nuxt conventions, and other repo-specific rules).
 ## Build / Run / Lint / Test commands
 
 - Package manager: `pnpm@10.32.1` (see `package.json` -> `packageManager`).
+  - Unlike npm, `pnpm` does NOT require an extra `--` before flags. Pass arguments directly:
+    `pnpm run test:unit -t "should render"` (correct) vs ~~`pnpm run test:unit -- -t "should render"`~~ (unnecessary).
 - Node requirement: >=25.8.1 (see `package.json` -> `engines.node`).
 - Dev server: `pnpm run dev` (nuxt dev, port 4000, dotenv `envs/.env.development`)
 - Build: `pnpm run build`; preview: `pnpm run preview` / `pnpm run start:prod`
@@ -23,6 +25,8 @@ handling, Nuxt conventions, and other repo-specific rules).
   - With coverage:   `pnpm run test:unit:cov`
   - Watch mode:      `pnpm run test:unit:watch`
   - Mutation (Stryker): `pnpm run test:mutation` / `pnpm run test:mutation:force`
+  - Acceptance (Cucumber + Playwright): `pnpm run test:acceptance`
+  - Install Playwright: `pnpm run test:acceptance:prepare` (run once locally)
 
 Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
 
@@ -31,12 +35,15 @@ Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
 - Watch file: `pnpm run test:unit:watch app/pages/index.spec.ts`
 - Direct:     `pnpm exec cross-env NODE_OPTIONS='--no-webstorage' vitest --config configs/vitest/vitest.config.ts path/to/file.spec.ts`
 
-Pre-PR sanity checklist (run in order):
+**Mandatory quality gates** — agents MUST run all four commands below **in order**
+before considering any task complete. Do NOT skip any gate, even for "trivial" changes:
 
-- `pnpm install`
-- `pnpm run lint:fix && pnpm run lint`
-- `pnpm run typecheck`
-- `pnpm run test:unit:cov`
+1. `pnpm run lint:fix`
+2. `pnpm run typecheck`
+3. `pnpm run test:unit:cov`
+4. `pnpm run test:acceptance`
+
+If any gate fails, fix the issue and re-run from that gate onward until all four pass.
 
 ## Repository structure
 
@@ -45,7 +52,7 @@ Pre-PR sanity checklist (run in order):
   - `composables/`    – Organised as `core/`, `domain/`, `ui/`; each composable in its own sub-dir
   - `repositories/`   – Client-side data access (`*.repository.ts`); factory functions, auto-imported by Nuxt
   - `stores/`         – Pinia stores under `domain/`; store names from `stores/store.enums.ts`
-  - `i18n/`           – Locale JSON files (`fr/`, `en/`)
+  - `i18n/`           – i18n resources, locale JSON files live in `locales/{de,en,es,fr,it,pt}/`
   - `pages/`, `layouts/`, `assets/`
 - `server/`           – Nitro server routes and utilities (API handlers, mappers, helpers)
   - `api/**/handlers/` – Route handler files (`*.handler.ts`); thin wrappers in `api/**/index.*.ts`
@@ -53,7 +60,8 @@ Pre-PR sanity checklist (run in order):
 - `shared/types/`     – Types shared between app and server (e.g. `QuestionTheme`)
 - `shared/utils/`     – Helpers auto-imported in both app and server
 - `tests/unit/`       – Test utilities: `setup/nuxt/`, `utils/faketories/`, `utils/mocks/`
-- `configs/`          – Vitest, ESLint, Oxlint, Stryker, lint-staged configs
+- `tests/acceptance/` – Acceptance tests: Cucumber features, Playwright step definitions, hooks
+- `configs/`          – Vitest, Cucumber, ESLint, Oxlint, Stryker, lint-staged configs
 - `envs/`             – `.env.development`, `.env.test`, `.env.example`
 - `modules/`          – Custom Nuxt modules; `scripts/` – shell utilities
 - `docker/goat-it-api-sandbox/` – Local API sandbox via docker-compose
@@ -95,6 +103,7 @@ Pre-PR sanity checklist (run in order):
   - `~~/` → repo root (use for `~~/tests/unit/...` in tests)
   - `#server/utils/...` → inside `server/` only
   - `#shared/` → `shared/`
+  - `#acceptance/` → `tests/acceptance/` (acceptance tests only, via Node subpath imports)
 
 - Naming conventions:
   - Files: Components: `PascalCase.vue` | Composables: `use*.ts` | Stores: `<entity>.store.ts`
@@ -128,7 +137,25 @@ Pre-PR sanity checklist (run in order):
 - Error handling and logging:
   - Never swallow exceptions silently — re-throw with context, return typed failure, or log + show i18n UI message.
   - Zod parse errors propagate naturally; do not catch unless you can recover.
-  - No `console.log` in production code.
+  - No `console.log` in production code. `console.error` only for unexpected errors that are caught and handled gracefully.
+
+- Control flow:
+  - Prefer early returns over deeply nested `if/else` blocks. Guard clauses at the top
+    of a function improve readability and reduce indentation depth.
+  - Apply the same principle in all layers: composables, helpers, handlers, and mappers.
+
+- Lint disable comments (last resort):
+  - Disabling lint rules should be a **last resort**. Exhaust all alternatives first
+    (refactoring, type narrowing, extracting helpers) before reaching for a disable comment.
+  - When a disable is genuinely needed, use the following two-line format:
+    ```ts
+    // Acceptable as <concise justification explaining WHY the disable is safe>
+    // oxlint-disable-next-line <rule-name(s)>
+    ```
+  - The reason line MUST start with `// Acceptable as` (no variations like "This is acceptable",
+    no trailing period). The disable line follows immediately below.
+  - Never use inline `--` reason comments (e.g. `// oxlint-disable-next-line rule -- reason`).
+  - Never use file-level or block-level disables (`/* eslint-disable */`) without explicit approval.
 
 ## Tests and test style
 
@@ -172,6 +199,10 @@ Pre-PR sanity checklist (run in order):
 
 ## Git / commit / PR expectations
 
+- **Never commit unless the user explicitly asks for it.** Do not create commits
+  autonomously after completing tasks or passing quality gates. This applies to ALL
+  agents, including subagents dispatched via Task/parallel execution. No agent at any
+  level of nesting may create a commit without explicit user approval.
 - Do not commit `.env.*` files with real secrets (`.env.example` is safe).
 - Husky pre-commit hooks are active; never bypass with `--no-verify`.
 - Conventional commits enforced by commitlint: `type(scope): message`.
@@ -191,6 +222,16 @@ Each skill has a `SKILL.md` entry point. Load only the relevant skill for the ta
   Load before writing or modifying any `*.spec.ts` file. Full reference at `docs/unit-testing.md`.
   Do NOT load all skill files at once; read the relevant `SKILL.md` first.
 
+### Skill usage rules
+
+- **When writing unit tests** (including inside plans): always load the `unit-testing`
+  skill first. It contains all the patterns, mock wiring, faketory conventions, and
+  Vitest project rules needed to write correct tests.
+- **When brainstorming or writing plans**: always consult the `nuxt`, `nuxt-ui`, and
+  `vueuse` skills to make informed design decisions. These skills provide framework
+  conventions, component APIs, and composable references that should guide approach
+  selection and implementation details.
+
 ## OpenCode commands (`.opencode/commands/`)
 
 Slash commands available in OpenCode sessions:
@@ -207,7 +248,8 @@ Slash commands available in OpenCode sessions:
 - Always read and follow `AGENTS.md` when working in this repo.
 - If `AGENTS.md` is not in the chat context, ask the repo owner to attach it.
 - Prefer minimal edits, Nuxt conventions, write unit tests first, and ensure
-  `lint`, `typecheck`, and `test:unit:cov` pass before submitting changes.
+  all mandatory quality gates pass (`pnpm run lint:fix` → `pnpm run typecheck` →
+  `pnpm run test:unit:cov` → `pnpm run test:acceptance`). Do NOT skip any gate.
 - Cursor rules: none (`.cursor/rules/` and `.cursorrules` do not exist).
 
 ## Useful paths
@@ -216,6 +258,7 @@ Slash commands available in OpenCode sessions:
 - ESLint config:    `eslint.config.ts` + `configs/eslint/flat-configs/`
 - Oxlint config:    `configs/oxlint/oxlint.config.jsonc`
 - Stryker config:   `configs/stryker/stryker.config.mjs`
+- Cucumber config:  `configs/cucumber/cucumber.json`
 - Nuxt config:      `nuxt.config.ts`
 - Env files:        `envs/.env.development`, `envs/.env.test`, `envs/.env.example`
 - Test setup:       `tests/unit/setup/nuxt/` (base + `composables/` + `repositories/`)

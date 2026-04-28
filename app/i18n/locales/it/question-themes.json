@@ -1,0 +1,39 @@
+{
+  "questionThemes": {
+    "pageTitle": "Temi delle domande",
+    "cantFetch": "Impossibile recuperare i temi delle domande",
+    "cantCreate": "Impossibile creare il tema delle domande",
+    "cantArchive": "Impossibile archiviare il tema delle domande",
+    "cantModify": "Impossibile modificare il tema delle domande",
+    "fetching": "Recupero dei temi delle domande in corso…",
+    "createNew": "Crea un nuovo tema",
+    "editTheme": "Modifica tema",
+    "createSuccessfully": "Tema delle domande creato con successo",
+    "archiveSuccessfully": "Tema delle domande archiviato con successo",
+    "modifySuccessfully": "Tema delle domande modificato con successo",
+    "actions": {
+      "archive": "Archivia tema domanda con slug {slug}",
+      "edit": "Modifica tema domanda con slug {slug}"
+    },
+    "archive": {
+      "confirmTitle": "Archiviare questo tema?",
+      "confirmDescription": "Questo tema verrà archiviato e non sarà più attivo. Questa azione non può essere annullata."
+    },
+    "fields": {
+      "icon": "Icona",
+      "slug": "Slug",
+      "label": "Etichetta",
+      "description": "Descrizione",
+      "aliases": "Alias",
+      "color": "Colore",
+      "status": "Stato"
+    },
+    "status": {
+      "active": "Attivo",
+      "archived": "Archiviato"
+    },
+    "aliases": {
+      "noneForLocale": "Nessun alias per questa lingua"
+    }
+  }
+}

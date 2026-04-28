@@ -7,6 +7,7 @@ function createFakeQuestionTheme(questionTheme: Partial<QuestionTheme> = {}): Qu
   return {
     id: faker.database.mongodbObjectId(),
     slug: faker.lorem.slug(),
+    color: faker.color.rgb({ casing: "upper" }),
     label: createFakeLocalizedText(),
     aliases: createFakeLocalizedTexts(),
     description: createFakeLocalizedText(),

@@ -2,12 +2,30 @@
   "questionThemes": {
     "pageTitle": "Thèmes de questions",
     "cantFetch": "Impossible de récupérer les thèmes de questions",
+    "cantCreate": "Impossible de créer le thème de question",
+    "cantArchive": "Impossible d'archiver le thème de question",
+    "cantModify": "Impossible de modifier le thème de question",
     "fetching": "Récupération des thèmes de questions…",
+    "createNew": "Créer un nouveau thème",
+    "editTheme": "Modifier le thème",
+    "createSuccessfully": "Thème de question créé avec succès",
+    "archiveSuccessfully": "Thème de question archivé avec succès",
+    "modifySuccessfully": "Thème de question modifié avec succès",
+    "actions": {
+      "archive": "Archiver le thème de question avec le slug {slug}",
+      "edit": "Modifier le thème de question avec le slug {slug}"
+    },
+    "archive": {
+      "confirmTitle": "Archiver ce thème ?",
+      "confirmDescription": "Ce thème sera archivé et ne sera plus actif. Cette action est irréversible."
+    },
     "fields": {
+      "icon": "Icône",
       "slug": "Slug",
       "label": "Libellé",
       "description": "Description",
       "aliases": "Alias",
+      "color": "Couleur",
       "status": "Statut"
     },
     "status": {

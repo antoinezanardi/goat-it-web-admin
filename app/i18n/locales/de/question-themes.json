@@ -1,0 +1,39 @@
+{
+  "questionThemes": {
+    "pageTitle": "Fragenthemen",
+    "cantFetch": "Fragenthemen konnten nicht abgerufen werden",
+    "cantCreate": "Fragenthema konnte nicht erstellt werden",
+    "cantArchive": "Fragenthema konnte nicht archiviert werden",
+    "cantModify": "Fragenthema konnte nicht geändert werden",
+    "fetching": "Fragenthemen werden abgerufen…",
+    "createNew": "Neues Thema erstellen",
+    "editTheme": "Thema bearbeiten",
+    "createSuccessfully": "Fragenthema erfolgreich erstellt",
+    "archiveSuccessfully": "Fragenthema erfolgreich archiviert",
+    "modifySuccessfully": "Fragenthema erfolgreich geändert",
+    "actions": {
+      "archive": "Fragenthema mit Slug {slug} archivieren",
+      "edit": "Fragenthema mit Slug {slug} bearbeiten"
+    },
+    "archive": {
+      "confirmTitle": "Dieses Thema archivieren?",
+      "confirmDescription": "Dieses Thema wird archiviert und ist nicht mehr aktiv. Diese Aktion kann nicht rückgängig gemacht werden."
+    },
+    "fields": {
+      "icon": "Symbol",
+      "slug": "Slug",
+      "label": "Bezeichnung",
+      "description": "Beschreibung",
+      "aliases": "Aliase",
+      "color": "Farbe",
+      "status": "Status"
+    },
+    "status": {
+      "active": "Aktiv",
+      "archived": "Archiviert"
+    },
+    "aliases": {
+      "noneForLocale": "Keine Aliase für diese Sprache"
+    }
+  }
+}

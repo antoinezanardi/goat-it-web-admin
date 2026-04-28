@@ -1,6 +1,6 @@
 import type { LocaleObject } from "@nuxtjs/i18n";
 
-type SupportedLocaleCodeForMock = "en" | "fr";
+type SupportedLocaleCodeForMock = "de" | "en" | "es" | "fr" | "it" | "pt";
 
 type SupportedMockedLocale = LocaleObject;
 

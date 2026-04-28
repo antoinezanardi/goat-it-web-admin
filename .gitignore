@@ -12,7 +12,8 @@ node_modules
 # Local env files
 .env
 .env.*
-!.env.example
+!envs/.env.example
+!envs/.env.test
 
 # Logs
 logs
@@ -58,3 +59,8 @@ tests/acceptance/logs
 
 # Stryker temp files
 .stryker-tmp
+
+# Agents artifacts
+docs/superpowers
+.superpowers
+.playwright-mcp

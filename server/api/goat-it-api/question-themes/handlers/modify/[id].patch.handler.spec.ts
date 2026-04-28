@@ -6,7 +6,7 @@ import { createFakeAdminQuestionThemeDto, createFakeQuestionThemeModificationDto
 
 import { createQuestionThemeFromAdminQuestionThemeDto } from "#server/utils/goat-it-api/mappers/goat-it-api.mappers";
 import type { SharedRuntimeConfig } from "#build/types/runtime-config";
-import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
+import { createGoatItApiEndpoint, createGoatItApiFetchOptions, handleGoatItApiError } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
 import { patchQuestionThemeHandler } from "#server/api/goat-it-api/question-themes/handlers/modify/[id].patch.handler";
 import { HttpStatusCode } from "#server/utils/http/http.enums";
 
@@ -76,7 +76,20 @@ describe("Server Goat It API Question Theme Patch Handler", () => {
       const expectedQuestionTheme = createQuestionThemeFromAdminQuestionThemeDto(fakeAdminQuestionThemeDto);
       const result = await patchQuestionThemeHandler(mockedEvent);
 
-      expect(result).toStrictEqual<QuestionTheme>(expectedQuestionTheme);
+      expect(result).toStrictEqual(expectedQuestionTheme);
+    });
+
+    it("should call handleGoatItApiError when $fetch throws an error.", async() => {
+      const fetchError = new Error("Network error");
+      vi.mocked($fetch).mockRejectedValue(fetchError);
+
+      try {
+        await patchQuestionThemeHandler(mockedEvent);
+      } catch(error: unknown) {
+        void error;
+      }
+
+      expect(handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(fetchError);
     });
 
     it("should throw an error when the request body is invalid.", async() => {
@@ -85,14 +98,20 @@ describe("Server Goat It API Question Theme Patch Handler", () => {
       await expect(patchQuestionThemeHandler(mockedEvent)).rejects.toThrow(ZodError);
     });
 
-    it("should throw an error when the fetched response is invalid.", async() => {
+    it("should call handleGoatItApiError with zod error when the fetched response is invalid.", async() => {
       vi.mocked($fetch).mockResolvedValue({
         id: "invalid-id",
         name: "Invalid Question Theme",
         description: "This question theme has an invalid structure.",
       });
 
-      await expect(patchQuestionThemeHandler(mockedEvent)).rejects.toThrow(ZodError);
+      try {
+        await patchQuestionThemeHandler(mockedEvent);
+      } catch(error: unknown) {
+        void error;
+      }
+
+      expect(handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(expect.any(ZodError));
     });
 
     it("should throw a 400 error when router param id is undefined.", async() => {

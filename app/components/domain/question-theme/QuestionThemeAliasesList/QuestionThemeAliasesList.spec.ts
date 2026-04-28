@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import type { UBadge, QuestionThemeAliasPill } from "#components";
+import type { QuestionThemeAliasPill } from "#components";
 import { QuestionThemeAliasesList } from "#components";
 
 import type { QuestionThemeAliasesListProperties } from "~/components/domain/question-theme/QuestionThemeAliasesList/question-theme-aliases-list.types";
@@ -31,32 +31,32 @@ describe("QuestionThemeAliasesList Component", () => {
   });
 
   it("should render a QuestionThemeAliasPill for each alias when there are multiple aliases.", () => {
-    const pills = wrapper.findAllComponents<typeof QuestionThemeAliasPill>({ name: "QuestionThemeAliasPill" });
+    const pills = wrapper.findAll("[data-testid^='alias-pill-']");
 
     expect(pills).toHaveLength(2);
   });
 
   it("should pass the alias to the badge when there is at least one alias.", async() => {
     const aliases = ["alias"];
-    wrapper = await mountQuestionThemeAliasesListComponent({ props: { aliases } });
+    await wrapper.setProps({ aliases });
 
-    const pill = wrapper.getComponent<typeof QuestionThemeAliasPill>({ name: "QuestionThemeAliasPill" });
+    const pill = wrapper.getComponent<typeof QuestionThemeAliasPill>("[data-testid='alias-pill-alias']");
 
     expect(pill.props("alias")).toBe(aliases[0]);
   });
 
   it("should render a none badge when aliases are not defined.", async() => {
-    wrapper = await mountQuestionThemeAliasesListComponent({ props: { aliases: undefined } });
+    await wrapper.setProps({ aliases: undefined });
 
-    const badge = wrapper.findComponent<typeof UBadge>({ name: "UBadge" });
+    const badge = wrapper.find("[data-testid='aliases-none-badge']");
 
     expect(badge.exists()).toBeTruthy();
   });
 
   it("should render the none badge when there is no alias.", async() => {
-    wrapper = await mountQuestionThemeAliasesListComponent({ props: { aliases: [] } });
+    await wrapper.setProps({ aliases: [] });
 
-    const badge = wrapper.findComponent<typeof UBadge>({ name: "UBadge" });
+    const badge = wrapper.find("[data-testid='aliases-none-badge']");
 
     expect(badge.exists()).toBeTruthy();
   });

@@ -34,14 +34,14 @@ describe("DefaultLayoutHeader Component", () => {
   });
 
   describe("Navigation Menu", () => {
-    it("should pass the items as props to the navigation menu component when mounted.", () => {
+    it("should pass the items sorted by order as props to the navigation menu component when mounted.", () => {
       const navigationMenu = wrapper.getComponent({ name: "UNavigationMenu" });
       const expectedNavigationMenuItems: NavigationMenuItem[] = [
         {
-          label: MOCKED_ROUTES[0].meta.titleKey,
-          to: MOCKED_ROUTES[0].path,
+          label: MOCKED_ROUTES[3].meta.titleKey,
+          to: MOCKED_ROUTES[3].path,
           active: true,
-          icon: MOCKED_ROUTES[0].meta.icon,
+          icon: MOCKED_ROUTES[3].meta.icon,
         },
         {
           label: MOCKED_ROUTES[1].name,
@@ -50,14 +50,20 @@ describe("DefaultLayoutHeader Component", () => {
           icon: undefined,
         },
         {
-          to: MOCKED_ROUTES[2].path,
+          to: MOCKED_ROUTES[0].path,
           label: undefined,
+          active: false,
+          icon: undefined,
+        },
+        {
+          label: MOCKED_ROUTES[2].name,
+          to: MOCKED_ROUTES[2].path,
           active: false,
           icon: undefined,
         },
       ];
 
-      expect(navigationMenu.props("items")).toStrictEqual<NavigationMenuItem[]>(expectedNavigationMenuItems);
+      expect(navigationMenu.props("items")).toStrictEqual(expectedNavigationMenuItems);
     });
   });
 });

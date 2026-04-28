@@ -39,7 +39,7 @@ describe("QuestionThemeStatusBadge Component", () => {
       });
 
       it("should pass the archived status i18n key as label to the badge component when status is archived.", async() => {
-        wrapper = await mountQuestionThemeStatusBadgeComponent({ props: { status: "archived" } });
+        await wrapper.setProps({ status: "archived" });
 
         const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
 
@@ -55,7 +55,7 @@ describe("QuestionThemeStatusBadge Component", () => {
       });
 
       it("should use the neutral color for the badge component when status is archived.", async() => {
-        wrapper = await mountQuestionThemeStatusBadgeComponent({ props: { status: "archived" } });
+        await wrapper.setProps({ status: "archived" });
 
         const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
 

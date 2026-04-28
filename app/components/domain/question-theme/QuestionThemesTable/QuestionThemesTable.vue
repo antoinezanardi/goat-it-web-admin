@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
 
-import type { QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
+import type { QuestionThemesTableEmits, QuestionThemesTableGlobalFilterOptions, QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 import LocalizedText from "~/components/shared/core/localization/LocalizedText/LocalizedText.vue";
+import { createTableColumn } from "~/utils/helpers/table/table.helpers";
+
+const emit = defineEmits<QuestionThemesTableEmits>();
 
 const { t, locale: currentLocale } = useI18n();
 
@@ -10,70 +13,126 @@ const questionThemesStore = useQuestionThemesStore();
 const { questionThemes } = storeToRefs(questionThemesStore);
 
 const columns = computed<TableColumn<QuestionThemesTableRow>[]>(() => [
-  createTableColumn("label", true),
-  createTableColumn("slug", true),
-  createTableColumn("description"),
-  createTableColumn("aliases", true),
-  createTableColumn("status", true),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "icon", header: t("questionThemes.fields.icon"), isCentered: true }),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "label", header: t("questionThemes.fields.label"), isCentered: true }),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "slug", header: t("questionThemes.fields.slug"), isCentered: true }),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "description", header: t("questionThemes.fields.description") }),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "aliases", header: t("questionThemes.fields.aliases"), isCentered: true }),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "status", header: t("questionThemes.fields.status"), isCentered: true }),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "actions", header: t("common.table.actions"), isCentered: true }),
 ]);
 
 const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(theme => ({
   id: theme.id,
   slug: theme.slug,
+  color: theme.color,
   label: theme.label,
   description: theme.description,
   aliases: theme.aliases[currentLocale.value],
   status: theme.status,
 })));
 
-function createTableColumn(accessorKey: keyof QuestionThemesTableRow, isCentered = false): TableColumn<QuestionThemesTableRow> {
-  const tableColumn: TableColumn<QuestionThemesTableRow> = {
-    accessorKey,
-    header: t(`questionThemes.fields.${accessorKey}`),
-  };
-  if (isCentered) {
-    tableColumn.meta = {
-      class: {
-        th: "text-center",
-        td: "text-center",
-      },
-    };
-  }
-  return tableColumn;
+const fuseKeys = computed<string[]>(() => [
+  "slug",
+  `label.${currentLocale.value}`,
+  `description.${currentLocale.value}`,
+  "aliases",
+  "status",
+]);
+
+const { searchTerm, globalFilter, globalFilterFunction, hasActiveFilter } = useTableGlobalFilter<QuestionThemesTableRow>({
+  data: rows,
+  keys: fuseKeys,
+});
+
+const globalFilterOptions = computed<QuestionThemesTableGlobalFilterOptions>(() => ({ globalFilterFn: globalFilterFunction }));
+
+function onStartCreateFromQuestionThemesTableHeader(): void {
+  emit("startCreate");
+}
+
+function onStartEditFromQuestionThemesTableActions(id: string): void {
+  emit("startEdit", id);
 }
 </script>
 
 <template>
-  <div id="question-themes-table">
+  <UCard id="question-themes-table">
+    <template #header>
+      <QuestionThemesTableHeader
+        v-model:search-term="searchTerm"
+        data-testid="question-themes-table-header"
+        @start-create="onStartCreateFromQuestionThemesTableHeader"
+      />
+    </template>
+
     <UTable
+      v-model:global-filter="globalFilter"
       :columns="columns"
       :data="rows"
+      data-testid="question-themes-table-data"
+      :global-filter-options="globalFilterOptions"
+      sticky
+      :tabindex="0"
     >
+      <template #icon-cell="{ row }">
+        <QuestionThemeIcon
+          :color="row.original.color"
+          :data-testid="`icon-cell-${row.original.slug}`"
+          :size="24"
+          :slug="row.original.slug"
+        />
+      </template>
+
       <template #label-cell="{ row }">
         <LocalizedText
-          data-testid="label-cell-text"
+          :data-testid="`label-cell-text-${row.original.slug}`"
           :localized-text="row.original.label"
         />
       </template>
 
       <template #slug-cell="{ row }">
-        <QuestionThemeSlugBadge :slug="row.original.slug"/>
+        <QuestionThemeSlugBadge
+          :data-testid="`slug-cell-badge-${row.original.slug}`"
+          :slug="row.original.slug"
+        />
       </template>
 
       <template #description-cell="{ row }">
         <LocalizedText
-          data-testid="description-cell-text"
+          :data-testid="`description-cell-text-${row.original.slug}`"
           :localized-text="row.original.description"
         />
       </template>
 
       <template #aliases-cell="{ row }">
-        <QuestionThemeAliasesList :aliases="row.original.aliases"/>
+        <QuestionThemeAliasesList
+          :aliases="row.original.aliases"
+          :data-testid="`aliases-cell-list-${row.original.slug}`"
+        />
       </template>
 
       <template #status-cell="{ row }">
-        <QuestionThemeStatusBadge :status="row.original.status"/>
+        <QuestionThemeStatusBadge
+          :data-testid="`status-cell-badge-${row.original.slug}`"
+          :status="row.original.status"
+        />
+      </template>
+
+      <template #actions-cell="{ row }">
+        <QuestionThemesTableActions
+          :data-testid="`actions-cell-${row.original.slug}`"
+          :question-theme="row.original"
+          @start-edit="onStartEditFromQuestionThemesTableActions"
+        />
+      </template>
+
+      <template #empty>
+        <TableEmptyState
+          data-testid="question-themes-table-empty-state"
+          :has-active-filter="hasActiveFilter"
+        />
       </template>
     </UTable>
-  </div>
+  </UCard>
 </template>

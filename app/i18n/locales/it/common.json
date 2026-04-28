@@ -1,0 +1,25 @@
+{
+  "common": {
+    "app": {
+      "name": "Goat It Admin"
+    },
+    "gitHub": "GitHub",
+    "success": "Successo",
+    "error": "Errore",
+    "noTranslation": "Nessuna traduzione disponibile",
+    "close": "Chiudi",
+    "create": "Crea",
+    "edit": "Modifica",
+    "confirm": "Conferma",
+    "cancel": "Annulla",
+    "table": {
+      "noData": "Nessun dato",
+      "noResults": "Nessun risultato trovato",
+      "actions": "Azioni",
+      "filter": {
+        "placeholder": "Filtra...",
+        "clear": "Cancella filtro"
+      }
+    }
+  }
+}

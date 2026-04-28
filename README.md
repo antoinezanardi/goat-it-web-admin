@@ -111,8 +111,14 @@ pnpm run docker:api-sandbox:start
 # Stop the Goat It API sandbox
 pnpm run docker:api-sandbox:stop
 
+# Restart the Goat It API sandbox (stops and starts again)
+pnpm run docker:api-sandbox:restart
+
 # Reset the Goat It API sandbox (stops, removes data, and starts fresh)
 pnpm run docker:api-sandbox:reset
+
+# Update the Goat It API sandbox image (pulls the latest develop image from Docker Hub) and restart the sandbox with the new image
+pnpm run docker:api-sandbox:update
 ```
 
 ## <a name="tests">💯 Tests</a>
@@ -158,6 +164,27 @@ pnpm run test:mutation
 
 # Run mutation tests without incremental file (can be longer)
 pnpm run test:mutation:force
+```
+
+### 🥒 Acceptance tests
+
+![Playwright](https://img.shields.io/badge/-Playwright-black?style=for-the-badge&logoColor=white&logo=playwright&color=2EAD33)
+![Cucumber](https://img.shields.io/badge/-Cucumber-black?style=for-the-badge&logoColor=white&logo=cucumber&color=23D96C)
+
+[![Scenarios count](https://byob.yarr.is/antoinezanardi/goat-it-web-admin/scenarios)](https://byob.yarr.is/antoinezanardi/goat-it-web-admin/scenarios)
+
+This project uses `Playwright` and `Cucumber` for BDD acceptance tests.
+
+Features are written in Gherkin and located in **[tests/acceptance/features/](tests/acceptance/features/)**.
+
+The acceptance tests require the **Goat It API sandbox** to be running. The sandbox is automatically reset at the start of each test run to ensure clean state. See the **[Docker section](#docker)** for details on sandbox commands.
+
+```bash
+# Install Playwright Chromium browser binary (required before first run)
+pnpm run test:acceptance:prepare
+
+# Run acceptance tests
+pnpm run test:acceptance
 ```
 
 ## <a name="code-analysis-and-consistency">☑️ Code analysis and consistency</a>

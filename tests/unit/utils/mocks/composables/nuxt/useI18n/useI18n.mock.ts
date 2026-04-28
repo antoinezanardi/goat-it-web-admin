@@ -8,6 +8,7 @@ import type { ToMock } from "~~/tests/unit/utils/types/mock.types";
 
 type UseI18nStub = {
   t: (key: string) => string;
+  te: (key: string) => boolean;
   locale: Ref<SupportedLocaleCodeForMock>;
   localeCodes: Ref<SupportedLocaleCodeForMock[]>;
   locales: Ref<SupportedMockedLocale[]>;
@@ -23,8 +24,9 @@ type UseI18nMock = ToMock<UseI18nStub>;
 function createUseI18nMock(): UseI18nMock {
   return {
     t: vi.fn<UseI18nStub["t"]>((key: string) => key),
+    te: vi.fn<UseI18nStub["te"]>(() => false),
     locale: ref<SupportedLocaleCodeForMock>(DEFAULT_MOCKED_LOCALE),
-    localeCodes: ref<SupportedLocaleCodeForMock[]>([...MOCKED_LOCALE_CODES]),
+    localeCodes: ref([...MOCKED_LOCALE_CODES]),
     locales: ref<SupportedMockedLocale[]>([...MOCKED_LOCALES]),
     setLocale: vi.fn<UseI18nStub["setLocale"]>(),
   };

@@ -28,7 +28,7 @@ type UseRouterMock = ToMock<UseRouterStub>;
 function createUseRouterMock(): UseRouterMock {
   return {
     getRoutes: vi.fn<UseRouterStub["getRoutes"]>(() => [...MOCKED_ROUTES]),
-    currentRoute: ref<RouteMock>(DEFAULT_MOCKED_ROUTE),
+    currentRoute: ref(DEFAULT_MOCKED_ROUTE),
     push: vi.fn<UseRouterStub["push"]>(),
     afterEach: vi.fn<UseRouterStub["afterEach"]>(),
     beforeResolve: vi.fn<UseRouterStub["beforeResolve"]>(),

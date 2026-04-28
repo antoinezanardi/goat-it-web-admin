@@ -59,10 +59,23 @@ export default defineNuxtConfig({
     "configs/**/*.ts",
     "eslint.config.ts",
   ],
+  sourcemap: { client: "hidden" },
+  experimental: {
+    serverAppConfig: false,
+  },
   compatibilityDate: "2025-01-15",
   nitro: {
     imports: {
       dirs: ["shared/utils/helpers/*.helpers.ts"],
+    },
+  },
+  vite: {
+    optimizeDeps: {
+      include: [
+        "@goat-it/schemas/question-theme",
+        "@goat-it/schemas/shared/locale",
+        "zod",
+      ],
     },
   },
   typescript: {
@@ -73,6 +86,7 @@ export default defineNuxtConfig({
       compilerOptions: {
         noImplicitReturns: true,
         noImplicitAny: true,
+        allowImportingTsExtensions: true,
       },
       include: [
         "../tests/",
@@ -122,6 +136,9 @@ export default defineNuxtConfig({
           "fr/question-themes.json",
           "fr/common.json",
           "fr/navigation.json",
+          "fr/form.json",
+          "fr/errors.json",
+          "fr/validation.json",
         ],
       },
       {
@@ -134,6 +151,69 @@ export default defineNuxtConfig({
           "en/question-themes.json",
           "en/common.json",
           "en/navigation.json",
+          "en/form.json",
+          "en/errors.json",
+          "en/validation.json",
+        ],
+      },
+      {
+        code: "de",
+        language: "de-DE",
+        name: "Deutsch",
+        files: [
+          "de/home.json",
+          "de/questions.json",
+          "de/question-themes.json",
+          "de/common.json",
+          "de/navigation.json",
+          "de/form.json",
+          "de/errors.json",
+          "de/validation.json",
+        ],
+      },
+      {
+        code: "es",
+        language: "es-ES",
+        name: "Español",
+        files: [
+          "es/home.json",
+          "es/questions.json",
+          "es/question-themes.json",
+          "es/common.json",
+          "es/navigation.json",
+          "es/form.json",
+          "es/errors.json",
+          "es/validation.json",
+        ],
+      },
+      {
+        code: "it",
+        language: "it-IT",
+        name: "Italiano",
+        files: [
+          "it/home.json",
+          "it/questions.json",
+          "it/question-themes.json",
+          "it/common.json",
+          "it/navigation.json",
+          "it/form.json",
+          "it/errors.json",
+          "it/validation.json",
+        ],
+      },
+      {
+        code: "pt",
+        language: "pt-PT",
+        name: "Português",
+        files: [
+          "pt/home.json",
+          "pt/questions.json",
+          "pt/question-themes.json",
+          "pt/common.json",
+          "pt/navigation.json",
+          "pt/form.json",
+          "pt/errors.json",
+          "pt/validation.json",
         ],
       },
     ],

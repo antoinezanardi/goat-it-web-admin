@@ -16,6 +16,7 @@ const isAtLeastOneAlias = computed<boolean>(() => !!props.aliases && props.alias
         v-for="alias in aliases"
         :key="alias"
         :alias="alias"
+        :data-testid="`alias-pill-${alias}`"
       />
     </div>
 
@@ -23,6 +24,7 @@ const isAtLeastOneAlias = computed<boolean>(() => !!props.aliases && props.alias
       v-else
       class="rounded-lg"
       color="neutral"
+      data-testid="aliases-none-badge"
       icon="i-lucide-circle-slash"
       variant="outline"
     >

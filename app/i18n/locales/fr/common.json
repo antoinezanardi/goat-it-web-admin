@@ -6,6 +6,20 @@
     "gitHub": "GitHub",
     "success": "Succès",
     "error": "Erreur",
-    "noTranslation": "Aucune traduction disponible"
+    "noTranslation": "Aucune traduction disponible",
+    "close": "Fermer",
+    "create": "Créer",
+    "edit": "Modifier",
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "table": {
+      "noData": "Aucune donnée",
+      "noResults": "Aucun résultat trouvé",
+      "actions": "Actions",
+      "filter": {
+        "placeholder": "Filtrer...",
+        "clear": "Effacer le filtre"
+      }
+    }
   }
 }

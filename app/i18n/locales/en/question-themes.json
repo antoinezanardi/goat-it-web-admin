@@ -2,12 +2,30 @@
   "questionThemes": {
     "pageTitle": "Question Themes",
     "cantFetch": "Unable to fetch question themes",
+    "cantCreate": "Unable to create question theme",
+    "cantArchive": "Unable to archive question theme",
+    "cantModify": "Unable to modify question theme",
     "fetching": "Fetching question themes...",
+    "createNew": "Create a new theme",
+    "editTheme": "Edit theme",
+    "createSuccessfully": "Question theme created successfully",
+    "archiveSuccessfully": "Question theme archived successfully",
+    "modifySuccessfully": "Question theme modified successfully",
+    "actions": {
+      "archive": "Archive question theme with slug {slug}",
+      "edit": "Edit question theme with slug {slug}"
+    },
+    "archive": {
+      "confirmTitle": "Archive this theme?",
+      "confirmDescription": "This theme will be archived and no longer active. This action cannot be undone."
+    },
     "fields": {
+      "icon": "Icon",
       "slug": "Slug",
       "label": "Label",
       "description": "Description",
       "aliases": "Aliases",
+      "color": "Color",
       "status": "Status"
     },
     "status": {

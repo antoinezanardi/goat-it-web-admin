@@ -6,7 +6,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 
 import DefaultLayout from "~/layouts/DefaultLayout/DefaultLayout.vue";
 
-describe("Default Layout", () => {
+describe("DefaultLayout Layout", () => {
   let wrapper: VueWrapper;
 
   async function mountDefaultLayout(options: MountSuspendedOptions<typeof DefaultLayout> = {}): Promise<VueWrapper> {

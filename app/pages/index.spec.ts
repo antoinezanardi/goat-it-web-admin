@@ -6,7 +6,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 
 import type { PageHeader } from "#components";
 
-import { HOME_PAGE_ICON, HOME_PAGE_TITLE_KEY } from "@/pages/index.constants";
+import { HOME_PAGE_ICON, HOME_PAGE_ORDER, HOME_PAGE_TITLE_KEY } from "@/pages/index.constants";
 import HomePage from "@/pages/index.vue";
 
 describe("Home Page", () => {
@@ -31,6 +31,7 @@ describe("Home Page", () => {
     const expectedPageMeta: Parameters<typeof definePageMeta>[0] = {
       icon: HOME_PAGE_ICON,
       titleKey: HOME_PAGE_TITLE_KEY,
+      order: HOME_PAGE_ORDER,
     };
 
     expect(definePageMeta).toHaveBeenCalledExactlyOnceWith(expectedPageMeta);
