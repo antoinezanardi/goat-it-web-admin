@@ -10,5 +10,6 @@ Feature: 🎨 Question Theme Creation
     And the user fills the input with name "Description*" with text "A theme for acceptance testing"
     And the user fills the input with name "Aliases*" with text "test"
     And the user presses the "Enter" key
+    And the user fills the input with name "Color" with text "FF5733"
     And the user clicks on the button with name "Create"
     Then the text "Acceptance Test Theme" should be visible
