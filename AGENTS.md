@@ -8,6 +8,8 @@ handling, Nuxt conventions, and other repo-specific rules).
 ## Build / Run / Lint / Test commands
 
 - Package manager: `pnpm@10.32.1` (see `package.json` -> `packageManager`).
+  - Unlike npm, `pnpm` does NOT require an extra `--` before flags. Pass arguments directly:
+    `pnpm run test:unit -t "should render"` (correct) vs ~~`pnpm run test:unit -- -t "should render"`~~ (unnecessary).
 - Node requirement: >=25.8.1 (see `package.json` -> `engines.node`).
 - Dev server: `pnpm run dev` (nuxt dev, port 4000, dotenv `envs/.env.development`)
 - Build: `pnpm run build`; preview: `pnpm run preview` / `pnpm run start:prod`
@@ -142,6 +144,19 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
     of a function improve readability and reduce indentation depth.
   - Apply the same principle in all layers: composables, helpers, handlers, and mappers.
 
+- Lint disable comments (last resort):
+  - Disabling lint rules should be a **last resort**. Exhaust all alternatives first
+    (refactoring, type narrowing, extracting helpers) before reaching for a disable comment.
+  - When a disable is genuinely needed, use the following two-line format:
+    ```ts
+    // Acceptable as <concise justification explaining WHY the disable is safe>
+    // oxlint-disable-next-line <rule-name(s)>
+    ```
+  - The reason line MUST start with `// Acceptable as` (no variations like "This is acceptable",
+    no trailing period). The disable line follows immediately below.
+  - Never use inline `--` reason comments (e.g. `// oxlint-disable-next-line rule -- reason`).
+  - Never use file-level or block-level disables (`/* eslint-disable */`) without explicit approval.
+
 ## Tests and test style
 
 - Framework: Vitest + `@nuxt/test-utils` + `@vue/test-utils` + `happy-dom`.
@@ -185,7 +200,9 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
 ## Git / commit / PR expectations
 
 - **Never commit unless the user explicitly asks for it.** Do not create commits
-  autonomously after completing tasks or passing quality gates.
+  autonomously after completing tasks or passing quality gates. This applies to ALL
+  agents, including subagents dispatched via Task/parallel execution. No agent at any
+  level of nesting may create a commit without explicit user approval.
 - Do not commit `.env.*` files with real secrets (`.env.example` is safe).
 - Husky pre-commit hooks are active; never bypass with `--no-verify`.
 - Conventional commits enforced by commitlint: `type(scope): message`.

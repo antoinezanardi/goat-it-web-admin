@@ -9,6 +9,8 @@ const overlay = useOverlay();
 const confirmDialog = overlay.create(ConfirmDialog);
 const questionThemesStore = useQuestionThemesStore();
 
+const actionLabel = computed<string>(() => t("questionThemes.actions.archive", { slug: props.questionThemeSlug }));
+
 async function onArchiveClick(): Promise<void> {
   const { result } = confirmDialog.open({
     icon: "i-lucide-archive",
@@ -24,9 +26,9 @@ async function onArchiveClick(): Promise<void> {
 </script>
 
 <template>
-  <UTooltip :text="t('questionThemes.actions.archive')">
+  <UTooltip :text="actionLabel">
     <UButton
-      :aria-label="t('questionThemes.actions.archive')"
+      :aria-label="actionLabel"
       color="error"
       :data-testid="`archive-button-${questionThemeSlug}`"
       icon="i-lucide-archive"

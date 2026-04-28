@@ -43,7 +43,6 @@ describe("Object Helpers", () => {
     });
 
     it("should return false when value is undefined.", () => {
-      // oxlint-disable-next-line unicorn/no-useless-undefined
       expect(isRecord(undefined)).toBeFalsy();
     });
 

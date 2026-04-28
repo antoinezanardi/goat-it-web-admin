@@ -256,7 +256,6 @@ describe("Question Themes Page", () => {
       await nextTick();
 
       const modal = wrapper.findComponent<typeof QuestionThemeFormModal>("[data-testid='question-theme-form-modal']");
-      // oxlint-disable-next-line typescript/no-unsafe-member-access, typescript/no-unsafe-assignment -- shallow stub exposes props via $attrs, not .props()
       const questionThemeProperty = getWrapperVm(modal).$attrs["question-theme"];
 
       expect(questionThemeProperty).toStrictEqual(fakeTheme);

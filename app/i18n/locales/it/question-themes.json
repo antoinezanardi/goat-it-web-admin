@@ -12,8 +12,8 @@
     "archiveSuccessfully": "Tema delle domande archiviato con successo",
     "modifySuccessfully": "Tema delle domande modificato con successo",
     "actions": {
-      "archive": "Archivia",
-      "edit": "Modifica"
+      "archive": "Archivia tema domanda con slug {slug}",
+      "edit": "Modifica tema domanda con slug {slug}"
     },
     "archive": {
       "confirmTitle": "Archiviare questo tema?",
