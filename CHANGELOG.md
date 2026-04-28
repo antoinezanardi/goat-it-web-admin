@@ -1,5 +1,81 @@
 # 🐐👑 Goat It Web Admin Versioning Changelog
 
+## [1.2.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.1.0...v1.2.0) (2026-04-28)
+
+### 🚀 Features
+
+* **acceptance-tests:** add initial Playwright and Cucumber setup ([#176](https://github.com/antoinezanardi/goat-it-web-admin/issues/176)) ([15f9888](https://github.com/antoinezanardi/goat-it-web-admin/commit/15f98888f81770cc7ee1a2c87517dca21b368237))
+* **changelog:** enhance release notes generation with dependencies table ([#144](https://github.com/antoinezanardi/goat-it-web-admin/issues/144)) ([4502831](https://github.com/antoinezanardi/goat-it-web-admin/commit/45028310439eb050f56e0d54cf1f610d616310b4))
+* **color-picker:** enhance input color picker functionality and tests ([#196](https://github.com/antoinezanardi/goat-it-web-admin/issues/196)) ([d12c620](https://github.com/antoinezanardi/goat-it-web-admin/commit/d12c6200cd6d80d82f00be6d7e7a7d1329dd7912))
+* **color:** add RGB and hex color utilities and constants ([#159](https://github.com/antoinezanardi/goat-it-web-admin/issues/159)) ([283f7e9](https://github.com/antoinezanardi/goat-it-web-admin/commit/283f7e9b012c504893c856e5d77d6215e0629504))
+* **docker:** add update and restart scripts for API sandbox ([#128](https://github.com/antoinezanardi/goat-it-web-admin/issues/128)) ([9ee5e97](https://github.com/antoinezanardi/goat-it-web-admin/commit/9ee5e970d448d01a807ec88ad8febe852569ae94))
+* **errors:** enhance error handling and i18n support in server utilities ([#143](https://github.com/antoinezanardi/goat-it-web-admin/issues/143)) ([1f315f8](https://github.com/antoinezanardi/goat-it-web-admin/commit/1f315f8e967f31e81782380d30d6f58f8045ffb0))
+* **i18n:** add support for multiple languages in locale files ([#170](https://github.com/antoinezanardi/goat-it-web-admin/issues/170)) ([9e25a88](https://github.com/antoinezanardi/goat-it-web-admin/commit/9e25a8819acda04497040780812795215121d9f5))
+* **question-theme:** add icons for question themes ([#158](https://github.com/antoinezanardi/goat-it-web-admin/issues/158)) ([f0a4ef2](https://github.com/antoinezanardi/goat-it-web-admin/commit/f0a4ef213ceb4204cc5f3b5f4d8c51bdfd5adf5f))
+* **question-theme:** implement modal for creating new themes ([#109](https://github.com/antoinezanardi/goat-it-web-admin/issues/109)) ([49b1058](https://github.com/antoinezanardi/goat-it-web-admin/commit/49b10580ee9148e4b29ab35d8c535c29da5eba24)), closes [/#diff-0242f308605698d24ceb7d4a4ba16169db0ad1bcea41ee4bcbec5393cbea1759R1-R31](https://github.com/antoinezanardi///issues/diff-0242f308605698d24ceb7d4a4ba16169db0ad1bcea41ee4bcbec5393cbea1759R1-R31) [/#diff-22ce5cf7564b204c59f20608ee0d5a6e8f4e915de0b206d68c867e448076877fR7-R11](https://github.com/antoinezanardi///issues/diff-22ce5cf7564b204c59f20608ee0d5a6e8f4e915de0b206d68c867e448076877fR7-R11)
+* **question-themes:** add archive action with confirm dialog ([#166](https://github.com/antoinezanardi/goat-it-web-admin/issues/166)) ([84abc30](https://github.com/antoinezanardi/goat-it-web-admin/commit/84abc30e0e9bf53475761e64b90d554afde9f84a))
+* **question-themes:** add edit functionality for question themes ([#167](https://github.com/antoinezanardi/goat-it-web-admin/issues/167)) ([46da622](https://github.com/antoinezanardi/goat-it-web-admin/commit/46da622b31428d6e414cb190212c7c9391d06e21))
+* **table:** implement global filter functionality ([#174](https://github.com/antoinezanardi/goat-it-web-admin/issues/174)) ([a1cd79d](https://github.com/antoinezanardi/goat-it-web-admin/commit/a1cd79d5411d80bc2911b650386237b0f3c4a4a0))
+* **tests:** enhance acceptance tests with API sandbox and wait state ([#190](https://github.com/antoinezanardi/goat-it-web-admin/issues/190)) ([7c97fef](https://github.com/antoinezanardi/goat-it-web-admin/commit/7c97fef758e6913279e26b0e8ad29d3d78b66237))
+* **translations:** add validation messages and slug uniqueness check ([#156](https://github.com/antoinezanardi/goat-it-web-admin/issues/156)) ([d2afd76](https://github.com/antoinezanardi/goat-it-web-admin/commit/d2afd762910a765e8134f358d2cfe6a3538bdf32))
+
+### 🐛 Bug Fixes
+
+* sort header navigation items by page meta order ([#138](https://github.com/antoinezanardi/goat-it-web-admin/issues/138)) ([bc8329b](https://github.com/antoinezanardi/goat-it-web-admin/commit/bc8329b4ade2870e2f9513ba5f4bae6bbe1feabb))
+* **v8:** correct mapping issues in components and tests ([#141](https://github.com/antoinezanardi/goat-it-web-admin/issues/141)) ([6df8355](https://github.com/antoinezanardi/goat-it-web-admin/commit/6df8355e5269ad18f7bb4d02ae4707946f5a2bde))
+
+### 📖 Docs
+
+* superpowers skills ([#153](https://github.com/antoinezanardi/goat-it-web-admin/issues/153)) ([09751cb](https://github.com/antoinezanardi/goat-it-web-admin/commit/09751cba321e9956c8f3e0006349f0d97489ffaa))
+
+### ⚡️ Performance
+
+* **tests:** improve unit test setup and configuration ([#172](https://github.com/antoinezanardi/goat-it-web-admin/issues/172)) ([000c1b1](https://github.com/antoinezanardi/goat-it-web-admin/commit/000c1b14c6c04f777d88afa3d1f67bf772cc5d70))
+
+### ✅ Tests
+
+* enhance unit tests with data-testid attributes for better targeting ([#121](https://github.com/antoinezanardi/goat-it-web-admin/issues/121)) ([dddaf87](https://github.com/antoinezanardi/goat-it-web-admin/commit/dddaf87790c0234312af4275d1aca1d3e77040e0))
+* **question-theme:** enhance question theme creation and validation tests ([#197](https://github.com/antoinezanardi/goat-it-web-admin/issues/197)) ([c11d869](https://github.com/antoinezanardi/goat-it-web-admin/commit/c11d869592969be0a7e85f3c7103ffc0958d1c0d))
+
+### 📦 Upgraded Dependencies
+
+| Package | Version |
+| --- | :---: |
+| `@nuxt/test-utils to version 4.0.2` | `` |
+| `actions/github-script action` | `v9` |
+| `actions/upload-artifact action` | `v7` |
+| `@axe-core/playwright` | `^4.11.2` |
+| `@cucumber/cucumber` | `^12.8.2` |
+| `@eslint/config-inspector` | `v2` |
+| `@faker-js/faker` | `^10.4.0` |
+| `@goat-it/schemas` | `^0.0.8` |
+| `@iconify-json/lucide` | `^1.2.99` |
+| `@nuxt/hints` | `^1.0.3` |
+| `@nuxt/ui` | `^4.7.0` |
+| `@nuxtjs/i18n` | `^10.2.4` |
+| `@vitest/eslint-plugin` | `^1.6.16` |
+| `@vue/test-utils` | `^2.4.9` |
+| `commitlint` | `^20.5.2` |
+| `eslint` | `^10.2.1` |
+| `eslint-plugin-oxlint` | `^1.62.0` |
+| `eslint-plugin-unicorn` | `v64` |
+| `happy-dom` | `^20.9.0` |
+| `nuxt` | `^4.4.2` |
+| `oxlint` | `^1.62.0` |
+| `oxlint-tsgolint` | `^0.22.1` |
+| `tailwindcss` | `^4.2.4` |
+| `type-fest` | `^5.6.0` |
+| `typescript` | `v6` |
+| `vue-tsc` | `^3.2.7` |
+| `node.js` | `v25.9.0` |
+| `oxlint monorepo` | `^1.61.0` |
+| `playwright monorepo` | `^1.59.1` |
+| `pnpm` | `v10.33.2` |
+| `pnpm/action-setup action` | `v6` |
+| `sonarsource/sonarqube-scan-action action` | `v7.1.0` |
+| `stryker-js monorepo` | `^9.6.1` |
+| `vitest monorepo` | `^4.1.5` |
+
 ## [1.1.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.0.0...v1.1.0) (2026-03-19)
 
 ### 🚀 Features
