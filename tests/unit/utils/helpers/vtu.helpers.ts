@@ -11,8 +11,10 @@ import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
  * @param {VueWrapper} wrapper - The Vue test wrapper from which the view model is extracted.
  * @return {ComponentVm} The extracted component's view model.
  */
+// Acceptable as generic type parameter T is required by callers for type narrowing, and VueWrapper typing requires any
 // oxlint-disable-next-line typescript/no-unnecessary-type-parameters, typescript/no-explicit-any
 function getWrapperVm<T extends ComponentVm = ComponentVm>(wrapper: VueWrapper<any>): T {
+  // Acceptable as VTU wrapper.vm is loosely typed and requires assertion to access component internals
   // oxlint-disable-next-line typescript/no-unsafe-type-assertion
   return wrapper.vm as unknown as T;
 }

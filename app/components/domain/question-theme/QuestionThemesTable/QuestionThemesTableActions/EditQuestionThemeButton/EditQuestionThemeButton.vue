@@ -7,15 +7,17 @@ const emit = defineEmits<EditQuestionThemeButtonEmits>();
 
 const { t } = useI18n();
 
+const actionLabel = computed<string>(() => t("questionThemes.actions.edit", { slug: props.questionThemeSlug }));
+
 function onEditClick(): void {
   emit("startEdit", props.questionThemeId);
 }
 </script>
 
 <template>
-  <UTooltip :text="t('questionThemes.actions.edit', { 'slug': questionThemeSlug })">
+  <UTooltip :text="actionLabel">
     <UButton
-      :aria-label="t('questionThemes.actions.edit', { 'slug': questionThemeSlug })"
+      :aria-label="actionLabel"
       color="primary"
       :data-testid="`edit-button-${questionThemeSlug}`"
       icon="i-lucide-pencil"

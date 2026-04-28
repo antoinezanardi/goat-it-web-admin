@@ -50,7 +50,8 @@ Then(
       const fieldContainer = dialog.getByTestId(`question-theme-form-${row.field.toLowerCase()}-field`);
       const errorText = fieldContainer.getByText(row.error, { exact: true });
 
-      // oxlint-disable-next-line eslint/no-await-in-loop -- Playwright assertions require sequential evaluation
+      // Acceptable as Playwright assertions require sequential evaluation
+      // oxlint-disable-next-line eslint/no-await-in-loop
       await expect(errorText).toBeVisible();
     }
   },

@@ -6,7 +6,7 @@ import type { MockedPiniaStore } from "~~/tests/unit/utils/types/mock.types";
  * @param useStore
  */
 function mockStore<TStoreDefinition extends () => unknown>(useStore: TStoreDefinition): MockedPiniaStore<TStoreDefinition> {
-  // This is acceptable as we want to return the store with mocked actions and writable refs.
+  // Acceptable as we want to return the store with mocked actions and writable refs
   // oxlint-disable-next-line typescript/no-unsafe-type-assertion
   return useStore() as MockedPiniaStore<TStoreDefinition>;
 }
