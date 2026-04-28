@@ -12,3 +12,14 @@ When(
     await locator.fill(text);
   },
 );
+
+When(
+  /^the user clears the input with name "(?<name>[^"]*)"$/u,
+  async function(this: GoatItWorld, name: string): Promise<void> {
+    const locator = this.page.getByRole("textbox", { name });
+
+    await expect(locator).toBeVisible();
+    await locator.clear();
+    await this.page.keyboard.press("Tab");
+  },
+);

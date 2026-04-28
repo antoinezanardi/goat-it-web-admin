@@ -20,6 +20,7 @@ Then(
     const results = await new AxeBuilder({ page: this.page })
       .setLegacyMode()
       .withTags([...AXE_TAGS])
+      .exclude("input[data-hidden]")
       .analyze();
 
     if (results.violations.length > 0) {

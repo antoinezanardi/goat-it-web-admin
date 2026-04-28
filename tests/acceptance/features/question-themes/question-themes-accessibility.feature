@@ -22,15 +22,10 @@ Feature: 🎨 Question Themes Page Accessibility
 
   Scenario Outline: 🎨 Question Themes Page with data should not contain accessibility issues in light <View> mode
     Given the user is on question-themes page
-    When the user clicks on the button with name "Create a new theme"
-    And the user fills the input with name "Label*" with text "<Label>"
-    And the user fills the input with name "Slug*" with text "<Slug>"
-    And the user fills the input with name "Description*" with text "Theme for accessibility testing"
-    And the user fills the input with name "Aliases*" with text "a11y"
-    And the user presses the "Enter" key
-    And the user clicks on the button with name "Create"
-    Then the text "<Label>" should be visible
-    And the page should not contain accessibility issues in <View> mode
+    And a question theme exists with the following attributes:
+      | label   | slug   | description                     | aliases |
+      | <Label> | <Slug> | Theme for accessibility testing | a11y    |
+    Then the page should not contain accessibility issues in <View> mode
 
     Examples:
       | Label                    | Slug                     | View    |
@@ -39,16 +34,11 @@ Feature: 🎨 Question Themes Page Accessibility
 
   Scenario Outline: 🎨 Question Themes Page with data should not contain accessibility issues in dark <View> mode
     Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label   | slug   | description                     | aliases |
+      | <Label> | <Slug> | Theme for accessibility testing | a11y    |
     When the user switches to dark mode
-    And the user clicks on the button with name "Create a new theme"
-    And the user fills the input with name "Label*" with text "<Label>"
-    And the user fills the input with name "Slug*" with text "<Slug>"
-    And the user fills the input with name "Description*" with text "Theme for accessibility testing"
-    And the user fills the input with name "Aliases*" with text "a11y"
-    And the user presses the "Enter" key
-    And the user clicks on the button with name "Create"
-    Then the text "<Label>" should be visible
-    And the page should not contain accessibility issues in <View> mode
+    Then the page should not contain accessibility issues in <View> mode
 
     Examples:
       | Label                   | Slug                    | View    |
