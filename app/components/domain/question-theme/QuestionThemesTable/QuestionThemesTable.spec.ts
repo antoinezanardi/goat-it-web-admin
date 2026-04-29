@@ -18,8 +18,6 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { QuestionThemesTable } from "#components";
 import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList, QuestionThemesTableHeader, TranslatedText as TranslatedTextComponent, QuestionThemeIcon, QuestionThemesTableActions, TableEmptyState, QuestionThemeTranslationCompletenessIndicator } from "#components";
 
-import type { QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
-
 describe("QuestionThemesTable Component", () => {
   let wrapper: VueWrapper;
   let pinia: TestingPinia;
@@ -145,41 +143,22 @@ describe("QuestionThemesTable Component", () => {
     });
 
     it("should pass mapped rows to the table component when the store has question themes.", async() => {
-      const questionThemes = [
+      const fakeQuestionThemes = [
         createFakeQuestionTheme({
-          label: {
-            en: "Math",
-            fr: "Mathématiques",
-          },
-          description: {
-            en: "Math description",
-            fr: "Description mathématiques",
-          },
-          aliases: {
-            en: ["maths"],
-            fr: ["maths"],
-          },
+          label: createFakeLocalizedText({ en: "Math", fr: "Mathématiques" }),
+          description: createFakeLocalizedText({ en: "Math description", fr: "Description mathématiques" }),
+          aliases: { en: ["maths"], fr: ["maths"] },
           slug: "math",
           status: "active",
         }),
       ];
-      questionThemesStore.questionThemes = questionThemes;
-      const expectedQuestionThemeRows: QuestionThemesTableRow[] = questionThemes.map(questionTheme => ({
-        id: questionTheme.id,
-        slug: questionTheme.slug,
-        color: questionTheme.color,
-        label: questionTheme.label,
-        description: questionTheme.description,
-        aliases: questionTheme.aliases[DEFAULT_MOCKED_LOCALE],
-        status: questionTheme.status,
-        questionTheme,
-      }));
+      questionThemesStore.questionThemes = fakeQuestionThemes;
 
       wrapper = await mountQuestionThemesTableComponent();
 
       const table = wrapper.getComponent({ name: "UTable" });
 
-      expect(table.props("data")).toStrictEqual(expectedQuestionThemeRows);
+      expect(table.props("data")).toStrictEqual(fakeQuestionThemes);
     });
   });
 
@@ -557,7 +536,7 @@ describe("QuestionThemesTable Component", () => {
     it("should pass globalFilterOptions with the filterFn to the table component when mounted.", () => {
       const table = wrapper.getComponent({ name: "UTable" });
 
-      expect(table.props("globalFilterOptions")).toStrictEqual({ globalFilterFn: expect.any(Function) as FilterFn<QuestionThemesTableRow> });
+      expect(table.props("globalFilterOptions")).toStrictEqual({ globalFilterFn: expect.any(Function) as FilterFn<QuestionTheme> });
     });
 
     it("should update the composable globalFilter when the table emits update:globalFilter.", () => {
@@ -579,7 +558,7 @@ describe("QuestionThemesTable Component", () => {
         "slug",
         `label.${DEFAULT_MOCKED_LOCALE}`,
         `description.${DEFAULT_MOCKED_LOCALE}`,
-        "aliases",
+        `aliases.${DEFAULT_MOCKED_LOCALE}`,
         "status",
       ]);
     });

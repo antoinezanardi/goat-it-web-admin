@@ -75,6 +75,7 @@ export default defineNuxtConfig({
         "@goat-it/schemas/question-theme",
         "@goat-it/schemas/shared/locale",
         "zod",
+        "fuse.js",
       ],
     },
   },

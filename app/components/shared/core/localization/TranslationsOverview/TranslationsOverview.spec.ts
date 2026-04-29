@@ -1,8 +1,10 @@
+import { LOCALES } from "@goat-it/schemas/shared/locale";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { createFakeLocalizedText, createFakeLocalizedTexts } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
+import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { LocaleLabel, TranslationsOverview } from "#components";
@@ -66,49 +68,27 @@ describe("TranslationsOverview Component", () => {
   });
 
   describe("Locale Rows", () => {
-    it("should render 5 locale rows when the current locale is en.", () => {
+    const expectedLocales = LOCALES.filter(locale => locale !== DEFAULT_MOCKED_LOCALE);
+
+    it("should render locale rows for all locales except the current one when component is rendered.", () => {
       const rows = wrapper.findAll("[data-testid^='locale-value-']");
 
-      expect(rows).toHaveLength(5);
+      expect(rows).toHaveLength(expectedLocales.length);
     });
 
-    it("should not render a row for en when it is the current locale.", () => {
-      const enRow = wrapper.find("[data-testid='locale-value-en']");
+    it("should not render a row for the current locale when it is en.", () => {
+      const currentLocaleRow = wrapper.find(`[data-testid='locale-value-${DEFAULT_MOCKED_LOCALE}']`);
 
-      expect(enRow.exists()).toBeFalsy();
+      expect(currentLocaleRow.exists()).toBeFalsy();
     });
 
-    it("should render a row for fr when component is rendered.", () => {
-      const row = wrapper.find("[data-testid='locale-value-fr']");
+    it.each(expectedLocales)("should render a row for %s when component is rendered.", locale => {
+      const row = wrapper.find(`[data-testid='locale-value-${locale}']`);
 
       expect(row.exists()).toBeTruthy();
     });
 
-    it("should render a row for es when component is rendered.", () => {
-      const row = wrapper.find("[data-testid='locale-value-es']");
-
-      expect(row.exists()).toBeTruthy();
-    });
-
-    it("should render a row for de when component is rendered.", () => {
-      const row = wrapper.find("[data-testid='locale-value-de']");
-
-      expect(row.exists()).toBeTruthy();
-    });
-
-    it("should render a row for it when component is rendered.", () => {
-      const row = wrapper.find("[data-testid='locale-value-it']");
-
-      expect(row.exists()).toBeTruthy();
-    });
-
-    it("should render a row for pt when component is rendered.", () => {
-      const row = wrapper.find("[data-testid='locale-value-pt']");
-
-      expect(row.exists()).toBeTruthy();
-    });
-
-    it("should render locale label component for fr when the fr row is rendered.", () => {
+    it("should render locale label component for each non-current locale when the rows are rendered.", () => {
       const frRow = wrapper.find("[data-testid='locale-value-fr']");
       const localeLabel = frRow.findComponent(LocaleLabel);
 

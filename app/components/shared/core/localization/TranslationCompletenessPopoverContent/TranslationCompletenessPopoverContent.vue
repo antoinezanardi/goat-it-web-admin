@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { LOCALES } from "@goat-it/schemas/shared/locale";
-import type { Locale, LocalizedText } from "@goat-it/schemas/shared/locale";
+import type { Locale } from "@goat-it/schemas/shared/locale";
 
 import type { TranslationCompletenessPopoverContentProperties } from "~/components/shared/core/localization/TranslationCompletenessPopoverContent/translation-completeness-popover-content.types";
 
@@ -8,13 +8,15 @@ const props = defineProps<TranslationCompletenessPopoverContentProperties>();
 
 const { t } = useI18n();
 
-// Acceptable as requiredFields may contain LocalizedTexts but isLocalizedValueMissing handles both
-// oxlint-disable-next-line typescript/no-unsafe-type-assertion
-const requiredFieldsReference = toRef(() => props.requiredFields as LocalizedText[]);
+const requiredFieldsReference = toRef(() => props.requiredFields);
 const { localeStatuses } = useTranslationCompleteness(requiredFieldsReference);
 
 function isLocaleComplete(locale: Locale): boolean {
   return localeStatuses.value[locale];
+}
+
+function getBadgeColor(locale: Locale): "success" | "error" {
+  return isLocaleComplete(locale) ? "success" : "error";
 }
 </script>
 
@@ -38,13 +40,18 @@ function isLocaleComplete(locale: Locale): boolean {
       <UBadge
         v-for="locale in LOCALES"
         :key="locale"
-        :color="isLocaleComplete(locale) ? 'success' : 'error'"
+        :color="getBadgeColor(locale)"
         :data-testid="`locale-status-${locale}`"
         size="xs"
         variant="subtle"
       >
         <LocaleLabel :locale="locale"/>
-        {{ isLocaleComplete(locale) ? "✓" : "✗" }}
+
+        <UIcon
+          :class="isLocaleComplete(locale) ? 'size-3' : 'size-3'"
+          data-testid="locale-status-icon"
+          :name="isLocaleComplete(locale) ? 'i-lucide-check' : 'i-lucide-x'"
+        />
       </UBadge>
     </div>
   </div>

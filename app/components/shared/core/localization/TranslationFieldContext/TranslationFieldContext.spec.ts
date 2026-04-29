@@ -128,5 +128,29 @@ describe("TranslationFieldContext Component", () => {
 
       expect(translationsOverview.props("hideHeader")).toBeTruthy();
     });
+
+    it("should not pass localized text prop to translations overview when neither localized text nor localized texts is provided.", async() => {
+      wrapper = await mountTranslationFieldContextComponent({
+        props: {
+          label: "Label",
+        },
+      });
+      await openCollapsible();
+      const translationsOverview = wrapper.findComponent(TranslationsOverview);
+
+      expect(translationsOverview.props("localizedText")).toBeUndefined();
+    });
+
+    it("should not pass localized texts prop to translations overview when neither localized text nor localized texts is provided.", async() => {
+      wrapper = await mountTranslationFieldContextComponent({
+        props: {
+          label: "Label",
+        },
+      });
+      await openCollapsible();
+      const translationsOverview = wrapper.findComponent(TranslationsOverview);
+
+      expect(translationsOverview.props("localizedTexts")).toBeUndefined();
+    });
   });
 });

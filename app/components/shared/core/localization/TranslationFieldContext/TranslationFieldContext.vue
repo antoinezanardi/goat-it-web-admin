@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TranslationFieldContextProperties } from "~/components/shared/core/localization/TranslationFieldContext/translation-field-context.types";
 
-defineProps<TranslationFieldContextProperties>();
+const props = defineProps<TranslationFieldContextProperties>();
 
 const { t } = useI18n();
 
@@ -28,8 +28,8 @@ const isOpen = ref<boolean>(false);
       <div class="bg-muted/50 border border-default mt-1 p-2 rounded-md">
         <TranslationsOverview
           hide-header
-          :localized-text="localizedText"
-          :localized-texts="localizedTexts"
+          :localized-text="props.localizedText"
+          :localized-texts="props.localizedTexts"
         />
       </div>
     </template>

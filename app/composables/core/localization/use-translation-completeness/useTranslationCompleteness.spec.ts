@@ -122,12 +122,10 @@ describe("useTranslationCompleteness", () => {
       const emptyField = { en: "", fr: "", es: "", de: "", it: "", pt: "" } as LocalizedText;
       const fieldsReference = ref<LocalizedText[]>([emptyField]);
 
-      useTranslationCompleteness(fieldsReference);
+      const { completedCount }: TranslationCompleteness = useTranslationCompleteness(fieldsReference);
 
       const fullField = { en: "Hello", fr: "Bonjour", es: "Hola", de: "Hallo", it: "Ciao", pt: "Olá" } as LocalizedText;
       fieldsReference.value = [fullField];
-
-      const { completedCount }: TranslationCompleteness = useTranslationCompleteness(fieldsReference);
 
       expect(completedCount.value).toBe(6);
     });
@@ -136,12 +134,10 @@ describe("useTranslationCompleteness", () => {
       const emptyField = { en: "", fr: "", es: "", de: "", it: "", pt: "" } as LocalizedText;
       const fieldsReference = ref<LocalizedText[]>([emptyField]);
 
-      useTranslationCompleteness(fieldsReference);
+      const { isFullyTranslated }: TranslationCompleteness = useTranslationCompleteness(fieldsReference);
 
       const fullField = { en: "Hello", fr: "Bonjour", es: "Hola", de: "Hallo", it: "Ciao", pt: "Olá" } as LocalizedText;
       fieldsReference.value = [fullField];
-
-      const { isFullyTranslated }: TranslationCompleteness = useTranslationCompleteness(fieldsReference);
 
       expect(isFullyTranslated.value).toBeTruthy();
     });

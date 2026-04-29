@@ -25,8 +25,7 @@ Feature: 🎨 Question Theme Translation Completeness
       | Test Theme | test-theme | A test theme | test    |
     When the user clicks on the button with exact name "Edit question theme with slug test-theme"
     And the user clicks on the button with exact name "See translations for Label"
-    Then the text "EN" should be visible
-    And the text "FR" should be visible
+    Then the text "FR" should be visible
     And the text "DE" should be visible
     And the text "ES" should be visible
     And the text "IT" should be visible

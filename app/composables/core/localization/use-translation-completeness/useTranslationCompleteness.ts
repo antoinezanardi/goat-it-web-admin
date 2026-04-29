@@ -1,10 +1,10 @@
 import { LOCALES } from "@goat-it/schemas/shared/locale";
-import type { Locale, LocalizedText } from "@goat-it/schemas/shared/locale";
+import type { Locale, LocalizedText, LocalizedTexts } from "@goat-it/schemas/shared/locale";
 
 import type { TranslationCompleteness } from "~/composables/core/localization/use-translation-completeness/use-translation-completeness.types";
 import { isLocalizedValueMissing } from "#shared/utils/helpers/localization/localization.helpers";
 
-function useTranslationCompleteness(requiredFields: MaybeRef<LocalizedText[]>): TranslationCompleteness {
+function useTranslationCompleteness(requiredFields: MaybeRef<(LocalizedText | LocalizedTexts)[]>): TranslationCompleteness {
   const totalCount = LOCALES.length;
 
   const localeStatuses = computed<Record<Locale, boolean>>(() => {
@@ -12,12 +12,7 @@ function useTranslationCompleteness(requiredFields: MaybeRef<LocalizedText[]>): 
 
     // Acceptable as LOCALES guarantees all Locale keys will be populated
     // oxlint-disable-next-line typescript/no-unsafe-type-assertion
-    const result = {} as Record<Locale, boolean>;
-
-    for (const locale of LOCALES) {
-      result[locale] = fields.every(field => !isLocalizedValueMissing(field, locale));
-    }
-    return result;
+    return Object.fromEntries(LOCALES.map(locale => [locale, fields.every(field => !isLocalizedValueMissing(field, locale))])) as Record<Locale, boolean>;
   });
 
   const completedCount = computed<number>(() => Object.values(localeStatuses.value).filter(Boolean).length);

@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { LocalizedTexts } from "@goat-it/schemas/shared/locale";
+
 import type { QuestionThemeAliasesListProperties } from "~/components/domain/question-theme/QuestionThemeAliasesList/question-theme-aliases-list.types";
 
 const props = defineProps<QuestionThemeAliasesListProperties>();
@@ -6,6 +8,10 @@ const props = defineProps<QuestionThemeAliasesListProperties>();
 const isAtLeastOneAlias = computed<boolean>(() => !!props.aliases && props.aliases.length > 0);
 
 const hasLocalizedTextsContext = computed<boolean>(() => !!props.localizedTexts);
+
+// Acceptable as this computed is only accessed in template when hasLocalizedTextsContext is true
+// oxlint-disable-next-line typescript/no-unsafe-type-assertion
+const definedLocalizedTexts = computed<Partial<LocalizedTexts>>(() => props.localizedTexts as Partial<LocalizedTexts>);
 </script>
 
 <template>
@@ -35,7 +41,7 @@ const hasLocalizedTextsContext = computed<boolean>(() => !!props.localizedTexts)
 
       <template #content>
         <div class="p-3">
-          <TranslationsOverview :localized-texts="localizedTexts"/>
+          <TranslationsOverview :localized-texts="definedLocalizedTexts"/>
         </div>
       </template>
     </UPopover>

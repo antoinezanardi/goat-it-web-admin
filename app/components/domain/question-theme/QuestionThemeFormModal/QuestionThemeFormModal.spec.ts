@@ -10,12 +10,10 @@ import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question
 import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 
 import { QuestionThemeFormModal } from "#components";
-import type { QuestionThemeForm, DefaultModalFooter, DefaultModalTitle } from "#components";
+import type { QuestionThemeForm, DefaultModalFooter, DefaultModalTitle, QuestionThemeTranslationCompletenessIndicator } from "#components";
 
 import type { QuestionThemeFormModalProperties } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.types";
 import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/question-theme.constants";
-
-type QuestionThemeTranslationCompletenessIndicatorType = { questionTheme: unknown };
 
 describe("QuestionThemeFormModal Component", () => {
   let wrapper: VueWrapper;
@@ -273,7 +271,7 @@ describe("QuestionThemeFormModal Component", () => {
           questionTheme: fakeTheme,
         },
       });
-      const indicator = wrapper.findComponent<QuestionThemeTranslationCompletenessIndicatorType>({ name: "QuestionThemeTranslationCompletenessIndicator" });
+      const indicator = wrapper.findComponent<typeof QuestionThemeTranslationCompletenessIndicator>({ name: "QuestionThemeTranslationCompletenessIndicator" });
 
       expect(indicator.exists()).toBeTruthy();
     });
@@ -287,7 +285,7 @@ describe("QuestionThemeFormModal Component", () => {
           questionTheme: fakeTheme,
         },
       });
-      const indicator = wrapper.findComponent<QuestionThemeTranslationCompletenessIndicatorType>({ name: "QuestionThemeTranslationCompletenessIndicator" });
+      const indicator = wrapper.findComponent<typeof QuestionThemeTranslationCompletenessIndicator>({ name: "QuestionThemeTranslationCompletenessIndicator" });
 
       expect(indicator.props("questionTheme")).toStrictEqual(fakeTheme);
     });

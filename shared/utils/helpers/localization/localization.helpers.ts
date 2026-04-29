@@ -2,8 +2,13 @@ import type { Locale, LocalizedText, LocalizedTexts } from "@goat-it/schemas/sha
 
 import { isNonEmptyString } from "#shared/utils/helpers/string/string.helpers";
 
-function isLocalizedValueMissing(field: Partial<LocalizedText>, locale: Locale): boolean {
-  return !isNonEmptyString(field[locale]?.trim());
+function isLocalizedValueMissing(field: Partial<LocalizedText> | Partial<LocalizedTexts>, locale: Locale): boolean {
+  const value = field[locale];
+
+  if (Array.isArray(value)) {
+    return value.map(item => item.trim()).filter(Boolean).length === 0;
+  }
+  return !isNonEmptyString(value?.trim());
 }
 
 function getLocalizedDisplayValue(field: Partial<LocalizedText>, locale: Locale): string | undefined {
@@ -21,7 +26,12 @@ function getLocalizedTextsDisplayValue(field: Partial<LocalizedTexts>, locale: L
   if (!values || values.length === 0) {
     return undefined;
   }
-  return values.join(", ");
+  const trimmedValues = values.map(value => value.trim()).filter(Boolean);
+
+  if (trimmedValues.length === 0) {
+    return undefined;
+  }
+  return trimmedValues.join(", ");
 }
 
 export { isLocalizedValueMissing, getLocalizedDisplayValue, getLocalizedTextsDisplayValue };

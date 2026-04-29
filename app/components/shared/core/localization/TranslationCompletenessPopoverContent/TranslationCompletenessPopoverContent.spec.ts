@@ -80,10 +80,11 @@ describe("TranslationCompletenessPopoverContent Component", () => {
       expect(wrapper.find("[data-testid='locale-status-pt']").exists()).toBeTruthy();
     });
 
-    it("should display check mark in badge when locale is complete.", () => {
+    it("should display check icon in badge when locale is complete.", () => {
       const badge = wrapper.find("[data-testid='locale-status-en']");
+      const icon = badge.find("[data-testid='locale-status-icon']");
 
-      expect(badge.text()).toContain("✓");
+      expect(icon.classes()).toContain("i-lucide:check");
     });
 
     it("should render locale label component in badge when component is rendered.", () => {
@@ -103,16 +104,18 @@ describe("TranslationCompletenessPopoverContent Component", () => {
       });
     });
 
-    it("should display cross mark in badge when locale is incomplete.", () => {
+    it("should display x icon in badge when locale is incomplete.", () => {
       const badge = wrapper.find("[data-testid='locale-status-fr']");
+      const icon = badge.find("[data-testid='locale-status-icon']");
 
-      expect(badge.text()).toContain("✗");
+      expect(icon.classes()).toContain("i-lucide:x");
     });
 
-    it("should display check mark in badge when locale is complete with partial fields.", () => {
+    it("should display check icon in badge when locale is complete with partial fields.", () => {
       const badge = wrapper.find("[data-testid='locale-status-en']");
+      const icon = badge.find("[data-testid='locale-status-icon']");
 
-      expect(badge.text()).toContain("✓");
+      expect(icon.classes()).toContain("i-lucide:check");
     });
   });
 });

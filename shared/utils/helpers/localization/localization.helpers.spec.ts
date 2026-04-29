@@ -28,6 +28,24 @@ describe("Localization Helpers", () => {
 
       expect(isLocalizedValueMissing(field, "en")).toBe(false);
     });
+
+    it("should return true when locale value is an empty array.", () => {
+      const field: Partial<LocalizedTexts> = { en: [], fr: ["Bonjour"] };
+
+      expect(isLocalizedValueMissing(field, "en")).toBe(true);
+    });
+
+    it("should return true when locale value is an array of whitespace-only strings.", () => {
+      const field: Partial<LocalizedTexts> = { en: ["  ", "\t"], fr: ["Bonjour"] };
+
+      expect(isLocalizedValueMissing(field, "en")).toBe(true);
+    });
+
+    it("should return false when locale value is an array with content.", () => {
+      const field: Partial<LocalizedTexts> = { en: ["Hello", "World"], fr: ["Bonjour"] };
+
+      expect(isLocalizedValueMissing(field, "en")).toBe(false);
+    });
   });
 
   describe(getLocalizedDisplayValue, () => {
@@ -61,6 +79,24 @@ describe("Localization Helpers", () => {
       const field: Partial<LocalizedTexts> = { en: undefined };
 
       expect(getLocalizedTextsDisplayValue(field, "en")).toBeUndefined();
+    });
+
+    it("should return undefined when locale array contains only whitespace strings.", () => {
+      const field: Partial<LocalizedTexts> = { en: ["  ", "\t", "\n"] };
+
+      expect(getLocalizedTextsDisplayValue(field, "en")).toBeUndefined();
+    });
+
+    it("should return trimmed comma-separated string when locale has values with whitespace.", () => {
+      const field: Partial<LocalizedTexts> = { en: ["  physics  ", " chemistry ", "biology"] };
+
+      expect(getLocalizedTextsDisplayValue(field, "en")).toBe("physics, chemistry, biology");
+    });
+
+    it("should filter out empty strings after trimming when locale has mixed values.", () => {
+      const field: Partial<LocalizedTexts> = { en: ["physics", "  ", "biology"] };
+
+      expect(getLocalizedTextsDisplayValue(field, "en")).toBe("physics, biology");
     });
   });
 });
