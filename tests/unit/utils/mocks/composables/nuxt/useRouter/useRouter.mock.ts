@@ -13,6 +13,7 @@ type UseRouterStub = {
   getRoutes: () => RouteMock[];
   currentRoute: Ref<RouteMock>;
   push: Router["push"];
+  replace: Router["replace"];
   afterEach: Router["afterEach"];
   beforeResolve: Router["beforeResolve"];
   beforeEach: Router["beforeEach"];
@@ -30,6 +31,7 @@ function createUseRouterMock(): UseRouterMock {
     getRoutes: vi.fn<UseRouterStub["getRoutes"]>(() => [...MOCKED_ROUTES]),
     currentRoute: ref(DEFAULT_MOCKED_ROUTE),
     push: vi.fn<UseRouterStub["push"]>(),
+    replace: vi.fn<UseRouterStub["replace"]>(),
     afterEach: vi.fn<UseRouterStub["afterEach"]>(),
     beforeResolve: vi.fn<UseRouterStub["beforeResolve"]>(),
     beforeEach: vi.fn<UseRouterStub["beforeEach"]>(),
