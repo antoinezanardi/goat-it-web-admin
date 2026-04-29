@@ -3,6 +3,7 @@ import type { LocalizedText, LocalizedTexts } from "@goat-it/schemas/shared/loca
 type TranslationFieldContextProperties = {
   localizedText?: Partial<LocalizedText>;
   localizedTexts?: Partial<LocalizedTexts>;
+  label: string;
 };
 
 export type { TranslationFieldContextProperties };

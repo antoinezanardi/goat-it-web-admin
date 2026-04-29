@@ -3,6 +3,7 @@ import type { LocalizedText, LocalizedTexts } from "@goat-it/schemas/shared/loca
 type TranslationsOverviewProperties = {
   localizedText?: Partial<LocalizedText>;
   localizedTexts?: Partial<LocalizedTexts>;
+  hideHeader?: boolean;
 };
 
 export type { TranslationsOverviewProperties };

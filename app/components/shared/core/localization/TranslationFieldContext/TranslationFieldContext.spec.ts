@@ -1,7 +1,6 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
-import { nextTick } from "vue";
 
 import { createFakeLocalizedText, createFakeLocalizedTexts } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
@@ -14,6 +13,7 @@ describe("TranslationFieldContext Component", () => {
   let wrapper: VueWrapper;
   const defaultProps: TranslationFieldContextProperties = {
     localizedText: createFakeLocalizedText({ en: "Hello", fr: "Bonjour" }),
+    label: "Label",
   };
 
   async function mountTranslationFieldContextComponent(options: MountSuspendedOptions<typeof TranslationFieldContext> = {}): Promise<VueWrapper> {
@@ -40,41 +40,11 @@ describe("TranslationFieldContext Component", () => {
       expect(collapsible.attributes("data-state")).toBe("closed");
     });
 
-    it("should be expanded when current locale value is empty for localizedText.", async() => {
-      wrapper = await mountTranslationFieldContextComponent({
-        props: {
-          localizedText: createFakeLocalizedText({ en: "" }),
-        },
-      });
-      const collapsible = wrapper.find("[data-testid='translation-field-context']");
-
-      expect(collapsible.attributes("data-state")).toBe("open");
-    });
-
-    it("should be expanded when current locale value is empty for localizedTexts.", async() => {
-      wrapper = await mountTranslationFieldContextComponent({
-        props: {
-          localizedTexts: createFakeLocalizedTexts({ en: [] }),
-        },
-      });
-      const collapsible = wrapper.find("[data-testid='translation-field-context']");
-
-      expect(collapsible.attributes("data-state")).toBe("open");
-    });
-
-    it("should be expanded when neither localizedText nor localizedTexts is provided.", async() => {
-      wrapper = await mountTranslationFieldContextComponent({
-        props: {},
-      });
-      const collapsible = wrapper.find("[data-testid='translation-field-context']");
-
-      expect(collapsible.attributes("data-state")).toBe("open");
-    });
-
     it("should be collapsed when localizedTexts has values for the current locale.", async() => {
       wrapper = await mountTranslationFieldContextComponent({
         props: {
           localizedTexts: createFakeLocalizedTexts({ en: ["alias1", "alias2"] }),
+          label: "Label",
         },
       });
       const collapsible = wrapper.find("[data-testid='translation-field-context']");
@@ -82,55 +52,13 @@ describe("TranslationFieldContext Component", () => {
       expect(collapsible.attributes("data-state")).toBe("closed");
     });
 
-    it("should be closed when locale has a filled value before changing.", async() => {
+    it("should be closed when component is rendered.", async() => {
       wrapper = await mountTranslationFieldContextComponent({
         props: {
           localizedText: createFakeLocalizedText({ en: "Hello", fr: "" }),
+          label: "Label",
         },
       });
-      const collapsible = wrapper.find("[data-testid='translation-field-context']");
-
-      expect(collapsible.attributes("data-state")).toBe("closed");
-    });
-
-    it("should auto-expand when locale changes to one that is empty.", async() => {
-      wrapper = await mountTranslationFieldContextComponent({
-        props: {
-          localizedText: createFakeLocalizedText({ en: "Hello", fr: "" }),
-        },
-      });
-
-      const { locale } = useI18n();
-      locale.value = "fr";
-      await nextTick();
-      await nextTick();
-      const collapsible = wrapper.find("[data-testid='translation-field-context']");
-
-      expect(collapsible.attributes("data-state")).toBe("open");
-    });
-
-    it("should be open when locale has an empty value before changing.", async() => {
-      wrapper = await mountTranslationFieldContextComponent({
-        props: {
-          localizedText: createFakeLocalizedText({ en: "", fr: "Bonjour" }),
-        },
-      });
-      const collapsible = wrapper.find("[data-testid='translation-field-context']");
-
-      expect(collapsible.attributes("data-state")).toBe("open");
-    });
-
-    it("should auto-collapse when locale changes to one that is filled.", async() => {
-      wrapper = await mountTranslationFieldContextComponent({
-        props: {
-          localizedText: createFakeLocalizedText({ en: "", fr: "Bonjour" }),
-        },
-      });
-
-      const { locale } = useI18n();
-      locale.value = "fr";
-      await nextTick();
-      await nextTick();
       const collapsible = wrapper.find("[data-testid='translation-field-context']");
 
       expect(collapsible.attributes("data-state")).toBe("closed");
@@ -138,16 +66,15 @@ describe("TranslationFieldContext Component", () => {
   });
 
   describe("Button", () => {
-    it("should show button with other translations label when rendered.", () => {
+    it("should show button with see translations label when rendered.", () => {
       const button = wrapper.find("[data-testid='translation-field-context'] button");
 
-      expect(button.text()).toContain("localization.otherTranslations");
+      expect(button.text()).toContain("localization.seeTranslationsFor");
     });
 
     it("should toggle collapsible open state when button is clicked.", async() => {
       const button = wrapper.find("[data-testid='translation-field-context'] button");
       await button.trigger("click");
-      await nextTick();
       const collapsible = wrapper.find("[data-testid='translation-field-context']");
 
       expect(collapsible.attributes("data-state")).toBe("open");
@@ -155,12 +82,13 @@ describe("TranslationFieldContext Component", () => {
   });
 
   describe("Translations Overview", () => {
+    async function openCollapsible(): Promise<void> {
+      const button = wrapper.find("[data-testid='translation-field-context'] button");
+      await button.trigger("click");
+    }
+
     it("should render translations overview component when collapsible is expanded.", async() => {
-      wrapper = await mountTranslationFieldContextComponent({
-        props: {
-          localizedText: createFakeLocalizedText({ en: "" }),
-        },
-      });
+      await openCollapsible();
       const translationsOverview = wrapper.findComponent(TranslationsOverview);
 
       expect(translationsOverview.exists()).toBeTruthy();
@@ -171,8 +99,10 @@ describe("TranslationFieldContext Component", () => {
       wrapper = await mountTranslationFieldContextComponent({
         props: {
           localizedText,
+          label: "Label",
         },
       });
+      await openCollapsible();
       const translationsOverview = wrapper.findComponent(TranslationsOverview);
 
       expect(translationsOverview.props("localizedText")).toStrictEqual(localizedText);
@@ -183,11 +113,20 @@ describe("TranslationFieldContext Component", () => {
       wrapper = await mountTranslationFieldContextComponent({
         props: {
           localizedTexts,
+          label: "Label",
         },
       });
+      await openCollapsible();
       const translationsOverview = wrapper.findComponent(TranslationsOverview);
 
       expect(translationsOverview.props("localizedTexts")).toStrictEqual(localizedTexts);
+    });
+
+    it("should pass hide header prop to translations overview when rendered.", async() => {
+      await openCollapsible();
+      const translationsOverview = wrapper.findComponent(TranslationsOverview);
+
+      expect(translationsOverview.props("hideHeader")).toBeTruthy();
     });
   });
 });

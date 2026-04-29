@@ -126,11 +126,13 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
       </template>
 
       <template #actions-cell="{ row }">
-        <QuestionThemesTableActions
-          :data-testid="`actions-cell-${row.original.slug}`"
-          :question-theme="row.original"
-          @start-edit="onStartEditFromQuestionThemesTableActions"
-        />
+        <div class="flex justify-center">
+          <QuestionThemesTableActions
+            :data-testid="`actions-cell-${row.original.slug}`"
+            :question-theme="row.original"
+            @start-edit="onStartEditFromQuestionThemesTableActions"
+          />
+        </div>
       </template>
 
       <template #empty>

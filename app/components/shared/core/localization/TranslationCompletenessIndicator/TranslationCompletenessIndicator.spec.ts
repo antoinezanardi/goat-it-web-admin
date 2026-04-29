@@ -169,99 +169,16 @@ describe("TranslationCompletenessIndicator Component", () => {
       });
     });
 
-    it("should render popover content with correct data-testid when popover is open.", () => {
-      const popover = wrapper.find("[data-testid='translation-completeness-popover']");
+    it("should render translation completeness popover content component when popover is open.", () => {
+      const popoverContent = wrapper.findComponent({ name: "TranslationCompletenessPopoverContent" });
 
-      expect(popover.exists()).toBeTruthy();
+      expect(popoverContent.exists()).toBeTruthy();
     });
 
-    it("should display the translation status header when popover is open.", () => {
-      const popover = wrapper.find("[data-testid='translation-completeness-popover']");
-      const header = popover.find(".text-xs.font-semibold.text-muted.uppercase.mb-2");
+    it("should pass required fields to popover content component when popover is open.", () => {
+      const popoverContent = wrapper.findComponent({ name: "TranslationCompletenessPopoverContent" });
 
-      expect(header.text()).toBe("localization.translationStatus");
-    });
-
-    it("should render en locale status badge when popover is open.", () => {
-      const badge = wrapper.find("[data-testid='locale-status-en']");
-
-      expect(badge.exists()).toBeTruthy();
-    });
-
-    it("should render fr locale status badge when popover is open.", () => {
-      const badge = wrapper.find("[data-testid='locale-status-fr']");
-
-      expect(badge.exists()).toBeTruthy();
-    });
-
-    it("should render de locale status badge when popover is open.", () => {
-      const badge = wrapper.find("[data-testid='locale-status-de']");
-
-      expect(badge.exists()).toBeTruthy();
-    });
-
-    it("should render es locale status badge when popover is open.", () => {
-      const badge = wrapper.find("[data-testid='locale-status-es']");
-
-      expect(badge.exists()).toBeTruthy();
-    });
-
-    it("should render it locale status badge when popover is open.", () => {
-      const badge = wrapper.find("[data-testid='locale-status-it']");
-
-      expect(badge.exists()).toBeTruthy();
-    });
-
-    it("should render pt locale status badge when popover is open.", () => {
-      const badge = wrapper.find("[data-testid='locale-status-pt']");
-
-      expect(badge.exists()).toBeTruthy();
-    });
-
-    it("should render success badge with locale name when all locales are complete.", () => {
-      const badge = wrapper.find("[data-testid='locale-status-en']");
-
-      expect(badge.text()).toContain("EN");
-    });
-
-    it("should render success badge with check mark when all locales are complete.", () => {
-      const badge = wrapper.find("[data-testid='locale-status-en']");
-
-      expect(badge.text()).toContain("✓");
-    });
-
-    it("should render error badge with locale name when locales are incomplete.", async() => {
-      const partialField: LocalizedText = { en: "Hello", fr: "", de: "", es: "", it: "", pt: "" };
-      wrapper = await mountTranslationCompletenessIndicatorComponent({
-        props: { requiredFields: [partialField] },
-        global: {
-          stubs: {
-            UPopover: {
-              template: "<div><slot /><slot name=\"content\" /></div>",
-            },
-          },
-        },
-      });
-      const badge = wrapper.find("[data-testid='locale-status-fr']");
-
-      expect(badge.text()).toContain("FR");
-    });
-
-    it("should render error badge with cross mark when locales are incomplete.", async() => {
-      const partialField: LocalizedText = { en: "Hello", fr: "", de: "", es: "", it: "", pt: "" };
-      wrapper = await mountTranslationCompletenessIndicatorComponent({
-        props: { requiredFields: [partialField] },
-        global: {
-          stubs: {
-            UPopover: {
-              template: "<div><slot /><slot name=\"content\" /></div>",
-            },
-          },
-        },
-      });
-      const badge = wrapper.find("[data-testid='locale-status-fr']");
-
-      expect(badge.text()).toContain("✗");
+      expect(popoverContent.props("requiredFields")).toStrictEqual(defaultProps.requiredFields);
     });
   });
 });

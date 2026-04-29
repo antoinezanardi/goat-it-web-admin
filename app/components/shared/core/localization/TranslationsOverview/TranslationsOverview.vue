@@ -5,7 +5,9 @@ import type { Locale } from "@goat-it/schemas/shared/locale";
 import type { TranslationsOverviewProperties } from "~/components/shared/core/localization/TranslationsOverview/translations-overview.types";
 import { getLocalizedDisplayValue, getLocalizedTextsDisplayValue, isLocalizedValueMissing } from "#shared/utils/helpers/localization/localization.helpers";
 
-const props = defineProps<TranslationsOverviewProperties>();
+const props = withDefaults(defineProps<TranslationsOverviewProperties>(), {
+  hideHeader: false,
+});
 
 const { locale: currentLocale, t } = useI18n();
 
@@ -34,9 +36,18 @@ function isMissing(locale: Locale): boolean {
 
 <template>
   <div class="translations-overview">
-    <div class="font-semibold mb-2 text-muted text-xs uppercase">
-      {{ t("localization.otherTranslations") }}
-    </div>
+    <template v-if="!hideHeader">
+      <div class="flex font-semibold gap-1.5 items-center mb-2 text-muted text-sm">
+        <UIcon
+          class="size-4"
+          name="i-lucide-globe"
+        />
+
+        {{ t("localization.otherTranslations") }}
+      </div>
+
+      <USeparator class="mb-2"/>
+    </template>
 
     <div class="flex flex-col gap-1">
       <div
@@ -45,7 +56,7 @@ function isMissing(locale: Locale): boolean {
         class="flex gap-2 items-baseline text-sm"
         :data-testid="`locale-value-${locale}`"
       >
-        <span class="font-semibold text-muted text-xs uppercase w-6">{{ locale.toUpperCase() }}</span>
+        <LocaleLabel :locale="locale"/>
 
         <span :class="isMissing(locale) ? 'text-error italic' : 'text-default'">
           {{ getDisplayValue(locale) }}

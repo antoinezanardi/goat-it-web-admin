@@ -467,6 +467,48 @@ describe("QuestionThemeForm Component", () => {
         expect(translationFieldContexts[2]?.props("localizedTexts")).toStrictEqual(fakeTheme.aliases);
       });
 
+      it("should pass label field name to translation field context for label when mode is edit.", async() => {
+        const fakeTheme = createFakeQuestionTheme();
+        wrapper = await mountQuestionThemeFormComponent({
+          props: {
+            mode: "edit",
+            questionTheme: fakeTheme,
+            existingSlugs: [],
+          },
+        });
+        const translationFieldContexts = wrapper.findAllComponents({ name: "TranslationFieldContext" });
+
+        expect(translationFieldContexts[0]?.props("label")).toBe("questionThemes.fields.label");
+      });
+
+      it("should pass description field name to translation field context for description when mode is edit.", async() => {
+        const fakeTheme = createFakeQuestionTheme();
+        wrapper = await mountQuestionThemeFormComponent({
+          props: {
+            mode: "edit",
+            questionTheme: fakeTheme,
+            existingSlugs: [],
+          },
+        });
+        const translationFieldContexts = wrapper.findAllComponents({ name: "TranslationFieldContext" });
+
+        expect(translationFieldContexts[1]?.props("label")).toBe("questionThemes.fields.description");
+      });
+
+      it("should pass aliases field name to translation field context for aliases when mode is edit.", async() => {
+        const fakeTheme = createFakeQuestionTheme();
+        wrapper = await mountQuestionThemeFormComponent({
+          props: {
+            mode: "edit",
+            questionTheme: fakeTheme,
+            existingSlugs: [],
+          },
+        });
+        const translationFieldContexts = wrapper.findAllComponents({ name: "TranslationFieldContext" });
+
+        expect(translationFieldContexts[2]?.props("label")).toBe("questionThemes.fields.aliases");
+      });
+
       it("should not render any translation field context when mode is create.", () => {
         const translationFieldContexts = wrapper.findAllComponents({ name: "TranslationFieldContext" });
 

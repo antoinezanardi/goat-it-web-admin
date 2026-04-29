@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { createFakeLocalizedText, createFakeLocalizedTexts } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import { TranslationsOverview } from "#components";
+import { LocaleLabel, TranslationsOverview } from "#components";
 
 import type { TranslationsOverviewProperties } from "~/components/shared/core/localization/TranslationsOverview/translations-overview.types";
 
@@ -28,9 +28,40 @@ describe("TranslationsOverview Component", () => {
 
   describe("Header", () => {
     it("should display the other translations header when component is rendered.", () => {
-      const header = wrapper.find(".text-xs.font-semibold.text-muted.uppercase.mb-2");
+      const header = wrapper.find(".text-sm.font-semibold.text-muted");
 
-      expect(header.text()).toBe("localization.otherTranslations");
+      expect(header.text()).toContain("localization.otherTranslations");
+    });
+
+    it("should render globe icon in header when component is rendered.", () => {
+      const header = wrapper.find(".text-sm.font-semibold.text-muted");
+      const icon = header.findComponent({ name: "UIcon" });
+
+      expect(icon.exists()).toBeTruthy();
+    });
+
+    it("should render separator between header and content when component is rendered.", () => {
+      const separator = wrapper.findComponent({ name: "USeparator" });
+
+      expect(separator.exists()).toBeTruthy();
+    });
+
+    it("should not render header when hideHeader is true.", async() => {
+      wrapper = await mountTranslationsOverviewComponent({
+        props: { ...defaultProps, hideHeader: true },
+      });
+      const header = wrapper.find(".text-sm.font-semibold.text-muted.mb-2");
+
+      expect(header.exists()).toBeFalsy();
+    });
+
+    it("should not render separator when hideHeader is true.", async() => {
+      wrapper = await mountTranslationsOverviewComponent({
+        props: { ...defaultProps, hideHeader: true },
+      });
+      const separator = wrapper.findComponent({ name: "USeparator" });
+
+      expect(separator.exists()).toBeFalsy();
     });
   });
 
@@ -77,11 +108,17 @@ describe("TranslationsOverview Component", () => {
       expect(row.exists()).toBeTruthy();
     });
 
-    it("should display the locale code in uppercase when the fr row is rendered.", () => {
+    it("should render locale label component for fr when the fr row is rendered.", () => {
       const frRow = wrapper.find("[data-testid='locale-value-fr']");
-      const localeLabel = frRow.find(".font-semibold.text-muted.uppercase");
+      const localeLabel = frRow.findComponent(LocaleLabel);
 
-      expect(localeLabel.text()).toBe("FR");
+      expect(localeLabel.exists()).toBeTruthy();
+    });
+
+    it("should display the locale code in locale label when the fr row is rendered.", () => {
+      const frRow = wrapper.find("[data-testid='locale-value-fr']");
+
+      expect(frRow.text()).toContain("localization.locales.fr");
     });
   });
 
@@ -93,24 +130,21 @@ describe("TranslationsOverview Component", () => {
     });
 
     it("should display the text-default class when the locale has a value.", () => {
-      const frRow = wrapper.find("[data-testid='locale-value-fr']");
-      const valueSpan = frRow.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-fr'] > span.text-default");
 
-      expect(valueSpan?.classes()).toContain("text-default");
+      expect(valueSpan.exists()).toBeTruthy();
     });
 
     it("should not have text-error class when the locale has a value.", () => {
-      const frRow = wrapper.find("[data-testid='locale-value-fr']");
-      const valueSpan = frRow.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-fr'] > span.text-error");
 
-      expect(valueSpan?.classes()).not.toContain("text-error");
+      expect(valueSpan.exists()).toBeFalsy();
     });
 
     it("should not have italic class when the locale has a value.", () => {
-      const frRow = wrapper.find("[data-testid='locale-value-fr']");
-      const valueSpan = frRow.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-fr'] > span.italic");
 
-      expect(valueSpan?.classes()).not.toContain("italic");
+      expect(valueSpan.exists()).toBeFalsy();
     });
 
     it("should display the missing translation key when the locale has an empty string value.", () => {
@@ -120,17 +154,15 @@ describe("TranslationsOverview Component", () => {
     });
 
     it("should have text-error class when the locale has a missing value.", () => {
-      const esRow = wrapper.find("[data-testid='locale-value-es']");
-      const valueSpan = esRow.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-es'] > span.text-error");
 
-      expect(valueSpan?.classes()).toContain("text-error");
+      expect(valueSpan.exists()).toBeTruthy();
     });
 
     it("should have italic class when the locale has a missing value.", () => {
-      const esRow = wrapper.find("[data-testid='locale-value-es']");
-      const valueSpan = esRow.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-es'] > span.italic");
 
-      expect(valueSpan?.classes()).toContain("italic");
+      expect(valueSpan.exists()).toBeTruthy();
     });
   });
 
@@ -150,10 +182,9 @@ describe("TranslationsOverview Component", () => {
     });
 
     it("should display the text-default class when the locale has array values.", () => {
-      const frRow = wrapper.find("[data-testid='locale-value-fr']");
-      const valueSpan = frRow.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-fr'] > span.text-default");
 
-      expect(valueSpan?.classes()).toContain("text-default");
+      expect(valueSpan.exists()).toBeTruthy();
     });
 
     it("should display the missing translation key when the locale has an empty array.", () => {
@@ -163,17 +194,15 @@ describe("TranslationsOverview Component", () => {
     });
 
     it("should have text-error class when the locale has an empty array.", () => {
-      const esRow = wrapper.find("[data-testid='locale-value-es']");
-      const valueSpan = esRow.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-es'] > span.text-error");
 
-      expect(valueSpan?.classes()).toContain("text-error");
+      expect(valueSpan.exists()).toBeTruthy();
     });
 
     it("should have italic class when the locale has an empty array.", () => {
-      const esRow = wrapper.find("[data-testid='locale-value-es']");
-      const valueSpan = esRow.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-es'] > span.italic");
 
-      expect(valueSpan?.classes()).toContain("italic");
+      expect(valueSpan.exists()).toBeTruthy();
     });
 
     it("should display the missing translation key when the locale has undefined value.", () => {
@@ -183,17 +212,15 @@ describe("TranslationsOverview Component", () => {
     });
 
     it("should have text-error class when the locale has undefined value.", () => {
-      const itRow = wrapper.find("[data-testid='locale-value-it']");
-      const valueSpan = itRow.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-it'] > span.text-error");
 
-      expect(valueSpan?.classes()).toContain("text-error");
+      expect(valueSpan.exists()).toBeTruthy();
     });
 
     it("should have italic class when the locale has undefined value.", () => {
-      const itRow = wrapper.find("[data-testid='locale-value-it']");
-      const valueSpan = itRow.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-it'] > span.italic");
 
-      expect(valueSpan?.classes()).toContain("italic");
+      expect(valueSpan.exists()).toBeTruthy();
     });
   });
 
@@ -235,73 +262,63 @@ describe("TranslationsOverview Component", () => {
     });
 
     it("should have text-error class for fr when no props are provided.", () => {
-      const row = wrapper.find("[data-testid='locale-value-fr']");
-      const valueSpan = row.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-fr'] > span.text-error");
 
-      expect(valueSpan?.classes()).toContain("text-error");
+      expect(valueSpan.exists()).toBeTruthy();
     });
 
     it("should have italic class for fr when no props are provided.", () => {
-      const row = wrapper.find("[data-testid='locale-value-fr']");
-      const valueSpan = row.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-fr'] > span.italic");
 
-      expect(valueSpan?.classes()).toContain("italic");
+      expect(valueSpan.exists()).toBeTruthy();
     });
 
     it("should have text-error class for es when no props are provided.", () => {
-      const row = wrapper.find("[data-testid='locale-value-es']");
-      const valueSpan = row.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-es'] > span.text-error");
 
-      expect(valueSpan?.classes()).toContain("text-error");
+      expect(valueSpan.exists()).toBeTruthy();
     });
 
     it("should have italic class for es when no props are provided.", () => {
-      const row = wrapper.find("[data-testid='locale-value-es']");
-      const valueSpan = row.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-es'] > span.italic");
 
-      expect(valueSpan?.classes()).toContain("italic");
+      expect(valueSpan.exists()).toBeTruthy();
     });
 
     it("should have text-error class for de when no props are provided.", () => {
-      const row = wrapper.find("[data-testid='locale-value-de']");
-      const valueSpan = row.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-de'] > span.text-error");
 
-      expect(valueSpan?.classes()).toContain("text-error");
+      expect(valueSpan.exists()).toBeTruthy();
     });
 
     it("should have italic class for de when no props are provided.", () => {
-      const row = wrapper.find("[data-testid='locale-value-de']");
-      const valueSpan = row.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-de'] > span.italic");
 
-      expect(valueSpan?.classes()).toContain("italic");
+      expect(valueSpan.exists()).toBeTruthy();
     });
 
     it("should have text-error class for it when no props are provided.", () => {
-      const row = wrapper.find("[data-testid='locale-value-it']");
-      const valueSpan = row.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-it'] > span.text-error");
 
-      expect(valueSpan?.classes()).toContain("text-error");
+      expect(valueSpan.exists()).toBeTruthy();
     });
 
     it("should have italic class for it when no props are provided.", () => {
-      const row = wrapper.find("[data-testid='locale-value-it']");
-      const valueSpan = row.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-it'] > span.italic");
 
-      expect(valueSpan?.classes()).toContain("italic");
+      expect(valueSpan.exists()).toBeTruthy();
     });
 
     it("should have text-error class for pt when no props are provided.", () => {
-      const row = wrapper.find("[data-testid='locale-value-pt']");
-      const valueSpan = row.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-pt'] > span.text-error");
 
-      expect(valueSpan?.classes()).toContain("text-error");
+      expect(valueSpan.exists()).toBeTruthy();
     });
 
     it("should have italic class for pt when no props are provided.", () => {
-      const row = wrapper.find("[data-testid='locale-value-pt']");
-      const valueSpan = row.findAll("span").at(1);
+      const valueSpan = wrapper.find("[data-testid='locale-value-pt'] > span.italic");
 
-      expect(valueSpan?.classes()).toContain("italic");
+      expect(valueSpan.exists()).toBeTruthy();
     });
   });
 });

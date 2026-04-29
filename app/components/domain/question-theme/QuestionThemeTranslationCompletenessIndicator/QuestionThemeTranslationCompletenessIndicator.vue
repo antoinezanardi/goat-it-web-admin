@@ -11,7 +11,10 @@ const requiredFields = computed<LocalizedText[]>(() => [props.questionTheme.labe
 </script>
 
 <template>
-  <div data-testid="question-theme-translation-completeness-indicator">
+  <div
+    class="flex justify-center"
+    data-testid="question-theme-translation-completeness-indicator"
+  >
     <TranslationCompletenessIndicator :required-fields="requiredFields"/>
   </div>
 </template>

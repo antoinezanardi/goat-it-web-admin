@@ -4,6 +4,15 @@
     "otherTranslations": "Autres traductions",
     "missingTranslation": "— manquante —",
     "localeComplete": "{locale} est complète",
-    "localeIncomplete": "{locale} est incomplète"
+    "localeIncomplete": "{locale} est incomplète",
+    "seeTranslationsFor": "Voir les traductions pour {label}",
+    "locales": {
+      "en": "EN",
+      "fr": "FR",
+      "de": "DE",
+      "es": "ES",
+      "it": "IT",
+      "pt": "PT"
+    }
   }
 }
