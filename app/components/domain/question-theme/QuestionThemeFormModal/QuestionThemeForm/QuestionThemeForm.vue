@@ -125,6 +125,11 @@ defineExpose({
       </UFormField>
     </div>
 
+    <TranslationFieldContext
+      v-if="mode === 'edit' && questionTheme"
+      :localized-text="questionTheme.label"
+    />
+
     <UFormField
       class="w-full"
       data-testid="question-theme-form-description-field"
@@ -140,6 +145,12 @@ defineExpose({
       />
     </UFormField>
 
+    <TranslationFieldContext
+      v-if="mode === 'edit' && questionTheme"
+      key="translation-field-context-2"
+      :localized-text="questionTheme.description"
+    />
+
     <UFormField
       data-testid="question-theme-form-aliases-field"
       :label="$t('questionThemes.fields.aliases')"
@@ -153,5 +164,11 @@ defineExpose({
         :placeholder="$t('questionThemes.fields.aliases')"
       />
     </UFormField>
+
+    <TranslationFieldContext
+      v-if="mode === 'edit' && questionTheme"
+      key="translation-field-context-3"
+      :localized-texts="questionTheme.aliases"
+    />
   </UForm>
 </template>

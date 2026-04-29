@@ -7,31 +7,31 @@ import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/l
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import { LocalizedText } from "#components";
-import type { UBadge } from "#components";
+import { TranslatedText, TranslationsOverview } from "#components";
+import type { UBadge, UPopover } from "#components";
 
-import type { LocalizedTextProperties } from "~/components/shared/core/localization/LocalizedText/localized-text.types";
+import type { TranslatedTextProperties } from "~/components/shared/core/localization/TranslatedText/translated-text.types";
 
-describe("LocalizedText Component", () => {
+describe("TranslatedText Component", () => {
   let wrapper: VueWrapper;
-  const defaultLocalizedTextProperties: LocalizedTextProperties = {
+  const defaultTranslatedTextProperties: TranslatedTextProperties = {
     localizedText: {
       [DEFAULT_MOCKED_LOCALE]: "Hello",
     },
   } as const;
 
-  async function mountLocalizedTextComponent(options: MountSuspendedOptions<typeof LocalizedText> = {}): Promise<VueWrapper> {
-    return mountSuspended(LocalizedText, {
-      props: defaultLocalizedTextProperties,
+  async function mountTranslatedTextComponent(options: MountSuspendedOptions<typeof TranslatedText> = {}): Promise<VueWrapper> {
+    return mountSuspended(TranslatedText, {
+      props: defaultTranslatedTextProperties,
       ...options,
     });
   }
 
   beforeEach(async() => {
-    wrapper = await mountLocalizedTextComponent();
+    wrapper = await mountTranslatedTextComponent();
   });
 
-  it("should render the localized text component when mounted.", () => {
+  it("should render the translated text component when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
   });
 
@@ -130,6 +130,71 @@ describe("LocalizedText Component", () => {
       const badge = wrapper.findComponent<typeof UBadge>({ name: "UBadge" });
 
       expect(badge.exists()).toBeTruthy();
+    });
+
+    it("should have the border-dashed class on the no-translation badge when the current locale has no translation.", async() => {
+      await wrapper.setProps({ localizedText: {} });
+
+      const badge = wrapper.find(".no-translation-badge");
+
+      expect(badge.classes()).toContain("border-dashed");
+    });
+
+    it("should have the cursor-pointer class on the no-translation badge when the current locale has no translation.", async() => {
+      await wrapper.setProps({ localizedText: {} });
+
+      const badge = wrapper.find(".no-translation-badge");
+
+      expect(badge.classes()).toContain("cursor-pointer");
+    });
+
+    it("should wrap the no-translation badge in a UPopover when the current locale has no translation.", async() => {
+      await wrapper.setProps({ localizedText: {} });
+
+      const popover = wrapper.findComponent<typeof UPopover>({ name: "UPopover" });
+
+      expect(popover.exists()).toBeTruthy();
+    });
+
+    it("should render the TranslationsOverview component in the popover content when the current locale has no translation.", async() => {
+      wrapper = await mountTranslatedTextComponent({
+        props: { localizedText: {} },
+        global: {
+          stubs: {
+            UPopover: {
+              template: "<div><slot /><slot name=\"content\" /></div>",
+            },
+          },
+        },
+      });
+
+      const translationsOverview = wrapper.findComponent(TranslationsOverview);
+
+      expect(translationsOverview.exists()).toBeTruthy();
+    });
+
+    it("should pass the localizedText prop to the TranslationsOverview component when the current locale has no translation.", async() => {
+      const localizedText = { fr: "Bonjour" };
+      wrapper = await mountTranslatedTextComponent({
+        props: { localizedText },
+        global: {
+          stubs: {
+            UPopover: {
+              template: "<div><slot /><slot name=\"content\" /></div>",
+            },
+          },
+        },
+      });
+
+      const translationsOverview = wrapper.findComponent(TranslationsOverview);
+
+      expect(translationsOverview.props("localizedText")).toStrictEqual(localizedText);
+    });
+
+    it("should not render the UPopover when the current locale has a translation.", () => {
+      const popover = wrapper.findComponent<typeof UPopover>({ name: "UPopover" });
+
+      expect(popover.exists()).toBeFalsy();
     });
   });
 });

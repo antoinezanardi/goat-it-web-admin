@@ -14,6 +14,7 @@ type QuestionThemesTableRow = {
   description: Partial<LocalizedText>;
   aliases?: string[];
   status: QuestionTheme["status"];
+  questionTheme: QuestionTheme;
 };
 
 type QuestionThemesTableGlobalFilterOptions = Omit<GlobalFilterOptions<QuestionThemesTableRow>, "onGlobalFilterChange">;

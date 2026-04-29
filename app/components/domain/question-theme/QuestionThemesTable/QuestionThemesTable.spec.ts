@@ -16,7 +16,7 @@ import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionThemesTable } from "#components";
-import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList, QuestionThemesTableHeader, LocalizedText as LocalizedTextComponent, QuestionThemeIcon, QuestionThemesTableActions, TableEmptyState } from "#components";
+import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList, QuestionThemesTableHeader, TranslatedText as TranslatedTextComponent, QuestionThemeIcon, QuestionThemesTableActions, TableEmptyState, QuestionThemeTranslationCompletenessIndicator } from "#components";
 
 import type { QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 
@@ -111,6 +111,16 @@ describe("QuestionThemesTable Component", () => {
           },
         },
         {
+          accessorKey: "translations",
+          header: "questionThemes.fields.translations",
+          meta: {
+            class: {
+              th: "text-center",
+              td: "text-center",
+            },
+          },
+        },
+        {
           accessorKey: "actions",
           header: "common.table.actions",
           meta: {
@@ -162,6 +172,7 @@ describe("QuestionThemesTable Component", () => {
         description: questionTheme.description,
         aliases: questionTheme.aliases[DEFAULT_MOCKED_LOCALE],
         status: questionTheme.status,
+        questionTheme,
       }));
 
       wrapper = await mountQuestionThemesTableComponent();
@@ -328,6 +339,17 @@ describe("QuestionThemesTable Component", () => {
       expect(aliasesList.props("aliases")).toStrictEqual(["one", "two"]);
     });
 
+    it("should pass the localized texts to the question theme aliases list when in the aliases cell slot.", async() => {
+      const aliases = { en: ["one", "two"], fr: ["un", "deux"] };
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "science-biology", aliases })];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>("[data-testid='aliases-cell-list-science-biology']");
+
+      expect(aliasesList.props("localizedTexts")).toStrictEqual(aliases);
+    });
+
     it("should render an aliases list for each row when the store has multiple question themes.", async() => {
       questionThemesStore.questionThemes = [
         createFakeQuestionTheme({ slug: "science-biology", aliases: { en: ["a"], fr: ["a"] } }),
@@ -342,6 +364,43 @@ describe("QuestionThemesTable Component", () => {
     });
   });
 
+  describe("Translations cell slot", () => {
+    it("should render the question theme translation completeness indicator for each row when in the translations cell slot.", async() => {
+      const theme = createFakeQuestionTheme({ slug: "music" });
+      questionThemesStore.questionThemes = [theme];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const indicator = wrapper.findComponent<typeof QuestionThemeTranslationCompletenessIndicator>({ name: "QuestionThemeTranslationCompletenessIndicator" });
+
+      expect(indicator.exists()).toBeTruthy();
+    });
+
+    it("should pass the question theme to the translation completeness indicator when in the translations cell slot.", async() => {
+      const theme = createFakeQuestionTheme({ slug: "music" });
+      questionThemesStore.questionThemes = [theme];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const indicator = wrapper.findComponent<typeof QuestionThemeTranslationCompletenessIndicator>({ name: "QuestionThemeTranslationCompletenessIndicator" });
+
+      expect(indicator.props("questionTheme")).toStrictEqual(theme);
+    });
+
+    it("should render a translation completeness indicator for each row when the store has multiple question themes.", async() => {
+      questionThemesStore.questionThemes = [
+        createFakeQuestionTheme({ slug: "music" }),
+        createFakeQuestionTheme({ slug: "animals" }),
+      ];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const indicators = wrapper.findAllComponents<typeof QuestionThemeTranslationCompletenessIndicator>({ name: "QuestionThemeTranslationCompletenessIndicator" });
+
+      expect(indicators).toHaveLength(2);
+    });
+  });
+
   describe("Label cell slot", () => {
     it("should pass the label to the localized text component when in the label cell slot.", async() => {
       const label = createFakeLocalizedText({
@@ -352,7 +411,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const localizedText = wrapper.findComponent<typeof LocalizedTextComponent>("[data-testid='label-cell-text-math']");
+      const localizedText = wrapper.findComponent<typeof TranslatedTextComponent>("[data-testid='label-cell-text-math']");
 
       expect(localizedText.props("localizedText")).toStrictEqual(label);
     });
@@ -365,7 +424,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const labelTexts = wrapper.findAllComponents<typeof LocalizedTextComponent>("[data-testid^='label-cell-text-']");
+      const labelTexts = wrapper.findAllComponents<typeof TranslatedTextComponent>("[data-testid^='label-cell-text-']");
 
       expect(labelTexts).toHaveLength(2);
     });
@@ -381,7 +440,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const localizedText = wrapper.findComponent<typeof LocalizedTextComponent>("[data-testid='description-cell-text-math']");
+      const localizedText = wrapper.findComponent<typeof TranslatedTextComponent>("[data-testid='description-cell-text-math']");
 
       expect(localizedText.props("localizedText")).toStrictEqual(description);
     });
@@ -394,7 +453,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const descriptionTexts = wrapper.findAllComponents<typeof LocalizedTextComponent>("[data-testid^='description-cell-text-']");
+      const descriptionTexts = wrapper.findAllComponents<typeof TranslatedTextComponent>("[data-testid^='description-cell-text-']");
 
       expect(descriptionTexts).toHaveLength(2);
     });

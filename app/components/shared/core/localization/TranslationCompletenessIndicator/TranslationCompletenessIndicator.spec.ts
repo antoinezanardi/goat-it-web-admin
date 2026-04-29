@@ -1,0 +1,267 @@
+import { mountSuspended } from "@nuxt/test-utils/runtime";
+import type { VueWrapper } from "@vue/test-utils";
+import type { LocalizedText } from "@goat-it/schemas/shared/locale";
+import { beforeEach, describe, expect, it } from "vitest";
+
+import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+
+import { TranslationCompletenessIndicator } from "#components";
+
+import type { TranslationCompletenessIndicatorProperties } from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-indicator.types";
+import {
+  TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE,
+  TRANSLATION_COMPLETENESS_RING_SIZE,
+} from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-indicator.constants";
+
+describe("TranslationCompletenessIndicator Component", () => {
+  let wrapper: VueWrapper;
+  const fullyTranslatedField: LocalizedText = { en: "Hello", fr: "Bonjour", de: "Hallo", es: "Hola", it: "Ciao", pt: "Olá" };
+  const defaultProps: TranslationCompletenessIndicatorProperties = {
+    requiredFields: [fullyTranslatedField],
+  };
+
+  async function mountTranslationCompletenessIndicatorComponent(options: MountSuspendedOptions<typeof TranslationCompletenessIndicator> = {}): Promise<VueWrapper> {
+    return mountSuspended(TranslationCompletenessIndicator, {
+      props: defaultProps,
+      ...options,
+    });
+  }
+
+  beforeEach(async() => {
+    wrapper = await mountTranslationCompletenessIndicatorComponent();
+  });
+
+  describe("Ring Container", () => {
+    it("should render the ring container with correct data-testid when component is rendered.", () => {
+      const ring = wrapper.find("[data-testid='translation-completeness-ring']");
+
+      expect(ring.exists()).toBeTruthy();
+    });
+
+    it("should render the ring container with correct width style when component is rendered.", () => {
+      const ring = wrapper.find("[data-testid='translation-completeness-ring']");
+
+      expect(ring.attributes("style")).toContain(`width: ${TRANSLATION_COMPLETENESS_RING_SIZE}px`);
+    });
+
+    it("should render the ring container with correct height style when component is rendered.", () => {
+      const ring = wrapper.find("[data-testid='translation-completeness-ring']");
+
+      expect(ring.attributes("style")).toContain(`height: ${TRANSLATION_COMPLETENESS_RING_SIZE}px`);
+    });
+  });
+
+  describe("SVG", () => {
+    it("should render svg with proper viewBox when component is rendered.", () => {
+      const svg = wrapper.find("svg");
+
+      expect(svg.attributes("viewBox")).toBe(`0 0 ${TRANSLATION_COMPLETENESS_RING_SIZE} ${TRANSLATION_COMPLETENESS_RING_SIZE}`);
+    });
+
+    it("should render svg with correct width when component is rendered.", () => {
+      const svg = wrapper.find("svg");
+
+      expect(svg.attributes("width")).toBe(`${TRANSLATION_COMPLETENESS_RING_SIZE}`);
+    });
+
+    it("should render svg with correct height when component is rendered.", () => {
+      const svg = wrapper.find("svg");
+
+      expect(svg.attributes("height")).toBe(`${TRANSLATION_COMPLETENESS_RING_SIZE}`);
+    });
+  });
+
+  describe("Globe Icon", () => {
+    it("should render the globe icon when component is rendered.", () => {
+      const icon = wrapper.find(".iconify");
+
+      expect(icon.classes()).toContain("i-lucide:globe");
+    });
+  });
+
+  describe("Ring Color", () => {
+    it("should have success stroke color when all 6 locales are complete.", () => {
+      const progressCircle = wrapper.find("circle[stroke-linecap='round']");
+
+      expect(progressCircle.attributes("stroke")).toBe("var(--ui-color-success-500)");
+    });
+
+    it("should have warning stroke color when 3 locales are complete.", async() => {
+      const partialField: LocalizedText = { en: "Hello", fr: "Bonjour", de: "Hallo", es: "", it: "", pt: "" };
+      wrapper = await mountTranslationCompletenessIndicatorComponent({
+        props: { requiredFields: [partialField] },
+      });
+      const progressCircle = wrapper.find("circle[stroke-linecap='round']");
+
+      expect(progressCircle.attributes("stroke")).toBe("var(--ui-color-warning-500)");
+    });
+
+    it("should have warning stroke color when 2 locales are complete.", async() => {
+      const twoCompleteField: LocalizedText = { en: "Hello", fr: "Bonjour", de: "", es: "", it: "", pt: "" };
+      wrapper = await mountTranslationCompletenessIndicatorComponent({
+        props: { requiredFields: [twoCompleteField] },
+      });
+      const progressCircle = wrapper.find("circle[stroke-linecap='round']");
+
+      expect(progressCircle.attributes("stroke")).toBe("var(--ui-color-warning-500)");
+    });
+
+    it("should have error stroke color when 1 locale is complete.", async() => {
+      const oneCompleteField: LocalizedText = { en: "Hello", fr: "", de: "", es: "", it: "", pt: "" };
+      wrapper = await mountTranslationCompletenessIndicatorComponent({
+        props: { requiredFields: [oneCompleteField] },
+      });
+      const progressCircle = wrapper.find("circle[stroke-linecap='round']");
+
+      expect(progressCircle.attributes("stroke")).toBe("var(--ui-color-error-500)");
+    });
+
+    it("should have error stroke color when 0 locales are complete.", async() => {
+      const emptyField: LocalizedText = { en: "", fr: "", de: "", es: "", it: "", pt: "" };
+      wrapper = await mountTranslationCompletenessIndicatorComponent({
+        props: { requiredFields: [emptyField] },
+      });
+      const progressCircle = wrapper.find("circle[stroke-linecap='round']");
+
+      expect(progressCircle.attributes("stroke")).toBe("var(--ui-color-error-500)");
+    });
+  });
+
+  describe("Stroke Dash Offset", () => {
+    it("should have stroke-dashoffset of 0 when all locales are complete.", () => {
+      const progressCircle = wrapper.find("circle[stroke-linecap='round']");
+
+      expect(progressCircle.attributes("stroke-dashoffset")).toBe("0");
+    });
+
+    it("should have stroke-dashoffset equal to circumference when no locales are complete.", async() => {
+      const emptyField: LocalizedText = { en: "", fr: "", de: "", es: "", it: "", pt: "" };
+      wrapper = await mountTranslationCompletenessIndicatorComponent({
+        props: { requiredFields: [emptyField] },
+      });
+      const progressCircle = wrapper.find("circle[stroke-linecap='round']");
+
+      expect(progressCircle.attributes("stroke-dashoffset")).toBe(`${TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE}`);
+    });
+
+    it("should have stroke-dashoffset reflecting half completion when 3 of 6 locales are complete.", async() => {
+      const partialField: LocalizedText = { en: "Hello", fr: "Bonjour", de: "Hallo", es: "", it: "", pt: "" };
+      wrapper = await mountTranslationCompletenessIndicatorComponent({
+        props: { requiredFields: [partialField] },
+      });
+      const progressCircle = wrapper.find("circle[stroke-linecap='round']");
+      const expectedOffset = TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE * (1 - 3 / 6);
+
+      expect(progressCircle.attributes("stroke-dashoffset")).toBe(`${expectedOffset}`);
+    });
+  });
+
+  describe("Popover Content", () => {
+    beforeEach(async() => {
+      wrapper = await mountTranslationCompletenessIndicatorComponent({
+        global: {
+          stubs: {
+            UPopover: {
+              template: "<div><slot /><slot name=\"content\" /></div>",
+            },
+          },
+        },
+      });
+    });
+
+    it("should render popover content with correct data-testid when popover is open.", () => {
+      const popover = wrapper.find("[data-testid='translation-completeness-popover']");
+
+      expect(popover.exists()).toBeTruthy();
+    });
+
+    it("should display the translation status header when popover is open.", () => {
+      const popover = wrapper.find("[data-testid='translation-completeness-popover']");
+      const header = popover.find(".text-xs.font-semibold.text-muted.uppercase.mb-2");
+
+      expect(header.text()).toBe("localization.translationStatus");
+    });
+
+    it("should render en locale status badge when popover is open.", () => {
+      const badge = wrapper.find("[data-testid='locale-status-en']");
+
+      expect(badge.exists()).toBeTruthy();
+    });
+
+    it("should render fr locale status badge when popover is open.", () => {
+      const badge = wrapper.find("[data-testid='locale-status-fr']");
+
+      expect(badge.exists()).toBeTruthy();
+    });
+
+    it("should render de locale status badge when popover is open.", () => {
+      const badge = wrapper.find("[data-testid='locale-status-de']");
+
+      expect(badge.exists()).toBeTruthy();
+    });
+
+    it("should render es locale status badge when popover is open.", () => {
+      const badge = wrapper.find("[data-testid='locale-status-es']");
+
+      expect(badge.exists()).toBeTruthy();
+    });
+
+    it("should render it locale status badge when popover is open.", () => {
+      const badge = wrapper.find("[data-testid='locale-status-it']");
+
+      expect(badge.exists()).toBeTruthy();
+    });
+
+    it("should render pt locale status badge when popover is open.", () => {
+      const badge = wrapper.find("[data-testid='locale-status-pt']");
+
+      expect(badge.exists()).toBeTruthy();
+    });
+
+    it("should render success badge with locale name when all locales are complete.", () => {
+      const badge = wrapper.find("[data-testid='locale-status-en']");
+
+      expect(badge.text()).toContain("EN");
+    });
+
+    it("should render success badge with check mark when all locales are complete.", () => {
+      const badge = wrapper.find("[data-testid='locale-status-en']");
+
+      expect(badge.text()).toContain("✓");
+    });
+
+    it("should render error badge with locale name when locales are incomplete.", async() => {
+      const partialField: LocalizedText = { en: "Hello", fr: "", de: "", es: "", it: "", pt: "" };
+      wrapper = await mountTranslationCompletenessIndicatorComponent({
+        props: { requiredFields: [partialField] },
+        global: {
+          stubs: {
+            UPopover: {
+              template: "<div><slot /><slot name=\"content\" /></div>",
+            },
+          },
+        },
+      });
+      const badge = wrapper.find("[data-testid='locale-status-fr']");
+
+      expect(badge.text()).toContain("FR");
+    });
+
+    it("should render error badge with cross mark when locales are incomplete.", async() => {
+      const partialField: LocalizedText = { en: "Hello", fr: "", de: "", es: "", it: "", pt: "" };
+      wrapper = await mountTranslationCompletenessIndicatorComponent({
+        props: { requiredFields: [partialField] },
+        global: {
+          stubs: {
+            UPopover: {
+              template: "<div><slot /><slot name=\"content\" /></div>",
+            },
+          },
+        },
+      });
+      const badge = wrapper.find("[data-testid='locale-status-fr']");
+
+      expect(badge.text()).toContain("✗");
+    });
+  });
+});

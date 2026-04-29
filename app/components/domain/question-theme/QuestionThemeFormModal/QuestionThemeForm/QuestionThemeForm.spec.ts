@@ -423,5 +423,55 @@ describe("QuestionThemeForm Component", () => {
 
       expect(wrapper.emitted("submitCreation")).toBeUndefined();
     });
+
+    describe("Translation field contexts", () => {
+      it("should render translation field context for label with localized text from question theme label when mode is edit.", async() => {
+        const fakeTheme = createFakeQuestionTheme();
+        wrapper = await mountQuestionThemeFormComponent({
+          props: {
+            mode: "edit",
+            questionTheme: fakeTheme,
+            existingSlugs: [],
+          },
+        });
+        const translationFieldContexts = wrapper.findAllComponents({ name: "TranslationFieldContext" });
+
+        expect(translationFieldContexts[0]?.props("localizedText")).toStrictEqual(fakeTheme.label);
+      });
+
+      it("should render translation field context for description with localized text from question theme description when mode is edit.", async() => {
+        const fakeTheme = createFakeQuestionTheme();
+        wrapper = await mountQuestionThemeFormComponent({
+          props: {
+            mode: "edit",
+            questionTheme: fakeTheme,
+            existingSlugs: [],
+          },
+        });
+        const translationFieldContexts = wrapper.findAllComponents({ name: "TranslationFieldContext" });
+
+        expect(translationFieldContexts[1]?.props("localizedText")).toStrictEqual(fakeTheme.description);
+      });
+
+      it("should render translation field context for aliases with localized texts from question theme aliases when mode is edit.", async() => {
+        const fakeTheme = createFakeQuestionTheme();
+        wrapper = await mountQuestionThemeFormComponent({
+          props: {
+            mode: "edit",
+            questionTheme: fakeTheme,
+            existingSlugs: [],
+          },
+        });
+        const translationFieldContexts = wrapper.findAllComponents({ name: "TranslationFieldContext" });
+
+        expect(translationFieldContexts[2]?.props("localizedTexts")).toStrictEqual(fakeTheme.aliases);
+      });
+
+      it("should not render any translation field context when mode is create.", () => {
+        const translationFieldContexts = wrapper.findAllComponents({ name: "TranslationFieldContext" });
+
+        expect(translationFieldContexts).toHaveLength(0);
+      });
+    });
   });
 });

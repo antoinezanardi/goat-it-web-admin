@@ -2,9 +2,10 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 
+import { createFakeLocalizedTexts } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import type { QuestionThemeAliasPill } from "#components";
+import type { QuestionThemeAliasPill, TranslationsOverview } from "#components";
 import { QuestionThemeAliasesList } from "#components";
 
 import type { QuestionThemeAliasesListProperties } from "~/components/domain/question-theme/QuestionThemeAliasesList/question-theme-aliases-list.types";
@@ -59,5 +60,88 @@ describe("QuestionThemeAliasesList Component", () => {
     const badge = wrapper.find("[data-testid='aliases-none-badge']");
 
     expect(badge.exists()).toBeTruthy();
+  });
+
+  it("should render the none badge with border-dashed class when localized texts are provided and aliases are empty.", async() => {
+    const localizedTexts = createFakeLocalizedTexts();
+    wrapper = await mountQuestionThemeAliasesListComponent({
+      props: { aliases: [], localizedTexts },
+      global: {
+        stubs: { UPopover: { template: "<div><slot /><slot name=\"content\" /></div>" } },
+      },
+    });
+
+    const badge = wrapper.find("[data-testid='aliases-none-badge']");
+
+    expect(badge.classes()).toContain("border-dashed");
+  });
+
+  it("should render the none badge with cursor-pointer class when localized texts are provided and aliases are empty.", async() => {
+    const localizedTexts = createFakeLocalizedTexts();
+    wrapper = await mountQuestionThemeAliasesListComponent({
+      props: { aliases: [], localizedTexts },
+      global: {
+        stubs: { UPopover: { template: "<div><slot /><slot name=\"content\" /></div>" } },
+      },
+    });
+
+    const badge = wrapper.find("[data-testid='aliases-none-badge']");
+
+    expect(badge.classes()).toContain("cursor-pointer");
+  });
+
+  it("should render the none badge inside a popover when localized texts are provided and aliases are empty.", async() => {
+    const localizedTexts = createFakeLocalizedTexts();
+    wrapper = await mountQuestionThemeAliasesListComponent({
+      props: { aliases: [], localizedTexts },
+    });
+
+    const popover = wrapper.findComponent({ name: "UPopover" });
+
+    expect(popover.exists()).toBeTruthy();
+  });
+
+  it("should pass localized texts to translations overview when localized texts are provided and aliases are empty.", async() => {
+    const localizedTexts = createFakeLocalizedTexts();
+    wrapper = await mountQuestionThemeAliasesListComponent({
+      props: { aliases: [], localizedTexts },
+      global: {
+        stubs: { UPopover: { template: "<div><slot /><slot name=\"content\" /></div>" } },
+      },
+    });
+
+    const translationsOverview = wrapper.findComponent<typeof TranslationsOverview>({ name: "TranslationsOverview" });
+
+    expect(translationsOverview.props("localizedTexts")).toStrictEqual(localizedTexts);
+  });
+
+  it("should not render popover when localized texts are not provided.", async() => {
+    wrapper = await mountQuestionThemeAliasesListComponent({
+      props: { aliases: [] },
+    });
+
+    const popover = wrapper.findComponent({ name: "UPopover" });
+
+    expect(popover.exists()).toBeFalsy();
+  });
+
+  it("should render the none badge when localized texts are not provided.", async() => {
+    wrapper = await mountQuestionThemeAliasesListComponent({
+      props: { aliases: [] },
+    });
+
+    const badge = wrapper.find("[data-testid='aliases-none-badge']");
+
+    expect(badge.exists()).toBeTruthy();
+  });
+
+  it("should render the none badge without border-dashed class when localized texts are not provided.", async() => {
+    wrapper = await mountQuestionThemeAliasesListComponent({
+      props: { aliases: [] },
+    });
+
+    const badge = wrapper.find("[data-testid='aliases-none-badge']");
+
+    expect(badge.classes()).not.toContain("border-dashed");
   });
 });

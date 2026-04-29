@@ -1,0 +1,9 @@
+{
+  "localization": {
+    "translationStatus": "Translation status",
+    "otherTranslations": "Other translations",
+    "missingTranslation": "— missing —",
+    "localeComplete": "{locale} is complete",
+    "localeIncomplete": "{locale} is incomplete"
+  }
+}

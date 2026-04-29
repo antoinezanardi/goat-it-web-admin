@@ -2,7 +2,6 @@
 import type { TableColumn } from "@nuxt/ui";
 
 import type { QuestionThemesTableEmits, QuestionThemesTableGlobalFilterOptions, QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
-import LocalizedText from "~/components/shared/core/localization/LocalizedText/LocalizedText.vue";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
 
 const emit = defineEmits<QuestionThemesTableEmits>();
@@ -19,6 +18,7 @@ const columns = computed<TableColumn<QuestionThemesTableRow>[]>(() => [
   createTableColumn<QuestionThemesTableRow>({ accessorKey: "description", header: t("questionThemes.fields.description") }),
   createTableColumn<QuestionThemesTableRow>({ accessorKey: "aliases", header: t("questionThemes.fields.aliases"), isCentered: true }),
   createTableColumn<QuestionThemesTableRow>({ accessorKey: "status", header: t("questionThemes.fields.status"), isCentered: true }),
+  createTableColumn<QuestionThemesTableRow>({ accessorKey: "translations", header: t("questionThemes.fields.translations"), isCentered: true }),
   createTableColumn<QuestionThemesTableRow>({ accessorKey: "actions", header: t("common.table.actions"), isCentered: true }),
 ]);
 
@@ -30,6 +30,7 @@ const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(t
   description: theme.description,
   aliases: theme.aliases[currentLocale.value],
   status: theme.status,
+  questionTheme: theme,
 })));
 
 const fuseKeys = computed<string[]>(() => [
@@ -85,7 +86,7 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
       </template>
 
       <template #label-cell="{ row }">
-        <LocalizedText
+        <TranslatedText
           :data-testid="`label-cell-text-${row.original.slug}`"
           :localized-text="row.original.label"
         />
@@ -99,7 +100,7 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
       </template>
 
       <template #description-cell="{ row }">
-        <LocalizedText
+        <TranslatedText
           :data-testid="`description-cell-text-${row.original.slug}`"
           :localized-text="row.original.description"
         />
@@ -109,6 +110,7 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
         <QuestionThemeAliasesList
           :aliases="row.original.aliases"
           :data-testid="`aliases-cell-list-${row.original.slug}`"
+          :localized-texts="row.original.questionTheme.aliases"
         />
       </template>
 
@@ -117,6 +119,10 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
           :data-testid="`status-cell-badge-${row.original.slug}`"
           :status="row.original.status"
         />
+      </template>
+
+      <template #translations-cell="{ row }">
+        <QuestionThemeTranslationCompletenessIndicator :question-theme="row.original.questionTheme"/>
       </template>
 
       <template #actions-cell="{ row }">

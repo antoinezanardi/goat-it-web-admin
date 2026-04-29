@@ -26,7 +26,8 @@
       "description": "Descrizione",
       "aliases": "Alias",
       "color": "Colore",
-      "status": "Stato"
+      "status": "Stato",
+      "translations": "Traduzioni"
     },
     "status": {
       "active": "Attivo",

@@ -48,11 +48,19 @@ function onCloseModal(): void {
     :ui="QUESTION_THEME_FORM_MODAL_UI"
   >
     <template #title>
-      <DefaultModalTitle
-        data-testid="question-theme-form-modal-title"
-        :icon="QUESTION_THEME_ICON"
-        :title="$t(modalTitle)"
-      />
+      <div class="flex gap-3 items-center">
+        <DefaultModalTitle
+          data-testid="question-theme-form-modal-title"
+          :icon="QUESTION_THEME_ICON"
+          :title="$t(modalTitle)"
+        />
+
+        <QuestionThemeTranslationCompletenessIndicator
+          v-if="mode === 'edit' && questionTheme"
+          aria-hidden="true"
+          :question-theme="questionTheme"
+        />
+      </div>
     </template>
 
     <template #body>
