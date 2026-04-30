@@ -36,6 +36,12 @@ describe("Localization Helpers", () => {
 
       expect(getLocalizedDisplayValue(field, "en")).toBeUndefined();
     });
+
+    it("should return undefined when locale value is whitespace only.", () => {
+      const field = createFakeLocalizedText({ en: "   " });
+
+      expect(getLocalizedDisplayValue(field, "en")).toBeUndefined();
+    });
   });
 
   describe(getLocalizedTextsDisplayValue, () => {

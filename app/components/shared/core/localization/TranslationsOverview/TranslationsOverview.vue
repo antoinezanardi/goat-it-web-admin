@@ -53,7 +53,7 @@ function isMissing(locale: Locale): boolean {
       <div
         v-for="locale in otherLocales"
         :key="locale"
-        class="flex gap-2 items-baseline text-sm"
+        class="flex gap-2 items-center text-sm"
         :data-testid="`locale-value-${locale}`"
       >
         <LocaleLabel :locale="locale"/>

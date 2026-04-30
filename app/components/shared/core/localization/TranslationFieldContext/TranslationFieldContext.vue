@@ -18,19 +18,27 @@ const buttonTrailingIcon = computed<string>(() => (isOpen.value ? "i-lucide-chev
   >
     <UButton
       class="justify-between w-full"
-      color="neutral"
+      color="info"
       icon="i-lucide-globe"
       :label="t('localization.seeTranslationsFor', { label })"
       size="xs"
       :trailing-icon="buttonTrailingIcon"
-      variant="ghost"
+      variant="outline"
     />
 
     <template #content>
       <div class="bg-muted/50 border border-default mt-1 p-2 rounded-md">
         <TranslationsOverview
+          v-if="props.localizedText"
+          key="translations-overview-1"
           hide-header
           :localized-text="props.localizedText"
+        />
+
+        <TranslationsOverview
+          v-else
+          key="translations-overview-2"
+          hide-header
           :localized-texts="props.localizedTexts"
         />
       </div>

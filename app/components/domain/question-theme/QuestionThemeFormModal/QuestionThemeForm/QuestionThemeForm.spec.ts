@@ -7,6 +7,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
 import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
+import { createFakeLocalizedText, createFakeLocalizedTexts } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
@@ -287,9 +288,9 @@ describe("QuestionThemeForm Component", () => {
     const editThemeProperties = {
       slug: "existing-slug",
       color: "#123456",
-      label: { [DEFAULT_MOCKED_LOCALE]: "Existing Label" },
-      description: { [DEFAULT_MOCKED_LOCALE]: "Existing Description" },
-      aliases: { [DEFAULT_MOCKED_LOCALE]: ["alias-one", "alias-two"] },
+      label: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Label" }),
+      description: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Description" }),
+      aliases: createFakeLocalizedTexts({ [DEFAULT_MOCKED_LOCALE]: ["alias-one", "alias-two"] }),
     };
 
     async function mountEditModeComponent(): Promise<VueWrapper> {

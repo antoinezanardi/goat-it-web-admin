@@ -16,6 +16,10 @@ import {
 describe("TranslationCompletenessIndicator Component", () => {
   let wrapper: VueWrapper;
   const fullyTranslatedField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "Hallo", es: "Hola", it: "Ciao", pt: "Olá" });
+  const threeCompleteField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "Hallo", es: "", it: "", pt: "" });
+  const twoCompleteField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "", es: "", it: "", pt: "" });
+  const oneCompleteField = createFakeLocalizedText({ en: "Hello", fr: "", de: "", es: "", it: "", pt: "" });
+  const noneCompleteField = createFakeLocalizedText({ en: "", fr: "", de: "", es: "", it: "", pt: "" });
   const defaultProps: TranslationCompletenessIndicatorProperties = {
     requiredFields: [fullyTranslatedField],
   };
@@ -38,36 +42,25 @@ describe("TranslationCompletenessIndicator Component", () => {
       expect(ring.exists()).toBeTruthy();
     });
 
-    it("should render the ring container with correct width style when component is rendered.", () => {
+    it.each<{ attribute: string; expected: string }>([
+      { attribute: "width", expected: `width: ${TRANSLATION_COMPLETENESS_RING_SIZE}px` },
+      { attribute: "height", expected: `height: ${TRANSLATION_COMPLETENESS_RING_SIZE}px` },
+    ])("should render the ring container with correct $attribute style when component is rendered.", ({ expected }) => {
       const ring = wrapper.find("[data-testid='translation-completeness-ring']");
 
-      expect(ring.attributes("style")).toContain(`width: ${TRANSLATION_COMPLETENESS_RING_SIZE}px`);
-    });
-
-    it("should render the ring container with correct height style when component is rendered.", () => {
-      const ring = wrapper.find("[data-testid='translation-completeness-ring']");
-
-      expect(ring.attributes("style")).toContain(`height: ${TRANSLATION_COMPLETENESS_RING_SIZE}px`);
+      expect(ring.attributes("style")).toContain(expected);
     });
   });
 
   describe("SVG", () => {
-    it("should render svg with proper viewBox when component is rendered.", () => {
+    it.each<{ attribute: string; expected: string }>([
+      { attribute: "viewBox", expected: `0 0 ${TRANSLATION_COMPLETENESS_RING_SIZE} ${TRANSLATION_COMPLETENESS_RING_SIZE}` },
+      { attribute: "width", expected: `${TRANSLATION_COMPLETENESS_RING_SIZE}` },
+      { attribute: "height", expected: `${TRANSLATION_COMPLETENESS_RING_SIZE}` },
+    ])("should render svg with correct $attribute when component is rendered.", ({ attribute, expected }) => {
       const svg = wrapper.find("svg");
 
-      expect(svg.attributes("viewBox")).toBe(`0 0 ${TRANSLATION_COMPLETENESS_RING_SIZE} ${TRANSLATION_COMPLETENESS_RING_SIZE}`);
-    });
-
-    it("should render svg with correct width when component is rendered.", () => {
-      const svg = wrapper.find("svg");
-
-      expect(svg.attributes("width")).toBe(`${TRANSLATION_COMPLETENESS_RING_SIZE}`);
-    });
-
-    it("should render svg with correct height when component is rendered.", () => {
-      const svg = wrapper.find("svg");
-
-      expect(svg.attributes("height")).toBe(`${TRANSLATION_COMPLETENESS_RING_SIZE}`);
+      expect(svg.attributes(attribute)).toBe(expected);
     });
   });
 
@@ -80,79 +73,42 @@ describe("TranslationCompletenessIndicator Component", () => {
   });
 
   describe("Ring Color", () => {
-    it("should have success stroke color when all 6 locales are complete.", () => {
-      const progressCircle = wrapper.find("circle[stroke-linecap='round']");
-
-      expect(progressCircle.attributes("stroke")).toBe("var(--ui-color-success-500)");
-    });
-
-    it("should have warning stroke color when 3 locales are complete.", async() => {
-      const partialField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "Hallo", es: "", it: "", pt: "" });
+    it.each<{ description: string; field: ReturnType<typeof createFakeLocalizedText>; expected: string }>([
+      { description: "all 6 locales are complete", field: fullyTranslatedField, expected: "var(--ui-color-success-500)" },
+      { description: "3 locales are complete", field: threeCompleteField, expected: "var(--ui-color-warning-500)" },
+      { description: "2 locales are complete", field: twoCompleteField, expected: "var(--ui-color-warning-500)" },
+      { description: "1 locale is complete", field: oneCompleteField, expected: "var(--ui-color-error-500)" },
+      { description: "0 locales are complete", field: noneCompleteField, expected: "var(--ui-color-error-500)" },
+    ])("should have $expected stroke color when $description.", async({ field, expected }) => {
       wrapper = await mountTranslationCompletenessIndicatorComponent({
-        props: { requiredFields: [partialField] },
+        props: { requiredFields: [field] },
       });
       const progressCircle = wrapper.find("circle[stroke-linecap='round']");
 
-      expect(progressCircle.attributes("stroke")).toBe("var(--ui-color-warning-500)");
-    });
-
-    it("should have warning stroke color when 2 locales are complete.", async() => {
-      const twoCompleteField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "", es: "", it: "", pt: "" });
-      wrapper = await mountTranslationCompletenessIndicatorComponent({
-        props: { requiredFields: [twoCompleteField] },
-      });
-      const progressCircle = wrapper.find("circle[stroke-linecap='round']");
-
-      expect(progressCircle.attributes("stroke")).toBe("var(--ui-color-warning-500)");
-    });
-
-    it("should have error stroke color when 1 locale is complete.", async() => {
-      const oneCompleteField = createFakeLocalizedText({ en: "Hello", fr: "", de: "", es: "", it: "", pt: "" });
-      wrapper = await mountTranslationCompletenessIndicatorComponent({
-        props: { requiredFields: [oneCompleteField] },
-      });
-      const progressCircle = wrapper.find("circle[stroke-linecap='round']");
-
-      expect(progressCircle.attributes("stroke")).toBe("var(--ui-color-error-500)");
-    });
-
-    it("should have error stroke color when 0 locales are complete.", async() => {
-      const emptyField = createFakeLocalizedText({ en: "", fr: "", de: "", es: "", it: "", pt: "" });
-      wrapper = await mountTranslationCompletenessIndicatorComponent({
-        props: { requiredFields: [emptyField] },
-      });
-      const progressCircle = wrapper.find("circle[stroke-linecap='round']");
-
-      expect(progressCircle.attributes("stroke")).toBe("var(--ui-color-error-500)");
+      expect(progressCircle.attributes("stroke")).toBe(expected);
     });
   });
 
   describe("Stroke Dash Offset", () => {
-    it("should have stroke-dashoffset of 0 when all locales are complete.", () => {
-      const progressCircle = wrapper.find("circle[stroke-linecap='round']");
-
-      expect(progressCircle.attributes("stroke-dashoffset")).toBe("0");
-    });
-
-    it("should have stroke-dashoffset equal to circumference when no locales are complete.", async() => {
-      const emptyField = createFakeLocalizedText({ en: "", fr: "", de: "", es: "", it: "", pt: "" });
+    it.each<{ description: string; field: ReturnType<typeof createFakeLocalizedText>; expected: string }>([
+      { description: "all locales are complete", field: fullyTranslatedField, expected: "0" },
+      {
+        description: "no locales are complete",
+        field: noneCompleteField,
+        expected: `${TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE}`,
+      },
+      {
+        description: "3 of 6 locales are complete",
+        field: threeCompleteField,
+        expected: `${TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE * (1 - 3 / 6)}`,
+      },
+    ])("should have correct stroke-dashoffset when $description.", async({ field, expected }) => {
       wrapper = await mountTranslationCompletenessIndicatorComponent({
-        props: { requiredFields: [emptyField] },
+        props: { requiredFields: [field] },
       });
       const progressCircle = wrapper.find("circle[stroke-linecap='round']");
 
-      expect(progressCircle.attributes("stroke-dashoffset")).toBe(`${TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE}`);
-    });
-
-    it("should have stroke-dashoffset reflecting half completion when 3 of 6 locales are complete.", async() => {
-      const partialField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "Hallo", es: "", it: "", pt: "" });
-      wrapper = await mountTranslationCompletenessIndicatorComponent({
-        props: { requiredFields: [partialField] },
-      });
-      const progressCircle = wrapper.find("circle[stroke-linecap='round']");
-      const expectedOffset = TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE * (1 - 3 / 6);
-
-      expect(progressCircle.attributes("stroke-dashoffset")).toBe(`${expectedOffset}`);
+      expect(progressCircle.attributes("stroke-dashoffset")).toBe(expected);
     });
   });
 

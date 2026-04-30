@@ -1,9 +1,12 @@
 import type { LocalizedText, LocalizedTexts } from "@goat-it/schemas/shared/locale";
 
-type TranslationFieldContextProperties = {
-  localizedText?: Partial<LocalizedText>;
-  localizedTexts?: Partial<LocalizedTexts>;
+type TranslationFieldContextBaseProperties = {
   label: string;
 };
+
+type TranslationFieldContextProperties = TranslationFieldContextBaseProperties & (
+  | { localizedText: Partial<LocalizedText>; localizedTexts?: never } |
+  { localizedText?: never; localizedTexts: Partial<LocalizedTexts> }
+);
 
 export type { TranslationFieldContextProperties };

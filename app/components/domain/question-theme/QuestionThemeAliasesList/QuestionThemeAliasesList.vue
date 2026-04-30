@@ -8,7 +8,7 @@ const { locale: currentLocale } = useI18n();
 const aliases = computed<string[]>(() => {
   const values = props.localizedTexts[currentLocale.value];
 
-  if (!values || values.length === 0) {
+  if (!values) {
     return [];
   }
   return values.map(value => value.trim()).filter(Boolean);

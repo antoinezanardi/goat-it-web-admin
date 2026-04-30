@@ -29,7 +29,7 @@ const ringColor = computed<string>(() => {
   <UPopover>
     <button
       :aria-label="t('localization.translationStatus')"
-      class="border border-muted cursor-pointer relative rounded-full"
+      class="cursor-pointer relative rounded-full"
       data-testid="translation-completeness-ring"
       :style="{ 'width': `${TRANSLATION_COMPLETENESS_RING_SIZE}px`, 'height': `${TRANSLATION_COMPLETENESS_RING_SIZE}px` }"
       type="button"
