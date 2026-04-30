@@ -6,7 +6,7 @@ import type { GoatItWorld } from "#acceptance/features/support/types/world.types
 When(
   /^the user clicks on the close button in the modal header$/u,
   async function(this: GoatItWorld): Promise<void> {
-    const dialog = this.page.getByRole("dialog");
+    const dialog = this.page.getByRole("dialog").first();
 
     await expect(dialog).toBeVisible();
 
@@ -20,7 +20,7 @@ When(
 When(
   /^the user clicks on the close button in the modal footer$/u,
   async function(this: GoatItWorld): Promise<void> {
-    const dialog = this.page.getByRole("dialog");
+    const dialog = this.page.getByRole("dialog").first();
 
     await expect(dialog).toBeVisible();
 

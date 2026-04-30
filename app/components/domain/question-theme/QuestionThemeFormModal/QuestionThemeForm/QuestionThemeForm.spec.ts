@@ -11,7 +11,7 @@ import { createFakeLocalizedText, createFakeLocalizedTexts } from "~~/tests/unit
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
-import type { UForm, UFormField, UInput, UTextarea, UInputTags, InputColorPicker } from "#components";
+import type { UForm, UFormField, UInput, UTextarea, UInputTags, InputColorPicker, TranslationFieldContext } from "#components";
 import { QuestionThemeForm } from "#components";
 
 import type { QuestionThemeFormProperties } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
@@ -435,9 +435,9 @@ describe("QuestionThemeForm Component", () => {
             existingSlugs: [],
           },
         });
-        const labelContext = wrapper.findAllComponents({ name: "TranslationFieldContext" }).find(component => component.props("label") === "questionThemes.fields.label");
+        const labelContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-label']");
 
-        expect(labelContext?.props("localizedText")).toStrictEqual(fakeTheme.label);
+        expect(labelContext.props("localizedText")).toStrictEqual(fakeTheme.label);
       });
 
       it("should render translation field context for description with localized text from question theme description when mode is edit.", async() => {
@@ -449,10 +449,9 @@ describe("QuestionThemeForm Component", () => {
             existingSlugs: [],
           },
         });
-        const descriptionContext = wrapper.findAllComponents({ name: "TranslationFieldContext" })
-          .find(component => component.props("label") === "questionThemes.fields.description");
+        const descriptionContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-description']");
 
-        expect(descriptionContext?.props("localizedText")).toStrictEqual(fakeTheme.description);
+        expect(descriptionContext.props("localizedText")).toStrictEqual(fakeTheme.description);
       });
 
       it("should render translation field context for aliases with localized texts from question theme aliases when mode is edit.", async() => {
@@ -464,10 +463,9 @@ describe("QuestionThemeForm Component", () => {
             existingSlugs: [],
           },
         });
-        const aliasesContext = wrapper.findAllComponents({ name: "TranslationFieldContext" })
-          .find(component => component.props("label") === "questionThemes.fields.aliases");
+        const aliasesContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-aliases']");
 
-        expect(aliasesContext?.props("localizedTexts")).toStrictEqual(fakeTheme.aliases);
+        expect(aliasesContext.props("localizedTexts")).toStrictEqual(fakeTheme.aliases);
       });
 
       it("should pass label field name to translation field context for label when mode is edit.", async() => {
@@ -479,9 +477,9 @@ describe("QuestionThemeForm Component", () => {
             existingSlugs: [],
           },
         });
-        const labelContext = wrapper.findAllComponents({ name: "TranslationFieldContext" }).find(component => component.props("label") === "questionThemes.fields.label");
+        const labelContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-label']");
 
-        expect(labelContext?.exists()).toBeTruthy();
+        expect(labelContext.exists()).toBeTruthy();
       });
 
       it("should pass description field name to translation field context for description when mode is edit.", async() => {
@@ -493,10 +491,9 @@ describe("QuestionThemeForm Component", () => {
             existingSlugs: [],
           },
         });
-        const descriptionContext = wrapper.findAllComponents({ name: "TranslationFieldContext" })
-          .find(component => component.props("label") === "questionThemes.fields.description");
+        const descriptionContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-description']");
 
-        expect(descriptionContext?.exists()).toBeTruthy();
+        expect(descriptionContext.exists()).toBeTruthy();
       });
 
       it("should pass aliases field name to translation field context for aliases when mode is edit.", async() => {
@@ -508,13 +505,13 @@ describe("QuestionThemeForm Component", () => {
             existingSlugs: [],
           },
         });
-        const aliasesContext = wrapper.findAllComponents({ name: "TranslationFieldContext" }).find(component => component.props("label") === "questionThemes.fields.aliases");
+        const aliasesContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-aliases']");
 
-        expect(aliasesContext?.exists()).toBeTruthy();
+        expect(aliasesContext.exists()).toBeTruthy();
       });
 
       it("should not render any translation field context when mode is create.", () => {
-        const translationFieldContexts = wrapper.findAllComponents({ name: "TranslationFieldContext" });
+        const translationFieldContexts = wrapper.findAll("[data-testid^='translation-field-context-']");
 
         expect(translationFieldContexts).toHaveLength(0);
       });

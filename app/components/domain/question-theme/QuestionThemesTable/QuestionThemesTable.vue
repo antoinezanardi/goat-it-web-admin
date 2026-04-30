@@ -110,7 +110,10 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
       </template>
 
       <template #translations-cell="{ row }">
-        <QuestionThemeTranslationCompletenessIndicator :question-theme="row.original"/>
+        <QuestionThemeTranslationCompletenessIndicator
+          :data-testid="`translations-cell-indicator-${row.original.slug}`"
+          :question-theme="row.original"
+        />
       </template>
 
       <template #actions-cell="{ row }">

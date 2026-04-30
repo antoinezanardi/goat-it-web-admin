@@ -340,7 +340,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const indicator = wrapper.findComponent<typeof QuestionThemeTranslationCompletenessIndicator>({ name: "QuestionThemeTranslationCompletenessIndicator" });
+      const indicator = wrapper.findComponent<typeof QuestionThemeTranslationCompletenessIndicator>("[data-testid='translations-cell-indicator-music']");
 
       expect(indicator.exists()).toBeTruthy();
     });
@@ -351,7 +351,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const indicator = wrapper.findComponent<typeof QuestionThemeTranslationCompletenessIndicator>({ name: "QuestionThemeTranslationCompletenessIndicator" });
+      const indicator = wrapper.findComponent<typeof QuestionThemeTranslationCompletenessIndicator>("[data-testid='translations-cell-indicator-music']");
 
       expect(indicator.props("questionTheme")).toStrictEqual(theme);
     });
@@ -364,7 +364,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const indicators = wrapper.findAllComponents<typeof QuestionThemeTranslationCompletenessIndicator>({ name: "QuestionThemeTranslationCompletenessIndicator" });
+      const indicators = wrapper.findAllComponents<typeof QuestionThemeTranslationCompletenessIndicator>("[data-testid^='translations-cell-indicator-']");
 
       expect(indicators).toHaveLength(2);
     });

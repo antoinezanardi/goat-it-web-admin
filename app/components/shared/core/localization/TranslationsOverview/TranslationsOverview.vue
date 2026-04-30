@@ -32,12 +32,19 @@ function isMissing(locale: Locale): boolean {
   }
   return true;
 }
+
+function getDisplayValueClass(locale: Locale): string {
+  return isMissing(locale) ? "text-error italic" : "text-default";
+}
 </script>
 
 <template>
   <div class="translations-overview">
     <div v-if="!hideHeader">
-      <div class="flex font-semibold gap-1.5 items-center mb-2 text-muted text-sm">
+      <div
+        class="flex font-semibold gap-1.5 items-center mb-2 text-muted text-sm"
+        data-testid="translations-overview-header"
+      >
         <UIcon
           class="size-4"
           name="i-lucide-globe"
@@ -58,7 +65,7 @@ function isMissing(locale: Locale): boolean {
       >
         <LocaleLabel :locale="locale"/>
 
-        <span :class="isMissing(locale) ? 'text-error italic' : 'text-default'">
+        <span :class="getDisplayValueClass(locale)">
           {{ getDisplayValue(locale) }}
         </span>
       </div>

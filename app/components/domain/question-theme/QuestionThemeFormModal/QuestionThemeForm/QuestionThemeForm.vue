@@ -127,6 +127,7 @@ defineExpose({
 
     <TranslationFieldContext
       v-if="mode === 'edit' && questionTheme"
+      data-testid="translation-field-context-label"
       :label="$t('questionThemes.fields.label')"
       :localized-text="questionTheme.label"
     />
@@ -149,6 +150,7 @@ defineExpose({
     <TranslationFieldContext
       v-if="mode === 'edit' && questionTheme"
       key="translation-field-context-2"
+      data-testid="translation-field-context-description"
       :label="$t('questionThemes.fields.description')"
       :localized-text="questionTheme.description"
     />
@@ -170,6 +172,7 @@ defineExpose({
     <TranslationFieldContext
       v-if="mode === 'edit' && questionTheme"
       key="translation-field-context-3"
+      data-testid="translation-field-context-aliases"
       :label="$t('questionThemes.fields.aliases')"
       :localized-texts="questionTheme.aliases"
     />

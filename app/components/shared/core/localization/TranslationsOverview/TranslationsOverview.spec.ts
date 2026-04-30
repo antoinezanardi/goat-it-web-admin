@@ -30,13 +30,13 @@ describe("TranslationsOverview Component", () => {
 
   describe("Header", () => {
     it("should display the other translations header when component is rendered.", () => {
-      const header = wrapper.find(".text-sm.font-semibold.text-muted");
+      const header = wrapper.find("[data-testid='translations-overview-header']");
 
       expect(header.text()).toContain("localization.otherTranslations");
     });
 
     it("should render globe icon in header when component is rendered.", () => {
-      const header = wrapper.find(".text-sm.font-semibold.text-muted");
+      const header = wrapper.find("[data-testid='translations-overview-header']");
       const icon = header.findComponent({ name: "UIcon" });
 
       expect(icon.exists()).toBeTruthy();
@@ -52,7 +52,7 @@ describe("TranslationsOverview Component", () => {
       wrapper = await mountTranslationsOverviewComponent({
         props: { ...defaultProps, hideHeader: true },
       });
-      const header = wrapper.find(".text-sm.font-semibold.text-muted.mb-2");
+      const header = wrapper.find("[data-testid='translations-overview-header']");
 
       expect(header.exists()).toBeFalsy();
     });
