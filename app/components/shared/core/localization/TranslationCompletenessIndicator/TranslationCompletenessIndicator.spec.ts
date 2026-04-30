@@ -1,8 +1,8 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
-import type { LocalizedText } from "@goat-it/schemas/shared/locale";
 import { beforeEach, describe, expect, it } from "vitest";
 
+import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { TranslationCompletenessIndicator } from "#components";
@@ -15,7 +15,7 @@ import {
 
 describe("TranslationCompletenessIndicator Component", () => {
   let wrapper: VueWrapper;
-  const fullyTranslatedField: LocalizedText = { en: "Hello", fr: "Bonjour", de: "Hallo", es: "Hola", it: "Ciao", pt: "Olá" };
+  const fullyTranslatedField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "Hallo", es: "Hola", it: "Ciao", pt: "Olá" });
   const defaultProps: TranslationCompletenessIndicatorProperties = {
     requiredFields: [fullyTranslatedField],
   };
@@ -87,7 +87,7 @@ describe("TranslationCompletenessIndicator Component", () => {
     });
 
     it("should have warning stroke color when 3 locales are complete.", async() => {
-      const partialField: LocalizedText = { en: "Hello", fr: "Bonjour", de: "Hallo", es: "", it: "", pt: "" };
+      const partialField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "Hallo", es: "", it: "", pt: "" });
       wrapper = await mountTranslationCompletenessIndicatorComponent({
         props: { requiredFields: [partialField] },
       });
@@ -97,7 +97,7 @@ describe("TranslationCompletenessIndicator Component", () => {
     });
 
     it("should have warning stroke color when 2 locales are complete.", async() => {
-      const twoCompleteField: LocalizedText = { en: "Hello", fr: "Bonjour", de: "", es: "", it: "", pt: "" };
+      const twoCompleteField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "", es: "", it: "", pt: "" });
       wrapper = await mountTranslationCompletenessIndicatorComponent({
         props: { requiredFields: [twoCompleteField] },
       });
@@ -107,7 +107,7 @@ describe("TranslationCompletenessIndicator Component", () => {
     });
 
     it("should have error stroke color when 1 locale is complete.", async() => {
-      const oneCompleteField: LocalizedText = { en: "Hello", fr: "", de: "", es: "", it: "", pt: "" };
+      const oneCompleteField = createFakeLocalizedText({ en: "Hello", fr: "", de: "", es: "", it: "", pt: "" });
       wrapper = await mountTranslationCompletenessIndicatorComponent({
         props: { requiredFields: [oneCompleteField] },
       });
@@ -117,7 +117,7 @@ describe("TranslationCompletenessIndicator Component", () => {
     });
 
     it("should have error stroke color when 0 locales are complete.", async() => {
-      const emptyField: LocalizedText = { en: "", fr: "", de: "", es: "", it: "", pt: "" };
+      const emptyField = createFakeLocalizedText({ en: "", fr: "", de: "", es: "", it: "", pt: "" });
       wrapper = await mountTranslationCompletenessIndicatorComponent({
         props: { requiredFields: [emptyField] },
       });
@@ -135,7 +135,7 @@ describe("TranslationCompletenessIndicator Component", () => {
     });
 
     it("should have stroke-dashoffset equal to circumference when no locales are complete.", async() => {
-      const emptyField: LocalizedText = { en: "", fr: "", de: "", es: "", it: "", pt: "" };
+      const emptyField = createFakeLocalizedText({ en: "", fr: "", de: "", es: "", it: "", pt: "" });
       wrapper = await mountTranslationCompletenessIndicatorComponent({
         props: { requiredFields: [emptyField] },
       });
@@ -145,7 +145,7 @@ describe("TranslationCompletenessIndicator Component", () => {
     });
 
     it("should have stroke-dashoffset reflecting half completion when 3 of 6 locales are complete.", async() => {
-      const partialField: LocalizedText = { en: "Hello", fr: "Bonjour", de: "Hallo", es: "", it: "", pt: "" };
+      const partialField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "Hallo", es: "", it: "", pt: "" });
       wrapper = await mountTranslationCompletenessIndicatorComponent({
         props: { requiredFields: [partialField] },
       });

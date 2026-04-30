@@ -98,7 +98,7 @@ describe("TranslationsOverview Component", () => {
     it("should display the locale code in locale label when the fr row is rendered.", () => {
       const frRow = wrapper.find("[data-testid='locale-value-fr']");
 
-      expect(frRow.text()).toContain("localization.locales.fr");
+      expect(frRow.text()).toContain("localization.locales.shortCode.fr");
     });
   });
 

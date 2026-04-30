@@ -97,7 +97,6 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
 
       <template #aliases-cell="{ row }">
         <QuestionThemeAliasesList
-          :aliases="row.original.aliases[currentLocale]"
           :data-testid="`aliases-cell-list-${row.original.slug}`"
           :localized-texts="row.original.aliases"
         />

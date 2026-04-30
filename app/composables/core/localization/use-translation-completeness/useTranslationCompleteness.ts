@@ -1,10 +1,10 @@
 import { LOCALES } from "@goat-it/schemas/shared/locale";
 import type { Locale, LocalizedText, LocalizedTexts } from "@goat-it/schemas/shared/locale";
 
-import type { TranslationCompleteness } from "~/composables/core/localization/use-translation-completeness/use-translation-completeness.types";
+import type { UseTranslationCompleteness } from "~/composables/core/localization/use-translation-completeness/use-translation-completeness.types";
 import { isLocalizedValueMissing } from "#shared/utils/helpers/localization/localization.helpers";
 
-function useTranslationCompleteness(requiredFields: MaybeRef<(LocalizedText | LocalizedTexts)[]>): TranslationCompleteness {
+function useTranslationCompleteness(requiredFields: MaybeRef<(Partial<LocalizedText> | Partial<LocalizedTexts>)[]>): UseTranslationCompleteness {
   const totalCount = LOCALES.length;
 
   const localeStatuses = computed<Record<Locale, boolean>>(() => {
@@ -19,7 +19,10 @@ function useTranslationCompleteness(requiredFields: MaybeRef<(LocalizedText | Lo
 
   const isFullyTranslated = computed<boolean>(() => completedCount.value === totalCount);
 
-  return { completedCount, totalCount, localeStatuses, isFullyTranslated };
+  function isLocaleComplete(locale: Locale): boolean {
+    return localeStatuses.value[locale];
+  }
+  return { completedCount, totalCount, localeStatuses, isFullyTranslated, isLocaleComplete };
 }
 
 export { useTranslationCompleteness };

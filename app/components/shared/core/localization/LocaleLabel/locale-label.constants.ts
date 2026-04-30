@@ -7,6 +7,6 @@ const LOCALE_FLAG_ICONS: Record<Locale, string> = {
   es: "i-circle-flags-es",
   it: "i-circle-flags-it",
   pt: "i-circle-flags-pt",
-};
+} as const;
 
 export { LOCALE_FLAG_ICONS };

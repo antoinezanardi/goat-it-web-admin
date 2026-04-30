@@ -1,17 +1,20 @@
 <script lang="ts" setup>
-import type { LocalizedTexts } from "@goat-it/schemas/shared/locale";
-
 import type { QuestionThemeAliasesListProperties } from "~/components/domain/question-theme/QuestionThemeAliasesList/question-theme-aliases-list.types";
 
 const props = defineProps<QuestionThemeAliasesListProperties>();
 
-const isAtLeastOneAlias = computed<boolean>(() => !!props.aliases && props.aliases.length > 0);
+const { locale: currentLocale } = useI18n();
 
-const hasLocalizedTextsContext = computed<boolean>(() => !!props.localizedTexts);
+const aliases = computed<string[]>(() => {
+  const values = props.localizedTexts[currentLocale.value];
 
-// Acceptable as this computed is only accessed in template when hasLocalizedTextsContext is true
-// oxlint-disable-next-line typescript/no-unsafe-type-assertion
-const definedLocalizedTexts = computed<Partial<LocalizedTexts>>(() => props.localizedTexts as Partial<LocalizedTexts>);
+  if (!values || values.length === 0) {
+    return [];
+  }
+  return values.map(value => value.trim()).filter(Boolean);
+});
+
+const isAtLeastOneAlias = computed<boolean>(() => aliases.value.length > 0);
 </script>
 
 <template>
@@ -28,7 +31,7 @@ const definedLocalizedTexts = computed<Partial<LocalizedTexts>>(() => props.loca
       />
     </div>
 
-    <UPopover v-else-if="hasLocalizedTextsContext">
+    <UPopover v-else>
       <UBadge
         class="border-dashed cursor-pointer rounded-lg"
         color="neutral"
@@ -41,20 +44,9 @@ const definedLocalizedTexts = computed<Partial<LocalizedTexts>>(() => props.loca
 
       <template #content>
         <div class="p-3">
-          <TranslationsOverview :localized-texts="definedLocalizedTexts"/>
+          <TranslationsOverview :localized-texts="localizedTexts"/>
         </div>
       </template>
     </UPopover>
-
-    <UBadge
-      v-else
-      class="rounded-lg"
-      color="neutral"
-      data-testid="aliases-none-badge"
-      icon="i-lucide-circle-slash"
-      variant="outline"
-    >
-      {{ $t("questionThemes.aliases.noneForLocale") }}
-    </UBadge>
   </div>
 </template>

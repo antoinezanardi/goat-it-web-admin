@@ -19,6 +19,6 @@ const flagIcon = computed<string>(() => LOCALE_FLAG_ICONS[props.locale]);
       :name="flagIcon"
     />
 
-    <span class="font-semibold text-muted text-xs uppercase w-6">{{ t(`localization.locales.${locale}`) }}</span>
+    <span class="font-semibold text-muted text-xs uppercase">{{ t(`localization.locales.shortCode.${locale}`) }}</span>
   </span>
 </template>

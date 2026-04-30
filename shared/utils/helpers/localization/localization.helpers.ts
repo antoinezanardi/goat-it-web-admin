@@ -23,7 +23,7 @@ function getLocalizedDisplayValue(field: Partial<LocalizedText>, locale: Locale)
 function getLocalizedTextsDisplayValue(field: Partial<LocalizedTexts>, locale: Locale): string | undefined {
   const values = field[locale];
 
-  if (!values || values.length === 0) {
+  if (!values) {
     return undefined;
   }
   const trimmedValues = values.map(value => value.trim()).filter(Boolean);

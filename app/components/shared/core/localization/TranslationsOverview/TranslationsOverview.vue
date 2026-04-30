@@ -28,7 +28,7 @@ function isMissing(locale: Locale): boolean {
     return isLocalizedValueMissing(props.localizedText, locale);
   }
   if (props.localizedTexts) {
-    return getLocalizedTextsDisplayValue(props.localizedTexts, locale) === undefined;
+    return isLocalizedValueMissing(props.localizedTexts, locale);
   }
   return true;
 }
@@ -36,7 +36,7 @@ function isMissing(locale: Locale): boolean {
 
 <template>
   <div class="translations-overview">
-    <template v-if="!hideHeader">
+    <div v-if="!hideHeader">
       <div class="flex font-semibold gap-1.5 items-center mb-2 text-muted text-sm">
         <UIcon
           class="size-4"
@@ -47,7 +47,7 @@ function isMissing(locale: Locale): boolean {
       </div>
 
       <USeparator class="mb-2"/>
-    </template>
+    </div>
 
     <div class="flex flex-col gap-1">
       <div

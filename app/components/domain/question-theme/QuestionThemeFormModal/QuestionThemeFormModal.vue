@@ -55,11 +55,9 @@ function onCloseModal(): void {
       />
     </template>
 
-    <template
-      v-if="mode === 'edit' && questionTheme"
-      #description
-    >
+    <template #actions>
       <QuestionThemeTranslationCompletenessIndicator
+        v-if="mode === 'edit' && questionTheme"
         :question-theme="questionTheme"
       />
     </template>

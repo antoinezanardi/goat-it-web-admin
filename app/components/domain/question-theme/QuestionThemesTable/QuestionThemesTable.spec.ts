@@ -308,16 +308,6 @@ describe("QuestionThemesTable Component", () => {
       expect(aliasesList.exists()).toBeTruthy();
     });
 
-    it("should pass the aliases to the question theme aliases list when in the aliases cell slot.", async() => {
-      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "science-biology", aliases: { en: ["one", "two"], fr: ["one", "two"] } })];
-
-      wrapper = await mountQuestionThemesTableComponent();
-
-      const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>("[data-testid='aliases-cell-list-science-biology']");
-
-      expect(aliasesList.props("aliases")).toStrictEqual(["one", "two"]);
-    });
-
     it("should pass the localized texts to the question theme aliases list when in the aliases cell slot.", async() => {
       const aliases = { en: ["one", "two"], fr: ["un", "deux"] };
       questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "science-biology", aliases })];

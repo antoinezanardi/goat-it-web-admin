@@ -1,5 +1,5 @@
-@question-themes @question-theme-translation-completeness
-Feature: 🎨 Question Theme Translation Completeness
+@question-themes @question-theme-translation
+Feature: 🎨 Question Theme Translations
 
   Scenario: 🎨 Translation completeness indicator is visible in the question themes table
     Given the user is on question-themes page

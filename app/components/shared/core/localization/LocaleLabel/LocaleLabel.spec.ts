@@ -39,7 +39,7 @@ describe("LocaleLabel Component", () => {
   it("should render the locale text from i18n when locale is fr.", () => {
     const textSpan = wrapper.find("[data-testid='locale-label-fr'] .font-semibold");
 
-    expect(textSpan.text()).toBe("localization.locales.fr");
+    expect(textSpan.text()).toBe("localization.locales.shortCode.fr");
   });
 
   describe("With en locale", () => {
@@ -62,7 +62,7 @@ describe("LocaleLabel Component", () => {
     it("should render the locale text from i18n when locale is en.", () => {
       const textSpan = wrapper.find("[data-testid='locale-label-en'] .font-semibold");
 
-      expect(textSpan.text()).toBe("localization.locales.en");
+      expect(textSpan.text()).toBe("localization.locales.shortCode.en");
     });
   });
 

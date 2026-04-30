@@ -7,12 +7,14 @@
     "localeIncomplete": "{locale} está incompleta",
     "seeTranslationsFor": "Ver traduções para {label}",
     "locales": {
-      "en": "EN",
-      "fr": "FR",
-      "de": "DE",
-      "es": "ES",
-      "it": "IT",
-      "pt": "PT"
+      "shortCode": {
+        "en": "EN",
+        "fr": "FR",
+        "de": "DE",
+        "es": "ES",
+        "it": "IT",
+        "pt": "PT"
+      }
     }
   }
 }

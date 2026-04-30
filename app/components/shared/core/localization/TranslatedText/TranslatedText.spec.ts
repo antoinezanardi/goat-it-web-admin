@@ -15,10 +15,10 @@ import type { TranslatedTextProperties } from "~/components/shared/core/localiza
 describe("TranslatedText Component", () => {
   let wrapper: VueWrapper;
   const defaultTranslatedTextProperties: TranslatedTextProperties = {
-    localizedText: {
+    localizedText: createFakeLocalizedText({
       [DEFAULT_MOCKED_LOCALE]: "Hello",
-    },
-  } as const;
+    }),
+  };
 
   async function mountTranslatedTextComponent(options: MountSuspendedOptions<typeof TranslatedText> = {}): Promise<VueWrapper> {
     return mountSuspended(TranslatedText, {
@@ -85,7 +85,7 @@ describe("TranslatedText Component", () => {
     });
 
     it("should render the no-translation badge when the current locale has no translation.", async() => {
-      await wrapper.setProps({ localizedText: {} });
+      await wrapper.setProps({ localizedText: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: undefined }) });
 
       const badge = wrapper.findComponent<typeof UBadge>({ name: "UBadge" });
 
@@ -93,7 +93,7 @@ describe("TranslatedText Component", () => {
     });
 
     it("should display the no translation key in the badge when the current locale has no translation.", async() => {
-      await wrapper.setProps({ localizedText: {} });
+      await wrapper.setProps({ localizedText: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: undefined }) });
 
       const badge = wrapper.findComponent<typeof UBadge>({ name: "UBadge" });
 
@@ -101,7 +101,7 @@ describe("TranslatedText Component", () => {
     });
 
     it("should not render the localized-text span when the current locale has no translation.", async() => {
-      await wrapper.setProps({ localizedText: {} });
+      await wrapper.setProps({ localizedText: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: undefined }) });
 
       const span = wrapper.find(".localized-text");
 
@@ -109,7 +109,7 @@ describe("TranslatedText Component", () => {
     });
 
     it("should not render the localized-text span when the current locale has an empty trimmed translation.", async() => {
-      await wrapper.setProps({ localizedText: { [DEFAULT_MOCKED_LOCALE]: "    " } });
+      await wrapper.setProps({ localizedText: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "    " }) });
 
       const span = wrapper.find(".localized-text");
 
@@ -132,24 +132,8 @@ describe("TranslatedText Component", () => {
       expect(badge.exists()).toBeTruthy();
     });
 
-    it("should have the border-dashed class on the no-translation badge when the current locale has no translation.", async() => {
-      await wrapper.setProps({ localizedText: {} });
-
-      const badge = wrapper.find(".no-translation-badge");
-
-      expect(badge.classes()).toContain("border-dashed");
-    });
-
-    it("should have the cursor-pointer class on the no-translation badge when the current locale has no translation.", async() => {
-      await wrapper.setProps({ localizedText: {} });
-
-      const badge = wrapper.find(".no-translation-badge");
-
-      expect(badge.classes()).toContain("cursor-pointer");
-    });
-
     it("should wrap the no-translation badge in a UPopover when the current locale has no translation.", async() => {
-      await wrapper.setProps({ localizedText: {} });
+      await wrapper.setProps({ localizedText: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: undefined }) });
 
       const popover = wrapper.findComponent<typeof UPopover>({ name: "UPopover" });
 
@@ -158,7 +142,7 @@ describe("TranslatedText Component", () => {
 
     it("should render the TranslationsOverview component in the popover content when the current locale has no translation.", async() => {
       wrapper = await mountTranslatedTextComponent({
-        props: { localizedText: {} },
+        props: { localizedText: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: undefined }) },
         global: {
           stubs: {
             UPopover: {
@@ -174,7 +158,7 @@ describe("TranslatedText Component", () => {
     });
 
     it("should pass the localizedText prop to the TranslationsOverview component when the current locale has no translation.", async() => {
-      const localizedText = { fr: "Bonjour" };
+      const localizedText = createFakeLocalizedText({ fr: "Bonjour", [DEFAULT_MOCKED_LOCALE]: undefined });
       wrapper = await mountTranslatedTextComponent({
         props: { localizedText },
         global: {

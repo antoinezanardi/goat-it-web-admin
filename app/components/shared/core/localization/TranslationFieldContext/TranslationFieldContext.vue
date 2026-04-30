@@ -6,6 +6,8 @@ const props = defineProps<TranslationFieldContextProperties>();
 const { t } = useI18n();
 
 const isOpen = ref<boolean>(false);
+
+const buttonTrailingIcon = computed<string>(() => (isOpen.value ? "i-lucide-chevron-down" : "i-lucide-chevron-right"));
 </script>
 
 <template>
@@ -20,7 +22,7 @@ const isOpen = ref<boolean>(false);
       icon="i-lucide-globe"
       :label="t('localization.seeTranslationsFor', { label })"
       size="xs"
-      :trailing-icon="isOpen ? 'i-lucide-chevron-down' : 'i-lucide-chevron-right'"
+      :trailing-icon="buttonTrailingIcon"
       variant="ghost"
     />
 

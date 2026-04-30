@@ -1,17 +1,17 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
-import type { LocalizedText } from "@goat-it/schemas/shared/locale";
 import { beforeEach, describe, expect, it } from "vitest";
 
+import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { TranslationCompletenessPopoverContent } from "#components";
 
-import type { TranslationCompletenessPopoverContentProperties } from "~/components/shared/core/localization/TranslationCompletenessPopoverContent/translation-completeness-popover-content.types";
+import type { TranslationCompletenessPopoverContentProperties } from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-popover-content.types";
 
 describe("TranslationCompletenessPopoverContent Component", () => {
   let wrapper: VueWrapper;
-  const fullyTranslatedField: LocalizedText = { en: "Hello", fr: "Bonjour", de: "Hallo", es: "Hola", it: "Ciao", pt: "Olá" };
+  const fullyTranslatedField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "Hallo", es: "Hola", it: "Ciao", pt: "Olá" });
   const defaultProps: TranslationCompletenessPopoverContentProperties = {
     requiredFields: [fullyTranslatedField],
   };
@@ -96,7 +96,7 @@ describe("TranslationCompletenessPopoverContent Component", () => {
   });
 
   describe("Incomplete Locales", () => {
-    const partialField: LocalizedText = { en: "Hello", fr: "", de: "", es: "", it: "", pt: "" };
+    const partialField = createFakeLocalizedText({ en: "Hello", fr: "", de: "", es: "", it: "", pt: "" });
 
     beforeEach(async() => {
       wrapper = await mountTranslationCompletenessPopoverContentComponent({

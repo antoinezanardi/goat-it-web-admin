@@ -2,21 +2,21 @@
 import { LOCALES } from "@goat-it/schemas/shared/locale";
 import type { Locale } from "@goat-it/schemas/shared/locale";
 
-import type { TranslationCompletenessPopoverContentProperties } from "~/components/shared/core/localization/TranslationCompletenessPopoverContent/translation-completeness-popover-content.types";
+import type { TranslationCompletenessPopoverContentProperties } from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-popover-content.types";
 
 const props = defineProps<TranslationCompletenessPopoverContentProperties>();
 
 const { t } = useI18n();
 
 const requiredFieldsReference = toRef(() => props.requiredFields);
-const { localeStatuses } = useTranslationCompleteness(requiredFieldsReference);
-
-function isLocaleComplete(locale: Locale): boolean {
-  return localeStatuses.value[locale];
-}
+const { isLocaleComplete } = useTranslationCompleteness(requiredFieldsReference);
 
 function getBadgeColor(locale: Locale): "success" | "error" {
   return isLocaleComplete(locale) ? "success" : "error";
+}
+
+function getIconName(locale: Locale): string {
+  return isLocaleComplete(locale) ? "i-lucide-check" : "i-lucide-x";
 }
 </script>
 
@@ -48,9 +48,9 @@ function getBadgeColor(locale: Locale): "success" | "error" {
         <LocaleLabel :locale="locale"/>
 
         <UIcon
-          :class="isLocaleComplete(locale) ? 'size-3' : 'size-3'"
+          class="size-3"
           data-testid="locale-status-icon"
-          :name="isLocaleComplete(locale) ? 'i-lucide-check' : 'i-lucide-x'"
+          :name="getIconName(locale)"
         />
       </UBadge>
     </div>
