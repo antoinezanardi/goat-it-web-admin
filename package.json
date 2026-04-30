@@ -99,7 +99,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.2",
-    "@commitlint/config-conventional": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.3",
     "@cucumber/cucumber": "^12.8.2",
     "@eslint/config-inspector": "^2.0.0",
     "@faker-js/faker": "^10.4.0",
@@ -125,7 +125,7 @@
     "@vue/test-utils": "^2.4.9",
     "@vueuse/core": "^14.2.1",
     "@vueuse/nuxt": "^14.2.1",
-    "commitlint": "^20.5.2",
+    "commitlint": "^20.5.3",
     "cross-env": "^10.1.0",
     "cucumber-html-reporter": "^7.2.0",
     "eslint": "^10.2.1",
