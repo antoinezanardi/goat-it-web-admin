@@ -75,6 +75,7 @@ export default defineNuxtConfig({
         "@goat-it/schemas/question-theme",
         "@goat-it/schemas/shared/locale",
         "zod",
+        "fuse.js",
       ],
     },
   },
@@ -139,6 +140,7 @@ export default defineNuxtConfig({
           "fr/form.json",
           "fr/errors.json",
           "fr/validation.json",
+          "fr/localization.json",
         ],
       },
       {
@@ -154,6 +156,7 @@ export default defineNuxtConfig({
           "en/form.json",
           "en/errors.json",
           "en/validation.json",
+          "en/localization.json",
         ],
       },
       {
@@ -169,6 +172,7 @@ export default defineNuxtConfig({
           "de/form.json",
           "de/errors.json",
           "de/validation.json",
+          "de/localization.json",
         ],
       },
       {
@@ -184,6 +188,7 @@ export default defineNuxtConfig({
           "es/form.json",
           "es/errors.json",
           "es/validation.json",
+          "es/localization.json",
         ],
       },
       {
@@ -199,6 +204,7 @@ export default defineNuxtConfig({
           "it/form.json",
           "it/errors.json",
           "it/validation.json",
+          "it/localization.json",
         ],
       },
       {
@@ -214,6 +220,7 @@ export default defineNuxtConfig({
           "pt/form.json",
           "pt/errors.json",
           "pt/validation.json",
+          "pt/localization.json",
         ],
       },
     ],

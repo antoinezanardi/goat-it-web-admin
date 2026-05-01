@@ -1,4 +1,3 @@
-import type { LocalizedText } from "@goat-it/schemas/shared/locale";
 import type { GlobalFilterOptions } from "@tanstack/vue-table";
 
 type QuestionThemesTableEmits = {
@@ -6,20 +5,9 @@ type QuestionThemesTableEmits = {
   startEdit: [id: string];
 };
 
-type QuestionThemesTableRow = {
-  id: QuestionTheme["id"];
-  slug: QuestionTheme["slug"];
-  color: QuestionTheme["color"];
-  label: Partial<LocalizedText>;
-  description: Partial<LocalizedText>;
-  aliases?: string[];
-  status: QuestionTheme["status"];
-};
-
-type QuestionThemesTableGlobalFilterOptions = Omit<GlobalFilterOptions<QuestionThemesTableRow>, "onGlobalFilterChange">;
+type QuestionThemesTableGlobalFilterOptions = Omit<GlobalFilterOptions<QuestionTheme>, "onGlobalFilterChange">;
 
 export type {
   QuestionThemesTableEmits,
   QuestionThemesTableGlobalFilterOptions,
-  QuestionThemesTableRow,
 };

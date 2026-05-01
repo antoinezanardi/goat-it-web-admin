@@ -10,7 +10,7 @@ import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question
 import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 
 import { QuestionThemeFormModal } from "#components";
-import type { QuestionThemeForm, DefaultModalFooter, DefaultModalTitle } from "#components";
+import type { QuestionThemeForm, DefaultModalFooter, DefaultModalTitle, QuestionThemeTranslationCompletenessIndicator } from "#components";
 
 import type { QuestionThemeFormModalProperties } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.types";
 import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/question-theme.constants";
@@ -260,6 +260,40 @@ describe("QuestionThemeFormModal Component", () => {
       getWrapperVm(form).$emit("submitModification", fakeData);
 
       expect(wrapper.emitted("submitModification")).toStrictEqual([[fakeData]]);
+    });
+
+    it("should render the question theme translation completeness indicator when mode is edit and questionTheme is provided.", async() => {
+      const fakeTheme = createFakeQuestionTheme();
+      wrapper = await mountQuestionThemeFormModalComponent({
+        props: {
+          ...defaultQuestionThemeFormModalProperties,
+          mode: "edit",
+          questionTheme: fakeTheme,
+        },
+      });
+      const indicator = wrapper.findComponent<typeof QuestionThemeTranslationCompletenessIndicator>({ name: "QuestionThemeTranslationCompletenessIndicator" });
+
+      expect(indicator.exists()).toBeTruthy();
+    });
+
+    it("should pass the question theme to the translation completeness indicator when mode is edit.", async() => {
+      const fakeTheme = createFakeQuestionTheme();
+      wrapper = await mountQuestionThemeFormModalComponent({
+        props: {
+          ...defaultQuestionThemeFormModalProperties,
+          mode: "edit",
+          questionTheme: fakeTheme,
+        },
+      });
+      const indicator = wrapper.findComponent<typeof QuestionThemeTranslationCompletenessIndicator>({ name: "QuestionThemeTranslationCompletenessIndicator" });
+
+      expect(indicator.props("questionTheme")).toStrictEqual(fakeTheme);
+    });
+
+    it("should not render the question theme translation completeness indicator when mode is create.", () => {
+      const indicator = wrapper.findComponent({ name: "QuestionThemeTranslationCompletenessIndicator" });
+
+      expect(indicator.exists()).toBeFalsy();
     });
   });
 });

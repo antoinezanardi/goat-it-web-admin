@@ -1,9 +1,9 @@
 import type { LocalizedText } from "@goat-it/schemas/shared/locale";
 
-type LocalizedTextProperties = {
+type TranslatedTextProperties = {
   localizedText: Partial<LocalizedText>;
 };
 
 export type {
-  LocalizedTextProperties,
+  TranslatedTextProperties,
 };
