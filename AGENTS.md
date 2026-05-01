@@ -221,12 +221,18 @@ Each skill has a `SKILL.md` entry point. Load only the relevant skill for the ta
 - `unit-testing` – Complete unit test reference (patterns, mocks, faketories, Vitest projects).
   Load before writing or modifying any `*.spec.ts` file. Full reference at `docs/unit-testing.md`.
   Do NOT load all skill files at once; read the relevant `SKILL.md` first.
+- `acceptance-testing` – Cucumber + Playwright acceptance test patterns, step definitions,
+  feature files, DataTable schemas. Load before writing or modifying acceptance test files.
 
 ### Skill usage rules
 
 - **When writing unit tests** (including inside plans): always load the `unit-testing`
   skill first. It contains all the patterns, mock wiring, faketory conventions, and
   Vitest project rules needed to write correct tests.
+- **When writing acceptance tests** (including inside plans): always load the
+  `acceptance-testing` skill first. It contains step definition patterns, feature file
+  conventions, DataTable schemas, and infrastructure rules needed to write correct
+  acceptance tests.
 - **When brainstorming or writing plans**: always consult the `nuxt`, `nuxt-ui`, and
   `vueuse` skills to make informed design decisions. These skills provide framework
   conventions, component APIs, and composable references that should guide approach
@@ -238,10 +244,12 @@ Slash commands available in OpenCode sessions:
 
 - `/complete-i18n`   – Translate all French locale JSON files into every other locale.
 - `/write-unit-test` – Write a complete, passing unit test for a given source file.
+- `/write-acceptance-test` – Write a complete acceptance test (feature + steps) for a given page/feature.
 
 ## Useful docs (`docs/`)
 
 - `docs/unit-testing.md` – Full human-readable unit testing guide (patterns, examples, pitfalls).
+- `docs/acceptance-testing.md` – Full acceptance testing guide (Cucumber, Playwright, patterns, examples).
 
 ## Copilot instructions (`.github/copilot-instructions.md`)
 
