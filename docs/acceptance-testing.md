@@ -208,14 +208,14 @@ Given(/^the user is on (?<page>.+) page$/u, async function(this: GoatItWorld, pa
 
 ### Key constants
 
-| Constant                          | Value                              | Location             |
-|-----------------------------------|------------------------------------|----------------------|
-| `BEFORE_ALL_TIMEOUT`              | `360_000` (360s)                   | `hooks.constants.ts` |
-| `BEFORE_TIMEOUT`                  | `60_000` (60s)                     | `hooks.constants.ts` |
-| `ACCEPTANCE_TESTS_DEFAULT_LOCALE` | `"en"`                             | `hooks.constants.ts` |
-| `SANDBOX_BASE_URL`                | `"http://localhost:9090"`          | `hooks.constants.ts` |
-| `SANDBOX_ADMIN_KEY`               | `"test_admin_api_key_for_testing"` | `hooks.constants.ts` |
-| `SANDBOX_MONGODB_DATABASE_NAME`   | `"goat-it-sandbox"`                | `hooks.constants.ts` |
+| Constant                          | Value                              | Location                                                         |
+|-----------------------------------|------------------------------------|------------------------------------------------------------------|
+| `BEFORE_ALL_TIMEOUT`              | `360_000` (360s)                   | `tests/acceptance/features/support/constants/hooks.constants.ts` |
+| `BEFORE_TIMEOUT`                  | `60_000` (60s)                     | `tests/acceptance/features/support/constants/hooks.constants.ts` |
+| `ACCEPTANCE_TESTS_DEFAULT_LOCALE` | `"en"`                             | `tests/acceptance/features/support/constants/hooks.constants.ts` |
+| `SANDBOX_BASE_URL`                | `"http://localhost:9090"`          | `tests/acceptance/features/support/constants/hooks.constants.ts` |
+| `SANDBOX_ADMIN_KEY`               | `"test_admin_api_key_for_testing"` | `tests/acceptance/features/support/constants/hooks.constants.ts` |
+| `SANDBOX_MONGODB_DATABASE_NAME`   | `"goat-it-sandbox"`                | `tests/acceptance/features/support/constants/hooks.constants.ts` |
 
 ---
 
@@ -762,7 +762,9 @@ class GoatItWorld extends World {
 Every step function must use `this: GoatItWorld` as its first parameter type:
 
 ```ts
-Given(/^.../u, async function(this: GoatItWorld, ...args): Promise<void> { ... });
+Given(/^.../u, async function(this: GoatItWorld, ...args): Promise<void> {
+  // this.page is available here
+});
 ```
 
 ### 8.2 DataTable helpers
@@ -824,7 +826,7 @@ The sandbox runs at `http://localhost:9090`.
 
 ### 9.2 MongoDB reset
 
-Before each scenario, the `Before` hook calls `resetSandboxData()` which runs a `mongosh` command via `docker exec` to drop all collections in the sandbox database. This ensures each test starts with a clean state.
+Before each scenario, the `Before` hook calls `resetSandboxData()` which runs a `mongosh` command via `docker compose ... exec` against the `mongodb` service to execute `db.dropDatabase()` for the sandbox database. This ensures each test starts with a clean state.
 
 The reset uses `execSync` with a timeout of `RESET_SANDBOX_DATA_TIMEOUT_IN_MS` (10s).
 

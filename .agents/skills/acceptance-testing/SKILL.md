@@ -120,7 +120,7 @@ export type { MyDomainFormRow };
 | `form`          | —                | Fill input, clear input (by accessible name) | —                                                   |
 | `keyboard`      | —                | Press any key                                | —                                                   |
 | `text`          | —                | Click on text                                | Text visible/hidden                                 |
-| `toast`         | —                | Toast with text visible                      | -                                                   |
+| `toast`         | —                | —                                            | Toast with text visible                             |
 | `modal`         | —                | Close modal (header or footer button)        | —                                                   |
 | `locale`        | —                | Switch locale                                | Locale completion status                            |
 | `color-mode`    | —                | Switch to dark mode                          | —                                                   |
