@@ -35,6 +35,8 @@
     "callOnce": "readonly",
     "useQuestionThemesStore": "readonly",
     "useTableGlobalFilter": "readonly",
+    "useLocalizedValue": "readonly",
+    "useTranslationCompleteness": "readonly",
     "questionThemesRepository": "readonly",
     "ref": "readonly",
     "reactive": "readonly",
@@ -47,7 +49,9 @@
     "createError": "readonly",
     "StoreNames": "readonly",
     "storeToRefs": "readonly",
+    "toRef": "readonly",
     "toValue": "readonly",
+    "unref": "readonly",
     "watch": "readonly",
     "useNuxtApp": "readonly",
     "defineNuxtPlugin": "readonly",
@@ -1020,6 +1024,7 @@
         "vitest/require-top-level-describe": "error",
         "vitest/valid-describe-callback": "error",
         "vitest/valid-expect": "error",
+        "jest/valid-title": "off",
         "vitest/valid-title": [
           "error",
           {

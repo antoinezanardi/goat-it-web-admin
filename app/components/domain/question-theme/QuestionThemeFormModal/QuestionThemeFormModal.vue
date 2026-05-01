@@ -55,6 +55,13 @@ function onCloseModal(): void {
       />
     </template>
 
+    <template #actions>
+      <QuestionThemeTranslationCompletenessIndicator
+        v-if="mode === 'edit' && questionTheme"
+        :question-theme="questionTheme"
+      />
+    </template>
+
     <template #body>
       <QuestionThemeForm
         :key="formKey"

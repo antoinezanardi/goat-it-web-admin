@@ -3,7 +3,18 @@ import type { QuestionThemeAliasesListProperties } from "~/components/domain/que
 
 const props = defineProps<QuestionThemeAliasesListProperties>();
 
-const isAtLeastOneAlias = computed<boolean>(() => !!props.aliases && props.aliases.length > 0);
+const { locale: currentLocale } = useI18n();
+
+const aliases = computed<string[]>(() => {
+  const values = props.localizedTexts[currentLocale.value];
+
+  if (!values) {
+    return [];
+  }
+  return values.map(value => value.trim()).filter(Boolean);
+});
+
+const isAtLeastOneAlias = computed<boolean>(() => aliases.value.length > 0);
 </script>
 
 <template>
@@ -20,15 +31,22 @@ const isAtLeastOneAlias = computed<boolean>(() => !!props.aliases && props.alias
       />
     </div>
 
-    <UBadge
-      v-else
-      class="rounded-lg"
-      color="neutral"
-      data-testid="aliases-none-badge"
-      icon="i-lucide-circle-slash"
-      variant="outline"
-    >
-      {{ $t("questionThemes.aliases.noneForLocale") }}
-    </UBadge>
+    <UPopover v-else>
+      <UBadge
+        class="border-dashed cursor-pointer rounded-lg"
+        color="neutral"
+        data-testid="aliases-none-badge"
+        icon="i-lucide-circle-slash"
+        variant="outline"
+      >
+        {{ $t("questionThemes.aliases.noneForLocale") }}
+      </UBadge>
+
+      <template #content>
+        <div class="p-3">
+          <TranslationsOverview :localized-texts="localizedTexts"/>
+        </div>
+      </template>
+    </UPopover>
   </div>
 </template>

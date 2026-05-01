@@ -21,6 +21,7 @@ async function onLocaleChange(updatedLocale: string): Promise<void> {
 
 <template>
   <ULocaleSelect
+    data-testid="locale-select"
     :locales="locales as Locale<undefined>[]"
     :model-value="currentLocale"
     @update:model-value="onLocaleChange"

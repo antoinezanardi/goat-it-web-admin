@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
 
-import type { QuestionThemesTableEmits, QuestionThemesTableGlobalFilterOptions, QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
-import LocalizedText from "~/components/shared/core/localization/LocalizedText/LocalizedText.vue";
+import type { QuestionThemesTableEmits, QuestionThemesTableGlobalFilterOptions } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
 
 const emit = defineEmits<QuestionThemesTableEmits>();
@@ -12,36 +11,27 @@ const { t, locale: currentLocale } = useI18n();
 const questionThemesStore = useQuestionThemesStore();
 const { questionThemes } = storeToRefs(questionThemesStore);
 
-const columns = computed<TableColumn<QuestionThemesTableRow>[]>(() => [
-  createTableColumn<QuestionThemesTableRow>({ accessorKey: "icon", header: t("questionThemes.fields.icon"), isCentered: true }),
-  createTableColumn<QuestionThemesTableRow>({ accessorKey: "label", header: t("questionThemes.fields.label"), isCentered: true }),
-  createTableColumn<QuestionThemesTableRow>({ accessorKey: "slug", header: t("questionThemes.fields.slug"), isCentered: true }),
-  createTableColumn<QuestionThemesTableRow>({ accessorKey: "description", header: t("questionThemes.fields.description") }),
-  createTableColumn<QuestionThemesTableRow>({ accessorKey: "aliases", header: t("questionThemes.fields.aliases"), isCentered: true }),
-  createTableColumn<QuestionThemesTableRow>({ accessorKey: "status", header: t("questionThemes.fields.status"), isCentered: true }),
-  createTableColumn<QuestionThemesTableRow>({ accessorKey: "actions", header: t("common.table.actions"), isCentered: true }),
+const columns = computed<TableColumn<QuestionTheme>[]>(() => [
+  createTableColumn<QuestionTheme>({ accessorKey: "icon", header: t("questionThemes.fields.icon"), isCentered: true }),
+  createTableColumn<QuestionTheme>({ accessorKey: "label", header: t("questionThemes.fields.label"), isCentered: true }),
+  createTableColumn<QuestionTheme>({ accessorKey: "slug", header: t("questionThemes.fields.slug"), isCentered: true }),
+  createTableColumn<QuestionTheme>({ accessorKey: "description", header: t("questionThemes.fields.description") }),
+  createTableColumn<QuestionTheme>({ accessorKey: "aliases", header: t("questionThemes.fields.aliases"), isCentered: true }),
+  createTableColumn<QuestionTheme>({ accessorKey: "status", header: t("questionThemes.fields.status"), isCentered: true }),
+  createTableColumn<QuestionTheme>({ accessorKey: "translations", header: t("questionThemes.fields.translations"), isCentered: true }),
+  createTableColumn<QuestionTheme>({ accessorKey: "actions", header: t("common.table.actions"), isCentered: true }),
 ]);
-
-const rows = computed<QuestionThemesTableRow[]>(() => questionThemes.value.map(theme => ({
-  id: theme.id,
-  slug: theme.slug,
-  color: theme.color,
-  label: theme.label,
-  description: theme.description,
-  aliases: theme.aliases[currentLocale.value],
-  status: theme.status,
-})));
 
 const fuseKeys = computed<string[]>(() => [
   "slug",
   `label.${currentLocale.value}`,
   `description.${currentLocale.value}`,
-  "aliases",
+  `aliases.${currentLocale.value}`,
   "status",
 ]);
 
-const { searchTerm, globalFilter, globalFilterFunction, hasActiveFilter } = useTableGlobalFilter<QuestionThemesTableRow>({
-  data: rows,
+const { searchTerm, globalFilter, globalFilterFunction, hasActiveFilter } = useTableGlobalFilter<QuestionTheme>({
+  data: questionThemes,
   keys: fuseKeys,
 });
 
@@ -69,7 +59,7 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
     <UTable
       v-model:global-filter="globalFilter"
       :columns="columns"
-      :data="rows"
+      :data="questionThemes"
       data-testid="question-themes-table-data"
       :global-filter-options="globalFilterOptions"
       sticky
@@ -85,7 +75,7 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
       </template>
 
       <template #label-cell="{ row }">
-        <LocalizedText
+        <TranslatedText
           :data-testid="`label-cell-text-${row.original.slug}`"
           :localized-text="row.original.label"
         />
@@ -99,7 +89,7 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
       </template>
 
       <template #description-cell="{ row }">
-        <LocalizedText
+        <TranslatedText
           :data-testid="`description-cell-text-${row.original.slug}`"
           :localized-text="row.original.description"
         />
@@ -107,8 +97,8 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
 
       <template #aliases-cell="{ row }">
         <QuestionThemeAliasesList
-          :aliases="row.original.aliases"
           :data-testid="`aliases-cell-list-${row.original.slug}`"
+          :localized-texts="row.original.aliases"
         />
       </template>
 
@@ -119,12 +109,21 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
         />
       </template>
 
-      <template #actions-cell="{ row }">
-        <QuestionThemesTableActions
-          :data-testid="`actions-cell-${row.original.slug}`"
+      <template #translations-cell="{ row }">
+        <QuestionThemeTranslationCompletenessIndicator
+          :data-testid="`translations-cell-indicator-${row.original.slug}`"
           :question-theme="row.original"
-          @start-edit="onStartEditFromQuestionThemesTableActions"
         />
+      </template>
+
+      <template #actions-cell="{ row }">
+        <div class="flex justify-center">
+          <QuestionThemesTableActions
+            :data-testid="`actions-cell-${row.original.slug}`"
+            :question-theme="row.original"
+            @start-edit="onStartEditFromQuestionThemesTableActions"
+          />
+        </div>
       </template>
 
       <template #empty>
