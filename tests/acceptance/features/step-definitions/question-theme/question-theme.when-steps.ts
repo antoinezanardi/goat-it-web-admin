@@ -22,7 +22,7 @@ When(
   /^the user fills and submits the question theme edit form with the following attributes:$/u,
   async function(this: GoatItWorld, dataTable: DataTable): Promise<void> {
     const row = validateDataTableAndGetFirstRow(dataTable, QUESTION_THEME_FORM_ROW_SCHEMA);
-    const dialog = this.page.getByRole("dialog");
+    const dialog = this.page.getByRole("dialog").first();
 
     await expect(dialog).toBeVisible();
     await fillQuestionThemeFormByTestId(dialog, row);

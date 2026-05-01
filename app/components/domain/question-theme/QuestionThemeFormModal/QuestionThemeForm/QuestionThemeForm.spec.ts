@@ -479,7 +479,7 @@ describe("QuestionThemeForm Component", () => {
         });
         const labelContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-label']");
 
-        expect(labelContext.exists()).toBeTruthy();
+        expect(labelContext.props("label")).toBe("questionThemes.fields.label");
       });
 
       it("should pass description field name to translation field context for description when mode is edit.", async() => {
@@ -493,7 +493,7 @@ describe("QuestionThemeForm Component", () => {
         });
         const descriptionContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-description']");
 
-        expect(descriptionContext.exists()).toBeTruthy();
+        expect(descriptionContext.props("label")).toBe("questionThemes.fields.description");
       });
 
       it("should pass aliases field name to translation field context for aliases when mode is edit.", async() => {
@@ -507,7 +507,7 @@ describe("QuestionThemeForm Component", () => {
         });
         const aliasesContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-aliases']");
 
-        expect(aliasesContext.exists()).toBeTruthy();
+        expect(aliasesContext.props("label")).toBe("questionThemes.fields.aliases");
       });
 
       it("should not render any translation field context when mode is create.", () => {

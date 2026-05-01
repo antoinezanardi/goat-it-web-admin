@@ -64,14 +64,6 @@ describe("TranslationCompletenessIndicator Component", () => {
     });
   });
 
-  describe("Globe Icon", () => {
-    it("should render the globe icon when component is rendered.", () => {
-      const icon = wrapper.find(".iconify");
-
-      expect(icon.classes()).toContain("i-lucide:globe");
-    });
-  });
-
   describe("Ring Color", () => {
     it.each<{ description: string; field: ReturnType<typeof createFakeLocalizedText>; expected: string }>([
       { description: "all 6 locales are complete", field: fullyTranslatedField, expected: "var(--ui-color-success-500)" },

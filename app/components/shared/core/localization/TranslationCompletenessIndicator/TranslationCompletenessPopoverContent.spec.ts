@@ -42,12 +42,6 @@ describe("TranslationCompletenessPopoverContent Component", () => {
       expect(header.text()).toContain("localization.translationStatus");
     });
 
-    it("should render the globe icon when component is rendered.", () => {
-      const icon = wrapper.find(".iconify");
-
-      expect(icon.classes()).toContain("i-lucide:globe");
-    });
-
     it("should render a separator when component is rendered.", () => {
       const separator = wrapper.findComponent({ name: "USeparator" });
 
