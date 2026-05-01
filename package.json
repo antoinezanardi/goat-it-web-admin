@@ -137,7 +137,7 @@
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
     "lint-staged": "^16.4.0",
-    "nuxt": "^4.4.2",
+    "nuxt": "^4.4.4",
     "oxlint": "^1.62.0",
     "oxlint-tsgolint": "^0.22.1",
     "pinia": "^3.0.4",
