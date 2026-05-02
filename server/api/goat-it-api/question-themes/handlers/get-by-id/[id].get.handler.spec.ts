@@ -1,31 +1,32 @@
-import type { H3Event } from "h3";
 import { vi, describe, it, expect, beforeEach } from "vitest";
 import { ZodError } from "zod";
 
 import { createFakeAdminQuestionThemeDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
+import { createFakeH3Event } from "~~/tests/unit/utils/faketories/shared/h3/h3-event.faketory";
 
 import { createQuestionThemeFromAdminQuestionThemeDto } from "#server/utils/goat-it-api/mappers/goat-it-api.mappers";
 import type { SharedRuntimeConfig } from "#build/types/runtime-config";
 import { createGoatItApiEndpoint, createGoatItApiFetchOptions, handleGoatItApiError } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
 import { getQuestionThemeHandler } from "#server/api/goat-it-api/question-themes/handlers/get-by-id/[id].get.handler";
-import { HttpStatusCode } from "#server/utils/http/http.enums";
+import { getRequiredRouterParam } from "#server/utils/router/router.helpers";
 
 vi.mock(import("#server/utils/goat-it-api/helpers/goat-it-api.helpers"));
+vi.mock(import("#server/utils/router/router.helpers"));
 
 describe("Server Goat It API Question Theme Get Handler", () => {
   const fakeId = "abc123";
-  const mockedEvent = { context: { params: { id: fakeId } } } as unknown as H3Event;
+  const mockedEvent = createFakeH3Event({ params: { id: fakeId } });
 
   beforeEach(() => {
     vi.mocked($fetch).mockResolvedValue(createFakeAdminQuestionThemeDto());
-    vi.mocked(getRouterParam).mockReturnValue(fakeId);
+    vi.mocked(getRequiredRouterParam).mockReturnValue(fakeId);
   });
 
   describe(getQuestionThemeHandler, () => {
     it("should get router param id from event when called.", async() => {
       await getQuestionThemeHandler(mockedEvent);
 
-      expect(getRouterParam).toHaveBeenCalledExactlyOnceWith(mockedEvent, "id");
+      expect(getRequiredRouterParam).toHaveBeenCalledExactlyOnceWith(mockedEvent, "id", "Question theme id is required");
     });
 
     it("should create goat it api endpoint with id when called.", async() => {
@@ -97,47 +98,12 @@ describe("Server Goat It API Question Theme Get Handler", () => {
       expect(handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(expect.any(ZodError));
     });
 
-    it("should throw a 400 error when router param id is undefined.", async() => {
-      vi.mocked(getRouterParam).mockReset();
-      vi.mocked(createError).mockThrow(new Error("Question theme id is required"));
-
-      await expect(getQuestionThemeHandler(mockedEvent)).rejects.toThrow("Question theme id is required");
-    });
-
-    it("should call createError with correct status code and message when router param id is undefined.", async() => {
-      vi.mocked(getRouterParam).mockReset();
-      vi.mocked(createError).mockThrow(new Error("Question theme id is required"));
-
-      try {
-        await getQuestionThemeHandler(mockedEvent);
-      } catch(error: unknown) {
-        void error;
-      }
-
-      expect(createError).toHaveBeenCalledExactlyOnceWith({
-        statusCode: HttpStatusCode.BAD_REQUEST,
-        message: "Question theme id is required",
+    it("should throw when getRequiredRouterParam throws for missing id.", async() => {
+      vi.mocked(getRequiredRouterParam).mockImplementation(() => {
+        throw new Error("Question theme id is required");
       });
-    });
-
-    it("should throw a 400 error when router param id is an empty string.", async() => {
-      vi.mocked(getRouterParam).mockReturnValue("");
-      vi.mocked(createError).mockThrow(new Error("Question theme id is required"));
 
       await expect(getQuestionThemeHandler(mockedEvent)).rejects.toThrow("Question theme id is required");
-    });
-
-    it("should call createError with correct status code and message when router param id is an empty string.", async() => {
-      vi.mocked(getRouterParam).mockReturnValue("");
-      vi.mocked(createError).mockThrow(new Error("Question theme id is required"));
-
-      try {
-        await getQuestionThemeHandler(mockedEvent);
-      } catch(error: unknown) {
-        void error;
-      }
-
-      expect(createError).toHaveBeenCalledExactlyOnceWith({ statusCode: HttpStatusCode.BAD_REQUEST, message: "Question theme id is required" });
     });
   });
 });
