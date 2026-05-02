@@ -1,5 +1,29 @@
 {
   "questions": {
-    "pageTitle": "Questions"
+    "pageTitle": "Questions",
+    "cantFetch": "Impossible de récupérer les questions",
+    "cantCreate": "Impossible de créer la question",
+    "cantArchive": "Impossible d'archiver la question",
+    "cantAssignTheme": "Impossible d'assigner le thème à la question",
+    "cantRemoveTheme": "Impossible de retirer le thème de la question",
+    "cantModifyThemeAssignment": "Impossible de modifier l'assignation du thème",
+    "createSuccessfully": "Question créée avec succès",
+    "archiveSuccessfully": "Question archivée avec succès",
+    "assignThemeSuccessfully": "Thème assigné avec succès",
+    "removeThemeSuccessfully": "Thème retiré avec succès",
+    "modifyThemeAssignmentSuccessfully": "Assignation du thème modifiée avec succès",
+    "fields": {
+      "category": "Catégorie",
+      "themes": "Thèmes",
+      "statement": "Énoncé",
+      "answer": "Réponse",
+      "context": "Contexte",
+      "trivia": "Anecdotes",
+      "cognitiveDifficulty": "Difficulté",
+      "author": "Auteur",
+      "status": "Statut",
+      "sourceUrls": "Sources",
+      "translations": "Traductions"
+    }
   }
 }
