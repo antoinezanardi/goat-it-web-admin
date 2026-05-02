@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { createFakeAdminQuestionDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
 import { createFakeAdminQuestionRejectionDto } from "~~/tests/unit/utils/faketories/questions/dto/question-rejection/question-rejection.dto.faketory";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
+import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
 
 import { createQuestionFromAdminQuestionDto } from "#server/utils/goat-it-api/mappers/question/question.mappers";
 
@@ -11,8 +12,7 @@ describe("Question Mappers", () => {
     it("should create question from admin question dto with correct properties when called.", () => {
       const dto = createFakeAdminQuestionDto();
       const result = createQuestionFromAdminQuestionDto(dto);
-
-      expect(result).toStrictEqual({
+      const expected = createFakeQuestion({
         id: dto.id,
         category: dto.category,
         themes: dto.themes.map(themeAssignment => ({
@@ -33,6 +33,8 @@ describe("Question Mappers", () => {
         createdAt: new Date(dto.createdAt),
         updatedAt: new Date(dto.updatedAt),
       });
+
+      expect(result).toStrictEqual(expected);
     });
 
     it("should map rejection when dto has a rejection.", () => {

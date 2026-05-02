@@ -136,6 +136,7 @@ const VITEST_NODE_PROJECT_CONFIG: TestProjectInlineConfiguration = {
     setupFiles: [
       path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts"),
       path.resolve(processCwd, "tests/unit/setup/node/nitro-auto-imports.node.unit-setup.ts"),
+      path.resolve(processCwd, "tests/unit/setup/node/h3.node.unit-setup.ts"),
     ],
     pool: "threads",
     isolate: false,

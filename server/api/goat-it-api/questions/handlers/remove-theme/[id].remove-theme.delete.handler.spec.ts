@@ -1,8 +1,8 @@
-import type { H3Event } from "h3";
 import { vi, describe, it, expect, beforeEach } from "vitest";
 import { ZodError } from "zod";
 
 import { createFakeAdminQuestionDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
+import { createFakeH3Event } from "~~/tests/unit/utils/faketories/shared/h3/h3-event.faketory";
 
 import { createQuestionFromAdminQuestionDto } from "#server/utils/goat-it-api/mappers/question/question.mappers";
 import type { SharedRuntimeConfig } from "#build/types/runtime-config";
@@ -16,7 +16,7 @@ vi.mock(import("#server/utils/router/router.helpers"));
 describe("Server Goat It API Questions Remove Theme Handler", () => {
   const fakeId = "abc123";
   const fakeThemeId = "def456";
-  const mockedEvent = { context: { params: { id: fakeId, themeId: fakeThemeId } } } as unknown as H3Event;
+  const mockedEvent = createFakeH3Event({ params: { id: fakeId, themeId: fakeThemeId } });
 
   beforeEach(() => {
     vi.mocked($fetch).mockResolvedValue(createFakeAdminQuestionDto({ author: { role: "admin", name: "Test Admin" } }));

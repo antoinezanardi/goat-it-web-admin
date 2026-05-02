@@ -1,8 +1,10 @@
 import type { $Fetch } from "nitropack";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import type { QuestionCreationDto, QuestionThemeAssignmentCreationDto } from "@goat-it/schemas/question";
 
-import type { QuestionThemeAssignmentModificationDto } from "#shared/types/question.types";
+import { createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
+import { createFakeQuestionThemeAssignmentCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-creation/question-theme-assignment-creation.dto.faketory";
+import { createFakeQuestionThemeAssignmentModificationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-modification/question-theme-assignment-modification.dto.faketory";
+
 import { questionsRepository } from "~/repositories/goat-it-api/questions/questions.repository";
 
 describe("Questions Repository", () => {
@@ -33,7 +35,7 @@ describe("Questions Repository", () => {
   describe("create", () => {
     it("should call fetch with correct endpoint and body when called.", async() => {
       const repository = questionsRepository(fetchMock);
-      const dto = {} as QuestionCreationDto;
+      const dto = createFakeQuestionCreationDto();
       await repository.create(dto);
 
       expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/questions", { method: "POST", body: dto });
@@ -52,7 +54,7 @@ describe("Questions Repository", () => {
   describe("assignTheme", () => {
     it("should call fetch with correct endpoint and body when called.", async() => {
       const repository = questionsRepository(fetchMock);
-      const dto = {} as QuestionThemeAssignmentCreationDto;
+      const dto = createFakeQuestionThemeAssignmentCreationDto();
       await repository.assignTheme("123", dto);
 
       expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/questions/123/themes", { method: "POST", body: dto });
@@ -71,7 +73,7 @@ describe("Questions Repository", () => {
   describe("modifyThemeAssignment", () => {
     it("should call fetch with correct endpoint and body when called.", async() => {
       const repository = questionsRepository(fetchMock);
-      const dto: QuestionThemeAssignmentModificationDto = { isPrimary: true };
+      const dto = createFakeQuestionThemeAssignmentModificationDto();
       await repository.modifyThemeAssignment("123", "456", dto);
 
       expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/questions/123/themes/456", { method: "PATCH", body: dto });

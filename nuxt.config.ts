@@ -73,6 +73,7 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: [
+        "@goat-it/schemas/question",
         "@goat-it/schemas/question-theme",
         "@goat-it/schemas/shared/locale",
         "zod",
