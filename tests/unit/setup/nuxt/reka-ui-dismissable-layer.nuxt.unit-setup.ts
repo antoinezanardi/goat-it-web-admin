@@ -12,8 +12,12 @@ beforeAll(() => {
     configurable: true,
     writable: true,
     value(type: string, listener: EventListenerOrEventListenerObject | null, options?: boolean | AddEventListenerOptions): void {
-      if (type === "pointerdown" || type === "focusin") { return; }
-      if (listener === null) { return; }
+      if (type === "pointerdown" || type === "focusin") {
+        return;
+      }
+      if (listener === null) {
+        return;
+      }
       originalAddEventListener(type, listener, options);
     },
   });
