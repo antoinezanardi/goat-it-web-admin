@@ -854,7 +854,7 @@ import { createItemFromDto } from "#server/utils/goat-it-api/mappers/goat-it-api
 import type { SharedRuntimeConfig } from "#build/types/runtime-config";
 import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
 import { getItemsHandler } from "#server/api/goat-it-api/items/handlers/get-all/index.get.handler";
-import { createFakeH3Event } from "./h3-event.faketory";
+import { createFakeH3Event } from "~~/tests/unit/utils/faketories/shared/h3/h3-event.faketory";
 
 // Mock the helpers module — uses import() expression syntax
 vi.mock(import("#server/utils/goat-it-api/helpers/goat-it-api.helpers"));
