@@ -8,9 +8,10 @@ import { createQuestionThemeFromAdminQuestionThemeDto } from "#server/utils/goat
 import type { SharedRuntimeConfig } from "#build/types/runtime-config";
 import { createGoatItApiEndpoint, createGoatItApiFetchOptions, handleGoatItApiError } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
 import { archiveQuestionThemeHandler } from "#server/api/goat-it-api/question-themes/handlers/archive/[id].archive.post.handler";
-import { HttpStatusCode } from "#server/utils/http/http.enums";
+import { getRequiredRouterParam } from "#server/utils/router/router.helpers";
 
 vi.mock(import("#server/utils/goat-it-api/helpers/goat-it-api.helpers"));
+vi.mock(import("#server/utils/router/router.helpers"));
 
 describe("Server Goat It API Question Theme Archive Handler", () => {
   const fakeId = "abc123";
@@ -18,7 +19,7 @@ describe("Server Goat It API Question Theme Archive Handler", () => {
 
   beforeEach(() => {
     vi.mocked($fetch).mockResolvedValue(createFakeAdminQuestionThemeDto());
-    vi.mocked(getRouterParam).mockReturnValue(fakeId);
+    vi.mocked(getRequiredRouterParam).mockReturnValue(fakeId);
     vi.mocked(createGoatItApiEndpoint).mockReturnValue(`/admin/question-themes/${fakeId}`);
   });
 
@@ -26,7 +27,7 @@ describe("Server Goat It API Question Theme Archive Handler", () => {
     it("should get router param id from event when called.", async() => {
       await archiveQuestionThemeHandler(mockedEvent);
 
-      expect(getRouterParam).toHaveBeenCalledExactlyOnceWith(mockedEvent, "id");
+      expect(getRequiredRouterParam).toHaveBeenCalledExactlyOnceWith(mockedEvent, "id", "Question theme id is required");
     });
 
     it("should create goat it api endpoint with id when called.", async() => {
@@ -100,50 +101,12 @@ describe("Server Goat It API Question Theme Archive Handler", () => {
       expect(handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(expect.any(ZodError));
     });
 
-    it("should throw a 400 error when router param id is undefined.", async() => {
-      vi.mocked(getRouterParam).mockReset();
-      vi.mocked(createError).mockThrow(new Error("Question theme id is required"));
+    it("should throw when getRequiredRouterParam throws for missing id.", async() => {
+      vi.mocked(getRequiredRouterParam).mockImplementation(() => {
+        throw new Error("Question theme id is required");
+      });
 
       await expect(archiveQuestionThemeHandler(mockedEvent)).rejects.toThrow("Question theme id is required");
-    });
-
-    it("should call createError with correct status code and message when router param id is undefined.", async() => {
-      vi.mocked(getRouterParam).mockReset();
-      vi.mocked(createError).mockThrow(new Error("Question theme id is required"));
-
-      try {
-        await archiveQuestionThemeHandler(mockedEvent);
-      } catch(error: unknown) {
-        void error;
-      }
-
-      expect(createError).toHaveBeenCalledExactlyOnceWith({
-        statusCode: HttpStatusCode.BAD_REQUEST,
-        message: "Question theme id is required",
-      });
-    });
-
-    it("should throw a 400 error when router param id is an empty string.", async() => {
-      vi.mocked(getRouterParam).mockReturnValue("");
-      vi.mocked(createError).mockThrow(new Error("Question theme id is required"));
-
-      await expect(archiveQuestionThemeHandler(mockedEvent)).rejects.toThrow("Question theme id is required");
-    });
-
-    it("should call createError with correct status code and message when router param id is an empty string.", async() => {
-      vi.mocked(getRouterParam).mockReturnValue("");
-      vi.mocked(createError).mockThrow(new Error("Question theme id is required"));
-
-      try {
-        await archiveQuestionThemeHandler(mockedEvent);
-      } catch(error: unknown) {
-        void error;
-      }
-
-      expect(createError).toHaveBeenCalledExactlyOnceWith({
-        statusCode: HttpStatusCode.BAD_REQUEST,
-        message: "Question theme id is required",
-      });
     });
   });
 });
