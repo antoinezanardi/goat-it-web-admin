@@ -22,8 +22,8 @@ Read it for complete examples. This skill contains the non-negotiable rules and 
 
 ## Feature file rules
 
-- **Location:** `tests/acceptance/features/<domain>/<action>/<feature-name>.feature`
-- **Tags:** `@domain` + `@domain-action` before the `Feature:` line
+- **Location:** `tests/acceptance/features/<domain>[/<action>]/<feature-name>.feature`
+- **Tags:** `@domain-page` for page-level features, `@domain` + `@domain-action` for action-specific features
 - **Feature title:** Emoji prefix + description (e.g., `Feature: 🎨 Question Theme Creation`)
 - **Scenario title:** Same emoji prefix + description
 - **Scenario Outline:** Use for parameterized tests (accessibility viewport matrix)
@@ -139,8 +139,8 @@ export type { MyDomainFormRow };
 
 ## Adding a new domain (checklist)
 
-- [ ] Feature file created in `tests/acceptance/features/<domain>/<action>/`
-- [ ] Tags added (`@domain @domain-action`)
+- [ ] Feature file created in `tests/acceptance/features/<domain>[/<action>]/` (action directory optional)
+- [ ] Tags added (`@domain-page` for page-level, `@domain` + `@domain-action` for actions)
 - [ ] Feature and Scenario titles use emoji prefix
 - [ ] Scenarios use existing generic steps where possible
 - [ ] Accessibility feature file created with light/dark + desktop/mobile matrix

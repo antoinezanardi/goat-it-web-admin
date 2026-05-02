@@ -223,7 +223,7 @@ Given(/^the user is on (?<page>.+) page$/u, async function(this: GoatItWorld, pa
 
 ### 5.1 Naming and organization
 
-Feature files are organized by domain entity and action:
+Feature files are organized by domain entity and action (where applicable):
 
 ```
 tests/acceptance/features/
@@ -252,20 +252,27 @@ tests/acceptance/features/
 ```
 
 - **Top-level pages** get a directory: `home/`, `question-themes/`, `questions/`
-- **Actions** within a domain get subdirectories: `creation/`, `modification/`, `archive/`, `filter/`, `translation/`
+- **Actions** within a domain get subdirectories (optional): `creation/`, `modification/`, `archive/`, `filter/`, `translation/`
 - **Accessibility tests** are always in separate `*-accessibility.feature` files alongside the main feature
 
 ### 5.2 Tags
 
 Tags are placed at the top of the feature file, before the `Feature:` keyword:
 
+**For page-level features** (no action subdirectory):
+```gherkin
+@home-page
+Feature: 🏡 Home Page
+```
+
+**For action-specific features** (within an action subdirectory):
 ```gherkin
 @question-themes @question-theme-creation
 Feature: 🎨 Question Theme Creation
 ```
 
-- First tag: the domain (`@home-page`, `@question-themes`, `@questions`)
-- Subsequent tags: specific action or aspect (`@question-theme-creation`, `@accessibility`)
+- **Page-level**: Single tag (`@<domain>-page`, e.g., `@home-page`, `@questions-page`)
+- **Action-specific**: Domain tag + action tag (`@<domain>` + `@<domain>-<action>`, e.g., `@question-themes` + `@question-theme-creation`)
 - Tags use `kebab-case`
 - Tags enable selective test runs: `--tags "@question-theme-creation"`
 
@@ -842,7 +849,9 @@ If the sandbox is not healthy after all retries, the test suite fails immediatel
 
 ## 10. Adding new features (step-by-step)
 
-1. **Identify the domain and action.** Determine where the feature file belongs in the directory tree (e.g., `question-themes/creation/`).
+1. **Identify the domain and action.** Determine where the feature file belongs:
+   - **Page-level** (no action): `tests/acceptance/features/<domain>/<feature-name>.feature`
+   - **Action-specific**: `tests/acceptance/features/<domain>/<action>/<feature-name>.feature`
 
 2. **Check existing generic steps.** Scan the generic step definitions to see what's already available:
 
