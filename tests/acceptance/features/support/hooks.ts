@@ -10,10 +10,10 @@ import {
   BEFORE_ALL_TIMEOUT,
   BEFORE_TIMEOUT,
   SANDBOX_ADMIN_KEY,
-  SANDBOX_BASE_PORT,
 } from "#acceptance/features/support/constants/hooks.constants.ts";
 import {
   generateScreenshotOnScenarioFailure,
+  getSandboxBaseUrl,
   getWorkerId,
   removeAcceptanceTestsReportsScreenshotsDirectory,
   resetSandboxData,
@@ -23,7 +23,7 @@ import type { GoatItWorld } from "#acceptance/features/support/types/world.types
 
 const rootDirectory = fileURLToPath(new URL("../../../..", import.meta.url));
 const workerId = getWorkerId();
-const sandboxBaseUrl = `http://localhost:${SANDBOX_BASE_PORT + workerId}`;
+const sandboxBaseUrl = getSandboxBaseUrl();
 const workerBuildDirectory = `.nuxt/test/worker-${workerId}`;
 
 const { beforeEach, afterEach, afterAll, beforeAll } = createTest({
@@ -55,10 +55,12 @@ const { beforeEach, afterEach, afterAll, beforeAll } = createTest({
 });
 
 BeforeAll({ timeout: BEFORE_ALL_TIMEOUT }, async(): Promise<void> => {
-  console.info(`[Worker ${workerId}] Cleaning up previous acceptance test reports...`);
-  removeAcceptanceTestsReportsScreenshotsDirectory();
+  if (workerId === 0) {
+    console.info(`[Worker ${workerId}] Cleaning up previous acceptance test reports...`);
+    removeAcceptanceTestsReportsScreenshotsDirectory();
+  }
 
-  console.info(`[Worker ${workerId}] Waiting for Goat It API sandbox to become healthy (port ${SANDBOX_BASE_PORT + workerId})...`);
+  console.info(`[Worker ${workerId}] Waiting for Goat It API sandbox to become healthy (${sandboxBaseUrl})...`);
   await waitForSandboxHealthCheck();
   console.info(`[Worker ${workerId}] Goat It API sandbox is healthy.`);
 

@@ -84,7 +84,7 @@ Location: `configs/cucumber/cucumber.json`
 
 - **`paths`** — Glob for `.feature` files
 - **`import`** — Glob for step definitions, hooks, and support files (all `.ts` under `features/`)
-- **`parallel: 4`** — Tests run in 4 parallel workers, each targeting its own API sandbox (port 9090 + worker ID)
+- **`parallel: 4`** — Tests run in 4 parallel workers (IDs 0–3), each targeting its own API sandbox on ports 9090–9093 (calculated as 9090 + worker ID)
 - **`format`** — Summary to stdout + JSON and JUnit report files
 
 ### Import alias

@@ -89,7 +89,7 @@
     "docker:api-sandbox:stop": "docker compose -f docker/goat-it-api-sandbox/docker-compose.yml down",
     "docker:api-sandbox:restart": "pnpm run docker:api-sandbox:stop && pnpm run docker:api-sandbox:start",
     "docker:api-sandbox:reset": "pnpm run docker:api-sandbox:stop && docker compose -f docker/goat-it-api-sandbox/docker-compose.yml down -v && pnpm run docker:api-sandbox:start",
-    "docker:api-sandbox:update": "docker compose -f docker/goat-it-api-sandbox/docker-compose.yml pull api && pnpm run docker:api-sandbox:restart",
+    "docker:api-sandbox:update": "docker compose -f docker/goat-it-api-sandbox/docker-compose.yml pull api-0 api-1 api-2 api-3 && pnpm run docker:api-sandbox:restart",
     "script:create-branch": "scripts/create-git-branch.sh",
     "script:create-pull-request": "scripts/create-pull-request.sh",
     "script:create-release-changelog": "scripts/create-release-changelog.sh",

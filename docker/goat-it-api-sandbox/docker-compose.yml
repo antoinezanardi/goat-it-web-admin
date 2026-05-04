@@ -7,7 +7,8 @@ services:
     image: antoinezanardi/goat-it-api:develop
     container_name: goat-it-api-sandbox-0
     depends_on:
-      - mongodb-0
+      mongodb-0:
+        condition: service_healthy
     environment:
       ENVIRONMENT: "production"
       SERVER_HOST: "0.0.0.0"
@@ -27,13 +28,20 @@ services:
     image: mongo:8
     volumes:
       - goat-it-api-sandbox-mongodb-0-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     restart: unless-stopped
 
   api-1:
     image: antoinezanardi/goat-it-api:develop
     container_name: goat-it-api-sandbox-1
     depends_on:
-      - mongodb-1
+      mongodb-1:
+        condition: service_healthy
     environment:
       ENVIRONMENT: "production"
       SERVER_HOST: "0.0.0.0"
@@ -53,13 +61,20 @@ services:
     image: mongo:8
     volumes:
       - goat-it-api-sandbox-mongodb-1-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     restart: unless-stopped
 
   api-2:
     image: antoinezanardi/goat-it-api:develop
     container_name: goat-it-api-sandbox-2
     depends_on:
-      - mongodb-2
+      mongodb-2:
+        condition: service_healthy
     environment:
       ENVIRONMENT: "production"
       SERVER_HOST: "0.0.0.0"
@@ -79,13 +94,20 @@ services:
     image: mongo:8
     volumes:
       - goat-it-api-sandbox-mongodb-2-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     restart: unless-stopped
 
   api-3:
     image: antoinezanardi/goat-it-api:develop
     container_name: goat-it-api-sandbox-3
     depends_on:
-      - mongodb-3
+      mongodb-3:
+        condition: service_healthy
     environment:
       ENVIRONMENT: "production"
       SERVER_HOST: "0.0.0.0"
@@ -105,6 +127,12 @@ services:
     image: mongo:8
     volumes:
       - goat-it-api-sandbox-mongodb-3-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     restart: unless-stopped
 
 volumes:
