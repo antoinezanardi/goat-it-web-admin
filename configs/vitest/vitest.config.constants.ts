@@ -59,6 +59,7 @@ const VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG: InlineConfig = {
 };
 
 const VITEST_NUXT_PROJECT_SETUP_FILES = [
+  path.resolve(processCwd, "tests/unit/setup/nuxt/reka-ui-dismissable-layer.nuxt.unit-setup.ts"),
   path.resolve(processCwd, "tests/unit/setup/nuxt/vtu-config.nuxt.unit-setup.ts"),
   path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts"),
   path.resolve(processCwd, "tests/unit/setup/nuxt/define-page-meta.nuxt.unit-setup.ts"),
