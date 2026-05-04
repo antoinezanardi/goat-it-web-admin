@@ -1,4 +1,4 @@
-import { ADMIN_QUESTION_DTO, QUESTION_THEME_ASSIGNMENT_MODIFICATION_DTO } from "@goat-it/schemas/question";
+import { ADMIN_QUESTION_DTO, QUESTION_MODIFICATION_DTO } from "@goat-it/schemas/question";
 import type { H3Event } from "h3";
 
 import type { Question } from "#shared/types/question.types";
@@ -6,12 +6,11 @@ import { createQuestionFromAdminQuestionDto } from "#server/utils/goat-it-api/ma
 import { createGoatItApiEndpoint, createGoatItApiFetchOptions, handleGoatItApiError } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
 import { getRequiredRouterParam } from "#server/utils/router/router.helpers";
 
-async function modifyThemeAssignmentHandler(event: H3Event): Promise<Question> {
+async function modifyQuestionHandler(event: H3Event): Promise<Question> {
   const config = useRuntimeConfig(event);
   const id = getRequiredRouterParam(event, "id", "Question id is required");
-  const themeId = getRequiredRouterParam(event, "theme-id", "Theme id is required");
-  const modificationDto = QUESTION_THEME_ASSIGNMENT_MODIFICATION_DTO.parse(await readBody(event));
-  const endpoint = `${createGoatItApiEndpoint("questions", id)}/themes/${themeId}`;
+  const modificationDto = QUESTION_MODIFICATION_DTO.parse(await readBody(event));
+  const endpoint = createGoatItApiEndpoint("questions", id);
   const fetchOptions = createGoatItApiFetchOptions(config.goatItApi);
 
   try {
@@ -29,5 +28,5 @@ async function modifyThemeAssignmentHandler(event: H3Event): Promise<Question> {
 }
 
 export {
-  modifyThemeAssignmentHandler,
+  modifyQuestionHandler,
 };

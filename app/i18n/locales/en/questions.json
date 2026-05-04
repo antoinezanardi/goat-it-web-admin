@@ -6,11 +6,13 @@
     "cantArchive": "Unable to archive question",
     "cantAssignTheme": "Unable to assign theme to question",
     "cantRemoveTheme": "Unable to remove theme from question",
+    "cantModify": "Unable to modify question",
     "cantModifyThemeAssignment": "Unable to modify theme assignment",
     "createSuccessfully": "Question created successfully",
     "archiveSuccessfully": "Question archived successfully",
     "assignThemeSuccessfully": "Theme assigned successfully",
     "removeThemeSuccessfully": "Theme removed successfully",
+    "modifySuccessfully": "Question modified successfully",
     "modifyThemeAssignmentSuccessfully": "Theme assignment modified successfully",
     "fields": {
       "category": "Category",

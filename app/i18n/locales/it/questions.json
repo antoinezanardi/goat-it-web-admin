@@ -6,11 +6,13 @@
     "cantArchive": "Impossibile archiviare la domanda",
     "cantAssignTheme": "Impossibile assegnare il tema alla domanda",
     "cantRemoveTheme": "Impossibile rimuovere il tema dalla domanda",
+    "cantModify": "Impossibile modificare la domanda",
     "cantModifyThemeAssignment": "Impossibile modificare l'assegnazione del tema",
     "createSuccessfully": "Domanda creata con successo",
     "archiveSuccessfully": "Domanda archiviata con successo",
     "assignThemeSuccessfully": "Tema assegnato con successo",
     "removeThemeSuccessfully": "Tema rimosso con successo",
+    "modifySuccessfully": "Domanda modificata con successo",
     "modifyThemeAssignmentSuccessfully": "Assegnazione del tema modificata con successo",
     "fields": {
       "category": "Categoria",

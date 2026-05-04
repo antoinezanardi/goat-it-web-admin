@@ -1,6 +1,5 @@
-import type { QuestionCreationDto, QuestionThemeAssignmentCreationDto } from "@goat-it/schemas/question";
+import type { QuestionCreationDto, QuestionModificationDto, QuestionThemeAssignmentCreationDto, QuestionThemeAssignmentModificationDto } from "@goat-it/schemas/question";
 
-import type { QuestionThemeAssignmentModificationDto } from "#shared/types/question.types";
 import { replaceInArrayById } from "#shared/utils/helpers/array/array.helpers";
 
 export const useQuestionsStore = defineStore(StoreNames.QUESTIONS, () => {
@@ -77,6 +76,17 @@ export const useQuestionsStore = defineStore(StoreNames.QUESTIONS, () => {
     (thrownError: unknown) => handleGoatItApiError(thrownError, t("questions.cantModifyThemeAssignment")),
   );
 
+  const {
+    execute: modifyQuestion,
+    fetchStatus: modifyQuestionStatus,
+    isPending: isModifyingQuestion,
+    isSuccess: isModifyQuestionSuccess,
+    isError: isModifyingQuestionError,
+  } = useAsyncAction(
+    async(id: string, dto: QuestionModificationDto) => repository.modify(id, dto),
+    (thrownError: unknown) => handleGoatItApiError(thrownError, t("questions.cantModify")),
+  );
+
   async function fetchAndStoreQuestions(): Promise<void> {
     const fetchedQuestions = await fetchQuestions();
     if (fetchedQuestions) {
@@ -127,6 +137,15 @@ export const useQuestionsStore = defineStore(StoreNames.QUESTIONS, () => {
     questions.value = replaceInArrayById(questions.value, id, updatedQuestion);
     addSuccessToast({ description: t("questions.modifyThemeAssignmentSuccessfully") });
   }
+
+  async function modifyAndStoreQuestion(id: string, dto: QuestionModificationDto): Promise<void> {
+    const modifiedQuestion = await modifyQuestion(id, dto);
+    if (!modifiedQuestion) {
+      return;
+    }
+    questions.value = replaceInArrayById(questions.value, id, modifiedQuestion);
+    addSuccessToast({ description: t("questions.modifySuccessfully") });
+  }
   return {
     questions,
     fetchQuestionsStatus,
@@ -159,5 +178,10 @@ export const useQuestionsStore = defineStore(StoreNames.QUESTIONS, () => {
     isModifyQuestionThemeAssignmentSuccess,
     isModifyingQuestionThemeAssignmentError,
     modifyThemeAssignmentAndStoreQuestion,
+    modifyQuestionStatus,
+    isModifyingQuestion,
+    isModifyQuestionSuccess,
+    isModifyingQuestionError,
+    modifyAndStoreQuestion,
   };
 });
