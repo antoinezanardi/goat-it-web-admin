@@ -149,7 +149,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     needs:
-      - build
+      - install
     steps:
       - name: Checkout GitHub repository 📡
         uses: actions/checkout@v6

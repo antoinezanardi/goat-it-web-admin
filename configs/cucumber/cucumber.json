@@ -6,7 +6,7 @@
     "import": [
       "tests/acceptance/features/**/*.ts"
     ],
-    "parallel": 1,
+    "parallel": 4,
     "publish": false,
     "format": [
       "summary",

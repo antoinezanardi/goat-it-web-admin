@@ -71,7 +71,7 @@ Location: `configs/cucumber/cucumber.json`
   "default": {
     "paths": ["tests/acceptance/features/**/*.feature"],
     "import": ["tests/acceptance/features/**/*.ts"],
-    "parallel": 1,
+    "parallel": 4,
     "publish": false,
     "format": [
       "summary",
@@ -84,7 +84,7 @@ Location: `configs/cucumber/cucumber.json`
 
 - **`paths`** — Glob for `.feature` files
 - **`import`** — Glob for step definitions, hooks, and support files (all `.ts` under `features/`)
-- **`parallel: 1`** — Tests run sequentially (required because they share a single MongoDB sandbox)
+- **`parallel: 4`** — Tests run in 4 parallel workers (IDs 0–3), each targeting its own API sandbox on ports 9090–9093 (calculated as 9090 + worker ID)
 - **`format`** — Summary to stdout + JSON and JUnit report files
 
 ### Import alias
@@ -100,7 +100,6 @@ import type { GoatItWorld } from "#acceptance/features/support/types/world.types
 Reports are generated in `tests/acceptance/reports/`:
 - `report.json` — Cucumber JSON report
 - `junit.xml` — JUnit XML report
-- `index.html` — HTML report (generated post-run by `tests/acceptance/plugins/html-reporter/cucumber-html-reporter.ts`)
 - `screenshots/` — Failure screenshots (one per failed scenario)
 
 ---
@@ -115,13 +114,16 @@ pnpm run test:acceptance
 pnpm run test:acceptance:prepare
 
 # Run a specific feature file
-pnpm exec cucumber-js --config configs/cucumber/cucumber.json tests/acceptance/features/home/home.feature
+pnpm run test:acceptance tests/acceptance/features/home/home.feature
 
 # Run by tag
-pnpm exec cucumber-js --config configs/cucumber/cucumber.json --tags "@question-theme-creation"
+pnpm run test:acceptance --tags "@question-theme-creation"
 
-# Generate HTML report from existing JSON
-pnpm run test:acceptance:html-report
+# Multiple tags (OR)
+pnpm run test:acceptance --tags "@home or @questions"
+
+# Exclude tag
+pnpm run test:acceptance --tags "not @accessibility"
 ```
 
 **Prerequisites:**
@@ -823,13 +825,13 @@ expect(wasFound).toBe(true);
 
 Location: `docker/goat-it-api-sandbox/docker-compose.yml`
 
-The sandbox provides a local Goat It API instance backed by MongoDB. Start it before running acceptance tests:
+The sandbox provides a local Goat It API instance backed by MongoDB. The compose file defines 4 API + MongoDB pairs for parallel execution (one per Cucumber worker). Start them before running acceptance tests:
 
 ```bash
 docker compose -f docker/goat-it-api-sandbox/docker-compose.yml up -d
 ```
 
-The sandbox runs at `http://localhost:9090`.
+Each worker targets its own sandbox instance at `http://localhost:<9090 + worker ID>`.
 
 ### 9.2 MongoDB reset
 
