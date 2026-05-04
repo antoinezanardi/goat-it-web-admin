@@ -24,8 +24,8 @@ importers:
         specifier: ^10.4.0
         version: 10.4.0
       '@goat-it/schemas':
-        specifier: ^0.0.8
-        version: 0.0.8(zod@4.4.3)
+        specifier: ^0.0.9
+        version: 0.0.9(zod@4.4.3)
       '@iconify-json/circle-flags':
         specifier: ^1.2.10
         version: 1.2.10
@@ -1181,10 +1181,10 @@ packages:
   '@floating-ui/vue@1.1.11':
     resolution: {integrity: sha512-HzHKCNVxnGS35r9fCHBc3+uCnjw9IWIlCPL683cGgM9Kgj2BiAl8x1mS7vtvP6F9S/e/q4O6MApwSHj8hNLGfw==}
 
-  '@goat-it/schemas@0.0.8':
-    resolution: {integrity: sha512-fj8Zl2CmnRLjPBKNmj7iZ40zDsMjFTpBWIkafZaBu3ewJia2c6iX/l96KCCg+roSsrtb6o+u6bDWdWu1BY6ecA==}
+  '@goat-it/schemas@0.0.9':
+    resolution: {integrity: sha512-urWfMFAhSPrLi7mK7xlJAOpoGGCKDc2bkry+prBD4yWCKxpx6vu5gJUJdxr9oWoCEvmsQnSTtbnqmVMulg+Zbg==}
     peerDependencies:
-      zod: ^4.3.6
+      zod: ^4.4.3
 
   '@html-validate/stylish@5.2.0':
     resolution: {integrity: sha512-7lF57/RTs2tZi0FtgY7Y5CP73Y2GEPPMaJ9PeZKRRUOs7Bt7/Qlqt8kdsAbVMO7GrpuWtUfGvR11riSOryioow==}
@@ -9466,7 +9466,7 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@goat-it/schemas@0.0.8(zod@4.4.3)':
+  '@goat-it/schemas@0.0.9(zod@4.4.3)':
     dependencies:
       type-fest: 5.6.0
       zod: 4.4.3
