@@ -1,5 +1,5 @@
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import type { QuestionThemeAssignmentCreationDto } from "@goat-it/schemas/question";
+import type { QuestionModificationDto, QuestionThemeAssignmentCreationDto, QuestionThemeAssignmentModificationDto } from "@goat-it/schemas/question";
 import type { vi } from "vitest";
 import { beforeEach, describe, expect, it } from "vitest";
 
@@ -8,7 +8,7 @@ import type { UseAsyncActionMock } from "~~/tests/unit/utils/mocks/composables/c
 import { createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
 
-import type { Question, QuestionThemeAssignmentModificationDto } from "#shared/types/question.types";
+import type { Question } from "#shared/types/question.types";
 import type { useQuestionsStore as UseQuestionsStoreType } from "@/stores/domain/question/questions.store";
 
 let fetchAsyncActionMock: UseAsyncActionMock;
@@ -17,6 +17,7 @@ let archiveAsyncActionMock: UseAsyncActionMock;
 let assignThemeAsyncActionMock: UseAsyncActionMock;
 let removeThemeAsyncActionMock: UseAsyncActionMock;
 let modifyThemeAssignmentAsyncActionMock: UseAsyncActionMock;
+let modifyAsyncActionMock: UseAsyncActionMock;
 
 let capturedFetchAction: (() => Promise<Question[]>) | undefined;
 let capturedFetchOnError: ((error: unknown) => void) | undefined;
@@ -30,6 +31,8 @@ let capturedRemoveThemeAction: ((id: string, themeId: string) => Promise<Questio
 let capturedRemoveThemeOnError: ((error: unknown) => void) | undefined;
 let capturedModifyThemeAssignmentAction: ((id: string, themeId: string, dto: unknown) => Promise<Question>) | undefined;
 let capturedModifyThemeAssignmentOnError: ((error: unknown) => void) | undefined;
+let capturedModifyAction: ((id: string, dto: unknown) => Promise<Question>) | undefined;
+let capturedModifyOnError: ((error: unknown) => void) | undefined;
 
 let useAsyncActionCallCount: number;
 
@@ -75,11 +78,19 @@ mockNuxtImport("useAsyncAction", () => (action: unknown, onError: unknown): UseA
     return removeThemeAsyncActionMock;
   }
 
-  capturedModifyThemeAssignmentAction = action as (id: string, themeId: string, dto: unknown) => Promise<Question>;
-  capturedModifyThemeAssignmentOnError = onError as (error: unknown) => void;
-  modifyThemeAssignmentAsyncActionMock = createUseAsyncActionMock();
+  if (useAsyncActionCallCount === 6) {
+    capturedModifyThemeAssignmentAction = action as (id: string, themeId: string, dto: unknown) => Promise<Question>;
+    capturedModifyThemeAssignmentOnError = onError as (error: unknown) => void;
+    modifyThemeAssignmentAsyncActionMock = createUseAsyncActionMock();
 
-  return modifyThemeAssignmentAsyncActionMock;
+    return modifyThemeAssignmentAsyncActionMock;
+  }
+
+  capturedModifyAction = action as (id: string, dto: unknown) => Promise<Question>;
+  capturedModifyOnError = onError as (error: unknown) => void;
+  modifyAsyncActionMock = createUseAsyncActionMock();
+
+  return modifyAsyncActionMock;
 });
 
 let useQuestionsStore: typeof UseQuestionsStoreType;
@@ -99,6 +110,8 @@ describe("useQuestionsStore", () => {
     capturedRemoveThemeOnError = undefined;
     capturedModifyThemeAssignmentAction = undefined;
     capturedModifyThemeAssignmentOnError = undefined;
+    capturedModifyAction = undefined;
+    capturedModifyOnError = undefined;
     ({ useQuestionsStore } = await import("@/stores/domain/question/questions.store"));
   });
 
@@ -1024,6 +1037,177 @@ describe("useQuestionsStore", () => {
       capturedModifyThemeAssignmentOnError?.(fakeError);
 
       expect(useGoatItApiErrorToast().handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(fakeError, "questions.cantModifyThemeAssignment");
+    });
+  });
+
+  describe("modifyQuestionStatus", () => {
+    it("should reflect the fetchStatus value from useAsyncAction when created.", () => {
+      const store = useQuestionsStore();
+
+      expect(store.modifyQuestionStatus).toBe(modifyAsyncActionMock.fetchStatus.value);
+    });
+
+    it("should update when the fetchStatus changes to pending.", () => {
+      const store = useQuestionsStore();
+      modifyAsyncActionMock.fetchStatus.value = "pending";
+
+      expect(store.modifyQuestionStatus).toBe("pending");
+    });
+  });
+
+  describe("isModifyingQuestion", () => {
+    it("should be false when modifyQuestionStatus is idle.", () => {
+      const store = useQuestionsStore();
+
+      expect(store.isModifyingQuestion).toBeFalsy();
+    });
+
+    it("should be true when modifyQuestionStatus is pending.", () => {
+      const store = useQuestionsStore();
+      modifyAsyncActionMock.fetchStatus.value = "pending";
+
+      expect(store.isModifyingQuestion).toBeTruthy();
+    });
+  });
+
+  describe("isModifyQuestionSuccess", () => {
+    it("should be false when modifyQuestionStatus is idle.", () => {
+      const store = useQuestionsStore();
+
+      expect(store.isModifyQuestionSuccess).toBeFalsy();
+    });
+
+    it("should be true when modifyQuestionStatus is success.", () => {
+      const store = useQuestionsStore();
+      modifyAsyncActionMock.fetchStatus.value = "success";
+
+      expect(store.isModifyQuestionSuccess).toBeTruthy();
+    });
+  });
+
+  describe("isModifyingQuestionError", () => {
+    it("should be false when modifyQuestionStatus is idle.", () => {
+      const store = useQuestionsStore();
+
+      expect(store.isModifyingQuestionError).toBeFalsy();
+    });
+
+    it("should be true when modifyQuestionStatus is error.", () => {
+      const store = useQuestionsStore();
+      modifyAsyncActionMock.fetchStatus.value = "error";
+
+      expect(store.isModifyingQuestionError).toBeTruthy();
+    });
+  });
+
+  describe("modifyAndStoreQuestion", () => {
+    it("should call the modifyQuestion execute function with the id and dto when invoked.", async() => {
+      const store = useQuestionsStore();
+      const fakeDto: QuestionModificationDto = { category: "trivia" };
+
+      await store.modifyAndStoreQuestion("question-id-123", fakeDto);
+
+      expect(modifyAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith("question-id-123", fakeDto);
+    });
+
+    it("should replace the question in the array when modifyQuestion resolves with the updated question.", async() => {
+      const existingQuestion = createFakeQuestion({ id: "question-id-123" });
+      const otherQuestion = createFakeQuestion({ id: "other-id" });
+      const updatedQuestion = createFakeQuestion({ id: "question-id-123" });
+      const store = useQuestionsStore();
+      store.questions = [otherQuestion, existingQuestion];
+      modifyAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
+      const fakeDto: QuestionModificationDto = { category: "trivia" };
+
+      await store.modifyAndStoreQuestion("question-id-123", fakeDto);
+
+      expect(store.questions).toStrictEqual([otherQuestion, updatedQuestion]);
+    });
+
+    it("should add success toast when modifyQuestion resolves with the updated question.", async() => {
+      const existingQuestion = createFakeQuestion({ id: "question-id-123" });
+      const updatedQuestion = createFakeQuestion({ id: "question-id-123" });
+      const store = useQuestionsStore();
+      store.questions = [existingQuestion];
+      modifyAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
+      const fakeDto: QuestionModificationDto = { category: "trivia" };
+
+      await store.modifyAndStoreQuestion("question-id-123", fakeDto);
+
+      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({
+        description: "questions.modifySuccessfully",
+      });
+    });
+
+    it("should not splice the array when the question id is not found in the array.", async() => {
+      const existingQuestion = createFakeQuestion({ id: "other-id" });
+      const updatedQuestion = createFakeQuestion({ id: "question-id-123" });
+      const store = useQuestionsStore();
+      store.questions = [existingQuestion];
+      modifyAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
+      const fakeDto: QuestionModificationDto = { category: "trivia" };
+
+      await store.modifyAndStoreQuestion("question-id-123", fakeDto);
+
+      expect(store.questions).toStrictEqual([existingQuestion]);
+    });
+
+    it("should show toast even when the question id is not found in the array.", async() => {
+      const existingQuestion = createFakeQuestion({ id: "other-id" });
+      const updatedQuestion = createFakeQuestion({ id: "question-id-123" });
+      const store = useQuestionsStore();
+      store.questions = [existingQuestion];
+      modifyAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
+      const fakeDto: QuestionModificationDto = { category: "trivia" };
+
+      await store.modifyAndStoreQuestion("question-id-123", fakeDto);
+
+      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questions.modifySuccessfully" });
+    });
+
+    it("should not update questions when modifyQuestion resolves with undefined.", async() => {
+      const existingQuestion = createFakeQuestion({ id: "question-id-123" });
+      const store = useQuestionsStore();
+      store.questions = [existingQuestion];
+
+      await store.modifyAndStoreQuestion("question-id-123", { category: "trivia" });
+
+      expect(store.questions).toStrictEqual([existingQuestion]);
+    });
+  });
+
+  describe("useAsyncAction setup for modifyQuestion", () => {
+    it("should pass an async function calling repository.modify as action to useAsyncAction when created.", async() => {
+      const fakeQuestion = createFakeQuestion();
+      const fakeDto: QuestionModificationDto = { category: "trivia" };
+      useQuestionsStore();
+      const mockModify = questionsRepository($fetch).modify as ReturnType<typeof vi.fn>;
+      mockModify.mockResolvedValue(fakeQuestion);
+
+      await capturedModifyAction?.("question-id-123", fakeDto);
+
+      expect(mockModify).toHaveBeenCalledExactlyOnceWith("question-id-123", fakeDto);
+    });
+
+    it("should return the result from repository.modify when the captured action is invoked.", async() => {
+      const fakeQuestion = createFakeQuestion();
+      const fakeDto: QuestionModificationDto = { category: "trivia" };
+      useQuestionsStore();
+      const mockModify = questionsRepository($fetch).modify as ReturnType<typeof vi.fn>;
+      mockModify.mockResolvedValue(fakeQuestion);
+
+      const result = await capturedModifyAction?.("question-id-123", fakeDto);
+
+      expect(result).toBe(fakeQuestion);
+    });
+
+    it("should call handleGoatItApiError with the error and cantModify translation key when the modifyQuestion error callback is invoked.", () => {
+      useQuestionsStore();
+      const fakeError = new Error("modify failed");
+
+      capturedModifyOnError?.(fakeError);
+
+      expect(useGoatItApiErrorToast().handleGoatItApiError).toHaveBeenCalledExactlyOnceWith(fakeError, "questions.cantModify");
     });
   });
 });
