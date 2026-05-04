@@ -1046,6 +1046,13 @@ describe("useQuestionsStore", () => {
 
       expect(store.modifyQuestionStatus).toBe(modifyAsyncActionMock.fetchStatus.value);
     });
+
+    it("should update when the fetchStatus changes to pending.", () => {
+      const store = useQuestionsStore();
+      modifyAsyncActionMock.fetchStatus.value = "pending";
+
+      expect(store.modifyQuestionStatus).toBe("pending");
+    });
   });
 
   describe("isModifyingQuestion", () => {
