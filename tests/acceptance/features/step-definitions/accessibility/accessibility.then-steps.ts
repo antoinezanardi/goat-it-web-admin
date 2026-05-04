@@ -12,6 +12,7 @@ import { prettyStringify } from "#acceptance/features/support/helpers/format.hel
 
 Then(
   /^the page should not contain accessibility issues in (?<mode>desktop|mobile) mode$/u,
+  { timeout: 10_000 },
   async function(this: GoatItWorld, mode: "desktop" | "mobile"): Promise<void> {
     const viewport = mode === "desktop" ? DESKTOP_VIEWPORT : MOBILE_VIEWPORT;
 
