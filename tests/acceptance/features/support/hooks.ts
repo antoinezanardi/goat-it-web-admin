@@ -1,4 +1,5 @@
 import { fileURLToPath } from "node:url";
+import path from "node:path";
 
 import type { ITestCaseHookParameter } from "@cucumber/cucumber";
 import { After, AfterAll, Before, BeforeAll, Status } from "@cucumber/cucumber";
@@ -9,21 +10,27 @@ import {
   BEFORE_ALL_TIMEOUT,
   BEFORE_TIMEOUT,
   SANDBOX_ADMIN_KEY,
-  SANDBOX_BASE_URL,
+  SANDBOX_BASE_PORT,
 } from "#acceptance/features/support/constants/hooks.constants.ts";
 import {
   generateScreenshotOnScenarioFailure,
+  getWorkerId,
   removeAcceptanceTestsReportsScreenshotsDirectory,
   resetSandboxData,
   waitForSandboxHealthCheck,
 } from "#acceptance/features/support/helpers/hooks.helpers.ts";
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
 
+const rootDirectory = fileURLToPath(new URL("../../../..", import.meta.url));
+const workerId = getWorkerId();
+const sandboxBaseUrl = `http://localhost:${SANDBOX_BASE_PORT + workerId}`;
+const workerBuildDirectory = `.nuxt/test/worker-${workerId}`;
+
 const { beforeEach, afterEach, afterAll, beforeAll } = createTest({
   runner: "cucumber",
   server: true,
   env: {
-    NUXT_GOAT_IT_API_BASE_URL: SANDBOX_BASE_URL,
+    NUXT_GOAT_IT_API_BASE_URL: sandboxBaseUrl,
     NUXT_GOAT_IT_API_ADMIN_KEY: SANDBOX_ADMIN_KEY,
   },
   browserOptions: {
@@ -33,8 +40,14 @@ const { beforeEach, afterEach, afterAll, beforeAll } = createTest({
       ignoreDefaultArgs: ["--hide-scrollbars"],
     },
   },
-  rootDir: fileURLToPath(new URL("../../../..", import.meta.url)),
+  rootDir: rootDirectory,
   nuxtConfig: {
+    buildDir: workerBuildDirectory,
+    nitro: {
+      output: {
+        dir: path.resolve(rootDirectory, workerBuildDirectory, "output"),
+      },
+    },
     i18n: {
       defaultLocale: ACCEPTANCE_TESTS_DEFAULT_LOCALE,
     },
@@ -42,22 +55,22 @@ const { beforeEach, afterEach, afterAll, beforeAll } = createTest({
 });
 
 BeforeAll({ timeout: BEFORE_ALL_TIMEOUT }, async(): Promise<void> => {
-  console.info("Cleaning up previous acceptance test reports...");
+  console.info(`[Worker ${workerId}] Cleaning up previous acceptance test reports...`);
   removeAcceptanceTestsReportsScreenshotsDirectory();
 
-  console.info("Waiting for Goat It API sandbox to become healthy...");
+  console.info(`[Worker ${workerId}] Waiting for Goat It API sandbox to become healthy (port ${SANDBOX_BASE_PORT + workerId})...`);
   await waitForSandboxHealthCheck();
-  console.info("Goat It API sandbox is healthy.");
+  console.info(`[Worker ${workerId}] Goat It API sandbox is healthy.`);
 
-  console.info("Starting Nuxt server...");
+  console.info(`[Worker ${workerId}] Starting Nuxt server (buildDir: ${workerBuildDirectory})...`);
   await beforeAll();
-  console.info("Nuxt server started successfully.");
+  console.info(`[Worker ${workerId}] Nuxt server started successfully.`);
 });
 
 Before({ timeout: BEFORE_TIMEOUT }, async function(this: GoatItWorld): Promise<void> {
-  console.info("Resetting Goat It API sandbox data...");
+  console.info(`[Worker ${workerId}] Resetting Goat It API sandbox data...`);
   resetSandboxData();
-  console.info("Goat It API sandbox data reset successfully.");
+  console.info(`[Worker ${workerId}] Goat It API sandbox data reset successfully.`);
 
   beforeEach();
   this.page = await createPage();

@@ -35,6 +35,19 @@ Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
 - Watch file: `pnpm run test:unit:watch app/pages/index.spec.ts`
 - Direct:     `pnpm exec cross-env NODE_OPTIONS='--no-webstorage' vitest --config configs/vitest/vitest.config.ts path/to/file.spec.ts`
 
+Running acceptance tests:
+
+- Full run:           `pnpm run test:acceptance`
+- Specific feature:   `pnpm run test:acceptance tests/acceptance/features/home/home.feature`
+- By tag:             `pnpm run test:acceptance --tags "@question-themes"`
+- Multiple tags (OR): `pnpm run test:acceptance --tags "@home or @questions"`
+- Exclude tag:        `pnpm run test:acceptance --tags "not @accessibility"`
+- By tag (AND):       `pnpm run test:acceptance --tags "@question-themes and @accessibility"`
+
+Prerequisites (must be running before acceptance tests):
+- Docker sandbox: `pnpm run docker:api-sandbox:start`
+- Playwright:     `pnpm run test:acceptance:prepare` (run once after fresh checkout)
+
 **Mandatory quality gates** — agents MUST run all four commands below **in order**
 before considering any task complete. Do NOT skip any gate, even for "trivial" changes:
 

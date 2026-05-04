@@ -5,16 +5,23 @@ import { rimraf } from "rimraf";
 
 import { ACCEPTANCE_TESTS_REPORTS_SCREENSHOTS_PATH } from "#acceptance/features/support/constants/acceptance.constants.ts";
 import {
-  DOCKER_COMPOSE_FILE_PATH,
   RESET_SANDBOX_DATA_TIMEOUT_IN_MS,
+  SANDBOX_BASE_PORT,
   SANDBOX_HEALTH_CHECK_INTERVAL_IN_MS,
   SANDBOX_HEALTH_CHECK_MAX_RETRIES,
-  SANDBOX_HEALTH_CHECK_URL,
   SANDBOX_MONGODB_DATABASE_NAME,
 } from "#acceptance/features/support/constants/hooks.constants.ts";
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
 import { MS_IN_SECOND } from "#shared/utils/helpers/time/time.constants.ts";
 import { sleep } from "#shared/utils/helpers/time/time.helpers.ts";
+
+function getWorkerId(): number {
+  return Number(process.env.CUCUMBER_WORKER_ID ?? "0");
+}
+
+function getSandboxBaseUrl(): string {
+  return `http://localhost:${SANDBOX_BASE_PORT + getWorkerId()}`;
+}
 
 function removeAcceptanceTestsReportsScreenshotsDirectory(): void {
   const acceptanceTestsReportsDirectoryFilesPath = `${process.cwd()}/${ACCEPTANCE_TESTS_REPORTS_SCREENSHOTS_PATH}`;
@@ -50,9 +57,11 @@ async function generateScreenshotOnScenarioFailure(world: GoatItWorld, scenario:
 }
 
 function resetSandboxData(): void {
+  const containerName = `goat-it-api-sandbox-mongodb-${getWorkerId()}`;
+
   try {
     execSync(
-      `docker compose -f ${DOCKER_COMPOSE_FILE_PATH} exec mongodb mongosh --quiet --eval "db.dropDatabase()" ${SANDBOX_MONGODB_DATABASE_NAME}`,
+      `docker exec ${containerName} mongosh --quiet --eval "db.dropDatabase()" ${SANDBOX_MONGODB_DATABASE_NAME}`,
       { stdio: "inherit", timeout: RESET_SANDBOX_DATA_TIMEOUT_IN_MS },
     );
   } catch(error: unknown) {
@@ -61,17 +70,19 @@ function resetSandboxData(): void {
 }
 
 async function waitForSandboxHealthCheck(): Promise<void> {
+  const healthCheckUrl = `${getSandboxBaseUrl()}/health`;
+
   for (let attempt = 1; attempt <= SANDBOX_HEALTH_CHECK_MAX_RETRIES; attempt++) {
     try {
       // Acceptable as health check requires awaiting each attempt individually to poll sequentially
       // oxlint-disable-next-line eslint/no-await-in-loop
-      const response = await fetch(SANDBOX_HEALTH_CHECK_URL, { signal: AbortSignal.timeout(SANDBOX_HEALTH_CHECK_INTERVAL_IN_MS) });
+      const response = await fetch(healthCheckUrl, { signal: AbortSignal.timeout(SANDBOX_HEALTH_CHECK_INTERVAL_IN_MS) });
 
       if (response.ok) {
         return;
       }
     } catch {
-      console.info(`Sandbox health check attempt ${attempt}/${SANDBOX_HEALTH_CHECK_MAX_RETRIES} failed`);
+      console.info(`Sandbox health check attempt ${attempt}/${SANDBOX_HEALTH_CHECK_MAX_RETRIES} failed (worker ${getWorkerId()}, url: ${healthCheckUrl})`);
     }
 
     if (attempt < SANDBOX_HEALTH_CHECK_MAX_RETRIES) {
@@ -81,11 +92,13 @@ async function waitForSandboxHealthCheck(): Promise<void> {
     }
   }
 
-  throw new Error(`Goat It API sandbox did not become healthy after ${SANDBOX_HEALTH_CHECK_MAX_RETRIES} retries (${SANDBOX_HEALTH_CHECK_MAX_RETRIES * SANDBOX_HEALTH_CHECK_INTERVAL_IN_MS / MS_IN_SECOND}s).`);
+  throw new Error(`Goat It API sandbox did not become healthy after ${SANDBOX_HEALTH_CHECK_MAX_RETRIES} retries (${SANDBOX_HEALTH_CHECK_MAX_RETRIES * SANDBOX_HEALTH_CHECK_INTERVAL_IN_MS / MS_IN_SECOND}s). Worker: ${getWorkerId()}, URL: ${healthCheckUrl}`);
 }
 
 export {
   generateScreenshotOnScenarioFailure,
+  getSandboxBaseUrl,
+  getWorkerId,
   removeAcceptanceTestsReportsScreenshotsDirectory,
   resetSandboxData,
   sanitizeScenarioName,
