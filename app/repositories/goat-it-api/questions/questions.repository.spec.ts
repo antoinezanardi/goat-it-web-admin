@@ -5,6 +5,7 @@ import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/ent
 import { createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
 import { createFakeQuestionThemeAssignmentCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-creation/question-theme-assignment-creation.dto.faketory";
 import { createFakeQuestionThemeAssignmentModificationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-modification/question-theme-assignment-modification.dto.faketory";
+import { createFakeQuestionModificationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-modification/question-modification.dto.faketory";
 
 import type { Question } from "#shared/types/question.types";
 import { questionsRepository } from "~/repositories/goat-it-api/questions/questions.repository";
@@ -27,6 +28,7 @@ describe(questionsRepository, () => {
       assignTheme: expect.any(Function) as (id: string, dto: unknown) => Promise<Question>,
       removeTheme: expect.any(Function) as (id: string, themeId: string) => Promise<Question>,
       modifyThemeAssignment: expect.any(Function) as (id: string, themeId: string, dto: unknown) => Promise<Question>,
+      modify: expect.any(Function) as (id: string, dto: unknown) => Promise<Question>,
     });
   });
 
@@ -168,6 +170,27 @@ describe(questionsRepository, () => {
       fetchMock.mockResolvedValue(fakeQuestion);
 
       const result = await repository.modifyThemeAssignment("123", "456", createFakeQuestionThemeAssignmentModificationDto());
+
+      expect(result).toStrictEqual(fakeQuestion);
+    });
+  });
+
+  describe("modify", () => {
+    it("should call fetch with correct endpoint and body when called.", async() => {
+      const repository = questionsRepository(fetchMock);
+      const dto = createFakeQuestionModificationDto();
+      fetchMock.mockResolvedValue(createFakeQuestion());
+      await repository.modify("123", dto);
+
+      expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/questions/123", { method: "PATCH", body: dto });
+    });
+
+    it("should return the modified question from fetch when called.", async() => {
+      const fakeQuestion = createFakeQuestion();
+      const repository = questionsRepository(fetchMock);
+      fetchMock.mockResolvedValue(fakeQuestion);
+
+      const result = await repository.modify("123", createFakeQuestionModificationDto());
 
       expect(result).toStrictEqual(fakeQuestion);
     });

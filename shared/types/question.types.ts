@@ -21,11 +21,6 @@ type QuestionThemeAssignment = Omit<AdminQuestionThemeAssignmentDto, "theme"> & 
   theme: QuestionTheme;
 };
 
-type QuestionThemeAssignmentModificationDto = {
-  isPrimary?: true;
-  isHint?: boolean;
-};
-
 type Question = Omit<AdminQuestionDto, "createdAt" | "updatedAt" | "themes"> & {
   themes: QuestionThemeAssignment[];
   createdAt: Date;
@@ -44,6 +39,5 @@ export type {
   QuestionAuthor,
   QuestionRejection,
   QuestionThemeAssignment,
-  QuestionThemeAssignmentModificationDto,
   QuestionCreationDtoShell,
 };

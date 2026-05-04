@@ -15,6 +15,7 @@ function createQuestionsRepositoryMock(): QuestionsRepositoryMock {
     assignTheme: vi.fn<QuestionsRepositoryMock["assignTheme"]>(),
     removeTheme: vi.fn<QuestionsRepositoryMock["removeTheme"]>(),
     modifyThemeAssignment: vi.fn<QuestionsRepositoryMock["modifyThemeAssignment"]>(),
+    modify: vi.fn<QuestionsRepositoryMock["modify"]>(),
   };
 }
 
