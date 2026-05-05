@@ -3,11 +3,11 @@ import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
-import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types.ts";
 
 import { TranslationCompletenessPopoverContent } from "#components";
 
-import type { TranslationCompletenessPopoverContentProperties } from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-popover-content.types";
+import type { TranslationCompletenessPopoverContentProperties } from "~/components/shared/core/localization/TranslationCompletenessIndicator/TranslationCompletenessPopoverContent/translation-completeness-popover-content.types";
 
 describe("TranslationCompletenessPopoverContent Component", () => {
   let wrapper: VueWrapper;

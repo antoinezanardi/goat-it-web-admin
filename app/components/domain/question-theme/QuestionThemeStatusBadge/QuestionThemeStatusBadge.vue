@@ -8,7 +8,7 @@ const badgeColor = computed<"success" | "neutral">(() => (props.status === "acti
 
 <template>
   <UBadge
-    id="question-theme-status-badge"
+    class="question-theme-status-badge"
     :color="badgeColor"
     :label="$t(`questionThemes.status.${status}`)"
     variant="subtle"
