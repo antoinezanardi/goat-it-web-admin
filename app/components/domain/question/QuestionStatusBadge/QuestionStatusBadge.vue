@@ -9,7 +9,7 @@ const badgeColor = computed<"info" | "success" | "error">(() => QUESTION_STATUS_
 
 <template>
   <UBadge
-    id="question-status-badge"
+    class="question-status-badge"
     :color="badgeColor"
     :label="$t(`questions.status.${status}`)"
     variant="subtle"
