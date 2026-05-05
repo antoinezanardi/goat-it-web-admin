@@ -14,6 +14,31 @@
     "removeThemeSuccessfully": "Thema erfolgreich entfernt",
     "modifySuccessfully": "Frage erfolgreich bearbeitet",
     "modifyThemeAssignmentSuccessfully": "Themazuweisung erfolgreich geändert",
+    "fetching": "Fragen werden geladen...",
+    "category": {
+      "trivia": "Allgemeinwissen",
+      "lexicon": "Lexikon",
+      "riddle": "Rätsel",
+      "explanation": "Erklärung"
+    },
+    "difficulty": {
+      "easy": "Einfach",
+      "medium": "Mittel",
+      "hard": "Schwer"
+    },
+    "status": {
+      "pending": "Ausstehend",
+      "active": "Aktiv",
+      "archived": "Archiviert",
+      "rejected": "Abgelehnt"
+    },
+    "archive": {
+      "confirmTitle": "Frage archivieren",
+      "confirmDescription": "Sind Sie sicher, dass Sie diese Frage archivieren möchten? Diese Aktion ist unwiderruflich."
+    },
+    "actions": {
+      "archive": "Frage archivieren"
+    },
     "fields": {
       "category": "Kategorie",
       "themes": "Themen",

@@ -1,6 +1,7 @@
 {
   "questions": {
     "pageTitle": "Questions",
+    "fetching": "Chargement des questions...",
     "cantFetch": "Impossible de récupérer les questions",
     "cantCreate": "Impossible de créer la question",
     "cantArchive": "Impossible d'archiver la question",
@@ -26,6 +27,30 @@
       "status": "Statut",
       "sourceUrls": "Sources",
       "translations": "Traductions"
+    },
+    "category": {
+      "trivia": "Culture générale",
+      "lexicon": "Lexique",
+      "riddle": "Énigme",
+      "explanation": "Explication"
+    },
+    "difficulty": {
+      "easy": "Facile",
+      "medium": "Moyen",
+      "hard": "Difficile"
+    },
+    "status": {
+      "pending": "En attente",
+      "active": "Active",
+      "archived": "Archivée",
+      "rejected": "Rejetée"
+    },
+    "archive": {
+      "confirmTitle": "Archiver la question",
+      "confirmDescription": "Êtes-vous sûr de vouloir archiver cette question ? Cette action est irréversible."
+    },
+    "actions": {
+      "archive": "Archiver la question"
     }
   }
 }

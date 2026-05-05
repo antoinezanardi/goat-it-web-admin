@@ -14,6 +14,31 @@
     "removeThemeSuccessfully": "Tema removido com sucesso",
     "modifySuccessfully": "Pergunta modificada com sucesso",
     "modifyThemeAssignmentSuccessfully": "Atribuição do tema modificada com sucesso",
+    "fetching": "Carregando perguntas...",
+    "category": {
+      "trivia": "Cultura geral",
+      "lexicon": "Léxico",
+      "riddle": "Enigma",
+      "explanation": "Explicação"
+    },
+    "difficulty": {
+      "easy": "Fácil",
+      "medium": "Médio",
+      "hard": "Difícil"
+    },
+    "status": {
+      "pending": "Pendente",
+      "active": "Ativa",
+      "archived": "Arquivada",
+      "rejected": "Rejeitada"
+    },
+    "archive": {
+      "confirmTitle": "Arquivar a pergunta",
+      "confirmDescription": "Tem certeza de que deseja arquivar esta pergunta? Esta ação é irreversível."
+    },
+    "actions": {
+      "archive": "Arquivar a pergunta"
+    },
     "fields": {
       "category": "Categoria",
       "themes": "Temas",

@@ -14,6 +14,31 @@
     "removeThemeSuccessfully": "Tema rimosso con successo",
     "modifySuccessfully": "Domanda modificata con successo",
     "modifyThemeAssignmentSuccessfully": "Assegnazione del tema modificata con successo",
+    "fetching": "Caricamento delle domande...",
+    "category": {
+      "trivia": "Cultura generale",
+      "lexicon": "Lessico",
+      "riddle": "Indovinello",
+      "explanation": "Spiegazione"
+    },
+    "difficulty": {
+      "easy": "Facile",
+      "medium": "Medio",
+      "hard": "Difficile"
+    },
+    "status": {
+      "pending": "In attesa",
+      "active": "Attiva",
+      "archived": "Archiviata",
+      "rejected": "Rifiutata"
+    },
+    "archive": {
+      "confirmTitle": "Archiviare la domanda",
+      "confirmDescription": "Sei sicuro di voler archiviare questa domanda? Questa azione è irreversibile."
+    },
+    "actions": {
+      "archive": "Archiviare la domanda"
+    },
     "fields": {
       "category": "Categoria",
       "themes": "Temi",

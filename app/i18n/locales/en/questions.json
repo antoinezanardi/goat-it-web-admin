@@ -14,6 +14,31 @@
     "removeThemeSuccessfully": "Theme removed successfully",
     "modifySuccessfully": "Question modified successfully",
     "modifyThemeAssignmentSuccessfully": "Theme assignment modified successfully",
+    "fetching": "Loading questions...",
+    "category": {
+      "trivia": "Trivia",
+      "lexicon": "Lexicon",
+      "riddle": "Riddle",
+      "explanation": "Explanation"
+    },
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "status": {
+      "pending": "Pending",
+      "active": "Active",
+      "archived": "Archived",
+      "rejected": "Rejected"
+    },
+    "archive": {
+      "confirmTitle": "Archive the question",
+      "confirmDescription": "Are you sure you want to archive this question? This action is irreversible."
+    },
+    "actions": {
+      "archive": "Archive the question"
+    },
     "fields": {
       "category": "Category",
       "themes": "Themes",
