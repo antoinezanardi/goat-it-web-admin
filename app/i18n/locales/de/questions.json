@@ -8,6 +8,8 @@
     "cantRemoveTheme": "Thema konnte nicht von der Frage entfernt werden",
     "cantModify": "Frage konnte nicht bearbeitet werden",
     "cantModifyThemeAssignment": "Themazuweisung konnte nicht geändert werden",
+    "createNew": "Frage erstellen",
+    "editQuestion": "Frage bearbeiten",
     "createSuccessfully": "Frage erfolgreich erstellt",
     "archiveSuccessfully": "Frage erfolgreich archiviert",
     "assignThemeSuccessfully": "Thema erfolgreich zugewiesen",
@@ -15,6 +17,12 @@
     "modifySuccessfully": "Frage erfolgreich bearbeitet",
     "modifyThemeAssignmentSuccessfully": "Themazuweisung erfolgreich geändert",
     "fetching": "Fragen werden geladen...",
+    "sections": {
+      "content": "Inhalt",
+      "classification": "Klassifizierung",
+      "themes": "Themen",
+      "sources": "Quellen"
+    },
     "category": {
       "trivia": "Allgemeinwissen",
       "lexicon": "Lexikon",
@@ -46,6 +54,7 @@
       "answer": "Antwort",
       "context": "Kontext",
       "trivia": "Wissenswertes",
+      "hint": "Hinweis",
       "cognitiveDifficulty": "Schwierigkeit",
       "author": "Autor",
       "status": "Status",

@@ -2,6 +2,8 @@
   "questions": {
     "pageTitle": "Questions",
     "fetching": "Chargement des questions...",
+    "createNew": "Créer une question",
+    "editQuestion": "Modifier la question",
     "cantFetch": "Impossible de récupérer les questions",
     "cantCreate": "Impossible de créer la question",
     "cantArchive": "Impossible d'archiver la question",
@@ -15,6 +17,12 @@
     "removeThemeSuccessfully": "Thème retiré avec succès",
     "modifySuccessfully": "Question modifiée avec succès",
     "modifyThemeAssignmentSuccessfully": "Assignation du thème modifiée avec succès",
+    "sections": {
+      "content": "Contenu",
+      "classification": "Classification",
+      "themes": "Thèmes",
+      "sources": "Sources"
+    },
     "fields": {
       "category": "Catégorie",
       "themes": "Thèmes",
@@ -22,6 +30,7 @@
       "answer": "Réponse",
       "context": "Contexte",
       "trivia": "Anecdotes",
+      "hint": "Indice",
       "cognitiveDifficulty": "Difficulté",
       "author": "Auteur",
       "status": "Statut",

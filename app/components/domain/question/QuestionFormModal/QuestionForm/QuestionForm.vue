@@ -1,0 +1,187 @@
+<script setup lang="ts">
+import type { FormSubmitEvent } from "@nuxt/ui";
+import { QUESTION_CREATION_DTO } from "@goat-it/schemas/question";
+import type { QuestionCreationDto, QuestionModificationDto, QuestionThemeAssignmentCreationDto } from "@goat-it/schemas/question";
+
+import type { QuestionCreationDtoShell } from "#shared/types/question.types";
+import type { Form } from "#ui/types";
+import { QUESTION_FORM_CONTEXT_TEXTAREA_ROWS } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.constants";
+import type { QuestionFormEmits, QuestionFormProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
+import { createQuestionCreationDtoShell } from "~/composables/domain/question/helpers/shell/question.shell.helpers";
+import { prepareZodSchemaForFormValidation } from "~/utils/helpers/zod/zod.helpers";
+
+const props = withDefaults(defineProps<QuestionFormProperties>(), {
+  mode: "create",
+  question: undefined,
+});
+
+const emit = defineEmits<QuestionFormEmits>();
+
+const { locale: currentLocale } = useI18n();
+
+const form = useTemplateRef<Form<QuestionCreationDto | QuestionModificationDto>>("form");
+
+const formState = reactive<QuestionCreationDtoShell>(createQuestionCreationDtoShell());
+
+const formSchema = computed(() => prepareZodSchemaForFormValidation(QUESTION_CREATION_DTO));
+
+const hasStatement = computed<boolean>(() => !!formState.content.statement[currentLocale.value]);
+const hasAnswer = computed<boolean>(() => !!formState.content.answer[currentLocale.value]);
+const hasDifficulty = computed<boolean>(() => !!formState.cognitiveDifficulty);
+const hasCategory = computed<boolean>(() => !!formState.category);
+const hasThemes = computed<boolean>(() => !!formState.themes?.length);
+const hasSourceUrls = computed<boolean>(() => !!formState.sourceUrls?.length);
+const hasNoFormErrors = computed<boolean>(() => !form.value?.getErrors()?.length);
+
+const canSubmit = computed<boolean>(() =>
+  hasStatement.value && hasAnswer.value && hasDifficulty.value && hasCategory.value && hasThemes.value && hasSourceUrls.value && hasNoFormErrors.value,
+);
+
+function onUpdateThemes(themes: QuestionThemeAssignmentCreationDto[]): void {
+  formState.themes = themes;
+}
+
+function onSubmit(event: FormSubmitEvent<QuestionCreationDto | QuestionModificationDto>): void {
+  if (props.mode === "edit") {
+    emit("submitModification", event.data as QuestionModificationDto);
+
+    return;
+  }
+  const parsed = QUESTION_CREATION_DTO.parse(event.data);
+  emit("submitCreation", parsed);
+}
+
+async function triggerFormSubmit(): Promise<void> {
+  await form.value?.submit();
+}
+
+defineExpose({
+  canSubmit,
+  triggerFormSubmit,
+});
+</script>
+
+<template>
+  <UForm
+    ref="form"
+    class="space-y-4"
+    data-testid="question-form"
+    :schema="formSchema"
+    :state="formState"
+    @submit="onSubmit"
+  >
+    <!-- Content Section -->
+    <div>
+      <h4 class="mb-2 text-xs font-bold uppercase tracking-wide text-muted border-b border-default pb-1">
+        {{ $t("questions.sections.content") }}
+      </h4>
+
+      <div class="space-y-2">
+        <UFormField
+          data-testid="question-form-statement-field"
+          :label="$t('questions.fields.statement')"
+          :name="`content.statement.${currentLocale}`"
+          required
+        >
+          <UInput
+            v-model="formState.content.statement[currentLocale]"
+            :placeholder="$t('questions.fields.statement')"
+          />
+        </UFormField>
+
+        <UFormField
+          data-testid="question-form-answer-field"
+          :label="$t('questions.fields.answer')"
+          :name="`content.answer.${currentLocale}`"
+          required
+        >
+          <UInput
+            v-model="formState.content.answer[currentLocale]"
+            :placeholder="$t('questions.fields.answer')"
+          />
+        </UFormField>
+
+        <UFormField
+          data-testid="question-form-context-field"
+          :label="$t('questions.fields.context')"
+          :name="`content.context.${currentLocale}`"
+        >
+          <UTextarea
+            v-model="formState.content.context[currentLocale]"
+            class="w-full"
+            :placeholder="$t('questions.fields.context')"
+            :rows="QUESTION_FORM_CONTEXT_TEXTAREA_ROWS"
+          />
+        </UFormField>
+      </div>
+    </div>
+
+    <!-- Classification Section -->
+    <div>
+      <h4 class="mb-2 text-xs font-bold uppercase tracking-wide text-muted border-b border-default pb-1">
+        {{ $t("questions.sections.classification") }}
+      </h4>
+
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <UFormField
+          data-testid="question-form-difficulty-field"
+          :label="$t('questions.fields.difficulty')"
+          name="cognitiveDifficulty"
+          required
+        >
+          <QuestionDifficultySelector v-model="formState.cognitiveDifficulty" />
+        </UFormField>
+
+        <UFormField
+          data-testid="question-form-category-field"
+          :label="$t('questions.fields.category')"
+          name="category"
+          required
+        >
+          <QuestionCategorySelector v-model="formState.category" />
+        </UFormField>
+      </div>
+    </div>
+
+    <!-- Themes Section -->
+    <div>
+      <h4 class="mb-2 text-xs font-bold uppercase tracking-wide text-muted border-b border-default pb-1">
+        {{ $t("questions.sections.themes") }}
+      </h4>
+
+      <UFormField
+        data-testid="question-form-themes-field"
+        :label="$t('questions.fields.themes')"
+        name="themes"
+        required
+      >
+        <QuestionThemeSelector
+          :available-themes="availableThemes"
+          :model-value="formState.themes ?? []"
+          @update:model-value="onUpdateThemes"
+        />
+      </UFormField>
+    </div>
+
+    <!-- Sources Section -->
+    <div>
+      <h4 class="mb-2 text-xs font-bold uppercase tracking-wide text-muted border-b border-default pb-1">
+        {{ $t("questions.sections.sources") }}
+      </h4>
+
+      <UFormField
+        data-testid="question-form-source-urls-field"
+        :label="$t('questions.fields.sourceUrls')"
+        name="sourceUrls"
+        required
+      >
+        <UInputTags
+          v-model="formState.sourceUrls"
+          add-on-blur
+          add-on-tab
+          :placeholder="$t('questions.fields.sourceUrls')"
+        />
+      </UFormField>
+    </div>
+  </UForm>
+</template>

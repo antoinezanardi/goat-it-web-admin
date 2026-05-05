@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { QuestionDifficultyBadgeProperties } from "~/components/domain/question/QuestionDifficultyBadge/question-difficulty-badge.types";
-import { QUESTION_DIFFICULTY_COLOR_MAP, QUESTION_DIFFICULTY_ICON_MAP } from "~/components/domain/question/QuestionDifficultyBadge/question-difficulty-badge.constants";
+import { useQuestion } from "~/composables/domain/question/useQuestion/useQuestion";
 
 const props = defineProps<QuestionDifficultyBadgeProperties>();
 
-const badgeColor = computed(() => QUESTION_DIFFICULTY_COLOR_MAP[props.difficulty]);
-const badgeIcon = computed(() => QUESTION_DIFFICULTY_ICON_MAP[props.difficulty]);
+const { getDifficultyUiMetadata } = useQuestion();
+
+const badgeColor = computed(() => getDifficultyUiMetadata(props.difficulty).color);
+const badgeIcon = computed(() => getDifficultyUiMetadata(props.difficulty).icon);
 </script>
 
 <template>

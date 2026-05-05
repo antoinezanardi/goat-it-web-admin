@@ -3,6 +3,7 @@ type QuestionsTableHeaderProperties = {
 };
 
 type QuestionsTableHeaderEmits = {
+  "startCreate": [];
   "update:searchTerm": [value: string];
 };
 

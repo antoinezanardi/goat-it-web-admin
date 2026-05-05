@@ -1,0 +1,32 @@
+<script setup lang="ts">
+import type { QuestionCategory } from "@goat-it/schemas/question";
+import { QUESTION_CATEGORIES } from "@goat-it/schemas/question";
+
+import type { QuestionCategorySelectorEmits, QuestionCategorySelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCategorySelector/question-category-selector.types";
+import { QUESTION_CATEGORY_UI_METADATA } from "~/composables/domain/question/constants/question-category.constants";
+
+defineProps<QuestionCategorySelectorProperties>();
+const emit = defineEmits<QuestionCategorySelectorEmits>();
+
+const { t } = useI18n();
+
+const selectItems = computed(() => QUESTION_CATEGORIES.map((category) => ({
+  label: t(QUESTION_CATEGORY_UI_METADATA[category].labelKey),
+  value: category,
+  icon: QUESTION_CATEGORY_UI_METADATA[category].icon,
+})));
+
+function onUpdateModelValue(value: QuestionCategory): void {
+  emit("update:modelValue", value);
+}
+</script>
+
+<template>
+  <USelect
+    data-testid="question-category-selector"
+    :items="selectItems"
+    :model-value="modelValue"
+    :placeholder="$t('questions.fields.category')"
+    @update:model-value="onUpdateModelValue"
+  />
+</template>

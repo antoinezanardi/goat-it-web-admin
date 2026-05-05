@@ -53,4 +53,19 @@ describe("QuestionsTableHeader Component", () => {
       expect(wrapper.emitted("update:searchTerm")).toStrictEqual([["new search"]]);
     });
   });
+
+  describe("Create question button", () => {
+    it("should render the create question button when mounted.", () => {
+      const button = wrapper.find("#create-question-button");
+
+      expect(button.exists()).toBeTruthy();
+    });
+
+    it("should emit startCreate when the create question button is clicked.", async() => {
+      const button = wrapper.find("#create-question-button");
+      await button.trigger("click");
+
+      expect(wrapper.emitted("startCreate")).toStrictEqual([[]]);
+    });
+  });
 });

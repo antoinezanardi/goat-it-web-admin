@@ -4,4 +4,8 @@ import type { Question } from "#shared/types/question.types";
 
 type QuestionsTableGlobalFilterOptions = Omit<GlobalFilterOptions<Question>, "onGlobalFilterChange">;
 
-export type { QuestionsTableGlobalFilterOptions };
+type QuestionsTableEmits = {
+  "startCreate": [];
+};
+
+export type { QuestionsTableGlobalFilterOptions, QuestionsTableEmits };
