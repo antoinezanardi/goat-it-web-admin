@@ -1,17 +1,10 @@
 <script setup lang="ts">
+import { QUESTION_STATUS_COLOR_MAP } from "~/components/domain/question/QuestionStatusBadge/question-status-badge.constants";
 import type { QuestionStatusBadgeProperties } from "~/components/domain/question/QuestionStatusBadge/question-status-badge.types";
 
 const props = defineProps<QuestionStatusBadgeProperties>();
 
-const badgeColor = computed<"info" | "success" | "error">(() => {
-  if (props.status === "active") {
-    return "success";
-  }
-  if (props.status === "pending") {
-    return "info";
-  }
-  return "error";
-});
+const badgeColor = computed<"info" | "success" | "error">(() => QUESTION_STATUS_COLOR_MAP[props.status]);
 </script>
 
 <template>

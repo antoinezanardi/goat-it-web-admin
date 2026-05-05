@@ -6,8 +6,7 @@ defineProps<QuestionThemesListProperties>();
 
 <template>
   <div
-    id="question-themes-list"
-    class="flex flex-wrap gap-1.5 items-center justify-center"
+    class="flex flex-wrap gap-1.5 items-center justify-center question-themes-list"
   >
     <QuestionThemeIcon
       v-for="assignment in themes"
