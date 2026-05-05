@@ -10,7 +10,7 @@ const badgeIcon = computed(() => QUESTION_CATEGORY_ICON_MAP[props.category]);
 
 <template>
   <UBadge
-    id="question-category-badge"
+    class="question-category-badge"
     :color="badgeColor"
     :icon="badgeIcon"
     :label="$t(`questions.category.${category}`)"

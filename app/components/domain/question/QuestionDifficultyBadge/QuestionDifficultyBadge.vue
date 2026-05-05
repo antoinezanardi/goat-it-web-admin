@@ -10,7 +10,7 @@ const badgeIcon = computed(() => QUESTION_DIFFICULTY_ICON_MAP[props.difficulty])
 
 <template>
   <UBadge
-    id="question-difficulty-badge"
+    class="question-difficulty-badge"
     :color="badgeColor"
     :icon="badgeIcon"
     :label="$t(`questions.difficulty.${difficulty}`)"

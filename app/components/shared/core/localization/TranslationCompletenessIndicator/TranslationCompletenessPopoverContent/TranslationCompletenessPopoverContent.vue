@@ -2,7 +2,7 @@
 import { LOCALES } from "@goat-it/schemas/shared/locale";
 import type { Locale } from "@goat-it/schemas/shared/locale";
 
-import type { TranslationCompletenessPopoverContentProperties } from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-popover-content.types";
+import type { TranslationCompletenessPopoverContentProperties } from "~/components/shared/core/localization/TranslationCompletenessIndicator/TranslationCompletenessPopoverContent/translation-completeness-popover-content.types.ts";
 
 const props = defineProps<TranslationCompletenessPopoverContentProperties>();
 

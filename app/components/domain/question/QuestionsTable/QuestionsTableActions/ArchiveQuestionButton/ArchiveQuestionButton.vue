@@ -29,8 +29,8 @@ async function onArchiveClick(): Promise<void> {
   <UTooltip :text="actionLabel">
     <UButton
       :aria-label="actionLabel"
+      class="archive-question-button"
       color="error"
-      data-testid="archive-question-button"
       icon="i-lucide-archive"
       size="xs"
       variant="outline"
