@@ -170,5 +170,19 @@ describe("Questions Page", () => {
 
       expect(wrapper.find("[data-testid=\"question-form-modal\"]").attributes("open")).toBe("false");
     });
+
+    it("should close the modal when modal emits update:open with false.", async() => {
+      questionsStore.isFetchingQuestions = false;
+      wrapper = await mountQuestionsPage();
+      const table = wrapper.findComponent<typeof QuestionsTable>({ name: "QuestionsTable" });
+      getWrapperVm(table).$emit("startCreate");
+      await nextTick();
+
+      const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-form-modal']");
+      getWrapperVm(modal).$emit("update:open", false);
+      await nextTick();
+
+      expect(wrapper.find("[data-testid=\"question-form-modal\"]").attributes("open")).toBe("false");
+    });
   });
 });

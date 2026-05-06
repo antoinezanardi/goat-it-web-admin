@@ -3,17 +3,17 @@ import type { QuestionCategory } from "@goat-it/schemas/question";
 import { QUESTION_CATEGORIES } from "@goat-it/schemas/question";
 
 import type { QuestionCategorySelectorEmits, QuestionCategorySelectorItem, QuestionCategorySelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCategorySelector/question-category-selector.types";
-import { QUESTION_CATEGORY_UI_METADATA } from "~/composables/domain/question/constants/question-category.constants";
 
 defineProps<QuestionCategorySelectorProperties>();
 const emit = defineEmits<QuestionCategorySelectorEmits>();
 
 const { t } = useI18n();
+const { getCategoryUiMetadata } = useQuestion();
 
 const selectItems = computed<QuestionCategorySelectorItem[]>(() => QUESTION_CATEGORIES.map(category => ({
-  label: t(QUESTION_CATEGORY_UI_METADATA[category].labelKey),
+  label: t(getCategoryUiMetadata(category).labelKey),
   value: category,
-  icon: QUESTION_CATEGORY_UI_METADATA[category].icon,
+  icon: getCategoryUiMetadata(category).icon,
 })));
 
 function onUpdateModelValue(value: QuestionCategory): void {

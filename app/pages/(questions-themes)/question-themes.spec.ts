@@ -6,8 +6,6 @@ import { flushPromises } from "@vue/test-utils";
 import { nextTick } from "vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { QUESTION_THEME_ICON } from "../../composables/domain/question-theme/constants/question-theme.constants";
-
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
@@ -16,6 +14,7 @@ import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModification
 
 import type { PageHeader, UModal } from "#components";
 
+import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants.ts";
 import type QuestionThemeFormModal from "@/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeFormModal.vue";
 import type QuestionThemesTable from "@/components/domain/question-theme/QuestionThemesTable/QuestionThemesTable.vue";
 import { QUESTION_THEMES_PAGE_ORDER, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";

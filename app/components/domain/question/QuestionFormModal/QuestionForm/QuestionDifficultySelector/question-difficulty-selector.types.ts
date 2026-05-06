@@ -1,10 +1,10 @@
 import type { QuestionCognitiveDifficulty } from "@goat-it/schemas/question";
 
-import type { QuestionDifficultyUiMetadata } from "~/composables/domain/question/types/question-difficulty-ui-metadata.types";
+import type { QuestionCognitiveDifficultyUiMetadata } from "~/composables/domain/question/types/question-ui-metadata.types";
 
 type QuestionDifficultySelectorItem = {
   value: QuestionCognitiveDifficulty;
-} & QuestionDifficultyUiMetadata;
+} & QuestionCognitiveDifficultyUiMetadata;
 
 type QuestionDifficultySelectorProperties = {
   modelValue?: QuestionCognitiveDifficulty;

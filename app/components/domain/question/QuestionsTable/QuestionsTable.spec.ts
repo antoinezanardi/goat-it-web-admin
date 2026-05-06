@@ -304,6 +304,13 @@ describe("QuestionsTable Component", () => {
 
       expect(searchTerm.value).toBe("updated from header");
     });
+
+    it("should emit startCreate when the table header emits startCreate.", () => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("startCreate");
+
+      expect(wrapper.emitted("startCreate")).toStrictEqual([[]]);
+    });
   });
 
   describe("Global filter", () => {

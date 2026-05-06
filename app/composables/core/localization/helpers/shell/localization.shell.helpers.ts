@@ -23,7 +23,15 @@ function createLocalizedTextsShell(): Shell<LocalizedTexts> {
   }, {} as Shell<LocalizedTexts>);
 }
 
+function isLocalizedTextShellEmpty(shell: Partial<Shell<LocalizedText>> | undefined): boolean {
+  if (!shell) {
+    return true;
+  }
+  return !Object.values(shell).some(Boolean);
+}
+
 export {
   createLocalizedTextShell,
   createLocalizedTextsShell,
+  isLocalizedTextShellEmpty,
 };

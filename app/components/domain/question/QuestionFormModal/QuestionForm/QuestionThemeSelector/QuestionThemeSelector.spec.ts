@@ -2,6 +2,7 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 
+import { createFakeQuestionThemeAssignmentCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-creation/question-theme-assignment-creation.dto.faketory";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
@@ -51,7 +52,7 @@ describe("QuestionThemeSelector Component", () => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
           ...defaultProperties,
-          modelValue: [{ themeId: "theme-1", isPrimary: true, isHint: false }],
+          modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
         },
       });
 
@@ -61,10 +62,26 @@ describe("QuestionThemeSelector Component", () => {
       expect(items).toHaveLength(2);
     });
 
-    it("should pass the themes placeholder to the select menu when mounted.", () => {
+    it("should pass the themes placeholder to the select menu when no themes are selected.", () => {
       const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
 
       expect(selectMenu.props("placeholder")).toBe("questions.fields.themes");
+    });
+
+    it("should pass the selected themes count as placeholder to the select menu when themes are selected.", async() => {
+      wrapper = await mountQuestionThemeSelectorComponent({
+        props: {
+          ...defaultProperties,
+          modelValue: [
+            createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
+            createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
+          ],
+        },
+      });
+
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+      expect(selectMenu.props("placeholder")).toBe("questions.fields.themesSelected");
     });
 
     it("should disable the select menu when maximum themes are reached.", async() => {
@@ -77,11 +94,11 @@ describe("QuestionThemeSelector Component", () => {
             createFakeQuestionTheme({ id: "theme-5" }),
           ],
           modelValue: [
-            { themeId: "theme-1", isPrimary: true, isHint: false },
-            { themeId: "theme-2", isPrimary: false, isHint: false },
-            { themeId: "theme-3", isPrimary: false, isHint: false },
-            { themeId: "theme-4", isPrimary: false, isHint: false },
-            { themeId: "theme-5", isPrimary: false, isHint: false },
+            createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
+            createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
+            createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-3", isPrimary: false, isHint: false }),
+            createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-4", isPrimary: false, isHint: false }),
+            createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-5", isPrimary: false, isHint: false }),
           ],
         },
       });
@@ -110,7 +127,7 @@ describe("QuestionThemeSelector Component", () => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
             ...defaultProperties,
-            modelValue: [{ themeId: "theme-1", isPrimary: true, isHint: false }],
+            modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
           },
         });
 
@@ -141,13 +158,40 @@ describe("QuestionThemeSelector Component", () => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
           ...defaultProperties,
-          modelValue: [{ themeId: "theme-1", isPrimary: true, isHint: false }],
+          modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
         },
       });
 
       const list = wrapper.find("[data-testid='question-theme-selector-list']");
 
       expect(list.exists()).toBeTruthy();
+    });
+
+    it("should display the theme id as label when the theme is not found in available themes.", async() => {
+      wrapper = await mountQuestionThemeSelectorComponent({
+        props: {
+          ...defaultProperties,
+          modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "unknown-theme", isPrimary: true, isHint: false })],
+        },
+      });
+
+      const item = wrapper.find("[data-testid='question-theme-selector-item-unknown-theme']");
+
+      expect(item.text()).toContain("unknown-theme");
+    });
+
+    it("should display the theme id as label when the theme is found but has no localized value for the current locale.", async() => {
+      wrapper = await mountQuestionThemeSelectorComponent({
+        props: {
+          ...defaultProperties,
+          availableThemes: [createFakeQuestionTheme({ id: "theme-no-en", label: { en: undefined, fr: "Thème", es: undefined, de: undefined, it: undefined, pt: undefined } })],
+          modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-no-en", isPrimary: true, isHint: false })],
+        },
+      });
+
+      const item = wrapper.find("[data-testid='question-theme-selector-item-theme-no-en']");
+
+      expect(item.text()).toContain("theme-no-en");
     });
 
     it.each<{ themeId: string }>([
@@ -158,8 +202,8 @@ describe("QuestionThemeSelector Component", () => {
         props: {
           ...defaultProperties,
           modelValue: [
-            { themeId: "theme-1", isPrimary: true, isHint: false },
-            { themeId: "theme-2", isPrimary: false, isHint: false },
+            createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
+            createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
           ],
         },
       });
@@ -174,7 +218,7 @@ describe("QuestionThemeSelector Component", () => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
             ...defaultProperties,
-            modelValue: [{ themeId: "theme-1", isPrimary: true, isHint: false }],
+            modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
           },
         });
 
@@ -187,7 +231,7 @@ describe("QuestionThemeSelector Component", () => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
             ...defaultProperties,
-            modelValue: [{ themeId: "theme-1", isPrimary: true, isHint: false }],
+            modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
           },
         });
 
@@ -201,8 +245,8 @@ describe("QuestionThemeSelector Component", () => {
           props: {
             ...defaultProperties,
             modelValue: [
-              { themeId: "theme-1", isPrimary: true, isHint: false },
-              { themeId: "theme-2", isPrimary: false, isHint: false },
+              createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
+              createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
             ],
           },
         });
@@ -217,8 +261,8 @@ describe("QuestionThemeSelector Component", () => {
           props: {
             ...defaultProperties,
             modelValue: [
-              { themeId: "theme-1", isPrimary: true, isHint: false },
-              { themeId: "theme-2", isPrimary: false, isHint: false },
+              createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
+              createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
             ],
           },
         });
@@ -232,7 +276,7 @@ describe("QuestionThemeSelector Component", () => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
             ...defaultProperties,
-            modelValue: [{ themeId: "theme-1", isPrimary: true, isHint: false }],
+            modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
           },
         });
 
@@ -246,8 +290,8 @@ describe("QuestionThemeSelector Component", () => {
           props: {
             ...defaultProperties,
             modelValue: [
-              { themeId: "theme-1", isPrimary: true, isHint: false },
-              { themeId: "theme-2", isPrimary: false, isHint: false },
+              createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
+              createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
             ],
           },
         });
@@ -262,8 +306,8 @@ describe("QuestionThemeSelector Component", () => {
           props: {
             ...defaultProperties,
             modelValue: [
-              { themeId: "theme-1", isPrimary: true, isHint: false },
-              { themeId: "theme-2", isPrimary: false, isHint: false },
+              createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
+              createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
             ],
           },
         });
@@ -287,7 +331,7 @@ describe("QuestionThemeSelector Component", () => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
             ...defaultProperties,
-            modelValue: [{ themeId: "theme-1", isPrimary: true, isHint: false }],
+            modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
           },
         });
 
@@ -300,7 +344,7 @@ describe("QuestionThemeSelector Component", () => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
             ...defaultProperties,
-            modelValue: [{ themeId: "theme-1", isPrimary: true, isHint: true }],
+            modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: true })],
           },
         });
 
@@ -313,7 +357,7 @@ describe("QuestionThemeSelector Component", () => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
             ...defaultProperties,
-            modelValue: [{ themeId: "theme-1", isPrimary: true, isHint: false }],
+            modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
           },
         });
 
@@ -321,6 +365,30 @@ describe("QuestionThemeSelector Component", () => {
         getWrapperVm(hintSwitch).$emit("update:modelValue", true);
 
         expect(wrapper.emitted("update:modelValue")).toStrictEqual([[[{ themeId: "theme-1", isPrimary: true, isHint: true }]]]);
+      });
+
+      it("should only toggle hint for the targeted theme when multiple themes are selected.", async() => {
+        wrapper = await mountQuestionThemeSelectorComponent({
+          props: {
+            ...defaultProperties,
+            modelValue: [
+              createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
+              createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
+            ],
+          },
+        });
+
+        const hintSwitch = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
+        getWrapperVm(hintSwitch).$emit("update:modelValue", true);
+
+        expect(wrapper.emitted("update:modelValue")).toStrictEqual([
+          [
+            [
+              { themeId: "theme-1", isPrimary: true, isHint: true },
+              { themeId: "theme-2", isPrimary: false, isHint: false },
+            ],
+          ],
+        ]);
       });
     });
 
@@ -330,8 +398,8 @@ describe("QuestionThemeSelector Component", () => {
           props: {
             ...defaultProperties,
             modelValue: [
-              { themeId: "theme-1", isPrimary: true, isHint: false },
-              { themeId: "theme-2", isPrimary: false, isHint: false },
+              createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
+              createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
             ],
           },
         });
@@ -347,8 +415,8 @@ describe("QuestionThemeSelector Component", () => {
           props: {
             ...defaultProperties,
             modelValue: [
-              { themeId: "theme-1", isPrimary: true, isHint: false },
-              { themeId: "theme-2", isPrimary: false, isHint: false },
+              createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
+              createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
             ],
           },
         });
@@ -363,7 +431,7 @@ describe("QuestionThemeSelector Component", () => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
             ...defaultProperties,
-            modelValue: [{ themeId: "theme-1", isPrimary: true, isHint: false }],
+            modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
           },
         });
 

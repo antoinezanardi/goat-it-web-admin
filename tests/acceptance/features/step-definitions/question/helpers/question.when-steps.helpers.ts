@@ -4,12 +4,16 @@ import type { Locator } from "@playwright/test";
 import type { QuestionFormRow } from "#acceptance/features/step-definitions/question/datatables/question.datatables.schemas.ts";
 
 async function fillCategory(dialog: Locator, category: string): Promise<void> {
-  const categorySelect = dialog.getByRole("combobox");
+  const categorySelect = dialog.getByTestId("question-category-selector");
 
   await expect(categorySelect).toBeVisible();
   await categorySelect.click();
 
-  const option = dialog.getByRole("option", { name: category });
+  const listbox = dialog.page().getByRole("listbox");
+
+  await expect(listbox).toBeVisible();
+
+  const option = listbox.getByRole("option", { name: category });
 
   await expect(option).toBeVisible();
   await option.click();
@@ -28,7 +32,13 @@ async function fillThemes(dialog: Locator, themes: string): Promise<void> {
     // oxlint-disable-next-line eslint/no-await-in-loop
     await themeSelect.click();
 
-    const option = dialog.getByRole("option", { name: themeName });
+    const listbox = dialog.page().getByRole("listbox");
+
+    // Acceptable as each theme must be selected sequentially through the UI
+    // oxlint-disable-next-line eslint/no-await-in-loop
+    await expect(listbox).toBeVisible();
+
+    const option = listbox.getByRole("option", { name: themeName });
 
     // Acceptable as each theme must be selected sequentially through the UI
     // oxlint-disable-next-line eslint/no-await-in-loop
@@ -36,6 +46,29 @@ async function fillThemes(dialog: Locator, themes: string): Promise<void> {
     // Acceptable as each theme must be selected sequentially through the UI
     // oxlint-disable-next-line eslint/no-await-in-loop
     await option.click();
+    // Acceptable as each theme must be selected sequentially through the UI
+    // oxlint-disable-next-line eslint/no-await-in-loop
+    await dialog.page().keyboard.press("Escape");
+    // Acceptable as each theme must be selected sequentially through the UI
+    // oxlint-disable-next-line eslint/no-await-in-loop
+    await expect(listbox).toBeHidden();
+  }
+}
+
+async function fillSourceUrls(dialog: Locator, sourceUrls: string): Promise<void> {
+  const sourceInput = dialog.getByRole("textbox", { name: "Sources*" });
+
+  await expect(sourceInput).toBeVisible();
+
+  const urls = sourceUrls.split(",").map(url => url.trim()).filter(url => url.length > 0);
+
+  for (const url of urls) {
+    // Acceptable as each source URL must be submitted sequentially through the UI
+    // oxlint-disable-next-line eslint/no-await-in-loop
+    await sourceInput.fill(url);
+    // Acceptable as each source URL must be submitted sequentially through the UI
+    // oxlint-disable-next-line eslint/no-await-in-loop
+    await sourceInput.press("Enter");
   }
 }
 
@@ -50,7 +83,7 @@ async function fillQuestionForm(dialog: Locator, row: QuestionFormRow): Promise<
     await dialog.getByRole("textbox", { name: "Context" }).fill(row.context);
   }
   if (row.difficulty !== undefined) {
-    const difficultyButton = dialog.getByRole("radio", { name: row.difficulty });
+    const difficultyButton = dialog.getByTestId(`question-difficulty-selector-${row.difficulty}`);
 
     await expect(difficultyButton).toBeVisible();
     await difficultyButton.click();
@@ -62,11 +95,7 @@ async function fillQuestionForm(dialog: Locator, row: QuestionFormRow): Promise<
     await fillThemes(dialog, row.themes);
   }
   if (row.sourceUrls !== undefined) {
-    const sourceInput = dialog.getByRole("textbox", { name: "Sources*" });
-
-    await expect(sourceInput).toBeVisible();
-    await sourceInput.fill(row.sourceUrls);
-    await sourceInput.press("Enter");
+    await fillSourceUrls(dialog, row.sourceUrls);
   }
 }
 

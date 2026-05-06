@@ -4,6 +4,8 @@ import { nextTick } from "vue";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
+import { createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
+import { createFakeQuestionModificationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-modification/question-modification.dto.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
@@ -240,6 +242,49 @@ describe("QuestionForm Component", () => {
       await vm.triggerFormSubmit();
 
       expect(wrapper.emitted("submitCreation")).toBeUndefined();
+    });
+
+    it("should not nullify context when context has a value and triggerFormSubmit is called.", async() => {
+      const contextField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-context-field']");
+      const contextTextarea = contextField.findComponent<typeof UTextarea>({ name: "UTextarea" });
+      getWrapperVm(contextTextarea).$emit("update:modelValue", "Some context");
+      await nextTick();
+
+      const vm = getWrapperVm<QuestionFormVm>(wrapper);
+      vm.$.refs.form = null;
+      await vm.triggerFormSubmit();
+
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const state = uForm.props("state") as Record<string, unknown>;
+      const content = state.content as { context: Record<string, unknown> };
+
+      expect(content.context[DEFAULT_MOCKED_LOCALE]).toBe("Some context");
+    });
+  });
+
+  describe("Form Submission", () => {
+    it("should emit submitCreation when form submits in create mode.", async() => {
+      const fakeCreationDto = createFakeQuestionCreationDto();
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      getWrapperVm(uForm).$emit("submit", { data: fakeCreationDto });
+      await nextTick();
+
+      expect(wrapper.emitted("submitCreation")).toStrictEqual([[fakeCreationDto]]);
+    });
+
+    it("should emit submitModification when form submits in edit mode.", async() => {
+      wrapper = await mountQuestionFormComponent({
+        props: {
+          ...defaultProperties,
+          mode: "edit",
+        },
+      });
+      const fakeModificationDto = createFakeQuestionModificationDto();
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      getWrapperVm(uForm).$emit("submit", { data: fakeModificationDto });
+      await nextTick();
+
+      expect(wrapper.emitted("submitModification")).toStrictEqual([[fakeModificationDto]]);
     });
   });
 

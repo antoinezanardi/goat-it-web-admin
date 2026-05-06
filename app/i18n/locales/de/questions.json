@@ -50,6 +50,7 @@
     "fields": {
       "category": "Kategorie",
       "themes": "Themen",
+      "themesSelected": "{count} Thema(en) ausgewählt",
       "statement": "Aussage",
       "answer": "Antwort",
       "context": "Kontext",

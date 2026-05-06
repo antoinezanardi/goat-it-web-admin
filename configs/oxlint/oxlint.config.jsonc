@@ -35,6 +35,7 @@
     "callOnce": "readonly",
     "useQuestionThemesStore": "readonly",
     "useQuestionsStore": "readonly",
+    "useQuestion": "readonly",
     "useTableGlobalFilter": "readonly",
     "useLocalizedValue": "readonly",
     "useTranslationCompleteness": "readonly",

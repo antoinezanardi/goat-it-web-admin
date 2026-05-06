@@ -8,6 +8,7 @@ import type { Form } from "#ui/types";
 import { QUESTION_FORM_CONTEXT_TEXTAREA_ROWS } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.constants";
 import type { QuestionFormEmits, QuestionFormProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
 import { createQuestionCreationDtoShell } from "~/composables/domain/question/helpers/shell/question.shell.helpers";
+import { createLocalizedTextShell, isLocalizedTextShellEmpty } from "~/composables/core/localization/helpers/shell/localization.shell.helpers";
 import { prepareZodSchemaForFormValidation } from "~/utils/helpers/zod/zod.helpers";
 
 const props = withDefaults(defineProps<QuestionFormProperties>(), {
@@ -53,7 +54,13 @@ function onSubmit(event: FormSubmitEvent<QuestionCreationDto | QuestionModificat
 }
 
 async function triggerFormSubmit(): Promise<void> {
+  if (isLocalizedTextShellEmpty(formState.content.context)) {
+    formState.content.context = undefined;
+  }
   await form.value?.submit();
+  if (!formState.content.context) {
+    formState.content.context = createLocalizedTextShell();
+  }
 }
 
 defineExpose({
@@ -72,9 +79,9 @@ defineExpose({
     @submit="onSubmit"
   >
     <div>
-      <h4 class="border-b border-default font-bold mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
+      <p class="border-b border-default font-bold mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
         {{ $t("questions.sections.content") }}
-      </h4>
+      </p>
 
       <div class="space-y-2">
         <UFormField
@@ -118,9 +125,9 @@ defineExpose({
     </div>
 
     <div>
-      <h4 class="border-b border-default font-bold mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
+      <p class="border-b border-default font-bold mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
         {{ $t("questions.sections.classification") }}
-      </h4>
+      </p>
 
       <div class="gap-4 grid grid-cols-1 sm:grid-cols-2">
         <UFormField
@@ -141,14 +148,9 @@ defineExpose({
           <QuestionCategorySelector v-model="formState.category"/>
         </UFormField>
       </div>
-    </div>
-
-    <div>
-      <h4 class="border-b border-default font-bold mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
-        {{ $t("questions.sections.themes") }}
-      </h4>
 
       <UFormField
+        class="mt-4"
         data-testid="question-form-themes-field"
         :label="$t('questions.fields.themes')"
         name="themes"
@@ -156,16 +158,16 @@ defineExpose({
       >
         <QuestionThemeSelector
           :available-themes="availableThemes"
-          :model-value="formState.themes ?? []"
+          :model-value="formState.themes"
           @update:model-value="onUpdateThemes"
         />
       </UFormField>
     </div>
 
     <div>
-      <h4 class="border-b border-default font-bold mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
+      <p class="border-b border-default font-bold mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
         {{ $t("questions.sections.sources") }}
-      </h4>
+      </p>
 
       <UFormField
         data-testid="question-form-source-urls-field"

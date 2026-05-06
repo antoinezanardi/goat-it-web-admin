@@ -2,6 +2,7 @@
 import type { QuestionThemeAssignmentCreationDto } from "@goat-it/schemas/question";
 import { QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS } from "@goat-it/schemas/question";
 
+import { getLocalizedDisplayValue } from "#shared/utils/helpers/localization/localization.helpers";
 import type { ButtonVariant } from "~/utils/types/button.types.ts";
 import type { AppColor } from "~/utils/types/color.types.ts";
 import type { QuestionThemeSelectorEmits, QuestionThemeSelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/question-theme-selector.types";
@@ -9,7 +10,7 @@ import type { QuestionThemeSelectorEmits, QuestionThemeSelectorProperties } from
 const props = defineProps<QuestionThemeSelectorProperties>();
 const emit = defineEmits<QuestionThemeSelectorEmits>();
 
-const { locale: currentLocale } = useI18n();
+const { t, locale: currentLocale } = useI18n();
 
 const selectedThemeReference = ref<string>();
 
@@ -20,14 +21,24 @@ const selectableThemes = computed(() => props.availableThemes.filter(theme => !s
 const isMaxReached = computed<boolean>(() => props.modelValue.length >= QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS);
 
 const selectMenuItems = computed(() => selectableThemes.value.map(theme => ({
-  label: theme.label[currentLocale.value] ?? theme.label.en ?? "",
+  label: getLocalizedDisplayValue(theme.label, currentLocale.value) ?? "",
   value: theme.id,
 })));
+
+const selectMenuPlaceholder = computed<string>(() => {
+  if (props.modelValue.length === 0) {
+    return t("questions.fields.themes");
+  }
+  return t("questions.fields.themesSelected", { count: props.modelValue.length });
+});
 
 function getThemeLabel(themeId: string): string {
   const theme = props.availableThemes.find(availableTheme => availableTheme.id === themeId);
 
-  return theme?.label[currentLocale.value] ?? theme?.label.en ?? themeId;
+  if (!theme) {
+    return themeId;
+  }
+  return getLocalizedDisplayValue(theme.label, currentLocale.value) ?? themeId;
 }
 
 function getPrimaryButtonColor(assignment: QuestionThemeAssignmentCreationDto): AppColor {
@@ -77,11 +88,11 @@ function onRemoveTheme(themeId: string): void {
 <template>
   <div data-testid="question-theme-selector">
     <USelectMenu
-      data-testid="question-theme-selector-menu"
+      data-testid="question-theme-selector-select"
       :disabled="isMaxReached"
       :items="selectMenuItems"
       :model-value="selectedThemeReference"
-      :placeholder="$t('questions.fields.themes')"
+      :placeholder="selectMenuPlaceholder"
       searchable
       value-key="value"
       @update:model-value="onAddTheme"

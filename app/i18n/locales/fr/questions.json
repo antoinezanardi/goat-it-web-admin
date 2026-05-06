@@ -26,6 +26,7 @@
     "fields": {
       "category": "Catégorie",
       "themes": "Thèmes",
+      "themesSelected": "{count} thème(s) sélectionné(s)",
       "statement": "Énoncé",
       "answer": "Réponse",
       "context": "Contexte",

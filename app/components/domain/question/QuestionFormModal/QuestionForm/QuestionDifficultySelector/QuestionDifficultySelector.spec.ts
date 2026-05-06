@@ -1,3 +1,4 @@
+import type { QuestionCognitiveDifficulty } from "@goat-it/schemas/question";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
@@ -37,18 +38,33 @@ describe("QuestionDifficultySelector Component", () => {
       expect(buttons).toHaveLength(3);
     });
 
-    it.each<{ difficulty: string; expectedLabel: string }>([
-      { difficulty: "easy", expectedLabel: "questions.difficulty.easy" },
-      { difficulty: "medium", expectedLabel: "questions.difficulty.medium" },
-      { difficulty: "hard", expectedLabel: "questions.difficulty.hard" },
-    ])("should pass the $difficulty difficulty i18n key as label when button is rendered.", ({ difficulty, expectedLabel }) => {
+    it.each<{
+      difficulty: QuestionCognitiveDifficulty;
+      expectedLabel: string;
+    }>([
+      {
+        difficulty: "easy",
+        expectedLabel: "questions.difficulty.easy",
+      },
+      {
+        difficulty: "medium",
+        expectedLabel: "questions.difficulty.medium",
+      },
+      {
+        difficulty: "hard",
+        expectedLabel: "questions.difficulty.hard",
+      },
+    ])("should pass the $difficulty difficulty i18n key as label when button is rendered.", ({
+      difficulty,
+      expectedLabel,
+    }) => {
       const button = wrapper.getComponent<typeof UButton>(`[data-testid='question-difficulty-selector-${difficulty}']`);
 
       expect(button.props("label")).toBe(expectedLabel);
     });
 
     describe("Colors", () => {
-      it.each<{ difficulty: "easy" | "medium" | "hard" }>([
+      it.each<{ difficulty: QuestionCognitiveDifficulty }>([
         { difficulty: "easy" },
         { difficulty: "medium" },
         { difficulty: "hard" },
@@ -58,11 +74,26 @@ describe("QuestionDifficultySelector Component", () => {
         expect(button.props("color")).toBe("neutral");
       });
 
-      it.each<{ difficulty: "easy" | "medium" | "hard"; expectedColor: string }>([
-        { difficulty: "easy", expectedColor: "success" },
-        { difficulty: "medium", expectedColor: "warning" },
-        { difficulty: "hard", expectedColor: "error" },
-      ])("should use $expectedColor color for $difficulty button when $difficulty is selected.", async({ difficulty, expectedColor }) => {
+      it.each<{
+        difficulty: QuestionCognitiveDifficulty;
+        expectedColor: string;
+      }>([
+        {
+          difficulty: "easy",
+          expectedColor: "success",
+        },
+        {
+          difficulty: "medium",
+          expectedColor: "warning",
+        },
+        {
+          difficulty: "hard",
+          expectedColor: "error",
+        },
+      ])("should use $expectedColor color for $difficulty button when $difficulty is selected.", async({
+        difficulty,
+        expectedColor,
+      }) => {
         wrapper = await mountQuestionDifficultySelectorComponent({ props: { modelValue: difficulty } });
 
         const button = wrapper.getComponent<typeof UButton>(`[data-testid='question-difficulty-selector-${difficulty}']`);
@@ -72,7 +103,7 @@ describe("QuestionDifficultySelector Component", () => {
     });
 
     describe("Variants", () => {
-      it.each<{ difficulty: "easy" | "medium" | "hard" }>([
+      it.each<{ difficulty: QuestionCognitiveDifficulty }>([
         { difficulty: "easy" },
         { difficulty: "medium" },
         { difficulty: "hard" },
@@ -82,7 +113,7 @@ describe("QuestionDifficultySelector Component", () => {
         expect(button.props("variant")).toBe("outline");
       });
 
-      it.each<{ difficulty: "easy" | "medium" | "hard" }>([
+      it.each<{ difficulty: QuestionCognitiveDifficulty }>([
         { difficulty: "easy" },
         { difficulty: "medium" },
         { difficulty: "hard" },
@@ -107,7 +138,7 @@ describe("QuestionDifficultySelector Component", () => {
     });
 
     describe("Emits", () => {
-      it.each<{ difficulty: "easy" | "medium" | "hard" }>([
+      it.each<{ difficulty: QuestionCognitiveDifficulty }>([
         { difficulty: "easy" },
         { difficulty: "medium" },
         { difficulty: "hard" },

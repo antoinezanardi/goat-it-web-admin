@@ -1,6 +1,6 @@
 import type { QuestionCategory } from "@goat-it/schemas/question";
 
-import type { QuestionCategoryUiMetadata } from "../../../../../../composables/domain/question/types/question-ui-metadata.types";
+import type { QuestionCategoryUiMetadata } from "~/composables/domain/question/types/question-ui-metadata.types.ts";
 
 type QuestionCategorySelectorItem = {
   value: QuestionCategory;

@@ -1,14 +1,15 @@
 <script setup lang="ts">
+import type { AppColor } from "~/utils/types/color.types.ts";
 import type { QuestionCategoryBadgeProperties } from "~/components/domain/question/QuestionCategoryBadge/question-category-badge.types";
-import { useQuestion } from "~/composables/domain/question/useQuestion/useQuestion";
+import type { QuestionCategoryUiMetadata } from "~/composables/domain/question/types/question-ui-metadata.types.ts";
 
 const props = defineProps<QuestionCategoryBadgeProperties>();
 
 const { getCategoryUiMetadata } = useQuestion();
 
-const badgeUiMetadata = computed(() => getCategoryUiMetadata(props.category));
-const badgeColor = computed(() => badgeUiMetadata.value.color);
-const badgeIcon = computed(() => badgeUiMetadata.value.icon);
+const badgeUiMetadata = computed<QuestionCategoryUiMetadata>(() => getCategoryUiMetadata(props.category));
+const badgeColor = computed<AppColor>(() => badgeUiMetadata.value.color);
+const badgeIcon = computed<string>(() => badgeUiMetadata.value.icon);
 </script>
 
 <template>

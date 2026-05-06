@@ -2,9 +2,9 @@
 import type { QuestionCognitiveDifficulty } from "@goat-it/schemas/question";
 import { QUESTION_COGNITIVE_DIFFICULTIES } from "@goat-it/schemas/question";
 
+import type { ButtonVariant } from "~/utils/types/button.types.ts";
 import type { AppColor } from "~/utils/types/color.types.ts";
 import type { QuestionDifficultySelectorEmits, QuestionDifficultySelectorItem, QuestionDifficultySelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionDifficultySelector/question-difficulty-selector.types";
-import { useQuestion } from "~/composables/domain/question/useQuestion/useQuestion";
 
 const props = defineProps<QuestionDifficultySelectorProperties>();
 const emit = defineEmits<QuestionDifficultySelectorEmits>();
@@ -14,10 +14,13 @@ const { getDifficultyUiMetadata } = useQuestion();
 const items = computed<QuestionDifficultySelectorItem[]>(() => QUESTION_COGNITIVE_DIFFICULTIES.map(difficulty => {
   const metadata = getDifficultyUiMetadata(difficulty);
 
-  return { value: difficulty, icon: metadata.icon, color: metadata.color, labelKey: metadata.labelKey };
+  return {
+    value: difficulty,
+    icon: metadata.icon,
+    color: metadata.color,
+    labelKey: metadata.labelKey,
+  };
 }));
-
-type ButtonVariant = "link" | "solid" | "outline" | "soft" | "subtle" | "ghost";
 
 function getButtonColor(item: QuestionDifficultySelectorItem): AppColor {
   return props.modelValue === item.value ? item.color : "neutral";

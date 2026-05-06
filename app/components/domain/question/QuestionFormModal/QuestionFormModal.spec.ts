@@ -141,8 +141,8 @@ describe("QuestionFormModal Component", () => {
 
   describe("Primary button click", () => {
     it("should call triggerFormSubmit on the form when primaryButtonClick is emitted from the footer.", async() => {
-      const formRef = getWrapperVm(wrapper).$.refs.formReference as ComponentVm & { triggerFormSubmit: () => Promise<void> };
-      const triggerFormSubmitSpy = vi.spyOn(formRef, "triggerFormSubmit");
+      const formReference = getWrapperVm(wrapper).$.refs.formReference as unknown as ComponentVm & { triggerFormSubmit: () => Promise<void> };
+      const triggerFormSubmitSpy = vi.spyOn(formReference, "triggerFormSubmit");
 
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-form-modal-footer']") as VueWrapper;
       getWrapperVm(footer).$emit("primaryButtonClick");
