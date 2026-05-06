@@ -141,7 +141,7 @@
     "pinia": "^3.0.4",
     "playwright": "^1.59.1",
     "playwright-core": "^1.59.1",
-    "radashi": "^12.8.1",
+    "radashi": "^12.9.0",
     "rimraf": "^6.1.3",
     "semantic-release": "^25.0.3",
     "semantic-release-export-data": "^1.2.0",
