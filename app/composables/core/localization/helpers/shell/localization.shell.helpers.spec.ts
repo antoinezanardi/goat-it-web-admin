@@ -2,7 +2,7 @@ import type { LocalizedText, LocalizedTexts } from "@goat-it/schemas/shared/loca
 import { describe, expect, it } from "vitest";
 
 import type { Shell } from "#shared/types/object.types";
-import { createLocalizedTextShell, createLocalizedTextsShell, isLocalizedTextShellEmpty } from "~/composables/core/localization/helpers/shell/localization.shell.helpers";
+import { createLocalizedTextShell, createLocalizedTextsShell } from "~/composables/core/localization/helpers/shell/localization.shell.helpers";
 
 describe("Localization Shell Helpers", () => {
   describe(createLocalizedTextShell, () => {
@@ -32,25 +32,6 @@ describe("Localization Shell Helpers", () => {
         it: undefined,
         pt: undefined,
       });
-    });
-  });
-
-  describe(isLocalizedTextShellEmpty, () => {
-    it("should return true when shell is undefined.", () => {
-      expect(isLocalizedTextShellEmpty(undefined)).toBe(true);
-    });
-
-    it("should return true when all locale values are undefined.", () => {
-      const shell = createLocalizedTextShell();
-
-      expect(isLocalizedTextShellEmpty(shell)).toBe(true);
-    });
-
-    it("should return false when at least one locale value is defined.", () => {
-      const shell = createLocalizedTextShell();
-      shell.en = "Hello";
-
-      expect(isLocalizedTextShellEmpty(shell)).toBe(false);
     });
   });
 });

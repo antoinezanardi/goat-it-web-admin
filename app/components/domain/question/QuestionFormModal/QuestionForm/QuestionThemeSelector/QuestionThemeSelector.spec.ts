@@ -68,7 +68,7 @@ describe("QuestionThemeSelector Component", () => {
       expect(selectMenu.props("placeholder")).toBe("questions.fields.themes");
     });
 
-    it("should pass the selected themes count as placeholder to the select menu when themes are selected.", async() => {
+    it("should pass the static themes placeholder to the select menu when themes are selected.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
           ...defaultProperties,
@@ -81,7 +81,7 @@ describe("QuestionThemeSelector Component", () => {
 
       const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
 
-      expect(selectMenu.props("placeholder")).toBe("questions.fields.themesSelected");
+      expect(selectMenu.props("placeholder")).toBe("questions.fields.themes");
     });
 
     it("should disable the select menu when maximum themes are reached.", async() => {
@@ -167,7 +167,7 @@ describe("QuestionThemeSelector Component", () => {
       expect(list.exists()).toBeTruthy();
     });
 
-    it("should display the theme id as label when the theme is not found in available themes.", async() => {
+    it("should display missing theme translation as label when the theme is not found in available themes.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
           ...defaultProperties,
@@ -177,10 +177,10 @@ describe("QuestionThemeSelector Component", () => {
 
       const item = wrapper.find("[data-testid='question-theme-selector-item-unknown-theme']");
 
-      expect(item.text()).toContain("unknown-theme");
+      expect(item.text()).toContain("questions.fields.missingThemeTranslation");
     });
 
-    it("should display the theme id as label when the theme is found but has no localized value for the current locale.", async() => {
+    it("should display missing theme translation as label when the theme is found but has no localized value for the current locale.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
           ...defaultProperties,
@@ -191,7 +191,7 @@ describe("QuestionThemeSelector Component", () => {
 
       const item = wrapper.find("[data-testid='question-theme-selector-item-theme-no-en']");
 
-      expect(item.text()).toContain("theme-no-en");
+      expect(item.text()).toContain("questions.fields.missingThemeTranslation");
     });
 
     it.each<{ themeId: string }>([

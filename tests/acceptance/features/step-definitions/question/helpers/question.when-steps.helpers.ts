@@ -25,32 +25,18 @@ async function fillThemes(dialog: Locator, themes: string): Promise<void> {
   for (const themeName of themeNames) {
     const themeSelect = dialog.getByTestId("question-theme-selector-select");
 
-    // Acceptable as each theme must be selected sequentially through the UI
-    // oxlint-disable-next-line eslint/no-await-in-loop
     await expect(themeSelect).toBeVisible();
-    // Acceptable as each theme must be selected sequentially through the UI
-    // oxlint-disable-next-line eslint/no-await-in-loop
     await themeSelect.click();
 
     const listbox = dialog.page().getByRole("listbox");
 
-    // Acceptable as each theme must be selected sequentially through the UI
-    // oxlint-disable-next-line eslint/no-await-in-loop
     await expect(listbox).toBeVisible();
 
     const option = listbox.getByRole("option", { name: themeName });
 
-    // Acceptable as each theme must be selected sequentially through the UI
-    // oxlint-disable-next-line eslint/no-await-in-loop
     await expect(option).toBeVisible();
-    // Acceptable as each theme must be selected sequentially through the UI
-    // oxlint-disable-next-line eslint/no-await-in-loop
     await option.click();
-    // Acceptable as each theme must be selected sequentially through the UI
-    // oxlint-disable-next-line eslint/no-await-in-loop
     await dialog.page().keyboard.press("Escape");
-    // Acceptable as each theme must be selected sequentially through the UI
-    // oxlint-disable-next-line eslint/no-await-in-loop
     await expect(listbox).toBeHidden();
   }
 }
@@ -63,11 +49,7 @@ async function fillSourceUrls(dialog: Locator, sourceUrls: string): Promise<void
   const urls = sourceUrls.split(",").map(url => url.trim()).filter(url => url.length > 0);
 
   for (const url of urls) {
-    // Acceptable as each source URL must be submitted sequentially through the UI
-    // oxlint-disable-next-line eslint/no-await-in-loop
     await sourceInput.fill(url);
-    // Acceptable as each source URL must be submitted sequentially through the UI
-    // oxlint-disable-next-line eslint/no-await-in-loop
     await sourceInput.press("Enter");
   }
 }

@@ -8,7 +8,7 @@
     "cantRemoveTheme": "Thema konnte nicht von der Frage entfernt werden",
     "cantModify": "Frage konnte nicht bearbeitet werden",
     "cantModifyThemeAssignment": "Themazuweisung konnte nicht geändert werden",
-    "createNew": "Frage erstellen",
+    "createNew": "Eine neue Frage erstellen",
     "editQuestion": "Frage bearbeiten",
     "createSuccessfully": "Frage erfolgreich erstellt",
     "archiveSuccessfully": "Frage erfolgreich archiviert",
@@ -50,7 +50,7 @@
     "fields": {
       "category": "Kategorie",
       "themes": "Themen",
-      "themesSelected": "{count} Thema(en) ausgewählt",
+      "missingThemeTranslation": "–– fehlende Themenübersetzung ––",
       "statement": "Aussage",
       "answer": "Antwort",
       "context": "Kontext",

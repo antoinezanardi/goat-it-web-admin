@@ -8,7 +8,7 @@
     "cantRemoveTheme": "Unable to remove theme from question",
     "cantModify": "Unable to modify question",
     "cantModifyThemeAssignment": "Unable to modify theme assignment",
-    "createNew": "Create a question",
+    "createNew": "Create a new question",
     "editQuestion": "Edit question",
     "createSuccessfully": "Question created successfully",
     "archiveSuccessfully": "Question archived successfully",
@@ -50,7 +50,7 @@
     "fields": {
       "category": "Category",
       "themes": "Themes",
-      "themesSelected": "{count} theme(s) selected",
+      "missingThemeTranslation": "–– missing theme translation ––",
       "statement": "Statement",
       "answer": "Answer",
       "context": "Context",

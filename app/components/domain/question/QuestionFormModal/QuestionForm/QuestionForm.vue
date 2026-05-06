@@ -8,7 +8,8 @@ import type { Form } from "#ui/types";
 import { QUESTION_FORM_CONTEXT_TEXTAREA_ROWS } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.constants";
 import type { QuestionFormEmits, QuestionFormProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
 import { createQuestionCreationDtoShell } from "~/composables/domain/question/helpers/shell/question.shell.helpers";
-import { createLocalizedTextShell, isLocalizedTextShellEmpty } from "~/composables/core/localization/helpers/shell/localization.shell.helpers";
+import { createLocalizedTextShell } from "~/composables/core/localization/helpers/shell/localization.shell.helpers";
+import { isEmptyRecord, stripEmptyValues } from "#shared/utils/helpers/object/object.helpers";
 import { prepareZodSchemaForFormValidation } from "~/utils/helpers/zod/zod.helpers";
 
 const props = withDefaults(defineProps<QuestionFormProperties>(), {
@@ -45,16 +46,15 @@ function onUpdateThemes(themes: QuestionThemeAssignmentCreationDto[]): void {
 
 function onSubmit(event: FormSubmitEvent<QuestionCreationDto | QuestionModificationDto>): void {
   if (props.mode === "edit") {
-    emit("submitModification", QUESTION_MODIFICATION_DTO.parse(event.data));
+    emit("submitModification", QUESTION_MODIFICATION_DTO.parse(stripEmptyValues(event.data)));
 
     return;
   }
-  const parsed = QUESTION_CREATION_DTO.parse(event.data);
-  emit("submitCreation", parsed);
+  emit("submitCreation", QUESTION_CREATION_DTO.parse(stripEmptyValues(event.data)));
 }
 
 async function triggerFormSubmit(): Promise<void> {
-  if (isLocalizedTextShellEmpty(formState.content.context)) {
+  if (isEmptyRecord(formState.content.context)) {
     formState.content.context = undefined;
   }
   await form.value?.submit();
@@ -92,6 +92,7 @@ defineExpose({
         >
           <UInput
             v-model="formState.content.statement[currentLocale]"
+            class="w-full"
             :placeholder="$t('questions.fields.statement')"
           />
         </UFormField>
@@ -104,6 +105,7 @@ defineExpose({
         >
           <UInput
             v-model="formState.content.answer[currentLocale]"
+            class="w-full"
             :placeholder="$t('questions.fields.answer')"
           />
         </UFormField>

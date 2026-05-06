@@ -8,6 +8,7 @@ import type { Form } from "#ui/types";
 import type { QuestionThemeFormProperties, QuestionThemeFormEmits } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
 import { prepareZodSchemaForFormValidation } from "~/utils/helpers/zod/zod.helpers";
 import { createQuestionThemeCreationDtoShell } from "~/composables/domain/question-theme/helpers/shell/question-theme.shell.helpers";
+import { stripEmptyValues } from "#shared/utils/helpers/object/object.helpers";
 
 const props = withDefaults(defineProps<QuestionThemeFormProperties>(), {
   mode: "create",
@@ -61,12 +62,14 @@ function validateSlugUniqueness(state: Partial<QuestionThemeCreationDto>): FormE
 }
 
 function onSubmit(event: FormSubmitEvent<QuestionThemeCreationDto | QuestionThemeModificationDto>): void {
+  const cleanedData = stripEmptyValues(event.data);
+
   if (props.mode === "edit") {
-    emit("submitModification", QUESTION_THEME_MODIFICATION_DTO.parse(event.data));
+    emit("submitModification", QUESTION_THEME_MODIFICATION_DTO.parse(cleanedData));
 
     return;
   }
-  emit("submitCreation", QUESTION_THEME_CREATION_DTO.parse(event.data));
+  emit("submitCreation", QUESTION_THEME_CREATION_DTO.parse(cleanedData));
 }
 
 async function triggerFormSubmit(): Promise<void> {

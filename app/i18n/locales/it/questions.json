@@ -8,7 +8,7 @@
     "cantRemoveTheme": "Impossibile rimuovere il tema dalla domanda",
     "cantModify": "Impossibile modificare la domanda",
     "cantModifyThemeAssignment": "Impossibile modificare l'assegnazione del tema",
-    "createNew": "Crea una domanda",
+    "createNew": "Crea una nuova domanda",
     "editQuestion": "Modifica domanda",
     "createSuccessfully": "Domanda creata con successo",
     "archiveSuccessfully": "Domanda archiviata con successo",
@@ -50,7 +50,7 @@
     "fields": {
       "category": "Categoria",
       "themes": "Temi",
-      "themesSelected": "{count} tema/i selezionato/i",
+      "missingThemeTranslation": "–– traduzione del tema mancante ––",
       "statement": "Enunciato",
       "answer": "Risposta",
       "context": "Contesto",

@@ -17,14 +17,12 @@ async function doesTableContainRowMatchingAttributes(page: Page, expectedAttribu
   for (let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
     const currentRow = rows.nth(rowIndex);
     const cells = currentRow.getByRole("cell");
-    // Acceptable as Playwright locator count requires awaiting each row individually in sequence
-    // oxlint-disable-next-line eslint/no-await-in-loop
     const cellCount = await cells.count();
     const cellTexts: string[] = [];
 
     for (let cellIndex = 0; cellIndex < cellCount; cellIndex++) {
       // Acceptable as Playwright locators require sequential evaluation to read each cell's text
-      // oxlint-disable-next-line eslint/no-await-in-loop, unicorn/prefer-dom-node-text-content
+      // oxlint-disable-next-line unicorn/prefer-dom-node-text-content
       const text = await cells.nth(cellIndex).innerText();
 
       cellTexts.push(text.trim());

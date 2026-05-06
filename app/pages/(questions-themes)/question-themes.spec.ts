@@ -14,7 +14,7 @@ import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModification
 
 import type { PageHeader, UModal } from "#components";
 
-import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants.ts";
+import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants";
 import type QuestionThemeFormModal from "@/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeFormModal.vue";
 import type QuestionThemesTable from "@/components/domain/question-theme/QuestionThemesTable/QuestionThemesTable.vue";
 import { QUESTION_THEMES_PAGE_ORDER, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";

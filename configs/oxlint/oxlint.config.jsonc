@@ -35,7 +35,8 @@
     "callOnce": "readonly",
     "useQuestionThemesStore": "readonly",
     "useQuestionsStore": "readonly",
-    "useQuestion": "readonly",
+    "getDifficultyUiMetadata": "readonly",
+    "getCategoryUiMetadata": "readonly",
     "useTableGlobalFilter": "readonly",
     "useLocalizedValue": "readonly",
     "useTranslationCompleteness": "readonly",
@@ -1235,12 +1236,14 @@
     {
       "files": [
         "**/tests/acceptance/features/step-definitions/**/*-steps.ts",
+        "**/tests/acceptance/features/step-definitions/**/helpers/**/*.ts",
         "**/tests/acceptance/features/support/hooks.ts",
         "**/tests/acceptance/features/support/helpers/**/*.ts"
       ],
       "rules": {
         "new-cap": "off",
-        "func-names": "off"
+        "func-names": "off",
+        "eslint/no-await-in-loop": "off"
       }
     }
   ]

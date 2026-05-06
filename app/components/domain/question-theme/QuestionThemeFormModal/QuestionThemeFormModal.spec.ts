@@ -12,7 +12,7 @@ import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModification
 import { QuestionThemeFormModal } from "#components";
 import type { QuestionThemeForm, DefaultModalFooter, DefaultModalTitle, QuestionThemeTranslationCompletenessIndicator } from "#components";
 
-import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants.ts";
+import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants";
 import type { QuestionThemeFormModalProperties } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.types";
 
 describe("QuestionThemeFormModal Component", () => {

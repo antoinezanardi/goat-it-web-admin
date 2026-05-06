@@ -12,8 +12,6 @@ const emit = defineEmits<QuestionThemeSelectorEmits>();
 
 const { t, locale: currentLocale } = useI18n();
 
-const selectedThemeReference = ref<string>();
-
 const selectedThemeIds = computed<string[]>(() => props.modelValue.map(assignment => assignment.themeId));
 
 const selectableThemes = computed(() => props.availableThemes.filter(theme => !selectedThemeIds.value.includes(theme.id)));
@@ -21,24 +19,17 @@ const selectableThemes = computed(() => props.availableThemes.filter(theme => !s
 const isMaxReached = computed<boolean>(() => props.modelValue.length >= QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS);
 
 const selectMenuItems = computed(() => selectableThemes.value.map(theme => ({
-  label: getLocalizedDisplayValue(theme.label, currentLocale.value) ?? "",
+  label: getLocalizedDisplayValue(theme.label, currentLocale.value) ?? t("questions.fields.missingThemeTranslation"),
   value: theme.id,
 })));
-
-const selectMenuPlaceholder = computed<string>(() => {
-  if (props.modelValue.length === 0) {
-    return t("questions.fields.themes");
-  }
-  return t("questions.fields.themesSelected", { count: props.modelValue.length });
-});
 
 function getThemeLabel(themeId: string): string {
   const theme = props.availableThemes.find(availableTheme => availableTheme.id === themeId);
 
   if (!theme) {
-    return themeId;
+    return t("questions.fields.missingThemeTranslation");
   }
-  return getLocalizedDisplayValue(theme.label, currentLocale.value) ?? themeId;
+  return getLocalizedDisplayValue(theme.label, currentLocale.value) ?? t("questions.fields.missingThemeTranslation");
 }
 
 function getPrimaryButtonColor(assignment: QuestionThemeAssignmentCreationDto): AppColor {
@@ -57,7 +48,6 @@ function onAddTheme(themeId: string): void {
     isHint: false,
   };
   emit("update:modelValue", [...props.modelValue, addedAssignment]);
-  selectedThemeReference.value = undefined;
 }
 
 function onSetPrimary(themeId: string): void {
@@ -91,8 +81,7 @@ function onRemoveTheme(themeId: string): void {
       data-testid="question-theme-selector-select"
       :disabled="isMaxReached"
       :items="selectMenuItems"
-      :model-value="selectedThemeReference"
-      :placeholder="selectMenuPlaceholder"
+      :placeholder="$t('questions.fields.themes')"
       searchable
       value-key="value"
       @update:model-value="onAddTheme"

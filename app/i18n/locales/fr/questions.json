@@ -2,7 +2,7 @@
   "questions": {
     "pageTitle": "Questions",
     "fetching": "Chargement des questions...",
-    "createNew": "Créer une question",
+    "createNew": "Créer une nouvelle question",
     "editQuestion": "Modifier la question",
     "cantFetch": "Impossible de récupérer les questions",
     "cantCreate": "Impossible de créer la question",
@@ -26,7 +26,7 @@
     "fields": {
       "category": "Catégorie",
       "themes": "Thèmes",
-      "themesSelected": "{count} thème(s) sélectionné(s)",
+      "missingThemeTranslation": "–– traduction du thème manquante ––",
       "statement": "Énoncé",
       "answer": "Réponse",
       "context": "Contexte",

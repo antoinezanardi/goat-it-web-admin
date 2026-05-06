@@ -21,8 +21,6 @@ Given(
     const rows = validateDataTableAndGetRows(dataTable, QUESTION_THEME_FORM_ROW_SCHEMA);
 
     for (const row of rows) {
-      // Acceptable as each question theme must be created sequentially through the UI
-      // oxlint-disable-next-line eslint/no-await-in-loop
       await createQuestionThemeViaUi(this.page, row);
     }
   },
