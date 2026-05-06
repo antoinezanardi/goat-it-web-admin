@@ -25,8 +25,8 @@ function onUpdateModelValueFromTableGlobalFilterInput(value: string): void {
     />
 
     <UButton
-      id="create-question-button"
       color="primary"
+      data-testid="create-question-button"
       icon="i-lucide-circle-plus"
       :label="$t('questions.createNew')"
       size="lg"

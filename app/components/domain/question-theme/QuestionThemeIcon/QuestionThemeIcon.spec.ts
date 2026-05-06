@@ -2,13 +2,14 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 
+import { QUESTION_THEME_UNKNOWN_ICON } from "../../../../composables/domain/question-theme/constants/question-theme.constants";
+
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import type { UIcon } from "#components";
 import { QuestionThemeIcon } from "#components";
 
 import type { QuestionThemeIconProperties } from "~/components/domain/question-theme/QuestionThemeIcon/question-theme-icon.types";
-import { QUESTION_THEME_UNKNOWN_ICON } from "~/composables/domain/question-theme/question-theme.constants";
 
 describe("QuestionThemeIcon Component", () => {
   let wrapper: VueWrapper;

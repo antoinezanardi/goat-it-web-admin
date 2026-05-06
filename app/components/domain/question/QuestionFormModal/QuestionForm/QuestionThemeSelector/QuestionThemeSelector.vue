@@ -2,6 +2,8 @@
 import type { QuestionThemeAssignmentCreationDto } from "@goat-it/schemas/question";
 import { QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS } from "@goat-it/schemas/question";
 
+import type { ButtonVariant } from "~/utils/types/button.types.ts";
+import type { AppColor } from "~/utils/types/color.types.ts";
 import type { QuestionThemeSelectorEmits, QuestionThemeSelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/question-theme-selector.types";
 
 const props = defineProps<QuestionThemeSelectorProperties>();
@@ -9,45 +11,46 @@ const emit = defineEmits<QuestionThemeSelectorEmits>();
 
 const { locale: currentLocale } = useI18n();
 
-const selectedThemeIds = computed<string[]>(() => props.modelValue.map((assignment) => assignment.themeId));
+const selectedThemeReference = ref<string>();
 
-const selectableThemes = computed(() => props.availableThemes.filter(
-  (theme) => !selectedThemeIds.value.includes(theme.id),
-));
+const selectedThemeIds = computed<string[]>(() => props.modelValue.map(assignment => assignment.themeId));
+
+const selectableThemes = computed(() => props.availableThemes.filter(theme => !selectedThemeIds.value.includes(theme.id)));
 
 const isMaxReached = computed<boolean>(() => props.modelValue.length >= QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS);
 
-const selectMenuItems = computed(() => selectableThemes.value.map((theme) => ({
+const selectMenuItems = computed(() => selectableThemes.value.map(theme => ({
   label: theme.label[currentLocale.value] ?? theme.label.en ?? "",
   value: theme.id,
 })));
 
 function getThemeLabel(themeId: string): string {
-  const theme = props.availableThemes.find((t) => t.id === themeId);
+  const theme = props.availableThemes.find(availableTheme => availableTheme.id === themeId);
 
   return theme?.label[currentLocale.value] ?? theme?.label.en ?? themeId;
 }
 
-function getPrimaryButtonColor(assignment: QuestionThemeAssignmentCreationDto): string {
+function getPrimaryButtonColor(assignment: QuestionThemeAssignmentCreationDto): AppColor {
   return assignment.isPrimary ? "warning" : "neutral";
 }
 
-function getPrimaryButtonVariant(assignment: QuestionThemeAssignmentCreationDto): string {
+function getPrimaryButtonVariant(assignment: QuestionThemeAssignmentCreationDto): ButtonVariant {
   return assignment.isPrimary ? "solid" : "ghost";
 }
 
 function onAddTheme(themeId: string): void {
   const isFirstThemeEver = props.modelValue.length === 0;
-  const newAssignment: QuestionThemeAssignmentCreationDto = {
+  const addedAssignment: QuestionThemeAssignmentCreationDto = {
     themeId,
     isPrimary: isFirstThemeEver,
     isHint: false,
   };
-  emit("update:modelValue", [...props.modelValue, newAssignment]);
+  emit("update:modelValue", [...props.modelValue, addedAssignment]);
+  selectedThemeReference.value = undefined;
 }
 
 function onSetPrimary(themeId: string): void {
-  const updated = props.modelValue.map((assignment) => ({
+  const updated = props.modelValue.map(assignment => ({
     ...assignment,
     isPrimary: assignment.themeId === themeId,
   }));
@@ -55,18 +58,17 @@ function onSetPrimary(themeId: string): void {
 }
 
 function onToggleHint(themeId: string): void {
-  const updated = props.modelValue.map((assignment) =>
-    assignment.themeId === themeId ? { ...assignment, isHint: !assignment.isHint } : assignment,
-  );
+  const updated = props.modelValue.map(assignment => (assignment.themeId === themeId ? { ...assignment, isHint: !assignment.isHint } : assignment));
   emit("update:modelValue", updated);
 }
 
 function onRemoveTheme(themeId: string): void {
-  const filtered = props.modelValue.filter((a) => a.themeId !== themeId);
-  const hasPrimary = filtered.some((a) => a.isPrimary);
+  const filtered = props.modelValue.filter(assignment => assignment.themeId !== themeId);
+  const hasPrimary = filtered.some(assignment => assignment.isPrimary);
+  const firstAssignment = filtered[0];
 
-  if (!hasPrimary && filtered.length > 0) {
-    filtered[0] = { ...filtered[0], isPrimary: true };
+  if (!hasPrimary && firstAssignment) {
+    filtered[0] = { themeId: firstAssignment.themeId, isPrimary: true, isHint: firstAssignment.isHint };
   }
   emit("update:modelValue", filtered);
 }
@@ -78,8 +80,10 @@ function onRemoveTheme(themeId: string): void {
       data-testid="question-theme-selector-menu"
       :disabled="isMaxReached"
       :items="selectMenuItems"
+      :model-value="selectedThemeReference"
       :placeholder="$t('questions.fields.themes')"
       searchable
+      value-key="value"
       @update:model-value="onAddTheme"
     />
 
@@ -91,7 +95,7 @@ function onRemoveTheme(themeId: string): void {
       <div
         v-for="assignment in modelValue"
         :key="assignment.themeId"
-        class="flex items-center gap-2 rounded-md border border-default p-2"
+        class="border border-default flex gap-2 items-center p-2 rounded-md"
         :data-testid="`question-theme-selector-item-${assignment.themeId}`"
       >
         <UButton
@@ -104,11 +108,12 @@ function onRemoveTheme(themeId: string): void {
           @click="onSetPrimary(assignment.themeId)"
         />
 
-        <span class="flex-1 text-sm text-default">
+        <span class="flex-1 text-default text-sm">
           {{ getThemeLabel(assignment.themeId) }}
         </span>
 
-        <span class="text-xs text-muted">{{ $t("questions.fields.hint") }}</span>
+        <span class="text-muted text-xs">{{ $t("questions.fields.hint") }}</span>
+
         <USwitch
           :data-testid="`question-theme-selector-hint-${assignment.themeId}`"
           :model-value="assignment.isHint"

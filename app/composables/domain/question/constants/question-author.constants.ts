@@ -1,15 +1,6 @@
-import type { QuestionAuthorRole } from "@goat-it/schemas/question";
-
-type QuestionDefaultAuthor = {
-  role: QuestionAuthorRole;
-  name: string;
-};
-
-const QUESTION_DEFAULT_AUTHOR: QuestionDefaultAuthor = {
+const QUESTION_DEFAULT_AUTHOR = {
   role: "admin",
   name: "Admin",
-} as const;
-
-export type { QuestionDefaultAuthor };
+} as const satisfies Question["author"];
 
 export { QUESTION_DEFAULT_AUTHOR };

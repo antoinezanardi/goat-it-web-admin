@@ -1,39 +1,39 @@
 import { describe, expect, it } from "vitest";
 
 import type { QuestionCreationDtoShell } from "#shared/types/question.types";
-
 import { QUESTION_DEFAULT_AUTHOR } from "~/composables/domain/question/constants/question-author.constants";
 import { createQuestionCreationDtoShell } from "~/composables/domain/question/helpers/shell/question.shell.helpers";
 
 describe(createQuestionCreationDtoShell, () => {
-  it("should return a shell with all content fields as localized text shells.", () => {
+  it.each<{ field: "statement" | "answer" | "context" }>([
+    { field: "statement" },
+    { field: "answer" },
+    { field: "context" },
+  ])("should return a localized text shell when content field is $field.", ({ field }) => {
     const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
 
-    expect(shell.content.statement).toStrictEqual({ en: undefined, fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined });
-    expect(shell.content.answer).toStrictEqual({ en: undefined, fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined });
-    expect(shell.content.context).toStrictEqual({ en: undefined, fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined });
+    expect(shell.content[field]).toStrictEqual({ en: undefined, fr: undefined, es: undefined, de: undefined, it: undefined, pt: undefined });
   });
 
-  it("should return a shell with undefined scalar fields.", () => {
+  it.each<{ field: "cognitiveDifficulty" | "category" }>([
+    { field: "cognitiveDifficulty" },
+    { field: "category" },
+  ])("should return undefined when field is $field.", ({ field }) => {
     const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
 
-    expect(shell.cognitiveDifficulty).toBeUndefined();
-    expect(shell.category).toBeUndefined();
+    expect(shell[field]).toBeUndefined();
   });
 
-  it("should return a shell with empty themes array.", () => {
+  it.each<{ field: "themes" | "sourceUrls" }>([
+    { field: "themes" },
+    { field: "sourceUrls" },
+  ])("should return an empty array when field is $field.", ({ field }) => {
     const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
 
-    expect(shell.themes).toStrictEqual([]);
+    expect(shell[field]).toStrictEqual([]);
   });
 
-  it("should return a shell with empty sourceUrls array.", () => {
-    const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
-
-    expect(shell.sourceUrls).toStrictEqual([]);
-  });
-
-  it("should return a shell with default author from constants.", () => {
+  it("should return the default author from constants when shell is created.", () => {
     const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
 
     expect(shell.author).toStrictEqual(QUESTION_DEFAULT_AUTHOR);

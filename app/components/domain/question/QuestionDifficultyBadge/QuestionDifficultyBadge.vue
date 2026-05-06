@@ -6,8 +6,9 @@ const props = defineProps<QuestionDifficultyBadgeProperties>();
 
 const { getDifficultyUiMetadata } = useQuestion();
 
-const badgeColor = computed(() => getDifficultyUiMetadata(props.difficulty).color);
-const badgeIcon = computed(() => getDifficultyUiMetadata(props.difficulty).icon);
+const badgeUiMetadata = computed(() => getDifficultyUiMetadata(props.difficulty));
+const badgeColor = computed(() => badgeUiMetadata.value.color);
+const badgeIcon = computed(() => badgeUiMetadata.value.icon);
 </script>
 
 <template>

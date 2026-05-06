@@ -32,20 +32,20 @@ describe("QuestionCategorySelector Component", () => {
   });
 
   describe("Select", () => {
-    it("should pass the category placeholder as placeholder to the select component.", () => {
+    it("should pass the category placeholder as placeholder to the select component when mounted.", () => {
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
 
       expect(select.props("placeholder")).toBe("questions.fields.category");
     });
 
-    it("should pass 4 category items to the select component.", () => {
+    it("should pass 4 category items to the select component when mounted.", () => {
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
       const items = select.props("items") as { value: string; label: string; icon: string }[];
 
       expect(items).toHaveLength(4);
     });
 
-    it("should pass trivia as first item with correct icon and label key to the select component.", () => {
+    it("should pass trivia as first item with correct icon and label key when items are rendered.", () => {
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
       const items = select.props("items") as { value: string; label: string; icon: string }[];
 
@@ -56,7 +56,7 @@ describe("QuestionCategorySelector Component", () => {
       });
     });
 
-    it("should pass lexicon as second item with correct icon and label key to the select component.", () => {
+    it("should pass lexicon as second item with correct icon and label key when items are rendered.", () => {
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
       const items = select.props("items") as { value: string; label: string; icon: string }[];
 
@@ -67,7 +67,7 @@ describe("QuestionCategorySelector Component", () => {
       });
     });
 
-    it("should pass riddle as third item with correct icon and label key to the select component.", () => {
+    it("should pass riddle as third item with correct icon and label key when items are rendered.", () => {
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
       const items = select.props("items") as { value: string; label: string; icon: string }[];
 
@@ -78,7 +78,7 @@ describe("QuestionCategorySelector Component", () => {
       });
     });
 
-    it("should pass explanation as fourth item with correct icon and label key to the select component.", () => {
+    it("should pass explanation as fourth item with correct icon and label key when items are rendered.", () => {
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
       const items = select.props("items") as { value: string; label: string; icon: string }[];
 

@@ -4,6 +4,8 @@ import type { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
 import { beforeEach, describe, expect, it } from "vitest";
 
+import { QUESTION_THEME_ICON } from "../../../../composables/domain/question-theme/constants/question-theme.constants";
+
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
@@ -13,7 +15,6 @@ import { QuestionThemeFormModal } from "#components";
 import type { QuestionThemeForm, DefaultModalFooter, DefaultModalTitle, QuestionThemeTranslationCompletenessIndicator } from "#components";
 
 import type { QuestionThemeFormModalProperties } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.types";
-import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/question-theme.constants";
 
 describe("QuestionThemeFormModal Component", () => {
   let wrapper: VueWrapper;

@@ -2,21 +2,28 @@
 import type { QuestionCognitiveDifficulty } from "@goat-it/schemas/question";
 import { QUESTION_COGNITIVE_DIFFICULTIES } from "@goat-it/schemas/question";
 
+import type { AppColor } from "~/utils/types/color.types.ts";
 import type { QuestionDifficultySelectorEmits, QuestionDifficultySelectorItem, QuestionDifficultySelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionDifficultySelector/question-difficulty-selector.types";
-import { QUESTION_DIFFICULTY_UI_METADATA } from "~/composables/domain/question/constants/question-difficulty.constants";
+import { useQuestion } from "~/composables/domain/question/useQuestion/useQuestion";
 
 const props = defineProps<QuestionDifficultySelectorProperties>();
 const emit = defineEmits<QuestionDifficultySelectorEmits>();
 
-const items = computed<QuestionDifficultySelectorItem[]>(() => QUESTION_COGNITIVE_DIFFICULTIES.map(
-  (difficulty) => ({ value: difficulty, ...QUESTION_DIFFICULTY_UI_METADATA[difficulty] }),
-));
+const { getDifficultyUiMetadata } = useQuestion();
 
-function getButtonColor(item: QuestionDifficultySelectorItem): string {
+const items = computed<QuestionDifficultySelectorItem[]>(() => QUESTION_COGNITIVE_DIFFICULTIES.map(difficulty => {
+  const metadata = getDifficultyUiMetadata(difficulty);
+
+  return { value: difficulty, icon: metadata.icon, color: metadata.color, labelKey: metadata.labelKey };
+}));
+
+type ButtonVariant = "link" | "solid" | "outline" | "soft" | "subtle" | "ghost";
+
+function getButtonColor(item: QuestionDifficultySelectorItem): AppColor {
   return props.modelValue === item.value ? item.color : "neutral";
 }
 
-function getButtonVariant(item: QuestionDifficultySelectorItem): string {
+function getButtonVariant(item: QuestionDifficultySelectorItem): ButtonVariant {
   return props.modelValue === item.value ? "solid" : "outline";
 }
 

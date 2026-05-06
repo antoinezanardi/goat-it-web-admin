@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from "@nuxt/ui";
-import { QUESTION_CREATION_DTO } from "@goat-it/schemas/question";
+import { QUESTION_CREATION_DTO, QUESTION_MODIFICATION_DTO } from "@goat-it/schemas/question";
 import type { QuestionCreationDto, QuestionModificationDto, QuestionThemeAssignmentCreationDto } from "@goat-it/schemas/question";
 
 import type { QuestionCreationDtoShell } from "#shared/types/question.types";
@@ -19,11 +19,13 @@ const emit = defineEmits<QuestionFormEmits>();
 
 const { locale: currentLocale } = useI18n();
 
+void props.question;
+
 const form = useTemplateRef<Form<QuestionCreationDto | QuestionModificationDto>>("form");
 
 const formState = reactive<QuestionCreationDtoShell>(createQuestionCreationDtoShell());
 
-const formSchema = computed(() => prepareZodSchemaForFormValidation(QUESTION_CREATION_DTO));
+const formSchema = computed(() => prepareZodSchemaForFormValidation(props.mode === "edit" ? QUESTION_MODIFICATION_DTO : QUESTION_CREATION_DTO));
 
 const hasStatement = computed<boolean>(() => !!formState.content.statement[currentLocale.value]);
 const hasAnswer = computed<boolean>(() => !!formState.content.answer[currentLocale.value]);
@@ -33,9 +35,8 @@ const hasThemes = computed<boolean>(() => !!formState.themes?.length);
 const hasSourceUrls = computed<boolean>(() => !!formState.sourceUrls?.length);
 const hasNoFormErrors = computed<boolean>(() => !form.value?.getErrors()?.length);
 
-const canSubmit = computed<boolean>(() =>
-  hasStatement.value && hasAnswer.value && hasDifficulty.value && hasCategory.value && hasThemes.value && hasSourceUrls.value && hasNoFormErrors.value,
-);
+const canSubmit = computed<boolean>(() => hasStatement.value && hasAnswer.value && hasDifficulty.value && hasCategory.value &&
+  hasThemes.value && hasSourceUrls.value && hasNoFormErrors.value);
 
 function onUpdateThemes(themes: QuestionThemeAssignmentCreationDto[]): void {
   formState.themes = themes;
@@ -43,7 +44,7 @@ function onUpdateThemes(themes: QuestionThemeAssignmentCreationDto[]): void {
 
 function onSubmit(event: FormSubmitEvent<QuestionCreationDto | QuestionModificationDto>): void {
   if (props.mode === "edit") {
-    emit("submitModification", event.data as QuestionModificationDto);
+    emit("submitModification", QUESTION_MODIFICATION_DTO.parse(event.data));
 
     return;
   }
@@ -70,9 +71,8 @@ defineExpose({
     :state="formState"
     @submit="onSubmit"
   >
-    <!-- Content Section -->
     <div>
-      <h4 class="mb-2 text-xs font-bold uppercase tracking-wide text-muted border-b border-default pb-1">
+      <h4 class="border-b border-default font-bold mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
         {{ $t("questions.sections.content") }}
       </h4>
 
@@ -102,6 +102,7 @@ defineExpose({
         </UFormField>
 
         <UFormField
+          v-if="formState.content.context"
           data-testid="question-form-context-field"
           :label="$t('questions.fields.context')"
           :name="`content.context.${currentLocale}`"
@@ -116,20 +117,19 @@ defineExpose({
       </div>
     </div>
 
-    <!-- Classification Section -->
     <div>
-      <h4 class="mb-2 text-xs font-bold uppercase tracking-wide text-muted border-b border-default pb-1">
+      <h4 class="border-b border-default font-bold mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
         {{ $t("questions.sections.classification") }}
       </h4>
 
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div class="gap-4 grid grid-cols-1 sm:grid-cols-2">
         <UFormField
           data-testid="question-form-difficulty-field"
-          :label="$t('questions.fields.difficulty')"
+          :label="$t('questions.fields.cognitiveDifficulty')"
           name="cognitiveDifficulty"
           required
         >
-          <QuestionDifficultySelector v-model="formState.cognitiveDifficulty" />
+          <QuestionDifficultySelector v-model="formState.cognitiveDifficulty"/>
         </UFormField>
 
         <UFormField
@@ -138,14 +138,13 @@ defineExpose({
           name="category"
           required
         >
-          <QuestionCategorySelector v-model="formState.category" />
+          <QuestionCategorySelector v-model="formState.category"/>
         </UFormField>
       </div>
     </div>
 
-    <!-- Themes Section -->
     <div>
-      <h4 class="mb-2 text-xs font-bold uppercase tracking-wide text-muted border-b border-default pb-1">
+      <h4 class="border-b border-default font-bold mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
         {{ $t("questions.sections.themes") }}
       </h4>
 
@@ -163,9 +162,8 @@ defineExpose({
       </UFormField>
     </div>
 
-    <!-- Sources Section -->
     <div>
-      <h4 class="mb-2 text-xs font-bold uppercase tracking-wide text-muted border-b border-default pb-1">
+      <h4 class="border-b border-default font-bold mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
         {{ $t("questions.sections.sources") }}
       </h4>
 

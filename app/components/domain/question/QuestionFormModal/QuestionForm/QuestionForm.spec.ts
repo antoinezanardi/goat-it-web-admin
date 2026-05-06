@@ -9,8 +9,8 @@ import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nux
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
-import type { UForm, UFormField, UInput, UInputTags, UTextarea } from "#components";
-import { QuestionCategorySelector, QuestionDifficultySelector, QuestionForm, QuestionThemeSelector } from "#components";
+import type { UForm, UFormField, UInput, UInputTags, UTextarea, QuestionCategorySelector, QuestionDifficultySelector, QuestionThemeSelector } from "#components";
+import { QuestionForm } from "#components";
 
 import type { QuestionFormProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
 
@@ -79,7 +79,7 @@ describe("QuestionForm Component", () => {
     it("should render the difficulty form field with the correct i18n key when mounted.", () => {
       const difficultyField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-difficulty-field']");
 
-      expect(difficultyField.props("label")).toBe("questions.fields.difficulty");
+      expect(difficultyField.props("label")).toBe("questions.fields.cognitiveDifficulty");
     });
 
     it("should render the category form field with the correct i18n key when mounted.", () => {
@@ -110,7 +110,7 @@ describe("QuestionForm Component", () => {
 
       const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
       const state = uForm.props("state") as Record<string, unknown>;
-      const content = state.content as Record<string, Record<string, unknown>>;
+      const content = state.content as { statement: Record<string, unknown>; answer: Record<string, unknown>; context: Record<string, unknown> };
 
       expect(content.statement[DEFAULT_MOCKED_LOCALE]).toBe("What is the capital of France?");
     });
@@ -123,7 +123,7 @@ describe("QuestionForm Component", () => {
 
       const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
       const state = uForm.props("state") as Record<string, unknown>;
-      const content = state.content as Record<string, Record<string, unknown>>;
+      const content = state.content as { statement: Record<string, unknown>; answer: Record<string, unknown>; context: Record<string, unknown> };
 
       expect(content.answer[DEFAULT_MOCKED_LOCALE]).toBe("Paris");
     });
@@ -136,7 +136,7 @@ describe("QuestionForm Component", () => {
 
       const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
       const state = uForm.props("state") as Record<string, unknown>;
-      const content = state.content as Record<string, Record<string, unknown>>;
+      const content = state.content as { statement: Record<string, unknown>; answer: Record<string, unknown>; context: Record<string, unknown> };
 
       expect(content.context[DEFAULT_MOCKED_LOCALE]).toBe("Geography trivia");
     });
@@ -244,7 +244,7 @@ describe("QuestionForm Component", () => {
   });
 
   describe("Available Themes", () => {
-    it("should pass available themes to the theme selector component.", () => {
+    it("should pass available themes to the theme selector component when mounted.", () => {
       const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
 
       expect(themeSelector.props("availableThemes")).toStrictEqual(fakeThemes);

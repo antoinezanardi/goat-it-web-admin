@@ -4,13 +4,14 @@ import type { TestingPinia } from "@pinia/testing";
 import { flushPromises } from "@vue/test-utils";
 import type { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
 import { createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
+import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionFormModal } from "#components";
@@ -140,8 +141,8 @@ describe("QuestionFormModal Component", () => {
 
   describe("Primary button click", () => {
     it("should call triggerFormSubmit on the form when primaryButtonClick is emitted from the footer.", async() => {
-      const form = wrapper.findComponent<typeof QuestionForm>("[data-testid='question-form-modal-form']") as VueWrapper;
-      const triggerFormSubmitSpy = vi.spyOn(getWrapperVm(form), "triggerFormSubmit");
+      const formRef = getWrapperVm(wrapper).$.refs.formReference as ComponentVm & { triggerFormSubmit: () => Promise<void> };
+      const triggerFormSubmitSpy = vi.spyOn(formRef, "triggerFormSubmit");
 
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-form-modal-footer']") as VueWrapper;
       getWrapperVm(footer).$emit("primaryButtonClick");

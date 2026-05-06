@@ -6,8 +6,9 @@ const props = defineProps<QuestionCategoryBadgeProperties>();
 
 const { getCategoryUiMetadata } = useQuestion();
 
-const badgeColor = computed(() => getCategoryUiMetadata(props.category).color);
-const badgeIcon = computed(() => getCategoryUiMetadata(props.category).icon);
+const badgeUiMetadata = computed(() => getCategoryUiMetadata(props.category));
+const badgeColor = computed(() => badgeUiMetadata.value.color);
+const badgeIcon = computed(() => badgeUiMetadata.value.icon);
 </script>
 
 <template>
