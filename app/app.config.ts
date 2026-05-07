@@ -20,6 +20,12 @@ export default defineAppConfig({
         item: "cursor-pointer",
       },
     },
+    select: {
+      slots: {
+        base: "cursor-pointer",
+        item: "cursor-pointer",
+      },
+    },
     switch: {
       slots: {
         base: "cursor-pointer",

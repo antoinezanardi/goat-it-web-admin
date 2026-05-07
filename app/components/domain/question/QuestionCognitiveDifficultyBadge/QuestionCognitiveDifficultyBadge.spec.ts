@@ -5,28 +5,28 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import type { UBadge } from "#components";
-import { QuestionDifficultyBadge } from "#components";
+import { QuestionCognitiveDifficultyBadge } from "#components";
 
-import type { QuestionDifficultyBadgeProperties } from "~/components/domain/question/QuestionDifficultyBadge/question-difficulty-badge.types";
+import type { QuestionCognitiveDifficultyBadgeProperties } from "~/components/domain/question/QuestionCognitiveDifficultyBadge/question-cognitive-difficulty-badge.types";
 
-describe("QuestionDifficultyBadge Component", () => {
+describe("QuestionCognitiveDifficultyBadge Component", () => {
   let wrapper: VueWrapper;
-  const defaultQuestionDifficultyBadgeProperties: QuestionDifficultyBadgeProperties = {
+  const defaultQuestionCognitiveDifficultyBadgeProperties: QuestionCognitiveDifficultyBadgeProperties = {
     difficulty: "easy",
   } as const;
 
-  async function mountQuestionDifficultyBadgeComponent(options: MountSuspendedOptions<typeof QuestionDifficultyBadge> = {}): Promise<VueWrapper> {
-    return mountSuspended(QuestionDifficultyBadge, {
-      props: defaultQuestionDifficultyBadgeProperties,
+  async function mountQuestionCognitiveDifficultyBadgeComponent(options: MountSuspendedOptions<typeof QuestionCognitiveDifficultyBadge> = {}): Promise<VueWrapper> {
+    return mountSuspended(QuestionCognitiveDifficultyBadge, {
+      props: defaultQuestionCognitiveDifficultyBadgeProperties,
       ...options,
     });
   }
 
   beforeEach(async() => {
-    wrapper = await mountQuestionDifficultyBadgeComponent();
+    wrapper = await mountQuestionCognitiveDifficultyBadgeComponent();
   });
 
-  it("should render the question difficulty badge component when mounted.", () => {
+  it("should render the question cognitive difficulty badge component when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
   });
 

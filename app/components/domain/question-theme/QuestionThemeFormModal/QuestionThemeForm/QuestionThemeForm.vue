@@ -8,6 +8,7 @@ import type { Form } from "#ui/types";
 import type { QuestionThemeFormProperties, QuestionThemeFormEmits } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
 import { prepareZodSchemaForFormValidation } from "~/utils/helpers/zod/zod.helpers";
 import { createQuestionThemeCreationDtoShell } from "~/composables/domain/question-theme/helpers/shell/question-theme.shell.helpers";
+import { stripEmptyValues } from "#shared/utils/helpers/object/object.helpers";
 
 const props = withDefaults(defineProps<QuestionThemeFormProperties>(), {
   mode: "create",
@@ -34,8 +35,11 @@ function createInitialFormState(): QuestionThemeCreationDtoShell {
     aliases: { [currentLocale.value]: theme.aliases[currentLocale.value] ?? [] },
   };
 }
+const isSubmitting = ref<boolean>(false);
 
 const formState = reactive<QuestionThemeCreationDtoShell>(createInitialFormState());
+
+const formStateToSubmit = computed<QuestionThemeCreationDtoShell>(() => (isSubmitting.value ? stripEmptyValues(formState) : formState));
 
 const dtoSchema = computed(() => (props.mode === "edit" ? QUESTION_THEME_MODIFICATION_DTO : QUESTION_THEME_CREATION_DTO));
 const formSchema = computed(() => prepareZodSchemaForFormValidation(dtoSchema.value));
@@ -70,7 +74,12 @@ function onSubmit(event: FormSubmitEvent<QuestionThemeCreationDto | QuestionThem
 }
 
 async function triggerFormSubmit(): Promise<void> {
-  await form.value?.submit();
+  isSubmitting.value = true;
+  try {
+    await form.value?.submit();
+  } finally {
+    isSubmitting.value = false;
+  }
 }
 
 defineExpose({
@@ -85,7 +94,7 @@ defineExpose({
     class="space-y-2"
     data-testid="question-theme-form"
     :schema="formSchema"
-    :state="formState"
+    :state="formStateToSubmit"
     :validate="validateSlugUniqueness"
     @submit="onSubmit"
   >

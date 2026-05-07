@@ -8,6 +8,8 @@
     "cantRemoveTheme": "Impossibile rimuovere il tema dalla domanda",
     "cantModify": "Impossibile modificare la domanda",
     "cantModifyThemeAssignment": "Impossibile modificare l'assegnazione del tema",
+    "createNew": "Crea una nuova domanda",
+    "editQuestion": "Modifica domanda",
     "createSuccessfully": "Domanda creata con successo",
     "archiveSuccessfully": "Domanda archiviata con successo",
     "assignThemeSuccessfully": "Tema assegnato con successo",
@@ -15,6 +17,14 @@
     "modifySuccessfully": "Domanda modificata con successo",
     "modifyThemeAssignmentSuccessfully": "Assegnazione del tema modificata con successo",
     "fetching": "Caricamento delle domande...",
+    "missingThemeTranslation": "–– traduzione del tema mancante ––",
+    "selectThemes": "Seleziona temi…",
+    "sections": {
+      "content": "Contenuto",
+      "classification": "Classificazione",
+      "themes": "Temi",
+      "sources": "Fonti"
+    },
     "category": {
       "trivia": "Cultura generale",
       "lexicon": "Lessico",
@@ -46,6 +56,7 @@
       "answer": "Risposta",
       "context": "Contesto",
       "trivia": "Curiosità",
+      "hint": "Suggerimento",
       "cognitiveDifficulty": "Difficoltà",
       "author": "Autore",
       "status": "Stato",

@@ -1,4 +1,4 @@
-import type { AdminQuestionDto, QuestionCreationDto } from "@goat-it/schemas/question";
+import type { AdminQuestionDto, QuestionCreationDto, QuestionThemeAssignmentCreationDto } from "@goat-it/schemas/question";
 
 import type { Shell } from "#shared/types/object.types";
 import type { QuestionTheme } from "#shared/types/question-theme.types";
@@ -27,7 +27,10 @@ type Question = Omit<AdminQuestionDto, "createdAt" | "updatedAt" | "themes"> & {
   updatedAt: Date;
 };
 
-type QuestionCreationDtoShell = Shell<QuestionCreationDto>;
+type QuestionCreationDtoShell = Shell<QuestionCreationDto> & {
+  themes: QuestionThemeAssignmentCreationDto[];
+  sourceUrls: string[];
+};
 
 export type {
   AdminQuestionThemeAssignmentDto,

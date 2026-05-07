@@ -44,12 +44,8 @@ Running acceptance tests:
 - Exclude tag:        `pnpm run test:acceptance --tags "not @accessibility"`
 - By tag (AND):       `pnpm run test:acceptance --tags "@question-themes and @accessibility"`
 
-Prerequisites (must be running before acceptance tests):
-- Docker sandbox: `pnpm run docker:api-sandbox:start`
-- Playwright:     `pnpm run test:acceptance:prepare` (run once after fresh checkout)
-
 **Mandatory quality gates** — agents MUST run all four commands below **in order**
-before considering any task complete. Do NOT skip any gate, even for "trivial" changes:
+before considering any task complete. **Do NOT skip any gate**, even for "trivial" changes:
 
 1. `pnpm run lint:fix`
 2. `pnpm run typecheck`
@@ -201,7 +197,7 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
   - Two layers per entity: `entity/` (domain type) and `dto/` (raw API DTO).
 
 - Config per project: `mockReset: true`, `clearMocks: true`, `restoreMocks: true`.
-- `describe(functionName, ...)` — pass the function/composable/store reference as label.
+- `describe(functionName, ...)` — pass the function/composable/store reference as label. Exception for components, which are always `describe("<ComponentName> Component", ...)`
 - Test names: `"should <action> when <condition>."` pattern.
 - Use `expect(...).toHaveBeenCalledExactlyOnceWith(...)` for single-call assertions.
 

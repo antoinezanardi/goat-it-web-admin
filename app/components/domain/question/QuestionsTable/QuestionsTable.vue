@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
 
-import type { QuestionsTableGlobalFilterOptions } from "~/components/domain/question/QuestionsTable/questions-table.types";
+import type { QuestionsTableEmits, QuestionsTableGlobalFilterOptions } from "~/components/domain/question/QuestionsTable/questions-table.types";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
+
+const emit = defineEmits<QuestionsTableEmits>();
 
 const { t, locale: currentLocale } = useI18n();
 
@@ -31,6 +33,10 @@ const { searchTerm, globalFilter, globalFilterFunction, hasActiveFilter } = useT
 });
 
 const globalFilterOptions = computed<QuestionsTableGlobalFilterOptions>(() => ({ globalFilterFn: globalFilterFunction }));
+
+function onStartCreateFromQuestionsTableHeader(): void {
+  emit("startCreate");
+}
 </script>
 
 <template>
@@ -39,6 +45,7 @@ const globalFilterOptions = computed<QuestionsTableGlobalFilterOptions>(() => ({
       <QuestionsTableHeader
         v-model:search-term="searchTerm"
         data-testid="questions-table-header"
+        @start-create="onStartCreateFromQuestionsTableHeader"
       />
     </template>
 
@@ -73,7 +80,7 @@ const globalFilterOptions = computed<QuestionsTableGlobalFilterOptions>(() => ({
       </template>
 
       <template #cognitiveDifficulty-cell="{ row }">
-        <QuestionDifficultyBadge
+        <QuestionCognitiveDifficultyBadge
           :data-testid="`difficulty-cell-badge-${row.original.id}`"
           :difficulty="row.original.cognitiveDifficulty"
         />

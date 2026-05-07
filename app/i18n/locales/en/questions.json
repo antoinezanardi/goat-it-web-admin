@@ -8,6 +8,8 @@
     "cantRemoveTheme": "Unable to remove theme from question",
     "cantModify": "Unable to modify question",
     "cantModifyThemeAssignment": "Unable to modify theme assignment",
+    "createNew": "Create a new question",
+    "editQuestion": "Edit question",
     "createSuccessfully": "Question created successfully",
     "archiveSuccessfully": "Question archived successfully",
     "assignThemeSuccessfully": "Theme assigned successfully",
@@ -15,6 +17,14 @@
     "modifySuccessfully": "Question modified successfully",
     "modifyThemeAssignmentSuccessfully": "Theme assignment modified successfully",
     "fetching": "Loading questions...",
+    "missingThemeTranslation": "–– missing theme translation ––",
+    "selectThemes": "Select Themes…",
+    "sections": {
+      "content": "Content",
+      "classification": "Classification",
+      "themes": "Themes",
+      "sources": "Sources"
+    },
     "category": {
       "trivia": "Trivia",
       "lexicon": "Lexicon",
@@ -46,6 +56,7 @@
       "answer": "Answer",
       "context": "Context",
       "trivia": "Trivia",
+      "hint": "Hint",
       "cognitiveDifficulty": "Difficulty",
       "author": "Author",
       "status": "Status",

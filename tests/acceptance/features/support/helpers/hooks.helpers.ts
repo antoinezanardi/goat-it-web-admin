@@ -74,8 +74,6 @@ async function waitForSandboxHealthCheck(): Promise<void> {
 
   for (let attempt = 1; attempt <= SANDBOX_HEALTH_CHECK_MAX_RETRIES; attempt++) {
     try {
-      // Acceptable as health check requires awaiting each attempt individually to poll sequentially
-      // oxlint-disable-next-line eslint/no-await-in-loop
       const response = await fetch(healthCheckUrl, { signal: AbortSignal.timeout(SANDBOX_HEALTH_CHECK_INTERVAL_IN_MS) });
 
       if (response.ok) {
@@ -86,8 +84,6 @@ async function waitForSandboxHealthCheck(): Promise<void> {
     }
 
     if (attempt < SANDBOX_HEALTH_CHECK_MAX_RETRIES) {
-      // Acceptable as sequential delay between retry attempts requires awaiting before next iteration
-      // oxlint-disable-next-line eslint/no-await-in-loop
       await sleep(SANDBOX_HEALTH_CHECK_INTERVAL_IN_MS);
     }
   }
