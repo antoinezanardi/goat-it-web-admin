@@ -2,11 +2,16 @@ import { describe, it, expect } from "vitest";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 
+import type { QuestionTheme } from "#shared/types/question-theme.types";
 import { getThemeLocalizedLabel } from "~/composables/domain/question-theme/helpers/question-theme.helpers";
 
 describe("Question Theme Helpers", () => {
   describe(getThemeLocalizedLabel, () => {
-    it.each<{ description: string; theme: QuestionTheme | undefined; expectedLabel: string }>([
+    it.each<{
+      description: string;
+      theme: QuestionTheme | undefined;
+      expectedLabel: string;
+    }>([
       {
         description: "theme is undefined",
         theme: undefined,

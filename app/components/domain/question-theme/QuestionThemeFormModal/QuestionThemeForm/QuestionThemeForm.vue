@@ -74,9 +74,11 @@ function onSubmit(event: FormSubmitEvent<QuestionThemeCreationDto | QuestionThem
 }
 
 async function triggerFormSubmit(): Promise<void> {
-  isSubmitting.value = true;
-  await form.value?.submit();
-  isSubmitting.value = false;
+  try {
+    await form.value?.submit();
+  } finally {
+    isSubmitting.value = false;
+  }
 }
 
 defineExpose({

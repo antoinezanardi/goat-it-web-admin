@@ -1,6 +1,6 @@
 import type { QuestionCognitiveDifficulty } from "@goat-it/schemas/question";
 
-import type { QuestionCognitiveDifficultyUiMetadata } from "~/composables/domain/question/types/question-ui-metadata.types.ts";
+import type { QuestionCognitiveDifficultyUiMetadata } from "~/composables/domain/question/types/question-ui-metadata.types";
 
 const QUESTION_COGNITIVE_DIFFICULTY_UI_METADATA: Record<QuestionCognitiveDifficulty, QuestionCognitiveDifficultyUiMetadata> = {
   easy: {
