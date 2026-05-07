@@ -74,6 +74,7 @@ function onSubmit(event: FormSubmitEvent<QuestionThemeCreationDto | QuestionThem
 }
 
 async function triggerFormSubmit(): Promise<void> {
+  isSubmitting.value = true;
   try {
     await form.value?.submit();
   } finally {

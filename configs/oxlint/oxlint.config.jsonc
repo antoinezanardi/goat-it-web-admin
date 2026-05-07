@@ -35,8 +35,6 @@
     "callOnce": "readonly",
     "useQuestionThemesStore": "readonly",
     "useQuestionsStore": "readonly",
-    "getDifficultyUiMetadata": "readonly",
-    "getCategoryUiMetadata": "readonly",
     "useTableGlobalFilter": "readonly",
     "useLocalizedValue": "readonly",
     "useTranslationCompleteness": "readonly",

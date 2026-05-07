@@ -57,6 +57,7 @@ function onSubmit(event: FormSubmitEvent<QuestionCreationDto | QuestionModificat
 }
 
 async function triggerFormSubmit(): Promise<void> {
+  isSubmitting.value = true;
   try {
     await form.value?.submit();
   } finally {
