@@ -18,8 +18,8 @@ importers:
         specifier: ^12.8.2
         version: 12.8.2
       '@eslint/config-inspector':
-        specifier: ^2.0.0
-        version: 2.0.0(eslint@10.3.0(jiti@2.6.1))
+        specifier: ^2.0.1
+        version: 2.0.1(eslint@10.3.0(jiti@2.6.1))
       '@faker-js/faker':
         specifier: ^10.4.0
         version: 10.4.0
@@ -1081,8 +1081,8 @@ packages:
     peerDependencies:
       eslint: ^8.50.0 || ^9.0.0 || ^10.0.0
 
-  '@eslint/config-inspector@2.0.0':
-    resolution: {integrity: sha512-hiKajDjwP72AB52/l+qWBdCui/eVW+XFqpfQqspnnI0wyI9wN/DUNZT8SE+GNniOYKhxHc/qT2Esv/buz5ySOw==}
+  '@eslint/config-inspector@2.0.1':
+    resolution: {integrity: sha512-G/nDOZCBr06p8Peao9PQw+VmXR7y74l+P9SXzyVGOiKTTHksZR7XjfjL0tGuYY1ImnTkIKUM3jkwLgC79uw+MQ==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
     hasBin: true
     peerDependencies:
@@ -8964,13 +8964,13 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@eslint/config-inspector@2.0.0(eslint@10.3.0(jiti@2.6.1))':
+  '@eslint/config-inspector@2.0.1(eslint@10.3.0(jiti@2.6.1))':
     dependencies:
       ansis: 4.2.0
-      bundle-require: 5.1.0(esbuild@0.27.7)
+      bundle-require: 5.1.0(esbuild@0.28.0)
       cac: 7.0.0
       chokidar: 5.0.0
-      esbuild: 0.27.7
+      esbuild: 0.28.0
       eslint: 10.3.0(jiti@2.6.1)
       h3: 1.15.11
       tinyglobby: 0.2.16
@@ -12108,6 +12108,11 @@ snapshots:
   bundle-require@5.1.0(esbuild@0.27.7):
     dependencies:
       esbuild: 0.27.7
+      load-tsconfig: 0.2.5
+
+  bundle-require@5.1.0(esbuild@0.28.0):
+    dependencies:
+      esbuild: 0.28.0
       load-tsconfig: 0.2.5
 
   c12@3.3.4(magicast@0.5.2):
