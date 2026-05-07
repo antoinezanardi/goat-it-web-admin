@@ -14,15 +14,15 @@ function stripEmptyValues<T>(input: T): T {
     return input;
   }
   const result = Object.fromEntries(Object.entries(input).map(([key, value]) => {
-    if (value === undefined) {
+    if (!isRecord(value)) {
+      return [key, value];
+    }
+    const cleaned = stripEmptyValues(value);
+
+    if (Object.values(cleaned).every(entry => entry === undefined)) {
       return [key, undefined];
     }
-    if (isRecord(value)) {
-      const cleaned = stripEmptyValues(value);
-
-      return [key, isEmptyRecord(cleaned) ? undefined : cleaned];
-    }
-    return [key, value];
+    return [key, cleaned];
   }));
 
   // Acceptable as the result is structurally identical to the input type

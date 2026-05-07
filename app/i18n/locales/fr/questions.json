@@ -17,6 +17,8 @@
     "removeThemeSuccessfully": "Thème retiré avec succès",
     "modifySuccessfully": "Question modifiée avec succès",
     "modifyThemeAssignmentSuccessfully": "Assignation du thème modifiée avec succès",
+    "missingThemeTranslation": "–– traduction du thème manquante ––",
+    "selectThemes": "Sélectionner les thèmes…",
     "sections": {
       "content": "Contenu",
       "classification": "Classification",
@@ -26,7 +28,6 @@
     "fields": {
       "category": "Catégorie",
       "themes": "Thèmes",
-      "missingThemeTranslation": "–– traduction du thème manquante ––",
       "statement": "Énoncé",
       "answer": "Réponse",
       "context": "Contexte",

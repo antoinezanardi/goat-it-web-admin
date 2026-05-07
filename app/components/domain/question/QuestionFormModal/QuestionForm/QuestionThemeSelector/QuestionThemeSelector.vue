@@ -2,9 +2,9 @@
 import type { QuestionThemeAssignmentCreationDto } from "@goat-it/schemas/question";
 import { QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS } from "@goat-it/schemas/question";
 
-import { getLocalizedDisplayValue } from "#shared/utils/helpers/localization/localization.helpers";
-import type { ButtonVariant } from "~/utils/types/button.types.ts";
-import type { AppColor } from "~/utils/types/color.types.ts";
+import { getThemeLocalizedLabel } from "~/composables/domain/question-theme/helpers/question-theme.helpers";
+import type { ButtonVariant } from "~/utils/types/button.types";
+import type { AppColor } from "~/utils/types/color.types";
 import type { QuestionThemeSelectorEmits, QuestionThemeSelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/question-theme-selector.types";
 
 const props = defineProps<QuestionThemeSelectorProperties>();
@@ -12,24 +12,25 @@ const emit = defineEmits<QuestionThemeSelectorEmits>();
 
 const { t, locale: currentLocale } = useI18n();
 
+const missingThemeTranslation = computed<string>(() => t("questions.missingThemeTranslation"));
+
 const selectedThemeIds = computed<string[]>(() => props.modelValue.map(assignment => assignment.themeId));
 
 const selectableThemes = computed(() => props.availableThemes.filter(theme => !selectedThemeIds.value.includes(theme.id)));
 
 const isMaxReached = computed<boolean>(() => props.modelValue.length >= QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS);
 
+const selectedMenuValue = ref<string>();
+
 const selectMenuItems = computed(() => selectableThemes.value.map(theme => ({
-  label: getLocalizedDisplayValue(theme.label, currentLocale.value) ?? t("questions.fields.missingThemeTranslation"),
+  label: getThemeLocalizedLabel(theme, currentLocale.value, missingThemeTranslation.value),
   value: theme.id,
 })));
 
-function getThemeLabel(themeId: string): string {
+function getThemeLabelFromAvailableThemes(themeId: string): string {
   const theme = props.availableThemes.find(availableTheme => availableTheme.id === themeId);
 
-  if (!theme) {
-    return t("questions.fields.missingThemeTranslation");
-  }
-  return getLocalizedDisplayValue(theme.label, currentLocale.value) ?? t("questions.fields.missingThemeTranslation");
+  return getThemeLocalizedLabel(theme, currentLocale.value, missingThemeTranslation.value);
 }
 
 function getPrimaryButtonColor(assignment: QuestionThemeAssignmentCreationDto): AppColor {
@@ -48,6 +49,7 @@ function onAddTheme(themeId: string): void {
     isHint: false,
   };
   emit("update:modelValue", [...props.modelValue, addedAssignment]);
+  selectedMenuValue.value = undefined;
 }
 
 function onSetPrimary(themeId: string): void {
@@ -78,10 +80,11 @@ function onRemoveTheme(themeId: string): void {
 <template>
   <div data-testid="question-theme-selector">
     <USelectMenu
+      v-model="selectedMenuValue"
       data-testid="question-theme-selector-select"
       :disabled="isMaxReached"
       :items="selectMenuItems"
-      :placeholder="$t('questions.fields.themes')"
+      :placeholder="$t('questions.selectThemes')"
       searchable
       value-key="value"
       @update:model-value="onAddTheme"
@@ -109,7 +112,7 @@ function onRemoveTheme(themeId: string): void {
         />
 
         <span class="flex-1 text-default text-sm">
-          {{ getThemeLabel(assignment.themeId) }}
+          {{ getThemeLabelFromAvailableThemes(assignment.themeId) }}
         </span>
 
         <span class="text-muted text-xs">{{ $t("questions.fields.hint") }}</span>

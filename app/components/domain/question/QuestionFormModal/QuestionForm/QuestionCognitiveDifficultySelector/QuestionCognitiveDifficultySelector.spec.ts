@@ -6,28 +6,28 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import type { UButton } from "#components";
-import { QuestionDifficultySelector } from "#components";
+import { QuestionCognitiveDifficultySelector } from "#components";
 
-import type { QuestionDifficultySelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionDifficultySelector/question-difficulty-selector.types";
+import type { QuestionCognitiveDifficultySelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCognitiveDifficultySelector/question-cognitive-difficulty-selector.types";
 
-describe("QuestionDifficultySelector Component", () => {
+describe("QuestionCognitiveDifficultySelector Component", () => {
   let wrapper: VueWrapper;
-  const defaultProperties: QuestionDifficultySelectorProperties = {
+  const defaultProperties: QuestionCognitiveDifficultySelectorProperties = {
     modelValue: undefined,
   } as const;
 
-  async function mountQuestionDifficultySelectorComponent(options: MountSuspendedOptions<typeof QuestionDifficultySelector> = {}): Promise<VueWrapper> {
-    return mountSuspended(QuestionDifficultySelector, {
+  async function mountQuestionCognitiveDifficultySelectorComponent(options: MountSuspendedOptions<typeof QuestionCognitiveDifficultySelector> = {}): Promise<VueWrapper> {
+    return mountSuspended(QuestionCognitiveDifficultySelector, {
       props: defaultProperties,
       ...options,
     });
   }
 
   beforeEach(async() => {
-    wrapper = await mountQuestionDifficultySelectorComponent();
+    wrapper = await mountQuestionCognitiveDifficultySelectorComponent();
   });
 
-  it("should render the question difficulty selector component when mounted.", () => {
+  it("should render the question cognitive difficulty selector component when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
   });
 
@@ -94,7 +94,7 @@ describe("QuestionDifficultySelector Component", () => {
         difficulty,
         expectedColor,
       }) => {
-        wrapper = await mountQuestionDifficultySelectorComponent({ props: { modelValue: difficulty } });
+        wrapper = await mountQuestionCognitiveDifficultySelectorComponent({ props: { modelValue: difficulty } });
 
         const button = wrapper.getComponent<typeof UButton>(`[data-testid='question-difficulty-selector-${difficulty}']`);
 
@@ -118,7 +118,7 @@ describe("QuestionDifficultySelector Component", () => {
         { difficulty: "medium" },
         { difficulty: "hard" },
       ])("should use solid variant for $difficulty button when $difficulty is selected.", async({ difficulty }) => {
-        wrapper = await mountQuestionDifficultySelectorComponent({ props: { modelValue: difficulty } });
+        wrapper = await mountQuestionCognitiveDifficultySelectorComponent({ props: { modelValue: difficulty } });
 
         const button = wrapper.getComponent<typeof UButton>(`[data-testid='question-difficulty-selector-${difficulty}']`);
 
@@ -129,7 +129,7 @@ describe("QuestionDifficultySelector Component", () => {
         { otherDifficulty: "medium" },
         { otherDifficulty: "hard" },
       ])("should use outline variant for $otherDifficulty button when easy is selected.", async({ otherDifficulty }) => {
-        wrapper = await mountQuestionDifficultySelectorComponent({ props: { modelValue: "easy" } });
+        wrapper = await mountQuestionCognitiveDifficultySelectorComponent({ props: { modelValue: "easy" } });
 
         const button = wrapper.getComponent<typeof UButton>(`[data-testid='question-difficulty-selector-${otherDifficulty}']`);
 

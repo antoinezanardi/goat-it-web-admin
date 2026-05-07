@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxtjs/i18n",
     "@vueuse/nuxt",
-    "@nuxt/hints",
+    // "@nuxt/hints",
     "@pinia/nuxt",
     "@nuxt/eslint",
   ],

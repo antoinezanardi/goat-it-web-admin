@@ -65,7 +65,7 @@ describe("QuestionThemeSelector Component", () => {
     it("should pass the themes placeholder to the select menu when no themes are selected.", () => {
       const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
 
-      expect(selectMenu.props("placeholder")).toBe("questions.fields.themes");
+      expect(selectMenu.props("placeholder")).toBe("questions.selectThemes");
     });
 
     it("should pass the static themes placeholder to the select menu when themes are selected.", async() => {
@@ -81,7 +81,7 @@ describe("QuestionThemeSelector Component", () => {
 
       const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
 
-      expect(selectMenu.props("placeholder")).toBe("questions.fields.themes");
+      expect(selectMenu.props("placeholder")).toBe("questions.selectThemes");
     });
 
     it("should disable the select menu when maximum themes are reached.", async() => {
@@ -177,7 +177,7 @@ describe("QuestionThemeSelector Component", () => {
 
       const item = wrapper.find("[data-testid='question-theme-selector-item-unknown-theme']");
 
-      expect(item.text()).toContain("questions.fields.missingThemeTranslation");
+      expect(item.text()).toContain("questions.missingThemeTranslation");
     });
 
     it("should display missing theme translation as label when the theme is found but has no localized value for the current locale.", async() => {
@@ -191,7 +191,7 @@ describe("QuestionThemeSelector Component", () => {
 
       const item = wrapper.find("[data-testid='question-theme-selector-item-theme-no-en']");
 
-      expect(item.text()).toContain("questions.fields.missingThemeTranslation");
+      expect(item.text()).toContain("questions.missingThemeTranslation");
     });
 
     it.each<{ themeId: string }>([

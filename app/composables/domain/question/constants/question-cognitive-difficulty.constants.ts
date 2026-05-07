@@ -2,7 +2,7 @@ import type { QuestionCognitiveDifficulty } from "@goat-it/schemas/question";
 
 import type { QuestionCognitiveDifficultyUiMetadata } from "~/composables/domain/question/types/question-ui-metadata.types.ts";
 
-const QUESTION_DIFFICULTY_UI_METADATA: Record<QuestionCognitiveDifficulty, QuestionCognitiveDifficultyUiMetadata> = {
+const QUESTION_COGNITIVE_DIFFICULTY_UI_METADATA: Record<QuestionCognitiveDifficulty, QuestionCognitiveDifficultyUiMetadata> = {
   easy: {
     icon: "i-lucide-brain",
     color: "success",
@@ -20,4 +20,4 @@ const QUESTION_DIFFICULTY_UI_METADATA: Record<QuestionCognitiveDifficulty, Quest
   },
 } as const;
 
-export { QUESTION_DIFFICULTY_UI_METADATA };
+export { QUESTION_COGNITIVE_DIFFICULTY_UI_METADATA };

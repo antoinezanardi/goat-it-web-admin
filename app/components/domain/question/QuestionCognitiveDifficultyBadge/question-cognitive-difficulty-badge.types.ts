@@ -1,7 +1,7 @@
 import type { QuestionCognitiveDifficulty } from "@goat-it/schemas/question";
 
-type QuestionDifficultyBadgeProperties = {
+type QuestionCognitiveDifficultyBadgeProperties = {
   difficulty: QuestionCognitiveDifficulty;
 };
 
-export type { QuestionDifficultyBadgeProperties };
+export type { QuestionCognitiveDifficultyBadgeProperties };

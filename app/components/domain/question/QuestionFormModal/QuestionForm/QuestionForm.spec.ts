@@ -11,7 +11,7 @@ import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nux
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
-import type { UForm, UFormField, UInput, UInputTags, UTextarea, QuestionCategorySelector, QuestionDifficultySelector, QuestionThemeSelector } from "#components";
+import type { UForm, UFormField, UInput, UInputTags, UTextarea, QuestionCategorySelector, QuestionCognitiveDifficultySelector, QuestionThemeSelector } from "#components";
 import { QuestionForm } from "#components";
 
 import type { QuestionFormProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
@@ -144,7 +144,7 @@ describe("QuestionForm Component", () => {
     });
 
     it("should update the difficulty in the form state when the difficulty selector emits.", async() => {
-      const difficultySelector = wrapper.findComponent<typeof QuestionDifficultySelector>("[data-testid='question-difficulty-selector']");
+      const difficultySelector = wrapper.findComponent<typeof QuestionCognitiveDifficultySelector>("[data-testid='question-difficulty-selector']");
       getWrapperVm(difficultySelector).$emit("update:modelValue", "medium");
       await nextTick();
 
@@ -213,7 +213,7 @@ describe("QuestionForm Component", () => {
       const answerInput = answerField.findComponent<typeof UInput>({ name: "UInput" });
       getWrapperVm(answerInput).$emit("update:modelValue", "Paris");
 
-      const difficultySelector = wrapper.findComponent<typeof QuestionDifficultySelector>("[data-testid='question-difficulty-selector']");
+      const difficultySelector = wrapper.findComponent<typeof QuestionCognitiveDifficultySelector>("[data-testid='question-difficulty-selector']");
       getWrapperVm(difficultySelector).$emit("update:modelValue", "easy");
 
       const categorySelector = wrapper.findComponent<typeof QuestionCategorySelector>({ name: "QuestionCategorySelector" });

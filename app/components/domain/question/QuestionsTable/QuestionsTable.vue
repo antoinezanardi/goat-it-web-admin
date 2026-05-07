@@ -80,7 +80,7 @@ function onStartCreateFromQuestionsTableHeader(): void {
       </template>
 
       <template #cognitiveDifficulty-cell="{ row }">
-        <QuestionDifficultyBadge
+        <QuestionCognitiveDifficultyBadge
           :data-testid="`difficulty-cell-badge-${row.original.id}`"
           :difficulty="row.original.cognitiveDifficulty"
         />

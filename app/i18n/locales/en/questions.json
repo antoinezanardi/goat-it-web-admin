@@ -17,6 +17,8 @@
     "modifySuccessfully": "Question modified successfully",
     "modifyThemeAssignmentSuccessfully": "Theme assignment modified successfully",
     "fetching": "Loading questions...",
+    "missingThemeTranslation": "–– missing theme translation ––",
+    "selectThemes": "Select Themes…",
     "sections": {
       "content": "Content",
       "classification": "Classification",
@@ -50,7 +52,6 @@
     "fields": {
       "category": "Category",
       "themes": "Themes",
-      "missingThemeTranslation": "–– missing theme translation ––",
       "statement": "Statement",
       "answer": "Answer",
       "context": "Context",

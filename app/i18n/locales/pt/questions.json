@@ -17,6 +17,8 @@
     "modifySuccessfully": "Pergunta modificada com sucesso",
     "modifyThemeAssignmentSuccessfully": "Atribuição do tema modificada com sucesso",
     "fetching": "Carregando perguntas...",
+    "missingThemeTranslation": "–– tradução do tema ausente ––",
+    "selectThemes": "Selecionar temas…",
     "sections": {
       "content": "Conteúdo",
       "classification": "Classificação",
@@ -50,7 +52,6 @@
     "fields": {
       "category": "Categoria",
       "themes": "Temas",
-      "missingThemeTranslation": "–– tradução do tema ausente ––",
       "statement": "Enunciado",
       "answer": "Resposta",
       "context": "Contexto",

@@ -17,6 +17,8 @@
     "modifySuccessfully": "Frage erfolgreich bearbeitet",
     "modifyThemeAssignmentSuccessfully": "Themazuweisung erfolgreich geändert",
     "fetching": "Fragen werden geladen...",
+    "missingThemeTranslation": "–– fehlende Themenübersetzung ––",
+    "selectThemes": "Themen auswählen…",
     "sections": {
       "content": "Inhalt",
       "classification": "Klassifizierung",
@@ -50,7 +52,6 @@
     "fields": {
       "category": "Kategorie",
       "themes": "Themen",
-      "missingThemeTranslation": "–– fehlende Themenübersetzung ––",
       "statement": "Aussage",
       "answer": "Antwort",
       "context": "Kontext",

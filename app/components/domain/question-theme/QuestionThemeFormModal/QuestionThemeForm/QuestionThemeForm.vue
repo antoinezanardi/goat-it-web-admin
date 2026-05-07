@@ -35,8 +35,11 @@ function createInitialFormState(): QuestionThemeCreationDtoShell {
     aliases: { [currentLocale.value]: theme.aliases[currentLocale.value] ?? [] },
   };
 }
+const isSubmitting = ref<boolean>(false);
 
 const formState = reactive<QuestionThemeCreationDtoShell>(createInitialFormState());
+
+const formStateToSubmit = computed<QuestionThemeCreationDtoShell>(() => (isSubmitting.value ? stripEmptyValues(formState) : formState));
 
 const dtoSchema = computed(() => (props.mode === "edit" ? QUESTION_THEME_MODIFICATION_DTO : QUESTION_THEME_CREATION_DTO));
 const formSchema = computed(() => prepareZodSchemaForFormValidation(dtoSchema.value));
@@ -62,18 +65,18 @@ function validateSlugUniqueness(state: Partial<QuestionThemeCreationDto>): FormE
 }
 
 function onSubmit(event: FormSubmitEvent<QuestionThemeCreationDto | QuestionThemeModificationDto>): void {
-  const cleanedData = stripEmptyValues(event.data);
-
   if (props.mode === "edit") {
-    emit("submitModification", QUESTION_THEME_MODIFICATION_DTO.parse(cleanedData));
+    emit("submitModification", QUESTION_THEME_MODIFICATION_DTO.parse(event.data));
 
     return;
   }
-  emit("submitCreation", QUESTION_THEME_CREATION_DTO.parse(cleanedData));
+  emit("submitCreation", QUESTION_THEME_CREATION_DTO.parse(event.data));
 }
 
 async function triggerFormSubmit(): Promise<void> {
+  isSubmitting.value = true;
   await form.value?.submit();
+  isSubmitting.value = false;
 }
 
 defineExpose({
@@ -88,7 +91,7 @@ defineExpose({
     class="space-y-2"
     data-testid="question-theme-form"
     :schema="formSchema"
-    :state="formState"
+    :state="formStateToSubmit"
     :validate="validateSlugUniqueness"
     @submit="onSubmit"
   >

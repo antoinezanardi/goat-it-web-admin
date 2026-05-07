@@ -15,7 +15,7 @@ import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionsTable } from "#components";
-import type { QuestionCategoryBadge, QuestionDifficultyBadge, QuestionStatusBadge, QuestionThemesList, QuestionTranslationCompletenessIndicator, QuestionsTableActions, QuestionsTableHeader, TableEmptyState, TranslatedText as TranslatedTextComponent } from "#components";
+import type { QuestionCategoryBadge, QuestionCognitiveDifficultyBadge, QuestionStatusBadge, QuestionThemesList, QuestionTranslationCompletenessIndicator, QuestionsTableActions, QuestionsTableHeader, TableEmptyState, TranslatedText as TranslatedTextComponent } from "#components";
 
 import type { Question } from "#shared/types/question.types";
 
@@ -186,7 +186,7 @@ describe("QuestionsTable Component", () => {
 
       wrapper = await mountQuestionsTableComponent();
 
-      const badge = wrapper.findComponent<typeof QuestionDifficultyBadge>("[data-testid='difficulty-cell-badge-q-1']");
+      const badge = wrapper.findComponent<typeof QuestionCognitiveDifficultyBadge>("[data-testid='difficulty-cell-badge-q-1']");
 
       expect(badge.exists()).toBeTruthy();
     });
@@ -197,7 +197,7 @@ describe("QuestionsTable Component", () => {
 
       wrapper = await mountQuestionsTableComponent();
 
-      const badge = wrapper.findComponent<typeof QuestionDifficultyBadge>("[data-testid='difficulty-cell-badge-q-1']");
+      const badge = wrapper.findComponent<typeof QuestionCognitiveDifficultyBadge>("[data-testid='difficulty-cell-badge-q-1']");
 
       expect(badge.props("difficulty")).toBe("medium");
     });

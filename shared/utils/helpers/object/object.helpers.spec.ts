@@ -4,32 +4,26 @@ import { isEmptyRecord, isRecord, stripEmptyValues } from "#shared/utils/helpers
 
 describe("Object Helpers", () => {
   describe(isRecord, () => {
-    it("should return true when value is a plain object.", () => {
-      expect(isRecord({ key: "value" })).toBeTruthy();
+    it.each<{ value: unknown; description: string }>([
+      { value: { key: "value" }, description: "a plain object" },
+      { value: {}, description: "an empty object" },
+    ])("should return true when value is $description.", ({ value }) => {
+      expect(isRecord(value)).toBeTruthy();
     });
 
-    it("should return true when value is an empty object.", () => {
-      expect(isRecord({})).toBeTruthy();
-    });
-
-    it("should return false when value is an array.", () => {
-      expect(isRecord([1, 2, 3])).toBeFalsy();
-    });
-
-    it("should return false when value is a Date.", () => {
-      expect(isRecord(new Date())).toBeFalsy();
-    });
-
-    it("should return false when value is a RegExp.", () => {
-      expect(isRecord(/abc/u)).toBeFalsy();
-    });
-
-    it("should return false when value is a Map.", () => {
-      expect(isRecord(new Map())).toBeFalsy();
-    });
-
-    it("should return false when value is a Set.", () => {
-      expect(isRecord(new Set())).toBeFalsy();
+    it.each<{ value: unknown; description: string }>([
+      { value: [1, 2, 3], description: "an array" },
+      { value: new Date(), description: "a Date" },
+      { value: /abc/u, description: "a RegExp" },
+      { value: new Map(), description: "a Map" },
+      { value: new Set(), description: "a Set" },
+      { value: null, description: "null" },
+      { value: undefined, description: "undefined" },
+      { value: "hello", description: "a string" },
+      { value: 42, description: "a number" },
+      { value: true, description: "a boolean" },
+    ])("should return false when value is $description.", ({ value }) => {
+      expect(isRecord(value)).toBeFalsy();
     });
 
     it("should return false when value is a class instance.", () => {
@@ -37,71 +31,34 @@ describe("Object Helpers", () => {
 
       expect(isRecord(new Foo())).toBeFalsy();
     });
-
-    it("should return false when value is null.", () => {
-      expect(isRecord(null)).toBeFalsy();
-    });
-
-    it("should return false when value is undefined.", () => {
-      expect(isRecord(undefined)).toBeFalsy();
-    });
-
-    it("should return false when value is a string.", () => {
-      expect(isRecord("hello")).toBeFalsy();
-    });
-
-    it("should return false when value is a number.", () => {
-      expect(isRecord(42)).toBeFalsy();
-    });
-
-    it("should return false when value is a boolean.", () => {
-      expect(isRecord(true)).toBeFalsy();
-    });
   });
 
   describe(isEmptyRecord, () => {
-    it("should return false when value is not a record.", () => {
-      expect(isEmptyRecord("hello")).toBeFalsy();
+    it.each<{ value: unknown; description: string }>([
+      { value: {}, description: "an empty object" },
+      { value: { first: undefined, second: undefined }, description: "an object with all undefined values" },
+    ])("should return true when value is $description.", ({ value }) => {
+      expect(isEmptyRecord(value)).toBeTruthy();
     });
 
-    it("should return false when value is null.", () => {
-      expect(isEmptyRecord(null)).toBeFalsy();
-    });
-
-    it("should return false when value is an array.", () => {
-      expect(isEmptyRecord([1, 2])).toBeFalsy();
-    });
-
-    it("should return true when value is an empty object.", () => {
-      expect(isEmptyRecord({})).toBeTruthy();
-    });
-
-    it("should return true when all values are undefined.", () => {
-      expect(isEmptyRecord({ first: undefined, second: undefined })).toBeTruthy();
-    });
-
-    it("should return false when at least one value is defined.", () => {
-      expect(isEmptyRecord({ first: undefined, second: "value" })).toBeFalsy();
-    });
-
-    it("should return false when value is a non-empty object.", () => {
-      expect(isEmptyRecord({ key: "value" })).toBeFalsy();
+    it.each<{ value: unknown; description: string }>([
+      { value: "hello", description: "not a record" },
+      { value: null, description: "null" },
+      { value: [1, 2], description: "an array" },
+      { value: { first: undefined, second: "value" }, description: "an object with at least one defined value" },
+      { value: { key: "value" }, description: "a non-empty object" },
+    ])("should return false when value is $description.", ({ value }) => {
+      expect(isEmptyRecord(value)).toBeFalsy();
     });
   });
 
   describe(stripEmptyValues, () => {
-    it("should return the input unchanged when it is not a record.", () => {
-      expect(stripEmptyValues("hello")).toBe("hello");
-    });
-
-    it("should return the input unchanged when it is null.", () => {
-      expect(stripEmptyValues(null)).toBeNull();
-    });
-
-    it("should return the input unchanged when it is an array.", () => {
-      const input = [1, 2, 3];
-
-      expect(stripEmptyValues(input)).toStrictEqual([1, 2, 3]);
+    it.each<{ input: unknown; expected: unknown; description: string }>([
+      { input: "hello", expected: "hello", description: "a string" },
+      { input: null, expected: null, description: "null" },
+      { input: [1, 2, 3], expected: [1, 2, 3], description: "an array" },
+    ])("should return the input unchanged when it is $description.", ({ input, expected }) => {
+      expect(stripEmptyValues(input)).toStrictEqual(expected);
     });
 
     it("should return the same structure when no values are empty records.", () => {

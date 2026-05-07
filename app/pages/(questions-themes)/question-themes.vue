@@ -2,7 +2,7 @@
 import type { QuestionThemeCreationDto, QuestionThemeModificationDto } from "@goat-it/schemas/question-theme";
 import { computed, ref } from "vue";
 
-import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants.ts";
+import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants";
 import { useQuestionThemesStore } from "~/stores/domain/question-theme/question-themes.store";
 import { QUESTION_THEMES_PAGE_ORDER, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
 import type { QuestionThemeFormMode } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";

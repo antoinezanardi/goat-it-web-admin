@@ -8,8 +8,7 @@ import type { Form } from "#ui/types";
 import { QUESTION_FORM_CONTEXT_TEXTAREA_ROWS } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.constants";
 import type { QuestionFormEmits, QuestionFormProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
 import { createQuestionCreationDtoShell } from "~/composables/domain/question/helpers/shell/question.shell.helpers";
-import { createLocalizedTextShell } from "~/composables/core/localization/helpers/shell/localization.shell.helpers";
-import { isEmptyRecord, stripEmptyValues } from "#shared/utils/helpers/object/object.helpers";
+import { stripEmptyValues } from "#shared/utils/helpers/object/object.helpers";
 import { prepareZodSchemaForFormValidation } from "~/utils/helpers/zod/zod.helpers";
 
 const props = withDefaults(defineProps<QuestionFormProperties>(), {
@@ -25,12 +24,16 @@ void props.question;
 
 const form = useTemplateRef<Form<QuestionCreationDto | QuestionModificationDto>>("form");
 
+const isSubmitting = ref<boolean>(false);
+
 const formState = reactive<QuestionCreationDtoShell>(createQuestionCreationDtoShell());
+
+const formStateToSubmit = computed<QuestionCreationDtoShell>(() => (isSubmitting.value ? stripEmptyValues(formState) : formState));
 
 const formSchema = computed(() => prepareZodSchemaForFormValidation(props.mode === "edit" ? QUESTION_MODIFICATION_DTO : QUESTION_CREATION_DTO));
 
-const hasStatement = computed<boolean>(() => !!formState.content.statement[currentLocale.value]);
-const hasAnswer = computed<boolean>(() => !!formState.content.answer[currentLocale.value]);
+const hasStatement = computed<boolean>(() => !!formState.content?.statement[currentLocale.value]);
+const hasAnswer = computed<boolean>(() => !!formState.content?.answer[currentLocale.value]);
 const hasDifficulty = computed<boolean>(() => !!formState.cognitiveDifficulty);
 const hasCategory = computed<boolean>(() => !!formState.category);
 const hasThemes = computed<boolean>(() => !!formState.themes?.length);
@@ -46,21 +49,17 @@ function onUpdateThemes(themes: QuestionThemeAssignmentCreationDto[]): void {
 
 function onSubmit(event: FormSubmitEvent<QuestionCreationDto | QuestionModificationDto>): void {
   if (props.mode === "edit") {
-    emit("submitModification", QUESTION_MODIFICATION_DTO.parse(stripEmptyValues(event.data)));
+    emit("submitModification", QUESTION_MODIFICATION_DTO.parse(event.data));
 
     return;
   }
-  emit("submitCreation", QUESTION_CREATION_DTO.parse(stripEmptyValues(event.data)));
+  emit("submitCreation", QUESTION_CREATION_DTO.parse(event.data));
 }
 
 async function triggerFormSubmit(): Promise<void> {
-  if (isEmptyRecord(formState.content.context)) {
-    formState.content.context = undefined;
-  }
+  isSubmitting.value = true;
   await form.value?.submit();
-  if (!formState.content.context) {
-    formState.content.context = createLocalizedTextShell();
-  }
+  isSubmitting.value = false;
 }
 
 defineExpose({
@@ -75,11 +74,12 @@ defineExpose({
     class="space-y-4"
     data-testid="question-form"
     :schema="formSchema"
-    :state="formState"
+    :state="formStateToSubmit"
     @submit="onSubmit"
   >
     <div>
-      <p class="border-b border-default font-bold mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
+      <p class="border-b border-default flex font-bold gap-1 items-center mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
+        <UIcon name="i-lucide-text"/>
         {{ $t("questions.sections.content") }}
       </p>
 
@@ -127,7 +127,8 @@ defineExpose({
     </div>
 
     <div>
-      <p class="border-b border-default font-bold mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
+      <p class="border-b border-default flex font-bold gap-1 items-center mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
+        <UIcon name="i-lucide-tags"/>
         {{ $t("questions.sections.classification") }}
       </p>
 
@@ -138,7 +139,9 @@ defineExpose({
           name="cognitiveDifficulty"
           required
         >
-          <QuestionDifficultySelector v-model="formState.cognitiveDifficulty"/>
+          <QuestionCognitiveDifficultySelector
+            v-model="formState.cognitiveDifficulty"
+          />
         </UFormField>
 
         <UFormField
@@ -147,7 +150,10 @@ defineExpose({
           name="category"
           required
         >
-          <QuestionCategorySelector v-model="formState.category"/>
+          <QuestionCategorySelector
+            v-model="formState.category"
+            class="w-full"
+          />
         </UFormField>
       </div>
 
@@ -167,7 +173,8 @@ defineExpose({
     </div>
 
     <div>
-      <p class="border-b border-default font-bold mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
+      <p class="border-b border-default flex font-bold gap-1 items-center mb-2 pb-1 text-muted text-xs tracking-wide uppercase">
+        <UIcon name="i-lucide-link"/>
         {{ $t("questions.sections.sources") }}
       </p>
 
