@@ -924,6 +924,7 @@
         "typescript/no-magic-numbers": "off",
         "unicorn/no-null": "off",
         "unicorn/no-useless-undefined": "off",
+        "unicorn/consistent-function-scoping": "off",
         "import/no-namespace": "off",
         "import/max-dependencies": [
           "error",
