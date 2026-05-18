@@ -62,6 +62,10 @@
       "status": "Stato",
       "sourceUrls": "Fonti",
       "translations": "Traduzioni"
+    },
+    "errors": {
+      "invalidUrl": "Deve essere un URL valido",
+      "duplicateUrl": "Questo URL è già stato aggiunto"
     }
   }
 }

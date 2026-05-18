@@ -62,6 +62,10 @@
     },
     "actions": {
       "archive": "Archiver la question"
+    },
+    "errors": {
+      "invalidUrl": "Doit être une URL valide",
+      "duplicateUrl": "Cette URL a déjà été ajoutée"
     }
   }
 }

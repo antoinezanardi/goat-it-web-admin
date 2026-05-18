@@ -36,7 +36,6 @@ async function fillThemes(dialog: Locator, themes: string): Promise<void> {
 
     await expect(option).toBeVisible();
     await option.click();
-    await dialog.page().keyboard.press("Escape");
     await expect(listbox).toBeHidden();
   }
 }

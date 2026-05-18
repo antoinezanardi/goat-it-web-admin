@@ -181,19 +181,7 @@ defineExpose({
         {{ $t("questions.sections.sources") }}
       </p>
 
-      <UFormField
-        data-testid="question-form-source-urls-field"
-        :label="$t('questions.fields.sourceUrls')"
-        name="sourceUrls"
-        required
-      >
-        <UInputTags
-          v-model="formState.sourceUrls"
-          add-on-blur
-          add-on-tab
-          :placeholder="$t('questions.fields.sourceUrls')"
-        />
-      </UFormField>
+      <QuestionSourceUrlsInput v-model="formState.sourceUrls"/>
     </div>
   </UForm>
 </template>
