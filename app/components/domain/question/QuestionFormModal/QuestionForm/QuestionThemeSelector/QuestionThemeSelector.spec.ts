@@ -7,7 +7,7 @@ import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import type { UButton, USelectMenu } from "#components";
+import type { UButton, UFormField, USelectMenu } from "#components";
 import { QuestionThemeSelector } from "#components";
 
 import type { QuestionThemeSelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/question-theme-selector.types";
@@ -38,6 +38,26 @@ describe("QuestionThemeSelector Component", () => {
 
   it("should render the question theme selector component when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
+  });
+
+  describe("Form Field", () => {
+    it("should render the form field with the correct label when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-selector']");
+
+      expect(formField.props("label")).toBe("questions.fields.themes");
+    });
+
+    it("should render the form field with the correct name when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-selector']");
+
+      expect(formField.props("name")).toBe("themes");
+    });
+
+    it("should render the form field as required when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-selector']");
+
+      expect(formField.props("required")).toBeTruthy();
+    });
   });
 
   describe("Select Menu", () => {
@@ -112,6 +132,40 @@ describe("QuestionThemeSelector Component", () => {
       const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
 
       expect(selectMenu.props("disabled")).toBeFalsy();
+    });
+
+    it("should pass undefined as model value to the select menu when themes are selected.", async() => {
+      wrapper = await mountQuestionThemeSelectorComponent({
+        props: {
+          ...defaultProperties,
+          modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
+        },
+      });
+
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+      expect(selectMenu.props("modelValue")).toBeUndefined();
+    });
+
+    it("should include a previously selected theme back in items when that theme is removed from selection.", async() => {
+      wrapper = await mountQuestionThemeSelectorComponent({
+        props: {
+          ...defaultProperties,
+          modelValue: [
+            createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
+            createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
+          ],
+        },
+      });
+
+      await wrapper.setProps({
+        modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
+      });
+
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+      const items = selectMenu.props("items") as { label: string; value: string }[];
+
+      expect(items.map(item => item.value)).toContain("theme-2");
     });
 
     describe("Adding Themes", () => {

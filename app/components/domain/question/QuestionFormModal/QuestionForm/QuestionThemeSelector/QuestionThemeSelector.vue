@@ -16,11 +16,11 @@ const missingThemeTranslation = computed<string>(() => t("questions.missingTheme
 
 const selectedThemeIds = computed<string[]>(() => props.modelValue.map(assignment => assignment.themeId));
 
+const selectMenuKey = ref<number>(0);
+
 const selectableThemes = computed(() => props.availableThemes.filter(theme => !selectedThemeIds.value.includes(theme.id)));
 
 const isMaxReached = computed<boolean>(() => props.modelValue.length >= QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS);
-
-const selectedMenuValue = ref<string>();
 
 const selectMenuItems = computed(() => selectableThemes.value.map(theme => ({
   label: getThemeLocalizedLabel(theme, currentLocale.value, missingThemeTranslation.value),
@@ -48,8 +48,8 @@ function onAddTheme(themeId: string): void {
     isPrimary: isFirstThemeEver,
     isHint: false,
   };
+  selectMenuKey.value += 1;
   emit("update:modelValue", [...props.modelValue, addedAssignment]);
-  selectedMenuValue.value = undefined;
 }
 
 function onSetPrimary(themeId: string): void {
@@ -73,17 +73,24 @@ function onRemoveTheme(themeId: string): void {
   if (!hasPrimary && firstAssignment) {
     filtered[0] = { themeId: firstAssignment.themeId, isPrimary: true, isHint: firstAssignment.isHint };
   }
+  selectMenuKey.value += 1;
   emit("update:modelValue", filtered);
 }
 </script>
 
 <template>
-  <div data-testid="question-theme-selector">
+  <UFormField
+    data-testid="question-theme-selector"
+    :label="$t('questions.fields.themes')"
+    name="themes"
+    required
+  >
     <USelectMenu
-      v-model="selectedMenuValue"
+      :key="selectMenuKey"
       data-testid="question-theme-selector-select"
       :disabled="isMaxReached"
       :items="selectMenuItems"
+      :model-value="undefined"
       :placeholder="$t('questions.selectThemes')"
       searchable
       value-key="value"
@@ -134,5 +141,5 @@ function onRemoveTheme(themeId: string): void {
         />
       </div>
     </div>
-  </div>
+  </UFormField>
 </template>

@@ -11,7 +11,7 @@ import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nux
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
-import type { UForm, UFormField, UInput, UInputTags, UTextarea, QuestionCategorySelector, QuestionCognitiveDifficultySelector, QuestionThemeSelector } from "#components";
+import type { UForm, UFormField, UInput, UTextarea, QuestionCategorySelector, QuestionCognitiveDifficultySelector, QuestionSourceUrlsInput, QuestionThemeSelector } from "#components";
 import { QuestionForm } from "#components";
 
 import type { QuestionFormProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
@@ -91,15 +91,17 @@ describe("QuestionForm Component", () => {
     });
 
     it("should render the themes form field with the correct i18n key when mounted.", () => {
-      const themesField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-themes-field']");
+      const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+      const innerFormField = themeSelector.findComponent<typeof UFormField>({ name: "UFormField" });
 
-      expect(themesField.props("label")).toBe("questions.fields.themes");
+      expect(innerFormField.props("label")).toBe("questions.fields.themes");
     });
 
     it("should render the source urls form field with the correct i18n key when mounted.", () => {
-      const sourceUrlsField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-source-urls-field']");
+      const sourceUrlsInput = wrapper.findComponent<typeof QuestionSourceUrlsInput>("[data-testid='question-source-urls-input']");
+      const innerFormField = sourceUrlsInput.findComponent<typeof UFormField>({ name: "UFormField" });
 
-      expect(sourceUrlsField.props("label")).toBe("questions.fields.sourceUrls");
+      expect(innerFormField.props("label")).toBe("questions.fields.sourceUrls");
     });
   });
 
@@ -177,10 +179,9 @@ describe("QuestionForm Component", () => {
       expect(state.themes).toStrictEqual(themes);
     });
 
-    it("should update the source urls in the form state when the source urls input tags value changes.", async() => {
-      const sourceUrlsField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-source-urls-field']");
-      const sourceUrlsInputTags = sourceUrlsField.findComponent<typeof UInputTags>({ name: "UInputTags" });
-      getWrapperVm(sourceUrlsInputTags).$emit("update:modelValue", ["https://example.com"]);
+    it("should update the source urls in the form state when the source urls input emits.", async() => {
+      const sourceUrlsInput = wrapper.findComponent<typeof QuestionSourceUrlsInput>("[data-testid='question-source-urls-input']");
+      getWrapperVm(sourceUrlsInput).$emit("update:modelValue", ["https://example.com"]);
       await nextTick();
 
       const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
@@ -222,9 +223,8 @@ describe("QuestionForm Component", () => {
       const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
       getWrapperVm(themeSelector).$emit("update:modelValue", [{ themeId: "theme-1", isPrimary: true, isHint: false }]);
 
-      const sourceUrlsField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-source-urls-field']");
-      const sourceUrlsInputTags = sourceUrlsField.findComponent<typeof UInputTags>({ name: "UInputTags" });
-      getWrapperVm(sourceUrlsInputTags).$emit("update:modelValue", ["https://example.com"]);
+      const sourceUrlsInput = wrapper.findComponent<typeof QuestionSourceUrlsInput>("[data-testid='question-source-urls-input']");
+      getWrapperVm(sourceUrlsInput).$emit("update:modelValue", ["https://example.com"]);
       await nextTick();
 
       expect(getWrapperVm<QuestionFormVm>(wrapper).canSubmit).toBeTruthy();

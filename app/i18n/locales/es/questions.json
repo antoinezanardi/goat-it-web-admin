@@ -62,6 +62,11 @@
       "status": "Estado",
       "sourceUrls": "Fuentes",
       "translations": "Traducciones"
+    },
+    "errors": {
+      "invalidUrl": "Debe ser una URL válida",
+      "duplicateUrl": "Esta URL ya ha sido añadida",
+      "maxSourceUrls": "Número máximo de URLs de origen alcanzado"
     }
   }
 }

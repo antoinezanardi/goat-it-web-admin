@@ -17,3 +17,34 @@ When(
     await fillQuestionForm(dialog, row);
   },
 );
+
+When(
+  /^the user removes the theme "(?<themeName>[^"]*)" from the question form selected themes$/u,
+  async function(this: GoatItWorld, themeName: string): Promise<void> {
+    const dialog = this.page.getByRole("dialog");
+
+    await expect(dialog).toBeVisible();
+
+    const themeList = dialog.getByTestId("question-theme-selector-list");
+    const themeItem = themeList.locator("[data-testid^='question-theme-selector-item-']").filter({ hasText: themeName });
+    const removeButton = themeItem.locator("[data-testid^='question-theme-selector-remove-']");
+
+    await expect(removeButton).toBeVisible();
+    await removeButton.click();
+  },
+);
+
+When(
+  /^the user types "(?<text>[^"]*)" in the question form source urls input and presses Enter$/u,
+  async function(this: GoatItWorld, text: string): Promise<void> {
+    const dialog = this.page.getByRole("dialog");
+
+    await expect(dialog).toBeVisible();
+
+    const sourceInput = dialog.getByRole("textbox", { name: "Sources*" });
+
+    await expect(sourceInput).toBeVisible();
+    await sourceInput.fill(text);
+    await sourceInput.press("Enter");
+  },
+);

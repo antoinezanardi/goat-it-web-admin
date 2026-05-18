@@ -50,3 +50,46 @@ Feature: ❓ Question Creation
       | Test      | Answer | Some extra context | medium     | Riddle   | History | https://example.com |
     And the user clicks on the button with name "Create"
     Then the toast with exact text "Question created successfully" should be visible
+
+  Scenario: ❓ Theme can be re-added after removal
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label     | slug      | description       | aliases |
+      | Geography | geography | A geography theme | geo     |
+    And the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | themes    |
+      | Geography |
+    Then the theme "Geography" should be visible in the question theme selector list
+    When the user removes the theme "Geography" from the question form selected themes
+    Then the theme "Geography" should be hidden in the question theme selector list
+    When the user fills the question form with the following attributes:
+      | themes    |
+      | Geography |
+    Then the theme "Geography" should be visible in the question theme selector list
+
+  Scenario: ❓ Source URL validation blocks invalid URLs
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user types "not-a-url" in the question form source urls input and presses Enter
+    Then the text "Must be a valid URL" should be visible
+    And the question form source urls input should have no tags
+
+  Scenario: ❓ Source URL validation blocks duplicate URLs
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | sourceUrls          |
+      | https://example.com |
+    And the user types "https://example.com" in the question form source urls input and presses Enter
+    Then the text "This URL has already been added" should be visible
+
+  Scenario: ❓ Source URL validation blocks adding URLs when maximum is reached
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | sourceUrls                                                                                                          |
+      | https://example.com/1,https://example.com/2,https://example.com/3,https://example.com/4,https://example.com/5 |
+    And the user types "https://example.com/6" in the question form source urls input and presses Enter
+    Then the text "Maximum number of source URLs reached" should be visible
