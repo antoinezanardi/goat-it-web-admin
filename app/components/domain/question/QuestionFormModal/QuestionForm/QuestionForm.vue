@@ -160,19 +160,12 @@ defineExpose({
         </UFormField>
       </div>
 
-      <UFormField
+      <QuestionThemeSelector
+        :available-themes="availableThemes"
         class="mt-4"
-        data-testid="question-form-themes-field"
-        :label="$t('questions.fields.themes')"
-        name="themes"
-        required
-      >
-        <QuestionThemeSelector
-          :available-themes="availableThemes"
-          :model-value="formState.themes"
-          @update:model-value="onUpdateThemes"
-        />
-      </UFormField>
+        :model-value="formState.themes"
+        @update:model-value="onUpdateThemes"
+      />
     </div>
 
     <div>

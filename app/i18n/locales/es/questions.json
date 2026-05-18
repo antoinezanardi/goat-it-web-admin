@@ -65,7 +65,8 @@
     },
     "errors": {
       "invalidUrl": "Debe ser una URL válida",
-      "duplicateUrl": "Esta URL ya ha sido añadida"
+      "duplicateUrl": "Esta URL ya ha sido añadida",
+      "maxSourceUrls": "Número máximo de URLs de origen alcanzado"
     }
   }
 }

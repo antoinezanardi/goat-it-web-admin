@@ -32,6 +32,12 @@ function onUpdateModelValue(updatedValue: string[]): void {
 
     return;
   }
+  if (isMaxReached.value) {
+    errorMessage.value = t("questions.errors.maxSourceUrls");
+    displayValue.value = [...props.modelValue];
+
+    return;
+  }
   const addedUrl = updatedValue.at(-1);
 
   if (!addedUrl) {
@@ -65,7 +71,6 @@ function onUpdateModelValue(updatedValue: string[]): void {
     <UInputTags
       add-on-blur
       add-on-tab
-      :disabled="isMaxReached"
       duplicate
       :model-value="displayValue"
       :placeholder="$t('questions.fields.sourceUrls')"

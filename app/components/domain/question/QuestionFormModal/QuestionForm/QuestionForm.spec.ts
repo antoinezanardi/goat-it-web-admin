@@ -91,9 +91,10 @@ describe("QuestionForm Component", () => {
     });
 
     it("should render the themes form field with the correct i18n key when mounted.", () => {
-      const themesField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-themes-field']");
+      const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+      const innerFormField = themeSelector.findComponent<typeof UFormField>({ name: "UFormField" });
 
-      expect(themesField.props("label")).toBe("questions.fields.themes");
+      expect(innerFormField.props("label")).toBe("questions.fields.themes");
     });
 
     it("should render the source urls form field with the correct i18n key when mounted.", () => {

@@ -24,7 +24,7 @@ Then(
 );
 
 Then(
-  /^the source urls input should have no tags$/u,
+  /^the question form source urls input should have no tags$/u,
   async function(this: GoatItWorld): Promise<void> {
     const dialog = this.page.getByRole("dialog");
     const sourceUrlsContainer = dialog.getByTestId("question-source-urls-input");

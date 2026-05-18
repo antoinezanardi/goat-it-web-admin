@@ -65,7 +65,8 @@
     },
     "errors": {
       "invalidUrl": "Must be a valid URL",
-      "duplicateUrl": "This URL has already been added"
+      "duplicateUrl": "This URL has already been added",
+      "maxSourceUrls": "Maximum number of source URLs reached"
     }
   }
 }

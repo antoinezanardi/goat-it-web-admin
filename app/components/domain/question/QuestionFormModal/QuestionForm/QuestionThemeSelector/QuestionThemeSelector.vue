@@ -79,7 +79,12 @@ function onRemoveTheme(themeId: string): void {
 </script>
 
 <template>
-  <div data-testid="question-theme-selector">
+  <UFormField
+    data-testid="question-theme-selector"
+    :label="$t('questions.fields.themes')"
+    name="themes"
+    required
+  >
     <USelectMenu
       :key="selectMenuKey"
       data-testid="question-theme-selector-select"
@@ -136,5 +141,5 @@ function onRemoveTheme(themeId: string): void {
         />
       </div>
     </div>
-  </div>
+  </UFormField>
 </template>

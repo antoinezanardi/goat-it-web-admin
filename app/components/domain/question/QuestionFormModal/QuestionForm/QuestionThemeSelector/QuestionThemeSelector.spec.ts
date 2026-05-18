@@ -7,7 +7,7 @@ import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import type { UButton, USelectMenu } from "#components";
+import type { UButton, UFormField, USelectMenu } from "#components";
 import { QuestionThemeSelector } from "#components";
 
 import type { QuestionThemeSelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/question-theme-selector.types";
@@ -38,6 +38,26 @@ describe("QuestionThemeSelector Component", () => {
 
   it("should render the question theme selector component when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
+  });
+
+  describe("Form Field", () => {
+    it("should render the form field with the correct label when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-selector']");
+
+      expect(formField.props("label")).toBe("questions.fields.themes");
+    });
+
+    it("should render the form field with the correct name when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-selector']");
+
+      expect(formField.props("name")).toBe("themes");
+    });
+
+    it("should render the form field as required when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-selector']");
+
+      expect(formField.props("required")).toBeTruthy();
+    });
   });
 
   describe("Select Menu", () => {

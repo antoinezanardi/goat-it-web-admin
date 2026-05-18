@@ -52,7 +52,7 @@ describe("QuestionSourceUrlsInput Component", () => {
       expect(inputTags.props("disabled")).toBeFalsy();
     });
 
-    it("should disable the input tags when the maximum number of source urls is reached.", async() => {
+    it("should not disable the input tags when the maximum number of source urls is reached.", async() => {
       wrapper = await mountQuestionSourceUrlsInputComponent({
         props: {
           modelValue: [
@@ -67,7 +67,7 @@ describe("QuestionSourceUrlsInput Component", () => {
 
       const inputTags = wrapper.findComponent<typeof UInputTags>({ name: "UInputTags" });
 
-      expect(inputTags.props("disabled")).toBeTruthy();
+      expect(inputTags.props("disabled")).toBeFalsy();
     });
   });
 
@@ -184,6 +184,36 @@ describe("QuestionSourceUrlsInput Component", () => {
       const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-source-urls-input']");
 
       expect(formField.props("error")).toBeUndefined();
+    });
+
+    it("should pass the max source urls error to the form field when the maximum number of source urls is reached.", async() => {
+      wrapper = await mountQuestionSourceUrlsInputComponent({
+        props: {
+          modelValue: [
+            "https://example.com/1",
+            "https://example.com/2",
+            "https://example.com/3",
+            "https://example.com/4",
+            "https://example.com/5",
+          ],
+        },
+      });
+
+      const inputTags = wrapper.findComponent<typeof UInputTags>({ name: "UInputTags" });
+
+      getWrapperVm(inputTags).$emit("update:modelValue", [
+        "https://example.com/1",
+        "https://example.com/2",
+        "https://example.com/3",
+        "https://example.com/4",
+        "https://example.com/5",
+        "https://example.com/6",
+      ]);
+      await nextTick();
+
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-source-urls-input']");
+
+      expect(formField.props("error")).toBe("questions.errors.maxSourceUrls");
     });
   });
 });
