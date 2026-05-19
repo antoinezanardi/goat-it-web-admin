@@ -93,3 +93,25 @@ Feature: ❓ Question Creation
       | https://example.com/1,https://example.com/2,https://example.com/3,https://example.com/4,https://example.com/5 |
     And the user types "https://example.com/6" in the question form source urls input and presses Enter
     Then the text "Maximum number of source URLs reached" should be visible
+
+  Scenario: ❓ Source URL tag displays domain and opens URL in new tab when clicked
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | sourceUrls                      |
+      | https://en.wikipedia.org/France |
+    Then the source URL tag with domain "en.wikipedia.org" should be visible in the question form
+    When the user clicks on the source URL tag with domain "en.wikipedia.org" in the question form
+    Then a new tab should have been opened with URL "https://en.wikipedia.org/France"
+
+  Scenario: ❓ Source URL tag can be removed by clicking the delete button
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | sourceUrls                                              |
+      | https://en.wikipedia.org/France,https://example.com/abc |
+    Then the source URL tag with domain "en.wikipedia.org" should be visible in the question form
+    And the source URL tag with domain "example.com" should be visible in the question form
+    When the user removes the source URL tag with domain "example.com" from the question form
+    Then the source URL tag with domain "example.com" should be hidden in the question form
+    And the source URL tag with domain "en.wikipedia.org" should be visible in the question form

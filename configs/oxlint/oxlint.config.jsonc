@@ -22,6 +22,7 @@
     "useColorMode": "readonly",
     "useHexColor": "readonly",
     "useTemplateRef": "readonly",
+    "useAppConfig": "readonly",
     "defineAppConfig": "readonly",
     "defineNuxtConfig": "readonly",
     "defineEmits": "readonly",
