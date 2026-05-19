@@ -106,7 +106,7 @@
     "@iconify-json/circle-flags": "^1.2.10",
     "@iconify-json/lucide": "^1.2.108",
     "@nuxt/eslint": "^1.15.2",
-    "@nuxt/hints": "^1.1.1",
+    "@nuxt/hints": "^1.1.2",
     "@nuxt/test-utils": "^4.0.2",
     "@nuxt/ui": "^4.7.1",
     "@nuxtjs/i18n": "^10.3.0",
