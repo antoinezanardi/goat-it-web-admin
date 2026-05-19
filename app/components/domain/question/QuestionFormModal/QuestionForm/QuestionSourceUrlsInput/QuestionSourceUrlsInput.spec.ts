@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import type { UFormField, UInputTags } from "#components";
+import type { UFormField, UInputTags, UTooltip } from "#components";
 import { QuestionSourceUrlsInput } from "#components";
 
 import type { QuestionSourceUrlsInputProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionSourceUrlsInput/question-source-urls-input.types";
@@ -68,6 +68,47 @@ describe("QuestionSourceUrlsInput Component", () => {
       const inputTags = wrapper.findComponent<typeof UInputTags>({ name: "UInputTags" });
 
       expect(inputTags.props("disabled")).toBeFalsy();
+    });
+  });
+
+  describe("Source URL Tags", () => {
+    it("should render a QuestionSourceUrlTag for each URL when model value has multiple URLs.", async() => {
+      wrapper = await mountQuestionSourceUrlsInputComponent({
+        props: {
+          modelValue: ["https://example.com", "https://docs.google.com/sheet"],
+        },
+      });
+
+      const tags = wrapper.findAllComponents({ name: "QuestionSourceUrlTag" });
+
+      expect(tags).toHaveLength(2);
+    });
+
+    it("should pass the URL to QuestionSourceUrlTag when rendered.", async() => {
+      wrapper = await mountQuestionSourceUrlsInputComponent({
+        props: {
+          modelValue: ["https://example.com"],
+        },
+      });
+
+      const tag = wrapper.findComponent({ name: "QuestionSourceUrlTag" });
+
+      expect(tag.props("url")).toBe("https://example.com");
+    });
+  });
+
+  describe("Delete Tooltip", () => {
+    it("should render a tooltip on the delete button with the remove source text when URLs are present.", async() => {
+      wrapper = await mountQuestionSourceUrlsInputComponent({
+        props: {
+          modelValue: ["https://example.com"],
+        },
+      });
+
+      const tooltips = wrapper.findAllComponents<typeof UTooltip>({ name: "UTooltip" });
+      const tooltipTexts = tooltips.map(t => t.props("text"));
+
+      expect(tooltipTexts).toContainEqual(expect.stringContaining("questions.sourceUrlTag.removeSource"));
     });
   });
 

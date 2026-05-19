@@ -9,6 +9,10 @@ const emit = defineEmits<QuestionSourceUrlsInputEmits>();
 
 const { t } = useI18n();
 
+const appConfig = useAppConfig();
+
+const closeIcon = computed<string>(() => appConfig.ui.icons.close);
+
 const errorMessage = ref<string>();
 
 const displayValue = ref<string[]>([]);
@@ -75,6 +79,19 @@ function onUpdateModelValue(updatedValue: string[]): void {
       :model-value="displayValue"
       :placeholder="$t('questions.fields.sourceUrls')"
       @update:model-value="onUpdateModelValue"
-    />
+    >
+      <template #item-text="{ item }">
+        <QuestionSourceUrlTag :url="item"/>
+      </template>
+
+      <template #item-delete="{ item }">
+        <UTooltip :text="$t('questions.sourceUrlTag.removeSource', { 'url': item })">
+          <UIcon
+            class="cursor-pointer size-3.5"
+            :name="closeIcon"
+          />
+        </UTooltip>
+      </template>
+    </UInputTags>
   </UFormField>
 </template>

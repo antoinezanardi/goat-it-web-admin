@@ -67,6 +67,10 @@
       "invalidUrl": "Doit être une URL valide",
       "duplicateUrl": "Cette URL a déjà été ajoutée",
       "maxSourceUrls": "Nombre maximum d'URLs source atteint"
+    },
+    "sourceUrlTag": {
+      "goTo": "Aller sur {url}",
+      "removeSource": "Supprimer la source {url}"
     }
   }
 }
