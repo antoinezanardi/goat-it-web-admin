@@ -1,5 +1,5 @@
 import { config } from "@vue/test-utils";
-import { beforeAll, afterAll, vi, beforeEach } from "vitest";
+import { beforeAll, beforeEach, afterAll, vi } from "vitest";
 
 const originalGlobalConfig = { ...config.global };
 
@@ -9,15 +9,14 @@ beforeAll(() => {
     ...config.global.stubs,
     "u-tooltip": true,
   };
+});
+
+beforeEach(() => {
   config.global.mocks = {
     ...config.global.mocks,
     $t: vi.fn<(key: string) => string>(key => key),
     $tc: vi.fn<(key: string, count: number) => string>(key => key),
   };
-});
-
-beforeEach(() => {
-  vi.resetModules();
 });
 
 afterAll(() => {
