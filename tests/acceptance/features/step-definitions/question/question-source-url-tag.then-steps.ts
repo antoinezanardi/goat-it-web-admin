@@ -24,13 +24,3 @@ Then(
     await expect(tagLink).toBeHidden();
   },
 );
-
-Then(
-  /^a new tab should have been opened with URL "(?<expectedUrl>[^"]*)"$/u,
-  function(this: GoatItWorld, expectedUrl: string): void {
-    if (!this.openedTabPage) {
-      throw new Error("Expected a new tab to have been opened, but none was found.");
-    }
-    expect(this.openedTabPage.url()).toBe(expectedUrl);
-  },
-);

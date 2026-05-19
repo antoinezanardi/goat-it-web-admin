@@ -86,10 +86,12 @@ function onUpdateModelValue(updatedValue: string[]): void {
 
       <template #item-delete="{ item }">
         <UTooltip :text="$t('questions.sourceUrlTag.removeSource', { 'url': item })">
-          <UIcon
-            class="cursor-pointer size-3.5"
-            :name="closeIcon"
-          />
+          <span :data-testid="`remove-source-url-tag-${item}`">
+            <UIcon
+              class="cursor-pointer size-3.5"
+              :name="closeIcon"
+            />
+          </span>
         </UTooltip>
       </template>
     </UInputTags>

@@ -70,7 +70,7 @@
     },
     "sourceUrlTag": {
       "goTo": "Vai a {url}",
-      "removeSource": "Rimuovere la fonte {url}"
+      "removeSource": "Rimuovi la fonte {url}"
     }
   }
 }

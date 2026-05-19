@@ -33,8 +33,9 @@ When(
     await expect(dialog).toBeVisible();
 
     const sourceUrlsContainer = dialog.getByTestId("question-source-urls-input");
-    const tagItem = sourceUrlsContainer.locator("[data-slot='item']").filter({ hasText: domain });
-    const deleteButton = tagItem.locator("[data-slot='itemDelete']");
+    const tagLink = sourceUrlsContainer.getByRole("link", { name: domain });
+    const href = await tagLink.getAttribute("href");
+    const deleteButton = sourceUrlsContainer.getByTestId(`remove-source-url-tag-${href}`);
 
     await expect(deleteButton).toBeVisible();
     await deleteButton.click();
