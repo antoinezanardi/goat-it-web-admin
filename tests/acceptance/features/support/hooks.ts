@@ -10,6 +10,7 @@ import {
   BEFORE_ALL_TIMEOUT,
   BEFORE_TIMEOUT,
   SANDBOX_ADMIN_KEY,
+  SHARED_BUILD_DIR,
 } from "#acceptance/features/support/constants/hooks.constants.ts";
 import {
   generateScreenshotOnScenarioFailure,
@@ -24,10 +25,9 @@ import type { GoatItWorld } from "#acceptance/features/support/types/world.types
 const rootDirectory = fileURLToPath(new URL("../../../..", import.meta.url));
 const workerId = getWorkerId();
 const sandboxBaseUrl = getSandboxBaseUrl();
-const workerBuildDirectory = `.nuxt/test/worker-${workerId}`;
-
 const { beforeEach, afterEach, afterAll, beforeAll } = createTest({
   runner: "cucumber",
+  build: false,
   server: true,
   env: {
     NUXT_GOAT_IT_API_BASE_URL: sandboxBaseUrl,
@@ -42,10 +42,10 @@ const { beforeEach, afterEach, afterAll, beforeAll } = createTest({
   },
   rootDir: rootDirectory,
   nuxtConfig: {
-    buildDir: workerBuildDirectory,
+    buildDir: SHARED_BUILD_DIR,
     nitro: {
       output: {
-        dir: path.resolve(rootDirectory, workerBuildDirectory, "output"),
+        dir: path.resolve(rootDirectory, SHARED_BUILD_DIR, "output"),
       },
     },
     i18n: {
@@ -64,16 +64,13 @@ BeforeAll({ timeout: BEFORE_ALL_TIMEOUT }, async(): Promise<void> => {
   await waitForSandboxHealthCheck();
   console.info(`[Worker ${workerId}] Goat It API sandbox is healthy.`);
 
-  console.info(`[Worker ${workerId}] Starting Nuxt server (buildDir: ${workerBuildDirectory})...`);
+  console.info(`[Worker ${workerId}] Starting Nuxt server (buildDir: ${SHARED_BUILD_DIR})...`);
   await beforeAll();
   console.info(`[Worker ${workerId}] Nuxt server started successfully.`);
 });
 
 Before({ timeout: BEFORE_TIMEOUT }, async function(this: GoatItWorld): Promise<void> {
-  console.info(`[Worker ${workerId}] Resetting Goat It API sandbox data...`);
   resetSandboxData();
-  console.info(`[Worker ${workerId}] Goat It API sandbox data reset successfully.`);
-
   beforeEach();
   this.page = await createPage();
   this.context = this.page.context();

@@ -8,6 +8,15 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@nuxt/eslint",
   ],
+  $test: {
+    buildDir: ".nuxt/test",
+    nitro: {
+      output: {
+        dir: ".nuxt/test/output",
+      },
+    },
+    i18n: { defaultLocale: "en" },
+  },
   ssr: false,
   pages: {
     pattern: [
