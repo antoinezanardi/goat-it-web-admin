@@ -40,7 +40,7 @@ Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
 Running acceptance tests:
 
 - Full run (build + test):  `pnpm run test:acceptance`
-- Skip build (fast iteration, if no source have been modified but only acceptance tests code): `pnpm run test:acceptance:skip-build`
+- Skip build (fast iteration, if no sources have been modified but only acceptance tests code): `pnpm run test:acceptance:skip-build`
 - Build only:               `pnpm run test:acceptance:build`
 - Specific feature:         `pnpm run test:acceptance:skip-build tests/acceptance/features/home/home.feature`
 - Specific scenario (line): `pnpm run test:acceptance:skip-build tests/acceptance/features/home/home.feature:8`

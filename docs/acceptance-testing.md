@@ -74,7 +74,7 @@ Location: `configs/cucumber/cucumber.json`
     "parallel": 4,
     "publish": false,
     "format": [
-      "summary",
+      "progress-bar",
       "json:tests/acceptance/reports/report.json",
       "junit:tests/acceptance/reports/junit.xml"
     ]
