@@ -62,7 +62,7 @@ function resetSandboxData(): void {
   try {
     execSync(
       `docker exec ${containerName} mongosh --quiet --eval "db.dropDatabase()" ${SANDBOX_MONGODB_DATABASE_NAME}`,
-      { stdio: "inherit", timeout: RESET_SANDBOX_DATA_TIMEOUT_IN_MS },
+      { stdio: "pipe", timeout: RESET_SANDBOX_DATA_TIMEOUT_IN_MS },
     );
   } catch(error: unknown) {
     throw new Error(`Failed to reset the Goat It API sandbox data within ${RESET_SANDBOX_DATA_TIMEOUT_IN_MS / MS_IN_SECOND}s.`, { cause: error });

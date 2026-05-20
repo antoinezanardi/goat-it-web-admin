@@ -74,7 +74,7 @@ Location: `configs/cucumber/cucumber.json`
     "parallel": 4,
     "publish": false,
     "format": [
-      "summary",
+      "progress-bar",
       "json:tests/acceptance/reports/report.json",
       "junit:tests/acceptance/reports/junit.xml"
     ]
@@ -107,23 +107,29 @@ Reports are generated in `tests/acceptance/reports/`:
 ## 3. Running tests
 
 ```bash
-# Full acceptance test run (recommended)
+# Full acceptance test run: builds Nuxt once + runs all workers (CI and first run)
 pnpm run test:acceptance
+
+# Skip build: re-run tests against existing build (fast local iteration)
+pnpm run test:acceptance:skip-build
+
+# Build only: pre-build Nuxt for tests without running them
+pnpm run test:acceptance:build
 
 # Install Playwright (run once after fresh checkout)
 pnpm run test:acceptance:prepare
 
-# Run a specific feature file
-pnpm run test:acceptance tests/acceptance/features/home/home.feature
+# Run a specific feature file (skip build for fast iteration)
+pnpm run test:acceptance:skip-build tests/acceptance/features/home/home.feature
 
 # Run by tag
-pnpm run test:acceptance --tags "@question-theme-creation"
+pnpm run test:acceptance:skip-build --tags "@question-theme-creation"
 
 # Multiple tags (OR)
-pnpm run test:acceptance --tags "@home or @questions"
+pnpm run test:acceptance:skip-build --tags "@home or @questions"
 
 # Exclude tag
-pnpm run test:acceptance --tags "not @accessibility"
+pnpm run test:acceptance:skip-build --tags "not @accessibility"
 ```
 
 **Prerequisites:**
@@ -149,6 +155,7 @@ The hooks in `tests/acceptance/features/support/hooks.ts` manage the full test l
 // hooks.ts — simplified structure
 const { beforeEach, afterEach, afterAll, beforeAll } = createTest({
   runner: "cucumber",
+  build: false,
   server: true,
   env: {
     NUXT_GOAT_IT_API_BASE_URL: SANDBOX_BASE_URL,
@@ -162,6 +169,7 @@ const { beforeEach, afterEach, afterAll, beforeAll } = createTest({
     },
   },
   nuxtConfig: {
+    buildDir: SHARED_BUILD_DIR,
     i18n: { defaultLocale: ACCEPTANCE_TESTS_DEFAULT_LOCALE },
   },
 });

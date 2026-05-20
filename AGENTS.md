@@ -26,6 +26,8 @@ handling, Nuxt conventions, and other repo-specific rules).
   - Watch mode:      `pnpm run test:unit:watch`
   - Mutation (Stryker): `pnpm run test:mutation` / `pnpm run test:mutation:force`
   - Acceptance (Cucumber + Playwright): `pnpm run test:acceptance`
+  - Acceptance (skip build): `pnpm run test:acceptance:skip-build`
+  - Acceptance build only: `pnpm run test:acceptance:build`
   - Install Playwright: `pnpm run test:acceptance:prepare` (run once locally)
 
 Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
@@ -37,12 +39,16 @@ Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
 
 Running acceptance tests:
 
-- Full run:           `pnpm run test:acceptance`
-- Specific feature:   `pnpm run test:acceptance tests/acceptance/features/home/home.feature`
-- By tag:             `pnpm run test:acceptance --tags "@question-themes"`
-- Multiple tags (OR): `pnpm run test:acceptance --tags "@home or @questions"`
-- Exclude tag:        `pnpm run test:acceptance --tags "not @accessibility"`
-- By tag (AND):       `pnpm run test:acceptance --tags "@question-themes and @accessibility"`
+- Full run (build + test):  `pnpm run test:acceptance`
+- Skip build (fast iteration, if no sources have been modified but only acceptance tests code): `pnpm run test:acceptance:skip-build`
+- Build only:               `pnpm run test:acceptance:build`
+- Specific feature:         `pnpm run test:acceptance:skip-build tests/acceptance/features/home/home.feature`
+- Specific scenario (line): `pnpm run test:acceptance:skip-build tests/acceptance/features/home/home.feature:8`
+- By scenario name:         `pnpm run test:acceptance:skip-build --name "should display"`
+- By tag:                   `pnpm run test:acceptance:skip-build --tags "@question-themes"`
+- Multiple tags (OR):       `pnpm run test:acceptance:skip-build --tags "@home or @questions"`
+- Exclude tag:              `pnpm run test:acceptance:skip-build --tags "not @accessibility"`
+- By tag (AND):             `pnpm run test:acceptance:skip-build --tags "@question-themes and @accessibility"`
 
 **Mandatory quality gates** — agents MUST run all four commands below **in order**
 before considering any task complete. **Do NOT skip any gate**, even for "trivial" changes:
