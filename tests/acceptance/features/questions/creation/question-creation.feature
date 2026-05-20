@@ -115,3 +115,16 @@ Feature: ❓ Question Creation
     When the user removes the source URL tag with domain "example.com" from the question form
     Then the source URL tag with domain "example.com" should be hidden in the question form
     And the source URL tag with domain "en.wikipedia.org" should be visible in the question form
+
+  Scenario: ❓ Question can be created with optional trivia field
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label   | slug    | description     | aliases |
+      | Science | science | A science theme | sci     |
+    And the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | statement          | answer | trivia                            | difficulty | category | themes  | sourceUrls          |
+      | What is H2O?      | Water  | H2O is the most common substance | hard       | Trivia   | Science | https://example.com |
+    And the user clicks on the button with name "Create"
+    Then the toast with exact text "Question created successfully" should be visible

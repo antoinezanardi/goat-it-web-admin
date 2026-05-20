@@ -9,6 +9,7 @@ describe(createQuestionCreationDtoShell, () => {
     { field: "statement" },
     { field: "answer" },
     { field: "context" },
+    { field: "trivia" },
   ])("should return a localized text shell when content field is $field.", ({ field }) => {
     const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
 

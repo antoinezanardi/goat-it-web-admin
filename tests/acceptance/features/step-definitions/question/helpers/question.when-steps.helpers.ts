@@ -40,6 +40,19 @@ async function fillThemes(dialog: Locator, themes: string): Promise<void> {
   }
 }
 
+async function fillTrivia(dialog: Locator, trivia: string): Promise<void> {
+  const triviaInput = dialog.getByRole("textbox", { name: "Trivia" });
+
+  await expect(triviaInput).toBeVisible();
+
+  const facts = trivia.split(",").map(fact => fact.trim()).filter(fact => fact.length > 0);
+
+  for (const fact of facts) {
+    await triviaInput.fill(fact);
+    await triviaInput.press("Enter");
+  }
+}
+
 async function fillSourceUrls(dialog: Locator, sourceUrls: string): Promise<void> {
   const sourceInput = dialog.getByRole("textbox", { name: "Sources*" });
 
@@ -62,6 +75,9 @@ async function fillQuestionForm(dialog: Locator, row: QuestionFormRow): Promise<
   }
   if (row.context !== undefined) {
     await dialog.getByRole("textbox", { name: "Context" }).fill(row.context);
+  }
+  if (row.trivia !== undefined) {
+    await fillTrivia(dialog, row.trivia);
   }
   if (row.difficulty !== undefined) {
     const difficultyButton = dialog.getByTestId(`question-difficulty-selector-${row.difficulty}`);

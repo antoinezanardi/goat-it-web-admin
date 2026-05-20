@@ -11,7 +11,7 @@ import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nux
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
-import type { UForm, UFormField, UInput, UTextarea, QuestionCategorySelector, QuestionCognitiveDifficultySelector, QuestionSourceUrlsInput, QuestionThemeSelector } from "#components";
+import type { UForm, UFormField, UInput, UTextarea, QuestionCategorySelector, QuestionCognitiveDifficultySelector, QuestionSourceUrlsInput, QuestionThemeSelector, QuestionTriviaInput } from "#components";
 import { QuestionForm } from "#components";
 
 import type { QuestionFormProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
@@ -103,6 +103,13 @@ describe("QuestionForm Component", () => {
 
       expect(innerFormField.props("label")).toBe("questions.fields.sourceUrls");
     });
+
+    it("should render the trivia form field with the correct i18n key when mounted.", () => {
+      const triviaInput = wrapper.findComponent<typeof QuestionTriviaInput>("[data-testid='question-trivia-input']");
+      const innerFormField = triviaInput.findComponent<typeof UFormField>({ name: "UFormField" });
+
+      expect(innerFormField.props("label")).toBe("questions.fields.trivia");
+    });
   });
 
   describe("Form v-model bindings", () => {
@@ -189,6 +196,18 @@ describe("QuestionForm Component", () => {
 
       expect(state.sourceUrls).toStrictEqual(["https://example.com"]);
     });
+
+    it("should update the trivia in the form state when the trivia input emits.", async() => {
+      const triviaInput = wrapper.findComponent<typeof QuestionTriviaInput>("[data-testid='question-trivia-input']");
+      getWrapperVm(triviaInput).$emit("update:modelValue", ["Fun fact about geography"]);
+      await nextTick();
+
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const state = uForm.props("state") as Record<string, unknown>;
+      const content = state.content as { trivia: Record<string, unknown> };
+
+      expect(content.trivia[DEFAULT_MOCKED_LOCALE]).toStrictEqual(["Fun fact about geography"]);
+    });
   });
 
   describe("Exposed canSubmit", () => {
@@ -259,6 +278,32 @@ describe("QuestionForm Component", () => {
       const content = state.content as { context: Record<string, unknown> };
 
       expect(content.context[DEFAULT_MOCKED_LOCALE]).toBe("Some context");
+    });
+
+    it("should not nullify trivia when trivia has values and triggerFormSubmit is called.", async() => {
+      const triviaInput = wrapper.findComponent<typeof QuestionTriviaInput>("[data-testid='question-trivia-input']");
+      getWrapperVm(triviaInput).$emit("update:modelValue", ["Fun fact"]);
+      await nextTick();
+
+      const vm = getWrapperVm<QuestionFormVm>(wrapper);
+      vm.$.refs.form = null;
+      await vm.triggerFormSubmit();
+
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const state = uForm.props("state") as Record<string, unknown>;
+      const content = state.content as { trivia: Record<string, unknown> };
+
+      expect(content.trivia[DEFAULT_MOCKED_LOCALE]).toStrictEqual(["Fun fact"]);
+    });
+
+    it("should not display trivia when trivia is not set in form state.", async() => {
+      const vm = getWrapperVm<QuestionFormVm>(wrapper);
+      (vm.$.setupState.formState as { content: { trivia: undefined } }).content.trivia = undefined;
+      await nextTick();
+
+      const triviaInput = wrapper.findComponent<typeof QuestionTriviaInput>("[data-testid='question-trivia-input']");
+
+      expect(triviaInput.exists()).toBe(false);
     });
   });
 
