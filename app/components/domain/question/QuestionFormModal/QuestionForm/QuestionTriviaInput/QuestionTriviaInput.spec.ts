@@ -16,7 +16,7 @@ describe("QuestionTriviaInput Component", () => {
   let wrapper: VueWrapper;
 
   const defaultProperties: QuestionTriviaInputProperties = {
-    modelValue: [],
+    modelValue: ["Existing trivia"],
   };
 
   async function mountQuestionTriviaInputComponent(options: MountSuspendedOptions<typeof QuestionTriviaInput> = {}): Promise<VueWrapper> {
@@ -55,20 +55,20 @@ describe("QuestionTriviaInput Component", () => {
   });
 
   describe("Input Tags", () => {
-    it("should pass an empty array to the input tags when model value is not provided.", () => {
+    it("should pass an empty array to the input tags when model value is not provided.", async() => {
+      wrapper = await mountQuestionTriviaInputComponent({
+        props: {},
+      });
+
       const inputTags = wrapper.findComponent<typeof UInputTags>({ name: "UInputTags" });
 
       expect(inputTags.props("modelValue")).toStrictEqual([]);
     });
 
-    it("should pass the model value to the input tags when provided.", async() => {
-      wrapper = await mountQuestionTriviaInputComponent({
-        props: { modelValue: ["Fact 1", "Fact 2"] },
-      });
-
+    it("should pass the model value to the input tags when provided.", () => {
       const inputTags = wrapper.findComponent<typeof UInputTags>({ name: "UInputTags" });
 
-      expect(inputTags.props("modelValue")).toStrictEqual(["Fact 1", "Fact 2"]);
+      expect(inputTags.props("modelValue")).toStrictEqual(["Existing trivia"]);
     });
 
     it("should pass the placeholder to the input tags when mounted.", () => {
