@@ -9,6 +9,11 @@ export default defineAppConfig({
         base: ["cursor-pointer"],
       },
     },
+    inputTags: {
+      slots: {
+        itemDelete: "cursor-pointer",
+      },
+    },
     pageHeader: {
       slots: {
         title: "text-xl sm:text-2xl font-medium",

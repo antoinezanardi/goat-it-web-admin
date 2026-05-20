@@ -6,6 +6,7 @@ const QUESTION_FORM_ROW_SCHEMA = z.strictObject({
   statement: zCoerceOptionalString(),
   answer: zCoerceOptionalString(),
   context: zCoerceOptionalString(),
+  trivia: zCoerceOptionalString(),
   difficulty: zCoerceOptionalString(),
   category: zCoerceOptionalString(),
   themes: zCoerceOptionalString(),

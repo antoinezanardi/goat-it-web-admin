@@ -126,6 +126,11 @@ defineExpose({
             :rows="QUESTION_FORM_CONTEXT_TEXTAREA_ROWS"
           />
         </UFormField>
+
+        <QuestionTriviaInput
+          v-if="formState.content.trivia"
+          v-model="formState.content.trivia[currentLocale]"
+        />
       </div>
     </div>
 
