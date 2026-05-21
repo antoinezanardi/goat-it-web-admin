@@ -9,10 +9,6 @@ const emit = defineEmits<QuestionSourceUrlsInputEmits>();
 
 const { t } = useI18n();
 
-const appConfig = useAppConfig();
-
-const closeIcon = computed<string>(() => appConfig.ui.icons.close);
-
 const errorMessage = ref<string>();
 
 const displayValue = ref<string[]>([]);
@@ -62,38 +58,28 @@ function onUpdateModelValue(updatedValue: string[]): void {
   errorMessage.value = undefined;
   emit("update:modelValue", updatedValue);
 }
+
+function removeTooltipText(item: string): string {
+  return t("questions.form.removeSource", { value: item });
+}
 </script>
 
 <template>
-  <UFormField
+  <InputTagsField
+    :add-hint-text="$t('questions.form.addSourceUrlHint')"
     data-testid="question-source-urls-input"
+    duplicate
     :error="errorMessage"
     :label="$t('questions.fields.sourceUrls')"
+    :model-value="displayValue"
     name="sourceUrls"
+    :placeholder="$t('questions.placeholders.sourceUrls')"
+    :remove-tooltip-text="removeTooltipText"
     required
+    @update:model-value="onUpdateModelValue"
   >
-    <UInputTags
-      add-on-blur
-      add-on-tab
-      duplicate
-      :model-value="displayValue"
-      :placeholder="$t('questions.fields.sourceUrls')"
-      @update:model-value="onUpdateModelValue"
-    >
-      <template #item-text="{ item }">
-        <QuestionSourceUrlTag :url="item"/>
-      </template>
-
-      <template #item-delete="{ item }">
-        <UTooltip :text="$t('questions.sourceUrlTag.removeSource', { 'url': item })">
-          <span :data-testid="`remove-source-url-tag-${item}`">
-            <UIcon
-              class="cursor-pointer size-3.5"
-              :name="closeIcon"
-            />
-          </span>
-        </UTooltip>
-      </template>
-    </UInputTags>
-  </UFormField>
+    <template #itemText="{ item }">
+      <QuestionSourceUrlTag :url="item"/>
+    </template>
+  </InputTagsField>
 </template>

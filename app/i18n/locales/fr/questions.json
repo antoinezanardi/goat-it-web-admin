@@ -72,6 +72,19 @@
     "sourceUrlTag": {
       "goTo": "Aller sur {url}",
       "removeSource": "Supprimer la source {url}"
+    },
+    "form": {
+      "addTriviaHint": "pour ajouter une anecdote",
+      "removeTrivia": "Supprimer l'anecdote {value}",
+      "addSourceUrlHint": "pour ajouter une URL source",
+      "removeSource": "Supprimer la source {value}"
+    },
+    "placeholders": {
+      "statement": "Question posée au joueur",
+      "answer": "ex : Paris, 1789, Albert Einstein",
+      "context": "Contexte pour comprendre la réponse",
+      "trivia": "ex : Paris s'appelait autrefois Lutèce",
+      "sourceUrls": "ex : https://fr.wikipedia.org/"
     }
   }
 }

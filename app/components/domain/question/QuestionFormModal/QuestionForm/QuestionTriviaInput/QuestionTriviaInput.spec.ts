@@ -74,7 +74,7 @@ describe("QuestionTriviaInput Component", () => {
     it("should pass the placeholder to the input tags when mounted.", () => {
       const inputTags = wrapper.findComponent<typeof UInputTags>({ name: "UInputTags" });
 
-      expect(inputTags.props("placeholder")).toBe("questions.fields.trivia");
+      expect(inputTags.props("placeholder")).toBe("questions.placeholders.trivia");
     });
 
     it("should pass the ui overrides to the input tags when mounted.", () => {

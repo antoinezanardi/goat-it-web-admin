@@ -82,6 +82,10 @@ async function triggerFormSubmit(): Promise<void> {
   }
 }
 
+function removeAliasTooltipText(item: string): string {
+  return t("questionThemes.form.removeAlias", { value: item });
+}
+
 defineExpose({
   canSubmit,
   triggerFormSubmit,
@@ -107,7 +111,7 @@ defineExpose({
       >
         <UInput
           v-model="formState.label[currentLocale]"
-          :placeholder="$t('questionThemes.fields.label')"
+          :placeholder="$t('questionThemes.placeholders.label')"
         />
       </UFormField>
 
@@ -119,7 +123,7 @@ defineExpose({
       >
         <UInput
           v-model="formState.slug"
-          :placeholder="$t('questionThemes.fields.slug')"
+          :placeholder="$t('questionThemes.placeholders.slug')"
         />
       </UFormField>
 
@@ -151,7 +155,7 @@ defineExpose({
       <UTextarea
         v-model="formState.description[currentLocale]"
         class="w-full"
-        :placeholder="$t('questionThemes.fields.description')"
+        :placeholder="$t('questionThemes.placeholders.description')"
         :rows="3"
       />
     </UFormField>
@@ -164,19 +168,16 @@ defineExpose({
       :localized-text="questionTheme.description"
     />
 
-    <UFormField
+    <InputTagsField
+      v-model="formState.aliases[currentLocale]"
+      :add-hint-text="$t('questionThemes.form.addAliasHint')"
       data-testid="question-theme-form-aliases-field"
       :label="$t('questionThemes.fields.aliases')"
       :name="`aliases.${currentLocale}`"
+      :placeholder="$t('questionThemes.placeholders.aliases')"
+      :remove-tooltip-text="removeAliasTooltipText"
       required
-    >
-      <UInputTags
-        v-model="formState.aliases[currentLocale]"
-        add-on-blur
-        add-on-tab
-        :placeholder="$t('questionThemes.fields.aliases')"
-      />
-    </UFormField>
+    />
 
     <TranslationFieldContext
       v-if="mode === 'edit' && questionTheme"

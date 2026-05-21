@@ -15,7 +15,7 @@ const columns = computed<TableColumn<QuestionTheme>[]>(() => [
   createTableColumn<QuestionTheme>({ accessorKey: "icon", header: t("questionThemes.fields.icon"), isCentered: true }),
   createTableColumn<QuestionTheme>({ accessorKey: "label", header: t("questionThemes.fields.label"), isCentered: true }),
   createTableColumn<QuestionTheme>({ accessorKey: "slug", header: t("questionThemes.fields.slug"), isCentered: true }),
-  createTableColumn<QuestionTheme>({ accessorKey: "description", header: t("questionThemes.fields.description") }),
+  createTableColumn<QuestionTheme>({ accessorKey: "description", header: t("questionThemes.fields.description"), tdClass: "whitespace-normal break-words" }),
   createTableColumn<QuestionTheme>({ accessorKey: "aliases", header: t("questionThemes.fields.aliases"), isCentered: true }),
   createTableColumn<QuestionTheme>({ accessorKey: "status", header: t("questionThemes.fields.status"), isCentered: true }),
   createTableColumn<QuestionTheme>({ accessorKey: "translations", header: t("questionThemes.fields.translations"), isCentered: true }),

@@ -35,6 +35,16 @@
     },
     "aliases": {
       "noneForLocale": "No aliases for this locale"
+    },
+    "form": {
+      "addAliasHint": "to add an alias",
+      "removeAlias": "Remove alias {value}"
+    },
+    "placeholders": {
+      "label": "e.g., Nature, Sport, Cinema",
+      "slug": "e.g., nature, sport-and-leisure",
+      "description": "What this theme covers",
+      "aliases": "e.g., ecology, fauna, flora"
     }
   }
 }

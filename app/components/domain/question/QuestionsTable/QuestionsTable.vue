@@ -14,7 +14,7 @@ const { questions } = storeToRefs(questionsStore);
 const columns = computed<TableColumn<Question>[]>(() => [
   createTableColumn<Question>({ accessorKey: "category", header: t("questions.fields.category"), isCentered: true }),
   createTableColumn<Question>({ accessorKey: "themes", header: t("questions.fields.themes"), isCentered: true }),
-  createTableColumn<Question>({ accessorKey: "statement", header: t("questions.fields.statement") }),
+  createTableColumn<Question>({ accessorKey: "statement", header: t("questions.fields.statement"), tdClass: "whitespace-normal break-words" }),
   createTableColumn<Question>({ accessorKey: "cognitiveDifficulty", header: t("questions.fields.cognitiveDifficulty"), isCentered: true }),
   createTableColumn<Question>({ accessorKey: "status", header: t("questions.fields.status"), isCentered: true }),
   createTableColumn<Question>({ accessorKey: "translations", header: t("questions.fields.translations"), isCentered: true }),
