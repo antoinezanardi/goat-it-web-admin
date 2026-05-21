@@ -22,8 +22,6 @@ const emit = defineEmits<QuestionFormEmits>();
 
 const { locale: currentLocale } = useI18n();
 
-const isEditMode = computed<boolean>(() => props.mode === "edit" && !!props.question);
-
 const form = useTemplateRef<Form<QuestionCreationDto | QuestionModificationDto>>("form");
 
 const isSubmitting = ref<boolean>(false);
@@ -123,10 +121,10 @@ defineExpose({
         </UFormField>
 
         <TranslationFieldContext
-          v-if="isEditMode"
+          v-if="mode === 'edit' && question"
           data-testid="translation-field-context-statement"
           :label="$t('questions.fields.statement')"
-          :localized-text="question!.content.statement"
+          :localized-text="question.content.statement"
         />
 
         <UFormField
@@ -143,11 +141,11 @@ defineExpose({
         </UFormField>
 
         <TranslationFieldContext
-          v-if="isEditMode"
+          v-if="mode === 'edit' && question"
           key="translation-field-context-2"
           data-testid="translation-field-context-answer"
           :label="$t('questions.fields.answer')"
-          :localized-text="question!.content.answer"
+          :localized-text="question.content.answer"
         />
 
         <UFormField
@@ -165,11 +163,11 @@ defineExpose({
         </UFormField>
 
         <TranslationFieldContext
-          v-if="isEditMode && question?.content.context"
+          v-if="mode === 'edit' && question?.content.context"
           key="translation-field-context-3"
           data-testid="translation-field-context-context"
           :label="$t('questions.fields.context')"
-          :localized-text="question!.content.context!"
+          :localized-text="question.content.context"
         />
 
         <QuestionTriviaInput
@@ -178,11 +176,11 @@ defineExpose({
         />
 
         <TranslationFieldContext
-          v-if="isEditMode && question?.content.trivia"
+          v-if="mode === 'edit' && question?.content.trivia"
           key="translation-field-context-4"
           data-testid="translation-field-context-trivia"
           :label="$t('questions.fields.trivia')"
-          :localized-texts="question!.content.trivia!"
+          :localized-texts="question.content.trivia"
         />
       </div>
     </div>
@@ -221,7 +219,7 @@ defineExpose({
       <QuestionThemeSelector
         :available-themes="availableThemes"
         class="mt-4"
-        :disabled="isEditMode"
+        :disabled="mode === 'edit'"
         :model-value="formState.themes"
         @update:model-value="onUpdateThemes"
       />
