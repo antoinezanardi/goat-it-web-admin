@@ -8,6 +8,7 @@ import type { Form } from "#ui/types";
 import { QUESTION_FORM_CONTEXT_TEXTAREA_ROWS } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.constants";
 import type { QuestionFormEmits, QuestionFormProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
 import { createQuestionCreationDtoShell } from "~/composables/domain/question/helpers/shell/question.shell.helpers";
+import { QUESTION_DEFAULT_AUTHOR } from "~/composables/domain/question/constants/question-author.constants";
 import { stripEmptyValues } from "#shared/utils/helpers/object/object.helpers";
 import { prepareZodSchemaForFormValidation } from "~/utils/helpers/zod/zod.helpers";
 
@@ -20,13 +21,33 @@ const emit = defineEmits<QuestionFormEmits>();
 
 const { locale: currentLocale } = useI18n();
 
-void props.question;
+const isEditMode = computed<boolean>(() => props.mode === "edit" && !!props.question);
 
 const form = useTemplateRef<Form<QuestionCreationDto | QuestionModificationDto>>("form");
 
 const isSubmitting = ref<boolean>(false);
 
-const formState = reactive<QuestionCreationDtoShell>(createQuestionCreationDtoShell());
+function createInitialFormState(): QuestionCreationDtoShell {
+  if (props.mode !== "edit" || !props.question) {
+    return createQuestionCreationDtoShell();
+  }
+  const { question } = props;
+
+  return {
+    content: {
+      statement: { [currentLocale.value]: question.content.statement[currentLocale.value] },
+      answer: { [currentLocale.value]: question.content.answer[currentLocale.value] },
+      context: question.content.context ? { [currentLocale.value]: question.content.context[currentLocale.value] } : undefined,
+      trivia: question.content.trivia ? { [currentLocale.value]: question.content.trivia[currentLocale.value] } : undefined,
+    },
+    cognitiveDifficulty: question.cognitiveDifficulty,
+    category: question.category,
+    themes: question.themes.map(themeAssignment => ({ themeId: themeAssignment.theme.id, isPrimary: themeAssignment.isPrimary, isHint: themeAssignment.isHint })),
+    sourceUrls: [...question.sourceUrls],
+    author: { ...QUESTION_DEFAULT_AUTHOR },
+  };
+}
+const formState = reactive<QuestionCreationDtoShell>(createInitialFormState());
 
 const formStateToSubmit = computed<QuestionCreationDtoShell>(() => (isSubmitting.value ? stripEmptyValues(formState) : formState));
 
@@ -100,6 +121,13 @@ defineExpose({
           />
         </UFormField>
 
+        <TranslationFieldContext
+          v-if="isEditMode"
+          data-testid="translation-field-context-statement"
+          :label="$t('questions.fields.statement')"
+          :localized-text="question!.content.statement"
+        />
+
         <UFormField
           data-testid="question-form-answer-field"
           :label="$t('questions.fields.answer')"
@@ -112,6 +140,14 @@ defineExpose({
             :placeholder="$t('questions.fields.answer')"
           />
         </UFormField>
+
+        <TranslationFieldContext
+          v-if="isEditMode"
+          key="translation-field-context-2"
+          data-testid="translation-field-context-answer"
+          :label="$t('questions.fields.answer')"
+          :localized-text="question!.content.answer"
+        />
 
         <UFormField
           v-if="formState.content.context"
@@ -127,9 +163,25 @@ defineExpose({
           />
         </UFormField>
 
+        <TranslationFieldContext
+          v-if="isEditMode && question?.content.context"
+          key="translation-field-context-3"
+          data-testid="translation-field-context-context"
+          :label="$t('questions.fields.context')"
+          :localized-text="question!.content.context!"
+        />
+
         <QuestionTriviaInput
           v-if="formState.content.trivia"
           v-model="formState.content.trivia[currentLocale]"
+        />
+
+        <TranslationFieldContext
+          v-if="isEditMode && question?.content.trivia"
+          key="translation-field-context-4"
+          data-testid="translation-field-context-trivia"
+          :label="$t('questions.fields.trivia')"
+          :localized-texts="question!.content.trivia!"
         />
       </div>
     </div>
@@ -168,6 +220,7 @@ defineExpose({
       <QuestionThemeSelector
         :available-themes="availableThemes"
         class="mt-4"
+        :disabled="isEditMode"
         :model-value="formState.themes"
         @update:model-value="onUpdateThemes"
       />

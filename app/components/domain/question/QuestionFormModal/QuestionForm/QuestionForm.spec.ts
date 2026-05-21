@@ -6,12 +6,15 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 import { createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
 import { createFakeQuestionModificationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-modification/question-modification.dto.faketory";
+import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
+import { createFakeQuestionContent } from "~~/tests/unit/utils/faketories/questions/entity/question-content/question-content.entity.faketory";
+import { createFakeQuestionThemeAssignment } from "~~/tests/unit/utils/faketories/questions/entity/question-theme-assignment/question-theme-assignment.entity.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
-import type { UForm, UFormField, UInput, UTextarea, QuestionCategorySelector, QuestionCognitiveDifficultySelector, QuestionSourceUrlsInput, QuestionThemeSelector, QuestionTriviaInput } from "#components";
+import type { UForm, UFormField, UInput, UTextarea, QuestionCategorySelector, QuestionCognitiveDifficultySelector, QuestionSourceUrlsInput, QuestionThemeSelector, QuestionTriviaInput, TranslationFieldContext } from "#components";
 import { QuestionForm } from "#components";
 
 import type { QuestionFormProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
@@ -338,6 +341,119 @@ describe("QuestionForm Component", () => {
       const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
 
       expect(themeSelector.props("availableThemes")).toStrictEqual(fakeThemes);
+    });
+  });
+
+  describe("Edit mode", () => {
+    const fakeThemeAssignments = [
+      createFakeQuestionThemeAssignment({ isPrimary: true, isHint: false }),
+      createFakeQuestionThemeAssignment({ isPrimary: false, isHint: true }),
+    ];
+    const fakeContent = createFakeQuestionContent({
+      context: { [DEFAULT_MOCKED_LOCALE]: "Some context" },
+      trivia: { [DEFAULT_MOCKED_LOCALE]: ["Fun fact"] },
+    });
+    const fakeQuestion = createFakeQuestion({
+      content: fakeContent,
+      themes: fakeThemeAssignments,
+    });
+
+    async function mountInEditMode(): Promise<VueWrapper> {
+      return mountQuestionFormComponent({
+        props: {
+          ...defaultProperties,
+          mode: "edit",
+          question: fakeQuestion,
+        },
+      });
+    }
+
+    beforeEach(async() => {
+      wrapper = await mountInEditMode();
+    });
+
+    it("should hydrate statement from question prop when rendered in edit mode.", () => {
+      const statementField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-statement-field']");
+      const statementInput = statementField.findComponent<typeof UInput>({ name: "UInput" });
+
+      expect(statementInput.props("modelValue")).toBe(fakeQuestion.content.statement[DEFAULT_MOCKED_LOCALE]);
+    });
+
+    it("should hydrate answer from question prop when rendered in edit mode.", () => {
+      const answerField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-answer-field']");
+      const answerInput = answerField.findComponent<typeof UInput>({ name: "UInput" });
+
+      expect(answerInput.props("modelValue")).toBe(fakeQuestion.content.answer[DEFAULT_MOCKED_LOCALE]);
+    });
+
+    it("should hydrate difficulty from question prop when rendered in edit mode.", () => {
+      const difficultySelector = wrapper.findComponent<typeof QuestionCognitiveDifficultySelector>("[data-testid='question-difficulty-selector']");
+
+      expect(difficultySelector.props("modelValue")).toBe(fakeQuestion.cognitiveDifficulty);
+    });
+
+    it("should hydrate category from question prop when rendered in edit mode.", () => {
+      const categorySelector = wrapper.findComponent<typeof QuestionCategorySelector>({ name: "QuestionCategorySelector" });
+
+      expect(categorySelector.props("modelValue")).toBe(fakeQuestion.category);
+    });
+
+    it("should hydrate themes mapped from QuestionThemeAssignment to QuestionThemeAssignmentCreationDto when rendered in edit mode.", () => {
+      const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+      const expectedThemes = fakeThemeAssignments.map(t => ({ themeId: t.theme.id, isPrimary: t.isPrimary, isHint: t.isHint }));
+
+      expect(themeSelector.props("modelValue")).toStrictEqual(expectedThemes);
+    });
+
+    it("should hydrate sourceUrls from question prop when rendered in edit mode.", () => {
+      const sourceUrlsInput = wrapper.findComponent<typeof QuestionSourceUrlsInput>("[data-testid='question-source-urls-input']");
+
+      expect(sourceUrlsInput.props("modelValue")).toStrictEqual(fakeQuestion.sourceUrls);
+    });
+
+    it("should pass disabled as true to QuestionThemeSelector when rendered in edit mode.", () => {
+      const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+
+      expect(themeSelector.props("disabled")).toBe(true);
+    });
+
+    it("should not pass disabled to QuestionThemeSelector when rendered in create mode.", async() => {
+      wrapper = await mountQuestionFormComponent();
+      const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+
+      expect(themeSelector.props("disabled")).toBe(false);
+    });
+
+    it("should render TranslationFieldContext for statement when rendered in edit mode.", () => {
+      const translationContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-statement']");
+
+      expect(translationContext.exists()).toBe(true);
+    });
+
+    it("should pass question statement to TranslationFieldContext when rendered in edit mode.", () => {
+      const translationContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-statement']");
+
+      expect(translationContext.props("localizedText")).toStrictEqual(fakeQuestion.content.statement);
+    });
+
+    it("should render TranslationFieldContext for answer when rendered in edit mode.", () => {
+      const translationContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-answer']");
+
+      expect(translationContext.exists()).toBe(true);
+    });
+
+    it("should not render TranslationFieldContext for statement when rendered in create mode.", async() => {
+      wrapper = await mountQuestionFormComponent();
+      const translationContext = wrapper.find("[data-testid='translation-field-context-statement']");
+
+      expect(translationContext.exists()).toBe(false);
+    });
+
+    it("should not render TranslationFieldContext for answer when rendered in create mode.", async() => {
+      wrapper = await mountQuestionFormComponent();
+      const translationContext = wrapper.find("[data-testid='translation-field-context-answer']");
+
+      expect(translationContext.exists()).toBe(false);
     });
   });
 });

@@ -37,6 +37,10 @@ const globalFilterOptions = computed<QuestionsTableGlobalFilterOptions>(() => ({
 function onStartCreateFromQuestionsTableHeader(): void {
   emit("startCreate");
 }
+
+function onStartEditFromQuestionsTableActions(id: string): void {
+  emit("startEdit", id);
+}
 </script>
 
 <template>
@@ -105,6 +109,7 @@ function onStartCreateFromQuestionsTableHeader(): void {
           <QuestionsTableActions
             :data-testid="`actions-cell-${row.original.id}`"
             :question="row.original"
+            @start-edit="onStartEditFromQuestionsTableActions"
           />
         </div>
       </template>

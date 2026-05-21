@@ -47,7 +47,8 @@
       "confirmDescription": "Sind Sie sicher, dass Sie diese Frage archivieren möchten? Diese Aktion ist unwiderruflich."
     },
     "actions": {
-      "archive": "Frage archivieren"
+      "archive": "Frage archivieren",
+      "edit": "Frage bearbeiten"
     },
     "fields": {
       "category": "Kategorie",

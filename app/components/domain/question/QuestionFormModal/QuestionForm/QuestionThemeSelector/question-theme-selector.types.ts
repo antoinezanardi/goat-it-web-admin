@@ -3,6 +3,7 @@ import type { QuestionThemeAssignmentCreationDto } from "@goat-it/schemas/questi
 type QuestionThemeSelectorProperties = {
   modelValue: QuestionThemeAssignmentCreationDto[];
   availableThemes: QuestionTheme[];
+  disabled?: boolean;
 };
 
 type QuestionThemeSelectorEmits = {

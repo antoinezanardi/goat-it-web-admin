@@ -311,6 +311,18 @@ describe("QuestionsTable Component", () => {
 
       expect(wrapper.emitted("startCreate")).toStrictEqual([[]]);
     });
+
+    it("should emit startEdit with the question id when the actions cell emits startEdit.", async() => {
+      const fakeQuestion = createFakeQuestion({ id: "q-1" });
+      questionsStore.questions = [fakeQuestion];
+
+      wrapper = await mountQuestionsTableComponent();
+
+      const actionsComponent = wrapper.findComponent<typeof QuestionsTableActions>("[data-testid='actions-cell-q-1']");
+      getWrapperVm(actionsComponent).$emit("startEdit", fakeQuestion.id);
+
+      expect(wrapper.emitted("startEdit")).toStrictEqual([[fakeQuestion.id]]);
+    });
   });
 
   describe("Global filter", () => {

@@ -47,7 +47,8 @@
       "confirmDescription": "¿Está seguro de que desea archivar esta pregunta? Esta acción es irreversible."
     },
     "actions": {
-      "archive": "Archivar la pregunta"
+      "archive": "Archivar la pregunta",
+      "edit": "Editar la pregunta"
     },
     "fields": {
       "category": "Categoría",
