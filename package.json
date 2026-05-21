@@ -106,7 +106,7 @@
     "@faker-js/faker": "^10.4.0",
     "@goat-it/schemas": "^0.0.9",
     "@iconify-json/circle-flags": "^1.2.10",
-    "@iconify-json/lucide": "^1.2.108",
+    "@iconify-json/lucide": "^1.2.109",
     "@nuxt/eslint": "^1.15.2",
     "@nuxt/hints": "^1.1.2",
     "@nuxt/test-utils": "^4.0.2",
