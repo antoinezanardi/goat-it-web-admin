@@ -6,6 +6,7 @@ type QuestionsTableGlobalFilterOptions = Omit<GlobalFilterOptions<Question>, "on
 
 type QuestionsTableEmits = {
   startCreate: [];
+  startEdit: [id: string];
 };
 
 export type { QuestionsTableGlobalFilterOptions, QuestionsTableEmits };

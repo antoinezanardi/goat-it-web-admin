@@ -47,7 +47,8 @@
       "confirmDescription": "Are you sure you want to archive this question? This action is irreversible."
     },
     "actions": {
-      "archive": "Archive the question"
+      "archive": "Archive the question",
+      "edit": "Edit the question"
     },
     "fields": {
       "category": "Category",

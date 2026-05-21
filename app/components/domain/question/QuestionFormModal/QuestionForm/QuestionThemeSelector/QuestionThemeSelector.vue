@@ -7,7 +7,9 @@ import type { ButtonVariant } from "~/utils/types/button.types";
 import type { AppColor } from "~/utils/types/color.types";
 import type { QuestionThemeSelectorEmits, QuestionThemeSelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/question-theme-selector.types";
 
-const props = defineProps<QuestionThemeSelectorProperties>();
+const props = withDefaults(defineProps<QuestionThemeSelectorProperties>(), {
+  disabled: false,
+});
 const emit = defineEmits<QuestionThemeSelectorEmits>();
 
 const { t, locale: currentLocale } = useI18n();
@@ -20,7 +22,7 @@ const selectMenuKey = ref<number>(0);
 
 const selectableThemes = computed(() => props.availableThemes.filter(theme => !selectedThemeIds.value.includes(theme.id)));
 
-const isMaxReached = computed<boolean>(() => props.modelValue.length >= QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS);
+const isSelectDisabled = computed<boolean>(() => props.disabled || props.modelValue.length >= QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS);
 
 const selectMenuItems = computed(() => selectableThemes.value.map(theme => ({
   label: getThemeLocalizedLabel(theme, currentLocale.value, missingThemeTranslation.value),
@@ -88,7 +90,7 @@ function onRemoveTheme(themeId: string): void {
     <USelectMenu
       :key="selectMenuKey"
       data-testid="question-theme-selector-select"
-      :disabled="isMaxReached"
+      :disabled="isSelectDisabled"
       :items="selectMenuItems"
       :model-value="undefined"
       :placeholder="$t('questions.selectThemes')"
@@ -109,9 +111,10 @@ function onRemoveTheme(themeId: string): void {
         :data-testid="`question-theme-selector-item-${assignment.themeId}`"
       >
         <UButton
+          :aria-label="getThemeLabelFromAvailableThemes(assignment.themeId)"
           :color="getPrimaryButtonColor(assignment)"
           :data-testid="`question-theme-selector-primary-${assignment.themeId}`"
-          :disabled="assignment.isPrimary"
+          :disabled="props.disabled || assignment.isPrimary"
           icon="i-lucide-star"
           size="xs"
           :variant="getPrimaryButtonVariant(assignment)"
@@ -126,12 +129,14 @@ function onRemoveTheme(themeId: string): void {
 
         <USwitch
           :data-testid="`question-theme-selector-hint-${assignment.themeId}`"
+          :disabled="props.disabled"
           :model-value="assignment.isHint"
           size="xs"
           @update:model-value="onToggleHint(assignment.themeId)"
         />
 
         <UButton
+          v-if="!props.disabled"
           color="neutral"
           :data-testid="`question-theme-selector-remove-${assignment.themeId}`"
           icon="i-lucide-x"

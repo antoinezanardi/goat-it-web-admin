@@ -496,4 +496,64 @@ describe("QuestionThemeSelector Component", () => {
       });
     });
   });
+
+  describe("Disabled State", () => {
+    it("should disable the select menu when disabled prop is true.", async() => {
+      wrapper = await mountQuestionThemeSelectorComponent({
+        props: {
+          ...defaultProperties,
+          disabled: true,
+        },
+      });
+
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+      expect(selectMenu.props("disabled")).toBeTruthy();
+    });
+
+    it("should disable the primary button when disabled prop is true.", async() => {
+      wrapper = await mountQuestionThemeSelectorComponent({
+        props: {
+          ...defaultProperties,
+          disabled: true,
+          modelValue: [
+            createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: false, isHint: false }),
+            createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: true, isHint: false }),
+          ],
+        },
+      });
+
+      const primaryButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-primary-theme-1']");
+
+      expect(primaryButton.props("disabled")).toBeTruthy();
+    });
+
+    it("should disable the hint switch when disabled prop is true.", async() => {
+      wrapper = await mountQuestionThemeSelectorComponent({
+        props: {
+          ...defaultProperties,
+          disabled: true,
+          modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
+        },
+      });
+
+      const hintSwitch = wrapper.getComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
+
+      expect((hintSwitch.props() as Record<string, unknown>).disabled).toBeTruthy();
+    });
+
+    it("should not render the remove button when disabled prop is true.", async() => {
+      wrapper = await mountQuestionThemeSelectorComponent({
+        props: {
+          ...defaultProperties,
+          disabled: true,
+          modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
+        },
+      });
+
+      const removeButton = wrapper.find("[data-testid='question-theme-selector-remove-theme-1']");
+
+      expect(removeButton.exists()).toBeFalsy();
+    });
+  });
 });

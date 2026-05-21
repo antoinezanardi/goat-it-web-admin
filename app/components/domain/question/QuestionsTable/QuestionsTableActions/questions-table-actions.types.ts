@@ -4,4 +4,8 @@ type QuestionsTableActionsProperties = {
   question: Pick<Question, "id" | "status">;
 };
 
-export type { QuestionsTableActionsProperties };
+type QuestionsTableActionsEmits = {
+  startEdit: [id: string];
+};
+
+export type { QuestionsTableActionsProperties, QuestionsTableActionsEmits };

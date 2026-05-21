@@ -61,7 +61,8 @@
       "confirmDescription": "Êtes-vous sûr de vouloir archiver cette question ? Cette action est irréversible."
     },
     "actions": {
-      "archive": "Archiver la question"
+      "archive": "Archiver la question",
+      "edit": "Modifier la question"
     },
     "errors": {
       "invalidUrl": "Doit être une URL valide",

@@ -47,7 +47,8 @@
       "confirmDescription": "Tem certeza de que deseja arquivar esta pergunta? Esta ação é irreversível."
     },
     "actions": {
-      "archive": "Arquivar a pergunta"
+      "archive": "Arquivar a pergunta",
+      "edit": "Editar a pergunta"
     },
     "fields": {
       "category": "Categoria",
