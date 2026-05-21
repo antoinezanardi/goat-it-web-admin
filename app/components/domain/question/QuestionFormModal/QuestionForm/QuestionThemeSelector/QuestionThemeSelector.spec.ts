@@ -516,7 +516,10 @@ describe("QuestionThemeSelector Component", () => {
         props: {
           ...defaultProperties,
           disabled: true,
-          modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
+          modelValue: [
+            createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: false, isHint: false }),
+            createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: true, isHint: false }),
+          ],
         },
       });
 

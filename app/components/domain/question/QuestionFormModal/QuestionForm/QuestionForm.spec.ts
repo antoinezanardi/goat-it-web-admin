@@ -442,6 +442,56 @@ describe("QuestionForm Component", () => {
       expect(translationContext.exists()).toBe(true);
     });
 
+    it("should render TranslationFieldContext for context when question has context in edit mode.", () => {
+      const translationContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-context']");
+
+      expect(translationContext.exists()).toBe(true);
+    });
+
+    it("should pass question context to TranslationFieldContext when rendered in edit mode.", () => {
+      const translationContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-context']");
+
+      expect(translationContext.props("localizedText")).toStrictEqual(fakeQuestion.content.context);
+    });
+
+    it("should render TranslationFieldContext for trivia when question has trivia in edit mode.", () => {
+      const translationContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-trivia']");
+
+      expect(translationContext.exists()).toBe(true);
+    });
+
+    it("should pass question trivia to TranslationFieldContext localizedTexts when rendered in edit mode.", () => {
+      const translationContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-trivia']");
+
+      expect(translationContext.props("localizedTexts")).toStrictEqual(fakeQuestion.content.trivia);
+    });
+
+    it("should not render TranslationFieldContext for context when question has no context in edit mode.", async() => {
+      const questionWithoutContext = createFakeQuestion({
+        content: createFakeQuestionContent({ context: undefined, trivia: undefined }),
+        themes: fakeThemeAssignments,
+      });
+      wrapper = await mountQuestionFormComponent({
+        props: { ...defaultProperties, mode: "edit", question: questionWithoutContext },
+      });
+      const translationContext = wrapper.find("[data-testid='translation-field-context-context']");
+
+      expect(translationContext.exists()).toBe(false);
+    });
+
+    it("should not render TranslationFieldContext for trivia when question has no trivia in edit mode.", async() => {
+      const questionWithoutTrivia = createFakeQuestion({
+        content: createFakeQuestionContent({ context: undefined, trivia: undefined }),
+        themes: fakeThemeAssignments,
+      });
+      wrapper = await mountQuestionFormComponent({
+        props: { ...defaultProperties, mode: "edit", question: questionWithoutTrivia },
+      });
+      const translationContext = wrapper.find("[data-testid='translation-field-context-trivia']");
+
+      expect(translationContext.exists()).toBe(false);
+    });
+
     it("should not render TranslationFieldContext for statement when rendered in create mode.", async() => {
       wrapper = await mountQuestionFormComponent();
       const translationContext = wrapper.find("[data-testid='translation-field-context-statement']");

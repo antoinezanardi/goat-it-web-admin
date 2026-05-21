@@ -20,6 +20,10 @@ async function createQuestionViaUi(page: Page, row: QuestionFormRow): Promise<vo
   await expect(submitButton).toBeEnabled();
   await submitButton.click();
   await expect(dialog).toBeHidden();
+
+  const successToast = page.getByText("Question created successfully", { exact: true });
+
+  await expect(successToast).toBeVisible();
 }
 
 export { createQuestionViaUi };

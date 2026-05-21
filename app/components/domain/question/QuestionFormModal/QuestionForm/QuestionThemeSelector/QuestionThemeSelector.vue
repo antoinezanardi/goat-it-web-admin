@@ -22,7 +22,7 @@ const selectMenuKey = ref<number>(0);
 
 const selectableThemes = computed(() => props.availableThemes.filter(theme => !selectedThemeIds.value.includes(theme.id)));
 
-const isMaxReached = computed<boolean>(() => props.disabled || props.modelValue.length >= QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS);
+const isSelectDisabled = computed<boolean>(() => props.disabled || props.modelValue.length >= QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS);
 
 const selectMenuItems = computed(() => selectableThemes.value.map(theme => ({
   label: getThemeLocalizedLabel(theme, currentLocale.value, missingThemeTranslation.value),
@@ -90,7 +90,7 @@ function onRemoveTheme(themeId: string): void {
     <USelectMenu
       :key="selectMenuKey"
       data-testid="question-theme-selector-select"
-      :disabled="isMaxReached"
+      :disabled="isSelectDisabled"
       :items="selectMenuItems"
       :model-value="undefined"
       :placeholder="$t('questions.selectThemes')"
