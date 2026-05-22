@@ -33,3 +33,15 @@ Then(
     await expect(tags).toHaveCount(0);
   },
 );
+
+Then(
+  /^the remove button for the theme "(?<themeName>[^"]*)" should be disabled in the question form theme selector$/u,
+  async function(this: GoatItWorld, themeName: string): Promise<void> {
+    const dialog = this.page.getByRole("dialog");
+    const themeList = dialog.getByTestId("question-theme-selector-list");
+    const themeItem = themeList.locator("[data-testid^='question-theme-selector-item-']").filter({ hasText: themeName });
+    const removeButton = themeItem.locator("[data-testid^='question-theme-selector-remove-']");
+
+    await expect(removeButton).toBeDisabled();
+  },
+);

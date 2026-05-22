@@ -8,6 +8,8 @@
     "cantRemoveTheme": "Não foi possível remover o tema da pergunta",
     "cantModify": "Não foi possível modificar a pergunta",
     "cantModifyThemeAssignment": "Não foi possível modificar a atribuição do tema",
+    "cantRemoveLastTheme": "Não é possível remover o último tema",
+    "removeTheme": "Remover tema {theme}",
     "createNew": "Criar uma nova pergunta",
     "editQuestion": "Editar pergunta",
     "createSuccessfully": "Pergunta criada com sucesso",

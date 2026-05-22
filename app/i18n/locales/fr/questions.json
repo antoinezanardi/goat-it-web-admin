@@ -11,6 +11,8 @@
     "cantRemoveTheme": "Impossible de retirer le thème de la question",
     "cantModify": "Impossible de modifier la question",
     "cantModifyThemeAssignment": "Impossible de modifier l'assignation du thème",
+    "cantRemoveLastTheme": "Impossible de retirer le dernier thème",
+    "removeTheme": "Supprimer le thème {theme}",
     "createSuccessfully": "Question créée avec succès",
     "archiveSuccessfully": "Question archivée avec succès",
     "assignThemeSuccessfully": "Thème assigné avec succès",

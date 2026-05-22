@@ -48,3 +48,59 @@ When(
     await sourceInput.press("Enter");
   },
 );
+
+When(
+  /^the user adds the theme "(?<themeName>[^"]*)" in the question form theme selector$/u,
+  async function(this: GoatItWorld, themeName: string): Promise<void> {
+    const dialog = this.page.getByRole("dialog");
+
+    await expect(dialog).toBeVisible();
+
+    const themeSelect = dialog.getByTestId("question-theme-selector-select");
+
+    await expect(themeSelect).toBeVisible();
+    await themeSelect.click();
+
+    const listbox = this.page.getByRole("listbox");
+
+    await expect(listbox).toBeVisible();
+
+    const option = listbox.getByRole("option", { name: themeName });
+
+    await expect(option).toBeVisible();
+    await option.click();
+    await expect(listbox).toBeHidden();
+  },
+);
+
+When(
+  /^the user sets the theme "(?<themeName>[^"]*)" as primary in the question form theme selector$/u,
+  async function(this: GoatItWorld, themeName: string): Promise<void> {
+    const dialog = this.page.getByRole("dialog");
+
+    await expect(dialog).toBeVisible();
+
+    const themeList = dialog.getByTestId("question-theme-selector-list");
+    const themeItem = themeList.locator("[data-testid^='question-theme-selector-item-']").filter({ hasText: themeName });
+    const primaryButton = themeItem.locator("[data-testid^='question-theme-selector-primary-']");
+
+    await expect(primaryButton).toBeVisible();
+    await primaryButton.click();
+  },
+);
+
+When(
+  /^the user toggles hint for the theme "(?<themeName>[^"]*)" in the question form theme selector$/u,
+  async function(this: GoatItWorld, themeName: string): Promise<void> {
+    const dialog = this.page.getByRole("dialog");
+
+    await expect(dialog).toBeVisible();
+
+    const themeList = dialog.getByTestId("question-theme-selector-list");
+    const themeItem = themeList.locator("[data-testid^='question-theme-selector-item-']").filter({ hasText: themeName });
+    const hintSwitch = themeItem.locator("[data-testid^='question-theme-selector-hint-']");
+
+    await expect(hintSwitch).toBeVisible();
+    await hintSwitch.click();
+  },
+);

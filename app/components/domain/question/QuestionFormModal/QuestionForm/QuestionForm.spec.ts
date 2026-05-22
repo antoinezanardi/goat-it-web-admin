@@ -1,3 +1,4 @@
+import { createTestingPinia } from "@pinia/testing";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
@@ -11,6 +12,7 @@ import { createFakeQuestionContent } from "~~/tests/unit/utils/faketories/questi
 import { createFakeQuestionThemeAssignment } from "~~/tests/unit/utils/faketories/questions/entity/question-theme-assignment/question-theme-assignment.entity.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
+import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
@@ -38,6 +40,7 @@ describe("QuestionForm Component", () => {
   async function mountQuestionFormComponent(options: MountSuspendedOptions<typeof QuestionForm> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionForm, {
       props: defaultProperties,
+      global: { plugins: [createTestingPinia()] },
       ...options,
     });
   }
@@ -411,17 +414,17 @@ describe("QuestionForm Component", () => {
       expect(sourceUrlsInput.props("modelValue")).toStrictEqual(fakeQuestion.sourceUrls);
     });
 
-    it("should pass disabled as true to QuestionThemeSelector when rendered in edit mode.", () => {
+    it("should pass mode as edit to QuestionThemeSelector when rendered in edit mode.", () => {
       const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
 
-      expect(themeSelector.props("disabled")).toBe(true);
+      expect(themeSelector.props("mode")).toBe("edit");
     });
 
-    it("should not pass disabled to QuestionThemeSelector when rendered in create mode.", async() => {
+    it("should pass mode as create to QuestionThemeSelector when rendered in create mode.", async() => {
       wrapper = await mountQuestionFormComponent();
       const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
 
-      expect(themeSelector.props("disabled")).toBe(false);
+      expect(themeSelector.props("mode")).toBe("create");
     });
 
     it("should render TranslationFieldContext for statement when rendered in edit mode.", () => {
@@ -504,6 +507,97 @@ describe("QuestionForm Component", () => {
       const translationContext = wrapper.find("[data-testid='translation-field-context-answer']");
 
       expect(translationContext.exists()).toBe(false);
+    });
+
+    describe("Theme assignment operations", () => {
+      it("should call assignThemeAndStoreQuestion on the store when assignTheme event is emitted from theme selector.", async() => {
+        const questionsStore = mockStore(useQuestionsStore);
+        const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+        const dto = { themeId: "new-theme", isPrimary: false, isHint: false };
+
+        getWrapperVm(themeSelector).$emit("assignTheme", dto);
+        await nextTick();
+
+        expect(questionsStore.assignThemeAndStoreQuestion).toHaveBeenCalledExactlyOnceWith(fakeQuestion.id, dto);
+      });
+
+      it("should call removeThemeAndStoreQuestion on the store when removeTheme event is emitted from theme selector.", async() => {
+        const questionsStore = mockStore(useQuestionsStore);
+        const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+
+        getWrapperVm(themeSelector).$emit("removeTheme", "theme-to-remove");
+        await nextTick();
+
+        expect(questionsStore.removeThemeAndStoreQuestion).toHaveBeenCalledExactlyOnceWith(fakeQuestion.id, "theme-to-remove");
+      });
+
+      it("should call modifyThemeAssignmentAndStoreQuestion on the store when modifyThemeAssignment event is emitted from theme selector.", async() => {
+        const questionsStore = mockStore(useQuestionsStore);
+        const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+        const dto = { isPrimary: true };
+
+        getWrapperVm(themeSelector).$emit("modifyThemeAssignment", "theme-1", dto);
+        await nextTick();
+
+        expect(questionsStore.modifyThemeAssignmentAndStoreQuestion).toHaveBeenCalledExactlyOnceWith(fakeQuestion.id, "theme-1", dto);
+      });
+
+      it("should pass isSubmitting as true to QuestionThemeSelector when any theme operation is pending.", async() => {
+        const questionsStore = mockStore(useQuestionsStore);
+        questionsStore.isAssigningThemeToQuestion = true;
+        await nextTick();
+        const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+
+        expect(themeSelector.props("isSubmitting")).toBeTruthy();
+      });
+
+      it("should pass isSubmitting as false to QuestionThemeSelector when no theme operation is pending.", () => {
+        const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+
+        expect(themeSelector.props("isSubmitting")).toBeFalsy();
+      });
+
+      it("should derive themeAssignments from question.themes when rendered in edit mode.", () => {
+        const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+        const expectedThemes = fakeThemeAssignments.map(t => ({ themeId: t.theme.id, isPrimary: t.isPrimary, isHint: t.isHint }));
+
+        expect(themeSelector.props("modelValue")).toStrictEqual(expectedThemes);
+      });
+
+      it("should not call assignThemeAndStoreQuestion when assignTheme event is emitted and question prop is undefined.", async() => {
+        wrapper = await mountQuestionFormComponent({ props: { ...defaultProperties, mode: "edit" } });
+        const questionsStore = mockStore(useQuestionsStore);
+        const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+        const dto = { themeId: "new-theme", isPrimary: false, isHint: false };
+
+        getWrapperVm(themeSelector).$emit("assignTheme", dto);
+        await nextTick();
+
+        expect(questionsStore.assignThemeAndStoreQuestion).not.toHaveBeenCalled();
+      });
+
+      it("should not call removeThemeAndStoreQuestion when removeTheme event is emitted and question prop is undefined.", async() => {
+        wrapper = await mountQuestionFormComponent({ props: { ...defaultProperties, mode: "edit" } });
+        const questionsStore = mockStore(useQuestionsStore);
+        const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+
+        getWrapperVm(themeSelector).$emit("removeTheme", "theme-to-remove");
+        await nextTick();
+
+        expect(questionsStore.removeThemeAndStoreQuestion).not.toHaveBeenCalled();
+      });
+
+      it("should not call modifyThemeAssignmentAndStoreQuestion when modifyThemeAssignment event is emitted and question prop is undefined.", async() => {
+        wrapper = await mountQuestionFormComponent({ props: { ...defaultProperties, mode: "edit" } });
+        const questionsStore = mockStore(useQuestionsStore);
+        const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+        const dto = { isPrimary: true };
+
+        getWrapperVm(themeSelector).$emit("modifyThemeAssignment", "theme-1", dto);
+        await nextTick();
+
+        expect(questionsStore.modifyThemeAssignmentAndStoreQuestion).not.toHaveBeenCalled();
+      });
     });
   });
 });

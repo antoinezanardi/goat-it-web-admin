@@ -8,6 +8,8 @@
     "cantRemoveTheme": "Unable to remove theme from question",
     "cantModify": "Unable to modify question",
     "cantModifyThemeAssignment": "Unable to modify theme assignment",
+    "cantRemoveLastTheme": "Cannot remove the last theme",
+    "removeTheme": "Remove theme {theme}",
     "createNew": "Create a new question",
     "editQuestion": "Edit question",
     "createSuccessfully": "Question created successfully",

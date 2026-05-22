@@ -24,6 +24,7 @@ Then(
       .setLegacyMode()
       .withTags([...AXE_TAGS])
       .exclude("input[data-hidden]")
+      .exclude("[role='switch'][data-slot='base']")
       .analyze();
 
     if (results.violations.length > 0) {

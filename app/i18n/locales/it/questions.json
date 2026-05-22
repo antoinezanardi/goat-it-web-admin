@@ -8,6 +8,8 @@
     "cantRemoveTheme": "Impossibile rimuovere il tema dalla domanda",
     "cantModify": "Impossibile modificare la domanda",
     "cantModifyThemeAssignment": "Impossibile modificare l'assegnazione del tema",
+    "cantRemoveLastTheme": "Impossibile rimuovere l'ultimo tema",
+    "removeTheme": "Rimuovere il tema {theme}",
     "createNew": "Crea una nuova domanda",
     "editQuestion": "Modifica domanda",
     "createSuccessfully": "Domanda creata con successo",

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { QuestionThemeAssignmentCreationDto } from "@goat-it/schemas/question";
-import { QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS } from "@goat-it/schemas/question";
+import type { QuestionThemeAssignmentCreationDto, QuestionThemeAssignmentModificationDto } from "@goat-it/schemas/question";
+import { QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS, QUESTION_THEME_ASSIGNMENTS_MIN_ITEMS } from "@goat-it/schemas/question";
 
 import { getThemeLocalizedLabel } from "~/composables/domain/question-theme/helpers/question-theme.helpers";
 import type { ButtonVariant } from "~/utils/types/button.types";
@@ -9,6 +9,8 @@ import type { QuestionThemeSelectorEmits, QuestionThemeSelectorProperties } from
 
 const props = withDefaults(defineProps<QuestionThemeSelectorProperties>(), {
   disabled: false,
+  mode: "create",
+  isSubmitting: false,
 });
 const emit = defineEmits<QuestionThemeSelectorEmits>();
 
@@ -22,7 +24,13 @@ const selectMenuKey = ref<number>(0);
 
 const selectableThemes = computed(() => props.availableThemes.filter(theme => !selectedThemeIds.value.includes(theme.id)));
 
-const isSelectDisabled = computed<boolean>(() => props.disabled || props.modelValue.length >= QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS);
+const isEditMode = computed<boolean>(() => props.mode === "edit");
+
+const isInteractionDisabled = computed<boolean>(() => props.disabled || props.isSubmitting);
+
+const isSelectDisabled = computed<boolean>(() => isInteractionDisabled.value || props.modelValue.length >= QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS);
+
+const isRemoveDisabled = computed<boolean>(() => isInteractionDisabled.value || isEditMode.value && props.modelValue.length <= QUESTION_THEME_ASSIGNMENTS_MIN_ITEMS);
 
 const selectMenuItems = computed(() => selectableThemes.value.map(theme => ({
   label: getThemeLocalizedLabel(theme, currentLocale.value, missingThemeTranslation.value),
@@ -51,10 +59,22 @@ function onAddTheme(themeId: string): void {
     isHint: false,
   };
   selectMenuKey.value += 1;
+
+  if (isEditMode.value) {
+    emit("assignTheme", addedAssignment);
+
+    return;
+  }
   emit("update:modelValue", [...props.modelValue, addedAssignment]);
 }
 
 function onSetPrimary(themeId: string): void {
+  if (isEditMode.value) {
+    const dto: QuestionThemeAssignmentModificationDto = { isPrimary: true };
+    emit("modifyThemeAssignment", themeId, dto);
+
+    return;
+  }
   const updated = props.modelValue.map(assignment => ({
     ...assignment,
     isPrimary: assignment.themeId === themeId,
@@ -63,11 +83,24 @@ function onSetPrimary(themeId: string): void {
 }
 
 function onToggleHint(themeId: string): void {
-  const updated = props.modelValue.map(assignment => (assignment.themeId === themeId ? { ...assignment, isHint: !assignment.isHint } : assignment));
+  const assignment = props.modelValue.find(themeAssignment => themeAssignment.themeId === themeId);
+
+  if (isEditMode.value) {
+    const dto: QuestionThemeAssignmentModificationDto = { isHint: !assignment?.isHint };
+    emit("modifyThemeAssignment", themeId, dto);
+
+    return;
+  }
+  const updated = props.modelValue.map(themeAssignment => (themeAssignment.themeId === themeId ? { ...themeAssignment, isHint: !themeAssignment.isHint } : themeAssignment));
   emit("update:modelValue", updated);
 }
 
 function onRemoveTheme(themeId: string): void {
+  if (isEditMode.value) {
+    emit("removeTheme", themeId);
+
+    return;
+  }
   const filtered = props.modelValue.filter(assignment => assignment.themeId !== themeId);
   const hasPrimary = filtered.some(assignment => assignment.isPrimary);
   const firstAssignment = filtered[0];
@@ -114,7 +147,7 @@ function onRemoveTheme(themeId: string): void {
           :aria-label="getThemeLabelFromAvailableThemes(assignment.themeId)"
           :color="getPrimaryButtonColor(assignment)"
           :data-testid="`question-theme-selector-primary-${assignment.themeId}`"
-          :disabled="props.disabled || assignment.isPrimary"
+          :disabled="isInteractionDisabled || assignment.isPrimary"
           icon="i-lucide-star"
           size="xs"
           :variant="getPrimaryButtonVariant(assignment)"
@@ -129,18 +162,20 @@ function onRemoveTheme(themeId: string): void {
 
         <USwitch
           :data-testid="`question-theme-selector-hint-${assignment.themeId}`"
-          :disabled="props.disabled"
+          :disabled="isInteractionDisabled"
           :model-value="assignment.isHint"
           size="xs"
           @update:model-value="onToggleHint(assignment.themeId)"
         />
 
         <UButton
-          v-if="!props.disabled"
+          :aria-label="$t('questions.removeTheme', { 'theme': getThemeLabelFromAvailableThemes(assignment.themeId) })"
           color="neutral"
           :data-testid="`question-theme-selector-remove-${assignment.themeId}`"
+          :disabled="isRemoveDisabled"
           icon="i-lucide-x"
           size="xs"
+          :tooltip="isRemoveDisabled && isEditMode ? $t('questions.cantRemoveLastTheme') : undefined"
           variant="ghost"
           @click="onRemoveTheme(assignment.themeId)"
         />

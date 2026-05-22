@@ -13,7 +13,14 @@ const { t } = useI18n();
 
 const isQuestionFormModalOpen = ref<boolean>(false);
 const formMode = ref<QuestionFormMode>("create");
-const questionToEdit = ref<Question | undefined>(undefined);
+const questionToEditId = ref<string | undefined>(undefined);
+
+const questionToEdit = computed<Question | undefined>(() => {
+  if (!questionToEditId.value) {
+    return;
+  }
+  return questionsStore.questions.find(question => question.id === questionToEditId.value);
+});
 
 const isSubmitting = computed<boolean>(() => isCreatingQuestion.value || isModifyingQuestion.value);
 
@@ -21,7 +28,7 @@ const formModalKey = computed<string>(() => `${formMode.value}-${questionToEdit.
 
 function onStartCreateFromQuestionsTable(): void {
   formMode.value = "create";
-  questionToEdit.value = undefined;
+  questionToEditId.value = undefined;
   isQuestionFormModalOpen.value = true;
 }
 
@@ -31,7 +38,7 @@ function onStartEditFromQuestionsTable(id: string): void {
     return;
   }
   formMode.value = "edit";
-  questionToEdit.value = targetQuestion;
+  questionToEditId.value = id;
   isQuestionFormModalOpen.value = true;
 }
 

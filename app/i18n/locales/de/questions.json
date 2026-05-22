@@ -8,6 +8,8 @@
     "cantRemoveTheme": "Thema konnte nicht von der Frage entfernt werden",
     "cantModify": "Frage konnte nicht bearbeitet werden",
     "cantModifyThemeAssignment": "Themazuweisung konnte nicht geändert werden",
+    "cantRemoveLastTheme": "Das letzte Thema kann nicht entfernt werden",
+    "removeTheme": "Thema {theme} entfernen",
     "createNew": "Eine neue Frage erstellen",
     "editQuestion": "Frage bearbeiten",
     "createSuccessfully": "Frage erfolgreich erstellt",
