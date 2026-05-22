@@ -6,3 +6,6 @@ allowBuilds:
 
 supportedArchitectures: os=linux,darwin cpu=x64,arm64
 libc: glibc,musl
+minimumReleaseAgeExclude:
+  - '@nuxt/ui@4.8.0'
+  - '@nuxtjs/i18n@10.4.0'
