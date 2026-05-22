@@ -23,7 +23,7 @@
       "content": "Contenuto",
       "classification": "Classificazione",
       "themes": "Temi",
-      "sources": "Fonti"
+      "sources": "Riferimenti"
     },
     "category": {
       "trivia": "Cultura generale",
@@ -70,8 +70,7 @@
       "maxSourceUrls": "Numero massimo di URL sorgente raggiunto"
     },
     "sourceUrlTag": {
-      "goTo": "Vai a {url}",
-      "removeSource": "Rimuovi la fonte {url}"
+      "goTo": "Vai a {url}"
     },
     "form": {
       "addTriviaHint": "per aggiungere una curiosità",

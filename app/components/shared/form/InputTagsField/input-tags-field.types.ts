@@ -23,4 +23,8 @@ type InputTagsFieldSlots = {
   itemText: (props: { item: string }) => VNode[];
 };
 
-export type { InputTagsFieldEmits, InputTagsFieldProperties, InputTagsFieldSlots };
+export type {
+  InputTagsFieldEmits,
+  InputTagsFieldProperties,
+  InputTagsFieldSlots,
+};

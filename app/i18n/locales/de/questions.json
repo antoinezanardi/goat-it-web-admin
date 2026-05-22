@@ -23,7 +23,7 @@
       "content": "Inhalt",
       "classification": "Klassifizierung",
       "themes": "Themen",
-      "sources": "Quellen"
+      "sources": "Referenzen"
     },
     "category": {
       "trivia": "Allgemeinwissen",
@@ -70,8 +70,7 @@
       "maxSourceUrls": "Maximale Anzahl an Quell-URLs erreicht"
     },
     "sourceUrlTag": {
-      "goTo": "Gehe zu {url}",
-      "removeSource": "Quelle entfernen {url}"
+      "goTo": "Gehe zu {url}"
     },
     "form": {
       "addTriviaHint": "um einen Wissenswertes-Eintrag hinzuzufügen",

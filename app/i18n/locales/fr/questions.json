@@ -23,7 +23,7 @@
       "content": "Contenu",
       "classification": "Classification",
       "themes": "Thèmes",
-      "sources": "Sources"
+      "sources": "Références"
     },
     "fields": {
       "category": "Catégorie",
@@ -70,8 +70,7 @@
       "maxSourceUrls": "Nombre maximum d'URLs source atteint"
     },
     "sourceUrlTag": {
-      "goTo": "Aller sur {url}",
-      "removeSource": "Supprimer la source {url}"
+      "goTo": "Aller sur {url}"
     },
     "form": {
       "addTriviaHint": "pour ajouter une anecdote",

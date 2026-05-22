@@ -45,6 +45,7 @@ function onUpdateModelValue(value: string[]): void {
     <UInputTags
       :add-on-blur="props.addOnBlur"
       :add-on-tab="props.addOnTab"
+      class="w-full"
       :duplicate="props.duplicate"
       :model-value="props.modelValue"
       :placeholder="props.placeholder"

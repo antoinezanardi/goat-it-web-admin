@@ -23,7 +23,7 @@
       "content": "Content",
       "classification": "Classification",
       "themes": "Themes",
-      "sources": "Sources"
+      "sources": "References"
     },
     "category": {
       "trivia": "Trivia",
@@ -70,8 +70,7 @@
       "maxSourceUrls": "Maximum number of source URLs reached"
     },
     "sourceUrlTag": {
-      "goTo": "Go to {url}",
-      "removeSource": "Remove the source {url}"
+      "goTo": "Go to {url}"
     },
     "form": {
       "addTriviaHint": "to add a trivia fact",
