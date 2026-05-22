@@ -8,27 +8,27 @@ const props = withDefaults(defineProps<QuestionTriviaInputProperties>(), {
 
 const emit = defineEmits<QuestionTriviaInputEmits>();
 
-const { locale: currentLocale } = useI18n();
+const { t, locale: currentLocale } = useI18n();
 
 function onUpdateModelValue(value: string[]): void {
   emit("update:modelValue", value);
 }
+
+function removeTooltipText(item: string): string {
+  return t("questions.form.removeTrivia", { value: item });
+}
 </script>
 
 <template>
-  <UFormField
+  <InputTagsField
+    :add-hint-text="$t('questions.form.addTriviaHint')"
     data-testid="question-trivia-input"
     :label="$t('questions.fields.trivia')"
+    :model-value="props.modelValue"
     :name="`content.trivia.${currentLocale}`"
-  >
-    <UInputTags
-      add-on-blur
-      add-on-tab
-      class="w-full"
-      :model-value="props.modelValue"
-      :placeholder="$t('questions.fields.trivia')"
-      :ui="QUESTION_TRIVIA_INPUT_UI"
-      @update:model-value="onUpdateModelValue"
-    />
-  </UFormField>
+    :placeholder="$t('questions.placeholders.trivia')"
+    :remove-tooltip-text="removeTooltipText"
+    :ui="QUESTION_TRIVIA_INPUT_UI"
+    @update:model-value="onUpdateModelValue"
+  />
 </template>

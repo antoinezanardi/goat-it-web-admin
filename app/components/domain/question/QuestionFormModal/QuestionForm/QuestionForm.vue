@@ -116,7 +116,7 @@ defineExpose({
           <UInput
             v-model="formState.content.statement[currentLocale]"
             class="w-full"
-            :placeholder="$t('questions.fields.statement')"
+            :placeholder="$t('questions.placeholders.statement')"
           />
         </UFormField>
 
@@ -136,7 +136,7 @@ defineExpose({
           <UInput
             v-model="formState.content.answer[currentLocale]"
             class="w-full"
-            :placeholder="$t('questions.fields.answer')"
+            :placeholder="$t('questions.placeholders.answer')"
           />
         </UFormField>
 
@@ -157,7 +157,7 @@ defineExpose({
           <UTextarea
             v-model="formState.content.context[currentLocale]"
             class="w-full"
-            :placeholder="$t('questions.fields.context')"
+            :placeholder="$t('questions.placeholders.context')"
             :rows="QUESTION_FORM_CONTEXT_TEXTAREA_ROWS"
           />
         </UFormField>

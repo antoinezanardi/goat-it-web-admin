@@ -23,7 +23,7 @@
       "content": "Contenuto",
       "classification": "Classificazione",
       "themes": "Temi",
-      "sources": "Fonti"
+      "sources": "Riferimenti"
     },
     "category": {
       "trivia": "Cultura generale",
@@ -70,8 +70,20 @@
       "maxSourceUrls": "Numero massimo di URL sorgente raggiunto"
     },
     "sourceUrlTag": {
-      "goTo": "Vai a {url}",
-      "removeSource": "Rimuovi la fonte {url}"
+      "goTo": "Vai a {url}"
+    },
+    "form": {
+      "addTriviaHint": "per aggiungere una curiosità",
+      "removeTrivia": "Rimuovi la curiosità {value}",
+      "addSourceUrlHint": "per aggiungere un URL sorgente",
+      "removeSource": "Rimuovi la fonte {value}"
+    },
+    "placeholders": {
+      "statement": "Domanda posta al giocatore",
+      "answer": "es.: Parigi, 1789, Albert Einstein",
+      "context": "Contesto per comprendere la risposta",
+      "trivia": "es.: Parigi si chiamava un tempo Lutezia",
+      "sourceUrls": "es.: https://it.wikipedia.org/"
     }
   }
 }

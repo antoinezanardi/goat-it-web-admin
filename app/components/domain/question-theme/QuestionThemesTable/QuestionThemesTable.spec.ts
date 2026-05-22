@@ -87,6 +87,11 @@ describe("QuestionThemesTable Component", () => {
         {
           accessorKey: "description",
           header: "questionThemes.fields.description",
+          meta: {
+            class: {
+              td: "whitespace-normal break-words",
+            },
+          },
         },
         {
           accessorKey: "aliases",

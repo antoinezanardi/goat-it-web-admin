@@ -43,7 +43,7 @@ describe("QuestionSourceUrlsInput Component", () => {
     it("should pass the placeholder to the input tags when mounted.", () => {
       const inputTags = wrapper.findComponent<typeof UInputTags>({ name: "UInputTags" });
 
-      expect(inputTags.props("placeholder")).toBe("questions.fields.sourceUrls");
+      expect(inputTags.props("placeholder")).toBe("questions.placeholders.sourceUrls");
     });
 
     it("should not disable the input tags when the maximum is not reached.", () => {
@@ -108,7 +108,7 @@ describe("QuestionSourceUrlsInput Component", () => {
       const tooltips = wrapper.findAllComponents<typeof UTooltip>({ name: "UTooltip" });
       const tooltipTexts = tooltips.map(t => t.props("text"));
 
-      expect(tooltipTexts).toContainEqual(expect.stringContaining("questions.sourceUrlTag.removeSource"));
+      expect(tooltipTexts).toContainEqual(expect.stringContaining("questions.form.removeSource"));
     });
   });
 
