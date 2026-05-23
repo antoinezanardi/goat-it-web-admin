@@ -35,7 +35,7 @@ describe("QuestionCategorySelector Component", () => {
     it("should pass the category placeholder as placeholder to the select component when mounted.", () => {
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
 
-      expect(select.props("placeholder")).toBe("questions.fields.category");
+      expect(select.props("placeholder")).toBe("questions.selectCategory");
     });
 
     it("should pass 4 category items to the select component when mounted.", () => {

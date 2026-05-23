@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from "@nuxt/ui";
 import { QUESTION_CREATION_DTO, QUESTION_MODIFICATION_DTO } from "@goat-it/schemas/question";
-import type { QuestionCreationDto, QuestionModificationDto, QuestionThemeAssignmentCreationDto } from "@goat-it/schemas/question";
+import type { QuestionCreationDto, QuestionModificationDto, QuestionThemeAssignmentCreationDto, QuestionThemeAssignmentModificationDto } from "@goat-it/schemas/question";
 
 import type { QuestionCreationDtoShell } from "#shared/types/question.types";
 import type { Form } from "#ui/types";
@@ -21,6 +21,18 @@ const props = withDefaults(defineProps<QuestionFormProperties>(), {
 const emit = defineEmits<QuestionFormEmits>();
 
 const { locale: currentLocale } = useI18n();
+
+const questionsStore = useQuestionsStore();
+
+const isThemeSubmitting = computed<boolean>(() => questionsStore.isAssigningThemeToQuestion ||
+  questionsStore.isRemovingThemeFromQuestion || questionsStore.isModifyingQuestionThemeAssignment);
+
+const themeAssignments = computed<QuestionThemeAssignmentCreationDto[]>(() => {
+  if (props.mode === "edit" && props.question) {
+    return props.question.themes.map(themeAssignment => ({ themeId: themeAssignment.theme.id, isPrimary: themeAssignment.isPrimary, isHint: themeAssignment.isHint }));
+  }
+  return formState.themes;
+});
 
 const form = useTemplateRef<Form<QuestionCreationDto | QuestionModificationDto>>("form");
 
@@ -56,7 +68,7 @@ const hasStatement = computed<boolean>(() => !!formState.content?.statement[curr
 const hasAnswer = computed<boolean>(() => !!formState.content?.answer[currentLocale.value]);
 const hasDifficulty = computed<boolean>(() => !!formState.cognitiveDifficulty);
 const hasCategory = computed<boolean>(() => !!formState.category);
-const hasThemes = computed<boolean>(() => !!formState.themes?.length);
+const hasThemes = computed<boolean>(() => themeAssignments.value.length > 0);
 const hasSourceUrls = computed<boolean>(() => !!formState.sourceUrls?.length);
 const hasNoFormErrors = computed<boolean>(() => !form.value?.getErrors()?.length);
 
@@ -65,6 +77,27 @@ const canSubmit = computed<boolean>(() => hasStatement.value && hasAnswer.value 
 
 function onUpdateThemes(themes: QuestionThemeAssignmentCreationDto[]): void {
   formState.themes = themes;
+}
+
+async function onAssignThemeToQuestionInEditMode(dto: QuestionThemeAssignmentCreationDto): Promise<void> {
+  if (!props.question) {
+    return;
+  }
+  await questionsStore.assignThemeAndStoreQuestion(props.question.id, dto);
+}
+
+async function onRemoveThemeFromQuestionInEditMode(themeId: string): Promise<void> {
+  if (!props.question) {
+    return;
+  }
+  await questionsStore.removeThemeAndStoreQuestion(props.question.id, themeId);
+}
+
+async function onModifyThemeInEditMode(themeId: string, dto: QuestionThemeAssignmentModificationDto): Promise<void> {
+  if (!props.question) {
+    return;
+  }
+  await questionsStore.modifyThemeAssignmentAndStoreQuestion(props.question.id, themeId, dto);
 }
 
 function onSubmit(event: FormSubmitEvent<QuestionCreationDto | QuestionModificationDto>): void {
@@ -219,8 +252,12 @@ defineExpose({
       <QuestionThemeSelector
         :available-themes="availableThemes"
         class="mt-4"
-        :disabled="mode === 'edit'"
-        :model-value="formState.themes"
+        :is-submitting="isThemeSubmitting"
+        :mode="mode"
+        :model-value="themeAssignments"
+        @assign-theme-in-edit-mode="onAssignThemeToQuestionInEditMode"
+        @modify-theme-in-edit-mode="onModifyThemeInEditMode"
+        @remove-theme-in-edit-mode="onRemoveThemeFromQuestionInEditMode"
         @update:model-value="onUpdateThemes"
       />
     </div>

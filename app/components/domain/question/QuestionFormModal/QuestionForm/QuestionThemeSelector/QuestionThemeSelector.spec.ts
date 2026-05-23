@@ -7,7 +7,7 @@ import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import type { UButton, UFormField, USelectMenu } from "#components";
+import type { UButton, UFormField, USelectMenu, UTooltip } from "#components";
 import { QuestionThemeSelector } from "#components";
 
 import type { QuestionThemeSelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/question-theme-selector.types";
@@ -542,7 +542,7 @@ describe("QuestionThemeSelector Component", () => {
       expect((hintSwitch.props() as Record<string, unknown>).disabled).toBeTruthy();
     });
 
-    it("should not render the remove button when disabled prop is true.", async() => {
+    it("should disable the remove button when disabled is true.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
           ...defaultProperties,
@@ -550,10 +550,192 @@ describe("QuestionThemeSelector Component", () => {
           modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
         },
       });
+      const removeButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-remove-theme-1']");
 
-      const removeButton = wrapper.find("[data-testid='question-theme-selector-remove-theme-1']");
+      expect(removeButton.props("disabled")).toBeTruthy();
+    });
+  });
 
-      expect(removeButton.exists()).toBeFalsy();
+  describe("Edit mode", () => {
+    const editModeAssignments = [
+      createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
+      createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: true }),
+    ];
+
+    async function mountInEditMode(overrides: Partial<QuestionThemeSelectorProperties> = {}): Promise<VueWrapper> {
+      return mountQuestionThemeSelectorComponent({
+        props: {
+          ...defaultProperties,
+          modelValue: editModeAssignments,
+          mode: "edit",
+          ...overrides,
+        },
+      });
+    }
+
+    describe("Assign theme", () => {
+      it("should emit assignThemeInEditMode with isPrimary false and isHint false when adding a theme in edit mode.", async() => {
+        wrapper = await mountInEditMode();
+        const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+        getWrapperVm(selectMenu).$emit("update:modelValue", "theme-3");
+
+        expect(wrapper.emitted("assignThemeInEditMode")).toStrictEqual([[{ themeId: "theme-3", isPrimary: false, isHint: false }]]);
+      });
+
+      it("should not emit update:modelValue when adding a theme in edit mode.", async() => {
+        wrapper = await mountInEditMode();
+        const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+        getWrapperVm(selectMenu).$emit("update:modelValue", "theme-3");
+
+        expect(wrapper.emitted("update:modelValue")).toBeUndefined();
+      });
+    });
+
+    describe("Remove theme", () => {
+      it("should emit removeThemeInEditMode with themeId when removing a theme in edit mode.", async() => {
+        wrapper = await mountInEditMode();
+        const removeButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-remove-theme-2']");
+
+        await removeButton.trigger("click");
+
+        expect(wrapper.emitted("removeThemeInEditMode")).toStrictEqual([["theme-2"]]);
+      });
+
+      it("should not emit update:modelValue when removing a theme in edit mode.", async() => {
+        wrapper = await mountInEditMode();
+        const removeButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-remove-theme-2']");
+
+        await removeButton.trigger("click");
+
+        expect(wrapper.emitted("update:modelValue")).toBeUndefined();
+      });
+
+      it("should not render the remove button when only one theme remains in edit mode.", async() => {
+        wrapper = await mountInEditMode({
+          modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
+        });
+        const removeButton = wrapper.find("[data-testid='question-theme-selector-remove-theme-1']");
+
+        expect(removeButton.exists()).toBeFalsy();
+      });
+
+      it("should disable the remove button for the primary theme when more than one theme exists in edit mode.", async() => {
+        wrapper = await mountInEditMode();
+        const removeButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-remove-theme-1']");
+
+        expect(removeButton.props("disabled")).toBeTruthy();
+      });
+
+      it("should not disable the remove button for a non-primary theme when more than one theme exists in edit mode.", async() => {
+        wrapper = await mountInEditMode();
+        const removeButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-remove-theme-2']");
+
+        expect(removeButton.props("disabled")).toBeFalsy();
+      });
+
+      it("should pass the cant remove primary theme tooltip to the UTooltip wrapping the remove button when theme is primary in edit mode.", async() => {
+        wrapper = await mountInEditMode();
+        const item = wrapper.find("[data-testid='question-theme-selector-item-theme-1']");
+        const tooltip = item.findComponent<typeof UTooltip>({ name: "UTooltip" });
+
+        expect(tooltip.props("text")).toBe("questions.cantRemovePrimaryTheme");
+      });
+
+      it("should not pass a tooltip to the remove button when theme is not primary in edit mode.", async() => {
+        wrapper = await mountInEditMode();
+        const item = wrapper.find("[data-testid='question-theme-selector-item-theme-2']");
+        const tooltip = item.findComponent<typeof UTooltip>({ name: "UTooltip" });
+
+        expect(tooltip.props("disabled")).toBe(true);
+      });
+
+      it("should not render the remove button when disabled is true and theme is primary in edit mode.", async() => {
+        wrapper = await mountInEditMode({ disabled: true });
+        const removeButton = wrapper.find("[data-testid='question-theme-selector-remove-theme-1']");
+
+        expect(removeButton.exists()).toBeFalsy();
+      });
+    });
+
+    describe("Set primary", () => {
+      it("should emit modifyThemeInEditMode with isPrimary true when setting a theme as primary in edit mode.", async() => {
+        wrapper = await mountInEditMode();
+        const primaryButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-primary-theme-2']");
+
+        await primaryButton.trigger("click");
+
+        expect(wrapper.emitted("modifyThemeInEditMode")).toStrictEqual([["theme-2", { isPrimary: true }]]);
+      });
+
+      it("should not emit update:modelValue when setting primary in edit mode.", async() => {
+        wrapper = await mountInEditMode();
+        const primaryButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-primary-theme-2']");
+
+        await primaryButton.trigger("click");
+
+        expect(wrapper.emitted("update:modelValue")).toBeUndefined();
+      });
+    });
+
+    describe("Toggle hint", () => {
+      it("should emit modifyThemeInEditMode with isHint true when toggling hint from false in edit mode.", async() => {
+        wrapper = await mountInEditMode();
+        const hintSwitch = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
+
+        getWrapperVm(hintSwitch).$emit("update:modelValue", true);
+
+        expect(wrapper.emitted("modifyThemeInEditMode")).toStrictEqual([["theme-1", { isHint: true }]]);
+      });
+
+      it("should emit modifyThemeInEditMode with isHint false when toggling hint from true in edit mode.", async() => {
+        wrapper = await mountInEditMode();
+        const hintSwitch = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-2']") as VueWrapper;
+
+        getWrapperVm(hintSwitch).$emit("update:modelValue", false);
+
+        expect(wrapper.emitted("modifyThemeInEditMode")).toStrictEqual([["theme-2", { isHint: false }]]);
+      });
+
+      it("should not emit update:modelValue when toggling hint in edit mode.", async() => {
+        wrapper = await mountInEditMode();
+        const hintSwitch = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
+
+        getWrapperVm(hintSwitch).$emit("update:modelValue", true);
+
+        expect(wrapper.emitted("update:modelValue")).toBeUndefined();
+      });
+    });
+
+    describe("isSubmitting state", () => {
+      it("should disable the select menu when isSubmitting is true.", async() => {
+        wrapper = await mountInEditMode({ isSubmitting: true });
+        const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+        expect(selectMenu.props("disabled")).toBeTruthy();
+      });
+
+      it("should disable the primary button when isSubmitting is true.", async() => {
+        wrapper = await mountInEditMode({ isSubmitting: true });
+        const primaryButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-primary-theme-2']");
+
+        expect(primaryButton.props("disabled")).toBeTruthy();
+      });
+
+      it("should disable the hint switch when isSubmitting is true.", async() => {
+        wrapper = await mountInEditMode({ isSubmitting: true });
+        const hintSwitch = wrapper.find("[data-testid='question-theme-selector-hint-theme-1']");
+
+        expect(hintSwitch.attributes("disabled")).toBeDefined();
+      });
+
+      it("should disable the remove button when isSubmitting is true.", async() => {
+        wrapper = await mountInEditMode({ isSubmitting: true });
+        const removeButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-remove-theme-2']");
+
+        expect(removeButton.props("disabled")).toBeTruthy();
+      });
     });
   });
 });
