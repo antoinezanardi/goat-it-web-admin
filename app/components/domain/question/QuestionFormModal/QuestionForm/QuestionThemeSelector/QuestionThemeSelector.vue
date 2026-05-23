@@ -30,12 +30,34 @@ const isInteractionDisabled = computed<boolean>(() => props.disabled || props.is
 
 const isSelectDisabled = computed<boolean>(() => isInteractionDisabled.value || props.modelValue.length >= QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS);
 
-const isRemoveDisabled = computed<boolean>(() => isInteractionDisabled.value || isEditMode.value && props.modelValue.length <= QUESTION_THEME_ASSIGNMENTS_MIN_ITEMS);
+const isLastThemeInEditMode = computed<boolean>(() => isEditMode.value && props.modelValue.length <= QUESTION_THEME_ASSIGNMENTS_MIN_ITEMS);
 
 const selectMenuItems = computed(() => selectableThemes.value.map(theme => ({
   label: getThemeLocalizedLabel(theme, currentLocale.value, missingThemeTranslation.value),
   value: theme.id,
 })));
+
+function isPrimaryButtonDisabled(assignment: QuestionThemeAssignmentCreationDto): boolean {
+  return isInteractionDisabled.value || assignment.isPrimary;
+}
+
+function isRemoveButtonDisabled(assignment: QuestionThemeAssignmentCreationDto): boolean {
+  return isInteractionDisabled.value || isEditMode.value && assignment.isPrimary;
+}
+
+function isRemoveButtonVisible(assignment: QuestionThemeAssignmentCreationDto): boolean {
+  if (isLastThemeInEditMode.value) {
+    return false;
+  }
+  return !props.disabled || !isEditMode.value || !assignment.isPrimary;
+}
+
+function getRemoveButtonTooltip(assignment: QuestionThemeAssignmentCreationDto): string | undefined {
+  if (!isEditMode.value || !assignment.isPrimary) {
+    return undefined;
+  }
+  return t("questions.cantRemovePrimaryTheme");
+}
 
 function getThemeLabelFromAvailableThemes(themeId: string): string {
   const theme = props.availableThemes.find(availableTheme => availableTheme.id === themeId);
@@ -61,7 +83,7 @@ function onAddTheme(themeId: string): void {
   selectMenuKey.value += 1;
 
   if (isEditMode.value) {
-    emit("assignTheme", addedAssignment);
+    emit("assignThemeInEditMode", addedAssignment);
 
     return;
   }
@@ -71,7 +93,7 @@ function onAddTheme(themeId: string): void {
 function onSetPrimary(themeId: string): void {
   if (isEditMode.value) {
     const dto: QuestionThemeAssignmentModificationDto = { isPrimary: true };
-    emit("modifyThemeAssignment", themeId, dto);
+    emit("modifyThemeAssignmentInEditMode", themeId, dto);
 
     return;
   }
@@ -87,7 +109,7 @@ function onToggleHint(themeId: string): void {
 
   if (isEditMode.value) {
     const dto: QuestionThemeAssignmentModificationDto = { isHint: !assignment?.isHint };
-    emit("modifyThemeAssignment", themeId, dto);
+    emit("modifyThemeAssignmentInEditMode", themeId, dto);
 
     return;
   }
@@ -97,7 +119,7 @@ function onToggleHint(themeId: string): void {
 
 function onRemoveTheme(themeId: string): void {
   if (isEditMode.value) {
-    emit("removeTheme", themeId);
+    emit("removeThemeInEditMode", themeId);
 
     return;
   }
@@ -147,7 +169,7 @@ function onRemoveTheme(themeId: string): void {
           :aria-label="getThemeLabelFromAvailableThemes(assignment.themeId)"
           :color="getPrimaryButtonColor(assignment)"
           :data-testid="`question-theme-selector-primary-${assignment.themeId}`"
-          :disabled="isInteractionDisabled || assignment.isPrimary"
+          :disabled="isPrimaryButtonDisabled(assignment)"
           icon="i-lucide-star"
           size="xs"
           :variant="getPrimaryButtonVariant(assignment)"
@@ -169,13 +191,14 @@ function onRemoveTheme(themeId: string): void {
         />
 
         <UButton
+          v-if="isRemoveButtonVisible(assignment)"
           :aria-label="$t('questions.removeTheme', { 'theme': getThemeLabelFromAvailableThemes(assignment.themeId) })"
           color="neutral"
           :data-testid="`question-theme-selector-remove-${assignment.themeId}`"
-          :disabled="isRemoveDisabled"
+          :disabled="isRemoveButtonDisabled(assignment)"
           icon="i-lucide-x"
           size="xs"
-          :tooltip="isRemoveDisabled && isEditMode ? $t('questions.cantRemoveLastTheme') : undefined"
+          :tooltip="getRemoveButtonTooltip(assignment)"
           variant="ghost"
           @click="onRemoveTheme(assignment.themeId)"
         />

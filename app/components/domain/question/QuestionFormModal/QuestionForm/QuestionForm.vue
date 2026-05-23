@@ -68,7 +68,7 @@ const hasStatement = computed<boolean>(() => !!formState.content?.statement[curr
 const hasAnswer = computed<boolean>(() => !!formState.content?.answer[currentLocale.value]);
 const hasDifficulty = computed<boolean>(() => !!formState.cognitiveDifficulty);
 const hasCategory = computed<boolean>(() => !!formState.category);
-const hasThemes = computed<boolean>(() => !!formState.themes?.length);
+const hasThemes = computed<boolean>(() => themeAssignments.value.length > 0);
 const hasSourceUrls = computed<boolean>(() => !!formState.sourceUrls?.length);
 const hasNoFormErrors = computed<boolean>(() => !form.value?.getErrors()?.length);
 
@@ -79,21 +79,21 @@ function onUpdateThemes(themes: QuestionThemeAssignmentCreationDto[]): void {
   formState.themes = themes;
 }
 
-async function onAssignTheme(dto: QuestionThemeAssignmentCreationDto): Promise<void> {
+async function onAssignThemeToQuestionInEditMode(dto: QuestionThemeAssignmentCreationDto): Promise<void> {
   if (!props.question) {
     return;
   }
   await questionsStore.assignThemeAndStoreQuestion(props.question.id, dto);
 }
 
-async function onRemoveTheme(themeId: string): Promise<void> {
+async function onRemoveThemeFromQuestionInEditMode(themeId: string): Promise<void> {
   if (!props.question) {
     return;
   }
   await questionsStore.removeThemeAndStoreQuestion(props.question.id, themeId);
 }
 
-async function onModifyThemeAssignment(themeId: string, dto: QuestionThemeAssignmentModificationDto): Promise<void> {
+async function onModifyThemeAssignmentInEditMode(themeId: string, dto: QuestionThemeAssignmentModificationDto): Promise<void> {
   if (!props.question) {
     return;
   }
@@ -255,9 +255,9 @@ defineExpose({
         :is-submitting="isThemeSubmitting"
         :mode="mode"
         :model-value="themeAssignments"
-        @assign-theme="onAssignTheme"
-        @modify-theme-assignment="onModifyThemeAssignment"
-        @remove-theme="onRemoveTheme"
+        @assign-theme-in-edit-mode="onAssignThemeToQuestionInEditMode"
+        @modify-theme-assignment-in-edit-mode="onModifyThemeAssignmentInEditMode"
+        @remove-theme-in-edit-mode="onRemoveThemeFromQuestionInEditMode"
         @update:model-value="onUpdateThemes"
       />
     </div>

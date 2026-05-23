@@ -26,7 +26,7 @@ When(
     await expect(dialog).toBeVisible();
 
     const themeList = dialog.getByTestId("question-theme-selector-list");
-    const themeItem = themeList.locator("[data-testid^='question-theme-selector-item-']").filter({ hasText: themeName });
+    const themeItem = themeList.locator("[data-testid^='question-theme-selector-item-']").filter({ has: this.page.getByText(themeName, { exact: true }) });
     const removeButton = themeItem.locator("[data-testid^='question-theme-selector-remove-']");
 
     await expect(removeButton).toBeVisible();
@@ -81,7 +81,7 @@ When(
     await expect(dialog).toBeVisible();
 
     const themeList = dialog.getByTestId("question-theme-selector-list");
-    const themeItem = themeList.locator("[data-testid^='question-theme-selector-item-']").filter({ hasText: themeName });
+    const themeItem = themeList.locator("[data-testid^='question-theme-selector-item-']").filter({ has: this.page.getByText(themeName, { exact: true }) });
     const primaryButton = themeItem.locator("[data-testid^='question-theme-selector-primary-']");
 
     await expect(primaryButton).toBeVisible();
@@ -97,7 +97,7 @@ When(
     await expect(dialog).toBeVisible();
 
     const themeList = dialog.getByTestId("question-theme-selector-list");
-    const themeItem = themeList.locator("[data-testid^='question-theme-selector-item-']").filter({ hasText: themeName });
+    const themeItem = themeList.locator("[data-testid^='question-theme-selector-item-']").filter({ has: this.page.getByText(themeName, { exact: true }) });
     const hintSwitch = themeItem.locator("[data-testid^='question-theme-selector-hint-']");
 
     await expect(hintSwitch).toBeVisible();

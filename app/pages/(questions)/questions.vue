@@ -15,6 +15,8 @@ const isQuestionFormModalOpen = ref<boolean>(false);
 const formMode = ref<QuestionFormMode>("create");
 const questionToEditId = ref<string | undefined>(undefined);
 
+// Acceptable as `return` is the same as `return undefined`
+// oxlint-disable-next-line vue/return-in-computed-property
 const questionToEdit = computed<Question | undefined>(() => {
   if (!questionToEditId.value) {
     return;
