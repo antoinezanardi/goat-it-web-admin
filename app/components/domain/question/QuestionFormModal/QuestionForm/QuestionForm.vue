@@ -93,7 +93,7 @@ async function onRemoveThemeFromQuestionInEditMode(themeId: string): Promise<voi
   await questionsStore.removeThemeAndStoreQuestion(props.question.id, themeId);
 }
 
-async function onModifyThemeAssignmentInEditMode(themeId: string, dto: QuestionThemeAssignmentModificationDto): Promise<void> {
+async function onModifyThemeInEditMode(themeId: string, dto: QuestionThemeAssignmentModificationDto): Promise<void> {
   if (!props.question) {
     return;
   }
@@ -256,7 +256,7 @@ defineExpose({
         :mode="mode"
         :model-value="themeAssignments"
         @assign-theme-in-edit-mode="onAssignThemeToQuestionInEditMode"
-        @modify-theme-assignment-in-edit-mode="onModifyThemeAssignmentInEditMode"
+        @modify-theme-in-edit-mode="onModifyThemeInEditMode"
         @remove-theme-in-edit-mode="onRemoveThemeFromQuestionInEditMode"
         @update:model-value="onUpdateThemes"
       />

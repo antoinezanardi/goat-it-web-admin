@@ -93,7 +93,7 @@ function onAddTheme(themeId: string): void {
 function onSetPrimary(themeId: string): void {
   if (isEditMode.value) {
     const dto: QuestionThemeAssignmentModificationDto = { isPrimary: true };
-    emit("modifyThemeAssignmentInEditMode", themeId, dto);
+    emit("modifyThemeInEditMode", themeId, dto);
 
     return;
   }
@@ -109,7 +109,7 @@ function onToggleHint(themeId: string): void {
 
   if (isEditMode.value) {
     const dto: QuestionThemeAssignmentModificationDto = { isHint: !assignment?.isHint };
-    emit("modifyThemeAssignmentInEditMode", themeId, dto);
+    emit("modifyThemeInEditMode", themeId, dto);
 
     return;
   }
@@ -190,18 +190,22 @@ function onRemoveTheme(themeId: string): void {
           @update:model-value="onToggleHint(assignment.themeId)"
         />
 
-        <UButton
+        <UTooltip
           v-if="isRemoveButtonVisible(assignment)"
-          :aria-label="$t('questions.removeTheme', { 'theme': getThemeLabelFromAvailableThemes(assignment.themeId) })"
-          color="neutral"
-          :data-testid="`question-theme-selector-remove-${assignment.themeId}`"
-          :disabled="isRemoveButtonDisabled(assignment)"
-          icon="i-lucide-x"
-          size="xs"
-          :tooltip="getRemoveButtonTooltip(assignment)"
-          variant="ghost"
-          @click="onRemoveTheme(assignment.themeId)"
-        />
+          :disabled="!isRemoveButtonDisabled(assignment)"
+          :text="getRemoveButtonTooltip(assignment)"
+        >
+          <UButton
+            :aria-label="$t('questions.removeTheme', { 'theme': getThemeLabelFromAvailableThemes(assignment.themeId) })"
+            color="neutral"
+            :data-testid="`question-theme-selector-remove-${assignment.themeId}`"
+            :disabled="isRemoveButtonDisabled(assignment)"
+            icon="i-lucide-x"
+            size="xs"
+            variant="ghost"
+            @click="onRemoveTheme(assignment.themeId)"
+          />
+        </UTooltip>
       </div>
     </div>
   </UFormField>

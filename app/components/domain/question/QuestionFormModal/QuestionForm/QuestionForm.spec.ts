@@ -531,12 +531,12 @@ describe("QuestionForm Component", () => {
         expect(questionsStore.removeThemeAndStoreQuestion).toHaveBeenCalledExactlyOnceWith(fakeQuestion.id, "theme-to-remove");
       });
 
-      it("should call modifyThemeAssignmentAndStoreQuestion on the store when modifyThemeAssignmentInEditMode event is emitted from theme selector.", async() => {
+      it("should call modifyThemeAssignmentAndStoreQuestion on the store when modifyThemeInEditMode event is emitted from theme selector.", async() => {
         const questionsStore = mockStore(useQuestionsStore);
         const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
         const dto = { isPrimary: true };
 
-        getWrapperVm(themeSelector).$emit("modifyThemeAssignmentInEditMode", "theme-1", dto);
+        getWrapperVm(themeSelector).$emit("modifyThemeInEditMode", "theme-1", dto);
         await nextTick();
 
         expect(questionsStore.modifyThemeAssignmentAndStoreQuestion).toHaveBeenCalledExactlyOnceWith(fakeQuestion.id, "theme-1", dto);
@@ -587,13 +587,13 @@ describe("QuestionForm Component", () => {
         expect(questionsStore.removeThemeAndStoreQuestion).not.toHaveBeenCalled();
       });
 
-      it("should not call modifyThemeAssignmentAndStoreQuestion when modifyThemeAssignmentInEditMode event is emitted and question prop is undefined.", async() => {
+      it("should not call modifyThemeAssignmentAndStoreQuestion when modifyThemeInEditMode event is emitted and question prop is undefined.", async() => {
         wrapper = await mountQuestionFormComponent({ props: { ...defaultProperties, mode: "edit" } });
         const questionsStore = mockStore(useQuestionsStore);
         const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
         const dto = { isPrimary: true };
 
-        getWrapperVm(themeSelector).$emit("modifyThemeAssignmentInEditMode", "theme-1", dto);
+        getWrapperVm(themeSelector).$emit("modifyThemeInEditMode", "theme-1", dto);
         await nextTick();
 
         expect(questionsStore.modifyThemeAssignmentAndStoreQuestion).not.toHaveBeenCalled();

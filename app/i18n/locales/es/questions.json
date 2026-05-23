@@ -22,6 +22,7 @@
     "fetching": "Cargando preguntas...",
     "missingThemeTranslation": "–– traducción del tema faltante ––",
     "selectThemes": "Seleccionar temas…",
+    "selectCategory": "Seleccionar categoría…",
     "sections": {
       "content": "Contenido",
       "classification": "Clasificación",

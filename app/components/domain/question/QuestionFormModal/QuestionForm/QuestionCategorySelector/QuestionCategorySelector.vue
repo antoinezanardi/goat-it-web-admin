@@ -30,7 +30,7 @@ function onUpdateModelValue(value: QuestionCategory): void {
     data-testid="question-category-selector"
     :items="selectItems"
     :model-value="modelValue"
-    :placeholder="$t('questions.fields.category')"
+    :placeholder="$t('questions.selectCategory')"
     @update:model-value="onUpdateModelValue"
   />
 </template>

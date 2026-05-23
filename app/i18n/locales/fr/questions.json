@@ -22,6 +22,7 @@
     "modifyThemeAssignmentSuccessfully": "Thème de la question modifié avec succès",
     "missingThemeTranslation": "–– traduction du thème manquante ––",
     "selectThemes": "Sélectionner les thèmes…",
+    "selectCategory": "Sélectionner la catégorie…",
     "sections": {
       "content": "Contenu",
       "classification": "Classification",

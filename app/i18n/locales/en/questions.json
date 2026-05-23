@@ -21,7 +21,8 @@
     "modifyThemeAssignmentSuccessfully": "Question theme modified successfully",
     "fetching": "Loading questions...",
     "missingThemeTranslation": "–– missing theme translation ––",
-    "selectThemes": "Select Themes…",
+    "selectThemes": "Select themes…",
+    "selectCategory": "Select category…",
     "sections": {
       "content": "Content",
       "classification": "Classification",

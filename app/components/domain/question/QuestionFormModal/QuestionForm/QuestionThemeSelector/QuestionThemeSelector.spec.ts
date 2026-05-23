@@ -7,7 +7,7 @@ import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import type { UButton, UFormField, USelectMenu } from "#components";
+import type { UButton, UFormField, USelectMenu, UTooltip } from "#components";
 import { QuestionThemeSelector } from "#components";
 
 import type { QuestionThemeSelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/question-theme-selector.types";
@@ -635,18 +635,20 @@ describe("QuestionThemeSelector Component", () => {
         expect(removeButton.props("disabled")).toBeFalsy();
       });
 
-      it("should pass the cant remove primary theme tooltip to the remove button when theme is primary in edit mode.", async() => {
+      it("should pass the cant remove primary theme tooltip to the UTooltip wrapping the remove button when theme is primary in edit mode.", async() => {
         wrapper = await mountInEditMode();
-        const removeButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-remove-theme-1']");
+        const item = wrapper.find("[data-testid='question-theme-selector-item-theme-1']");
+        const tooltip = item.findComponent<typeof UTooltip>({ name: "UTooltip" });
 
-        expect(removeButton.attributes("tooltip")).toBe("questions.cantRemovePrimaryTheme");
+        expect(tooltip.props("text")).toBe("questions.cantRemovePrimaryTheme");
       });
 
       it("should not pass a tooltip to the remove button when theme is not primary in edit mode.", async() => {
         wrapper = await mountInEditMode();
-        const removeButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-remove-theme-2']");
+        const item = wrapper.find("[data-testid='question-theme-selector-item-theme-2']");
+        const tooltip = item.findComponent<typeof UTooltip>({ name: "UTooltip" });
 
-        expect(removeButton.attributes("tooltip")).toBeUndefined();
+        expect(tooltip.props("disabled")).toBe(true);
       });
 
       it("should not render the remove button when disabled is true and theme is primary in edit mode.", async() => {
@@ -658,13 +660,13 @@ describe("QuestionThemeSelector Component", () => {
     });
 
     describe("Set primary", () => {
-      it("should emit modifyThemeAssignmentInEditMode with isPrimary true when setting a theme as primary in edit mode.", async() => {
+      it("should emit modifyThemeInEditMode with isPrimary true when setting a theme as primary in edit mode.", async() => {
         wrapper = await mountInEditMode();
         const primaryButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-primary-theme-2']");
 
         await primaryButton.trigger("click");
 
-        expect(wrapper.emitted("modifyThemeAssignmentInEditMode")).toStrictEqual([["theme-2", { isPrimary: true }]]);
+        expect(wrapper.emitted("modifyThemeInEditMode")).toStrictEqual([["theme-2", { isPrimary: true }]]);
       });
 
       it("should not emit update:modelValue when setting primary in edit mode.", async() => {
@@ -678,22 +680,22 @@ describe("QuestionThemeSelector Component", () => {
     });
 
     describe("Toggle hint", () => {
-      it("should emit modifyThemeAssignmentInEditMode with isHint true when toggling hint from false in edit mode.", async() => {
+      it("should emit modifyThemeInEditMode with isHint true when toggling hint from false in edit mode.", async() => {
         wrapper = await mountInEditMode();
         const hintSwitch = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
 
         getWrapperVm(hintSwitch).$emit("update:modelValue", true);
 
-        expect(wrapper.emitted("modifyThemeAssignmentInEditMode")).toStrictEqual([["theme-1", { isHint: true }]]);
+        expect(wrapper.emitted("modifyThemeInEditMode")).toStrictEqual([["theme-1", { isHint: true }]]);
       });
 
-      it("should emit modifyThemeAssignmentInEditMode with isHint false when toggling hint from true in edit mode.", async() => {
+      it("should emit modifyThemeInEditMode with isHint false when toggling hint from true in edit mode.", async() => {
         wrapper = await mountInEditMode();
         const hintSwitch = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-2']") as VueWrapper;
 
         getWrapperVm(hintSwitch).$emit("update:modelValue", false);
 
-        expect(wrapper.emitted("modifyThemeAssignmentInEditMode")).toStrictEqual([["theme-2", { isHint: false }]]);
+        expect(wrapper.emitted("modifyThemeInEditMode")).toStrictEqual([["theme-2", { isHint: false }]]);
       });
 
       it("should not emit update:modelValue when toggling hint in edit mode.", async() => {

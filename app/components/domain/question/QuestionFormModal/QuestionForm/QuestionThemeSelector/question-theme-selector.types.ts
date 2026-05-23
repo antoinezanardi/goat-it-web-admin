@@ -14,7 +14,7 @@ type QuestionThemeSelectorEmits = {
   "update:modelValue": [value: QuestionThemeAssignmentCreationDto[]];
   "assignThemeInEditMode": [dto: QuestionThemeAssignmentCreationDto];
   "removeThemeInEditMode": [themeId: string];
-  "modifyThemeAssignmentInEditMode": [themeId: string, dto: QuestionThemeAssignmentModificationDto];
+  "modifyThemeInEditMode": [themeId: string, dto: QuestionThemeAssignmentModificationDto];
 };
 
 export type {
