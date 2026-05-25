@@ -1,5 +1,7 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
+import { flushPromises } from "@vue/test-utils";
+import { nextTick } from "vue";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { createFakeQuestionThemeAssignmentCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-creation/question-theme-assignment-creation.dto.faketory";
@@ -7,7 +9,7 @@ import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import type { UButton, UFormField, USelectMenu, UTooltip } from "#components";
+import type { QuestionThemeIcon, UButton, UFormField, USelectMenu, UTooltip } from "#components";
 import { QuestionThemeSelector } from "#components";
 
 import type { QuestionThemeSelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/question-theme-selector.types";
@@ -168,6 +170,69 @@ describe("QuestionThemeSelector Component", () => {
       expect(items.map(item => item.value)).toContain("theme-2");
     });
 
+    it("should pass search input properties with translated placeholder to the select menu when mounted.", () => {
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+      expect(selectMenu.props("searchInput")).toStrictEqual({ placeholder: "questions.searchThemes" });
+    });
+
+    describe("Item Leading Slot", () => {
+      async function openSelectMenu(): Promise<VueWrapper> {
+        const mountedWrapper = await mountQuestionThemeSelectorComponent({ attachTo: document.body });
+        const selectMenu = mountedWrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+        const trigger = selectMenu.find("button");
+
+        await trigger.trigger("click");
+        await flushPromises();
+        await nextTick();
+        await nextTick();
+
+        return mountedWrapper;
+      }
+
+      it("should render question theme icons in the dropdown items when the select menu is open.", async() => {
+        wrapper = await openSelectMenu();
+        const icons = wrapper.findAllComponents<typeof QuestionThemeIcon>({ name: "QuestionThemeIcon" });
+
+        expect(icons.length).toBeGreaterThan(0);
+      });
+
+      it("should pass theme slug to the question theme icon in the dropdown when the select menu is open.", async() => {
+        wrapper = await openSelectMenu();
+        const icons = wrapper.findAllComponents<typeof QuestionThemeIcon>({ name: "QuestionThemeIcon" });
+
+        expect(icons[0]?.props("slug")).toBe(fakeThemes[0]?.slug);
+      });
+
+      it("should pass theme color to the question theme icon in the dropdown when the select menu is open.", async() => {
+        wrapper = await openSelectMenu();
+        const icons = wrapper.findAllComponents<typeof QuestionThemeIcon>({ name: "QuestionThemeIcon" });
+
+        expect(icons[0]?.props("color")).toBe(fakeThemes[0]?.color);
+      });
+    });
+
+    describe("Empty Slot", () => {
+      it("should render no matching theme text when the select menu has no items.", async() => {
+        wrapper = await mountQuestionThemeSelectorComponent({
+          props: {
+            ...defaultProperties,
+            availableThemes: [],
+          },
+          attachTo: document.body,
+        });
+        const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+        const trigger = selectMenu.find("button");
+
+        await trigger.trigger("click");
+        await flushPromises();
+        await nextTick();
+        await nextTick();
+
+        expect(document.body.innerHTML).toContain("questions.noMatchingTheme");
+      });
+    });
+
     describe("Adding Themes", () => {
       it("should emit update:modelValue with the first theme as primary when adding the first theme.", () => {
         const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
@@ -229,7 +294,7 @@ describe("QuestionThemeSelector Component", () => {
         },
       });
 
-      const item = wrapper.find("[data-testid='question-theme-selector-item-unknown-theme']");
+      const item = wrapper.find("[data-testid='question-theme-selector-assignment-unknown-theme']");
 
       expect(item.text()).toContain("questions.missingThemeTranslation");
     });
@@ -243,7 +308,7 @@ describe("QuestionThemeSelector Component", () => {
         },
       });
 
-      const item = wrapper.find("[data-testid='question-theme-selector-item-theme-no-en']");
+      const item = wrapper.find("[data-testid='question-theme-selector-assignment-theme-no-en']");
 
       expect(item.text()).toContain("questions.missingThemeTranslation");
     });
@@ -262,7 +327,7 @@ describe("QuestionThemeSelector Component", () => {
         },
       });
 
-      const item = wrapper.find(`[data-testid='question-theme-selector-item-${themeId}']`);
+      const item = wrapper.find(`[data-testid='question-theme-selector-assignment-${themeId}']`);
 
       expect(item.exists()).toBeTruthy();
     });
@@ -281,7 +346,7 @@ describe("QuestionThemeSelector Component", () => {
         expect(primaryButton.props("color")).toBe("warning");
       });
 
-      it("should use solid variant for the primary button when theme is primary.", async() => {
+      it("should use soft variant for the primary button when theme is primary.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
             ...defaultProperties,
@@ -291,7 +356,7 @@ describe("QuestionThemeSelector Component", () => {
 
         const primaryButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-primary-theme-1']");
 
-        expect(primaryButton.props("variant")).toBe("solid");
+        expect(primaryButton.props("variant")).toBe("soft");
       });
 
       it("should use neutral color for the primary button when theme is not primary.", async() => {
@@ -310,7 +375,7 @@ describe("QuestionThemeSelector Component", () => {
         expect(primaryButton.props("color")).toBe("neutral");
       });
 
-      it("should use ghost variant for the primary button when theme is not primary.", async() => {
+      it("should use outline variant for the primary button when theme is not primary.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
             ...defaultProperties,
@@ -323,7 +388,7 @@ describe("QuestionThemeSelector Component", () => {
 
         const primaryButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-primary-theme-2']");
 
-        expect(primaryButton.props("variant")).toBe("ghost");
+        expect(primaryButton.props("variant")).toBe("outline");
       });
 
       it("should disable the primary button for the already-primary theme when theme is primary.", async() => {
@@ -574,6 +639,15 @@ describe("QuestionThemeSelector Component", () => {
     }
 
     describe("Assign theme", () => {
+      it("should emit assignThemeInEditMode with isPrimary true when adding the first theme ever in edit mode.", async() => {
+        wrapper = await mountInEditMode({ modelValue: [] });
+        const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+        getWrapperVm(selectMenu).$emit("update:modelValue", "theme-1");
+
+        expect(wrapper.emitted("assignThemeInEditMode")).toStrictEqual([[{ themeId: "theme-1", isPrimary: true, isHint: false }]]);
+      });
+
       it("should emit assignThemeInEditMode with isPrimary false and isHint false when adding a theme in edit mode.", async() => {
         wrapper = await mountInEditMode();
         const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
@@ -637,18 +711,20 @@ describe("QuestionThemeSelector Component", () => {
 
       it("should pass the cant remove primary theme tooltip to the UTooltip wrapping the remove button when theme is primary in edit mode.", async() => {
         wrapper = await mountInEditMode();
-        const item = wrapper.find("[data-testid='question-theme-selector-item-theme-1']");
-        const tooltip = item.findComponent<typeof UTooltip>({ name: "UTooltip" });
+        const item = wrapper.findComponent("[data-testid='question-theme-selector-assignment-theme-1']");
+        const tooltips = item.findAllComponents<typeof UTooltip>({ name: "UTooltip" });
+        const removeTooltip = tooltips[1];
 
-        expect(tooltip.props("text")).toBe("questions.cantRemovePrimaryTheme");
+        expect(removeTooltip?.props("text")).toBe("questions.cantRemovePrimaryTheme");
       });
 
-      it("should not pass a tooltip to the remove button when theme is not primary in edit mode.", async() => {
+      it("should pass the remove theme tooltip to the UTooltip wrapping the remove button when theme is not primary in edit mode.", async() => {
         wrapper = await mountInEditMode();
-        const item = wrapper.find("[data-testid='question-theme-selector-item-theme-2']");
-        const tooltip = item.findComponent<typeof UTooltip>({ name: "UTooltip" });
+        const item = wrapper.findComponent("[data-testid='question-theme-selector-assignment-theme-2']");
+        const tooltips = item.findAllComponents<typeof UTooltip>({ name: "UTooltip" });
+        const removeTooltip = tooltips[1];
 
-        expect(tooltip.props("disabled")).toBe(true);
+        expect(removeTooltip?.props("text")).toBe("questions.removeTheme");
       });
 
       it("should not render the remove button when disabled is true and theme is primary in edit mode.", async() => {

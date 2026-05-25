@@ -3,8 +3,6 @@ import type { QuestionThemeAssignmentCreationDto, QuestionThemeAssignmentModific
 import { QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS, QUESTION_THEME_ASSIGNMENTS_MIN_ITEMS } from "@goat-it/schemas/question";
 
 import { getThemeLocalizedLabel } from "~/composables/domain/question-theme/helpers/question-theme.helpers";
-import type { ButtonVariant } from "~/utils/types/button.types";
-import type { AppColor } from "~/utils/types/color.types";
 import type { QuestionThemeSelectorEmits, QuestionThemeSelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/question-theme-selector.types";
 
 const props = withDefaults(defineProps<QuestionThemeSelectorProperties>(), {
@@ -35,7 +33,14 @@ const isLastThemeInEditMode = computed<boolean>(() => isEditMode.value && props.
 const selectMenuItems = computed(() => selectableThemes.value.map(theme => ({
   label: getThemeLocalizedLabel(theme, currentLocale.value, missingThemeTranslation.value),
   value: theme.id,
+  theme,
 })));
+
+const searchInputProperties = computed(() => ({ placeholder: t("questions.searchThemes") }));
+
+function getThemeFromId(themeId: string): QuestionTheme | undefined {
+  return props.availableThemes.find(theme => theme.id === themeId);
+}
 
 function isPrimaryButtonDisabled(assignment: QuestionThemeAssignmentCreationDto): boolean {
   return isInteractionDisabled.value || assignment.isPrimary;
@@ -50,27 +55,6 @@ function isRemoveButtonVisible(assignment: QuestionThemeAssignmentCreationDto): 
     return false;
   }
   return !props.disabled || !isEditMode.value || !assignment.isPrimary;
-}
-
-function getRemoveButtonTooltip(assignment: QuestionThemeAssignmentCreationDto): string | undefined {
-  if (!isEditMode.value || !assignment.isPrimary) {
-    return undefined;
-  }
-  return t("questions.cantRemovePrimaryTheme");
-}
-
-function getThemeLabelFromAvailableThemes(themeId: string): string {
-  const theme = props.availableThemes.find(availableTheme => availableTheme.id === themeId);
-
-  return getThemeLocalizedLabel(theme, currentLocale.value, missingThemeTranslation.value);
-}
-
-function getPrimaryButtonColor(assignment: QuestionThemeAssignmentCreationDto): AppColor {
-  return assignment.isPrimary ? "warning" : "neutral";
-}
-
-function getPrimaryButtonVariant(assignment: QuestionThemeAssignmentCreationDto): ButtonVariant {
-  return assignment.isPrimary ? "solid" : "ghost";
 }
 
 function onAddTheme(themeId: string): void {
@@ -144,69 +128,43 @@ function onRemoveTheme(themeId: string): void {
   >
     <USelectMenu
       :key="selectMenuKey"
+      class="w-1/2"
       data-testid="question-theme-selector-select"
       :disabled="isSelectDisabled"
       :items="selectMenuItems"
       :model-value="undefined"
       :placeholder="$t('questions.selectThemes')"
-      searchable
+      :search-input="searchInputProperties"
       value-key="value"
       @update:model-value="onAddTheme"
-    />
+    >
+      <template #item="{ item }">
+        <QuestionThemeSelectorOption :theme="item.theme"/>
+      </template>
+
+      <template #empty>
+        {{ $t('questions.noMatchingTheme') }}
+      </template>
+    </USelectMenu>
 
     <div
       v-if="modelValue.length > 0"
       class="mt-2 space-y-1"
       data-testid="question-theme-selector-list"
     >
-      <div
+      <QuestionThemeSelectorAssignment
         v-for="assignment in modelValue"
         :key="assignment.themeId"
-        class="border border-default flex gap-2 items-center p-2 rounded-md"
-        :data-testid="`question-theme-selector-item-${assignment.themeId}`"
-      >
-        <UButton
-          :aria-label="getThemeLabelFromAvailableThemes(assignment.themeId)"
-          :color="getPrimaryButtonColor(assignment)"
-          :data-testid="`question-theme-selector-primary-${assignment.themeId}`"
-          :disabled="isPrimaryButtonDisabled(assignment)"
-          icon="i-lucide-star"
-          size="xs"
-          :variant="getPrimaryButtonVariant(assignment)"
-          @click="onSetPrimary(assignment.themeId)"
-        />
-
-        <span class="flex-1 text-default text-sm">
-          {{ getThemeLabelFromAvailableThemes(assignment.themeId) }}
-        </span>
-
-        <span class="text-muted text-xs">{{ $t("questions.fields.hint") }}</span>
-
-        <USwitch
-          :data-testid="`question-theme-selector-hint-${assignment.themeId}`"
-          :disabled="isInteractionDisabled"
-          :model-value="assignment.isHint"
-          size="xs"
-          @update:model-value="onToggleHint(assignment.themeId)"
-        />
-
-        <UTooltip
-          v-if="isRemoveButtonVisible(assignment)"
-          :disabled="!isRemoveButtonDisabled(assignment)"
-          :text="getRemoveButtonTooltip(assignment)"
-        >
-          <UButton
-            :aria-label="$t('questions.removeTheme', { 'theme': getThemeLabelFromAvailableThemes(assignment.themeId) })"
-            color="neutral"
-            :data-testid="`question-theme-selector-remove-${assignment.themeId}`"
-            :disabled="isRemoveButtonDisabled(assignment)"
-            icon="i-lucide-x"
-            size="xs"
-            variant="ghost"
-            @click="onRemoveTheme(assignment.themeId)"
-          />
-        </UTooltip>
-      </div>
+        :assignment="assignment"
+        :is-hint-disabled="isInteractionDisabled"
+        :is-primary-disabled="isPrimaryButtonDisabled(assignment)"
+        :is-remove-disabled="isRemoveButtonDisabled(assignment)"
+        :is-remove-visible="isRemoveButtonVisible(assignment)"
+        :theme="getThemeFromId(assignment.themeId)"
+        @remove="onRemoveTheme(assignment.themeId)"
+        @set-primary="onSetPrimary(assignment.themeId)"
+        @toggle-hint="onToggleHint(assignment.themeId)"
+      />
     </div>
   </UFormField>
 </template>
