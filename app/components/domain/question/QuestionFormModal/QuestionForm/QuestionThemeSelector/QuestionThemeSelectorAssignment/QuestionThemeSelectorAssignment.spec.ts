@@ -52,6 +52,23 @@ describe("QuestionThemeSelectorAssignment Component", () => {
     expect(container.exists()).toBeTruthy();
   });
 
+  describe("Container Border", () => {
+    it("should have warning border class when assignment is primary.", () => {
+      const container = wrapper.find("[data-testid='question-theme-selector-assignment-theme-1']");
+
+      expect(container.classes()).toContain("border-warning");
+    });
+
+    it("should have default border class when assignment is not primary.", async() => {
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
+        props: { ...defaultProperties, assignment: { ...fakeAssignment, isPrimary: false } },
+      });
+      const container = wrapper.find("[data-testid='question-theme-selector-assignment-theme-1']");
+
+      expect(container.classes()).toContain("border-default");
+    });
+  });
+
   describe("Primary Button", () => {
     it("should use warning color when assignment is primary.", () => {
       const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='question-theme-selector-primary-theme-1']");

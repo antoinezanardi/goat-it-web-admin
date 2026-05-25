@@ -128,6 +128,7 @@ function onRemoveTheme(themeId: string): void {
   >
     <USelectMenu
       :key="selectMenuKey"
+      class="w-1/2"
       data-testid="question-theme-selector-select"
       :disabled="isSelectDisabled"
       :items="selectMenuItems"
@@ -137,7 +138,7 @@ function onRemoveTheme(themeId: string): void {
       value-key="value"
       @update:model-value="onAddTheme"
     >
-      <template #item-leading="{ item }">
+      <template #item="{ item }">
         <QuestionThemeSelectorOption :theme="item.theme"/>
       </template>
 

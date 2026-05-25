@@ -27,6 +27,8 @@ const removeButtonTooltip = computed<string>(() => {
   return t("questions.removeTheme", { theme: themeLabel.value });
 });
 
+const containerBorderClass = computed<string>(() => (props.assignment.isPrimary ? "border-warning" : "border-default"));
+
 function onSetPrimary(): void {
   emit("setPrimary");
 }
@@ -42,7 +44,8 @@ function onRemove(): void {
 
 <template>
   <div
-    class="border border-default flex gap-2 items-center p-2 rounded-md"
+    class="border flex gap-2 items-center p-2 rounded-md"
+    :class="containerBorderClass"
     :data-testid="`question-theme-selector-assignment-${assignment.themeId}`"
   >
     <UTooltip :text="primaryButtonTooltip">

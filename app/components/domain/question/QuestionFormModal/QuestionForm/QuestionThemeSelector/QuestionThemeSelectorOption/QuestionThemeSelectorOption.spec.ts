@@ -18,6 +18,7 @@ describe("QuestionThemeSelectorOption Component", () => {
     id: "theme-1",
     slug: "geography",
     color: "#FF0000",
+    label: { en: "Geography", fr: "Géographie", es: undefined, de: undefined, it: undefined, pt: undefined },
   });
 
   const defaultProperties: QuestionThemeSelectorOptionProperties = {
@@ -56,6 +57,24 @@ describe("QuestionThemeSelectorOption Component", () => {
       const icon = wrapper.findComponent<typeof QuestionThemeIcon>({ name: "QuestionThemeIcon" });
 
       expect(icon.props("size")).toBe(QUESTION_THEME_SELECTOR_OPTION_ICON_SIZE);
+    });
+  });
+
+  describe("Theme Label", () => {
+    it("should display the localized theme label when theme has a label for the current locale.", () => {
+      const label = wrapper.find("span.text-sm");
+
+      expect(label.text()).toBe("Geography");
+    });
+
+    it("should display missing theme translation when theme has no localized value for current locale.", async() => {
+      const themeWithNoEnLabel = createFakeQuestionTheme({ label: { en: undefined, fr: "Géographie", es: undefined, de: undefined, it: undefined, pt: undefined } });
+      wrapper = await mountQuestionThemeSelectorOptionComponent({
+        props: { theme: themeWithNoEnLabel },
+      });
+      const label = wrapper.find("span.text-sm");
+
+      expect(label.text()).toBe("questions.missingThemeTranslation");
     });
   });
 });
