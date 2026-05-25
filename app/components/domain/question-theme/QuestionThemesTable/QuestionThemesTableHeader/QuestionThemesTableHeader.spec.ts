@@ -59,6 +59,12 @@ describe("QuestionThemesTableHeader Component", () => {
       expect(button.text()).toContain("questionThemes.createNew");
     });
 
+    it("should render the create question theme button with the correct aria-label when mounted.", () => {
+      const button = wrapper.find("#create-question-theme-button");
+
+      expect(button.attributes("aria-label")).toBe("questionThemes.createNew");
+    });
+
     it("should render the create question theme button with the correct icon when mounted.", () => {
       const button = wrapper.findComponent<typeof UButton>({ name: "UButton" });
 

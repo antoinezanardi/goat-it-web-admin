@@ -88,8 +88,8 @@ describe("DefaultLayoutHeader Component", () => {
     });
 
     it("should pass the items sorted by order as props to the mobile navigation menu component when mounted.", () => {
-      const navigationMenus = wrapper.findAllComponents({ name: "UNavigationMenu" });
-      const mobileNavigationMenu = navigationMenus[1];
+      const mobileNavigationMenu = wrapper.findAllComponents({ name: "UNavigationMenu" })
+        .find(component => component.html().includes("default-layout-header-mobile-navigation-menu"));
       const expectedNavigationMenuItems: NavigationMenuItem[] = [
         {
           label: MOCKED_ROUTES[3].meta.titleKey,
@@ -121,8 +121,8 @@ describe("DefaultLayoutHeader Component", () => {
     });
 
     it("should pass vertical orientation to the mobile navigation menu when mounted.", () => {
-      const navigationMenus = wrapper.findAllComponents({ name: "UNavigationMenu" });
-      const mobileNavigationMenu = navigationMenus[1];
+      const mobileNavigationMenu = wrapper.findAllComponents({ name: "UNavigationMenu" })
+        .find(component => component.html().includes("default-layout-header-mobile-navigation-menu"));
 
       expect(mobileNavigationMenu?.props("orientation")).toBe("vertical");
     });

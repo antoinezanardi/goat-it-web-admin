@@ -111,6 +111,7 @@ defineExpose({
       >
         <UInput
           v-model="formState.label[currentLocale]"
+          class="w-full"
           :placeholder="$t('questionThemes.placeholders.label')"
         />
       </UFormField>
@@ -123,6 +124,7 @@ defineExpose({
       >
         <UInput
           v-model="formState.slug"
+          class="w-full"
           :placeholder="$t('questionThemes.placeholders.slug')"
         />
       </UFormField>

@@ -61,7 +61,7 @@ describe("LocaleSelect Component", () => {
     it("should pass the ui prop to hide value text on mobile when mounted.", () => {
       const nuxtUILocaleSelect = wrapper.getComponent<typeof ULocaleSelect>({ name: "ULocaleSelect" });
 
-      expect(nuxtUILocaleSelect.props("ui")).toStrictEqual({ value: "hidden sm:inline" });
+      expect(nuxtUILocaleSelect.props("ui")).toStrictEqual({ base: "min-h-9", content: "!w-auto", value: "hidden sm:inline" });
     });
 
     it("should not set a new locale when the new locale is not supported.", () => {
