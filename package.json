@@ -102,7 +102,7 @@
     "@axe-core/playwright": "^4.11.3",
     "@commitlint/config-conventional": "^21.0.1",
     "@cucumber/cucumber": "^12.9.0",
-    "@eslint/config-inspector": "^3.0.2",
+    "@eslint/config-inspector": "^3.0.3",
     "@faker-js/faker": "^10.4.0",
     "@goat-it/schemas": "^0.0.9",
     "@iconify-json/circle-flags": "^1.2.10",

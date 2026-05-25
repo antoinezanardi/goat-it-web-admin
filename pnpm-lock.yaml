@@ -18,8 +18,8 @@ importers:
         specifier: ^12.9.0
         version: 12.9.0
       '@eslint/config-inspector':
-        specifier: ^3.0.2
-        version: 3.0.2(eslint@10.4.0(jiti@2.7.0))(typescript@6.0.3)
+        specifier: ^3.0.3
+        version: 3.0.3(eslint@10.4.0(jiti@2.7.0))(typescript@6.0.3)
       '@faker-js/faker':
         specifier: ^10.4.0
         version: 10.4.0
@@ -1112,8 +1112,8 @@ packages:
     peerDependencies:
       eslint: ^8.50.0 || ^9.0.0 || ^10.0.0
 
-  '@eslint/config-inspector@3.0.2':
-    resolution: {integrity: sha512-J/TpVSSXqZs6+dkYfM2EXoTvsgxkO8xQTu6HA295UtugYRiomedOVtRkjnXKMGk+yJHPq0YTka4yFKUzImDbcA==}
+  '@eslint/config-inspector@3.0.3':
+    resolution: {integrity: sha512-KIrUUkHq1SE8oCg01pswMNFxXLREJn3wTqg0wmJMYZVQafp93KHV4najJde2QqNYt/5KCtTUJwnoC9PhI9R2WA==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
     hasBin: true
     peerDependencies:
@@ -4179,10 +4179,6 @@ packages:
   ansi-styles@6.2.3:
     resolution: {integrity: sha512-4Dj6M28JB+oAH8kFkTLUo+a2jwOFkuqb3yucU0CANcRRUbxS0cP0nZYCGjcc3BNXwRIsUVmDGgzawme7zvJHvg==}
     engines: {node: '>=12'}
-
-  ansis@4.2.0:
-    resolution: {integrity: sha512-HqZ5rWlFjGiV0tDm3UxxgNRqsOTniqoKZu0pIAfh7TZQMGuZK+hH0drySty0si0QXj1ieop4+SkSfPZBPPkHig==}
-    engines: {node: '>=14'}
 
   ansis@4.3.0:
     resolution: {integrity: sha512-44mvgtPvohuU/70DdY5Oz2AIrLJ9k6/5x4KmoSvPwO+5Moijo0+N9D0fKbbYZQWP1hNm5CpOf+E01jhxG/r8xg==}
@@ -9384,7 +9380,7 @@ snapshots:
 
   '@eslint/config-inspector@1.5.0(eslint@10.4.0(jiti@2.7.0))':
     dependencies:
-      ansis: 4.2.0
+      ansis: 4.3.0
       bundle-require: 5.1.0(esbuild@0.27.7)
       cac: 7.0.0
       chokidar: 5.0.0
@@ -9397,7 +9393,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@eslint/config-inspector@3.0.2(eslint@10.4.0(jiti@2.7.0))(typescript@6.0.3)':
+  '@eslint/config-inspector@3.0.3(eslint@10.4.0(jiti@2.7.0))(typescript@6.0.3)':
     dependencies:
       ansis: 4.3.0
       cac: 7.0.0
@@ -12567,8 +12563,6 @@ snapshots:
   ansi-styles@5.2.0: {}
 
   ansi-styles@6.2.3: {}
-
-  ansis@4.2.0: {}
 
   ansis@4.3.0: {}
 
