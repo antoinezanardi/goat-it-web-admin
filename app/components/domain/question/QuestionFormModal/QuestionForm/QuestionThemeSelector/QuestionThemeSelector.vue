@@ -33,8 +33,7 @@ const isLastThemeInEditMode = computed<boolean>(() => isEditMode.value && props.
 const selectMenuItems = computed(() => selectableThemes.value.map(theme => ({
   label: getThemeLocalizedLabel(theme, currentLocale.value, missingThemeTranslation.value),
   value: theme.id,
-  slug: theme.slug,
-  color: theme.color,
+  theme,
 })));
 
 const searchInputProperties = computed(() => ({ placeholder: t("questions.searchThemes") }));
@@ -139,11 +138,7 @@ function onRemoveTheme(themeId: string): void {
       @update:model-value="onAddTheme"
     >
       <template #item-leading="{ item }">
-        <QuestionThemeIcon
-          :color="(item as { 'color'?: string }).color"
-          :size="16"
-          :slug="(item as { 'slug': string }).slug"
-        />
+        <QuestionThemeSelectorOption :theme="item.theme"/>
       </template>
 
       <template #empty>
@@ -156,7 +151,7 @@ function onRemoveTheme(themeId: string): void {
       class="mt-2 space-y-1"
       data-testid="question-theme-selector-list"
     >
-      <QuestionThemeSelectorItem
+      <QuestionThemeSelectorAssignment
         v-for="assignment in modelValue"
         :key="assignment.themeId"
         :assignment="assignment"

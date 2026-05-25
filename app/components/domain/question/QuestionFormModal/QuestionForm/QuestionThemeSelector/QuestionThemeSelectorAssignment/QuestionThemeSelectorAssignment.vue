@@ -2,10 +2,11 @@
 import { getThemeLocalizedLabel } from "~/composables/domain/question-theme/helpers/question-theme.helpers";
 import type { ButtonVariant } from "~/utils/types/button.types";
 import type { AppColor } from "~/utils/types/color.types";
-import type { QuestionThemeSelectorItemEmits, QuestionThemeSelectorItemProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/QuestionThemeSelectorItem/question-theme-selector-item.types";
+import { QUESTION_THEME_SELECTOR_ASSIGNMENT_ICON_SIZE } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/QuestionThemeSelectorAssignment/question-theme-selector-assignment.constants";
+import type { QuestionThemeSelectorAssignmentEmits, QuestionThemeSelectorAssignmentProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/QuestionThemeSelectorAssignment/question-theme-selector-assignment.types";
 
-const props = defineProps<QuestionThemeSelectorItemProperties>();
-const emit = defineEmits<QuestionThemeSelectorItemEmits>();
+const props = defineProps<QuestionThemeSelectorAssignmentProperties>();
+const emit = defineEmits<QuestionThemeSelectorAssignmentEmits>();
 
 const { t, locale: currentLocale } = useI18n();
 
@@ -42,7 +43,7 @@ function onRemove(): void {
 <template>
   <div
     class="border border-default flex gap-2 items-center p-2 rounded-md"
-    :data-testid="`question-theme-selector-item-${assignment.themeId}`"
+    :data-testid="`question-theme-selector-assignment-${assignment.themeId}`"
   >
     <UTooltip :text="primaryButtonTooltip">
       <UButton
@@ -60,7 +61,7 @@ function onRemove(): void {
     <QuestionThemeIcon
       :color="theme?.color"
       :data-testid="`question-theme-selector-icon-${assignment.themeId}`"
-      :size="20"
+      :size="QUESTION_THEME_SELECTOR_ASSIGNMENT_ICON_SIZE"
       :slug="theme?.slug ?? ''"
     />
 

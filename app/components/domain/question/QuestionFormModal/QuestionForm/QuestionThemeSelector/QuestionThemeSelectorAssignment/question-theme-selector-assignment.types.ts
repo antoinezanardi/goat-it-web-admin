@@ -1,6 +1,6 @@
 import type { QuestionThemeAssignmentCreationDto } from "@goat-it/schemas/question";
 
-type QuestionThemeSelectorItemProperties = {
+type QuestionThemeSelectorAssignmentProperties = {
   assignment: QuestionThemeAssignmentCreationDto;
   theme: QuestionTheme | undefined;
   isPrimaryDisabled: boolean;
@@ -9,10 +9,10 @@ type QuestionThemeSelectorItemProperties = {
   isHintDisabled: boolean;
 };
 
-type QuestionThemeSelectorItemEmits = {
+type QuestionThemeSelectorAssignmentEmits = {
   setPrimary: [];
   toggleHint: [];
   remove: [];
 };
 
-export type { QuestionThemeSelectorItemEmits, QuestionThemeSelectorItemProperties };
+export type { QuestionThemeSelectorAssignmentEmits, QuestionThemeSelectorAssignmentProperties };

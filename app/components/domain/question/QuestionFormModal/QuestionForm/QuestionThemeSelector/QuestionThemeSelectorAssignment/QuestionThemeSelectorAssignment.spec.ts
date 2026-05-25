@@ -8,11 +8,11 @@ import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import type { QuestionThemeIcon, UButton, UTooltip } from "#components";
-import { QuestionThemeSelectorItem } from "#components";
+import { QuestionThemeSelectorAssignment } from "#components";
 
-import type { QuestionThemeSelectorItemProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/QuestionThemeSelectorItem/question-theme-selector-item.types";
+import type { QuestionThemeSelectorAssignmentProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/QuestionThemeSelectorAssignment/question-theme-selector-assignment.types";
 
-describe("QuestionThemeSelectorItem Component", () => {
+describe("QuestionThemeSelectorAssignment Component", () => {
   let wrapper: VueWrapper;
   const fakeTheme = createFakeQuestionTheme({
     id: "theme-1",
@@ -22,7 +22,7 @@ describe("QuestionThemeSelectorItem Component", () => {
   });
   const fakeAssignment = createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: true });
 
-  const defaultProperties: QuestionThemeSelectorItemProperties = {
+  const defaultProperties: QuestionThemeSelectorAssignmentProperties = {
     assignment: fakeAssignment,
     theme: fakeTheme,
     isPrimaryDisabled: false,
@@ -31,23 +31,23 @@ describe("QuestionThemeSelectorItem Component", () => {
     isHintDisabled: false,
   };
 
-  async function mountQuestionThemeSelectorItemComponent(options: MountSuspendedOptions<typeof QuestionThemeSelectorItem> = {}): Promise<VueWrapper> {
-    return mountSuspended(QuestionThemeSelectorItem, {
+  async function mountQuestionThemeSelectorAssignmentComponent(options: MountSuspendedOptions<typeof QuestionThemeSelectorAssignment> = {}): Promise<VueWrapper> {
+    return mountSuspended(QuestionThemeSelectorAssignment, {
       props: defaultProperties,
       ...options,
     });
   }
 
   beforeEach(async() => {
-    wrapper = await mountQuestionThemeSelectorItemComponent();
+    wrapper = await mountQuestionThemeSelectorAssignmentComponent();
   });
 
-  it("should render the question theme selector item component when mounted.", () => {
+  it("should render the question theme selector assignment component when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
   });
 
   it("should render with correct data-testid based on assignment themeId when mounted.", () => {
-    const container = wrapper.find("[data-testid='question-theme-selector-item-theme-1']");
+    const container = wrapper.find("[data-testid='question-theme-selector-assignment-theme-1']");
 
     expect(container.exists()).toBeTruthy();
   });
@@ -66,7 +66,7 @@ describe("QuestionThemeSelectorItem Component", () => {
     });
 
     it("should use neutral color when assignment is not primary.", async() => {
-      wrapper = await mountQuestionThemeSelectorItemComponent({
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
         props: { ...defaultProperties, assignment: { ...fakeAssignment, isPrimary: false } },
       });
       const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='question-theme-selector-primary-theme-1']");
@@ -75,7 +75,7 @@ describe("QuestionThemeSelectorItem Component", () => {
     });
 
     it("should use outline variant when assignment is not primary.", async() => {
-      wrapper = await mountQuestionThemeSelectorItemComponent({
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
         props: { ...defaultProperties, assignment: { ...fakeAssignment, isPrimary: false } },
       });
       const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='question-theme-selector-primary-theme-1']");
@@ -84,7 +84,7 @@ describe("QuestionThemeSelectorItem Component", () => {
     });
 
     it("should disable primary button when isPrimaryDisabled is true.", async() => {
-      wrapper = await mountQuestionThemeSelectorItemComponent({
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
         props: { ...defaultProperties, isPrimaryDisabled: true },
       });
       const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='question-theme-selector-primary-theme-1']");
@@ -102,7 +102,7 @@ describe("QuestionThemeSelectorItem Component", () => {
       const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='question-theme-selector-primary-theme-1']");
       getWrapperVm(primaryButton).$emit("click");
 
-      expect(wrapper.emitted("setPrimary")).toBeDefined();
+      expect(wrapper.emitted("setPrimary")).toStrictEqual([[]]);
     });
 
     it("should have questions.primaryTheme as aria-label when assignment is primary.", () => {
@@ -112,7 +112,7 @@ describe("QuestionThemeSelectorItem Component", () => {
     });
 
     it("should have questions.promoteAsPrimaryTheme as aria-label when assignment is not primary.", async() => {
-      wrapper = await mountQuestionThemeSelectorItemComponent({
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
         props: { ...defaultProperties, assignment: { ...fakeAssignment, isPrimary: false } },
       });
       const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='question-theme-selector-primary-theme-1']");
@@ -129,7 +129,7 @@ describe("QuestionThemeSelectorItem Component", () => {
     });
 
     it("should pass questions.promoteAsPrimaryTheme as text when assignment is not primary.", async() => {
-      wrapper = await mountQuestionThemeSelectorItemComponent({
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
         props: { ...defaultProperties, assignment: { ...fakeAssignment, isPrimary: false } },
       });
       const tooltips = wrapper.findAllComponents<typeof UTooltip>({ name: "UTooltip" });
@@ -153,7 +153,7 @@ describe("QuestionThemeSelectorItem Component", () => {
     });
 
     it("should pass empty string as slug when theme is undefined.", async() => {
-      wrapper = await mountQuestionThemeSelectorItemComponent({
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
         props: { ...defaultProperties, theme: undefined },
       });
       const icon = wrapper.findComponent<typeof QuestionThemeIcon>("[data-testid='question-theme-selector-icon-theme-1']");
@@ -162,7 +162,7 @@ describe("QuestionThemeSelectorItem Component", () => {
     });
 
     it("should pass undefined as color when theme is undefined.", async() => {
-      wrapper = await mountQuestionThemeSelectorItemComponent({
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
         props: { ...defaultProperties, theme: undefined },
       });
       const icon = wrapper.findComponent<typeof QuestionThemeIcon>("[data-testid='question-theme-selector-icon-theme-1']");
@@ -179,7 +179,7 @@ describe("QuestionThemeSelectorItem Component", () => {
     });
 
     it("should display missingThemeTranslation when theme is undefined.", async() => {
-      wrapper = await mountQuestionThemeSelectorItemComponent({
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
         props: { ...defaultProperties, theme: undefined },
       });
       const label = wrapper.find("span.flex-1");
@@ -189,7 +189,7 @@ describe("QuestionThemeSelectorItem Component", () => {
 
     it("should display missingThemeTranslation when theme has no localized value for current locale.", async() => {
       const themeWithNoEnLabel = createFakeQuestionTheme({ label: { en: undefined, fr: "Géographie", es: undefined, de: undefined, it: undefined, pt: undefined } });
-      wrapper = await mountQuestionThemeSelectorItemComponent({
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
         props: { ...defaultProperties, theme: themeWithNoEnLabel },
       });
       const label = wrapper.find("span.flex-1");
@@ -206,7 +206,7 @@ describe("QuestionThemeSelectorItem Component", () => {
     });
 
     it("should disable switch when isHintDisabled is true.", async() => {
-      wrapper = await mountQuestionThemeSelectorItemComponent({
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
         props: { ...defaultProperties, isHintDisabled: true },
       });
       const switchComponent = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
@@ -224,13 +224,13 @@ describe("QuestionThemeSelectorItem Component", () => {
       const switchComponent = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
       getWrapperVm(switchComponent).$emit("update:modelValue", false);
 
-      expect(wrapper.emitted("toggleHint")).toBeDefined();
+      expect(wrapper.emitted("toggleHint")).toStrictEqual([[]]);
     });
   });
 
   describe("Remove Button", () => {
     it("should not render remove button when isRemoveVisible is false.", async() => {
-      wrapper = await mountQuestionThemeSelectorItemComponent({
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
         props: { ...defaultProperties, isRemoveVisible: false },
       });
       const removeButton = wrapper.find("[data-testid='question-theme-selector-remove-theme-1']");
@@ -245,7 +245,7 @@ describe("QuestionThemeSelectorItem Component", () => {
     });
 
     it("should disable remove button when isRemoveDisabled is true.", async() => {
-      wrapper = await mountQuestionThemeSelectorItemComponent({
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
         props: { ...defaultProperties, isRemoveDisabled: true },
       });
       const removeButton = wrapper.findComponent<typeof UButton>("[data-testid='question-theme-selector-remove-theme-1']");
@@ -263,11 +263,11 @@ describe("QuestionThemeSelectorItem Component", () => {
       const removeButton = wrapper.findComponent<typeof UButton>("[data-testid='question-theme-selector-remove-theme-1']");
       getWrapperVm(removeButton).$emit("click");
 
-      expect(wrapper.emitted("remove")).toBeDefined();
+      expect(wrapper.emitted("remove")).toStrictEqual([[]]);
     });
 
     it("should show questions.cantRemovePrimaryTheme as tooltip text when isRemoveDisabled and assignment is primary.", async() => {
-      wrapper = await mountQuestionThemeSelectorItemComponent({
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
         props: { ...defaultProperties, isRemoveDisabled: true, assignment: { ...fakeAssignment, isPrimary: true } },
       });
       const tooltips = wrapper.findAllComponents<typeof UTooltip>({ name: "UTooltip" });

@@ -294,7 +294,7 @@ describe("QuestionThemeSelector Component", () => {
         },
       });
 
-      const item = wrapper.find("[data-testid='question-theme-selector-item-unknown-theme']");
+      const item = wrapper.find("[data-testid='question-theme-selector-assignment-unknown-theme']");
 
       expect(item.text()).toContain("questions.missingThemeTranslation");
     });
@@ -308,7 +308,7 @@ describe("QuestionThemeSelector Component", () => {
         },
       });
 
-      const item = wrapper.find("[data-testid='question-theme-selector-item-theme-no-en']");
+      const item = wrapper.find("[data-testid='question-theme-selector-assignment-theme-no-en']");
 
       expect(item.text()).toContain("questions.missingThemeTranslation");
     });
@@ -327,7 +327,7 @@ describe("QuestionThemeSelector Component", () => {
         },
       });
 
-      const item = wrapper.find(`[data-testid='question-theme-selector-item-${themeId}']`);
+      const item = wrapper.find(`[data-testid='question-theme-selector-assignment-${themeId}']`);
 
       expect(item.exists()).toBeTruthy();
     });
@@ -711,7 +711,7 @@ describe("QuestionThemeSelector Component", () => {
 
       it("should pass the cant remove primary theme tooltip to the UTooltip wrapping the remove button when theme is primary in edit mode.", async() => {
         wrapper = await mountInEditMode();
-        const item = wrapper.findComponent("[data-testid='question-theme-selector-item-theme-1']");
+        const item = wrapper.findComponent("[data-testid='question-theme-selector-assignment-theme-1']");
         const tooltips = item.findAllComponents<typeof UTooltip>({ name: "UTooltip" });
         const removeTooltip = tooltips[1];
 
@@ -720,7 +720,7 @@ describe("QuestionThemeSelector Component", () => {
 
       it("should pass the remove theme tooltip to the UTooltip wrapping the remove button when theme is not primary in edit mode.", async() => {
         wrapper = await mountInEditMode();
-        const item = wrapper.findComponent("[data-testid='question-theme-selector-item-theme-2']");
+        const item = wrapper.findComponent("[data-testid='question-theme-selector-assignment-theme-2']");
         const tooltips = item.findAllComponents<typeof UTooltip>({ name: "UTooltip" });
         const removeTooltip = tooltips[1];
 

@@ -39,7 +39,7 @@ Then(
   async function(this: GoatItWorld, themeName: string): Promise<void> {
     const dialog = this.page.getByRole("dialog");
     const themeList = dialog.getByTestId("question-theme-selector-list");
-    const themeItem = themeList.locator("[data-testid^='question-theme-selector-item-']").filter({ has: this.page.getByText(themeName, { exact: true }) });
+    const themeItem = themeList.locator("[data-testid^='question-theme-selector-assignment-']").filter({ has: this.page.getByText(themeName, { exact: true }) });
     const removeButton = themeItem.locator("[data-testid^='question-theme-selector-remove-']");
 
     await expect(removeButton).toBeDisabled();
@@ -51,7 +51,7 @@ Then(
   async function(this: GoatItWorld, themeName: string): Promise<void> {
     const dialog = this.page.getByRole("dialog");
     const themeList = dialog.getByTestId("question-theme-selector-list");
-    const themeItem = themeList.locator("[data-testid^='question-theme-selector-item-']").filter({ has: this.page.getByText(themeName, { exact: true }) });
+    const themeItem = themeList.locator("[data-testid^='question-theme-selector-assignment-']").filter({ has: this.page.getByText(themeName, { exact: true }) });
     const removeButton = themeItem.locator("[data-testid^='question-theme-selector-remove-']");
 
     await expect(removeButton).toBeHidden();
