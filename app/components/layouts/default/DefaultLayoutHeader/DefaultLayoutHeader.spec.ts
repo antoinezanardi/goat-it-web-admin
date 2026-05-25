@@ -66,4 +66,65 @@ describe("DefaultLayoutHeader Component", () => {
       expect(navigationMenu.props("items")).toStrictEqual(expectedNavigationMenuItems);
     });
   });
+
+  describe("Mobile Navigation Menu", () => {
+    beforeEach(async() => {
+      wrapper = await mountDefaultLayoutHeaderComponent({
+        global: {
+          stubs: {
+            UModal: {
+              template: "<div><slot name=\"content\"><slot name=\"body\" /></slot></div>",
+              props: ["open"],
+            },
+          },
+        },
+      });
+    });
+
+    it("should render a vertical navigation menu for mobile in the body slot when mounted.", () => {
+      const mobileNavigationMenu = wrapper.find("#default-layout-header-mobile-navigation-menu");
+
+      expect(mobileNavigationMenu.exists()).toBeTruthy();
+    });
+
+    it("should pass the items sorted by order as props to the mobile navigation menu component when mounted.", () => {
+      const navigationMenus = wrapper.findAllComponents({ name: "UNavigationMenu" });
+      const mobileNavigationMenu = navigationMenus[1];
+      const expectedNavigationMenuItems: NavigationMenuItem[] = [
+        {
+          label: MOCKED_ROUTES[3].meta.titleKey,
+          to: MOCKED_ROUTES[3].path,
+          active: true,
+          icon: MOCKED_ROUTES[3].meta.icon,
+        },
+        {
+          label: MOCKED_ROUTES[1].name,
+          to: MOCKED_ROUTES[1].path,
+          active: false,
+          icon: undefined,
+        },
+        {
+          to: MOCKED_ROUTES[0].path,
+          label: undefined,
+          active: false,
+          icon: undefined,
+        },
+        {
+          label: MOCKED_ROUTES[2].name,
+          to: MOCKED_ROUTES[2].path,
+          active: false,
+          icon: undefined,
+        },
+      ];
+
+      expect(mobileNavigationMenu?.props("items")).toStrictEqual(expectedNavigationMenuItems);
+    });
+
+    it("should pass vertical orientation to the mobile navigation menu when mounted.", () => {
+      const navigationMenus = wrapper.findAllComponents({ name: "UNavigationMenu" });
+      const mobileNavigationMenu = navigationMenus[1];
+
+      expect(mobileNavigationMenu?.props("orientation")).toBe("vertical");
+    });
+  });
 });

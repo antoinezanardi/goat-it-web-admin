@@ -30,6 +30,15 @@ const navigationMenuItems = computed<NavigationMenuItem[]>(() => router.getRoute
       :items="navigationMenuItems"
     />
 
+    <template #body>
+      <UNavigationMenu
+        id="default-layout-header-mobile-navigation-menu"
+        class="-mx-2.5"
+        :items="navigationMenuItems"
+        orientation="vertical"
+      />
+    </template>
+
     <template #right>
       <DefaultLayoutHeaderRightContent/>
     </template>

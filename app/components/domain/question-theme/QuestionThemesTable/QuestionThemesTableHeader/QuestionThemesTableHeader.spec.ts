@@ -54,9 +54,9 @@ describe("QuestionThemesTableHeader Component", () => {
 
   describe("Create button", () => {
     it("should render the create question theme button with the correct i18n key when mounted.", () => {
-      const button = wrapper.findComponent<typeof UButton>({ name: "UButton" });
+      const button = wrapper.find("#create-question-theme-button");
 
-      expect(button.props("label")).toBe("questionThemes.createNew");
+      expect(button.text()).toContain("questionThemes.createNew");
     });
 
     it("should render the create question theme button with the correct icon when mounted.", () => {

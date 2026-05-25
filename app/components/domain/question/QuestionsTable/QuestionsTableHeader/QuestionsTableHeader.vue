@@ -25,12 +25,14 @@ function onUpdateModelValueFromTableGlobalFilterInput(value: string): void {
     />
 
     <UButton
+      :aria-label="$t('questions.createNew')"
       color="primary"
       data-testid="create-question-button"
       icon="i-lucide-circle-plus"
-      :label="$t('questions.createNew')"
       size="lg"
       @click="onClickFromCreateQuestionButton"
-    />
+    >
+      <span class="hidden sm:inline">{{ $t('questions.createNew') }}</span>
+    </UButton>
   </div>
 </template>

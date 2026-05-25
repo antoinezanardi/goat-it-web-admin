@@ -35,7 +35,7 @@ function onUpdateModelValue(value: string[]): void {
     :required="props.required"
   >
     <template #description>
-      <span class="flex gap-1 items-center text-muted text-xs">
+      <span class="gap-1 hidden items-center sm:flex text-muted text-xs">
         {{ t('common.form.press') }}
         <UKbd :value="t('common.form.enterKey')"/>
         {{ props.addHintText }}

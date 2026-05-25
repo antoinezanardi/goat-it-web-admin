@@ -26,11 +26,13 @@ function onUpdateModelValueFromTableGlobalFilterInput(value: string): void {
 
     <UButton
       id="create-question-theme-button"
+      :aria-label="$t('questionThemes.createNew')"
       color="primary"
       icon="i-lucide-circle-plus"
-      :label="$t('questionThemes.createNew')"
       size="lg"
       @click="onClickFromCreateQuestionThemeButton"
-    />
+    >
+      <span class="hidden sm:inline">{{ $t('questionThemes.createNew') }}</span>
+    </UButton>
   </div>
 </template>
