@@ -128,7 +128,7 @@ function onRemoveTheme(themeId: string): void {
   >
     <USelectMenu
       :key="selectMenuKey"
-      class="w-1/2"
+      class="sm:w-1/2 w-full"
       data-testid="question-theme-selector-select"
       :disabled="isSelectDisabled"
       :items="selectMenuItems"

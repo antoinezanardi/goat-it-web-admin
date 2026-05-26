@@ -111,6 +111,7 @@ defineExpose({
       >
         <UInput
           v-model="formState.label[currentLocale]"
+          class="w-full"
           :placeholder="$t('questionThemes.placeholders.label')"
         />
       </UFormField>
@@ -123,6 +124,7 @@ defineExpose({
       >
         <UInput
           v-model="formState.slug"
+          class="w-full"
           :placeholder="$t('questionThemes.placeholders.slug')"
         />
       </UFormField>
@@ -171,7 +173,7 @@ defineExpose({
     <InputTagsField
       v-model="formState.aliases[currentLocale]"
       :add-hint-text="$t('questionThemes.form.addAliasHint')"
-      class="w-1/2"
+      class="sm:w-1/2 w-full"
       data-testid="question-theme-form-aliases-field"
       :label="$t('questionThemes.fields.aliases')"
       :name="`aliases.${currentLocale}`"
