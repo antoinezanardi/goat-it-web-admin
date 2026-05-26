@@ -7,11 +7,10 @@ const EXCLUDED_PLUGINS = new Set(["jest", "jsdoc", "jsx_a11y", "nextjs", "react"
 const EXIT_CODE_MISSING = 1;
 const EXIT_CODE_ERROR = 2;
 
-type RulesByPlugin = Map<string, Set<string>>;
-
 type OxlintRuleEntry = {
   scope: string;
   value: string;
+  docs_url: string;
 };
 
 type OxlintConfig = {
@@ -41,10 +40,10 @@ function getOxlintVersion(): string {
 }
 
 function isOxlintRuleEntryArray(data: unknown): data is OxlintRuleEntry[] {
-  return Array.isArray(data) && data.every((entry: unknown) => typeof entry === "object" && entry !== null && "scope" in entry && "value" in entry);
+  return Array.isArray(data) && data.every((entry: unknown) => typeof entry === "object" && entry !== null && "scope" in entry && "value" in entry && "docs_url" in entry);
 }
 
-function fetchRulesJson(): OxlintRuleEntry[] {
+function fetchAvailableRules(): Map<string, string> {
   const output: string = execSync("pnpm exec oxlint --rules --format json", { encoding: "utf8" });
 
   if (!output.trim()) {
@@ -56,19 +55,12 @@ function fetchRulesJson(): OxlintRuleEntry[] {
   if (!isOxlintRuleEntryArray(parsed)) {
     throw new ScriptError("Unexpected JSON structure from 'oxlint --rules --format json'.", EXIT_CODE_ERROR);
   }
-  return parsed;
-}
 
-function getAvailableRules(): RulesByPlugin {
-  const entries = fetchRulesJson();
-  const rules: RulesByPlugin = new Map();
+  const rules: Map<string, string> = new Map();
 
-  for (const { scope, value } of entries) {
+  for (const { scope, value, docs_url: docsUrl } of parsed) {
     if (!EXCLUDED_PLUGINS.has(scope)) {
-      const existing: Set<string> = rules.get(scope) ?? new Set();
-
-      existing.add(value);
-      rules.set(scope, existing);
+      rules.set(`${scope}/${value}`, docsUrl);
     }
   }
 
@@ -105,15 +97,13 @@ function collectConfiguredRules(config: OxlintConfig): Set<string> {
     for (const key of Object.keys(rulesObject)) {
       const slashIndex = key.indexOf("/");
 
-      if (slashIndex === -1) {
-        return;
-      }
+      if (slashIndex !== -1) {
+        const plugin = key.slice(0, slashIndex);
+        const ruleName = key.slice(slashIndex + 1);
 
-      const plugin = key.slice(0, slashIndex);
-      const ruleName = key.slice(slashIndex + 1);
-
-      if (!EXCLUDED_PLUGINS.has(plugin)) {
-        configured.add(`${plugin}/${ruleName}`);
+        if (!EXCLUDED_PLUGINS.has(plugin)) {
+          configured.add(`${plugin}/${ruleName}`);
+        }
       }
     }
   };
@@ -132,74 +122,72 @@ function collectConfiguredRules(config: OxlintConfig): Set<string> {
   return configured;
 }
 
-function computeMissingRules(available: RulesByPlugin, configured: Set<string>): RulesByPlugin {
-  const missing: RulesByPlugin = new Map();
+function computeMissingRules(available: Map<string, string>, configured: Set<string>): Map<string, string> {
+  const missing: Map<string, string> = new Map();
 
-  for (const [plugin, ruleSet] of available) {
-    for (const ruleName of ruleSet) {
-      const fullName = `${plugin}/${ruleName}`;
-
-      if (!configured.has(fullName)) {
-        const existing: Set<string> = missing.get(plugin) ?? new Set();
-
-        existing.add(ruleName);
-        missing.set(plugin, existing);
-      }
+  for (const [fullName, docsUrl] of available) {
+    if (!configured.has(fullName)) {
+      missing.set(fullName, docsUrl);
     }
   }
   return missing;
 }
 
-function countRules(rulesMap: RulesByPlugin): number {
-  let total = 0;
+function groupByPlugin(rules: Map<string, string>): Map<string, { name: string; docsUrl: string }[]> {
+  const grouped: Map<string, { name: string; docsUrl: string }[]> = new Map();
 
-  for (const ruleSet of rulesMap.values()) {
-    total += ruleSet.size;
+  for (const [fullName, docsUrl] of rules) {
+    const slashIndex = fullName.indexOf("/");
+    const plugin = fullName.slice(0, slashIndex);
+    const name = fullName.slice(slashIndex + 1);
+    const existing = grouped.get(plugin) ?? [];
+
+    existing.push({ name, docsUrl });
+    grouped.set(plugin, existing);
   }
-  return total;
+  return grouped;
 }
 
-function printReport(available: RulesByPlugin, configured: Set<string>, missing: RulesByPlugin): void {
+function printReport(available: Map<string, string>, configured: Set<string>, missing: Map<string, string>): void {
   const version = getOxlintVersion();
-  const availableCount = countRules(available);
-  const missingCount = countRules(missing);
 
-  console.log(`📦 Oxlint version: ${version}`);
-  console.log(`📋 Available rules (included plugins): ${availableCount}`);
-  console.log(`⚙️ Configured rules: ${configured.size}\n`);
+  console.log(`\u{1F4E6} Oxlint version: ${version}`);
+  console.log(`\u{1F4CB} Available rules (included plugins): ${available.size}`);
+  console.log(`\u2699\uFE0F  Configured rules: ${configured.size}\n`);
 
-  if (missingCount === 0) {
-    console.log("✅ All rules are covered!");
+  if (missing.size === 0) {
+    console.log("\u2705 All rules are covered!");
 
     return;
   }
 
-  console.log(`⚠️  Missing rules (${missingCount}):\n`);
+  console.log(`\u26A0\uFE0F  Missing rules (${missing.size}):\n`);
 
-  const sortedPlugins = [...missing.keys()].toSorted((left, right) => left.localeCompare(right));
+  const grouped = groupByPlugin(missing);
+  const sortedPlugins = [...grouped.keys()].toSorted((left, right) => left.localeCompare(right));
 
   for (const plugin of sortedPlugins) {
-    const ruleSet = missing.get(plugin) ?? new Set<string>();
-    const sortedRules = [...ruleSet].toSorted((left, right) => left.localeCompare(right));
+    const rules = grouped.get(plugin) ?? [];
+    const sortedRules = rules.toSorted((left, right) => left.name.localeCompare(right.name));
 
-    console.log(`── ${plugin} (${sortedRules.length}) ──`);
+    console.log(`\u2500\u2500 ${plugin} (${sortedRules.length}) \u2500\u2500`);
 
     for (const rule of sortedRules) {
-      console.log(`   ${plugin}/${rule}`);
+      console.log(`   ${plugin}/${rule.name} (${rule.docsUrl})`);
     }
 
     console.log();
   }
 
-  console.log(`📊 Total missing: ${missingCount} rules`);
+  console.log(`\u{1F4CA} Total missing: ${missing.size} rules`);
 
   throw new ScriptError("Missing rules found.", EXIT_CODE_MISSING);
 }
 
 function main(): void {
-  console.log("🔍 Checking oxlint rules coverage...\n");
+  console.log("\u{1F50D} Checking oxlint rules coverage...\n");
 
-  const available = getAvailableRules();
+  const available = fetchAvailableRules();
   const config = parseConfig();
   const configured = collectConfiguredRules(config);
   const missing = computeMissingRules(available, configured);
@@ -211,9 +199,10 @@ try {
   main();
 } catch(error: unknown) {
   if (error instanceof ScriptError) {
+    console.error(`\u274C ${error.message}`);
     process.exitCode = error.exitCode;
   } else {
-    console.error("❌ Unexpected error:", error);
+    console.error("\u274C Unexpected error:", error);
     process.exitCode = EXIT_CODE_ERROR;
   }
 }
