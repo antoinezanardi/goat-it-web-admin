@@ -1,5 +1,74 @@
 # 🐐👑 Goat It Web Admin Versioning Changelog
 
+## [1.3.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.2.0...v1.3.0) (2026-05-27)
+
+### 🚀 Features
+
+* **form:** enhance form placeholders and add tooltip texts ([#273](https://github.com/antoinezanardi/goat-it-web-admin/issues/273)) ([56a67bd](https://github.com/antoinezanardi/goat-it-web-admin/commit/56a67bdabc1b790540ad25ff7661f3729ad76852))
+* **header:** implement mobile navigation menu and improve responsiveness ([#281](https://github.com/antoinezanardi/goat-it-web-admin/issues/281)) ([657d12b](https://github.com/antoinezanardi/goat-it-web-admin/commit/657d12be72f3c412c3ea0bd755771ef9712c3815))
+* **question-form:** enhance theme management and source URL validation ([#258](https://github.com/antoinezanardi/goat-it-web-admin/issues/258)) ([4ee84dd](https://github.com/antoinezanardi/goat-it-web-admin/commit/4ee84dde33474e19f67582c1da4921f83bb325b9))
+* **question-source-url-tag:** add clickable source URL tags with tooltips ([#266](https://github.com/antoinezanardi/goat-it-web-admin/issues/266)) ([9bcf449](https://github.com/antoinezanardi/goat-it-web-admin/commit/9bcf4496d0abcfe37ce62d09ad408a0292652dba))
+* **question-theme-selector:** improve theme assignment UI and functionality ([#280](https://github.com/antoinezanardi/goat-it-web-admin/issues/280)) ([e8b7b90](https://github.com/antoinezanardi/goat-it-web-admin/commit/e8b7b905779390e9a3903e667e95fcb348642747))
+* **question:** add optional trivia field to question creation ([#270](https://github.com/antoinezanardi/goat-it-web-admin/issues/270)) ([17d8958](https://github.com/antoinezanardi/goat-it-web-admin/commit/17d8958795605a25ffd72c6d461ef463f308f185))
+* **question:** create question form ([#225](https://github.com/antoinezanardi/goat-it-web-admin/issues/225)) ([ffa8e18](https://github.com/antoinezanardi/goat-it-web-admin/commit/ffa8e186529cb831037874d1591adce1371ba4aa))
+* **question:** enhance theme assignment functionality in question form ([#276](https://github.com/antoinezanardi/goat-it-web-admin/issues/276)) ([dac037e](https://github.com/antoinezanardi/goat-it-web-admin/commit/dac037e2aaaac18d087e63bce4b11ef23b2d3c5a))
+* **question:** implement question editing functionality ([#271](https://github.com/antoinezanardi/goat-it-web-admin/issues/271)) ([3e21993](https://github.com/antoinezanardi/goat-it-web-admin/commit/3e21993383ac10b7f78b6317ea9fa038853f9898))
+* **questions-table:** implement basic table ([#222](https://github.com/antoinezanardi/goat-it-web-admin/issues/222)) ([03c679f](https://github.com/antoinezanardi/goat-it-web-admin/commit/03c679fe8c185e1778883e889487b854068c5976))
+* **questions:** implement CRUD operations for questions ([#214](https://github.com/antoinezanardi/goat-it-web-admin/issues/214)) ([3d505bf](https://github.com/antoinezanardi/goat-it-web-admin/commit/3d505bf12bc01133319955a733d9da3b7f23241c)), closes [/#diff-c2fc7fed83e21ad651b8bbb9033b560c462ba903c671a6daaad4c7e43ae85fefL11-R30](https://github.com/antoinezanardi///issues/diff-c2fc7fed83e21ad651b8bbb9033b560c462ba903c671a6daaad4c7e43ae85fefL11-R30)
+* **questions:** implement modify question functionality ([#218](https://github.com/antoinezanardi/goat-it-web-admin/issues/218)) ([adb8f74](https://github.com/antoinezanardi/goat-it-web-admin/commit/adb8f7403c55c794cc2088c42e6ae242265f96eb))
+* **tests:** add acceptance tests with skip build option ([#269](https://github.com/antoinezanardi/goat-it-web-admin/issues/269)) ([30986f1](https://github.com/antoinezanardi/goat-it-web-admin/commit/30986f1d1f0643c924cb14ad506523cc830a9e22)), closes [/#diff-6bee45e1539476923a6cc5df3d74a1e3900ef99edd7c3bcd1537c226d44cf290R1-R13](https://github.com/antoinezanardi///issues/diff-6bee45e1539476923a6cc5df3d74a1e3900ef99edd7c3bcd1537c226d44cf290R1-R13)
+* **translation:** enhance localization support and add translation components ([#202](https://github.com/antoinezanardi/goat-it-web-admin/issues/202)) ([f39c41e](https://github.com/antoinezanardi/goat-it-web-admin/commit/f39c41ea6336616c4e436034d942cd1a5028428c))
+
+### 🐛 Bug Fixes
+
+* prevent reka-ui DismissableLayer infinite recursion with happy-dom ([#213](https://github.com/antoinezanardi/goat-it-web-admin/issues/213)) ([d6e0628](https://github.com/antoinezanardi/goat-it-web-admin/commit/d6e062809593160bf220bcb11fcb84a1dd060f5c)), closes [#34](https://github.com/antoinezanardi/goat-it-web-admin/issues/34) [#43](https://github.com/antoinezanardi/goat-it-web-admin/issues/43) [#43](https://github.com/antoinezanardi/goat-it-web-admin/issues/43) [#34](https://github.com/antoinezanardi/goat-it-web-admin/issues/34) [#34](https://github.com/antoinezanardi/goat-it-web-admin/issues/34) [#34](https://github.com/antoinezanardi/goat-it-web-admin/issues/34) [#34](https://github.com/antoinezanardi/goat-it-web-admin/issues/34) [#34](https://github.com/antoinezanardi/goat-it-web-admin/issues/34) [#34](https://github.com/antoinezanardi/goat-it-web-admin/issues/34)
+* **tests:** improve i18n mock setup to prevent flaky tests ([#261](https://github.com/antoinezanardi/goat-it-web-admin/issues/261)) ([f87f712](https://github.com/antoinezanardi/goat-it-web-admin/commit/f87f71262491a478213a0b2ee97cdc8a849053fb))
+
+### 📖 Docs
+
+* **acceptance-testing:** add comprehensive acceptance testing guide ([#211](https://github.com/antoinezanardi/goat-it-web-admin/issues/211)) ([e5aba25](https://github.com/antoinezanardi/goat-it-web-admin/commit/e5aba252a5c8a4948af3aa25d76fff5afb458cc5))
+* **acceptance-testing:** enhance acceptance testing documentation ([#286](https://github.com/antoinezanardi/goat-it-web-admin/issues/286)) ([874b2ff](https://github.com/antoinezanardi/goat-it-web-admin/commit/874b2ffd5585494942f21c3c4d4bf0cf8c78552d))
+
+### ⚡️ Performance
+
+* **acceptance-tests:** optimize parallel execution and sandbox setup ([#220](https://github.com/antoinezanardi/goat-it-web-admin/issues/220)) ([98f2bed](https://github.com/antoinezanardi/goat-it-web-admin/commit/98f2bedf429f81d6f3deadb7027c7efcc3c264d7)), closes [/#diff-9bbac992ce74c418fb49ead0e80d32331590d6f0f2e1c35c03c88af679d112abR3-R15](https://github.com/antoinezanardi///issues/diff-9bbac992ce74c418fb49ead0e80d32331590d6f0f2e1c35c03c88af679d112abR3-R15) [/#diff-7ae45ad102eab3b6d7e7896acd08c427a9b25b346470d7bc6507b6481575d519L84-R84](https://github.com/antoinezanardi///issues/diff-7ae45ad102eab3b6d7e7896acd08c427a9b25b346470d7bc6507b6481575d519L84-R84) [/#diff-5526c664caa40be630500fa3935931d860759e4f24e1ab742a4b41becd9399e3L1-L20](https://github.com/antoinezanardi///issues/diff-5526c664caa40be630500fa3935931d860759e4f24e1ab742a4b41becd9399e3L1-L20) [/#diff-5c3fa597431eda03ac3339ae6bf7f05e1a50d6fc7333679ec38e21b337cb6721L152-R152](https://github.com/antoinezanardi///issues/diff-5c3fa597431eda03ac3339ae6bf7f05e1a50d6fc7333679ec38e21b337cb6721L152-R152)
+
+### 🧹 Chore
+
+* **lint:** add Oxlint rule checker and update configurations ([#284](https://github.com/antoinezanardi/goat-it-web-admin/issues/284)) ([cb772c6](https://github.com/antoinezanardi/goat-it-web-admin/commit/cb772c64d35d4bf92f11d73e563b23c9b8d19e3b))
+* **oxlint:** implement missing oxlint rules in configuration ([#285](https://github.com/antoinezanardi/goat-it-web-admin/issues/285)) ([8d61715](https://github.com/antoinezanardi/goat-it-web-admin/commit/8d61715d0c78e4a3c14ac4102f2dfb020e045419))
+
+### 📦 Upgraded Dependencies
+
+| Package | Version |
+| --- | :---: |
+| `commitlint monorepo` | `^21.0.1` |
+| `commitlint monorepo to v21 (major)` | `` |
+| `@axe-core/playwright` | `^4.11.3` |
+| `@cucumber/cucumber` | `^12.9.0` |
+| `@eslint/config-inspector` | `v3` |
+| `@iconify-json/lucide` | `^1.2.109` |
+| `@nuxt/hints` | `^1.1.2` |
+| `@nuxt/ui` | `^4.8.0` |
+| `@nuxtjs/i18n` | `^10.4.0` |
+| `@semantic-release/release-notes-generator` | `^14.1.1` |
+| `@vitest/eslint-plugin` | `^1.6.18` |
+| `@vue/test-utils` | `^2.4.10` |
+| `eslint` | `^10.4.0` |
+| `lint-staged` | `v17` |
+| `nuxt` | `^4.4.6` |
+| `oxlint-tsgolint` | `^0.23.0` |
+| `radashi` | `^12.9.1` |
+| `tailwindcss` | `^4.3.0` |
+| `vue-tsc` | `^3.3.2` |
+| `zod` | `^4.4.3` |
+| `oxlint monorepo` | `^1.67.0` |
+| `playwright monorepo` | `^1.60.0` |
+| `pnpm` | `v11.1.2` |
+| `sonarsource/sonarqube-scan-action action` | `v8.1` |
+| `vitest monorepo` | `^4.1.7` |
+| `vueuse monorepo` | `^14.3.0` |
+
 ## [1.2.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.1.0...v1.2.0) (2026-04-28)
 
 ### 🚀 Features
