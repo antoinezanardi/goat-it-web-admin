@@ -1,5 +1,97 @@
 {
   "questions": {
-    "pageTitle": "Domande"
+    "pageTitle": "Domande",
+    "cantFetch": "Impossibile recuperare le domande",
+    "cantCreate": "Impossibile creare la domanda",
+    "cantArchive": "Impossibile archiviare la domanda",
+    "cantAssignTheme": "Impossibile assegnare il tema alla domanda",
+    "cantRemoveTheme": "Impossibile rimuovere il tema dalla domanda",
+    "cantModify": "Impossibile modificare la domanda",
+    "cantModifyThemeAssignment": "Impossibile modificare l'assegnazione del tema",
+    "cantRemoveLastTheme": "Impossibile rimuovere l'ultimo tema",
+    "cantRemovePrimaryTheme": "Impossibile rimuovere il tema principale. Promuovi prima un altro tema.",
+    "removeTheme": "Rimuovere il tema {theme}",
+    "createNew": "Crea una nuova domanda",
+    "editQuestion": "Modifica domanda",
+    "createSuccessfully": "Domanda creata con successo",
+    "archiveSuccessfully": "Domanda archiviata con successo",
+    "assignThemeSuccessfully": "Tema della domanda assegnato con successo",
+    "removeThemeSuccessfully": "Tema della domanda rimosso con successo",
+    "modifySuccessfully": "Domanda modificata con successo",
+    "modifyThemeAssignmentSuccessfully": "Tema della domanda modificato con successo",
+    "fetching": "Caricamento delle domande...",
+    "missingThemeTranslation": "–– traduzione del tema mancante ––",
+    "selectThemes": "Seleziona temi…",
+    "searchThemes": "Cerca temi...",
+    "noMatchingTheme": "Nessun tema corrispondente.",
+    "promoteAsPrimaryTheme": "Promuovi come tema principale",
+    "primaryTheme": "Tema principale",
+    "selectCategory": "Seleziona categoria…",
+    "sections": {
+      "content": "Contenuto",
+      "classification": "Classificazione",
+      "themes": "Temi",
+      "sources": "Riferimenti"
+    },
+    "category": {
+      "trivia": "Cultura generale",
+      "lexicon": "Lessico",
+      "riddle": "Indovinello",
+      "explanation": "Spiegazione"
+    },
+    "difficulty": {
+      "easy": "Facile",
+      "medium": "Medio",
+      "hard": "Difficile"
+    },
+    "status": {
+      "pending": "In attesa",
+      "active": "Attiva",
+      "archived": "Archiviata",
+      "rejected": "Rifiutata"
+    },
+    "archive": {
+      "confirmTitle": "Archiviare la domanda",
+      "confirmDescription": "Sei sicuro di voler archiviare questa domanda? Questa azione è irreversibile."
+    },
+    "actions": {
+      "archive": "Archiviare la domanda",
+      "edit": "Modificare la domanda"
+    },
+    "fields": {
+      "category": "Categoria",
+      "themes": "Temi",
+      "statement": "Enunciato",
+      "answer": "Risposta",
+      "context": "Contesto",
+      "trivia": "Curiosità",
+      "hint": "Suggerimento",
+      "cognitiveDifficulty": "Difficoltà",
+      "author": "Autore",
+      "status": "Stato",
+      "sourceUrls": "Fonti",
+      "translations": "Traduzioni"
+    },
+    "errors": {
+      "invalidUrl": "Deve essere un URL valido",
+      "duplicateUrl": "Questo URL è già stato aggiunto",
+      "maxSourceUrls": "Numero massimo di URL sorgente raggiunto"
+    },
+    "sourceUrlTag": {
+      "goTo": "Vai a {url}"
+    },
+    "form": {
+      "addTriviaHint": "per aggiungere una curiosità",
+      "removeTrivia": "Rimuovi la curiosità {value}",
+      "addSourceUrlHint": "per aggiungere un URL sorgente",
+      "removeSource": "Rimuovi la fonte {value}"
+    },
+    "placeholders": {
+      "statement": "Domanda posta al giocatore",
+      "answer": "es.: Parigi, 1789, Albert Einstein",
+      "context": "Contesto per comprendere la risposta",
+      "trivia": "es.: Parigi si chiamava un tempo Lutezia",
+      "sourceUrls": "es.: https://it.wikipedia.org/"
+    }
   }
 }

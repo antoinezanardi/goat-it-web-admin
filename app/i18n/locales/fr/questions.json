@@ -1,5 +1,97 @@
 {
   "questions": {
-    "pageTitle": "Questions"
+    "pageTitle": "Questions",
+    "fetching": "Chargement des questions...",
+    "createNew": "Créer une nouvelle question",
+    "editQuestion": "Modifier la question",
+    "cantFetch": "Impossible de récupérer les questions",
+    "cantCreate": "Impossible de créer la question",
+    "cantArchive": "Impossible d'archiver la question",
+    "cantAssignTheme": "Impossible d'assigner le thème à la question",
+    "cantRemoveTheme": "Impossible de retirer le thème de la question",
+    "cantModify": "Impossible de modifier la question",
+    "cantModifyThemeAssignment": "Impossible de modifier l'assignation du thème",
+    "cantRemoveLastTheme": "Impossible de retirer le dernier thème",
+    "cantRemovePrimaryTheme": "Impossible de supprimer le thème principal. Promouvez un autre thème d'abord.",
+    "removeTheme": "Supprimer le thème {theme}",
+    "createSuccessfully": "Question créée avec succès",
+    "archiveSuccessfully": "Question archivée avec succès",
+    "assignThemeSuccessfully": "Thème de la question assigné avec succès",
+    "removeThemeSuccessfully": "Thème de la question supprimé avec succès",
+    "modifySuccessfully": "Question modifiée avec succès",
+    "modifyThemeAssignmentSuccessfully": "Thème de la question modifié avec succès",
+    "missingThemeTranslation": "–– traduction du thème manquante ––",
+    "selectThemes": "Sélectionner les thèmes…",
+    "searchThemes": "Rechercher des thèmes...",
+    "noMatchingTheme": "Aucun thème correspondant.",
+    "promoteAsPrimaryTheme": "Promouvoir comme thème principal",
+    "primaryTheme": "Thème principal",
+    "selectCategory": "Sélectionner la catégorie…",
+    "sections": {
+      "content": "Contenu",
+      "classification": "Classification",
+      "themes": "Thèmes",
+      "sources": "Références"
+    },
+    "fields": {
+      "category": "Catégorie",
+      "themes": "Thèmes",
+      "statement": "Énoncé",
+      "answer": "Réponse",
+      "context": "Contexte",
+      "trivia": "Anecdotes",
+      "hint": "Indice",
+      "cognitiveDifficulty": "Difficulté",
+      "author": "Auteur",
+      "status": "Statut",
+      "sourceUrls": "Sources",
+      "translations": "Traductions"
+    },
+    "category": {
+      "trivia": "Culture générale",
+      "lexicon": "Lexique",
+      "riddle": "Énigme",
+      "explanation": "Explication"
+    },
+    "difficulty": {
+      "easy": "Facile",
+      "medium": "Moyen",
+      "hard": "Difficile"
+    },
+    "status": {
+      "pending": "En attente",
+      "active": "Active",
+      "archived": "Archivée",
+      "rejected": "Rejetée"
+    },
+    "archive": {
+      "confirmTitle": "Archiver la question",
+      "confirmDescription": "Êtes-vous sûr de vouloir archiver cette question ? Cette action est irréversible."
+    },
+    "actions": {
+      "archive": "Archiver la question",
+      "edit": "Modifier la question"
+    },
+    "errors": {
+      "invalidUrl": "Doit être une URL valide",
+      "duplicateUrl": "Cette URL a déjà été ajoutée",
+      "maxSourceUrls": "Nombre maximum d'URLs source atteint"
+    },
+    "sourceUrlTag": {
+      "goTo": "Aller sur {url}"
+    },
+    "form": {
+      "addTriviaHint": "pour ajouter une anecdote",
+      "removeTrivia": "Supprimer l'anecdote {value}",
+      "addSourceUrlHint": "pour ajouter une URL source",
+      "removeSource": "Supprimer la source {value}"
+    },
+    "placeholders": {
+      "statement": "Question posée au joueur",
+      "answer": "ex : Paris, 1789, Albert Einstein",
+      "context": "Contexte pour comprendre la réponse",
+      "trivia": "ex : Paris s'appelait autrefois Lutèce",
+      "sourceUrls": "ex : https://fr.wikipedia.org/"
+    }
   }
 }

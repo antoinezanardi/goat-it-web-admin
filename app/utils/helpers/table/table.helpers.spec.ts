@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import type { CreateTableColumnOptions } from "~/utils/helpers/table/table.helpers.types";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
 
 describe("Table Helpers", () => {
@@ -58,6 +59,39 @@ describe("Table Helpers", () => {
             td: "text-center",
           },
         },
+      });
+    });
+
+    describe("td class", () => {
+      it.each<{ options: CreateTableColumnOptions; expected: { header: string; meta?: { class: { th?: string; td?: string } } } }>([
+        {
+          options: { accessorKey: "description", tdClass: "whitespace-normal break-words" },
+          expected: { header: "", meta: { class: { td: "whitespace-normal break-words" } } },
+        },
+        {
+          options: { accessorKey: "name", isCentered: true, tdClass: "font-bold" },
+          expected: { header: "", meta: { class: { th: "text-center", td: "text-center font-bold" } } },
+        },
+        {
+          options: { accessorKey: "name", isCentered: false, tdClass: "italic" },
+          expected: { header: "", meta: { class: { td: "italic" } } },
+        },
+      ])("should create a table column with td class $options.tdClass when tdClass is provided.", ({ options, expected }) => {
+        const column = createTableColumn(options);
+
+        expect(column).toStrictEqual({
+          accessorKey: options.accessorKey,
+          ...expected,
+        });
+      });
+
+      it("should not add meta when neither isCentered nor tdClass is provided.", () => {
+        const column = createTableColumn({ accessorKey: "name" });
+
+        expect(column).toStrictEqual({
+          accessorKey: "name",
+          header: "",
+        });
       });
     });
   });

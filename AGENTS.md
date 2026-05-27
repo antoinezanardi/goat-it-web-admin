@@ -26,6 +26,8 @@ handling, Nuxt conventions, and other repo-specific rules).
   - Watch mode:      `pnpm run test:unit:watch`
   - Mutation (Stryker): `pnpm run test:mutation` / `pnpm run test:mutation:force`
   - Acceptance (Cucumber + Playwright): `pnpm run test:acceptance`
+  - Acceptance (skip build): `pnpm run test:acceptance:skip-build`
+  - Acceptance build only: `pnpm run test:acceptance:build`
   - Install Playwright: `pnpm run test:acceptance:prepare` (run once locally)
 
 Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
@@ -35,8 +37,21 @@ Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
 - Watch file: `pnpm run test:unit:watch app/pages/index.spec.ts`
 - Direct:     `pnpm exec cross-env NODE_OPTIONS='--no-webstorage' vitest --config configs/vitest/vitest.config.ts path/to/file.spec.ts`
 
+Running acceptance tests:
+
+- Full run (build + test):  `pnpm run test:acceptance`
+- Skip build (fast iteration, if no sources have been modified but only acceptance tests code): `pnpm run test:acceptance:skip-build`
+- Build only:               `pnpm run test:acceptance:build`
+- Specific feature:         `pnpm run test:acceptance:skip-build tests/acceptance/features/home/home.feature`
+- Specific scenario (line): `pnpm run test:acceptance:skip-build tests/acceptance/features/home/home.feature:8`
+- By scenario name:         `pnpm run test:acceptance:skip-build --name "should display"`
+- By tag:                   `pnpm run test:acceptance:skip-build --tags "@question-themes"`
+- Multiple tags (OR):       `pnpm run test:acceptance:skip-build --tags "@home or @questions"`
+- Exclude tag:              `pnpm run test:acceptance:skip-build --tags "not @accessibility"`
+- By tag (AND):             `pnpm run test:acceptance:skip-build --tags "@question-themes and @accessibility"`
+
 **Mandatory quality gates** — agents MUST run all four commands below **in order**
-before considering any task complete. Do NOT skip any gate, even for "trivial" changes:
+before considering any task complete. **Do NOT skip any gate**, even for "trivial" changes:
 
 1. `pnpm run lint:fix`
 2. `pnpm run typecheck`
@@ -188,7 +203,7 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
   - Two layers per entity: `entity/` (domain type) and `dto/` (raw API DTO).
 
 - Config per project: `mockReset: true`, `clearMocks: true`, `restoreMocks: true`.
-- `describe(functionName, ...)` — pass the function/composable/store reference as label.
+- `describe(functionName, ...)` — pass the function/composable/store reference as label. Exception for components, which are always `describe("<ComponentName> Component", ...)`
 - Test names: `"should <action> when <condition>."` pattern.
 - Use `expect(...).toHaveBeenCalledExactlyOnceWith(...)` for single-call assertions.
 
@@ -221,12 +236,18 @@ Each skill has a `SKILL.md` entry point. Load only the relevant skill for the ta
 - `unit-testing` – Complete unit test reference (patterns, mocks, faketories, Vitest projects).
   Load before writing or modifying any `*.spec.ts` file. Full reference at `docs/unit-testing.md`.
   Do NOT load all skill files at once; read the relevant `SKILL.md` first.
+- `acceptance-testing` – Cucumber + Playwright acceptance test patterns, step definitions,
+  feature files, DataTable schemas. Load before writing or modifying acceptance test files.
 
 ### Skill usage rules
 
 - **When writing unit tests** (including inside plans): always load the `unit-testing`
   skill first. It contains all the patterns, mock wiring, faketory conventions, and
   Vitest project rules needed to write correct tests.
+- **When writing acceptance tests** (including inside plans): always load the
+  `acceptance-testing` skill first. It contains step definition patterns, feature file
+  conventions, DataTable schemas, and infrastructure rules needed to write correct
+  acceptance tests.
 - **When brainstorming or writing plans**: always consult the `nuxt`, `nuxt-ui`, and
   `vueuse` skills to make informed design decisions. These skills provide framework
   conventions, component APIs, and composable references that should guide approach
@@ -238,10 +259,12 @@ Slash commands available in OpenCode sessions:
 
 - `/complete-i18n`   – Translate all French locale JSON files into every other locale.
 - `/write-unit-test` – Write a complete, passing unit test for a given source file.
+- `/write-acceptance-test` – Write a complete acceptance test (feature + steps) for a given page/feature.
 
 ## Useful docs (`docs/`)
 
 - `docs/unit-testing.md` – Full human-readable unit testing guide (patterns, examples, pitfalls).
+- `docs/acceptance-testing.md` – Full acceptance testing guide (Cucumber, Playwright, patterns, examples).
 
 ## Copilot instructions (`.github/copilot-instructions.md`)
 

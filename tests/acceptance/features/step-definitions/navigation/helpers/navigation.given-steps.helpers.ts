@@ -1,14 +1,7 @@
 import { url } from "@nuxt/test-utils/e2e";
 
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
-
-async function waitForPageLoadStates(world: GoatItWorld): Promise<void> {
-  await world.page.waitForLoadState("load");
-}
-
-async function waitForPageUrl(world: GoatItWorld, pageUrl: string): Promise<void> {
-  await world.page.waitForURL(currentUrl => new URL(currentUrl).pathname === pageUrl);
-}
+import { waitForPageLoadStates } from "#acceptance/features/support/helpers/navigation.helpers.ts";
 
 async function goOnPage(world: GoatItWorld, pageName: string): Promise<void> {
   const pagePath = pageName === "" ? "/" : `/${pageName}`;
@@ -20,6 +13,4 @@ async function goOnPage(world: GoatItWorld, pageName: string): Promise<void> {
 
 export {
   goOnPage,
-  waitForPageUrl,
-  waitForPageLoadStates,
 };

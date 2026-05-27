@@ -23,7 +23,6 @@ USER node
 
 WORKDIR /app
 
-COPY --chown=node:node .npmrc ./
 COPY --chown=node:node package.json ./
 COPY --chown=node:node envs ./
 COPY --chown=node:node nuxt.config.ts ./
@@ -31,6 +30,7 @@ COPY --chown=node:node pnpm-lock.yaml ./
 COPY --chown=node:node pnpm-workspace.yaml ./
 COPY --chown=node:node tsconfig*.json ./
 COPY --chown=node:node scripts/post-install-prepare.sh ./scripts/post-install-prepare.sh
+COPY --chown=node:node app/i18n ./app/i18n
 
 RUN pnpm install --frozen-lockfile
 

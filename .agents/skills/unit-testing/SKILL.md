@@ -152,7 +152,6 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 
 - [ ] `vi.mock(import("#server/utils/goat-it-api/helpers/goat-it-api.helpers"))` at module level — uses `import()` expression syntax
 - [ ] `vi.mocked($fetch).mockResolvedValue(...)` in `beforeEach`
-- [ ] `{} as unknown as H3Event` for events (add `{ context: { params: { id: "..." } } }` for param-based routes)
 - [ ] Two-level `describe` pattern: outer string label `"Server Goat It API <Resource> <Method> Handler"`, inner `describe(handlerFn, ...)`
 - [ ] Assert `createGoatItApiEndpoint` call
 - [ ] Assert `createGoatItApiFetchOptions` call with expected runtime config (`baseUrl: "https://api.goat-it.com"`, `adminKey: "test-admin-key"`)

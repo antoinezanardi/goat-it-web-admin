@@ -8,6 +8,7 @@ import type { Form } from "#ui/types";
 import type { QuestionThemeFormProperties, QuestionThemeFormEmits } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
 import { prepareZodSchemaForFormValidation } from "~/utils/helpers/zod/zod.helpers";
 import { createQuestionThemeCreationDtoShell } from "~/composables/domain/question-theme/helpers/shell/question-theme.shell.helpers";
+import { stripEmptyValues } from "#shared/utils/helpers/object/object.helpers";
 
 const props = withDefaults(defineProps<QuestionThemeFormProperties>(), {
   mode: "create",
@@ -34,8 +35,11 @@ function createInitialFormState(): QuestionThemeCreationDtoShell {
     aliases: { [currentLocale.value]: theme.aliases[currentLocale.value] ?? [] },
   };
 }
+const isSubmitting = ref<boolean>(false);
 
 const formState = reactive<QuestionThemeCreationDtoShell>(createInitialFormState());
+
+const formStateToSubmit = computed<QuestionThemeCreationDtoShell>(() => (isSubmitting.value ? stripEmptyValues(formState) : formState));
 
 const dtoSchema = computed(() => (props.mode === "edit" ? QUESTION_THEME_MODIFICATION_DTO : QUESTION_THEME_CREATION_DTO));
 const formSchema = computed(() => prepareZodSchemaForFormValidation(dtoSchema.value));
@@ -70,7 +74,16 @@ function onSubmit(event: FormSubmitEvent<QuestionThemeCreationDto | QuestionThem
 }
 
 async function triggerFormSubmit(): Promise<void> {
-  await form.value?.submit();
+  isSubmitting.value = true;
+  try {
+    await form.value?.submit();
+  } finally {
+    isSubmitting.value = false;
+  }
+}
+
+function removeAliasTooltipText(item: string): string {
+  return t("questionThemes.form.removeAlias", { value: item });
 }
 
 defineExpose({
@@ -85,7 +98,7 @@ defineExpose({
     class="space-y-2"
     data-testid="question-theme-form"
     :schema="formSchema"
-    :state="formState"
+    :state="formStateToSubmit"
     :validate="validateSlugUniqueness"
     @submit="onSubmit"
   >
@@ -98,7 +111,8 @@ defineExpose({
       >
         <UInput
           v-model="formState.label[currentLocale]"
-          :placeholder="$t('questionThemes.fields.label')"
+          class="w-full"
+          :placeholder="$t('questionThemes.placeholders.label')"
         />
       </UFormField>
 
@@ -110,7 +124,8 @@ defineExpose({
       >
         <UInput
           v-model="formState.slug"
-          :placeholder="$t('questionThemes.fields.slug')"
+          class="w-full"
+          :placeholder="$t('questionThemes.placeholders.slug')"
         />
       </UFormField>
 
@@ -125,6 +140,13 @@ defineExpose({
       </UFormField>
     </div>
 
+    <TranslationFieldContext
+      v-if="mode === 'edit' && questionTheme"
+      data-testid="translation-field-context-label"
+      :label="$t('questionThemes.fields.label')"
+      :localized-text="questionTheme.label"
+    />
+
     <UFormField
       class="w-full"
       data-testid="question-theme-form-description-field"
@@ -135,23 +157,37 @@ defineExpose({
       <UTextarea
         v-model="formState.description[currentLocale]"
         class="w-full"
-        :placeholder="$t('questionThemes.fields.description')"
+        :placeholder="$t('questionThemes.placeholders.description')"
         :rows="3"
       />
     </UFormField>
 
-    <UFormField
+    <TranslationFieldContext
+      v-if="mode === 'edit' && questionTheme"
+      key="translation-field-context-2"
+      data-testid="translation-field-context-description"
+      :label="$t('questionThemes.fields.description')"
+      :localized-text="questionTheme.description"
+    />
+
+    <InputTagsField
+      v-model="formState.aliases[currentLocale]"
+      :add-hint-text="$t('questionThemes.form.addAliasHint')"
+      class="sm:w-1/2 w-full"
       data-testid="question-theme-form-aliases-field"
       :label="$t('questionThemes.fields.aliases')"
       :name="`aliases.${currentLocale}`"
+      :placeholder="$t('questionThemes.placeholders.aliases')"
+      :remove-tooltip-text="removeAliasTooltipText"
       required
-    >
-      <UInputTags
-        v-model="formState.aliases[currentLocale]"
-        add-on-blur
-        add-on-tab
-        :placeholder="$t('questionThemes.fields.aliases')"
-      />
-    </UFormField>
+    />
+
+    <TranslationFieldContext
+      v-if="mode === 'edit' && questionTheme"
+      key="translation-field-context-3"
+      data-testid="translation-field-context-aliases"
+      :label="$t('questionThemes.fields.aliases')"
+      :localized-texts="questionTheme.aliases"
+    />
   </UForm>
 </template>

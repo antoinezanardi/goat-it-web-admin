@@ -20,6 +20,10 @@
         "placeholder": "Filtrer...",
         "clear": "Effacer le filtre"
       }
+    },
+    "form": {
+      "press": "Appuyez sur",
+      "enterKey": "Entrée"
     }
   }
 }

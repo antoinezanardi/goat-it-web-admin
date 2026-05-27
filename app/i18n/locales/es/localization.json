@@ -1,0 +1,20 @@
+{
+  "localization": {
+    "translationStatus": "Estado de traducción",
+    "otherTranslations": "Otras traducciones",
+    "missingTranslation": "— falta —",
+    "localeComplete": "{locale} está completa",
+    "localeIncomplete": "{locale} está incompleta",
+    "seeTranslationsFor": "Ver traducciones para {label}",
+    "locales": {
+      "shortCode": {
+        "en": "EN",
+        "fr": "FR",
+        "de": "DE",
+        "es": "ES",
+        "it": "IT",
+        "pt": "PT"
+      }
+    }
+  }
+}

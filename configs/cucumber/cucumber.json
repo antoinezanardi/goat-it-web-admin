@@ -6,10 +6,10 @@
     "import": [
       "tests/acceptance/features/**/*.ts"
     ],
-    "parallel": 1,
+    "parallel": 4,
     "publish": false,
     "format": [
-      "summary",
+      "progress-bar",
       "json:tests/acceptance/reports/report.json",
       "junit:tests/acceptance/reports/junit.xml"
     ]

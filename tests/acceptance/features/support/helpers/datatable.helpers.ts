@@ -10,7 +10,7 @@ import { z } from "zod";
  * @returns A Zod schema that transforms empty/non-string values to undefined.
  */
 function zCoerceOptionalString(): ZodType<string | undefined> {
-  return z.preprocess((value: unknown): string | undefined => (typeof value !== "string" || value === "" ? undefined : value), z.string().optional());
+  return z.optional(z.preprocess((value: unknown): string | undefined => (typeof value !== "string" || value === "" ? undefined : value), z.string().optional()));
 }
 
 /**

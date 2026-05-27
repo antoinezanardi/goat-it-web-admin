@@ -7,7 +7,8 @@ Feature: 🎨 Question Theme Modification Form Accessibility
       | label      | slug       | description  | aliases |
       | Test Theme | test-theme | A test theme | test    |
     When the user clicks on the button with exact name "Edit question theme with slug test-theme"
-    Then the page should not contain accessibility issues in <View> mode
+    Then the heading with exact name "Edit theme" should be visible
+    And the page should not contain accessibility issues in <View> mode
 
     Examples:
       | View    |
@@ -21,7 +22,8 @@ Feature: 🎨 Question Theme Modification Form Accessibility
       | Test Theme | test-theme | A test theme | test    |
     When the user switches to dark mode
     And the user clicks on the button with exact name "Edit question theme with slug test-theme"
-    Then the page should not contain accessibility issues in <View> mode
+    Then the heading with exact name "Edit theme" should be visible
+    And the page should not contain accessibility issues in <View> mode
 
     Examples:
       | View    |

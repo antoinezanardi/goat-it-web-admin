@@ -854,6 +854,7 @@ import { createItemFromDto } from "#server/utils/goat-it-api/mappers/goat-it-api
 import type { SharedRuntimeConfig } from "#build/types/runtime-config";
 import { createGoatItApiEndpoint, createGoatItApiFetchOptions } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
 import { getItemsHandler } from "#server/api/goat-it-api/items/handlers/get-all/index.get.handler";
+import { createFakeH3Event } from "~~/tests/unit/utils/faketories/shared/h3/h3-event.faketory";
 
 // Mock the helpers module — uses import() expression syntax
 vi.mock(import("#server/utils/goat-it-api/helpers/goat-it-api.helpers"));
@@ -869,14 +870,14 @@ describe("Server Goat It API Items Get Handler", () => {
 
   describe(getItemsHandler, () => {
     it("should create the api endpoint when called.", async () => {
-      const event = {} as unknown as H3Event;
+      const event = createFakeH3Event();
       await getItemsHandler(event);
 
       expect(createGoatItApiEndpoint).toHaveBeenCalledExactlyOnceWith("items");
     });
 
     it("should create api fetch options with the runtime config when called.", async () => {
-      const event = {} as unknown as H3Event;
+      const event = createFakeH3Event();
       await getItemsHandler(event);
       const expectedConfig: SharedRuntimeConfig["goatItApi"] = {
         baseUrl: "https://api.goat-it.com",
@@ -887,7 +888,7 @@ describe("Server Goat It API Items Get Handler", () => {
     });
 
     it("should call $fetch with the built endpoint and options when called.", async () => {
-      const event = {} as unknown as H3Event;
+      const event = createFakeH3Event();
       const expectedEndpoint = "/admin/items";
       const expectedOptions = {
         baseURL: "https://api.goat-it.com",
@@ -901,7 +902,7 @@ describe("Server Goat It API Items Get Handler", () => {
     });
 
     it("should return mapped items when called.", async () => {
-      const event = {} as unknown as H3Event;
+      const event = createFakeH3Event();
       const fakeDtos = [
         createFakeItemDto(),
         createFakeItemDto()
@@ -914,7 +915,7 @@ describe("Server Goat It API Items Get Handler", () => {
     });
 
     it("should throw a ZodError when the API response is invalid.", async () => {
-      const event = {} as unknown as H3Event;
+      const event = createFakeH3Event();
       vi.mocked($fetch).mockResolvedValue([{ invalid: true }]);
 
       await expect(getItemsHandler(event)).rejects.toThrow(ZodError);
@@ -927,7 +928,7 @@ describe("Server Goat It API Items Get Handler", () => {
 
 ```ts
 it("should call getRouterParam with the id param name when called.", async () => {
-  const event = { context: { params: { id: "abc123" } } } as unknown as H3Event;
+  const event = createFakeH3Event({ params: { id: "abc123" } });
   vi.mocked(getRouterParam).mockReturnValue("abc123");
   await archiveItemHandler(event);
 
@@ -939,7 +940,7 @@ it("should call getRouterParam with the id param name when called.", async () =>
 
 ```ts
 it("should call readBody to extract the request body when called.", async () => {
-  const event = {} as unknown as H3Event;
+  const event = createFakeH3Event();
   const fakeBody = createFakeItemCreationDto();
   vi.mocked(readBody).mockResolvedValue(fakeBody);
   await createItemHandler(event);
@@ -960,7 +961,7 @@ it("should call createError with the correct status code when the item is not fo
   vi.mocked(createError).mockImplementation((args) => {
     throw new Error(String(args.message));
   });
-  const event = {} as unknown as H3Event;
+  const event = createFakeH3Event();
 
   try {
     await getItemHandler(event);
@@ -979,7 +980,6 @@ it("should call createError with the correct status code when the item is not fo
 
 - Always mock the helpers module using `import()` expression syntax: `vi.mock(import("#server/utils/goat-it-api/helpers/goat-it-api.helpers"))`.
 - Use a **two-level `describe`** pattern: outer string label `"Server Goat It API <Resource> <Method> Handler"`, inner `describe(handlerFn, ...)` with the function reference.
-- Use `{} as unknown as H3Event` for events without params; add `{ context: { params: { id: "..." } } }` for param-based routes.
 - Use `vi.mocked($fetch).mockResolvedValue(...)` — `$fetch` is already a global spy.
 - The runtime config values injected are `baseUrl: "https://api.goat-it.com"` and `adminKey: "test-admin-key"`.
 - Always test the Zod validation error path with invalid data.

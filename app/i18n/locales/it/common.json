@@ -20,6 +20,10 @@
         "placeholder": "Filtra...",
         "clear": "Cancella filtro"
       }
+    },
+    "form": {
+      "press": "Premere",
+      "enterKey": "Invio"
     }
   }
 }

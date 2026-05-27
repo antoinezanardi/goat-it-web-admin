@@ -9,6 +9,8 @@ import { DEFAULT_MOCKED_LOCALE, MOCKED_LOCALE_CODES } from "~~/tests/unit/utils/
 import type { ULocaleSelect } from "#components";
 import { LocaleSelect } from "#components";
 
+import { LOCALE_SELECT_UI } from "~/components/shared/core/localization/LocaleSelect/locale-select.constants.ts";
+
 describe("LocaleSelect Component", () => {
   let wrapper: VueWrapper;
 
@@ -56,6 +58,12 @@ describe("LocaleSelect Component", () => {
       nuxtUILocaleSelect.vm.$emit("update:modelValue", MOCKED_LOCALE_CODES[0]);
 
       expect(setLocale).toHaveBeenCalledExactlyOnceWith(MOCKED_LOCALE_CODES[0]);
+    });
+
+    it("should pass the ui prop to hide value text on mobile when mounted.", () => {
+      const nuxtUILocaleSelect = wrapper.getComponent<typeof ULocaleSelect>({ name: "ULocaleSelect" });
+
+      expect(nuxtUILocaleSelect.props("ui")).toStrictEqual(LOCALE_SELECT_UI);
     });
 
     it("should not set a new locale when the new locale is not supported.", () => {

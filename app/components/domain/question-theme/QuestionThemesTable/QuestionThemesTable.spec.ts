@@ -9,16 +9,14 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { vi } from "vitest";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
-import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
+import { createFakeLocalizedText, createFakeLocalizedTexts } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionThemesTable } from "#components";
-import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList, QuestionThemesTableHeader, LocalizedText as LocalizedTextComponent, QuestionThemeIcon, QuestionThemesTableActions, TableEmptyState } from "#components";
-
-import type { QuestionThemesTableRow } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
+import type { QuestionThemeSlugBadge, QuestionThemeStatusBadge, QuestionThemeAliasesList, QuestionThemesTableHeader, TranslatedText as TranslatedTextComponent, QuestionThemeIcon, QuestionThemesTableActions, TableEmptyState, QuestionThemeTranslationCompletenessIndicator } from "#components";
 
 describe("QuestionThemesTable Component", () => {
   let wrapper: VueWrapper;
@@ -89,6 +87,11 @@ describe("QuestionThemesTable Component", () => {
         {
           accessorKey: "description",
           header: "questionThemes.fields.description",
+          meta: {
+            class: {
+              td: "whitespace-normal break-words",
+            },
+          },
         },
         {
           accessorKey: "aliases",
@@ -103,6 +106,16 @@ describe("QuestionThemesTable Component", () => {
         {
           accessorKey: "status",
           header: "questionThemes.fields.status",
+          meta: {
+            class: {
+              th: "text-center",
+              td: "text-center",
+            },
+          },
+        },
+        {
+          accessorKey: "translations",
+          header: "questionThemes.fields.translations",
           meta: {
             class: {
               th: "text-center",
@@ -135,40 +148,22 @@ describe("QuestionThemesTable Component", () => {
     });
 
     it("should pass mapped rows to the table component when the store has question themes.", async() => {
-      const questionThemes = [
+      const fakeQuestionThemes = [
         createFakeQuestionTheme({
-          label: {
-            en: "Math",
-            fr: "Mathématiques",
-          },
-          description: {
-            en: "Math description",
-            fr: "Description mathématiques",
-          },
-          aliases: {
-            en: ["maths"],
-            fr: ["maths"],
-          },
+          label: createFakeLocalizedText({ en: "Math", fr: "Mathématiques" }),
+          description: createFakeLocalizedText({ en: "Math description", fr: "Description mathématiques" }),
+          aliases: createFakeLocalizedTexts({ en: ["maths"], fr: ["maths"] }),
           slug: "math",
           status: "active",
         }),
       ];
-      questionThemesStore.questionThemes = questionThemes;
-      const expectedQuestionThemeRows: QuestionThemesTableRow[] = questionThemes.map(questionTheme => ({
-        id: questionTheme.id,
-        slug: questionTheme.slug,
-        color: questionTheme.color,
-        label: questionTheme.label,
-        description: questionTheme.description,
-        aliases: questionTheme.aliases[DEFAULT_MOCKED_LOCALE],
-        status: questionTheme.status,
-      }));
+      questionThemesStore.questionThemes = fakeQuestionThemes;
 
       wrapper = await mountQuestionThemesTableComponent();
 
       const table = wrapper.getComponent({ name: "UTable" });
 
-      expect(table.props("data")).toStrictEqual(expectedQuestionThemeRows);
+      expect(table.props("data")).toStrictEqual(fakeQuestionThemes);
     });
   });
 
@@ -309,7 +304,7 @@ describe("QuestionThemesTable Component", () => {
 
   describe("Aliases cell slot", () => {
     it("should render the question theme aliases list for each row when in the aliases cell slot.", async() => {
-      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "science-biology", aliases: { en: ["a"], fr: ["a"] } })];
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "science-biology", aliases: createFakeLocalizedTexts({ en: ["a"], fr: ["a"] }) })];
 
       wrapper = await mountQuestionThemesTableComponent();
 
@@ -318,20 +313,21 @@ describe("QuestionThemesTable Component", () => {
       expect(aliasesList.exists()).toBeTruthy();
     });
 
-    it("should pass the aliases to the question theme aliases list when in the aliases cell slot.", async() => {
-      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "science-biology", aliases: { en: ["one", "two"], fr: ["one", "two"] } })];
+    it("should pass the localized texts to the question theme aliases list when in the aliases cell slot.", async() => {
+      const aliases = createFakeLocalizedTexts({ en: ["one", "two"], fr: ["un", "deux"] });
+      questionThemesStore.questionThemes = [createFakeQuestionTheme({ slug: "science-biology", aliases })];
 
       wrapper = await mountQuestionThemesTableComponent();
 
       const aliasesList = wrapper.findComponent<typeof QuestionThemeAliasesList>("[data-testid='aliases-cell-list-science-biology']");
 
-      expect(aliasesList.props("aliases")).toStrictEqual(["one", "two"]);
+      expect(aliasesList.props("localizedTexts")).toStrictEqual(aliases);
     });
 
     it("should render an aliases list for each row when the store has multiple question themes.", async() => {
       questionThemesStore.questionThemes = [
-        createFakeQuestionTheme({ slug: "science-biology", aliases: { en: ["a"], fr: ["a"] } }),
-        createFakeQuestionTheme({ slug: "math", aliases: { en: ["maths"], fr: ["maths"] } }),
+        createFakeQuestionTheme({ slug: "science-biology", aliases: createFakeLocalizedTexts({ en: ["a"], fr: ["a"] }) }),
+        createFakeQuestionTheme({ slug: "math", aliases: createFakeLocalizedTexts({ en: ["maths"], fr: ["maths"] }) }),
       ];
 
       wrapper = await mountQuestionThemesTableComponent();
@@ -339,6 +335,43 @@ describe("QuestionThemesTable Component", () => {
       const aliasesLists = wrapper.findAllComponents<typeof QuestionThemeAliasesList>("[data-testid^='aliases-cell-list-']");
 
       expect(aliasesLists).toHaveLength(2);
+    });
+  });
+
+  describe("Translations cell slot", () => {
+    it("should render the question theme translation completeness indicator for each row when in the translations cell slot.", async() => {
+      const theme = createFakeQuestionTheme({ slug: "music" });
+      questionThemesStore.questionThemes = [theme];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const indicator = wrapper.findComponent<typeof QuestionThemeTranslationCompletenessIndicator>("[data-testid='translations-cell-indicator-music']");
+
+      expect(indicator.exists()).toBeTruthy();
+    });
+
+    it("should pass the question theme to the translation completeness indicator when in the translations cell slot.", async() => {
+      const theme = createFakeQuestionTheme({ slug: "music" });
+      questionThemesStore.questionThemes = [theme];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const indicator = wrapper.findComponent<typeof QuestionThemeTranslationCompletenessIndicator>("[data-testid='translations-cell-indicator-music']");
+
+      expect(indicator.props("questionTheme")).toStrictEqual(theme);
+    });
+
+    it("should render a translation completeness indicator for each row when the store has multiple question themes.", async() => {
+      questionThemesStore.questionThemes = [
+        createFakeQuestionTheme({ slug: "music" }),
+        createFakeQuestionTheme({ slug: "animals" }),
+      ];
+
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const indicators = wrapper.findAllComponents<typeof QuestionThemeTranslationCompletenessIndicator>("[data-testid^='translations-cell-indicator-']");
+
+      expect(indicators).toHaveLength(2);
     });
   });
 
@@ -352,7 +385,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const localizedText = wrapper.findComponent<typeof LocalizedTextComponent>("[data-testid='label-cell-text-math']");
+      const localizedText = wrapper.findComponent<typeof TranslatedTextComponent>("[data-testid='label-cell-text-math']");
 
       expect(localizedText.props("localizedText")).toStrictEqual(label);
     });
@@ -365,7 +398,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const labelTexts = wrapper.findAllComponents<typeof LocalizedTextComponent>("[data-testid^='label-cell-text-']");
+      const labelTexts = wrapper.findAllComponents<typeof TranslatedTextComponent>("[data-testid^='label-cell-text-']");
 
       expect(labelTexts).toHaveLength(2);
     });
@@ -381,7 +414,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const localizedText = wrapper.findComponent<typeof LocalizedTextComponent>("[data-testid='description-cell-text-math']");
+      const localizedText = wrapper.findComponent<typeof TranslatedTextComponent>("[data-testid='description-cell-text-math']");
 
       expect(localizedText.props("localizedText")).toStrictEqual(description);
     });
@@ -394,7 +427,7 @@ describe("QuestionThemesTable Component", () => {
 
       wrapper = await mountQuestionThemesTableComponent();
 
-      const descriptionTexts = wrapper.findAllComponents<typeof LocalizedTextComponent>("[data-testid^='description-cell-text-']");
+      const descriptionTexts = wrapper.findAllComponents<typeof TranslatedTextComponent>("[data-testid^='description-cell-text-']");
 
       expect(descriptionTexts).toHaveLength(2);
     });
@@ -498,7 +531,7 @@ describe("QuestionThemesTable Component", () => {
     it("should pass globalFilterOptions with the filterFn to the table component when mounted.", () => {
       const table = wrapper.getComponent({ name: "UTable" });
 
-      expect(table.props("globalFilterOptions")).toStrictEqual({ globalFilterFn: expect.any(Function) as FilterFn<QuestionThemesTableRow> });
+      expect(table.props("globalFilterOptions")).toStrictEqual({ globalFilterFn: expect.any(Function) as FilterFn<QuestionTheme> });
     });
 
     it("should update the composable globalFilter when the table emits update:globalFilter.", () => {
@@ -520,7 +553,7 @@ describe("QuestionThemesTable Component", () => {
         "slug",
         `label.${DEFAULT_MOCKED_LOCALE}`,
         `description.${DEFAULT_MOCKED_LOCALE}`,
-        "aliases",
+        `aliases.${DEFAULT_MOCKED_LOCALE}`,
         "status",
       ]);
     });

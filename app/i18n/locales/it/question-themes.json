@@ -26,7 +26,8 @@
       "description": "Descrizione",
       "aliases": "Alias",
       "color": "Colore",
-      "status": "Stato"
+      "status": "Stato",
+      "translations": "Traduzioni"
     },
     "status": {
       "active": "Attivo",
@@ -34,6 +35,16 @@
     },
     "aliases": {
       "noneForLocale": "Nessun alias per questa lingua"
+    },
+    "form": {
+      "addAliasHint": "per aggiungere un alias",
+      "removeAlias": "Rimuovi l'alias {value}"
+    },
+    "placeholders": {
+      "label": "es.: Natura, Sport, Cinema",
+      "slug": "es.: natura, sport-e-tempo-libero",
+      "description": "Cosa copre questo tema",
+      "aliases": "es.: ecologia, fauna, flora"
     }
   }
 }

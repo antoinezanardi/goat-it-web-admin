@@ -2,6 +2,7 @@
 import type { ArrayValues } from "type-fest";
 
 import type { Locale } from "#ui/types";
+import { LOCALE_SELECT_UI } from "~/components/shared/core/localization/LocaleSelect/locale-select.constants";
 
 type SupportedLocale = ArrayValues<typeof localeCodes.value>;
 
@@ -21,8 +22,10 @@ async function onLocaleChange(updatedLocale: string): Promise<void> {
 
 <template>
   <ULocaleSelect
+    data-testid="locale-select"
     :locales="locales as Locale<undefined>[]"
     :model-value="currentLocale"
+    :ui="LOCALE_SELECT_UI"
     @update:model-value="onLocaleChange"
   />
 </template>

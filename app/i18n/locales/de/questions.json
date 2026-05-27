@@ -1,5 +1,97 @@
 {
   "questions": {
-    "pageTitle": "Fragen"
+    "pageTitle": "Fragen",
+    "cantFetch": "Fragen konnten nicht abgerufen werden",
+    "cantCreate": "Frage konnte nicht erstellt werden",
+    "cantArchive": "Frage konnte nicht archiviert werden",
+    "cantAssignTheme": "Thema konnte der Frage nicht zugewiesen werden",
+    "cantRemoveTheme": "Thema konnte nicht von der Frage entfernt werden",
+    "cantModify": "Frage konnte nicht bearbeitet werden",
+    "cantModifyThemeAssignment": "Themazuweisung konnte nicht geändert werden",
+    "cantRemoveLastTheme": "Das letzte Thema kann nicht entfernt werden",
+    "cantRemovePrimaryTheme": "Das Hauptthema kann nicht entfernt werden. Setzen Sie zuerst ein anderes Thema als Hauptthema.",
+    "removeTheme": "Thema {theme} entfernen",
+    "createNew": "Eine neue Frage erstellen",
+    "editQuestion": "Frage bearbeiten",
+    "createSuccessfully": "Frage erfolgreich erstellt",
+    "archiveSuccessfully": "Frage erfolgreich archiviert",
+    "assignThemeSuccessfully": "Fragenthema erfolgreich zugewiesen",
+    "removeThemeSuccessfully": "Fragenthema erfolgreich entfernt",
+    "modifySuccessfully": "Frage erfolgreich bearbeitet",
+    "modifyThemeAssignmentSuccessfully": "Fragenthema erfolgreich geändert",
+    "fetching": "Fragen werden geladen...",
+    "missingThemeTranslation": "–– fehlende Themenübersetzung ––",
+    "selectThemes": "Themen auswählen…",
+    "searchThemes": "Themen suchen...",
+    "noMatchingTheme": "Kein passendes Thema.",
+    "promoteAsPrimaryTheme": "Als Hauptthema festlegen",
+    "primaryTheme": "Hauptthema",
+    "selectCategory": "Kategorie auswählen…",
+    "sections": {
+      "content": "Inhalt",
+      "classification": "Klassifizierung",
+      "themes": "Themen",
+      "sources": "Referenzen"
+    },
+    "category": {
+      "trivia": "Allgemeinwissen",
+      "lexicon": "Lexikon",
+      "riddle": "Rätsel",
+      "explanation": "Erklärung"
+    },
+    "difficulty": {
+      "easy": "Einfach",
+      "medium": "Mittel",
+      "hard": "Schwer"
+    },
+    "status": {
+      "pending": "Ausstehend",
+      "active": "Aktiv",
+      "archived": "Archiviert",
+      "rejected": "Abgelehnt"
+    },
+    "archive": {
+      "confirmTitle": "Frage archivieren",
+      "confirmDescription": "Sind Sie sicher, dass Sie diese Frage archivieren möchten? Diese Aktion ist unwiderruflich."
+    },
+    "actions": {
+      "archive": "Frage archivieren",
+      "edit": "Frage bearbeiten"
+    },
+    "fields": {
+      "category": "Kategorie",
+      "themes": "Themen",
+      "statement": "Aussage",
+      "answer": "Antwort",
+      "context": "Kontext",
+      "trivia": "Wissenswertes",
+      "hint": "Hinweis",
+      "cognitiveDifficulty": "Schwierigkeit",
+      "author": "Autor",
+      "status": "Status",
+      "sourceUrls": "Quellen",
+      "translations": "Übersetzungen"
+    },
+    "errors": {
+      "invalidUrl": "Muss eine gültige URL sein",
+      "duplicateUrl": "Diese URL wurde bereits hinzugefügt",
+      "maxSourceUrls": "Maximale Anzahl an Quell-URLs erreicht"
+    },
+    "sourceUrlTag": {
+      "goTo": "Gehe zu {url}"
+    },
+    "form": {
+      "addTriviaHint": "um einen Wissenswertes-Eintrag hinzuzufügen",
+      "removeTrivia": "Wissenswertes {value} entfernen",
+      "addSourceUrlHint": "um eine Quell-URL hinzuzufügen",
+      "removeSource": "Quelle {value} entfernen"
+    },
+    "placeholders": {
+      "statement": "Frage an den Spieler",
+      "answer": "z. B.: Paris, 1789, Albert Einstein",
+      "context": "Kontext zum Verständnis der Antwort",
+      "trivia": "z. B.: Paris hieß früher Lutetia",
+      "sourceUrls": "z. B.: https://de.wikipedia.org/"
+    }
   }
 }

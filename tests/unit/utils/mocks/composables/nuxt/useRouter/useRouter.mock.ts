@@ -16,6 +16,7 @@ type UseRouterStub = {
   afterEach: Router["afterEach"];
   beforeResolve: Router["beforeResolve"];
   beforeEach: Router["beforeEach"];
+  replace: Router["replace"];
   onError: Router["onError"];
 };
 
@@ -33,6 +34,7 @@ function createUseRouterMock(): UseRouterMock {
     afterEach: vi.fn<UseRouterStub["afterEach"]>(),
     beforeResolve: vi.fn<UseRouterStub["beforeResolve"]>(),
     beforeEach: vi.fn<UseRouterStub["beforeEach"]>(),
+    replace: vi.fn<UseRouterStub["replace"]>(),
     onError: vi.fn<UseRouterStub["onError"]>(),
   };
 }

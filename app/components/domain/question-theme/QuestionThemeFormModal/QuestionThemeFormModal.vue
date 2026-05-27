@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { QuestionThemeCreationDto, QuestionThemeModificationDto } from "@goat-it/schemas/question-theme";
 
+import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants";
 import { QUESTION_THEME_FORM_MODAL_UI } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.constants";
 import type { QuestionThemeFormModalEmits, QuestionThemeFormModalProperties } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.types";
 import type QuestionThemeForm from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/QuestionThemeForm.vue";
-import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/question-theme.constants";
 
 const props = withDefaults(defineProps<QuestionThemeFormModalProperties>(), {
   mode: "create",
@@ -52,6 +52,13 @@ function onCloseModal(): void {
         data-testid="question-theme-form-modal-title"
         :icon="QUESTION_THEME_ICON"
         :title="$t(modalTitle)"
+      />
+    </template>
+
+    <template #actions>
+      <QuestionThemeTranslationCompletenessIndicator
+        v-if="mode === 'edit' && questionTheme"
+        :question-theme="questionTheme"
       />
     </template>
 

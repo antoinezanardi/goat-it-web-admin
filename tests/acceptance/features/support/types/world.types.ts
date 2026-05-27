@@ -7,6 +7,8 @@ class GoatItWorld extends World {
 
   public context!: BrowserContext;
 
+  public openedTabPage?: Page;
+
   public constructor(options: IWorldOptions<unknown>) {
     super(options);
   }

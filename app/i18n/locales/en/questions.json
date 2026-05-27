@@ -1,5 +1,97 @@
 {
   "questions": {
-    "pageTitle": "Questions"
+    "pageTitle": "Questions",
+    "cantFetch": "Unable to fetch questions",
+    "cantCreate": "Unable to create question",
+    "cantArchive": "Unable to archive question",
+    "cantAssignTheme": "Unable to assign theme to question",
+    "cantRemoveTheme": "Unable to remove theme from question",
+    "cantModify": "Unable to modify question",
+    "cantModifyThemeAssignment": "Unable to modify theme assignment",
+    "cantRemoveLastTheme": "Cannot remove the last theme",
+    "cantRemovePrimaryTheme": "Cannot remove the primary theme. Promote another theme first.",
+    "removeTheme": "Remove theme {theme}",
+    "createNew": "Create a new question",
+    "editQuestion": "Edit question",
+    "createSuccessfully": "Question created successfully",
+    "archiveSuccessfully": "Question archived successfully",
+    "assignThemeSuccessfully": "Question theme assigned successfully",
+    "removeThemeSuccessfully": "Question theme removed successfully",
+    "modifySuccessfully": "Question modified successfully",
+    "modifyThemeAssignmentSuccessfully": "Question theme modified successfully",
+    "fetching": "Loading questions...",
+    "missingThemeTranslation": "–– missing theme translation ––",
+    "selectThemes": "Select themes…",
+    "searchThemes": "Search themes...",
+    "noMatchingTheme": "No matching theme.",
+    "promoteAsPrimaryTheme": "Promote as primary theme",
+    "primaryTheme": "Primary theme",
+    "selectCategory": "Select category…",
+    "sections": {
+      "content": "Content",
+      "classification": "Classification",
+      "themes": "Themes",
+      "sources": "References"
+    },
+    "category": {
+      "trivia": "Trivia",
+      "lexicon": "Lexicon",
+      "riddle": "Riddle",
+      "explanation": "Explanation"
+    },
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "status": {
+      "pending": "Pending",
+      "active": "Active",
+      "archived": "Archived",
+      "rejected": "Rejected"
+    },
+    "archive": {
+      "confirmTitle": "Archive the question",
+      "confirmDescription": "Are you sure you want to archive this question? This action is irreversible."
+    },
+    "actions": {
+      "archive": "Archive the question",
+      "edit": "Edit the question"
+    },
+    "fields": {
+      "category": "Category",
+      "themes": "Themes",
+      "statement": "Statement",
+      "answer": "Answer",
+      "context": "Context",
+      "trivia": "Trivia",
+      "hint": "Hint",
+      "cognitiveDifficulty": "Difficulty",
+      "author": "Author",
+      "status": "Status",
+      "sourceUrls": "Sources",
+      "translations": "Translations"
+    },
+    "errors": {
+      "invalidUrl": "Must be a valid URL",
+      "duplicateUrl": "This URL has already been added",
+      "maxSourceUrls": "Maximum number of source URLs reached"
+    },
+    "sourceUrlTag": {
+      "goTo": "Go to {url}"
+    },
+    "form": {
+      "addTriviaHint": "to add a trivia fact",
+      "removeTrivia": "Remove trivia {value}",
+      "addSourceUrlHint": "to add a source URL",
+      "removeSource": "Remove source {value}"
+    },
+    "placeholders": {
+      "statement": "Question asked to the player",
+      "answer": "e.g., Paris, 1789, Albert Einstein",
+      "context": "Context to understand the answer",
+      "trivia": "e.g., Paris was formerly called Lutetia",
+      "sourceUrls": "e.g., https://en.wikipedia.org/"
+    }
   }
 }

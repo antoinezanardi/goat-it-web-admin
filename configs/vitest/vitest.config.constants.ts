@@ -59,6 +59,7 @@ const VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG: InlineConfig = {
 };
 
 const VITEST_NUXT_PROJECT_SETUP_FILES = [
+  path.resolve(processCwd, "tests/unit/setup/nuxt/reka-ui-dismissable-layer.nuxt.unit-setup.ts"),
   path.resolve(processCwd, "tests/unit/setup/nuxt/vtu-config.nuxt.unit-setup.ts"),
   path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts"),
   path.resolve(processCwd, "tests/unit/setup/nuxt/define-page-meta.nuxt.unit-setup.ts"),
@@ -88,7 +89,10 @@ const VITEST_STORES_PROJECT_INCLUDES = ["app/**/*.store.spec.ts"];
 
 const VITEST_REPOSITORIES_PROJECT_INCLUDES = ["app/**/*.repository.spec.ts"];
 
-const VITEST_REPOSITORIES_MOCK_SETUP_FILES = [path.resolve(processCwd, "tests/unit/setup/nuxt/repositories/question-themes-repository.nuxt.unit-setup.ts")] as const;
+const VITEST_REPOSITORIES_MOCK_SETUP_FILES = [
+  path.resolve(processCwd, "tests/unit/setup/nuxt/repositories/question-themes-repository.nuxt.unit-setup.ts"),
+  path.resolve(processCwd, "tests/unit/setup/nuxt/repositories/questions-repository.nuxt.unit-setup.ts"),
+] as const;
 
 const VITEST_NODE_PROJECT_INCLUDES = [
   "app/**/*.mappers.spec.ts",
@@ -133,6 +137,7 @@ const VITEST_NODE_PROJECT_CONFIG: TestProjectInlineConfiguration = {
     setupFiles: [
       path.resolve(processCwd, "tests/unit/setup/nuxt/dates.nuxt.unit-setup.ts"),
       path.resolve(processCwd, "tests/unit/setup/node/nitro-auto-imports.node.unit-setup.ts"),
+      path.resolve(processCwd, "tests/unit/setup/node/h3.node.unit-setup.ts"),
     ],
     pool: "threads",
     isolate: false,

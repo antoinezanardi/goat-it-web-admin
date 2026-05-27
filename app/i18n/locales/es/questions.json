@@ -1,5 +1,97 @@
 {
   "questions": {
-    "pageTitle": "Preguntas"
+    "pageTitle": "Preguntas",
+    "cantFetch": "No se pueden obtener las preguntas",
+    "cantCreate": "No se puede crear la pregunta",
+    "cantArchive": "No se puede archivar la pregunta",
+    "cantAssignTheme": "No se puede asignar el tema a la pregunta",
+    "cantRemoveTheme": "No se puede eliminar el tema de la pregunta",
+    "cantModify": "No se pudo modificar la pregunta",
+    "cantModifyThemeAssignment": "No se puede modificar la asignación del tema",
+    "cantRemoveLastTheme": "No se puede eliminar el último tema",
+    "cantRemovePrimaryTheme": "No se puede eliminar el tema principal. Promueva otro tema primero.",
+    "removeTheme": "Eliminar tema {theme}",
+    "createNew": "Crear una nueva pregunta",
+    "editQuestion": "Editar pregunta",
+    "createSuccessfully": "Pregunta creada con éxito",
+    "archiveSuccessfully": "Pregunta archivada con éxito",
+    "assignThemeSuccessfully": "Tema de la pregunta asignado con éxito",
+    "removeThemeSuccessfully": "Tema de la pregunta eliminado con éxito",
+    "modifySuccessfully": "Pregunta modificada con éxito",
+    "modifyThemeAssignmentSuccessfully": "Tema de la pregunta modificado con éxito",
+    "fetching": "Cargando preguntas...",
+    "missingThemeTranslation": "–– traducción del tema faltante ––",
+    "selectThemes": "Seleccionar temas…",
+    "searchThemes": "Buscar temas...",
+    "noMatchingTheme": "Ningún tema coincidente.",
+    "promoteAsPrimaryTheme": "Promover como tema principal",
+    "primaryTheme": "Tema principal",
+    "selectCategory": "Seleccionar categoría…",
+    "sections": {
+      "content": "Contenido",
+      "classification": "Clasificación",
+      "themes": "Temas",
+      "sources": "Referencias"
+    },
+    "category": {
+      "trivia": "Cultura general",
+      "lexicon": "Léxico",
+      "riddle": "Enigma",
+      "explanation": "Explicación"
+    },
+    "difficulty": {
+      "easy": "Fácil",
+      "medium": "Medio",
+      "hard": "Difícil"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "active": "Activa",
+      "archived": "Archivada",
+      "rejected": "Rechazada"
+    },
+    "archive": {
+      "confirmTitle": "Archivar la pregunta",
+      "confirmDescription": "¿Está seguro de que desea archivar esta pregunta? Esta acción es irreversible."
+    },
+    "actions": {
+      "archive": "Archivar la pregunta",
+      "edit": "Editar la pregunta"
+    },
+    "fields": {
+      "category": "Categoría",
+      "themes": "Temas",
+      "statement": "Enunciado",
+      "answer": "Respuesta",
+      "context": "Contexto",
+      "trivia": "Curiosidades",
+      "hint": "Pista",
+      "cognitiveDifficulty": "Dificultad",
+      "author": "Autor",
+      "status": "Estado",
+      "sourceUrls": "Fuentes",
+      "translations": "Traducciones"
+    },
+    "errors": {
+      "invalidUrl": "Debe ser una URL válida",
+      "duplicateUrl": "Esta URL ya ha sido añadida",
+      "maxSourceUrls": "Número máximo de URLs de origen alcanzado"
+    },
+    "sourceUrlTag": {
+      "goTo": "Ir a {url}"
+    },
+    "form": {
+      "addTriviaHint": "para añadir una curiosidad",
+      "removeTrivia": "Eliminar la curiosidad {value}",
+      "addSourceUrlHint": "para añadir una URL de origen",
+      "removeSource": "Eliminar la fuente {value}"
+    },
+    "placeholders": {
+      "statement": "Pregunta formulada al jugador",
+      "answer": "ej.: París, 1789, Albert Einstein",
+      "context": "Contexto para entender la respuesta",
+      "trivia": "ej.: París se llamaba antes Lutecia",
+      "sourceUrls": "ej.: https://es.wikipedia.org/"
+    }
   }
 }
