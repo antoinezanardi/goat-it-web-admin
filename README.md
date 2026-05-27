@@ -15,6 +15,7 @@
 
 [![Tests count](https://byob.yarr.is/antoinezanardi/goat-it-web-admin/unit-tests-count)](https://byob.yarr.is/antoinezanardi/goat-it-web-admin/unit-tests-count)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fantoinezanardi%2Fgoat-it-web-admin%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/antoinezanardi/goat-it-web-admin/main)
+[![Scenarios count](https://byob.yarr.is/antoinezanardi/goat-it-web-admin/scenarios)](https://byob.yarr.is/antoinezanardi/goat-it-web-admin/scenarios)
 
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=antoinezanardi_goat-it-web-admin&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=antoinezanardi_goat-it-web-admin)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=antoinezanardi_goat-it-web-admin&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=antoinezanardi_goat-it-web-admin)

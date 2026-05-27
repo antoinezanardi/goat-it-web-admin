@@ -175,7 +175,7 @@ export type { MyDomainFormRow };
 - [ ] Tags added (`@domain-page` for page-level, `@domain` + `@domain-action` for actions)
 - [ ] Feature and Scenario titles use emoji prefix
 - [ ] Scenarios use existing generic steps where possible
-- [ ] Background blocks used where 3+ scenarios share identical Given steps
+- [ ] Background blocks used where 3+ scenarios share identical initial steps
 - [ ] Accessibility feature file created with light/dark + desktop/mobile matrix
 - [ ] New step definition files follow `<domain>.<type>-steps.ts` naming
 - [ ] Sub-feature steps grouped in subdirectory when applicable

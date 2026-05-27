@@ -20,7 +20,9 @@ Feature: ❓ Question Modification
     Then the toast with exact text "Question modified successfully" should be visible
 
   Scenario: ❓ Question modification modal opens with pre-filled fields
-    Then the button with name "Edit" should be enabled
+    Then the input with name "Statement*" should have value "What is the capital of France?"
+    And the input with name "Answer*" should have value "Paris"
+    And the button with name "Edit" should be enabled
 
   Scenario: ❓ Question modification modal closes without saving when clicking close button in the modal header
     When the user clicks on the close button in the modal header
