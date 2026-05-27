@@ -27,22 +27,54 @@ Read it for complete examples. This skill contains the non-negotiable rules and 
 - **Feature title:** Emoji prefix + description (e.g., `Feature: 🎨 Question Theme Creation`)
 - **Scenario title:** Same emoji prefix + description
 - **Scenario Outline:** Use for parameterized tests (accessibility viewport matrix)
+- **Background:** Use when 3+ scenarios share identical initial Given steps (see below)
 - **Accessibility:** Separate `*-accessibility.feature` file with light/dark + desktop/mobile matrix
 - **DataTables:** Use for form inputs, expected data, and validation errors
+
+### Background blocks
+
+**Rule:** Use `Background:` when 3 or more scenarios in a feature share identical initial steps. For fewer than 3, repeat the steps — duplication is acceptable.
+
+```gherkin
+Background:
+  Given the user is on question-themes page
+  And a question theme exists with the following attributes:
+    | label     | slug      | description       | aliases |
+    | Geography | geography | A geography theme | geo     |
+
+Scenario: ❓ First scenario
+  And the user is on questions page
+  ...
+```
+
+- Background runs before EACH scenario, not once per feature
+- Scenarios can add more steps via `And` after the Background
+- Keep Background minimal — only what applies to ALL scenarios
 
 ---
 
 ## Step definition rules
 
-| Rule              | Detail                                                                            |
-|-------------------|-----------------------------------------------------------------------------------|
-| File naming       | `<domain>.<step-type>-steps.ts` (given, when, then)                               |
-| World typing      | `this: GoatItWorld` on every step function                                        |
-| Regex pattern     | Named capture groups + `/u` flag always                                           |
-| Imports           | `Given`/`When`/`Then` from `@cucumber/cucumber`, `expect` from `@playwright/test` |
-| Helpers           | Extract to `helpers/<domain>.<step-type>-steps.helpers.ts`                        |
-| Constants         | Shared patterns in `<domain>.steps.constants.ts`                                  |
-| DataTable schemas | Zod `strictObject` in `datatables/<domain>.datatables.schemas.ts`                 |
+| Rule              | Detail                                                                                          |
+|-------------------|-------------------------------------------------------------------------------------------------|
+| File naming       | `<domain>.<step-type>-steps.ts` (given, when, then)                                             |
+| World typing      | `this: GoatItWorld` on every step function                                                      |
+| Regex pattern     | Named capture groups + `/u` flag always                                                         |
+| Imports           | `Given`/`When`/`Then` from `@cucumber/cucumber`, `expect` from `@playwright/test`               |
+| Helpers           | Extract to `helpers/<domain>.<step-type>-steps.helpers.ts` (one file per step type, never shared) |
+| Cross-step helpers | Move to `support/helpers/` if used by multiple step types                                       |
+| Constants         | Shared patterns in `<domain>.steps.constants.ts`                                                |
+| DataTable schemas | Zod `strictObject` in `datatables/<domain>.datatables.schemas.ts`                               |
+| Sub-feature steps | Group in subdirectory within domain (e.g., `question/source-url-tag/`)                          |
+
+### Helper placement rules
+
+| Scenario                          | Location                                                  |
+|-----------------------------------|-----------------------------------------------------------|
+| Used by ONE step type only        | `step-definitions/<domain>/helpers/<domain>.<step-type>-steps.helpers.ts` |
+| Used by MULTIPLE step types       | `support/helpers/<domain>.helpers.ts`                     |
+
+**Never** create `<domain>.steps.helpers.ts` (without step-type). Always split per step type or move to support.
 
 ### Step function template
 
@@ -113,18 +145,18 @@ export type { MyDomainFormRow };
 
 ## Available generic steps (reuse before writing new)
 
-| Domain          | Given            | When                                         | Then                                                |
-|-----------------|------------------|----------------------------------------------|-----------------------------------------------------|
-| `navigation`    | Navigate to page | Reload page                                  | Assert current page URL                             |
-| `element`       | —                | Click, hover, scroll (by role + name)        | Visible, hidden, disabled, enabled (by role + name) |
-| `form`          | —                | Fill input, clear input (by accessible name) | —                                                   |
-| `keyboard`      | —                | Press any key                                | —                                                   |
-| `text`          | —                | Click on text                                | Text visible/hidden                                 |
-| `toast`         | —                | —                                            | Toast with text visible                             |
-| `modal`         | —                | Close modal (header or footer button)        | —                                                   |
-| `locale`        | —                | Switch locale                                | Locale completion status                            |
-| `color-mode`    | —                | Switch to dark mode                          | —                                                   |
-| `accessibility` | —                | —                                            | Page has no a11y issues (desktop/mobile)            |
+| Domain          | Given            | When                                         | Then                                                     |
+|-----------------|------------------|----------------------------------------------|----------------------------------------------------------|
+| `navigation`    | Navigate to page | Reload page                                  | Assert current page URL, assert new tab URL              |
+| `element`       | —                | Click, hover, scroll (by role + name)        | Visible, hidden, disabled, enabled (by role + name)      |
+| `form`          | —                | Fill input, clear input (by accessible name) | —                                                        |
+| `keyboard`      | —                | Press any key                                | —                                                        |
+| `text`          | —                | Click on text                                | Text visible/hidden                                      |
+| `toast`         | —                | —                                            | Toast with text visible (scoped to notification region)  |
+| `modal`         | —                | Close modal (header or footer button)        | —                                                        |
+| `locale`        | —                | Switch locale                                | Locale completion status                                 |
+| `color-mode`    | —                | Switch to dark mode                          | —                                                        |
+| `accessibility` | —                | —                                            | Page has no a11y issues (desktop/mobile)                 |
 
 ---
 
@@ -143,11 +175,14 @@ export type { MyDomainFormRow };
 - [ ] Tags added (`@domain-page` for page-level, `@domain` + `@domain-action` for actions)
 - [ ] Feature and Scenario titles use emoji prefix
 - [ ] Scenarios use existing generic steps where possible
+- [ ] Background blocks used where 3+ scenarios share identical Given steps
 - [ ] Accessibility feature file created with light/dark + desktop/mobile matrix
 - [ ] New step definition files follow `<domain>.<type>-steps.ts` naming
+- [ ] Sub-feature steps grouped in subdirectory when applicable
 - [ ] `this: GoatItWorld` typed on every step function
 - [ ] Regex patterns use named capture groups + `/u` flag
-- [ ] Helpers extracted for complex interaction logic
+- [ ] Helpers extracted per step type (never shared `<domain>.steps.helpers.ts`)
+- [ ] Cross-step helpers placed in `support/helpers/`
 - [ ] DataTable schemas use `z.strictObject()` + `zCoerceOptionalString()`
 - [ ] Tests pass: `pnpm run test:acceptance`
 
@@ -164,3 +199,5 @@ export type { MyDomainFormRow };
 - Using `assert` instead of Playwright's `expect` → wrong assertion library
 - Missing `.first()` for ambiguous locators → Playwright strict mode error
 - Missing lint disable comment for `no-await-in-loop` in Playwright loops
+- Not scoping toast assertions to notification container → overlaps with generic text step
+- Putting cross-step helpers in domain helper files → violates step-type separation rule

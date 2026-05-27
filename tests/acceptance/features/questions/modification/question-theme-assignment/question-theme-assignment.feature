@@ -1,11 +1,13 @@
 @questions @question-theme-assignment-modification
 Feature: 🏷️ Question Theme Assignment Modification
 
-  Scenario: 🏷️ A theme is assigned to a question and success toast is displayed
+  Background:
     Given the user is on question-themes page
     And a question theme exists with the following attributes:
       | label     | slug      | description       | aliases |
       | Geography | geography | A geography theme | geo     |
+
+  Scenario: 🏷️ A theme is assigned to a question and success toast is displayed
     And a question theme exists with the following attributes:
       | label   | slug    | description     | aliases |
       | History | history | A history theme | hist    |
@@ -20,10 +22,6 @@ Feature: 🏷️ Question Theme Assignment Modification
     And the theme "History" should be visible in the question theme selector list
 
   Scenario: 🏷️ A theme is removed from a question and success toast is displayed
-    Given the user is on question-themes page
-    And a question theme exists with the following attributes:
-      | label     | slug      | description       | aliases |
-      | Geography | geography | A geography theme | geo     |
     And a question theme exists with the following attributes:
       | label   | slug    | description     | aliases |
       | History | history | A history theme | hist    |
@@ -38,10 +36,6 @@ Feature: 🏷️ Question Theme Assignment Modification
     And the theme "History" should be hidden in the question theme selector list
 
   Scenario: 🏷️ The remove button is hidden when only one theme remains on a question
-    Given the user is on question-themes page
-    And a question theme exists with the following attributes:
-      | label     | slug      | description       | aliases |
-      | Geography | geography | A geography theme | geo     |
     And the user is on questions page
     And a question exists with the following attributes:
       | statement                      | answer | difficulty | category | themes    | sourceUrls                      |
@@ -51,10 +45,6 @@ Feature: 🏷️ Question Theme Assignment Modification
     And the remove button for the theme "Geography" should be hidden in the question form theme selector
 
   Scenario: 🏷️ The remove button is disabled for the primary theme when multiple themes exist
-    Given the user is on question-themes page
-    And a question theme exists with the following attributes:
-      | label     | slug      | description       | aliases |
-      | Geography | geography | A geography theme | geo     |
     And a question theme exists with the following attributes:
       | label   | slug    | description     | aliases |
       | History | history | A history theme | hist    |
@@ -67,10 +57,6 @@ Feature: 🏷️ Question Theme Assignment Modification
     And the remove button for the theme "Geography" should be disabled in the question form theme selector
 
   Scenario: 🏷️ A theme is set as primary on a question and success toast is displayed
-    Given the user is on question-themes page
-    And a question theme exists with the following attributes:
-      | label     | slug      | description       | aliases |
-      | Geography | geography | A geography theme | geo     |
     And a question theme exists with the following attributes:
       | label   | slug    | description     | aliases |
       | History | history | A history theme | hist    |
@@ -84,10 +70,6 @@ Feature: 🏷️ Question Theme Assignment Modification
     Then the toast with exact text "Question theme modified successfully" should be visible
 
   Scenario: 🏷️ A theme hint is toggled on a question and success toast is displayed
-    Given the user is on question-themes page
-    And a question theme exists with the following attributes:
-      | label     | slug      | description       | aliases |
-      | Geography | geography | A geography theme | geo     |
     And the user is on questions page
     And a question exists with the following attributes:
       | statement                      | answer | difficulty | category | themes    | sourceUrls                      |

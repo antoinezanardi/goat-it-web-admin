@@ -6,7 +6,8 @@ import type { GoatItWorld } from "#acceptance/features/support/types/world.types
 Then(
   /^the toast with(?<exact> exact)? text "(?<text>[^"]*)" should be visible$/u,
   async function(this: GoatItWorld, exact: string | undefined, text: string): Promise<void> {
-    const toast = this.page.getByText(text, { exact: exact !== undefined });
+    const toastRegion = this.page.getByRole("region", { name: "Notifications", includeHidden: true });
+    const toast = toastRegion.getByText(text, { exact: exact !== undefined });
 
     await expect(toast).toBeVisible();
   },
