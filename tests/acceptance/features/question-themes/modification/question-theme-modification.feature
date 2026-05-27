@@ -1,6 +1,17 @@
 @question-themes @question-theme-modification
 Feature: 🎨 Question Theme Modification
 
+  Scenario: 🎨 Question Theme modification modal opens with pre-filled fields
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label      | slug       | description  | aliases |
+      | Test Theme | test-theme | A test theme | test    |
+    When the user clicks on the button with exact name "Edit question theme with slug test-theme"
+    Then the input with name "Label*" should have value "Test Theme"
+    And the input with name "Slug*" should have value "test-theme"
+    And the input with name "Description*" should have value "A test theme"
+    And the button with name "Edit" should be enabled
+
   Scenario: 🎨 Question Theme label is modified and updated in the list
     Given the user is on question-themes page
     And a question theme exists with the following attributes:

@@ -12,33 +12,35 @@ It covers the test infrastructure, feature file patterns, step definition conven
 3. [Running tests](#3-running-tests)
 4. [Infrastructure (hooks, world, sandbox)](#4-infrastructure-hooks-world-sandbox)
 5. [Feature file patterns](#5-feature-file-patterns)
-   - [Naming and organization](#51-naming-and-organization)
-   - [Tags](#52-tags)
-   - [Scenarios and Scenario Outlines](#53-scenarios-and-scenario-outlines)
-   - [DataTables](#54-datatables)
-   - [Accessibility features](#55-accessibility-features)
+  - [Naming and organization](#51-naming-and-organization)
+  - [Tags](#52-tags)
+  - [Scenarios and Scenario Outlines](#53-scenarios-and-scenario-outlines)
+  - [Background blocks](#54-background-blocks)
+  - [DataTables](#55-datatables)
+  - [Accessibility features](#56-accessibility-features)
 6. [Step definition patterns](#6-step-definition-patterns)
-   - [File organization](#61-file-organization)
-   - [Given steps](#62-given-steps)
-   - [When steps](#63-when-steps)
-   - [Then steps](#64-then-steps)
-   - [Helpers](#65-helpers)
-   - [Constants](#66-constants)
-   - [DataTable schemas](#67-datatable-schemas)
+  - [File organization](#61-file-organization)
+  - [Given steps](#62-given-steps)
+  - [When steps](#63-when-steps)
+  - [Then steps](#64-then-steps)
+  - [Helpers](#65-helpers)
+  - [Constants](#66-constants)
+  - [DataTable schemas](#67-datatable-schemas)
 7. [Playwright integration](#7-playwright-integration)
-   - [Page interactions](#71-page-interactions)
-   - [Locators and selectors](#72-locators-and-selectors)
-   - [Assertions](#73-assertions)
-   - [Accessibility scanning (axe-core)](#74-accessibility-scanning-axe-core)
+  - [Page interactions](#71-page-interactions)
+  - [Locators and selectors](#72-locators-and-selectors)
+  - [Assertions](#73-assertions)
+  - [Accessibility scanning (axe-core)](#74-accessibility-scanning-axe-core)
 8. [Support utilities](#8-support-utilities)
-   - [World class (GoatItWorld)](#81-world-class-goatitworld)
-   - [DataTable helpers](#82-datatable-helpers)
-   - [Format helpers](#83-format-helpers)
-   - [Table helpers](#84-table-helpers)
+  - [World class (GoatItWorld)](#81-world-class-goatitworld)
+  - [Navigation helpers](#82-navigation-helpers)
+  - [DataTable helpers](#83-datatable-helpers)
+  - [Format helpers](#84-format-helpers)
+  - [Table helpers](#85-table-helpers)
 9. [Sandbox management](#9-sandbox-management)
-   - [Docker compose setup](#91-docker-compose-setup)
-   - [MongoDB reset](#92-mongodb-reset)
-   - [Health check](#93-health-check)
+  - [Docker compose setup](#91-docker-compose-setup)
+  - [MongoDB reset](#92-mongodb-reset)
+  - [Health check](#93-health-check)
 10. [Adding new features (step-by-step)](#10-adding-new-features-step-by-step)
 11. [Naming conventions](#11-naming-conventions)
 12. [Common pitfalls](#12-common-pitfalls)
@@ -69,8 +71,12 @@ Location: `configs/cucumber/cucumber.json`
 ```json
 {
   "default": {
-    "paths": ["tests/acceptance/features/**/*.feature"],
-    "import": ["tests/acceptance/features/**/*.ts"],
+    "paths": [
+      "tests/acceptance/features/**/*.feature"
+    ],
+    "import": [
+      "tests/acceptance/features/**/*.ts"
+    ],
     "parallel": 4,
     "publish": false,
     "format": [
@@ -98,6 +104,7 @@ import type { GoatItWorld } from "#acceptance/features/support/types/world.types
 ### Reports
 
 Reports are generated in `tests/acceptance/reports/`:
+
 - `report.json` — Cucumber JSON report
 - `junit.xml` — JUnit XML report
 - `screenshots/` — Failure screenshots (one per failed scenario)
@@ -122,6 +129,12 @@ pnpm run test:acceptance:prepare
 # Run a specific feature file (skip build for fast iteration)
 pnpm run test:acceptance:skip-build tests/acceptance/features/home/home.feature
 
+# Run a specific scenario by line number
+pnpm run test:acceptance:skip-build tests/acceptance/features/home/home.feature:8
+
+# Run by scenario name
+pnpm run test:acceptance:skip-build --name "should display"
+
 # Run by tag
 pnpm run test:acceptance:skip-build --tags "@question-theme-creation"
 
@@ -130,9 +143,13 @@ pnpm run test:acceptance:skip-build --tags "@home or @questions"
 
 # Exclude tag
 pnpm run test:acceptance:skip-build --tags "not @accessibility"
+
+# Multiple tags (AND)
+pnpm run test:acceptance:skip-build --tags "@question-themes and @accessibility"
 ```
 
 **Prerequisites:**
+
 1. Docker must be running with the API sandbox: `docker compose -f docker/goat-it-api-sandbox/docker-compose.yml up -d`
 2. Playwright must be installed: `pnpm run test:acceptance:prepare`
 
@@ -144,21 +161,29 @@ pnpm run test:acceptance:skip-build --tags "not @accessibility"
 
 The hooks in `tests/acceptance/features/support/hooks.ts` manage the full test lifecycle:
 
-| Hook        | Timeout | What it does                                                                                           |
-|-------------|---------|--------------------------------------------------------------------------------------------------------|
-| `BeforeAll` | 360s    | Cleans screenshot directory, waits for API sandbox health check, starts Nuxt server via `createTest()` |
-| `Before`    | 60s     | Resets MongoDB sandbox data, creates a new Playwright page and browser context                         |
-| `After`     | —       | Takes screenshot on failure (attached to report), closes browser context                               |
-| `AfterAll`  | —       | Tears down Nuxt server                                                                                 |
+| Hook        | Timeout | What it does                                                                                        |
+|-------------|---------|-----------------------------------------------------------------------------------------------------|
+| `BeforeAll` | 360s    | Cleans screenshot directory (worker 0 only), waits for API sandbox health check, starts Nuxt server |
+| `Before`    | 60s     | Resets MongoDB sandbox data, creates a new Playwright page and browser context                      |
+| `After`     | —       | Takes screenshot on failure (attached to report), closes browser context                            |
+| `AfterAll`  | —       | Tears down Nuxt server                                                                              |
 
 ```ts
 // hooks.ts — simplified structure
-const { beforeEach, afterEach, afterAll, beforeAll } = createTest({
+const rootDirectory = fileURLToPath(new URL("../../../..", import.meta.url));
+const workerId = getWorkerId();
+const sandboxBaseUrl = getSandboxBaseUrl();
+const {
+  beforeEach,
+  afterEach,
+  afterAll,
+  beforeAll
+} = createTest({
   runner: "cucumber",
   build: false,
   server: true,
   env: {
-    NUXT_GOAT_IT_API_BASE_URL: SANDBOX_BASE_URL,
+    NUXT_GOAT_IT_API_BASE_URL: sandboxBaseUrl,
     NUXT_GOAT_IT_API_ADMIN_KEY: SANDBOX_ADMIN_KEY,
   },
   browserOptions: {
@@ -168,26 +193,34 @@ const { beforeEach, afterEach, afterAll, beforeAll } = createTest({
       ignoreDefaultArgs: ["--hide-scrollbars"],
     },
   },
+  rootDir: rootDirectory,
   nuxtConfig: {
     buildDir: SHARED_BUILD_DIR,
+    nitro: {
+      output: {
+        dir: path.resolve(rootDirectory, SHARED_BUILD_DIR, "output"),
+      },
+    },
     i18n: { defaultLocale: ACCEPTANCE_TESTS_DEFAULT_LOCALE },
   },
 });
 
 BeforeAll({ timeout: BEFORE_ALL_TIMEOUT }, async () => {
-  removeAcceptanceTestsReportsScreenshotsDirectory();
+  if (workerId === 0) {
+    removeAcceptanceTestsReportsScreenshotsDirectory();
+  }
   await waitForSandboxHealthCheck();
   await beforeAll();
 });
 
-Before({ timeout: BEFORE_TIMEOUT }, async function(this: GoatItWorld) {
+Before({ timeout: BEFORE_TIMEOUT }, async function (this: GoatItWorld) {
   resetSandboxData();
   beforeEach();
   this.page = await createPage();
   this.context = this.page.context();
 });
 
-After(async function(this: GoatItWorld, scenario) {
+After(async function (this: GoatItWorld, scenario) {
   if (scenario.result?.status === Status.FAILED) {
     await generateScreenshotOnScenarioFailure(this, scenario);
   }
@@ -195,7 +228,9 @@ After(async function(this: GoatItWorld, scenario) {
   await this.context.close();
 });
 
-AfterAll(async () => { await afterAll(); });
+AfterAll(async () => {
+  await afterAll();
+});
 ```
 
 ### World class
@@ -205,14 +240,19 @@ AfterAll(async () => { await afterAll(); });
 class GoatItWorld extends World {
   public page!: Page;
   public context!: BrowserContext;
+  public openedTabPage?: Page;
 }
 ```
+
+- **`page`** — The main Playwright `Page` instance for the scenario
+- **`context`** — The Playwright `BrowserContext` wrapping the page
+- **`openedTabPage`** — Set when a step opens a new browser tab (e.g., clicking a link with `target="_blank"`). Used by steps that need to assert content on the newly opened tab.
 
 Every step function must type `this` as `GoatItWorld`:
 
 ```ts
-Given(/^the user is on (?<page>.+) page$/u, async function(this: GoatItWorld, page: string) {
-  // this.page and this.context are available
+Given(/^the user is on (?<page>.+) page$/u, async function (this: GoatItWorld, page: string) {
+  // this.page, this.context, and this.openedTabPage are available
 });
 ```
 
@@ -223,9 +263,10 @@ Given(/^the user is on (?<page>.+) page$/u, async function(this: GoatItWorld, pa
 | `BEFORE_ALL_TIMEOUT`              | `360_000` (360s)                   | `tests/acceptance/features/support/constants/hooks.constants.ts` |
 | `BEFORE_TIMEOUT`                  | `60_000` (60s)                     | `tests/acceptance/features/support/constants/hooks.constants.ts` |
 | `ACCEPTANCE_TESTS_DEFAULT_LOCALE` | `"en"`                             | `tests/acceptance/features/support/constants/hooks.constants.ts` |
-| `SANDBOX_BASE_URL`                | `"http://localhost:9090"`          | `tests/acceptance/features/support/constants/hooks.constants.ts` |
+| `SANDBOX_BASE_PORT`               | `9090`                             | `tests/acceptance/features/support/constants/hooks.constants.ts` |
 | `SANDBOX_ADMIN_KEY`               | `"test_admin_api_key_for_testing"` | `tests/acceptance/features/support/constants/hooks.constants.ts` |
 | `SANDBOX_MONGODB_DATABASE_NAME`   | `"goat-it-sandbox"`                | `tests/acceptance/features/support/constants/hooks.constants.ts` |
+| `SHARED_BUILD_DIR`                | `".nuxt/test"`                     | `tests/acceptance/features/support/constants/hooks.constants.ts` |
 
 ---
 
@@ -258,11 +299,20 @@ tests/acceptance/features/
 │       └── question-theme-translations.feature
 └── questions/
     ├── questions.feature
-    └── questions-accessibility.feature
+    ├── questions-accessibility.feature
+    ├── creation/
+    │   ├── question-creation.feature
+    │   └── question-creation-accessibility.feature
+    └── modification/
+        ├── question-modification.feature
+        ├── question-modification-accessibility.feature
+        └── question-theme-assignment/
+            └── question-theme-assignment.feature
 ```
 
 - **Top-level pages** get a directory: `home/`, `question-themes/`, `questions/`
-- **Actions** within a domain get subdirectories (optional): `creation/`, `modification/`, `archive/`, `filter/`, `translation/`
+- **Actions** within a domain get subdirectories: `creation/`, `modification/`, `archive/`, `filter/`, `translation/`
+- **Sub-features** within an action get nested subdirectories: `modification/question-theme-assignment/`
 - **Accessibility tests** are always in separate `*-accessibility.feature` files alongside the main feature
 
 ### 5.2 Tags
@@ -270,19 +320,29 @@ tests/acceptance/features/
 Tags are placed at the top of the feature file, before the `Feature:` keyword:
 
 **For page-level features** (no action subdirectory):
+
 ```gherkin
 @home-page
 Feature: 🏡 Home Page
 ```
 
 **For action-specific features** (within an action subdirectory):
+
 ```gherkin
 @question-themes @question-theme-creation
 Feature: 🎨 Question Theme Creation
 ```
 
+**For sub-feature features** (nested action subdirectory):
+
+```gherkin
+@questions @question-theme-assignment-modification
+Feature: 🏷️ Question Theme Assignment Modification
+```
+
 - **Page-level**: Single tag (`@<domain>-page`, e.g., `@home-page`, `@questions-page`)
 - **Action-specific**: Domain tag + action tag (`@<domain>` + `@<domain>-<action>`, e.g., `@question-themes` + `@question-theme-creation`)
+- **Sub-feature**: Domain tag + sub-feature-action tag (e.g., `@questions` + `@question-theme-assignment-modification`)
 - Tags use `kebab-case`
 - Tags enable selective test runs: `--tags "@question-theme-creation"`
 
@@ -298,47 +358,109 @@ Scenario: 🎨 Question Theme is created and displayed in the list
 
 ```gherkin
 Scenario Outline: 🎨 Question Theme Creation Form should not contain accessibility issues in light <View> mode
-  Given the user is on question-themes page
-  When the user clicks on the button with name "Create a new theme"
-  Then the page should not contain accessibility issues in <View> mode
+Given the user is on question-themes page
+When the user clicks on the button with name "Create a new theme"
+Then the page should not contain accessibility issues in <View> mode
 
-  Examples:
-    | View    |
-    | desktop |
-    | mobile  |
+Examples:
+| View    |
+| desktop |
+| mobile  |
 ```
 
-### 5.4 DataTables
+### 5.4 Background blocks
+
+**Use `Background:` when 3 or more scenarios in a feature share identical Given/When/Then steps at the beginning.** Background steps run before every scenario in the feature, reducing duplication.
+
+**Rule:** Only use `Background:` when at least 3 scenarios share the exact same initial steps. For 2 scenarios, repeat the steps in each — the duplication is acceptable and keeps scenarios self-contained.
+
+**Example — `question-modification.feature`:**
+
+```gherkin
+@questions @question-modification
+Feature: ❓ Question Modification
+
+  Background:
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label     | slug      | description       | aliases |
+      | Geography | geography | A geography theme | geo     |
+    And the user is on questions page
+    And a question exists with the following attributes:
+      | statement                      | answer | difficulty | category | themes    | sourceUrls                      |
+      | What is the capital of France? | Paris  | easy       | Trivia   | Geography | https://en.wikipedia.org/France |
+    When the user clicks on the button with name "Edit the question"
+    Then the heading with exact name "Edit question" should be visible
+
+  Scenario: ❓ Question statement is modified and success toast is displayed
+    When the user fills the input with name "Statement*" with text "What is the capital of Germany?"
+    And the user fills the input with name "Answer*" with text "Berlin"
+    And the user clicks on the button with name "Edit"
+    Then the toast with exact text "Question modified successfully" should be visible
+
+  Scenario: ❓ Question modification modal opens with pre-filled fields
+    Then the button with name "Edit" should be enabled
+
+  Scenario: ❓ Question modification modal closes without saving when clicking close button in the modal header
+    When the user clicks on the close button in the modal header
+    Then the heading with exact name "Edit question" should be hidden
+```
+
+**Key points:**
+
+- Background can contain `Given`, `And`, `When`, and `Then` steps
+- Scenarios in a file with a Background can add more `Given`/`And` steps after the Background using `And` as their first keyword
+- Keep Background steps minimal — only include what truly applies to ALL scenarios in the feature
+- If a scenario needs extra preconditions beyond the Background, add them using `And` at the start of that scenario
+
+**Without Background (fewer than 3 scenarios sharing steps):**
+
+```gherkin
+Scenario: ❓ Question is created and displayed successfully
+Given the user is on question-themes page
+And a question theme exists with the following attributes:
+| label     | slug      | description       | aliases |
+| Geography | geography | A geography theme | geo     |
+And the user is on questions page
+When the user clicks on the button with name "Create a new question"
+...
+```
+
+### 5.5 DataTables
 
 DataTables pass structured data to steps. They are used for:
 
 **Form inputs:**
+
 ```gherkin
 When the user fills the question theme form with the following attributes:
-  | label                 | slug                  | description                    | aliases | color  |
-  | Acceptance Test Theme | acceptance-test-theme | A theme for acceptance testing | test    | FF5733 |
+| label                 | slug                  | description                    | aliases | color  |
+| Acceptance Test Theme | acceptance-test-theme | A theme for acceptance testing | test    | FF5733 |
 ```
 
 **Expected table data:**
+
 ```gherkin
 Then the question theme table should contain a row with the following attributes:
-  | label                 | slug                  | description                    | aliases | status |
-  | Acceptance Test Theme | acceptance-test-theme | A theme for acceptance testing | test    | Active |
+| label                 | slug                  | description                    | aliases | status |
+| Acceptance Test Theme | acceptance-test-theme | A theme for acceptance testing | test    | Active |
 ```
 
 **Validation errors:**
+
 ```gherkin
 Then the question theme form should display the following errors:
-  | field       | error                                             |
-  | Label       | Too small: expected string to have >=1 characters |
-  | Description | Too small: expected string to have >=1 characters |
+| field       | error                                             |
+| Label       | Too small: expected string to have >=1 characters |
+| Description | Too small: expected string to have >=1 characters |
 ```
 
 DataTable columns that may be empty use `zCoerceOptionalString()` in their Zod schema (see [Section 6.7](#67-datatable-schemas)).
 
-### 5.5 Accessibility features
+### 5.6 Accessibility features
 
 Every page and modal with a UI gets an accessibility feature file testing the WCAG compliance matrix:
+
 - Light mode + desktop viewport
 - Light mode + mobile viewport
 - Dark mode + desktop viewport
@@ -406,7 +528,7 @@ step-definitions/
 │   ├── navigation.when-steps.ts
 │   └── helpers/
 │       └── navigation.given-steps.helpers.ts
-├── question-theme/         # Domain-specific steps
+├── question-theme/         # Question theme domain steps
 │   ├── datatables/
 │   │   └── question-theme.datatables.schemas.ts
 │   ├── helpers/
@@ -415,6 +537,18 @@ step-definitions/
 │   ├── question-theme.given-steps.ts
 │   ├── question-theme.then-steps.ts
 │   └── question-theme.when-steps.ts
+├── question/               # Question domain steps
+│   ├── datatables/
+│   │   └── question.datatables.schemas.ts
+│   ├── helpers/
+│   │   ├── question.given-steps.helpers.ts
+│   │   └── question.when-steps.helpers.ts
+│   ├── question.given-steps.ts
+│   ├── question.then-steps.ts
+│   ├── question.when-steps.ts
+│   └── source-url-tag/     # Sub-feature step grouping
+│       ├── question-source-url-tag.then-steps.ts
+│       └── question-source-url-tag.when-steps.ts
 ├── text/                   # Text content steps
 │   ├── text.then-steps.ts
 │   └── text.when-steps.ts
@@ -429,7 +563,9 @@ Steps are split into **generic** (reusable across all domains) and **domain-spec
 | Category        | Domains                                                                                                        |
 |-----------------|----------------------------------------------------------------------------------------------------------------|
 | Generic         | `accessibility`, `color-mode`, `element`, `form`, `keyboard`, `locale`, `modal`, `navigation`, `text`, `toast` |
-| Domain-specific | `question-theme` (and future domains)                                                                          |
+| Domain-specific | `question-theme`, `question`                                                                                   |
+
+**Sub-feature step grouping:** When a domain has a distinct sub-feature with its own unique steps (e.g., source URL tag interactions within questions), those steps are grouped in a subdirectory: `step-definitions/question/source-url-tag/`. The naming follows `<domain>-<sub-feature>.<step-type>-steps.ts`.
 
 **Always check generic steps before writing new domain-specific ones.** Most UI interactions (clicking, typing, navigating, asserting visibility) are already covered by generic steps.
 
@@ -444,19 +580,16 @@ import type { DataTable } from "@cucumber/cucumber";
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
 
 // Simple navigation
-Given(/^the user is on (?<page>.+) page$/u, async function(this: GoatItWorld, page: string): Promise<void> {
+Given(/^the user is on (?<page>.+) page$/u, async function (this: GoatItWorld, page: string): Promise<void> {
   const pageName = page === "home" ? "" : page;
   await goOnPage(this, pageName);
 });
 
 // Creating test data via UI
-Given(
-  /^a question theme exists with the following attributes:$/u,
-  async function(this: GoatItWorld, dataTable: DataTable): Promise<void> {
-    const row = validateDataTableAndGetFirstRow(dataTable, QUESTION_THEME_FORM_ROW_SCHEMA);
-    await createQuestionThemeViaUi(this.page, row);
-  },
-);
+Given(/^a question exists with the following attributes:$/u, async function (this: GoatItWorld, dataTable: DataTable): Promise<void> {
+  const row = validateDataTableAndGetFirstRow(dataTable, QUESTION_FORM_ROW_SCHEMA);
+  await createQuestionViaUi(this.page, row);
+},);
 ```
 
 #### Key rules
@@ -477,22 +610,16 @@ import { expect } from "@playwright/test";
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
 
 // Filling a form input
-When(
-  /^the user fills the input with name "(?<name>[^"]*)" with text "(?<text>[^"]*)"$/u,
-  async function(this: GoatItWorld, name: string, text: string): Promise<void> {
-    const locator = this.page.getByRole("textbox", { name });
-    await expect(locator).toBeVisible();
-    await locator.fill(text);
-  },
-);
+When(/^the user fills the input with name "(?<name>[^"]*)" with text "(?<text>[^"]*)"$/u, async function (this: GoatItWorld, name: string, text: string): Promise<void> {
+  const locator = this.page.getByRole("textbox", { name });
+  await expect(locator).toBeVisible();
+  await locator.fill(text);
+},);
 
 // Using dynamic regex with role alternation
-When(
-  new RegExp(`^the user clicks on the (?<role>${ROLE_ALTERNATION_PATTERN}) with(?<exact> exact)? name "(?<name>[^"]*)"$`, "u"),
-  async function(this: GoatItWorld, role: LocatorRole, exact: string | undefined, name: string): Promise<void> {
-    await clickOnRoleWithText(this, role, name, exact !== undefined);
-  },
-);
+When(new RegExp(`^the user clicks on the (?<role>${ROLE_ALTERNATION_PATTERN}) with(?<exact> exact)? name "(?<name>[^"]*)"$`, "u"), async function (this: GoatItWorld, role: LocatorRole, exact: string | undefined, name: string): Promise<void> {
+  await clickOnRoleWithText(this, role, name, exact !== undefined);
+},);
 ```
 
 #### Key rules
@@ -513,22 +640,20 @@ import { expect } from "@playwright/test";
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
 
 // Visibility assertion with role
-Then(
-  new RegExp(`^the (?<role>${ROLE_ALTERNATION_PATTERN}) with(?<exact> exact)? name "(?<name>[^"]*)" should be visible$`, "u"),
-  async function(this: GoatItWorld, role: LocatorRole, exact: string | undefined, name: string): Promise<void> {
-    const locator = this.page.getByRole(role, { name, exact: exact !== undefined });
-    await expect(locator).toBeVisible();
-  },
-);
+Then(new RegExp(`^the (?<role>${ROLE_ALTERNATION_PATTERN}) with(?<exact> exact)? name "(?<name>[^"]*)" should be visible$`, "u"), async function (this: GoatItWorld, role: LocatorRole, exact: string | undefined, name: string): Promise<void> {
+  const locator = this.page.getByRole(role, {
+    name,
+    exact: exact !== undefined
+  });
+  await expect(locator).toBeVisible();
+},);
 
-// Toast assertion
-Then(
-  /^the toast with(?<exact> exact)? text "(?<text>[^"]*)" should be visible$/u,
-  async function(this: GoatItWorld, exact: string | undefined, text: string): Promise<void> {
-    const toast = this.page.getByText(text, { exact: exact !== undefined });
-    await expect(toast).toBeVisible();
-  },
-);
+// Toast assertion — scoped to Notifications region
+Then(/^the toast with(?<exact> exact)? text "(?<text>[^"]*)" should be visible$/u, async function (this: GoatItWorld, exact: string | undefined, text: string): Promise<void> {
+  const toastRegion = this.page.getByRole("region", { name: "Notifications" });
+  const toast = toastRegion.getByText(text, { exact: exact !== undefined });
+  await expect(toast).toBeVisible();
+},);
 ```
 
 #### Key rules
@@ -539,18 +664,27 @@ Then(
 
 ### 6.5 Helpers
 
-Complex step logic is extracted to helper files in a `helpers/` subdirectory:
+Complex step logic is extracted to helper files. There are two categories with distinct placement rules:
+
+#### Domain helpers (step-type-specific)
+
+Location: `step-definitions/<domain>/helpers/<domain>.<step-type>-steps.helpers.ts`
+
+**One file per step type** — helpers for Given steps go in `<domain>.given-steps.helpers.ts`, helpers for When steps go in `<domain>.when-steps.helpers.ts`. Never create a generic `<domain>.steps.helpers.ts` file.
 
 ```
 step-definitions/question-theme/
 ├── helpers/
 │   ├── question-theme.given-steps.helpers.ts    # Helpers for Given steps
 │   └── question-theme.when-steps.helpers.ts     # Helpers for When steps
+
+step-definitions/question/
+├── helpers/
+│   ├── question.given-steps.helpers.ts          # Helpers for Given steps
+│   └── question.when-steps.helpers.ts           # Helpers for When steps
 ```
 
-**Naming:** `<domain>.<step-type>-steps.helpers.ts`
-
-Helper functions receive the `Page`, `Locator`, or `GoatItWorld` as parameters — they never access `this` directly.
+Domain helper functions receive `Page`, `Locator`, or `GoatItWorld` as parameters — they never access `this` directly:
 
 ```ts
 // question-theme.given-steps.helpers.ts
@@ -589,6 +723,55 @@ async function fillQuestionThemeForm(dialog: Locator, row: QuestionThemeFormRow)
 }
 ```
 
+#### Cross-step shared helpers
+
+Location: `tests/acceptance/features/support/helpers/`
+
+Functions used across **multiple step types or domains** live in `support/helpers/`. These are never placed in domain-specific helper directories.
+
+```ts
+// support/helpers/navigation.helpers.ts
+import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
+
+async function waitForPageLoadStates(world: GoatItWorld): Promise<void> {
+  await world.page.waitForLoadState("load");
+}
+
+async function waitForPageUrl(world: GoatItWorld, pageUrl: string): Promise<void> {
+  await world.page.waitForURL(currentUrl => new URL(currentUrl).pathname === pageUrl);
+}
+
+export { waitForPageLoadStates, waitForPageUrl };
+```
+
+These cross-step helpers are consumed by domain-specific helpers:
+
+```ts
+// navigation/helpers/navigation.given-steps.helpers.ts
+import { url } from "@nuxt/test-utils/e2e";
+
+import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
+import { waitForPageLoadStates } from "#acceptance/features/support/helpers/navigation.helpers.ts";
+
+async function goOnPage(world: GoatItWorld, pageName: string): Promise<void> {
+  const pagePath = pageName === "" ? "/" : `/${pageName}`;
+  const pageUrl = url(pagePath);
+  await world.page.goto(pageUrl);
+  await waitForPageLoadStates(world);
+}
+
+export { goOnPage };
+```
+
+#### Helper placement decision tree
+
+| Scenario                                         | Placement                                                           |
+|--------------------------------------------------|---------------------------------------------------------------------|
+| Used only by Given steps in one domain           | `step-definitions/<domain>/helpers/<domain>.given-steps.helpers.ts` |
+| Used only by When steps in one domain            | `step-definitions/<domain>/helpers/<domain>.when-steps.helpers.ts`  |
+| Used by both Given AND When steps in same domain | Move to `support/helpers/`                                          |
+| Used across multiple domains                     | Move to `support/helpers/`                                          |
+
 ### 6.6 Constants
 
 Shared regex patterns and other constants live in `<domain>.steps.constants.ts`:
@@ -596,8 +779,17 @@ Shared regex patterns and other constants live in `<domain>.steps.constants.ts`:
 ```ts
 // element.steps.constants.ts
 const VALID_LOCATOR_ROLES: ReadonlySet<string> = new Set([
-  "button", "img", "heading", "navigation", "link",
-  "region", "paragraph", "tab", "alertdialog", "dialog", "progressbar",
+  "button",
+  "img",
+  "heading",
+  "navigation",
+  "link",
+  "region",
+  "paragraph",
+  "tab",
+  "alertdialog",
+  "dialog",
+  "progressbar",
 ]);
 
 const ROLE_ALTERNATION_PATTERN = [...VALID_LOCATOR_ROLES].join("|");
@@ -672,11 +864,25 @@ await this.page.getByRole("heading", { name: "Section" }).scrollIntoViewIfNeeded
 await this.page.getByRole("button", { name: "Actions" }).hover();
 
 // Viewport resize
-await this.page.setViewportSize({ width: 1920, height: 800 });
+await this.page.setViewportSize({
+  width: 1920,
+  height: 800
+});
 
 // Wait for load
 await this.page.waitForLoadState("load");
 await this.page.waitForLoadState("networkidle");
+
+// Wait for URL change
+await this.page.waitForURL(currentUrl => new URL(currentUrl).pathname === "/questions");
+
+// Open new tab (via context event)
+const [openedTabPage] = await Promise.all([
+  this.context.waitForEvent("page"),
+  tagLink.click(),
+]);
+await openedTabPage.waitForLoadState();
+this.openedTabPage = openedTabPage;
 ```
 
 ### 7.2 Locators and selectors
@@ -693,6 +899,7 @@ await this.page.waitForLoadState("networkidle");
    this.page.getByRole("listbox");
    this.page.getByRole("option", { name: "English" });
    this.page.getByRole("switch", { name: "Switch to dark mode" });
+   this.page.getByRole("region", { name: "Notifications" });
    ```
 
 2. **`getByTestId()`** — When role-based selection is ambiguous:
@@ -700,6 +907,7 @@ await this.page.waitForLoadState("networkidle");
    this.page.getByTestId("locale-select");
    this.page.getByTestId("question-theme-form-label-field");
    dialog.getByTestId("default-modal-footer-primary-button");
+   dialog.getByTestId("question-source-urls-input");
    ```
 
 3. **`getByText()`** — For text content assertions:
@@ -773,18 +981,37 @@ Location: `tests/acceptance/features/support/types/world.types.ts`
 class GoatItWorld extends World {
   public page!: Page;
   public context!: BrowserContext;
+  public openedTabPage?: Page;
 }
 ```
 
 Every step function must use `this: GoatItWorld` as its first parameter type:
 
 ```ts
-Given(/^.../u, async function(this: GoatItWorld, ...args): Promise<void> {
+Given(/^.../u, async function (this: GoatItWorld, ...args): Promise<void> {
   // this.page is available here
 });
 ```
 
-### 8.2 DataTable helpers
+### 8.2 Navigation helpers
+
+Location: `tests/acceptance/features/support/helpers/navigation.helpers.ts`
+
+These are **cross-step** helpers used by multiple step-definition domains:
+
+| Function                         | Purpose                                             |
+|----------------------------------|-----------------------------------------------------|
+| `waitForPageLoadStates(world)`   | Waits for the page `"load"` state                   |
+| `waitForPageUrl(world, pageUrl)` | Waits until the page pathname matches the given URL |
+
+```ts
+import { waitForPageLoadStates, waitForPageUrl } from "#acceptance/features/support/helpers/navigation.helpers.ts";
+
+await waitForPageLoadStates(world);
+await waitForPageUrl(world, "/questions");
+```
+
+### 8.3 DataTable helpers
 
 Location: `tests/acceptance/features/support/helpers/datatable.helpers.ts`
 
@@ -800,7 +1027,7 @@ const row = validateDataTableAndGetFirstRow(dataTable, QUESTION_THEME_FORM_ROW_S
 const rows = validateDataTableAndGetRows(dataTable, QUESTION_THEME_TABLE_ROW_SCHEMA);
 ```
 
-### 8.3 Format helpers
+### 8.4 Format helpers
 
 Location: `tests/acceptance/features/support/helpers/format.helpers.ts`
 
@@ -808,7 +1035,7 @@ Location: `tests/acceptance/features/support/helpers/format.helpers.ts`
 |--------------------------|-----------------------------------------------------------------------|
 | `prettyStringify(value)` | `JSON.stringify` with 2-space indent — used for readable error output |
 
-### 8.4 Table helpers
+### 8.5 Table helpers
 
 Location: `tests/acceptance/features/support/helpers/table.helpers.ts`
 
@@ -843,13 +1070,14 @@ Each worker targets its own sandbox instance at `http://localhost:<9090 + worker
 
 ### 9.2 MongoDB reset
 
-Before each scenario, the `Before` hook calls `resetSandboxData()` which runs a `mongosh` command via `docker compose ... exec` against the `mongodb` service to execute `db.dropDatabase()` for the sandbox database. This ensures each test starts with a clean state.
+Before each scenario, the `Before` hook calls `resetSandboxData()` which runs a `mongosh` command via `docker compose ... exec` against the worker's MongoDB container (`goat-it-api-sandbox-mongodb-<workerId>`) to execute `db.dropDatabase()` for the sandbox database. This ensures each test starts with a clean state.
 
 The reset uses `execSync` with a timeout of `RESET_SANDBOX_DATA_TIMEOUT_IN_MS` (10s).
 
 ### 9.3 Health check
 
-The `BeforeAll` hook calls `waitForSandboxHealthCheck()` which polls `http://localhost:9090/health` with:
+The `BeforeAll` hook calls `waitForSandboxHealthCheck()` which polls `http://localhost:<9090 + workerId>/health` with:
+
 - Max retries: `SANDBOX_HEALTH_CHECK_MAX_RETRIES` (10)
 - Interval: `SANDBOX_HEALTH_CHECK_INTERVAL_IN_MS` (2000ms)
 
@@ -860,41 +1088,43 @@ If the sandbox is not healthy after all retries, the test suite fails immediatel
 ## 10. Adding new features (step-by-step)
 
 1. **Identify the domain and action.** Determine where the feature file belongs:
-   - **Page-level** (no action): `tests/acceptance/features/<domain>/<feature-name>.feature`
-   - **Action-specific**: `tests/acceptance/features/<domain>/<action>/<feature-name>.feature`
+  - **Page-level** (no action): `tests/acceptance/features/<domain>/<feature-name>.feature`
+  - **Action-specific**: `tests/acceptance/features/<domain>/<action>/<feature-name>.feature`
+  - **Sub-feature**: `tests/acceptance/features/<domain>/<action>/<sub-feature>/<feature-name>.feature`
 
 2. **Check existing generic steps.** Scan the generic step definitions to see what's already available:
 
    | Domain          | Available steps                                                                                         |
-   |-----------------|---------------------------------------------------------------------------------------------------------|
+      |-----------------|---------------------------------------------------------------------------------------------------------|
    | `navigation`    | Given: navigate to page. When: reload page. Then: assert current page.                                  |
    | `element`       | When: click, hover, scroll (by role + name). Then: visible, hidden, disabled, enabled (by role + name). |
    | `form`          | When: fill input, clear input (by accessible name).                                                     |
    | `keyboard`      | When: press any key.                                                                                    |
    | `text`          | When: click on text. Then: text visible/hidden.                                                         |
-   | `toast`         | Then: toast with text visible.                                                                          |
+   | `toast`         | Then: toast with text visible (scoped to Notifications region).                                         |
    | `modal`         | When: close modal (header button or footer button).                                                     |
    | `locale`        | When: switch locale. Then: locale completion status.                                                    |
    | `color-mode`    | When: switch to dark mode.                                                                              |
    | `accessibility` | Then: page has no accessibility issues (desktop/mobile).                                                |
 
-3. **Write the feature file.** Create it in the correct directory with proper tags, emoji-prefixed Feature/Scenario titles, and DataTables.
+3. **Write the feature file.** Create it in the correct directory with proper tags, emoji-prefixed Feature/Scenario titles, and DataTables. Consider using `Background:` if 3+ scenarios share identical initial steps.
 
 4. **Write the accessibility feature file.** Create a `*-accessibility.feature` with Scenario Outlines for the light/dark + desktop/mobile matrix.
 
 5. **Create domain-specific step definitions** (only for steps not covered by generic ones):
-   - `<domain>.given-steps.ts` — Setup / preconditions
-   - `<domain>.when-steps.ts` — User actions
-   - `<domain>.then-steps.ts` — Assertions
+  - `<domain>.given-steps.ts` — Setup / preconditions
+  - `<domain>.when-steps.ts` — User actions
+  - `<domain>.then-steps.ts` — Assertions
+  - `<domain>/<sub-feature>/<domain>-<sub-feature>.<step-type>-steps.ts` — Sub-feature steps
 
 6. **Create DataTable schemas** if the feature uses DataTables:
-   - `datatables/<domain>.datatables.schemas.ts`
-   - Use `z.strictObject()` + `zCoerceOptionalString()`
-   - Export schema and inferred type
+  - `datatables/<domain>.datatables.schemas.ts`
+  - Use `z.strictObject()` + `zCoerceOptionalString()`
+  - Export schema and inferred type
 
 7. **Extract helpers** for complex interaction sequences:
-   - `helpers/<domain>.given-steps.helpers.ts`
-   - `helpers/<domain>.when-steps.helpers.ts`
+  - Domain helpers: `helpers/<domain>.<step-type>-steps.helpers.ts` (one file per step type)
+  - Cross-step shared functions: `support/helpers/<name>.helpers.ts`
 
 8. **Run tests:**
    ```bash
@@ -905,20 +1135,22 @@ If the sandbox is not healthy after all retries, the test suite fails immediatel
 
 ## 11. Naming conventions
 
-| Element               | Convention                         | Example                                         |
-|-----------------------|------------------------------------|-------------------------------------------------|
-| Feature file          | `kebab-case.feature`               | `question-theme-creation.feature`               |
-| Accessibility feature | `*-accessibility.feature`          | `question-theme-creation-accessibility.feature` |
-| Feature directory     | `kebab-case/`                      | `question-themes/creation/`                     |
-| Feature title         | Emoji + description                | `Feature: 🎨 Question Theme Creation`           |
-| Scenario title        | Emoji + description                | `Scenario: 🎨 Question Theme is created...`     |
-| Tag                   | `@kebab-case`                      | `@question-theme-creation`                      |
-| Step definition file  | `<domain>.<type>-steps.ts`         | `navigation.given-steps.ts`                     |
-| Step helper file      | `<domain>.<type>-steps.helpers.ts` | `question-theme.given-steps.helpers.ts`         |
-| Step constants file   | `<domain>.steps.constants.ts`      | `element.steps.constants.ts`                    |
-| DataTable schema file | `<domain>.datatables.schemas.ts`   | `question-theme.datatables.schemas.ts`          |
-| Schema constant       | `UPPER_SNAKE_CASE`                 | `QUESTION_THEME_FORM_ROW_SCHEMA`                |
-| Schema type           | `PascalCase`                       | `QuestionThemeFormRow`                          |
+| Element               | Convention                                  | Example                                         |
+|-----------------------|---------------------------------------------|-------------------------------------------------|
+| Feature file          | `kebab-case.feature`                        | `question-theme-creation.feature`               |
+| Accessibility feature | `*-accessibility.feature`                   | `question-theme-creation-accessibility.feature` |
+| Feature directory     | `kebab-case/`                               | `question-themes/creation/`                     |
+| Feature title         | Emoji + description                         | `Feature: 🎨 Question Theme Creation`           |
+| Scenario title        | Emoji + description                         | `Scenario: 🎨 Question Theme is created...`     |
+| Tag                   | `@kebab-case`                               | `@question-theme-creation`                      |
+| Step definition file  | `<domain>.<type>-steps.ts`                  | `navigation.given-steps.ts`                     |
+| Sub-feature steps     | `<domain>-<sub>.<type>-steps.ts`            | `question-source-url-tag.when-steps.ts`         |
+| Step helper file      | `<domain>.<type>-steps.helpers.ts`          | `question-theme.given-steps.helpers.ts`         |
+| Cross-step helper     | `<name>.helpers.ts` (in `support/helpers/`) | `navigation.helpers.ts`                         |
+| Step constants file   | `<domain>.steps.constants.ts`               | `element.steps.constants.ts`                    |
+| DataTable schema file | `<domain>.datatables.schemas.ts`            | `question-theme.datatables.schemas.ts`          |
+| Schema constant       | `UPPER_SNAKE_CASE`                          | `QUESTION_THEME_FORM_ROW_SCHEMA`                |
+| Schema type           | `PascalCase`                                | `QuestionThemeFormRow`                          |
 
 ---
 
@@ -967,10 +1199,12 @@ Every step function must explicitly type `this`:
 
 ```ts
 // BAD — this.page is untyped
-Given(/^.../u, async function(page) { ... });
+Given(/^.../u, async function (page) { ...
+});
 
 // GOOD
-Given(/^.../u, async function(this: GoatItWorld, page: string) { ... });
+Given(/^.../u, async function (this: GoatItWorld, page: string) { ...
+});
 ```
 
 ### Missing `/u` flag on regex patterns
@@ -994,10 +1228,12 @@ Check the generic steps table in [Section 10](#10-adding-new-features-step-by-st
 ```ts
 // BAD
 import { strict as assert } from "node:assert";
+
 assert.strictEqual(text, "expected");
 
 // GOOD
 import { expect } from "@playwright/test";
+
 await expect(locator).toHaveText("expected");
 ```
 
@@ -1021,3 +1257,18 @@ for (const row of rows) {
   await expect(errorText).toBeVisible();
 }
 ```
+
+### Creating a generic `<domain>.steps.helpers.ts` file
+
+Never create a catch-all helpers file. Always split by step type:
+
+```ts
+// BAD — do not create
+helpers / question - theme.steps.helpers.ts
+
+// GOOD — one file per step type
+helpers / question - theme.given - steps.helpers.ts
+helpers / question - theme.when - steps.helpers.ts
+```
+
+If a helper is needed by multiple step types within the same domain, move it to `support/helpers/`.
