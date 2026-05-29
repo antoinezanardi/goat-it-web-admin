@@ -101,7 +101,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
-    "@commitlint/config-conventional": "^21.0.1",
+    "@commitlint/config-conventional": "^21.0.2",
     "@cucumber/cucumber": "^12.9.0",
     "@eslint/config-inspector": "^3.0.4",
     "@faker-js/faker": "^10.4.0",
@@ -129,7 +129,7 @@
     "@vue/test-utils": "^2.4.10",
     "@vueuse/core": "^14.3.0",
     "@vueuse/nuxt": "^14.3.0",
-    "commitlint": "^21.0.1",
+    "commitlint": "^21.0.2",
     "cross-env": "^10.1.0",
     "eslint": "^10.4.0",
     "eslint-plugin-oxlint": "^1.67.0",
