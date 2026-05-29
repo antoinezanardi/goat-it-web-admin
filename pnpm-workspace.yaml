@@ -6,3 +6,4 @@ allowBuilds:
 
 supportedArchitectures: os=linux,darwin cpu=x64,arm64
 libc: glibc,musl
+minimumReleaseAge: 0s
