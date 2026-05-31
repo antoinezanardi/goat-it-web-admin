@@ -5,6 +5,8 @@ import { getThemeLocalizedLabel } from "~/composables/domain/question-theme/help
 defineProps<QuestionThemesListProperties>();
 
 const { locale, t } = useI18n();
+
+const missingThemeTranslation = computed<string>(() => t("questions.missingThemeTranslation"));
 </script>
 
 <template>
@@ -14,7 +16,7 @@ const { locale, t } = useI18n();
     <UTooltip
       v-for="assignment in themes"
       :key="assignment.theme.id"
-      :text="getThemeLocalizedLabel(assignment.theme, locale, t('questions.missingThemeTranslation'))"
+      :text="getThemeLocalizedLabel(assignment.theme, locale, missingThemeTranslation)"
     >
       <QuestionThemeIcon
         :color="assignment.theme.color"

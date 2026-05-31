@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 import { createFakeQuestionThemeAssignment } from "~~/tests/unit/utils/faketories/questions/entity/question-theme-assignment/question-theme-assignment.entity.faketory";
+import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import type { QuestionThemeIcon, UTooltip } from "#components";
@@ -15,8 +16,8 @@ describe("QuestionThemesList Component", () => {
   let wrapper: VueWrapper;
   const defaultQuestionThemesListProperties: QuestionThemesListProperties = {
     themes: [
-      createFakeQuestionThemeAssignment({ theme: createFakeQuestionTheme({ slug: "geography", color: "#FF0000" }) }),
-      createFakeQuestionThemeAssignment({ theme: createFakeQuestionTheme({ slug: "history", color: "#00FF00" }) }),
+      createFakeQuestionThemeAssignment({ theme: createFakeQuestionTheme({ slug: "geography", color: "#FF0000", label: createFakeLocalizedText({ en: "Geography" }) }) }),
+      createFakeQuestionThemeAssignment({ theme: createFakeQuestionTheme({ slug: "history", color: "#00FF00", label: createFakeLocalizedText({ en: "History" }) }) }),
     ],
   };
 
@@ -79,7 +80,7 @@ describe("QuestionThemesList Component", () => {
     it("should pass the theme localized label as text to the tooltip when a theme assignment is rendered.", () => {
       const tooltips = wrapper.findAllComponents<typeof UTooltip>({ name: "UTooltip" });
 
-      expect(tooltips[0]?.props("text")).toBeTruthy();
+      expect(tooltips[0]?.props("text")).toBe("Geography");
     });
   });
 });
