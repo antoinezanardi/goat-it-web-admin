@@ -14,6 +14,8 @@ const requiredFieldsReference = toRef(() => props.requiredFields);
 const { completedCount, totalCount, isFullyTranslated } = useTranslationCompleteness(requiredFieldsReference);
 const strokeDashoffset = computed<number>(() => TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE * (1 - completedCount.value / totalCount));
 
+const completenessIcon = computed<string>(() => (isFullyTranslated.value ? "i-lucide-globe-check" : "i-lucide-globe"));
+
 const ringColor = computed<string>(() => {
   if (isFullyTranslated.value) {
     return "var(--ui-color-success-500)";
@@ -64,7 +66,7 @@ const ringColor = computed<string>(() => {
 
       <UIcon
         class="-translate-x-1/2 -translate-y-1/2 absolute left-1/2 size-4 top-1/2"
-        name="i-lucide-globe"
+        :name="completenessIcon"
       />
     </button>
 

@@ -103,6 +103,20 @@ describe("QuestionCategorySelector Component", () => {
       expect(select.props("modelValue")).toBe("trivia");
     });
 
+    it("should not pass an icon to the select component when no category is selected.", () => {
+      const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
+
+      expect(select.props("icon")).toBeUndefined();
+    });
+
+    it("should pass the selected category icon to the select component when a category is selected.", async() => {
+      wrapper = await mountQuestionCategorySelectorComponent({ props: { modelValue: "trivia" } });
+
+      const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
+
+      expect(select.props("icon")).toBe("i-lucide-lightbulb");
+    });
+
     describe("Emits", () => {
       it("should emit update:modelValue when the select value changes.", () => {
         const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });

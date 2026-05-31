@@ -6,7 +6,7 @@ import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question
 import { createFakeQuestionThemeAssignment } from "~~/tests/unit/utils/faketories/questions/entity/question-theme-assignment/question-theme-assignment.entity.faketory";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import type { QuestionThemeIcon } from "#components";
+import type { QuestionThemeIcon, UTooltip } from "#components";
 import { QuestionThemesList } from "#components";
 
 import type { QuestionThemesListProperties } from "~/components/domain/question/QuestionThemesList/question-themes-list.types";
@@ -54,10 +54,10 @@ describe("QuestionThemesList Component", () => {
       expect(icon.props("color")).toBe("#FF0000");
     });
 
-    it("should pass the size of 24 to the QuestionThemeIcon when a theme assignment is rendered.", () => {
+    it("should pass the size of 16 to the QuestionThemeIcon when a theme assignment is rendered.", () => {
       const icon = wrapper.findComponent<typeof QuestionThemeIcon>("[data-testid='question-theme-icon-geography']");
 
-      expect(icon.props("size")).toBe(24);
+      expect(icon.props("size")).toBe(16);
     });
 
     it("should render no QuestionThemeIcon when themes array is empty.", async() => {
@@ -66,6 +66,20 @@ describe("QuestionThemesList Component", () => {
       const icons = wrapper.findAllComponents<typeof QuestionThemeIcon>("[data-testid^='question-theme-icon-']");
 
       expect(icons).toHaveLength(0);
+    });
+  });
+
+  describe("Tooltips", () => {
+    it("should render a UTooltip for each theme assignment when themes are provided.", () => {
+      const tooltips = wrapper.findAllComponents<typeof UTooltip>({ name: "UTooltip" });
+
+      expect(tooltips).toHaveLength(2);
+    });
+
+    it("should pass the theme localized label as text to the tooltip when a theme assignment is rendered.", () => {
+      const tooltips = wrapper.findAllComponents<typeof UTooltip>({ name: "UTooltip" });
+
+      expect(tooltips[0]?.props("text")).toBeTruthy();
     });
   });
 });
