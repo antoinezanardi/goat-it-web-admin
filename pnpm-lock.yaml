@@ -111,8 +111,8 @@ importers:
         specifier: ^64.0.0
         version: 64.0.0(eslint@10.4.1(jiti@2.7.0))
       fuse.js:
-        specifier: ^7.3.0
-        version: 7.3.0
+        specifier: ^7.4.0
+        version: 7.4.0
       happy-dom:
         specifier: ^20.9.0
         version: 20.9.0
@@ -5415,6 +5415,10 @@ packages:
 
   fuse.js@7.3.0:
     resolution: {integrity: sha512-plz8RVjfcDedTGfVngWH1jmJvBvAwi1v2jecfDerbEnMcmOYUEEwKFTHbNoCiYyzaK2Ws8lABkTCcRSqCY1q4w==}
+    engines: {node: '>=10'}
+
+  fuse.js@7.4.0:
+    resolution: {integrity: sha512-3UqmoSFwzX1sNB1YSk+Co0EdH29XCW2p9g48OAiy93cjKqzuABsqw2VIgSN3CmsT/wo6pIJ3F0Jxeiiby8rhIQ==}
     engines: {node: '>=10'}
 
   fzf@0.5.2:
@@ -13942,6 +13946,8 @@ snapshots:
   function-timeout@1.0.2: {}
 
   fuse.js@7.3.0: {}
+
+  fuse.js@7.4.0: {}
 
   fzf@0.5.2: {}
 
