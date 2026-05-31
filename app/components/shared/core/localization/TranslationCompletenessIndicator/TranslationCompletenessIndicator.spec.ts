@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
+import type { UIcon } from "#components";
 import { TranslationCompletenessIndicator } from "#components";
 
 import type { TranslationCompletenessIndicatorProperties } from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-indicator.types";
@@ -101,6 +102,38 @@ describe("TranslationCompletenessIndicator Component", () => {
       const progressCircle = wrapper.find("circle[stroke-linecap='round']");
 
       expect(progressCircle.attributes("stroke-dashoffset")).toBe(expected);
+    });
+  });
+
+  describe("Completeness Icon", () => {
+    it("should render the globe-check icon when all translations are complete.", async() => {
+      wrapper = await mountTranslationCompletenessIndicatorComponent({
+        props: { requiredFields: [fullyTranslatedField] },
+      });
+
+      const icon = wrapper.findComponent<typeof UIcon>({ name: "UIcon" });
+
+      expect(icon.props("name")).toBe("i-lucide-globe-check");
+    });
+
+    it("should render the globe icon when translations are not complete.", async() => {
+      wrapper = await mountTranslationCompletenessIndicatorComponent({
+        props: { requiredFields: [threeCompleteField] },
+      });
+
+      const icon = wrapper.findComponent<typeof UIcon>({ name: "UIcon" });
+
+      expect(icon.props("name")).toBe("i-lucide-globe");
+    });
+
+    it("should render the globe icon when no translations are complete.", async() => {
+      wrapper = await mountTranslationCompletenessIndicatorComponent({
+        props: { requiredFields: [noneCompleteField] },
+      });
+
+      const icon = wrapper.findComponent<typeof UIcon>({ name: "UIcon" });
+
+      expect(icon.props("name")).toBe("i-lucide-globe");
     });
   });
 

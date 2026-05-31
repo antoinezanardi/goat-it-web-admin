@@ -12,7 +12,7 @@ const { adaptedColor } = useHexColor(colorReference);
 
 <template>
   <div
-    class="border-2 inline-flex items-center justify-center p-1.5 question-theme-icon-container rounded-full"
+    class="border-2 inline-flex items-center justify-center p-1 question-theme-icon-container rounded-full"
     :data-testid="`question-theme-icon-container-${slug}`"
     :style="{ 'borderColor': adaptedColor, 'color': adaptedColor }"
   >

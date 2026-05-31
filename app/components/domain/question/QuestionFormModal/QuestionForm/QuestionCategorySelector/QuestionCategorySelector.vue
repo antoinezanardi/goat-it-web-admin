@@ -5,7 +5,7 @@ import { QUESTION_CATEGORIES } from "@goat-it/schemas/question";
 import type { QuestionCategorySelectorEmits, QuestionCategorySelectorItem, QuestionCategorySelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCategorySelector/question-category-selector.types";
 import { getQuestionCategoryUiMetadata } from "~/composables/domain/question/helpers/question.helpers";
 
-defineProps<QuestionCategorySelectorProperties>();
+const props = defineProps<QuestionCategorySelectorProperties>();
 const emit = defineEmits<QuestionCategorySelectorEmits>();
 
 const { t } = useI18n();
@@ -20,6 +20,13 @@ const selectItems = computed<QuestionCategorySelectorItem[]>(() => QUESTION_CATE
   };
 }));
 
+const selectedIcon = computed<string | undefined>(() => {
+  if (!props.modelValue) {
+    return;
+  }
+  return getQuestionCategoryUiMetadata(props.modelValue).icon;
+});
+
 function onUpdateModelValue(value: QuestionCategory): void {
   emit("update:modelValue", value);
 }
@@ -28,6 +35,7 @@ function onUpdateModelValue(value: QuestionCategory): void {
 <template>
   <USelect
     data-testid="question-category-selector"
+    :icon="selectedIcon"
     :items="selectItems"
     :model-value="modelValue"
     :placeholder="$t('questions.selectCategory')"

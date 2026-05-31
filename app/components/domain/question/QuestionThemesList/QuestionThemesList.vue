@@ -1,20 +1,29 @@
 <script setup lang="ts">
 import type { QuestionThemesListProperties } from "~/components/domain/question/QuestionThemesList/question-themes-list.types";
+import { getThemeLocalizedLabel } from "~/composables/domain/question-theme/helpers/question-theme.helpers";
 
 defineProps<QuestionThemesListProperties>();
+
+const { locale, t } = useI18n();
+
+const missingThemeTranslation = computed<string>(() => t("questions.missingThemeTranslation"));
 </script>
 
 <template>
   <div
-    class="flex flex-wrap gap-1.5 items-center justify-center question-themes-list"
+    class="flex flex-nowrap gap-1.5 items-center justify-center question-themes-list"
   >
-    <QuestionThemeIcon
+    <UTooltip
       v-for="assignment in themes"
       :key="assignment.theme.id"
-      :color="assignment.theme.color"
-      :data-testid="`question-theme-icon-${assignment.theme.slug}`"
-      :size="24"
-      :slug="assignment.theme.slug"
-    />
+      :text="getThemeLocalizedLabel(assignment.theme, locale, missingThemeTranslation)"
+    >
+      <QuestionThemeIcon
+        :color="assignment.theme.color"
+        :data-testid="`question-theme-icon-${assignment.theme.slug}`"
+        :size="16"
+        :slug="assignment.theme.slug"
+      />
+    </UTooltip>
   </div>
 </template>

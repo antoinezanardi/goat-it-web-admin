@@ -34,10 +34,10 @@
       "sources": "Referenzen"
     },
     "category": {
-      "trivia": "Allgemeinwissen",
+      "trivia": "Wissen & kuriose Fakten",
       "lexicon": "Lexikon",
-      "riddle": "Rätsel",
-      "explanation": "Erklärung"
+      "riddle": "Rätsel & Geheimnisse",
+      "explanation": "Wie & warum?"
     },
     "difficulty": {
       "easy": "Einfach",

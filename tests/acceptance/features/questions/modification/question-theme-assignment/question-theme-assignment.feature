@@ -14,7 +14,7 @@ Feature: 🏷️ Question Theme Assignment Modification
     And the user is on questions page
     And a question exists with the following attributes:
       | statement                      | answer | difficulty | category | themes    | sourceUrls                      |
-      | What is the capital of France? | Paris  | easy       | Trivia   | Geography | https://en.wikipedia.org/France |
+      | What is the capital of France? | Paris  | easy       | Knowledge & fun facts | Geography | https://en.wikipedia.org/France |
     When the user clicks on the button with name "Edit the question"
     Then the heading with exact name "Edit question" should be visible
     When the user adds the theme "History" in the question form theme selector
@@ -28,7 +28,7 @@ Feature: 🏷️ Question Theme Assignment Modification
     And the user is on questions page
     And a question exists with the following attributes:
       | statement                      | answer | difficulty | category | themes             | sourceUrls                      |
-      | What is the capital of France? | Paris  | easy       | Trivia   | Geography, History | https://en.wikipedia.org/France |
+      | What is the capital of France? | Paris  | easy       | Knowledge & fun facts | Geography, History | https://en.wikipedia.org/France |
     When the user clicks on the button with name "Edit the question"
     Then the heading with exact name "Edit question" should be visible
     When the user removes the theme "History" from the question form selected themes
@@ -39,7 +39,7 @@ Feature: 🏷️ Question Theme Assignment Modification
     And the user is on questions page
     And a question exists with the following attributes:
       | statement                      | answer | difficulty | category | themes    | sourceUrls                      |
-      | What is the capital of France? | Paris  | easy       | Trivia   | Geography | https://en.wikipedia.org/France |
+      | What is the capital of France? | Paris  | easy       | Knowledge & fun facts | Geography | https://en.wikipedia.org/France |
     When the user clicks on the button with name "Edit the question"
     Then the heading with exact name "Edit question" should be visible
     And the remove button for the theme "Geography" should be hidden in the question form theme selector
@@ -51,7 +51,7 @@ Feature: 🏷️ Question Theme Assignment Modification
     And the user is on questions page
     And a question exists with the following attributes:
       | statement                      | answer | difficulty | category | themes             | sourceUrls                      |
-      | What is the capital of France? | Paris  | easy       | Trivia   | Geography, History | https://en.wikipedia.org/France |
+      | What is the capital of France? | Paris  | easy       | Knowledge & fun facts | Geography, History | https://en.wikipedia.org/France |
     When the user clicks on the button with name "Edit the question"
     Then the heading with exact name "Edit question" should be visible
     And the remove button for the theme "Geography" should be disabled in the question form theme selector
@@ -63,7 +63,7 @@ Feature: 🏷️ Question Theme Assignment Modification
     And the user is on questions page
     And a question exists with the following attributes:
       | statement                      | answer | difficulty | category | themes             | sourceUrls                      |
-      | What is the capital of France? | Paris  | easy       | Trivia   | Geography, History | https://en.wikipedia.org/France |
+      | What is the capital of France? | Paris  | easy       | Knowledge & fun facts | Geography, History | https://en.wikipedia.org/France |
     When the user clicks on the button with name "Edit the question"
     Then the heading with exact name "Edit question" should be visible
     When the user sets the theme "History" as primary in the question form theme selector
@@ -73,7 +73,7 @@ Feature: 🏷️ Question Theme Assignment Modification
     And the user is on questions page
     And a question exists with the following attributes:
       | statement                      | answer | difficulty | category | themes    | sourceUrls                      |
-      | What is the capital of France? | Paris  | easy       | Trivia   | Geography | https://en.wikipedia.org/France |
+      | What is the capital of France? | Paris  | easy       | Knowledge & fun facts | Geography | https://en.wikipedia.org/France |
     When the user clicks on the button with name "Edit the question"
     Then the heading with exact name "Edit question" should be visible
     When the user toggles hint for the theme "Geography" in the question form theme selector

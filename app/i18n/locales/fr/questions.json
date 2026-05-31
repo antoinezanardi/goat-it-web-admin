@@ -48,10 +48,10 @@
       "translations": "Traductions"
     },
     "category": {
-      "trivia": "Culture générale",
+      "trivia": "Savoir & faits insolites",
       "lexicon": "Lexique",
-      "riddle": "Énigme",
-      "explanation": "Explication"
+      "riddle": "Mystères & devinettes",
+      "explanation": "Comment & pourquoi ?"
     },
     "difficulty": {
       "easy": "Facile",

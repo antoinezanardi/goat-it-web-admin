@@ -9,7 +9,7 @@ Feature: ❓ Question Modification Form Accessibility
     And the user is on questions page
     And a question exists with the following attributes:
       | statement                      | answer | difficulty | category | themes    | sourceUrls                      |
-      | What is the capital of France? | Paris  | easy       | Trivia   | Geography | https://en.wikipedia.org/France |
+      | What is the capital of France? | Paris  | easy       | Knowledge & fun facts | Geography | https://en.wikipedia.org/France |
     When the user clicks on the button with name "Edit the question"
     Then the heading with exact name "Edit question" should be visible
     And the page should not contain accessibility issues in <View> mode
@@ -27,7 +27,7 @@ Feature: ❓ Question Modification Form Accessibility
     And the user is on questions page
     And a question exists with the following attributes:
       | statement                      | answer | difficulty | category | themes    | sourceUrls                      |
-      | What is the capital of France? | Paris  | easy       | Trivia   | Geography | https://en.wikipedia.org/France |
+      | What is the capital of France? | Paris  | easy       | Knowledge & fun facts | Geography | https://en.wikipedia.org/France |
     When the user switches to dark mode
     And the user clicks on the button with name "Edit the question"
     Then the heading with exact name "Edit question" should be visible
