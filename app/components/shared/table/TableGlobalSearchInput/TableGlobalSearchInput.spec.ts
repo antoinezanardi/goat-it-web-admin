@@ -33,7 +33,7 @@ describe("TableGlobalSearchInput Component", () => {
     it("should render the input with the default placeholder from i18n when no placeholder prop is provided.", () => {
       const input = wrapper.findComponent<typeof UInput>({ name: "UInput" });
 
-      expect(input.props("placeholder")).toBe("common.table.filter.placeholder");
+      expect(input.props("placeholder")).toBe("common.table.search.placeholder");
     });
 
     it("should render the input with the custom placeholder when a placeholder prop is provided.", async() => {
@@ -87,7 +87,7 @@ describe("TableGlobalSearchInput Component", () => {
 
       const clearButton = wrapper.find("[data-testid='table-global-search-clear-button']");
 
-      expect(clearButton.attributes("aria-label")).toBe("common.table.filter.clear");
+      expect(clearButton.attributes("aria-label")).toBe("common.table.search.clear");
     });
 
     it("should wrap the clear button in a tooltip with the correct i18n key when modelValue is not empty.", async() => {
@@ -95,7 +95,7 @@ describe("TableGlobalSearchInput Component", () => {
 
       const tooltip = wrapper.findComponent<typeof UTooltip>({ name: "UTooltip" });
 
-      expect(tooltip.props("text")).toBe("common.table.filter.clear");
+      expect(tooltip.props("text")).toBe("common.table.search.clear");
     });
 
     it("should emit update:modelValue with empty string when the clear button is clicked.", async() => {

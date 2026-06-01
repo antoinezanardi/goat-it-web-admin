@@ -16,7 +16,7 @@
       "noData": "Keine Daten",
       "noResults": "Keine Ergebnisse gefunden",
       "actions": "Aktionen",
-      "filter": {
+      "search": {
         "placeholder": "Filtern...",
         "clear": "Filter löschen"
       }

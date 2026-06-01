@@ -9,9 +9,9 @@ const emit = defineEmits<TableGlobalSearchInputEmits>();
 
 const { t } = useI18n();
 
-const resolvedPlaceholder = computed<string>(() => props.placeholder ?? t("common.table.filter.placeholder"));
+const resolvedPlaceholder = computed<string>(() => props.placeholder ?? t("common.table.search.placeholder"));
 
-const clearLabel = computed<string>(() => t("common.table.filter.clear"));
+const clearLabel = computed<string>(() => t("common.table.search.clear"));
 
 function onClickClearFilterButton(): void {
   emit("update:modelValue", "");
