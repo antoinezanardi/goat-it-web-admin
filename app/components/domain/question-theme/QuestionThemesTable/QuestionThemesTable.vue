@@ -150,6 +150,10 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
         </div>
       </template>
 
+      <template #loading>
+        <LoadingSpinner :label="$t('questionThemes.fetching')"/>
+      </template>
+
       <template #empty>
         <TableEmptyState
           data-testid="question-themes-table-empty-state"

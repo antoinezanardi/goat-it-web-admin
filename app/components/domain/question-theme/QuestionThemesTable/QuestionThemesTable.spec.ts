@@ -65,6 +65,29 @@ describe("QuestionThemesTable Component", () => {
 
       expect(table.props("loading")).toBe(true);
     });
+
+    it("should render loading spinner with fetching label inside the table when the store is fetching.", async() => {
+      questionThemesStore.isFetchingQuestionThemes = true;
+      wrapper = await mountQuestionThemesTableComponent();
+      const spinner = wrapper.find("#loading-spinner");
+
+      expect(spinner.exists()).toBeTruthy();
+    });
+
+    it("should render loading spinner label with translated fetching text when the store is fetching.", async() => {
+      questionThemesStore.isFetchingQuestionThemes = true;
+      wrapper = await mountQuestionThemesTableComponent();
+      const spinnerLabel = wrapper.find("#loading-spinner-label");
+
+      expect(spinnerLabel.text()).toBe("questionThemes.fetching");
+    });
+
+    it("should not render loading spinner when the store is not fetching.", () => {
+      questionThemesStore.isFetchingQuestionThemes = false;
+      const spinner = wrapper.find("#loading-spinner");
+
+      expect(spinner.exists()).toBeFalsy();
+    });
   });
 
   describe("Columns", () => {
