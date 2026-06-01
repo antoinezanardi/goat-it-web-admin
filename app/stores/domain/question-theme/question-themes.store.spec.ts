@@ -1,3 +1,4 @@
+import type { AdminFindQuestionThemesQueryDto } from "@goat-it/schemas/question-theme";
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import type { vi } from "vitest";
 import { beforeEach, describe, expect, it } from "vitest";
@@ -169,12 +170,21 @@ describe("useQuestionThemesStore", () => {
   });
 
   describe("fetchAndStoreQuestionThemes", () => {
-    it("should call fetchQuestionThemes when called.", async() => {
+    it("should call fetchQuestionThemes without query when called without params.", async() => {
       const store = useQuestionThemesStore();
 
       await store.fetchAndStoreQuestionThemes();
 
-      expect(fetchAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith();
+      expect(fetchAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith(undefined);
+    });
+
+    it("should call fetchQuestionThemes with query when called with query params.", async() => {
+      const store = useQuestionThemesStore();
+      const query: AdminFindQuestionThemesQueryDto = { "status": "active", "sort-by": "slug", "sort-order": "asc" };
+
+      await store.fetchAndStoreQuestionThemes(query);
+
+      expect(fetchAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith(query);
     });
 
     it("should update questionThemes with the fetched themes when fetchQuestionThemes resolves with data.", async() => {
