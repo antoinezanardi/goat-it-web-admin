@@ -3,13 +3,14 @@ import type { TableColumn } from "@nuxt/ui";
 
 import type { QuestionsTableEmits, QuestionsTableGlobalFilterOptions } from "~/components/domain/question/QuestionsTable/questions-table.types";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
+import { TABLE_UI } from "~/utils/constants/table/table.constants.ts";
 
 const emit = defineEmits<QuestionsTableEmits>();
 
 const { t, locale: currentLocale } = useI18n();
 
 const questionsStore = useQuestionsStore();
-const { questions } = storeToRefs(questionsStore);
+const { questions, isFetchingQuestions } = storeToRefs(questionsStore);
 
 const columns = computed<TableColumn<Question>[]>(() => [
   createTableColumn<Question>({ accessorKey: "category", header: t("questions.fields.category"), isCentered: true }),
@@ -59,8 +60,10 @@ function onStartEditFromQuestionsTableActions(id: string): void {
       :data="questions"
       data-testid="questions-table-data"
       :global-filter-options="globalFilterOptions"
+      :loading="isFetchingQuestions"
       sticky
       :tabindex="0"
+      :ui="TABLE_UI"
     >
       <template #category-cell="{ row }">
         <QuestionCategoryBadge
@@ -111,6 +114,12 @@ function onStartEditFromQuestionsTableActions(id: string): void {
             :question="row.original"
             @start-edit="onStartEditFromQuestionsTableActions"
           />
+        </div>
+      </template>
+
+      <template #loading>
+        <div class="animate-fade-slide-up-in">
+          <LoadingSpinner :label="$t('questions.fetching')"/>
         </div>
       </template>
 

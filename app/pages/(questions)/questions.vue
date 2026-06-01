@@ -8,7 +8,7 @@ import { QUESTION_ICON } from "~/composables/domain/question/question.constants"
 import { QUESTIONS_PAGE_ORDER, QUESTIONS_PAGE_TITLE_KEY } from "~/pages/(questions)/questions.constants";
 
 const questionsStore = useQuestionsStore();
-const { isFetchingQuestions, isCreatingQuestion, isModifyingQuestion, isCreateQuestionSuccess, isModifyQuestionSuccess } = storeToRefs(questionsStore);
+const { isCreatingQuestion, isModifyingQuestion, isCreateQuestionSuccess, isModifyQuestionSuccess } = storeToRefs(questionsStore);
 const { t } = useI18n();
 
 const isQuestionFormModalOpen = ref<boolean>(false);
@@ -82,23 +82,11 @@ definePageMeta({
     />
 
     <UContainer>
-      <Transition
-        mode="out-in"
-        name="fade-slide-up"
-      >
-        <LoadingSpinner
-          v-if="isFetchingQuestions"
-          id="questions-fetching-spinner"
-          :label="$t('questions.fetching')"
-        />
-
-        <QuestionsTable
-          v-else
-          id="questions-table"
-          @start-create="onStartCreateFromQuestionsTable"
-          @start-edit="onStartEditFromQuestionsTable"
-        />
-      </Transition>
+      <QuestionsTable
+        id="questions-table"
+        @start-create="onStartCreateFromQuestionsTable"
+        @start-edit="onStartEditFromQuestionsTable"
+      />
     </UContainer>
 
     <LazyQuestionFormModal

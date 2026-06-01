@@ -43,6 +43,46 @@ describe("QuestionsTable Component", () => {
     expect(wrapper.exists()).toBeTruthy();
   });
 
+  describe("Loading state", () => {
+    it("should pass loading as false to the table component when the store is not fetching.", () => {
+      questionsStore.isFetchingQuestions = false;
+      const table = wrapper.getComponent({ name: "UTable" });
+
+      expect(table.props("loading")).toBe(false);
+    });
+
+    it("should pass loading as true to the table component when the store is fetching.", async() => {
+      questionsStore.isFetchingQuestions = true;
+      wrapper = await mountQuestionsTableComponent();
+      const table = wrapper.getComponent({ name: "UTable" });
+
+      expect(table.props("loading")).toBe(true);
+    });
+
+    it("should render loading spinner with fetching label inside the table when the store is fetching.", async() => {
+      questionsStore.isFetchingQuestions = true;
+      wrapper = await mountQuestionsTableComponent();
+      const spinner = wrapper.find("#loading-spinner");
+
+      expect(spinner.exists()).toBeTruthy();
+    });
+
+    it("should render loading spinner label with translated fetching text when the store is fetching.", async() => {
+      questionsStore.isFetchingQuestions = true;
+      wrapper = await mountQuestionsTableComponent();
+      const spinnerLabel = wrapper.find("#loading-spinner-label");
+
+      expect(spinnerLabel.text()).toBe("questions.fetching");
+    });
+
+    it("should not render loading spinner when the store is not fetching.", () => {
+      questionsStore.isFetchingQuestions = false;
+      const spinner = wrapper.find("#loading-spinner");
+
+      expect(spinner.exists()).toBeFalsy();
+    });
+  });
+
   describe("Columns", () => {
     it("should pass columns with translated headers to the table component when mounted.", () => {
       const table = wrapper.getComponent({ name: "UTable" });

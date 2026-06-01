@@ -4,6 +4,7 @@ import type { TableColumn } from "@nuxt/ui";
 
 import type { QuestionThemesTableEmits, QuestionThemesTableGlobalFilterOptions } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 import type { QuestionThemesTableFilters } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableHeader/question-themes-table-header.types";
+import { TABLE_UI } from "~/utils/constants/table/table.constants.ts";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
 
 const emit = defineEmits<QuestionThemesTableEmits>();
@@ -88,6 +89,7 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
       :loading="isFetchingQuestionThemes"
       sticky
       :tabindex="0"
+      :ui="TABLE_UI"
     >
       <template #icon-cell="{ row }">
         <QuestionThemeIcon
@@ -147,6 +149,12 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
             :question-theme="row.original"
             @start-edit="onStartEditFromQuestionThemesTableActions"
           />
+        </div>
+      </template>
+
+      <template #loading>
+        <div class="animate-fade-slide-up-in">
+          <LoadingSpinner :label="$t('questionThemes.fetching')"/>
         </div>
       </template>
 
