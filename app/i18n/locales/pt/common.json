@@ -19,6 +19,11 @@
       "search": {
         "placeholder": "Filtrar...",
         "clear": "Limpar filtro"
+      },
+      "filters": {
+        "label": "Filtros",
+        "all": "Todos",
+        "clearAll": "Limpar tudo"
       }
     },
     "form": {
