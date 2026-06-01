@@ -8,7 +8,7 @@ function onClickFromCreateQuestionButton(): void {
   emit("startCreate");
 }
 
-function onUpdateModelValueFromTableGlobalFilterInput(value: string): void {
+function onUpdateModelValueFromTableGlobalSearchInput(value: string): void {
   emit("update:searchTerm", value);
 }
 </script>
@@ -18,10 +18,10 @@ function onUpdateModelValueFromTableGlobalFilterInput(value: string): void {
     id="questions-table-header"
     class="flex items-center justify-between"
   >
-    <TableGlobalFilterInput
-      data-testid="questions-table-header-filter-input"
+    <TableGlobalSearchInput
+      data-testid="questions-table-header-search-input"
       :model-value="searchTerm"
-      @update:model-value="onUpdateModelValueFromTableGlobalFilterInput"
+      @update:model-value="onUpdateModelValueFromTableGlobalSearchInput"
     />
 
     <UButton

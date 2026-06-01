@@ -79,41 +79,10 @@ describe("Question Themes Page", () => {
   });
 
   describe("Loading state", () => {
-    it("should render the loading spinner when fetching is true.", async() => {
-      questionThemesStore.isFetchingQuestionThemes = true;
-      wrapper = await mountQuestionThemesPage();
-
-      const spinner = wrapper.find("#question-themes-fetching-spinner");
-
-      expect(spinner.exists()).toBeTruthy();
-    });
-
-    it("should not render the loading spinner when fetching is false.", async() => {
-      questionThemesStore.isFetchingQuestionThemes = false;
-      wrapper = await mountQuestionThemesPage();
-
-      const spinner = wrapper.find("#question-themes-fetching-spinner");
-
-      expect(spinner.exists()).toBeFalsy();
-    });
-
-    it("should render the question themes table when fetching is false.", async() => {
-      questionThemesStore.isFetchingQuestionThemes = false;
-
-      wrapper = await mountQuestionThemesPage();
-
+    it("should always render the question themes table when mounted.", () => {
       const table = wrapper.find("#question-themes-table");
 
       expect(table.exists()).toBeTruthy();
-    });
-
-    it("should not render the question themes table when fetching is true.", async() => {
-      questionThemesStore.isFetchingQuestionThemes = true;
-      wrapper = await mountQuestionThemesPage();
-
-      const table = wrapper.find("#question-themes-table");
-
-      expect(table.exists()).toBeFalsy();
     });
   });
 

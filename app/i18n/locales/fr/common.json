@@ -16,9 +16,14 @@
       "noData": "Aucune donnée",
       "noResults": "Aucun résultat trouvé",
       "actions": "Actions",
-      "filter": {
-        "placeholder": "Filtrer...",
-        "clear": "Effacer le filtre"
+      "search": {
+        "placeholder": "Rechercher...",
+        "clear": "Effacer la recherche"
+      },
+      "filters": {
+        "label": "Filtres",
+        "all": "Tous",
+        "clearAll": "Tout effacer"
       }
     },
     "form": {

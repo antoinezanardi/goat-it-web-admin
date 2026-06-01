@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { QuestionThemeStatus } from "@goat-it/schemas/question-theme";
+
 import type { QuestionThemesTableHeaderEmits, QuestionThemesTableHeaderProps } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableHeader/question-themes-table-header.types";
 
 defineProps<QuestionThemesTableHeaderProps>();
@@ -8,31 +10,52 @@ function onClickFromCreateQuestionThemeButton(): void {
   emit("startCreate");
 }
 
-function onUpdateModelValueFromTableGlobalFilterInput(value: string): void {
+function onUpdateModelValueFromTableGlobalSearchInput(value: string): void {
   emit("update:searchTerm", value);
+}
+
+function onUpdateStatusFilter(value: QuestionThemeStatus | undefined): void {
+  emit("update:filter", { status: value });
+}
+
+function onClearFilters(): void {
+  emit("clearFilters");
 }
 </script>
 
 <template>
   <div
     id="question-themes-table-header"
-    class="flex items-center justify-between"
+    class="flex flex-col gap-2"
   >
-    <TableGlobalFilterInput
-      data-testid="question-themes-table-header-filter-input"
-      :model-value="searchTerm"
-      @update:model-value="onUpdateModelValueFromTableGlobalFilterInput"
-    />
+    <div class="flex items-center justify-between">
+      <TableGlobalSearchInput
+        data-testid="question-themes-table-header-search-input"
+        :model-value="searchTerm"
+        @update:model-value="onUpdateModelValueFromTableGlobalSearchInput"
+      />
 
-    <UButton
-      id="create-question-theme-button"
-      :aria-label="$t('questionThemes.createNew')"
-      color="primary"
-      icon="i-lucide-circle-plus"
-      size="lg"
-      @click="onClickFromCreateQuestionThemeButton"
+      <UButton
+        id="create-question-theme-button"
+        :aria-label="$t('questionThemes.createNew')"
+        color="primary"
+        icon="i-lucide-circle-plus"
+        size="lg"
+        @click="onClickFromCreateQuestionThemeButton"
+      >
+        <span class="hidden sm:inline">{{ $t('questionThemes.createNew') }}</span>
+      </UButton>
+    </div>
+
+    <TableFiltersSection
+      :active-filter-count="activeFilterCount"
+      data-testid="question-themes-table-header-filters-section"
+      @clear="onClearFilters"
     >
-      <span class="hidden sm:inline">{{ $t('questionThemes.createNew') }}</span>
-    </UButton>
+      <QuestionThemesTableStatusFilter
+        :model-value="filters.status"
+        @update:model-value="onUpdateStatusFilter"
+      />
+    </TableFiltersSection>
   </div>
 </template>

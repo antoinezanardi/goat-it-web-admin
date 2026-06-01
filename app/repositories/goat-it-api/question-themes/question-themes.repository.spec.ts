@@ -26,12 +26,21 @@ describe(questionThemesRepository, () => {
   });
 
   describe("getAll", () => {
-    it("should call fetch with the correct endpoint when called.", async() => {
+    it("should call fetch with the correct endpoint and undefined query when called without params.", async() => {
       const repository = questionThemesRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue([]);
       await repository.getAll();
 
-      expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/question-themes");
+      expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/question-themes", { query: undefined });
+    });
+
+    it("should call fetch with the correct endpoint and query when called with query params.", async() => {
+      const repository = questionThemesRepository(fetchMock as $Fetch);
+      fetchMock.mockResolvedValue([]);
+      const query = { "sort-by": "slug" as const, "sort-order": "asc" as const, "status": "active" as const };
+      await repository.getAll(query);
+
+      expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/question-themes", { query });
     });
 
     it("should return question themes from fetch when called.", async() => {

@@ -40,3 +40,30 @@ Then(
     await expect(locator).toBeEnabled();
   },
 );
+
+Then(
+  /^the element with testid "(?<testid>[^"]+)" should be visible$/u,
+  async function(this: GoatItWorld, testid: string): Promise<void> {
+    const locator = this.page.getByTestId(testid);
+
+    await expect(locator).toBeVisible();
+  },
+);
+
+Then(
+  /^the element with testid "(?<testid>[^"]+)" should not be visible$/u,
+  async function(this: GoatItWorld, testid: string): Promise<void> {
+    const locator = this.page.getByTestId(testid);
+
+    await expect(locator).toBeHidden();
+  },
+);
+
+Then(
+  /^the element with testid "(?<testid>[^"]+)" should contain text "(?<text>[^"]+)"$/u,
+  async function(this: GoatItWorld, testid: string, text: string): Promise<void> {
+    const locator = this.page.getByTestId(testid);
+
+    await expect(locator).toContainText(text);
+  },
+);

@@ -11,7 +11,6 @@ const questionThemesStore = useQuestionThemesStore();
 const { t } = useI18n();
 
 const {
-  isFetchingQuestionThemes,
   isCreatingQuestionTheme,
   isCreateQuestionThemeSuccess,
   isModifyingQuestionTheme,
@@ -77,23 +76,11 @@ definePageMeta({
     />
 
     <UContainer>
-      <Transition
-        mode="out-in"
-        name="fade-slide-up"
-      >
-        <LoadingSpinner
-          v-if="isFetchingQuestionThemes"
-          id="question-themes-fetching-spinner"
-          :label="$t('questionThemes.fetching')"
-        />
-
-        <QuestionThemesTable
-          v-else
-          id="question-themes-table"
-          @start-create="onStartCreateFromQuestionThemesTable"
-          @start-edit="onStartEditFromQuestionThemesTable"
-        />
-      </Transition>
+      <QuestionThemesTable
+        id="question-themes-table"
+        @start-create="onStartCreateFromQuestionThemesTable"
+        @start-edit="onStartEditFromQuestionThemesTable"
+      />
     </UContainer>
 
     <LazyQuestionThemeFormModal
