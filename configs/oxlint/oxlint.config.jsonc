@@ -25,6 +25,7 @@
     "defineStore": "readonly",
     "document": "readonly",
     "fetch": "readonly",
+    "getQuery": "readonly",
     "getRouterParam": "readonly",
     "process": "readonly",
     "questionThemesRepository": "readonly",
