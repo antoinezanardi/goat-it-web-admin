@@ -3,6 +3,7 @@ import type { TableColumn } from "@nuxt/ui";
 
 import type { QuestionsTableEmits, QuestionsTableGlobalFilterOptions } from "~/components/domain/question/QuestionsTable/questions-table.types";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
+import { TABLE_UI } from "~/utils/constants/table/table.constants.ts";
 
 const emit = defineEmits<QuestionsTableEmits>();
 
@@ -62,6 +63,7 @@ function onStartEditFromQuestionsTableActions(id: string): void {
       :loading="isFetchingQuestions"
       sticky
       :tabindex="0"
+      :ui="TABLE_UI"
     >
       <template #category-cell="{ row }">
         <QuestionCategoryBadge
@@ -116,7 +118,9 @@ function onStartEditFromQuestionsTableActions(id: string): void {
       </template>
 
       <template #loading>
-        <LoadingSpinner :label="$t('questions.fetching')"/>
+        <div class="animate-fade-slide-up-in">
+          <LoadingSpinner :label="$t('questions.fetching')"/>
+        </div>
       </template>
 
       <template #empty>
