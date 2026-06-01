@@ -16,7 +16,6 @@ type FilterValues<T extends FilterDefinitions> = {
 
 type UseTableFiltersOptions<T extends FilterDefinitions> = {
   definitions: T;
-  onChange?: (values: FilterValues<T>) => void;
 };
 
 type UseTableFilters<T extends FilterDefinitions> = {
@@ -24,6 +23,7 @@ type UseTableFilters<T extends FilterDefinitions> = {
   activeFilterCount: ComputedRef<number>;
   hasActiveFilters: ComputedRef<boolean>;
   clearFilters: () => void;
+  setFilterValue: <K extends keyof T>(key: K, value: T[K]["default"]) => void;
 };
 
 export type {

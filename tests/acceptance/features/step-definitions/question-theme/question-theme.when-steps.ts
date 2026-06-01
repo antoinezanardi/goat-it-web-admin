@@ -36,7 +36,7 @@ When(
 );
 
 When(
-  /^the user expands|collapses the question themes filters$/u,
+  /^the user (?:expands|collapses) the question themes filters$/u,
   async function(this: GoatItWorld): Promise<void> {
     const toggleButton = this.page.getByRole("button", { name: "Filters" });
 

@@ -1,27 +1,31 @@
-<script setup lang="ts">
-import type { TableFilterSelectAllItem, TableFilterSelectEmits, TableFilterSelectOptionItem, TableFilterSelectProps } from "~/components/shared/table/TableFilterSelect/table-filter-select.types";
+<script setup lang="ts" generic="T extends string">
+import type { TableFilterSelectAllItem, TableFilterSelectEmits, TableFilterSelectItem, TableFilterSelectProps } from "~/components/shared/table/TableFilterSelect/table-filter-select.types";
 
-const props = withDefaults(defineProps<TableFilterSelectProps>(), {
+const props = withDefaults(defineProps<TableFilterSelectProps<T>>(), {
   icon: undefined,
   placeholder: undefined,
 });
 
-const emit = defineEmits<TableFilterSelectEmits>();
+const emit = defineEmits<TableFilterSelectEmits<T>>();
 
 const { t } = useI18n();
 
-const allOption = computed<TableFilterSelectAllItem>(() => ({
+const allItemsSelectOption = computed<TableFilterSelectAllItem>(() => ({
   label: props.placeholder ?? t("common.table.filters.all"),
   value: undefined,
 }));
 
-const allItems = computed<TableFilterSelectOptionItem[]>(() => [
-  allOption.value,
+const selectOptions = computed<(TableFilterSelectItem | TableFilterSelectAllItem)[]>(() => [
+  allItemsSelectOption.value,
   ...props.items,
 ]);
 
+const selectMenuModelValue = computed<string | undefined>(() => props.modelValue);
+
 function onUpdateModelValue(value: string | undefined): void {
-  emit("update:modelValue", value);
+  // Acceptable as USelectMenu emits string, but we only provide T values as items
+  // oxlint-disable-next-line no-unsafe-type-assertion
+  emit("update:modelValue", value as T | undefined);
 }
 </script>
 
@@ -34,9 +38,9 @@ function onUpdateModelValue(value: string | undefined): void {
 
     <USelectMenu
       :icon="icon"
-      :items="allItems"
-      :model-value="modelValue"
-      :placeholder="allOption.label"
+      :items="selectOptions"
+      :model-value="selectMenuModelValue"
+      :placeholder="allItemsSelectOption.label"
       value-key="value"
       @update:model-value="onUpdateModelValue"
     />

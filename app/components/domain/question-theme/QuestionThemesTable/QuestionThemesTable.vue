@@ -13,14 +13,15 @@ const { t, locale: currentLocale } = useI18n();
 const questionThemesStore = useQuestionThemesStore();
 const { questionThemes, isFetchingQuestionThemes } = storeToRefs(questionThemesStore);
 
-const { filters, activeFilterCount, clearFilters } = useTableFilters({
+const { filters, activeFilterCount, clearFilters, setFilterValue } = useTableFilters({
   definitions: {
     status: { default: undefined as QuestionThemesTableFilters["status"] },
   },
-  onChange: async values => {
-    const query = values.status === undefined ? undefined : { status: values.status } as AdminFindQuestionThemesQueryDto;
-    await questionThemesStore.fetchAndStoreQuestionThemes(query);
-  },
+});
+
+watch(() => filters.status.value, async status => {
+  const query = status === undefined ? undefined : { status } as AdminFindQuestionThemesQueryDto;
+  await questionThemesStore.fetchAndStoreQuestionThemes(query);
 });
 
 const columns = computed<TableColumn<QuestionTheme>[]>(() => [
@@ -56,9 +57,7 @@ function onStartCreateFromQuestionThemesTableHeader(): void {
 }
 
 function onUpdateFilterFromQuestionThemesTableHeader(updatedFilters: Partial<QuestionThemesTableFilters>): void {
-  if ("status" in updatedFilters) {
-    filters.status.value = updatedFilters.status;
-  }
+  setFilterValue("status", updatedFilters.status);
 }
 
 function onStartEditFromQuestionThemesTableActions(id: string): void {

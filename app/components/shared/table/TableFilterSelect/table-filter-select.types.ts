@@ -1,6 +1,6 @@
-type TableFilterSelectItem = {
+type TableFilterSelectItem<T extends string = string> = {
   label: string;
-  value: string;
+  value: T;
 };
 
 type TableFilterSelectAllItem = {
@@ -8,18 +8,18 @@ type TableFilterSelectAllItem = {
   value: undefined;
 };
 
-type TableFilterSelectOptionItem = TableFilterSelectItem | TableFilterSelectAllItem;
+type TableFilterSelectOptionItem<T extends string = string> = TableFilterSelectItem<T> | TableFilterSelectAllItem;
 
-type TableFilterSelectProperties = {
-  modelValue: string | undefined;
-  items: TableFilterSelectItem[];
+type TableFilterSelectProperties<T extends string = string> = {
+  modelValue: T | undefined;
+  items: TableFilterSelectItem<T>[];
   label: string;
   icon?: string;
   placeholder?: string;
 };
 
-type TableFilterSelectEmits = {
-  "update:modelValue": [value: string | undefined];
+type TableFilterSelectEmits<T extends string = string> = {
+  "update:modelValue": [value: T | undefined];
 };
 
 export type {

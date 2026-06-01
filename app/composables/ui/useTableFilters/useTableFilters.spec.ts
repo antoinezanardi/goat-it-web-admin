@@ -1,5 +1,4 @@
-import { nextTick } from "vue";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { useTableFilters } from "~/composables/ui/useTableFilters/useTableFilters";
 
@@ -157,68 +156,55 @@ describe(useTableFilters, () => {
     });
   });
 
-  describe("onChange", () => {
-    it("should call onChange with current filter values when a filter value changes.", async() => {
-      const onChange = vi.fn<(values: { status: string | undefined }) => void>();
-      const { filters } = useTableFilters({
+  describe("setFilterValue", () => {
+    it("should set the filter value for the given key when called.", () => {
+      const { filters, setFilterValue } = useTableFilters({
         definitions: {
           status: { default: undefined as string | undefined },
         },
-        onChange,
       });
 
-      filters.status.value = "active";
-      await nextTick();
+      setFilterValue("status", "active");
 
-      expect(onChange).toHaveBeenCalledExactlyOnceWith({ status: "active" });
+      expect(filters.status.value).toBe("active");
     });
 
-    it("should call onChange with all filter values when one of multiple filters changes.", async() => {
-      const onChange = vi.fn<(values: { status: string | undefined; category: string }) => void>();
-      const { filters } = useTableFilters({
+    it("should set the filter value for a specific key without affecting other filters when called.", () => {
+      const { filters, setFilterValue } = useTableFilters({
         definitions: {
           status: { default: undefined as string | undefined },
           category: { default: "all" },
         },
-        onChange,
       });
 
-      filters.status.value = "archived";
-      await nextTick();
+      setFilterValue("status", "archived");
 
-      expect(onChange).toHaveBeenCalledExactlyOnceWith({ status: "archived", category: "all" });
+      expect(filters.category.value).toBe("all");
     });
 
-    it("should call onChange when clearFilters resets the values.", async() => {
-      const onChange = vi.fn<(values: { status: string | undefined }) => void>();
-      const { filters, clearFilters } = useTableFilters({
+    it("should update activeFilterCount when setting a filter to a non-default value.", () => {
+      const { activeFilterCount, setFilterValue } = useTableFilters({
         definitions: {
           status: { default: undefined as string | undefined },
         },
-        onChange,
       });
 
-      filters.status.value = "active";
-      await nextTick();
-      onChange.mockClear();
+      setFilterValue("status", "active");
 
-      clearFilters();
-      await nextTick();
-
-      expect(onChange).toHaveBeenCalledExactlyOnceWith({ status: undefined });
+      expect(activeFilterCount.value).toBe(1);
     });
 
-    it("should not call onChange when no onChange callback is provided.", async() => {
-      const { filters } = useTableFilters({
+    it("should reset activeFilterCount when setting a filter back to its default value.", () => {
+      const { filters, activeFilterCount, setFilterValue } = useTableFilters({
         definitions: {
           status: { default: undefined as string | undefined },
         },
       });
 
       filters.status.value = "active";
-      await nextTick();
+      setFilterValue("status", undefined);
 
-      expect(filters.status.value).toBe("active");
+      expect(activeFilterCount.value).toBe(0);
     });
   });
 });

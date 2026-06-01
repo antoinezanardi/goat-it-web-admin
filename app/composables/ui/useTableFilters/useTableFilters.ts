@@ -1,7 +1,7 @@
-import type { FilterDefinitions, FilterRefs, FilterValues, UseTableFilters, UseTableFiltersOptions } from "~/composables/ui/useTableFilters/use-table-filters.types";
+import type { FilterDefinitions, FilterRefs, UseTableFilters, UseTableFiltersOptions } from "~/composables/ui/useTableFilters/use-table-filters.types";
 
 function useTableFilters<T extends FilterDefinitions>(options: UseTableFiltersOptions<T>): UseTableFilters<T> {
-  const { definitions, onChange } = options;
+  const { definitions } = options;
 
   const defaults = Object.entries(definitions).map(([key, definition]) => ({
     key,
@@ -22,22 +22,15 @@ function useTableFilters<T extends FilterDefinitions>(options: UseTableFiltersOp
     }
   }
 
-  if (onChange) {
-    watch(
-      () => defaults.map(({ key }) => filters[key as keyof typeof filters].value),
-      () => {
-        // Acceptable as Object.fromEntries loses key typing; the cast is safe because we build entries from the same keys
-        // oxlint-disable-next-line no-unsafe-type-assertion
-        const values = Object.fromEntries(defaults.map(({ key }) => [key, filters[key as keyof typeof filters].value])) as FilterValues<T>;
-        onChange(values);
-      },
-    );
+  function setFilterValue<K extends keyof T>(key: K, value: T[K]["default"]): void {
+    filters[key].value = value;
   }
   return {
     filters,
     activeFilterCount,
     hasActiveFilters,
     clearFilters,
+    setFilterValue,
   };
 }
 

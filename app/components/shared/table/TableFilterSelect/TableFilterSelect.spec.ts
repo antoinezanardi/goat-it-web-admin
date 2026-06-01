@@ -3,6 +3,7 @@ import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import { createFakeTableFilterSelectItem } from "~~/tests/unit/utils/faketories/shared/table-filter-select/table-filter-select-item.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 
 import { TableFilterSelect } from "#components";
@@ -12,8 +13,8 @@ import type { TableFilterSelectProps } from "~/components/shared/table/TableFilt
 
 describe("TableFilterSelect Component", () => {
   const defaultItems = [
-    { label: "Active", value: "active" },
-    { label: "Archived", value: "archived" },
+    createFakeTableFilterSelectItem({ label: "Active", value: "active" }),
+    createFakeTableFilterSelectItem({ label: "Archived", value: "archived" }),
   ];
 
   const defaultProps: TableFilterSelectProps = {

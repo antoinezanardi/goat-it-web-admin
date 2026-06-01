@@ -10,15 +10,13 @@ const emit = defineEmits<QuestionThemesTableStatusFilterEmits>();
 
 const { t } = useI18n();
 
-const statusItems = computed<TableFilterSelectItem[]>(() => QUESTION_THEME_STATUSES.map(status => ({
+const statusItems = computed<TableFilterSelectItem<QuestionThemeStatus>[]>(() => QUESTION_THEME_STATUSES.map(status => ({
   label: t(`questionThemes.status.${status}`),
   value: status,
 })));
 
-function onUpdateModelValue(value: string | undefined): void {
-  // Acceptable as TableFilterSelect emits string but we only provide QUESTION_THEME_STATUSES values as items
-  // oxlint-disable-next-line no-unsafe-type-assertion
-  emit("update:modelValue", value as QuestionThemeStatus | undefined);
+function onUpdateModelValue(value: QuestionThemeStatus | undefined): void {
+  emit("update:modelValue", value);
 }
 </script>
 

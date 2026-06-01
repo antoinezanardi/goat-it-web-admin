@@ -51,11 +51,11 @@ function onClickClear(): void {
           v-if="props.activeFilterCount > 0"
           :aria-label="t('common.table.filters.clearAll')"
           class="ml-auto"
-          color="neutral"
+          color="error"
           data-testid="table-filters-section-clear"
           icon="i-lucide-x"
           size="sm"
-          variant="ghost"
+          variant="outline"
           @click="onClickClear"
         >
           {{ t('common.table.filters.clearAll') }}
