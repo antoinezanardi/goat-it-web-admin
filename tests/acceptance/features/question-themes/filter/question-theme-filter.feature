@@ -7,7 +7,7 @@ Feature: 🎨 Question Theme Filter
       | label  | slug   | description | aliases |
       | Music  | music  | All music   | tunes   |
       | Cinema | cinema | All cinema  | movies  |
-    When the user fills the input with name "Filter..." with text "Music"
+    When the user fills the input with name "Search..." with text "Music"
     Then the question theme table should contain a row with the following attributes:
       | label |
       | Music |
@@ -21,7 +21,7 @@ Feature: 🎨 Question Theme Filter
       | label  | slug   | description | aliases |
       | Music  | music  | All music   | tunes   |
       | Cinema | cinema | All cinema  | movies  |
-    When the user fills the input with name "Filter..." with text "Musc"
+    When the user fills the input with name "Search..." with text "Musc"
     Then the question theme table should contain a row with the following attributes:
       | label |
       | Music |
@@ -34,7 +34,7 @@ Feature: 🎨 Question Theme Filter
     And a question theme exists with the following attributes:
       | label | slug  | description | aliases |
       | Music | music | All music   | tunes   |
-    When the user fills the input with name "Filter..." with text "nonexistent"
+    When the user fills the input with name "Search..." with text "nonexistent"
     Then the question theme table should not contain a row with the following attributes:
       | label |
       | Music |
@@ -46,11 +46,11 @@ Feature: 🎨 Question Theme Filter
       | label  | slug   | description | aliases |
       | Music  | music  | All music   | tunes   |
       | Cinema | cinema | All cinema  | movies  |
-    When the user fills the input with name "Filter..." with text "Music"
+    When the user fills the input with name "Search..." with text "Music"
     Then the question theme table should not contain a row with the following attributes:
       | label  |
       | Cinema |
-    When the user clicks on the button with name "Clear filter"
+    When the user clicks on the button with name "Clear search"
     Then the question theme table should contain a row with the following attributes:
       | label |
       | Music |
