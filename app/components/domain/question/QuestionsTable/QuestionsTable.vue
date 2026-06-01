@@ -9,7 +9,7 @@ const emit = defineEmits<QuestionsTableEmits>();
 const { t, locale: currentLocale } = useI18n();
 
 const questionsStore = useQuestionsStore();
-const { questions } = storeToRefs(questionsStore);
+const { questions, isFetchingQuestions } = storeToRefs(questionsStore);
 
 const columns = computed<TableColumn<Question>[]>(() => [
   createTableColumn<Question>({ accessorKey: "category", header: t("questions.fields.category"), isCentered: true }),
@@ -59,6 +59,7 @@ function onStartEditFromQuestionsTableActions(id: string): void {
       :data="questions"
       data-testid="questions-table-data"
       :global-filter-options="globalFilterOptions"
+      :loading="isFetchingQuestions"
       sticky
       :tabindex="0"
     >
@@ -112,6 +113,10 @@ function onStartEditFromQuestionsTableActions(id: string): void {
             @start-edit="onStartEditFromQuestionsTableActions"
           />
         </div>
+      </template>
+
+      <template #loading>
+        <LoadingSpinner :label="$t('questions.fetching')"/>
       </template>
 
       <template #empty>
