@@ -519,6 +519,37 @@ describe("QuestionThemesTable Component", () => {
 
       expect(searchTerm.value).toBe("updated from header");
     });
+
+    it("should pass active filter count of 0 to the table header when no filter is active.", () => {
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+
+      expect(header.props("activeFilterCount")).toBe(0);
+    });
+
+    it("should pass undefined status filter to the table header when no status filter is active.", () => {
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+
+      expect(header.props("statusFilter")).toBeUndefined();
+    });
+
+    it("should call fetchAndStoreQuestionThemes with status query when the header emits update:statusFilter.", async() => {
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+      getWrapperVm(header).$emit("update:statusFilter", "active");
+      await nextTick();
+
+      expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenCalledWith({ status: "active" });
+    });
+
+    it("should call fetchAndStoreQuestionThemes with undefined when the header emits clearFilters.", async() => {
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+      getWrapperVm(header).$emit("update:statusFilter", "active");
+      await nextTick();
+
+      getWrapperVm(header).$emit("clearFilters");
+      await nextTick();
+
+      expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenLastCalledWith(undefined);
+    });
   });
 
   describe("Global filter", () => {

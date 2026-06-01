@@ -40,3 +40,21 @@ When(
     await scrollToRoleWithText(this, role, name, exact !== undefined);
   },
 );
+
+When(
+  /^the user selects "(?<option>[^"]*)" from the element with testid "(?<testid>[^"]+)"$/u,
+  async function(this: GoatItWorld, option: string, testid: string): Promise<void> {
+    const container = this.page.getByTestId(testid);
+
+    await expect(container).toBeVisible();
+
+    const selectButton = container.getByRole("button");
+
+    await selectButton.click();
+
+    const listbox = this.page.getByRole("listbox");
+
+    await expect(listbox).toBeVisible();
+    await listbox.getByRole("option", { name: option }).click();
+  },
+);

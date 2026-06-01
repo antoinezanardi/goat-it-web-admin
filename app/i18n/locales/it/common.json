@@ -17,8 +17,8 @@
       "noResults": "Nessun risultato trovato",
       "actions": "Azioni",
       "search": {
-        "placeholder": "Filtra...",
-        "clear": "Cancella filtro"
+        "placeholder": "Cerca...",
+        "clear": "Cancella ricerca"
       },
       "filters": {
         "label": "Filtri",

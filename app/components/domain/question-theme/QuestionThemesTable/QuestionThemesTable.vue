@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { AdminFindQuestionThemesQueryDto } from "@goat-it/schemas/question-theme";
 import type { TableColumn } from "@nuxt/ui";
 
 import type { QuestionThemesTableEmits, QuestionThemesTableGlobalFilterOptions } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
@@ -10,6 +11,15 @@ const { t, locale: currentLocale } = useI18n();
 
 const questionThemesStore = useQuestionThemesStore();
 const { questionThemes } = storeToRefs(questionThemesStore);
+
+const { filters, activeFilterCount, clearFilters } = useTableFilters({
+  status: { default: undefined as string | undefined },
+});
+
+watch(() => filters.status.value, async statusValue => {
+  const query = statusValue === undefined ? undefined : { status: statusValue } as AdminFindQuestionThemesQueryDto;
+  await questionThemesStore.fetchAndStoreQuestionThemes(query);
+});
 
 const columns = computed<TableColumn<QuestionTheme>[]>(() => [
   createTableColumn<QuestionTheme>({ accessorKey: "icon", header: t("questionThemes.fields.icon"), isCentered: true }),
@@ -41,6 +51,10 @@ function onStartCreateFromQuestionThemesTableHeader(): void {
   emit("startCreate");
 }
 
+function onUpdateStatusFilterFromQuestionThemesTableHeader(value: string | undefined): void {
+  filters.status.value = value;
+}
+
 function onStartEditFromQuestionThemesTableActions(id: string): void {
   emit("startEdit", id);
 }
@@ -51,8 +65,12 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
     <template #header>
       <QuestionThemesTableHeader
         v-model:search-term="searchTerm"
+        :active-filter-count="activeFilterCount"
         data-testid="question-themes-table-header"
+        :status-filter="filters.status.value"
+        @clear-filters="clearFilters"
         @start-create="onStartCreateFromQuestionThemesTableHeader"
+        @update:status-filter="onUpdateStatusFilterFromQuestionThemesTableHeader"
       />
     </template>
 

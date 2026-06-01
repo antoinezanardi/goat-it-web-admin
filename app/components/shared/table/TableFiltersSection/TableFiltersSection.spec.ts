@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { TableFiltersSection } from "#components";
-import type { UBadge, UButton, UCollapsible } from "#components";
+import type { UBadge, UButton } from "#components";
 
 import type { TableFiltersSectionProps } from "~/components/shared/table/TableFiltersSection/table-filters-section.types";
 
@@ -36,7 +36,7 @@ describe("TableFiltersSection Component", () => {
     });
 
     it("should render the toggle button with a chevron-down icon when collapsed.", () => {
-      const toggleButton = wrapper.findComponent<typeof UButton>("[data-testid='table-filters-section-toggle']");
+      const toggleButton = wrapper.findComponent<typeof UButton>({ name: "UButton" });
 
       expect(toggleButton.props("icon")).toBe("i-lucide-chevron-down");
     });
@@ -44,7 +44,7 @@ describe("TableFiltersSection Component", () => {
     it("should render the toggle button with a chevron-up icon when expanded.", async() => {
       const toggleButton = wrapper.find("[data-testid='table-filters-section-toggle']");
       await toggleButton.trigger("click");
-      const button = wrapper.findComponent<typeof UButton>("[data-testid='table-filters-section-toggle']");
+      const button = wrapper.findComponent<typeof UButton>({ name: "UButton" });
 
       expect(button.props("icon")).toBe("i-lucide-chevron-up");
     });
@@ -64,10 +64,10 @@ describe("TableFiltersSection Component", () => {
   });
 
   describe("Collapsible area", () => {
-    it("should not render slot content when collapsed.", () => {
-      const collapsible = wrapper.findComponent<typeof UCollapsible>({ name: "UCollapsible" });
+    it("should be collapsed when rendered.", () => {
+      const collapsible = wrapper.find("[data-testid='table-filters-section']");
 
-      expect(collapsible.props("open")).toBe(false);
+      expect(collapsible.attributes("data-state")).toBe("closed");
     });
 
     it("should render slot content when expanded.", async() => {

@@ -15,23 +15,21 @@ const isExpanded = ref<boolean>(false);
 
 const toggleIcon = computed<string>(() => (isExpanded.value ? "i-lucide-chevron-up" : "i-lucide-chevron-down"));
 
-function onClickToggle(): void {
-  isExpanded.value = !isExpanded.value;
-}
-
 function onClickClear(): void {
   emit("clear");
 }
 </script>
 
 <template>
-  <div data-testid="table-filters-section">
+  <UCollapsible
+    v-model:open="isExpanded"
+    data-testid="table-filters-section"
+  >
     <UButton
       color="neutral"
       data-testid="table-filters-section-toggle"
       :icon="toggleIcon"
       variant="outline"
-      @click="onClickToggle"
     >
       {{ t('common.table.filters.label') }}
 
@@ -45,7 +43,7 @@ function onClickClear(): void {
       </UBadge>
     </UButton>
 
-    <UCollapsible :open="isExpanded">
+    <template #content>
       <div class="bg-elevated border border-default flex gap-3 items-center mt-2 p-3 rounded-lg">
         <slot/>
 
@@ -63,6 +61,6 @@ function onClickClear(): void {
           {{ t('common.table.filters.clearAll') }}
         </UButton>
       </div>
-    </UCollapsible>
-  </div>
+    </template>
+  </UCollapsible>
 </template>

@@ -11,28 +11,49 @@ function onClickFromCreateQuestionThemeButton(): void {
 function onUpdateModelValueFromTableGlobalSearchInput(value: string): void {
   emit("update:searchTerm", value);
 }
+
+function onUpdateStatusFilter(value: string | undefined): void {
+  emit("update:statusFilter", value);
+}
+
+function onClearFilters(): void {
+  emit("clearFilters");
+}
 </script>
 
 <template>
   <div
     id="question-themes-table-header"
-    class="flex items-center justify-between"
+    class="flex flex-col gap-2"
   >
-    <TableGlobalSearchInput
-      data-testid="question-themes-table-header-search-input"
-      :model-value="searchTerm"
-      @update:model-value="onUpdateModelValueFromTableGlobalSearchInput"
-    />
+    <div class="flex items-center justify-between">
+      <TableGlobalSearchInput
+        data-testid="question-themes-table-header-search-input"
+        :model-value="searchTerm"
+        @update:model-value="onUpdateModelValueFromTableGlobalSearchInput"
+      />
 
-    <UButton
-      id="create-question-theme-button"
-      :aria-label="$t('questionThemes.createNew')"
-      color="primary"
-      icon="i-lucide-circle-plus"
-      size="lg"
-      @click="onClickFromCreateQuestionThemeButton"
+      <UButton
+        id="create-question-theme-button"
+        :aria-label="$t('questionThemes.createNew')"
+        color="primary"
+        icon="i-lucide-circle-plus"
+        size="lg"
+        @click="onClickFromCreateQuestionThemeButton"
+      >
+        <span class="hidden sm:inline">{{ $t('questionThemes.createNew') }}</span>
+      </UButton>
+    </div>
+
+    <TableFiltersSection
+      :active-filter-count="activeFilterCount"
+      data-testid="question-themes-table-header-filters-section"
+      @clear="onClearFilters"
     >
-      <span class="hidden sm:inline">{{ $t('questionThemes.createNew') }}</span>
-    </UButton>
+      <QuestionThemesTableStatusFilter
+        :model-value="statusFilter"
+        @update:model-value="onUpdateStatusFilter"
+      />
+    </TableFiltersSection>
   </div>
 </template>

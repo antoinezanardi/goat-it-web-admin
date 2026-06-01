@@ -57,6 +57,7 @@
     "useRoute": "readonly",
     "useRouter": "readonly",
     "useRuntimeConfig": "readonly",
+    "useTableFilters": "readonly",
     "useTableGlobalFilter": "readonly",
     "useTemplateRef": "readonly",
     "useToast": "readonly",

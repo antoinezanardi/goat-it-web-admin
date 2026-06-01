@@ -6,12 +6,16 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 
 import { QuestionThemesTableHeader } from "#components";
-import type { TableGlobalSearchInput, UButton } from "#components";
+import type { TableGlobalSearchInput, UButton, TableFiltersSection, QuestionThemesTableStatusFilter } from "#components";
 
 import type { QuestionThemesTableHeaderProps } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableHeader/question-themes-table-header.types";
 
 describe("QuestionThemesTableHeader Component", () => {
-  const defaultProps: QuestionThemesTableHeaderProps = { searchTerm: "" };
+  const defaultProps: QuestionThemesTableHeaderProps = {
+    searchTerm: "",
+    activeFilterCount: 0,
+    statusFilter: undefined,
+  };
   let wrapper: VueWrapper;
 
   async function mountQuestionThemesTableHeaderComponent(options: MountSuspendedOptions<typeof QuestionThemesTableHeader> = {}): Promise<VueWrapper> {
@@ -37,7 +41,7 @@ describe("QuestionThemesTableHeader Component", () => {
     });
 
     it("should pass the searchTerm to the search input when mounted.", async() => {
-      wrapper = await mountQuestionThemesTableHeaderComponent({ props: { searchTerm: "search text" } });
+      wrapper = await mountQuestionThemesTableHeaderComponent({ props: { ...defaultProps, searchTerm: "search text" } });
 
       const searchInput = wrapper.findComponent<typeof TableGlobalSearchInput>({ name: "TableGlobalSearchInput" });
 
@@ -77,6 +81,59 @@ describe("QuestionThemesTableHeader Component", () => {
       await button.trigger("click");
 
       expect(wrapper.emitted("startCreate")).toBeDefined();
+    });
+  });
+
+  describe("Filters section", () => {
+    it("should render the filters section with active filter count when mounted.", () => {
+      const filtersSection = wrapper.findComponent<typeof TableFiltersSection>("[data-testid='question-themes-table-header-filters-section']");
+
+      expect(filtersSection.props("activeFilterCount")).toBe(0);
+    });
+
+    it("should pass the active filter count to the filters section when filters are active.", async() => {
+      wrapper = await mountQuestionThemesTableHeaderComponent({ props: { ...defaultProps, activeFilterCount: 2 } });
+
+      const filtersSection = wrapper.findComponent<typeof TableFiltersSection>("[data-testid='question-themes-table-header-filters-section']");
+
+      expect(filtersSection.props("activeFilterCount")).toBe(2);
+    });
+
+    it("should emit clearFilters when the filters section emits clear.", () => {
+      const filtersSection = wrapper.findComponent<typeof TableFiltersSection>("[data-testid='question-themes-table-header-filters-section']");
+      getWrapperVm(filtersSection).$emit("clear");
+
+      expect(wrapper.emitted("clearFilters")).toBeDefined();
+    });
+  });
+
+  describe("Status filter", () => {
+    async function expandFiltersSection(): Promise<void> {
+      const toggleButton = wrapper.find("[data-testid='table-filters-section-toggle']");
+      await toggleButton.trigger("click");
+    }
+
+    it("should render the status filter with undefined modelValue when no status is selected.", async() => {
+      await expandFiltersSection();
+      const statusFilter = wrapper.findComponent<typeof QuestionThemesTableStatusFilter>({ name: "QuestionThemesTableStatusFilter" });
+
+      expect(statusFilter.props("modelValue")).toBeUndefined();
+    });
+
+    it("should pass the status filter value when a status is selected.", async() => {
+      wrapper = await mountQuestionThemesTableHeaderComponent({ props: { ...defaultProps, statusFilter: "active" } });
+      await expandFiltersSection();
+      const statusFilter = wrapper.findComponent<typeof QuestionThemesTableStatusFilter>({ name: "QuestionThemesTableStatusFilter" });
+
+      expect(statusFilter.props("modelValue")).toBe("active");
+    });
+
+    it("should emit update:statusFilter when the status filter emits update:modelValue.", async() => {
+      await expandFiltersSection();
+      const statusFilter = wrapper.findComponent<typeof QuestionThemesTableStatusFilter>({ name: "QuestionThemesTableStatusFilter" });
+      getWrapperVm(statusFilter).$emit("update:modelValue", "archived");
+
+      expect(wrapper.emitted("update:statusFilter")).toStrictEqual([["archived"]]);
     });
   });
 });
