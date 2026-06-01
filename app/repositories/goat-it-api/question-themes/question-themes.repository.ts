@@ -1,8 +1,8 @@
-import type { QuestionThemeCreationDto, QuestionThemeModificationDto } from "@goat-it/schemas/question-theme";
+import type { AdminFindQuestionThemesQueryDto, QuestionThemeCreationDto, QuestionThemeModificationDto } from "@goat-it/schemas/question-theme";
 import type { $Fetch } from "nitropack";
 
 type QuestionThemesRepository = (fetch: $Fetch) => {
-  getAll: () => Promise<QuestionTheme[]>;
+  getAll: (query?: AdminFindQuestionThemesQueryDto) => Promise<QuestionTheme[]>;
   getById: (id: string) => Promise<QuestionTheme>;
   create: (creationDto: QuestionThemeCreationDto) => Promise<QuestionTheme>;
   patch: (id: string, modificationDto: QuestionThemeModificationDto) => Promise<QuestionTheme>;
@@ -10,8 +10,8 @@ type QuestionThemesRepository = (fetch: $Fetch) => {
 };
 
 export const questionThemesRepository: QuestionThemesRepository = (fetch: $Fetch) => ({
-  async getAll(): Promise<QuestionTheme[]> {
-    return fetch<QuestionTheme[]>("/api/goat-it-api/question-themes");
+  async getAll(query?: AdminFindQuestionThemesQueryDto): Promise<QuestionTheme[]> {
+    return fetch<QuestionTheme[]>("/api/goat-it-api/question-themes", { query });
   },
 
   async getById(id: string): Promise<QuestionTheme> {
