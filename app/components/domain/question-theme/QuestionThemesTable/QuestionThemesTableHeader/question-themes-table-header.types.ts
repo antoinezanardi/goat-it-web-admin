@@ -1,17 +1,24 @@
+import type { QuestionThemeStatus } from "@goat-it/schemas/question-theme";
+
+type QuestionThemesTableFilters = {
+  status: QuestionThemeStatus | undefined;
+};
+
 type QuestionThemesTableHeaderProperties = {
   searchTerm: string;
   activeFilterCount: number;
-  statusFilter: string | undefined;
+  filters: QuestionThemesTableFilters;
 };
 
 type QuestionThemesTableHeaderEmits = {
   "startCreate": [];
   "update:searchTerm": [value: string];
-  "update:statusFilter": [value: string | undefined];
+  "update:filter": [filters: Partial<QuestionThemesTableFilters>];
   "clearFilters": [];
 };
 
 export type {
+  QuestionThemesTableFilters,
   QuestionThemesTableHeaderProperties as QuestionThemesTableHeaderProps,
   QuestionThemesTableHeaderEmits,
 };

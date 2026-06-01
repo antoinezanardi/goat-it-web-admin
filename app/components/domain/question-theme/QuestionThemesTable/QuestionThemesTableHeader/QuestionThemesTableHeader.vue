@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { QuestionThemeStatus } from "@goat-it/schemas/question-theme";
+
 import type { QuestionThemesTableHeaderEmits, QuestionThemesTableHeaderProps } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableHeader/question-themes-table-header.types";
 
 defineProps<QuestionThemesTableHeaderProps>();
@@ -12,8 +14,8 @@ function onUpdateModelValueFromTableGlobalSearchInput(value: string): void {
   emit("update:searchTerm", value);
 }
 
-function onUpdateStatusFilter(value: string | undefined): void {
-  emit("update:statusFilter", value);
+function onUpdateStatusFilter(value: QuestionThemeStatus | undefined): void {
+  emit("update:filter", { status: value });
 }
 
 function onClearFilters(): void {
@@ -51,7 +53,7 @@ function onClearFilters(): void {
       @clear="onClearFilters"
     >
       <QuestionThemesTableStatusFilter
-        :model-value="statusFilter"
+        :model-value="filters.status"
         @update:model-value="onUpdateStatusFilter"
       />
     </TableFiltersSection>

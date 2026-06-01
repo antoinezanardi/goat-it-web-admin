@@ -18,9 +18,11 @@ Then(
 
     await expect(table).toBeVisible();
 
-    const wasFound = await doesTableContainRowMatchingAttributes(this.page, row);
+    await expect(async() => {
+      const wasFound = await doesTableContainRowMatchingAttributes(this.page, row);
 
-    expect(wasFound).toBe(true);
+      expect(wasFound).toBe(true);
+    }).toPass();
   },
 );
 
@@ -32,9 +34,11 @@ Then(
 
     await expect(table).toBeVisible();
 
-    const wasFound = await doesTableContainRowMatchingAttributes(this.page, row);
+    await expect(async() => {
+      const wasFound = await doesTableContainRowMatchingAttributes(this.page, row);
 
-    expect(wasFound).toBe(false);
+      expect(wasFound).toBe(false);
+    }).toPass();
   },
 );
 
@@ -52,5 +56,33 @@ Then(
 
       await expect(errorText).toBeVisible();
     }
+  },
+);
+
+Then(
+  /^the question themes status filter should be visible$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    const statusFilter = this.page.getByTestId("question-themes-table-status-filter");
+
+    await expect(statusFilter).toBeVisible();
+  },
+);
+
+Then(
+  /^the question themes status filter should not be visible$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    const statusFilter = this.page.getByTestId("question-themes-table-status-filter");
+
+    await expect(statusFilter).toBeHidden();
+  },
+);
+
+Then(
+  /^the question themes filters badge should display "(?<count>[^"]*)"$/u,
+  async function(this: GoatItWorld, count: string): Promise<void> {
+    const badge = this.page.getByTestId("table-filters-section-badge");
+
+    await expect(badge).toBeVisible();
+    await expect(badge).toContainText(count);
   },
 );

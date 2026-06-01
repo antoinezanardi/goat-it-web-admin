@@ -36,6 +36,7 @@ function onUpdateModelValue(value: string | undefined): void {
       :icon="icon"
       :items="allItems"
       :model-value="modelValue"
+      :placeholder="allOption.label"
       value-key="value"
       @update:model-value="onUpdateModelValue"
     />

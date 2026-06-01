@@ -47,6 +47,19 @@ describe("TableFilterSelect Component", () => {
       expect(items[0]).toStrictEqual({ label: "common.table.filters.all", value: undefined });
     });
 
+    it("should pass the 'All' label as placeholder to the select menu when no custom placeholder is provided.", () => {
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+      expect(selectMenu.props("placeholder")).toBe("common.table.filters.all");
+    });
+
+    it("should pass the custom placeholder to the select menu when a custom placeholder is provided.", async() => {
+      wrapper = await mountTableFilterSelectComponent({ props: { ...defaultProps, placeholder: "Select a status" } });
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+      expect(selectMenu.props("placeholder")).toBe("Select a status");
+    });
+
     it("should render all provided items after the 'All' option when mounted.", () => {
       const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
       const items = selectMenu.props("items") as { label: string; value: string | undefined }[];

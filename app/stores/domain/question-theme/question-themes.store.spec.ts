@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import { createUseAsyncActionMock } from "~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock";
 import type { UseAsyncActionMock } from "~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock";
-import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
+import { createFakeAdminFindQuestionThemesQueryDto, createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 
 import type { useQuestionThemesStore as UseQuestionThemesStoreType } from "@/stores/domain/question-theme/question-themes.store";
@@ -180,7 +180,7 @@ describe("useQuestionThemesStore", () => {
 
     it("should call fetchQuestionThemes with query when called with query params.", async() => {
       const store = useQuestionThemesStore();
-      const query: AdminFindQuestionThemesQueryDto = { "status": "active", "sort-by": "slug", "sort-order": "asc" };
+      const query: AdminFindQuestionThemesQueryDto = createFakeAdminFindQuestionThemesQueryDto();
 
       await store.fetchAndStoreQuestionThemes(query);
 

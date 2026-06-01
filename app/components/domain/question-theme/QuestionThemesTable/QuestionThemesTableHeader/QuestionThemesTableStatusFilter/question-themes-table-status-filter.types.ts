@@ -1,9 +1,11 @@
+import type { QuestionThemeStatus } from "@goat-it/schemas/question-theme";
+
 type QuestionThemesTableStatusFilterProperties = {
-  modelValue: string | undefined;
+  modelValue: QuestionThemeStatus | undefined;
 };
 
 type QuestionThemesTableStatusFilterEmits = {
-  "update:modelValue": [value: string | undefined];
+  "update:modelValue": [value: QuestionThemeStatus | undefined];
 };
 
 export type {

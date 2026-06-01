@@ -8,7 +8,7 @@ const QUESTION_THEME_FORM_ROW_SCHEMA = z.strictObject({
   description: zCoerceOptionalString(),
   aliases: zCoerceOptionalString(),
   color: zCoerceOptionalString(),
-  status: zCoerceOptionalString(),
+  status: z.enum(["active", "archived"]).optional(),
 });
 
 const QUESTION_THEME_TABLE_ROW_SCHEMA = z.strictObject({

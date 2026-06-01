@@ -3,6 +3,7 @@ import type { AdminFindQuestionThemesQueryDto } from "@goat-it/schemas/question-
 import type { TableColumn } from "@nuxt/ui";
 
 import type { QuestionThemesTableEmits, QuestionThemesTableGlobalFilterOptions } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
+import type { QuestionThemesTableFilters } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableHeader/question-themes-table-header.types";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
 
 const emit = defineEmits<QuestionThemesTableEmits>();
@@ -10,15 +11,16 @@ const emit = defineEmits<QuestionThemesTableEmits>();
 const { t, locale: currentLocale } = useI18n();
 
 const questionThemesStore = useQuestionThemesStore();
-const { questionThemes } = storeToRefs(questionThemesStore);
+const { questionThemes, isFetchingQuestionThemes } = storeToRefs(questionThemesStore);
 
 const { filters, activeFilterCount, clearFilters } = useTableFilters({
-  status: { default: undefined as string | undefined },
-});
-
-watch(() => filters.status.value, async statusValue => {
-  const query = statusValue === undefined ? undefined : { status: statusValue } as AdminFindQuestionThemesQueryDto;
-  await questionThemesStore.fetchAndStoreQuestionThemes(query);
+  definitions: {
+    status: { default: undefined as QuestionThemesTableFilters["status"] },
+  },
+  onChange: async values => {
+    const query = values.status === undefined ? undefined : { status: values.status } as AdminFindQuestionThemesQueryDto;
+    await questionThemesStore.fetchAndStoreQuestionThemes(query);
+  },
 });
 
 const columns = computed<TableColumn<QuestionTheme>[]>(() => [
@@ -47,12 +49,16 @@ const { searchTerm, globalFilter, globalFilterFunction, hasActiveFilter } = useT
 
 const globalFilterOptions = computed<QuestionThemesTableGlobalFilterOptions>(() => ({ globalFilterFn: globalFilterFunction }));
 
+const headerFilters = computed<QuestionThemesTableFilters>(() => ({ status: filters.status.value }));
+
 function onStartCreateFromQuestionThemesTableHeader(): void {
   emit("startCreate");
 }
 
-function onUpdateStatusFilterFromQuestionThemesTableHeader(value: string | undefined): void {
-  filters.status.value = value;
+function onUpdateFilterFromQuestionThemesTableHeader(updatedFilters: Partial<QuestionThemesTableFilters>): void {
+  if ("status" in updatedFilters) {
+    filters.status.value = updatedFilters.status;
+  }
 }
 
 function onStartEditFromQuestionThemesTableActions(id: string): void {
@@ -67,10 +73,10 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
         v-model:search-term="searchTerm"
         :active-filter-count="activeFilterCount"
         data-testid="question-themes-table-header"
-        :status-filter="filters.status.value"
+        :filters="headerFilters"
         @clear-filters="clearFilters"
         @start-create="onStartCreateFromQuestionThemesTableHeader"
-        @update:status-filter="onUpdateStatusFilterFromQuestionThemesTableHeader"
+        @update:filter="onUpdateFilterFromQuestionThemesTableHeader"
       />
     </template>
 
@@ -80,6 +86,7 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
       :data="questionThemes"
       data-testid="question-themes-table-data"
       :global-filter-options="globalFilterOptions"
+      :loading="isFetchingQuestionThemes"
       sticky
       :tabindex="0"
     >

@@ -10,15 +10,19 @@ async function archiveQuestionThemeViaUi(page: Page, slug: string): Promise<void
   await expect(archiveButton).toBeVisible();
   await archiveButton.click();
 
-  const heading = page.getByRole("heading", { name: "Archive this theme?", exact: true });
+  const dialog = page.getByRole("dialog");
+
+  await expect(dialog).toBeVisible();
+
+  const heading = dialog.getByRole("heading", { name: "Archive this theme?", exact: true });
 
   await expect(heading).toBeVisible();
 
-  const confirmButton = page.getByRole("button", { name: "Confirm" });
+  const confirmButton = dialog.getByRole("button", { name: "Confirm" });
 
   await expect(confirmButton).toBeVisible();
   await confirmButton.click();
-  await expect(heading).toBeHidden();
+  await expect(dialog).toBeHidden();
 }
 
 async function createQuestionThemeViaUi(page: Page, row: QuestionThemeFormRow): Promise<void> {

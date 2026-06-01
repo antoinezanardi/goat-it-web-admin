@@ -14,7 +14,7 @@ describe("QuestionThemesTableHeader Component", () => {
   const defaultProps: QuestionThemesTableHeaderProps = {
     searchTerm: "",
     activeFilterCount: 0,
-    statusFilter: undefined,
+    filters: { status: undefined },
   };
   let wrapper: VueWrapper;
 
@@ -121,19 +121,19 @@ describe("QuestionThemesTableHeader Component", () => {
     });
 
     it("should pass the status filter value when a status is selected.", async() => {
-      wrapper = await mountQuestionThemesTableHeaderComponent({ props: { ...defaultProps, statusFilter: "active" } });
+      wrapper = await mountQuestionThemesTableHeaderComponent({ props: { ...defaultProps, filters: { status: "active" } } });
       await expandFiltersSection();
       const statusFilter = wrapper.findComponent<typeof QuestionThemesTableStatusFilter>({ name: "QuestionThemesTableStatusFilter" });
 
       expect(statusFilter.props("modelValue")).toBe("active");
     });
 
-    it("should emit update:statusFilter when the status filter emits update:modelValue.", async() => {
+    it("should emit update:filter with status when the status filter emits update:modelValue.", async() => {
       await expandFiltersSection();
       const statusFilter = wrapper.findComponent<typeof QuestionThemesTableStatusFilter>({ name: "QuestionThemesTableStatusFilter" });
       getWrapperVm(statusFilter).$emit("update:modelValue", "archived");
 
-      expect(wrapper.emitted("update:statusFilter")).toStrictEqual([["archived"]]);
+      expect(wrapper.emitted("update:filter")).toStrictEqual([[{ status: "archived" }]]);
     });
   });
 });

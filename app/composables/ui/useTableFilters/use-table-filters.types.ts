@@ -10,7 +10,14 @@ type FilterReferences<T extends FilterDefinitions> = {
   [K in keyof T]: Ref<T[K]["default"]>;
 };
 
-type UseTableFiltersOptions<T extends FilterDefinitions> = T;
+type FilterValues<T extends FilterDefinitions> = {
+  [K in keyof T]: T[K]["default"];
+};
+
+type UseTableFiltersOptions<T extends FilterDefinitions> = {
+  definitions: T;
+  onChange?: (values: FilterValues<T>) => void;
+};
 
 type UseTableFilters<T extends FilterDefinitions> = {
   filters: FilterReferences<T>;
@@ -23,6 +30,7 @@ export type {
   FilterDefinition,
   FilterDefinitions,
   FilterReferences as FilterRefs,
+  FilterValues,
   UseTableFiltersOptions,
   UseTableFilters,
 };

@@ -108,7 +108,7 @@ describe("TableFiltersSection Component", () => {
       const clearButton = wrapper.find("[data-testid='table-filters-section-clear']");
       await clearButton.trigger("click");
 
-      expect(wrapper.emitted("clear")).toBeDefined();
+      expect(wrapper.emitted("clear")).toStrictEqual([[]]);
     });
   });
 });

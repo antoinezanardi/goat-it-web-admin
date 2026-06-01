@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import type { QuestionThemeStatus } from "@goat-it/schemas/question-theme";
+import { QUESTION_THEME_STATUSES } from "@goat-it/schemas/question-theme";
+
 import type { QuestionThemesTableStatusFilterEmits, QuestionThemesTableStatusFilterProps } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableHeader/QuestionThemesTableStatusFilter/question-themes-table-status-filter.types";
 import type { TableFilterSelectItem } from "~/components/shared/table/TableFilterSelect/table-filter-select.types";
 
@@ -7,13 +10,15 @@ const emit = defineEmits<QuestionThemesTableStatusFilterEmits>();
 
 const { t } = useI18n();
 
-const statusItems = computed<TableFilterSelectItem[]>(() => [
-  { label: t("questionThemes.status.active"), value: "active" },
-  { label: t("questionThemes.status.archived"), value: "archived" },
-]);
+const statusItems = computed<TableFilterSelectItem[]>(() => QUESTION_THEME_STATUSES.map(status => ({
+  label: t(`questionThemes.status.${status}`),
+  value: status,
+})));
 
 function onUpdateModelValue(value: string | undefined): void {
-  emit("update:modelValue", value);
+  // Acceptable as TableFilterSelect emits string but we only provide QUESTION_THEME_STATUSES values as items
+  // oxlint-disable-next-line no-unsafe-type-assertion
+  emit("update:modelValue", value as QuestionThemeStatus | undefined);
 }
 </script>
 
