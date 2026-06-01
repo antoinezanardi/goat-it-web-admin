@@ -6,7 +6,7 @@ import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionsTableHeader } from "#components";
-import type { TableGlobalFilterInput } from "#components";
+import type { TableGlobalSearchInput } from "#components";
 
 import type { QuestionsTableHeaderProps } from "~/components/domain/question/QuestionsTable/QuestionsTableHeader/questions-table-header.types";
 
@@ -31,24 +31,24 @@ describe("QuestionsTableHeader Component", () => {
     expect(wrapper.exists()).toBeTruthy();
   });
 
-  describe("Filter input", () => {
-    it("should render the filter input when mounted.", () => {
-      const filterInput = wrapper.findComponent<typeof TableGlobalFilterInput>({ name: "TableGlobalFilterInput" });
+  describe("Search input", () => {
+    it("should render the search input when mounted.", () => {
+      const searchInput = wrapper.findComponent<typeof TableGlobalSearchInput>({ name: "TableGlobalSearchInput" });
 
-      expect(filterInput.exists()).toBeTruthy();
+      expect(searchInput.exists()).toBeTruthy();
     });
 
-    it("should pass the searchTerm to the filter input when mounted.", async() => {
+    it("should pass the searchTerm to the search input when mounted.", async() => {
       wrapper = await mountQuestionsTableHeaderComponent({ props: { searchTerm: "search text" } });
 
-      const filterInput = wrapper.findComponent<typeof TableGlobalFilterInput>({ name: "TableGlobalFilterInput" });
+      const searchInput = wrapper.findComponent<typeof TableGlobalSearchInput>({ name: "TableGlobalSearchInput" });
 
-      expect(filterInput.props("modelValue")).toBe("search text");
+      expect(searchInput.props("modelValue")).toBe("search text");
     });
 
-    it("should emit update:searchTerm when the filter input emits update:modelValue.", () => {
-      const filterInput = wrapper.findComponent<typeof TableGlobalFilterInput>({ name: "TableGlobalFilterInput" });
-      getWrapperVm(filterInput).$emit("update:modelValue", "new search");
+    it("should emit update:searchTerm when the search input emits update:modelValue.", () => {
+      const searchInput = wrapper.findComponent<typeof TableGlobalSearchInput>({ name: "TableGlobalSearchInput" });
+      getWrapperVm(searchInput).$emit("update:modelValue", "new search");
 
       expect(wrapper.emitted("update:searchTerm")).toStrictEqual([["new search"]]);
     });

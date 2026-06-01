@@ -105,7 +105,7 @@
     "@cucumber/cucumber": "^12.9.0",
     "@eslint/config-inspector": "^3.0.4",
     "@faker-js/faker": "^10.4.0",
-    "@goat-it/schemas": "^0.0.9",
+    "@goat-it/schemas": "^0.0.12-beta",
     "@iconify-json/circle-flags": "^1.2.10",
     "@iconify-json/lucide": "^1.2.111",
     "@nuxt/eslint": "^1.15.2",
