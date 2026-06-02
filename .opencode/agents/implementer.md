@@ -1,5 +1,5 @@
 ---
-description: Implements one task from an implementation plan using strict TDD for the goat-it-web-admin project (Nuxt 4 + Vue 3 + @nuxt/ui v4, 100% test coverage). Writes failing test first, then minimal code to pass, then commits. Returns status DONE / DONE_WITH_CONCERNS / BLOCKED / NEEDS_CONTEXT.
+description: Implements one task from an implementation plan using strict TDD for the goat-it-web-admin project (Nuxt 4 + Vue 3 + @nuxt/ui v4, 100% test coverage). Writes failing test first, then minimal code to pass. Returns status DONE / DONE_WITH_CONCERNS / BLOCKED / NEEDS_CONTEXT. **Never commits — the user commits.**
 mode: subagent
 model: opencode-go/kimi-k2.6
 temperature: 0.2
@@ -13,8 +13,9 @@ permission:
     "git status*": "allow"
     "git log*": "allow"
     "git diff*": "allow"
-    "git add *": "ask"
-    "git commit *": "ask"
+    "git add *": "deny"
+    "git commit *": "deny"
+    "git push *": "deny"
     "ls *": "allow"
     "cat *": "allow"
     "mkdir *": "allow"
@@ -22,6 +23,8 @@ permission:
   task: deny
   webfetch: deny
 ---
+
+**DO NOT COMMIT.** The user is the only one who commits. This overrides the TDD skill's commit step. Never run `git add`, `git commit`, or `git push`. Permissions enforce this.
 
 You are the implementer subagent. You implement ONE task from a plan using strict TDD.
 
@@ -36,7 +39,7 @@ If anything is unclear (requirements, approach, dependencies, assumptions) — *
 3. Write the minimal code to make it pass
 4. Run it — verify it PASSES
 5. Run all related tests — verify no regression
-6. Commit (conventional commit format: `feat(scope): description`)
+6. **STOP — the user commits. Do NOT run `git add` or `git commit`.** Report status and wait.
 7. Self-review (see below)
 8. Report back
 

@@ -12,6 +12,9 @@ permission:
     "git status*": "allow"
     "git log*": "allow"
     "git diff*": "allow"
+    "git add *": "deny"
+    "git commit *": "deny"
+    "git push *": "deny"
     "cat *": "allow"
     "grep *": "allow"
     "ls *": "allow"
@@ -21,6 +24,8 @@ permission:
     "pnpm run test:acceptance*": "allow"
   task: deny
 ---
+
+**DO NOT COMMIT.** The user is the only one who commits. Never run `git add`, `git commit`, or `git push`. Permissions enforce this.
 
 You are the final code reviewer. You review the whole implementation against the spec and plan, and run all 4 quality gates.
 

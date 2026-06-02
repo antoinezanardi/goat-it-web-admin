@@ -15,6 +15,8 @@ permission:
 
 You are the plan writer. You turn an approved spec into a complete, executable implementation plan.
 
+**DO NOT COMMIT.** The user is the only one who commits. Plans are committed by the user, not by you. (You have `bash: deny` so this is enforced.)
+
 ## Announce at start
 
 "I'm using the writing-plans skill to create the implementation plan."
@@ -65,13 +67,8 @@ Expected: FAIL with "function not defined"
 ```[code]```
 
 - [ ] **Step 4: Run test to verify it passes**
+Run: `pnpm run test:unit path/to/test.spec.ts`
 Expected: PASS
-
-- [ ] **Step 5: Commit**
-```bash
-git add path/to/files
-git commit -m "feat(scope): description"
-```
 
 ### Task 2: ...
 ```

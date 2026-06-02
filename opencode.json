@@ -14,19 +14,10 @@
   "permission": {
     "skill": { "*": "allow" },
     "bash": {
-      "*": "ask",
-      "git status*": "allow",
-      "git log*": "allow",
-      "git diff*": "allow",
-      "git branch*": "allow",
       "git checkout -b *": "allow",
-      "git add *": "ask",
-      "git commit *": "ask",
-      "git push *": "ask",
-      "pnpm *": "ask",
-      "ls *": "allow",
-      "cat *": "allow",
-      "grep *": "allow"
+      "git add *": "deny",
+      "git commit *": "deny",
+      "git push *": "deny"
     }
   },
   "compaction": {
