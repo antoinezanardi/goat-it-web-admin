@@ -36,8 +36,8 @@ importers:
         specifier: ^1.15.2
         version: 1.15.2(@typescript-eslint/utils@8.59.2(eslint@10.4.1(jiti@2.7.0)(supports-color@8.1.1))(typescript@6.0.3))(@vue/compiler-sfc@3.5.34)(eslint@10.4.1(jiti@2.7.0)(supports-color@8.1.1))(magicast@0.5.2)(supports-color@8.1.1)(typescript@6.0.3)(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0))
       '@nuxt/hints':
-        specifier: ^1.1.2
-        version: 1.1.2(db0@0.3.4)(ioredis@5.10.1)(magicast@0.5.2)(typescript@6.0.3)(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0))(vitest@4.1.8)(vue@3.5.34(typescript@6.0.3))
+        specifier: ^1.1.3
+        version: 1.1.3(db0@0.3.4)(ioredis@5.10.1)(magicast@0.5.2)(typescript@6.0.3)(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0))(vitest@4.1.8)(vue@3.5.34(typescript@6.0.3))
       '@nuxt/test-utils':
         specifier: ^4.0.2
         version: 4.0.3(@cucumber/cucumber@12.9.0)(@playwright/test@1.60.0)(@vue/test-utils@2.4.10(@vue/compiler-dom@3.5.34)(@vue/server-renderer@3.5.34(vue@3.5.34(typescript@6.0.3)))(vue@3.5.34(typescript@6.0.3)))(happy-dom@20.10.2)(magicast@0.5.2)(playwright-core@1.60.0)(typescript@6.0.3)(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0))(vitest@4.1.8)
@@ -58,13 +58,13 @@ importers:
         version: 1.60.0
       '@semantic-release/changelog':
         specifier: ^6.0.3
-        version: 6.0.3(semantic-release@25.0.5(typescript@6.0.3))
+        version: 6.0.3(semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3))
       '@semantic-release/git':
         specifier: ^10.0.1
-        version: 10.0.1(semantic-release@25.0.5(typescript@6.0.3))(supports-color@8.1.1)
+        version: 10.0.1(semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3))(supports-color@8.1.1)
       '@semantic-release/release-notes-generator':
         specifier: ^14.1.1
-        version: 14.1.1(semantic-release@25.0.5(typescript@6.0.3))
+        version: 14.1.1(semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3))
       '@stryker-mutator/api':
         specifier: ^9.6.1
         version: 9.6.1
@@ -151,10 +151,10 @@ importers:
         version: 6.1.3
       semantic-release:
         specifier: ^25.0.5
-        version: 25.0.5(typescript@6.0.3)
+        version: 25.0.5(supports-color@8.1.1)(typescript@6.0.3)
       semantic-release-export-data:
         specifier: ^1.2.0
-        version: 1.2.0(semantic-release@25.0.5(typescript@6.0.3))
+        version: 1.2.0(semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3))
       tailwindcss:
         specifier: ^4.3.0
         version: 4.3.0
@@ -1548,8 +1548,8 @@ packages:
   '@nuxt/fonts@0.14.0':
     resolution: {integrity: sha512-4uXQl9fa5F4ibdgU8zomoOcyMdnwgdem+Pi8JEqeDYI5yPR32Kam6HnuRr47dTb97CstaepAvXPWQUUHMtjsFQ==}
 
-  '@nuxt/hints@1.1.2':
-    resolution: {integrity: sha512-xfWN6DY+cO7+nNTKt//rdDyb9/krY0Udc/6Js/ya7CiLiFTsxWyhL0fjEj4ZI/9OVOQI56sCuLTki/BGiUzdpw==}
+  '@nuxt/hints@1.1.3':
+    resolution: {integrity: sha512-4+UcbPNIEvlooy5zv6fR2k3Gxwa99VNqZNYZYoEFBp9yIru4BeUHqXm3dKf/VvnX7AAkf5Ujag65QH8twz8c2Q==}
 
   '@nuxt/icon@2.2.2':
     resolution: {integrity: sha512-K9wINW21M9x5GcKF5JEXzPKAT/Kfxl/vdnEyppw54hh5qoLcdi5HmsYoTfDP9gbJ6Z1T6IdH5JxBWk72HMe1Zg==}
@@ -1560,10 +1560,6 @@ packages:
 
   '@nuxt/kit@4.4.4':
     resolution: {integrity: sha512-oy4fAeMkyz7gelnalDQLPm8QZRN+c5c/Eh/M6oFgPx86jnA8m6xeOlONpJN2dk0GhcJwJYuN/kmzBffZ93WXPQ==}
-    engines: {node: '>=18.12.0'}
-
-  '@nuxt/kit@4.4.5':
-    resolution: {integrity: sha512-J0BpoOomzd3iVZozYlZJ7AwAVliXRgeChZnAkQLfg8d0h/Q+aMK9kkHuhwFULASaRn5idiD4BIhOUz7/uoLbSw==}
     engines: {node: '>=18.12.0'}
 
   '@nuxt/kit@4.4.6':
@@ -8075,14 +8071,6 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
-  valibot@1.4.0:
-    resolution: {integrity: sha512-iC/x7fVcSyOwlm/VSt7RlHnzNGLGvR9GnxdifUeWoCJo0q4ZZvrVkIHC6faTlkxG47I2Y4UrFquPuVHCrOnrLg==}
-    peerDependencies:
-      typescript: '>=5'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   valibot@1.4.1:
     resolution: {integrity: sha512-klCmFTz2jeDluy9RwX+F884TCiogtdBJ/YaxSx1EOBYXa3NXNWj8kR1jjN8rzluwojJVWWaHJ4r1U5LfICnM3g==}
     peerDependencies:
@@ -8165,12 +8153,6 @@ packages:
     peerDependenciesMeta:
       '@nuxt/kit':
         optional: true
-
-  vite-plugin-vue-tracer@1.3.0:
-    resolution: {integrity: sha512-Cgfce6VikzOw5MUJTpeg50s5rRjzU1Vr61ZjuHunVVHLjZZ5AUlgyExHthZ3r59vtoz9W2rDt23FYG81avYBKw==}
-    peerDependencies:
-      vite: ^6.0.0 || ^7.0.0
-      vue: ^3.5.0
 
   vite-plugin-vue-tracer@1.4.0:
     resolution: {integrity: sha512-0tQCjCqZWVSK6UeRW9S4ABbf47lKQ68zvrT2FNvZmiL+alDydCVyH/T3Jlfbdc3T3C2Iuyyl5aVsMbF8IQIoxA==}
@@ -9921,7 +9903,7 @@ snapshots:
       tinyglobby: 0.2.16
       vite: 7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0)
       vite-plugin-inspect: 11.3.3(@nuxt/kit@4.4.6(magicast@0.5.2))(supports-color@8.1.1)(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0))
-      vite-plugin-vue-tracer: 1.3.0(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0))(vue@3.5.34(typescript@6.0.3))
+      vite-plugin-vue-tracer: 1.4.0(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0))(vue@3.5.34(typescript@6.0.3))
       which: 6.0.1
       ws: 8.21.0
     transitivePeerDependencies:
@@ -10038,10 +10020,10 @@ snapshots:
       - uploadthing
       - vite
 
-  '@nuxt/hints@1.1.2(db0@0.3.4)(ioredis@5.10.1)(magicast@0.5.2)(typescript@6.0.3)(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0))(vitest@4.1.8)(vue@3.5.34(typescript@6.0.3))':
+  '@nuxt/hints@1.1.3(db0@0.3.4)(ioredis@5.10.1)(magicast@0.5.2)(typescript@6.0.3)(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0))(vitest@4.1.8)(vue@3.5.34(typescript@6.0.3))':
     dependencies:
       '@nuxt/devtools-kit': 3.2.4(magicast@0.5.2)(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0))
-      '@nuxt/kit': 4.4.5(magicast@0.5.2)
+      '@nuxt/kit': 4.4.6(magicast@0.5.2)
       consola: 3.4.2
       defu: 6.1.7
       devalue: 5.8.1
@@ -10056,7 +10038,7 @@ snapshots:
       ufo: 1.6.4
       unplugin: 3.0.0
       unstorage: 1.17.5(db0@0.3.4)(ioredis@5.10.1)
-      valibot: 1.4.0(typescript@6.0.3)
+      valibot: 1.4.1(typescript@6.0.3)
       vite-plugin-vue-tracer: 1.4.0(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0))(vue@3.5.34(typescript@6.0.3))
       web-vitals: 5.2.0
     transitivePeerDependencies:
@@ -10167,31 +10149,6 @@ snapshots:
       rc9: 3.0.1
       scule: 1.3.0
       semver: 7.7.4
-      tinyglobby: 0.2.16
-      ufo: 1.6.4
-      unctx: 2.5.0
-      untyped: 2.0.0
-    transitivePeerDependencies:
-      - magicast
-
-  '@nuxt/kit@4.4.5(magicast@0.5.2)':
-    dependencies:
-      c12: 3.3.4(magicast@0.5.2)
-      consola: 3.4.2
-      defu: 6.1.7
-      destr: 2.0.5
-      errx: 0.1.0
-      exsolve: 1.0.8
-      ignore: 7.0.5
-      jiti: 2.7.0
-      klona: 2.0.6
-      mlly: 1.8.2
-      ohash: 2.0.11
-      pathe: 2.0.3
-      pkg-types: 2.3.1
-      rc9: 3.0.1
-      scule: 1.3.0
-      semver: 7.8.0
       tinyglobby: 0.2.16
       ufo: 1.6.4
       unctx: 2.5.0
@@ -11456,15 +11413,15 @@ snapshots:
 
   '@sec-ant/readable-stream@0.4.1': {}
 
-  '@semantic-release/changelog@6.0.3(semantic-release@25.0.5(typescript@6.0.3))':
+  '@semantic-release/changelog@6.0.3(semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3))':
     dependencies:
       '@semantic-release/error': 3.0.0
       aggregate-error: 3.1.0
       fs-extra: 11.3.4
       lodash: 4.18.1
-      semantic-release: 25.0.5(typescript@6.0.3)
+      semantic-release: 25.0.5(supports-color@8.1.1)(typescript@6.0.3)
 
-  '@semantic-release/commit-analyzer@13.0.1(semantic-release@25.0.5(typescript@6.0.3))':
+  '@semantic-release/commit-analyzer@13.0.1(semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3))(supports-color@8.1.1)':
     dependencies:
       conventional-changelog-angular: 8.3.1
       conventional-changelog-writer: 8.4.0
@@ -11474,7 +11431,7 @@ snapshots:
       import-from-esm: 2.0.0
       lodash-es: 4.18.1
       micromatch: 4.0.8
-      semantic-release: 25.0.5(typescript@6.0.3)
+      semantic-release: 25.0.5(supports-color@8.1.1)(typescript@6.0.3)
     transitivePeerDependencies:
       - supports-color
 
@@ -11482,7 +11439,7 @@ snapshots:
 
   '@semantic-release/error@4.0.0': {}
 
-  '@semantic-release/git@10.0.1(semantic-release@25.0.5(typescript@6.0.3))(supports-color@8.1.1)':
+  '@semantic-release/git@10.0.1(semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3))(supports-color@8.1.1)':
     dependencies:
       '@semantic-release/error': 3.0.0
       aggregate-error: 3.1.0
@@ -11492,11 +11449,11 @@ snapshots:
       lodash: 4.18.1
       micromatch: 4.0.8
       p-reduce: 2.1.0
-      semantic-release: 25.0.5(typescript@6.0.3)
+      semantic-release: 25.0.5(supports-color@8.1.1)(typescript@6.0.3)
     transitivePeerDependencies:
       - supports-color
 
-  '@semantic-release/github@12.0.6(semantic-release@25.0.5(typescript@6.0.3))':
+  '@semantic-release/github@12.0.6(semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3))(supports-color@8.1.1)':
     dependencies:
       '@octokit/core': 7.0.6
       '@octokit/plugin-paginate-rest': 14.0.0(@octokit/core@7.0.6)
@@ -11506,20 +11463,20 @@ snapshots:
       aggregate-error: 5.0.0
       debug: 4.4.3(supports-color@8.1.1)
       dir-glob: 3.0.1
-      http-proxy-agent: 7.0.2
+      http-proxy-agent: 7.0.2(supports-color@8.1.1)
       https-proxy-agent: 7.0.6
       issue-parser: 7.0.2
       lodash-es: 4.18.1
       mime: 4.1.0
       p-filter: 4.1.0
-      semantic-release: 25.0.5(typescript@6.0.3)
+      semantic-release: 25.0.5(supports-color@8.1.1)(typescript@6.0.3)
       tinyglobby: 0.2.16
       undici: 7.25.0
       url-join: 5.0.0
     transitivePeerDependencies:
       - supports-color
 
-  '@semantic-release/npm@13.1.5(semantic-release@25.0.5(typescript@6.0.3))':
+  '@semantic-release/npm@13.1.5(semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3))':
     dependencies:
       '@actions/core': 3.0.1
       '@semantic-release/error': 4.0.0
@@ -11534,11 +11491,11 @@ snapshots:
       rc: 1.2.8
       read-pkg: 10.1.0
       registry-auth-token: 5.1.1
-      semantic-release: 25.0.5(typescript@6.0.3)
+      semantic-release: 25.0.5(supports-color@8.1.1)(typescript@6.0.3)
       semver: 7.8.0
       tempy: 3.2.0
 
-  '@semantic-release/release-notes-generator@14.1.1(semantic-release@25.0.5(typescript@6.0.3))':
+  '@semantic-release/release-notes-generator@14.1.1(semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3))':
     dependencies:
       conventional-changelog-angular: 8.3.1
       conventional-changelog-writer: 8.4.0
@@ -11548,7 +11505,7 @@ snapshots:
       import-from-esm: 2.0.0
       lodash-es: 4.18.1
       read-package-up: 11.0.0
-      semantic-release: 25.0.5(typescript@6.0.3)
+      semantic-release: 25.0.5(supports-color@8.1.1)(typescript@6.0.3)
     transitivePeerDependencies:
       - supports-color
 
@@ -13224,7 +13181,7 @@ snapshots:
 
   dot-prop@10.1.0:
     dependencies:
-      type-fest: 5.6.0
+      type-fest: 5.7.0
 
   dot-prop@5.3.0:
     dependencies:
@@ -14152,7 +14109,7 @@ snapshots:
       statuses: 2.0.2
       toidentifier: 1.0.1
 
-  http-proxy-agent@7.0.2:
+  http-proxy-agent@7.0.2(supports-color@8.1.1):
     dependencies:
       agent-base: 7.1.4
       debug: 4.4.3(supports-color@8.1.1)
@@ -16186,17 +16143,17 @@ snapshots:
 
   seed-random@2.2.0: {}
 
-  semantic-release-export-data@1.2.0(semantic-release@25.0.5(typescript@6.0.3)):
+  semantic-release-export-data@1.2.0(semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3)):
     dependencies:
-      semantic-release: 25.0.5(typescript@6.0.3)
+      semantic-release: 25.0.5(supports-color@8.1.1)(typescript@6.0.3)
 
-  semantic-release@25.0.5(typescript@6.0.3):
+  semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3):
     dependencies:
-      '@semantic-release/commit-analyzer': 13.0.1(semantic-release@25.0.5(typescript@6.0.3))
+      '@semantic-release/commit-analyzer': 13.0.1(semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3))(supports-color@8.1.1)
       '@semantic-release/error': 4.0.0
-      '@semantic-release/github': 12.0.6(semantic-release@25.0.5(typescript@6.0.3))
-      '@semantic-release/npm': 13.1.5(semantic-release@25.0.5(typescript@6.0.3))
-      '@semantic-release/release-notes-generator': 14.1.1(semantic-release@25.0.5(typescript@6.0.3))
+      '@semantic-release/github': 12.0.6(semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3))(supports-color@8.1.1)
+      '@semantic-release/npm': 13.1.5(semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3))
+      '@semantic-release/release-notes-generator': 14.1.1(semantic-release@25.0.5(supports-color@8.1.1)(typescript@6.0.3))
       aggregate-error: 5.0.0
       cosmiconfig: 9.0.1(typescript@6.0.3)
       debug: 4.4.3(supports-color@8.1.1)
@@ -16934,10 +16891,6 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  valibot@1.4.0(typescript@6.0.3):
-    optionalDependencies:
-      typescript: 6.0.3
-
   valibot@1.4.1(typescript@6.0.3):
     optionalDependencies:
       typescript: 6.0.3
@@ -17029,16 +16982,6 @@ snapshots:
       '@nuxt/kit': 4.4.6(magicast@0.5.2)
     transitivePeerDependencies:
       - supports-color
-
-  vite-plugin-vue-tracer@1.3.0(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0))(vue@3.5.34(typescript@6.0.3)):
-    dependencies:
-      estree-walker: 3.0.3
-      exsolve: 1.0.8
-      magic-string: 0.30.21
-      pathe: 2.0.3
-      source-map-js: 1.2.1
-      vite: 7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0)
-      vue: 3.5.34(typescript@6.0.3)
 
   vite-plugin-vue-tracer@1.4.0(vite@7.3.3(@types/node@25.9.1)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0))(vue@3.5.34(typescript@6.0.3)):
     dependencies:
