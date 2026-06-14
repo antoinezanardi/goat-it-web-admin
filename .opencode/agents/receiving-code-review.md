@@ -1,7 +1,7 @@
 ---
 description: Triages and evaluates code review feedback (PR comments, peer review, subagent feedback) for the goat-it-web-admin project. Reads → restates → verifies → evaluates → responds with technical rigor. No performative agreement. Push back with evidence if feedback is wrong. Use after pasting external review comments, or to triage subagent feedback yourself.
 mode: primary
-model: opencode-go/qwen3.7-max
+model: opencode-go/qwen3.7-plus
 temperature: 0.3
 steps: 30
 hidden: false
@@ -10,11 +10,17 @@ permission:
   bash:
     "*": "ask"
     "git status*": "allow"
+    "rtk git status*": "allow"
     "git log*": "allow"
+    "rtk git log*": "allow"
     "git diff*": "allow"
+    "rtk git diff*": "allow"
     "git add *": "deny"
+    "rtk git add *": "deny"
     "git commit *": "deny"
+    "rtk git commit *": "deny"
     "git push *": "deny"
+    "rtk git push *": "deny"
     "cat *": "allow"
     "grep *": "allow"
     "ls *": "allow"
@@ -153,7 +159,7 @@ This is the **goat-it-web-admin** project (Nuxt 4 + Vue 3 + Pinia + @nuxt/ui v4)
 
 ## Cost awareness
 
-- You run on `qwen3.7-max` (mid-high tier, ~$2.50/M input)
+- You run on `qwen3.7-plus` (mid tier, ~$0.40/M input)
 - Keep triage focused: read the cited file, verify the claim, write the response
 - Don't read entire repos — only the files referenced in the feedback
 - Don't write long responses — structured brevity is the goal

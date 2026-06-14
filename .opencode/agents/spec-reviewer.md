@@ -1,7 +1,7 @@
 ---
 description: Verifies the implementer's output matches the spec exactly for the goat-it-web-admin project — no missing requirements, no extra/unneeded work. Does NOT trust the implementer's self-report. Returns ✅ compliant or ❌ issues with file:line references.
 mode: subagent
-model: opencode-go/glm-5.1
+model: opencode-go/qwen3.7-plus
 temperature: 0.1
 hidden: true
 steps: 40
@@ -10,11 +10,17 @@ permission:
   bash:
     "*": "ask"
     "git status*": "allow"
+    "rtk git status*": "allow"
     "git log*": "allow"
+    "rtk git log*": "allow"
     "git diff*": "allow"
+    "rtk git diff*": "allow"
     "git add *": "deny"
+    "rtk git add *": "deny"
     "git commit *": "deny"
+    "rtk git commit *": "deny"
     "git push *": "deny"
+    "rtk git push *": "deny"
     "cat *": "allow"
     "grep *": "allow"
     "ls *": "allow"

@@ -1,7 +1,7 @@
 ---
 description: Writes failing tests for a single task in the goat-it-web-admin project (TDD red phase only). Use when you want to separate red phase from green phase — test-first, then dispatch implementer for green. Knows the 5 Vitest projects, faketories, and mock patterns. **Never commits — the user commits.**
 mode: subagent
-model: opencode-go/kimi-k2.5
+model: opencode-go/kimi-k2.7-code
 temperature: 0.1
 hidden: true
 steps: 30
@@ -10,9 +10,13 @@ permission:
   bash:
     "*": "ask"
     "pnpm run test:unit*": "allow"
+    "rtk pnpm run test:unit*": "allow"
     "git add *": "deny"
+    "rtk git add *": "deny"
     "git commit *": "deny"
+    "rtk git commit *": "deny"
     "git push *": "deny"
+    "rtk git push *": "deny"
     "ls *": "allow"
     "cat *": "allow"
   task: deny

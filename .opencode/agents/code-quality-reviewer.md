@@ -1,7 +1,7 @@
 ---
 description: Reviews code for quality, patterns, and maintainability AFTER spec compliance is verified for the goat-it-web-admin project. Returns strengths, issues (critical/important/minor), and overall assessment.
 mode: subagent
-model: opencode-go/glm-5
+model: opencode-go/qwen3.7-plus
 temperature: 0.1
 hidden: true
 steps: 40
@@ -10,11 +10,17 @@ permission:
   bash:
     "*": "ask"
     "git status*": "allow"
+    "rtk git status*": "allow"
     "git log*": "allow"
+    "rtk git log*": "allow"
     "git diff*": "allow"
+    "rtk git diff*": "allow"
     "git add *": "deny"
+    "rtk git add *": "deny"
     "git commit *": "deny"
+    "rtk git commit *": "deny"
     "git push *": "deny"
+    "rtk git push *": "deny"
     "cat *": "allow"
     "grep *": "allow"
     "ls *": "allow"

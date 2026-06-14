@@ -1,7 +1,7 @@
 ---
 description: Orchestrates the full superpowers development cycle for the goat-it-web-admin Nuxt 4 project. Coordinates specialist subagents per task (plan → TDD implementation → 2-stage review → finish). Default primary agent.
 mode: primary
-model: opencode-go/glm-5.1
+model: opencode-go/qwen3.7-plus
 temperature: 0.3
 steps: 200
 permission:
@@ -112,7 +112,7 @@ If any gate fails, fix and re-run from that gate onward. Never claim "done" befo
 
 ## Cost awareness
 
-- You are ~35% of the total cost per feature. **Stay concise when communicating to the user.** Don't over-explain to the user.
+- You are approximately 15-20% of the total cost per feature. **Stay concise when communicating to the user.** Don't over-explain to the user.
 - Delegate mechanical work to subagents. Never do i18n translation or bulk operations yourself.
 - Avoid reading large files repeatedly — summarize once, then reference.
 - Cache helps: re-reads of the plan, spec, and codebase patterns are 10-30× cheaper (see `setCacheKey: true` in `opencode.json`).

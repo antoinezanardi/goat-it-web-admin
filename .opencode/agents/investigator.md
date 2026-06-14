@@ -1,7 +1,7 @@
 ---
 description: Investigates a single independent problem domain in parallel. Use when 3+ independent failures occur. Returns root cause + minimal fix for ONE problem only. Cheap model — fan out freely.
 mode: subagent
-model: opencode-go/deepseek-v4-flash
+model: opencode-go/mimo-v2.5
 temperature: 0.2
 hidden: true
 steps: 40
@@ -10,15 +10,30 @@ permission:
   bash:
     "*": "ask"
     "git status*": "allow"
+    "rtk git status*": "allow"
     "git log*": "allow"
+    "rtk git log*": "allow"
     "git diff*": "allow"
+    "rtk git diff*": "allow"
     "git add *": "deny"
+    "rtk git add *": "deny"
     "git commit *": "deny"
+    "rtk git commit *": "deny"
     "git push *": "deny"
+    "rtk git push *": "deny"
     "cat *": "allow"
     "grep *": "allow"
     "ls *": "allow"
     "pnpm run test:unit*": "allow"
+    "rtk pnpm run test:unit*": "allow"
+    "pnpm run test:acceptance*": "allow"
+    "rtk pnpm run test:acceptance*": "allow"
+    "pnpm run test:mutation*": "allow"
+    "rtk pnpm run test:mutation*": "allow"
+    "pnpm run lint*": "allow"
+    "rtk pnpm run lint*": "allow"
+    "pnpm run typecheck": "allow"
+    "rtk pnpm run typecheck": "allow"
   read: allow
   grep: allow
   glob: allow
