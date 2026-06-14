@@ -123,7 +123,7 @@
     "@stryker-mutator/core": "^9.6.1",
     "@stryker-mutator/vitest-runner": "^9.6.1",
     "@tanstack/vue-table": "^8.21.3",
-    "@types/node": "^25.9.1",
+    "@types/node": "^25.9.3",
     "@vitest/coverage-v8": "^4.1.8",
     "@vitest/eslint-plugin": "^1.6.20",
     "@vue/test-utils": "^2.4.10",
