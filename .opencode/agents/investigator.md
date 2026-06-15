@@ -6,7 +6,6 @@ temperature: 0.2
 hidden: true
 steps: 40
 permission:
-  edit: deny
   bash:
     "*": "ask"
     "git status*": "allow"
