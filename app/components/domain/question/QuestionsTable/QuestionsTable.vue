@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { AdminFindQuestionsQueryDto, QuestionCategory, QuestionCognitiveDifficulty, QuestionStatus } from "@goat-it/schemas/question";
 import type { TableColumn } from "@nuxt/ui";
 
+import type { QuestionsTableFilters } from "~/components/domain/question/QuestionsTable/QuestionsTableHeader/questions-table-header.types";
 import type { QuestionsTableEmits, QuestionsTableGlobalFilterOptions } from "~/components/domain/question/QuestionsTable/questions-table.types";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
 import { TABLE_UI } from "~/utils/constants/table/table.constants.ts";
@@ -12,6 +14,28 @@ const { t, locale: currentLocale } = useI18n();
 const questionsStore = useQuestionsStore();
 const { questions, isFetchingQuestions } = storeToRefs(questionsStore);
 
+const { filters, activeFilterCount, clearFilters, setFilterValue, hasActiveFilters } = useTableFilters({
+  definitions: {
+    status: { default: undefined as QuestionStatus | undefined },
+    category: { default: undefined as QuestionCategory | undefined },
+    cognitiveDifficulty: { default: undefined as QuestionCognitiveDifficulty | undefined },
+  },
+});
+const filterValues = computed((): [QuestionStatus | undefined, QuestionCategory | undefined, QuestionCognitiveDifficulty | undefined] => [
+  filters.status.value,
+  filters.category.value,
+  filters.cognitiveDifficulty.value,
+]);
+
+watch(filterValues, async([status, category, cognitiveDifficulty]): Promise<void> => {
+  const isAllUndefined = status === undefined && category === undefined && cognitiveDifficulty === undefined;
+  const query: AdminFindQuestionsQueryDto | undefined = isAllUndefined ? undefined : {
+    status,
+    category,
+    "cognitive-difficulty": cognitiveDifficulty,
+  } as AdminFindQuestionsQueryDto;
+  await questionsStore.fetchAndStoreQuestions(query);
+});
 const columns = computed<TableColumn<Question>[]>(() => [
   createTableColumn<Question>({ accessorKey: "category", header: t("questions.fields.category"), isCentered: true }),
   createTableColumn<Question>({ accessorKey: "themes", header: t("questions.fields.themes"), isCentered: true }),
@@ -28,15 +52,33 @@ const fuseKeys = computed<string[]>(() => [
   "status",
 ]);
 
-const { searchTerm, globalFilter, globalFilterFunction, hasActiveFilter } = useTableGlobalFilter<Question>({
+const { searchTerm, globalFilter, globalFilterFunction, hasActiveFilter: hasActiveGlobalFilter } = useTableGlobalFilter<Question>({
   data: questions,
   keys: fuseKeys,
 });
 
 const globalFilterOptions = computed<QuestionsTableGlobalFilterOptions>(() => ({ globalFilterFn: globalFilterFunction }));
 
+const hasActiveFilter = computed<boolean>(() => hasActiveGlobalFilter.value || hasActiveFilters.value);
+
+const headerFilters = computed<QuestionsTableFilters>(() => ({
+  status: filters.status.value,
+  category: filters.category.value,
+  cognitiveDifficulty: filters.cognitiveDifficulty.value,
+}));
+
 function onStartCreateFromQuestionsTableHeader(): void {
   emit("startCreate");
+}
+
+function onUpdateFilterFromQuestionsTableHeader(updatedFilters: Partial<QuestionsTableFilters>): void {
+  for (const [key, value] of Object.entries(updatedFilters)) {
+    setFilterValue(key as keyof QuestionsTableFilters, value as QuestionStatus | QuestionCategory | QuestionCognitiveDifficulty | undefined);
+  }
+}
+
+function onClearFiltersFromQuestionsTableHeader(): void {
+  clearFilters();
 }
 
 function onStartEditFromQuestionsTableActions(id: string): void {
@@ -49,8 +91,12 @@ function onStartEditFromQuestionsTableActions(id: string): void {
     <template #header>
       <QuestionsTableHeader
         v-model:search-term="searchTerm"
+        :active-filter-count="activeFilterCount"
         data-testid="questions-table-header"
+        :filters="headerFilters"
+        @clear-filters="onClearFiltersFromQuestionsTableHeader"
         @start-create="onStartCreateFromQuestionsTableHeader"
+        @update:filter="onUpdateFilterFromQuestionsTableHeader"
       />
     </template>
 

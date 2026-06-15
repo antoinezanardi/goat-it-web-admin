@@ -1,11 +1,11 @@
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import type { QuestionModificationDto, QuestionThemeAssignmentCreationDto, QuestionThemeAssignmentModificationDto } from "@goat-it/schemas/question";
+import type { AdminFindQuestionsQueryDto, QuestionModificationDto, QuestionThemeAssignmentCreationDto, QuestionThemeAssignmentModificationDto } from "@goat-it/schemas/question";
 import type { vi } from "vitest";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { createUseAsyncActionMock } from "~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock";
 import type { UseAsyncActionMock } from "~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock";
-import { createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
+import { createFakeAdminFindQuestionsQueryDto, createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
 
 import type { Question } from "#shared/types/question.types";
@@ -184,12 +184,21 @@ describe("useQuestionsStore", () => {
   });
 
   describe("fetchAndStoreQuestions", () => {
-    it("should call fetchQuestions when called.", async() => {
+    it("should call fetchQuestions without query when called without params.", async() => {
       const store = useQuestionsStore();
 
       await store.fetchAndStoreQuestions();
 
-      expect(fetchAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith();
+      expect(fetchAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith(undefined);
+    });
+
+    it("should call fetchQuestions with query when called with query params.", async() => {
+      const store = useQuestionsStore();
+      const query: AdminFindQuestionsQueryDto = createFakeAdminFindQuestionsQueryDto();
+
+      await store.fetchAndStoreQuestions(query);
+
+      expect(fetchAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith(query);
     });
 
     it("should update questions with the fetched questions when fetchQuestions resolves with data.", async() => {

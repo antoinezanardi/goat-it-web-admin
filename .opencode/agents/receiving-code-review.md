@@ -1,7 +1,7 @@
 ---
 description: Triages and evaluates code review feedback (PR comments, peer review, subagent feedback) for the goat-it-web-admin project. Reads → restates → verifies → evaluates → responds with technical rigor. No performative agreement. Push back with evidence if feedback is wrong. Use after pasting external review comments, or to triage subagent feedback yourself.
 mode: primary
-model: opencode-go/qwen3.7-plus
+model: opencode-go/deepseek-v4-pro
 temperature: 0.3
 steps: 30
 hidden: false

@@ -35,6 +35,8 @@ permission:
     "cat *": "allow"
     "mkdir *": "allow"
     "grep *": "allow"
+    "readlink *": "allow"
+    "tail *": "allow"
   task: deny
   webfetch: deny
 ---

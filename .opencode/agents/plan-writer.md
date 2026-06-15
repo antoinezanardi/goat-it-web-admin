@@ -11,6 +11,12 @@ permission:
     "*": "deny"
   bash:
     "*": "ask"
+    "find*": "allow"
+    "rtk find*": "allow"
+    "grep*": "allow"
+    "rtk grep*": "allow"
+    "echo *": "allow"
+    "rtk echo *": "allow"
     "pnpm run test:unit*": "allow"
     "rtk pnpm run test:unit*": "allow"
     "git status*": "allow"
@@ -22,6 +28,8 @@ permission:
     "ls *": "allow"
     "cat *": "allow"
     "grep *": "allow"
+    "head *": "allow"
+    "rtk head *": "allow"
   task: deny
   webfetch: deny
 ---

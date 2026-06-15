@@ -68,6 +68,19 @@ describe("TableFilterSelect Component", () => {
       expect(items).toHaveLength(3);
     });
 
+    it("should pass item icons to the select menu when items have icons.", async() => {
+      wrapper = await mountTableFilterSelectComponent({
+        props: {
+          ...defaultProps,
+          items: [createFakeTableFilterSelectItem({ label: "Active", value: "active", icon: "i-lucide-check" })],
+        },
+      });
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+      const items = selectMenu.props("items") as { label: string; value: string | undefined; icon?: string }[];
+
+      expect(items[1]).toStrictEqual({ label: "Active", value: "active", icon: "i-lucide-check" });
+    });
+
     it("should pass undefined as modelValue to the select menu when no value is selected.", () => {
       const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
 

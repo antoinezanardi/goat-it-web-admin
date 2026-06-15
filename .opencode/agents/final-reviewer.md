@@ -1,7 +1,7 @@
 ---
 description: Reviews the entire feature branch against the full plan and spec for the goat-it-web-admin project. Catches cross-task issues the per-task reviewers missed. Runs all 4 mandatory quality gates. Returns a merge recommendation.
 mode: subagent
-model: opencode-go/qwen3.7-max
+model: opencode-go/deepseek-v4-pro
 temperature: 0.1
 hidden: true
 steps: 60

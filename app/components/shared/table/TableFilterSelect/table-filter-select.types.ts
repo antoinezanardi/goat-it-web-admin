@@ -1,6 +1,7 @@
 type TableFilterSelectItem<T extends string = string> = {
   label: string;
   value: T;
+  icon?: string;
 };
 
 type TableFilterSelectAllItem = {

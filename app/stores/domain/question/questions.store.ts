@@ -1,4 +1,4 @@
-import type { QuestionCreationDto, QuestionModificationDto, QuestionThemeAssignmentCreationDto, QuestionThemeAssignmentModificationDto } from "@goat-it/schemas/question";
+import type { AdminFindQuestionsQueryDto, QuestionCreationDto, QuestionModificationDto, QuestionThemeAssignmentCreationDto, QuestionThemeAssignmentModificationDto } from "@goat-it/schemas/question";
 
 import { replaceInArrayById } from "#shared/utils/helpers/array/array.helpers";
 
@@ -87,8 +87,8 @@ export const useQuestionsStore = defineStore(StoreNames.QUESTIONS, () => {
     (thrownError: unknown) => handleGoatItApiError(thrownError, t("questions.cantModify")),
   );
 
-  async function fetchAndStoreQuestions(): Promise<void> {
-    const fetchedQuestions = await fetchQuestions();
+  async function fetchAndStoreQuestions(query?: AdminFindQuestionsQueryDto): Promise<void> {
+    const fetchedQuestions = await fetchQuestions(query);
     if (fetchedQuestions) {
       questions.value = fetchedQuestions;
     }

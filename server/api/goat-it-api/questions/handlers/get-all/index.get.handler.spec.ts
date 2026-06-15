@@ -39,7 +39,7 @@ describe("Server Goat It API Questions Get Handler", () => {
       expect(createGoatItApiFetchOptions).toHaveBeenCalledExactlyOnceWith(expectedGoatItApiConfig);
     });
 
-    it("should fetch questions from goat it api with correct endpoint and fetch options when called.", async() => {
+    it("should fetch questions from goat it api with correct endpoint, fetch options and default query when called.", async() => {
       const expectedEndpoint = "/admin/questions";
       const expectedFetchOptions = {
         baseURL: "https://api.goat-it.com",
@@ -51,7 +51,58 @@ describe("Server Goat It API Questions Get Handler", () => {
       vi.mocked(createGoatItApiFetchOptions).mockReturnValue(expectedFetchOptions);
       await getQuestionsHandler(mockedEvent);
 
-      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, expectedFetchOptions);
+      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, { ...expectedFetchOptions, query: { "sort-by": "createdAt", "sort-order": "desc" } });
+    });
+
+    it("should get query from event when called.", async() => {
+      await getQuestionsHandler(mockedEvent);
+
+      expect(getQuery).toHaveBeenCalledExactlyOnceWith(mockedEvent);
+    });
+
+    it("should fetch questions with status query param when query contains status.", async() => {
+      const expectedEndpoint = "/admin/questions";
+      const expectedFetchOptions = {
+        baseURL: "https://api.goat-it.com",
+        headers: {
+          "goat-it-api-key": "test-admin-key",
+        },
+      };
+      vi.mocked(createGoatItApiEndpoint).mockReturnValue(expectedEndpoint);
+      vi.mocked(createGoatItApiFetchOptions).mockReturnValue(expectedFetchOptions);
+      vi.mocked(getQuery).mockReturnValue({ status: "active" });
+      await getQuestionsHandler(mockedEvent);
+
+      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, { ...expectedFetchOptions, query: { "sort-by": "createdAt", "sort-order": "desc", "status": "active" } });
+    });
+
+    it("should fetch questions with category and cognitive-difficulty query params when query contains them.", async() => {
+      const expectedEndpoint = "/admin/questions";
+      const expectedFetchOptions = {
+        baseURL: "https://api.goat-it.com",
+        headers: {
+          "goat-it-api-key": "test-admin-key",
+        },
+      };
+      vi.mocked(createGoatItApiEndpoint).mockReturnValue(expectedEndpoint);
+      vi.mocked(createGoatItApiFetchOptions).mockReturnValue(expectedFetchOptions);
+      vi.mocked(getQuery).mockReturnValue({ "category": "trivia", "cognitive-difficulty": "easy" });
+      await getQuestionsHandler(mockedEvent);
+
+      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, {
+        ...expectedFetchOptions,
+        query: { "sort-by": "createdAt", "sort-order": "desc", "category": "trivia", "cognitive-difficulty": "easy" },
+      });
+    });
+
+    it("should throw zod error when query params are invalid.", async() => {
+      vi.mocked(getQuery).mockReturnValue({ status: "invalid-status" });
+
+      const asyncFunction = async(): Promise<void> => {
+        await getQuestionsHandler(mockedEvent);
+      };
+
+      await expect(asyncFunction).rejects.toThrow(ZodError);
     });
 
     it("should return mapped questions when called.", async() => {
