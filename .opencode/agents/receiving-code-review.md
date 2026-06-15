@@ -159,7 +159,7 @@ This is the **goat-it-web-admin** project (Nuxt 4 + Vue 3 + Pinia + @nuxt/ui v4)
 
 ## Cost awareness
 
-- You run on `qwen3.7-plus` (mid tier, ~$0.40/M input)
+- You run on `deepseek-v4-pro` (mid tier, ~$0.40/M input)
 - Keep triage focused: read the cited file, verify the claim, write the response
 - Don't read entire repos — only the files referenced in the feedback
 - Don't write long responses — structured brevity is the goal
