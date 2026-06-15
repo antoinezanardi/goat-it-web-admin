@@ -38,7 +38,7 @@
   },
   "readme": "README.md",
   "engines": {
-    "node": ">=25.9.0"
+    "node": ">=26.3.0"
   },
   "os": [
     "darwin",
@@ -102,7 +102,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
     "@commitlint/config-conventional": "^21.0.2",
-    "@cucumber/cucumber": "^12.9.0",
+    "@cucumber/cucumber": "^13.0.0",
     "@eslint/config-inspector": "^3.0.4",
     "@faker-js/faker": "^10.4.0",
     "@goat-it/schemas": "^0.0.12-beta",
