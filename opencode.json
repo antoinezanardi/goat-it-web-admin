@@ -1,0 +1,31 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode-go/qwen3.7-plus",
+  "small_model": "opencode-go/mimo-v2.5",
+  "default_agent": "orchestrator",
+  "provider": {
+    "opencode-go": {
+      "options": {
+        "timeout": 600000,
+        "setCacheKey": true
+      }
+    }
+  },
+  "permission": {
+    "skill": { "*": "allow" },
+    "bash": {
+      "git checkout -b *": "allow",
+      "git add *": "deny",
+      "git commit *": "deny",
+      "git push *": "deny",
+      "rtk git add *": "deny",
+      "rtk git commit *": "deny",
+      "rtk git push *": "deny"
+    }
+  },
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 15000
+  }
+}
