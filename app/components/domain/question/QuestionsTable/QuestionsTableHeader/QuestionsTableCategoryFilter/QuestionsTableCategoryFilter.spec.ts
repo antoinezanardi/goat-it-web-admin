@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import { createFakeTableFilterSelectItem } from "~~/tests/unit/utils/faketories/shared/table-filter-select/table-filter-select-item.faketory";
 
 import { QuestionsTableCategoryFilter } from "#components";
 
@@ -39,10 +40,10 @@ describe("QuestionsTableCategoryFilter Component", () => {
       const filterSelect = wrapper.findComponent({ name: "TableFilterSelect" });
 
       expect(filterSelect.props("items")).toStrictEqual([
-        { label: "questions.category.trivia", value: "trivia", icon: "i-lucide-lightbulb" },
-        { label: "questions.category.lexicon", value: "lexicon", icon: "i-lucide-book-open" },
-        { label: "questions.category.riddle", value: "riddle", icon: "i-lucide-puzzle" },
-        { label: "questions.category.explanation", value: "explanation", icon: "i-lucide-message-circle" },
+        createFakeTableFilterSelectItem({ label: "questions.category.trivia", value: "trivia", icon: "i-lucide-lightbulb" }),
+        createFakeTableFilterSelectItem({ label: "questions.category.lexicon", value: "lexicon", icon: "i-lucide-book-open" }),
+        createFakeTableFilterSelectItem({ label: "questions.category.riddle", value: "riddle", icon: "i-lucide-puzzle" }),
+        createFakeTableFilterSelectItem({ label: "questions.category.explanation", value: "explanation", icon: "i-lucide-message-circle" }),
       ]);
     });
 

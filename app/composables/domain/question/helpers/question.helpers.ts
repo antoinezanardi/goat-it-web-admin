@@ -12,4 +12,7 @@ function getQuestionCategoryUiMetadata(category: QuestionCategory): QuestionCate
   return QUESTION_CATEGORY_UI_METADATA[category];
 }
 
-export { getQuestionCognitiveDifficultyUiMetadata, getQuestionCategoryUiMetadata };
+export {
+  getQuestionCognitiveDifficultyUiMetadata,
+  getQuestionCategoryUiMetadata,
+};

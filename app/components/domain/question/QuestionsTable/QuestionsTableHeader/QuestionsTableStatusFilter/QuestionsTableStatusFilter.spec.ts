@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import { createFakeTableFilterSelectItem } from "~~/tests/unit/utils/faketories/shared/table-filter-select/table-filter-select-item.faketory";
 
 import { QuestionsTableStatusFilter } from "#components";
 
@@ -39,10 +40,10 @@ describe("QuestionsTableStatusFilter Component", () => {
       const filterSelect = wrapper.findComponent({ name: "TableFilterSelect" });
 
       expect(filterSelect.props("items")).toStrictEqual([
-        { label: "questions.status.pending", value: "pending" },
-        { label: "questions.status.active", value: "active" },
-        { label: "questions.status.archived", value: "archived" },
-        { label: "questions.status.rejected", value: "rejected" },
+        createFakeTableFilterSelectItem({ label: "questions.status.pending", value: "pending" }),
+        createFakeTableFilterSelectItem({ label: "questions.status.active", value: "active" }),
+        createFakeTableFilterSelectItem({ label: "questions.status.archived", value: "archived" }),
+        createFakeTableFilterSelectItem({ label: "questions.status.rejected", value: "rejected" }),
       ]);
     });
 

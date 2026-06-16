@@ -43,8 +43,8 @@ permission:
     "rtk readlink *": "allow"
     "tail *": "allow"
     "rtk tail *": "allow"
-    "head": "allow"
-    "rtk head": "allow"
+    "head *": "allow"
+    "rtk head *": "allow"
   task: deny
   webfetch: deny
 ---

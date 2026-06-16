@@ -10,6 +10,7 @@ import type { vi } from "vitest";
 import type { AdminFindQuestionsQueryDto } from "@goat-it/schemas/question";
 
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
+import { createFakeQuestionsTableFilters } from "~~/tests/unit/utils/faketories/questions/components/questions-table-filters.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
@@ -377,11 +378,7 @@ describe("QuestionsTable Component", () => {
     it("should pass all undefined filters to the table header when no filter is active.", () => {
       const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
 
-      expect(header.props("filters")).toStrictEqual({
-        status: undefined,
-        category: undefined,
-        cognitiveDifficulty: undefined,
-      });
+      expect(header.props("filters")).toStrictEqual(createFakeQuestionsTableFilters({ status: undefined, category: undefined, cognitiveDifficulty: undefined }));
     });
 
     it("should call fetchAndStoreQuestions with status query when the header emits update:filter with status.", async() => {
@@ -389,7 +386,7 @@ describe("QuestionsTable Component", () => {
       getWrapperVm(header).$emit("update:filter", { status: "active" });
       await nextTick();
 
-      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledWith({
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
         "status": "active",
         "category": undefined,
         "cognitive-difficulty": undefined,
@@ -401,7 +398,7 @@ describe("QuestionsTable Component", () => {
       getWrapperVm(header).$emit("update:filter", { category: "trivia" });
       await nextTick();
 
-      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledWith({
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
         "status": undefined,
         "category": "trivia",
         "cognitive-difficulty": undefined,
@@ -413,7 +410,7 @@ describe("QuestionsTable Component", () => {
       getWrapperVm(header).$emit("update:filter", { cognitiveDifficulty: "easy" });
       await nextTick();
 
-      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledWith({
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
         "status": undefined,
         "category": undefined,
         "cognitive-difficulty": "easy",
@@ -425,7 +422,7 @@ describe("QuestionsTable Component", () => {
       getWrapperVm(header).$emit("update:filter", { status: "active", category: "trivia", cognitiveDifficulty: "easy" });
       await nextTick();
 
-      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledWith({
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
         "status": "active",
         "category": "trivia",
         "cognitive-difficulty": "easy",

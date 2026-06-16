@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import { createFakeQuestionsTableFilters } from "~~/tests/unit/utils/faketories/questions/components/questions-table-filters.faketory";
 
 import { QuestionsTableHeader } from "#components";
 import type { TableGlobalSearchInput, TableFiltersSection, QuestionsTableStatusFilter, QuestionsTableCategoryFilter, QuestionsTableCognitiveDifficultyFilter } from "#components";
@@ -15,7 +16,7 @@ describe("QuestionsTableHeader Component", () => {
   const defaultProps: QuestionsTableHeaderProps = {
     searchTerm: "",
     activeFilterCount: 0,
-    filters: { status: undefined, category: undefined, cognitiveDifficulty: undefined },
+    filters: createFakeQuestionsTableFilters({ status: undefined, category: undefined, cognitiveDifficulty: undefined }),
   };
 
   async function mountQuestionsTableHeaderComponent(options: MountSuspendedOptions<typeof QuestionsTableHeader> = {}): Promise<VueWrapper> {
@@ -28,6 +29,11 @@ describe("QuestionsTableHeader Component", () => {
   beforeEach(async() => {
     wrapper = await mountQuestionsTableHeaderComponent();
   });
+
+  async function expandFiltersSection(): Promise<void> {
+    const toggleButton = wrapper.find("[data-testid='table-filters-section-toggle']");
+    await toggleButton.trigger("click");
+  }
 
   it("should render the questions table header component when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
@@ -101,11 +107,6 @@ describe("QuestionsTableHeader Component", () => {
   });
 
   describe("Status filter", () => {
-    async function expandFiltersSection(): Promise<void> {
-      const toggleButton = wrapper.find("[data-testid='table-filters-section-toggle']");
-      await toggleButton.trigger("click");
-    }
-
     it("should render the status filter with undefined modelValue when no status is selected.", async() => {
       await expandFiltersSection();
       const statusFilter = wrapper.findComponent<typeof QuestionsTableStatusFilter>({ name: "QuestionsTableStatusFilter" });
@@ -114,7 +115,7 @@ describe("QuestionsTableHeader Component", () => {
     });
 
     it("should pass the status filter value when a status is selected.", async() => {
-      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, filters: { ...defaultProps.filters, status: "active" } } });
+      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, filters: createFakeQuestionsTableFilters({ status: "active" }) } });
       await expandFiltersSection();
       const statusFilter = wrapper.findComponent<typeof QuestionsTableStatusFilter>({ name: "QuestionsTableStatusFilter" });
 
@@ -131,11 +132,6 @@ describe("QuestionsTableHeader Component", () => {
   });
 
   describe("Category filter", () => {
-    async function expandFiltersSection(): Promise<void> {
-      const toggleButton = wrapper.find("[data-testid='table-filters-section-toggle']");
-      await toggleButton.trigger("click");
-    }
-
     it("should render the category filter with undefined modelValue when no category is selected.", async() => {
       await expandFiltersSection();
       const categoryFilter = wrapper.findComponent<typeof QuestionsTableCategoryFilter>({ name: "QuestionsTableCategoryFilter" });
@@ -144,7 +140,7 @@ describe("QuestionsTableHeader Component", () => {
     });
 
     it("should pass the category filter value when a category is selected.", async() => {
-      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, filters: { ...defaultProps.filters, category: "trivia" } } });
+      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, filters: createFakeQuestionsTableFilters({ category: "trivia" }) } });
       await expandFiltersSection();
       const categoryFilter = wrapper.findComponent<typeof QuestionsTableCategoryFilter>({ name: "QuestionsTableCategoryFilter" });
 
@@ -161,11 +157,6 @@ describe("QuestionsTableHeader Component", () => {
   });
 
   describe("Cognitive difficulty filter", () => {
-    async function expandFiltersSection(): Promise<void> {
-      const toggleButton = wrapper.find("[data-testid='table-filters-section-toggle']");
-      await toggleButton.trigger("click");
-    }
-
     it("should render the cognitive difficulty filter with undefined modelValue when no cognitive difficulty is selected.", async() => {
       await expandFiltersSection();
       const cognitiveDifficultyFilter = wrapper.findComponent<typeof QuestionsTableCognitiveDifficultyFilter>({ name: "QuestionsTableCognitiveDifficultyFilter" });
@@ -174,7 +165,7 @@ describe("QuestionsTableHeader Component", () => {
     });
 
     it("should pass the cognitive difficulty filter value when a cognitive difficulty is selected.", async() => {
-      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, filters: { ...defaultProps.filters, cognitiveDifficulty: "easy" } } });
+      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, filters: createFakeQuestionsTableFilters({ cognitiveDifficulty: "easy" }) } });
       await expandFiltersSection();
       const cognitiveDifficultyFilter = wrapper.findComponent<typeof QuestionsTableCognitiveDifficultyFilter>({ name: "QuestionsTableCognitiveDifficultyFilter" });
 

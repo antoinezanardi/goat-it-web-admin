@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import { createFakeTableFilterSelectItem } from "~~/tests/unit/utils/faketories/shared/table-filter-select/table-filter-select-item.faketory";
 
 import { QuestionsTableCognitiveDifficultyFilter } from "#components";
 
@@ -39,9 +40,9 @@ describe("QuestionsTableCognitiveDifficultyFilter Component", () => {
       const filterSelect = wrapper.findComponent({ name: "TableFilterSelect" });
 
       expect(filterSelect.props("items")).toStrictEqual([
-        { label: "questions.difficulty.easy", value: "easy", icon: "i-lucide-brain" },
-        { label: "questions.difficulty.medium", value: "medium", icon: "i-lucide-brain-cog" },
-        { label: "questions.difficulty.hard", value: "hard", icon: "i-lucide-brain-circuit" },
+        createFakeTableFilterSelectItem({ label: "questions.difficulty.easy", value: "easy", icon: "i-lucide-brain" }),
+        createFakeTableFilterSelectItem({ label: "questions.difficulty.medium", value: "medium", icon: "i-lucide-brain-cog" }),
+        createFakeTableFilterSelectItem({ label: "questions.difficulty.hard", value: "hard", icon: "i-lucide-brain-circuit" }),
       ]);
     });
 

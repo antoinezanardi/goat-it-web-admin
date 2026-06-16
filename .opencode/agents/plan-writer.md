@@ -11,25 +11,26 @@ permission:
     "*": "deny"
   bash:
     "*": "ask"
-    "find*": "allow"
-    "rtk find*": "allow"
-    "grep*": "allow"
-    "rtk grep*": "allow"
+    "find *": "allow"
+    "rtk find *": "allow"
+    "grep *": "allow"
+    "rtk grep *": "allow"
     "echo *": "allow"
     "rtk echo *": "allow"
-    "pnpm run test:unit*": "allow"
-    "rtk pnpm run test:unit*": "allow"
-    "git status*": "allow"
-    "rtk git status*": "allow"
-    "git log*": "allow"
-    "rtk git log*": "allow"
-    "git diff*": "allow"
-    "rtk git diff*": "allow"
+    "git status *": "allow"
+    "rtk git status *": "allow"
+    "git log *": "allow"
+    "rtk git log *": "allow"
+    "git diff *": "allow"
+    "rtk git diff *": "allow"
     "ls *": "allow"
+    "rtk ls *": "allow"
     "cat *": "allow"
-    "grep *": "allow"
+    "rtk cat *": "allow"
     "head *": "allow"
     "rtk head *": "allow"
+    "tail *": "allow"
+    "rtk tail *": "allow"
   task: deny
   webfetch: deny
 ---
@@ -105,7 +106,6 @@ Expected: PASS
 - Mocks: `<composable|repository>.mock.ts` triplet
 - i18n keys: assert keys, not translated strings
 - TypeScript: `any` is forbidden; use `unknown` + narrowing
-- Conventional commits: `type(scope): message`
 - No `console.log` in production; use `useAppToast` for user-facing messages
 - 100% test coverage (every line, branch, function)
 

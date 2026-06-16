@@ -1,5 +1,4 @@
 import type { $Fetch } from "nitropack";
-import type { AdminFindQuestionsQueryDto } from "@goat-it/schemas/question";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
@@ -45,7 +44,7 @@ describe(questionsRepository, () => {
     it("should call fetch with the correct endpoint and query when called with query params.", async() => {
       const repository = questionsRepository(fetchMock);
       fetchMock.mockResolvedValue([]);
-      const query: AdminFindQuestionsQueryDto = createFakeAdminFindQuestionsQueryDto();
+      const query = createFakeAdminFindQuestionsQueryDto();
       await repository.getAll(query);
 
       expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/questions", { query });

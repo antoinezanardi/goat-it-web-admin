@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { ADMIN_QUESTION_SORTABLE_FIELDS, QUESTION_AUTHOR_ROLES, QUESTION_CATEGORIES, QUESTION_COGNITIVE_DIFFICULTIES, QUESTION_STATUSES } from "@goat-it/schemas/question";
 import type { AdminFindQuestionsQueryDto, AdminQuestionDto, QuestionCreationDto } from "@goat-it/schemas/question";
+import { SORT_ORDERS } from "@goat-it/schemas/shared/constants";
 
 import { createFakeAdminQuestionAuthorDto } from "~~/tests/unit/utils/faketories/questions/dto/question-author/question-author.dto.faketory";
 import { createFakeAdminQuestionContentDto } from "~~/tests/unit/utils/faketories/questions/dto/question-content/question-content.dto.faketory";
@@ -37,7 +38,7 @@ function createFakeQuestionCreationDto(questionCreationDto: Partial<QuestionCrea
 function createFakeAdminFindQuestionsQueryDto(dto: Partial<AdminFindQuestionsQueryDto> = {}): AdminFindQuestionsQueryDto {
   return {
     "sort-by": faker.helpers.arrayElement(ADMIN_QUESTION_SORTABLE_FIELDS),
-    "sort-order": faker.helpers.arrayElement(["asc", "desc"] as const),
+    "sort-order": faker.helpers.arrayElement(SORT_ORDERS),
     "status": faker.helpers.arrayElement(QUESTION_STATUSES),
     "category": faker.helpers.arrayElement(QUESTION_CATEGORIES),
     "cognitive-difficulty": faker.helpers.arrayElement(QUESTION_COGNITIVE_DIFFICULTIES),

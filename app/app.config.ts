@@ -34,6 +34,7 @@ export default defineAppConfig({
       slots: {
         base: "cursor-pointer",
         item: "cursor-pointer",
+        content: "min-w-(--reka-select-trigger-width) w-max",
       },
     },
     select: {
