@@ -108,8 +108,8 @@ importers:
         specifier: ^1.70.0
         version: 1.70.0(oxlint@1.70.0(oxlint-tsgolint@0.23.0))
       eslint-plugin-unicorn:
-        specifier: ^66.0.0
-        version: 66.0.0(eslint@10.5.0(jiti@2.7.0)(supports-color@10.2.2))
+        specifier: ^67.0.0
+        version: 67.0.0(eslint@10.5.0(jiti@2.7.0)(supports-color@10.2.2))
       fuse.js:
         specifier: ^7.4.2
         version: 7.4.2
@@ -5070,8 +5070,8 @@ packages:
     peerDependencies:
       eslint: '>=9.38.0'
 
-  eslint-plugin-unicorn@66.0.0:
-    resolution: {integrity: sha512-+ywdy8T3foyZ2t3nRBujGa3vfOVMobHIi5iLB0L+fogdVO3EiUJ4BAyIacogWytnweLw3hgT70LQL9KoKTY/kA==}
+  eslint-plugin-unicorn@67.0.0:
+    resolution: {integrity: sha512-XEYhNfAFFFYQLq++53iqpgIPFqvjasf5lsUJuCdmd/QvbRfcLbmPTjcTyVEXc5yBudWIg08SSEGgqJtEojk1ug==}
     engines: {node: '>=22'}
     peerDependencies:
       eslint: '>=10.4'
@@ -13283,7 +13283,7 @@ snapshots:
       semver: 7.8.4
       strip-indent: 4.1.1
 
-  eslint-plugin-unicorn@66.0.0(eslint@10.5.0(jiti@2.7.0)(supports-color@10.2.2)):
+  eslint-plugin-unicorn@67.0.0(eslint@10.5.0(jiti@2.7.0)(supports-color@10.2.2)):
     dependencies:
       '@babel/helper-validator-identifier': 7.29.7
       '@eslint-community/eslint-utils': 4.9.1(eslint@10.5.0(jiti@2.7.0)(supports-color@10.2.2))
