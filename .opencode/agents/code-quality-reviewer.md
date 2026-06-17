@@ -1,7 +1,7 @@
 ---
 description: Reviews code for quality, patterns, and maintainability AFTER spec compliance is verified for the goat-it-web-admin project. Returns strengths, issues (critical/important/minor), and overall assessment.
 mode: subagent
-model: opencode-go/qwen3.7-plus
+model: opencode-go/deepseek-v4-pro
 temperature: 0.1
 hidden: true
 steps: 40

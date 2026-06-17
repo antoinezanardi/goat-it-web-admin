@@ -1,13 +1,14 @@
 import { faker } from "@faker-js/faker";
-import { QUESTION_THEME_STATUSES } from "@goat-it/schemas/question-theme";
+import { ADMIN_QUESTION_THEME_SORTABLE_FIELDS, QUESTION_THEME_STATUSES } from "@goat-it/schemas/question-theme";
 import type { AdminFindQuestionThemesQueryDto, AdminQuestionThemeDto, QuestionThemeCreationDto, QuestionThemeModificationDto } from "@goat-it/schemas/question-theme";
+import { SORT_ORDERS } from "@goat-it/schemas/shared/constants";
 
 import { createFakeLocalizedText, createFakeLocalizedTexts } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 
 function createFakeAdminFindQuestionThemesQueryDto(dto: Partial<AdminFindQuestionThemesQueryDto> = {}): AdminFindQuestionThemesQueryDto {
   return {
-    "sort-by": faker.helpers.arrayElement(["slug", "status", "createdAt", "updatedAt"] as const),
-    "sort-order": faker.helpers.arrayElement(["asc", "desc"] as const),
+    "sort-by": faker.helpers.arrayElement(ADMIN_QUESTION_THEME_SORTABLE_FIELDS),
+    "sort-order": faker.helpers.arrayElement(SORT_ORDERS),
     "status": faker.helpers.arrayElement(QUESTION_THEME_STATUSES),
     ...dto,
   };

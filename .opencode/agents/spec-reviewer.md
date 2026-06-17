@@ -1,7 +1,7 @@
 ---
 description: Verifies the implementer's output matches the spec exactly for the goat-it-web-admin project — no missing requirements, no extra/unneeded work. Does NOT trust the implementer's self-report. Returns ✅ compliant or ❌ issues with file:line references.
 mode: subagent
-model: opencode-go/qwen3.7-plus
+model: opencode-go/kimi-k2.7-code
 temperature: 0.1
 hidden: true
 steps: 40

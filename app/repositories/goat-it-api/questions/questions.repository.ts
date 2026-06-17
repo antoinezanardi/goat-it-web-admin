@@ -1,10 +1,16 @@
-import type { QuestionCreationDto, QuestionModificationDto, QuestionThemeAssignmentCreationDto, QuestionThemeAssignmentModificationDto } from "@goat-it/schemas/question";
+import type {
+  AdminFindQuestionsQueryDto,
+  QuestionCreationDto,
+  QuestionModificationDto,
+  QuestionThemeAssignmentCreationDto,
+  QuestionThemeAssignmentModificationDto,
+} from "@goat-it/schemas/question";
 import type { $Fetch } from "nitropack";
 
 import type { Question } from "#shared/types/question.types";
 
 type QuestionsRepository = (fetch: $Fetch) => {
-  getAll: () => Promise<Question[]>;
+  getAll: (query?: AdminFindQuestionsQueryDto) => Promise<Question[]>;
   getById: (id: string) => Promise<Question>;
   create: (creationDto: QuestionCreationDto) => Promise<Question>;
   archive: (id: string) => Promise<Question>;
@@ -15,8 +21,8 @@ type QuestionsRepository = (fetch: $Fetch) => {
 };
 
 export const questionsRepository: QuestionsRepository = (fetch: $Fetch) => ({
-  async getAll(): Promise<Question[]> {
-    return fetch<Question[]>("/api/goat-it-api/questions");
+  async getAll(query?: AdminFindQuestionsQueryDto): Promise<Question[]> {
+    return fetch<Question[]>("/api/goat-it-api/questions", { query });
   },
 
   async getById(id: string): Promise<Question> {

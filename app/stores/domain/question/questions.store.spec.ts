@@ -1,11 +1,13 @@
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import type { QuestionModificationDto, QuestionThemeAssignmentCreationDto, QuestionThemeAssignmentModificationDto } from "@goat-it/schemas/question";
 import type { vi } from "vitest";
 import { beforeEach, describe, expect, it } from "vitest";
 
+import { createFakeQuestionThemeAssignmentCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-creation/question-theme-assignment-creation.dto.faketory.ts";
+import { createFakeQuestionThemeAssignmentModificationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-modification/question-theme-assignment-modification.dto.faketory";
+import { createFakeQuestionModificationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-modification/question-modification.dto.faketory";
 import { createUseAsyncActionMock } from "~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock";
 import type { UseAsyncActionMock } from "~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock";
-import { createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
+import { createFakeAdminFindQuestionsQueryDto, createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
 
 import type { Question } from "#shared/types/question.types";
@@ -184,12 +186,21 @@ describe("useQuestionsStore", () => {
   });
 
   describe("fetchAndStoreQuestions", () => {
-    it("should call fetchQuestions when called.", async() => {
+    it("should call fetchQuestions without query when called without params.", async() => {
       const store = useQuestionsStore();
 
       await store.fetchAndStoreQuestions();
 
-      expect(fetchAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith();
+      expect(fetchAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith(undefined);
+    });
+
+    it("should call fetchQuestions with query when called with query params.", async() => {
+      const store = useQuestionsStore();
+      const query = createFakeAdminFindQuestionsQueryDto();
+
+      await store.fetchAndStoreQuestions(query);
+
+      expect(fetchAsyncActionMock.execute).toHaveBeenCalledExactlyOnceWith(query);
     });
 
     it("should update questions with the fetched questions when fetchQuestions resolves with data.", async() => {
@@ -597,7 +608,7 @@ describe("useQuestionsStore", () => {
   describe("assignThemeAndStoreQuestion", () => {
     it("should call the assignTheme execute function with the id and dto when invoked.", async() => {
       const store = useQuestionsStore();
-      const fakeDto: QuestionThemeAssignmentCreationDto = { themeId: "theme-id-456", isPrimary: false, isHint: true };
+      const fakeDto = createFakeQuestionThemeAssignmentCreationDto();
 
       await store.assignThemeAndStoreQuestion("question-id-123", fakeDto);
 
@@ -611,7 +622,7 @@ describe("useQuestionsStore", () => {
       const store = useQuestionsStore();
       store.questions = [otherQuestion, existingQuestion];
       assignThemeAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
-      const fakeDto: QuestionThemeAssignmentCreationDto = { themeId: "theme-id-456", isPrimary: false, isHint: true };
+      const fakeDto = createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-id-456", isPrimary: false, isHint: true });
 
       await store.assignThemeAndStoreQuestion("question-id-123", fakeDto);
 
@@ -624,7 +635,7 @@ describe("useQuestionsStore", () => {
       const store = useQuestionsStore();
       store.questions = [existingQuestion];
       assignThemeAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
-      const fakeDto: QuestionThemeAssignmentCreationDto = { themeId: "theme-id-456", isPrimary: false, isHint: true };
+      const fakeDto = createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-id-456", isPrimary: false, isHint: true });
 
       await store.assignThemeAndStoreQuestion("question-id-123", fakeDto);
 
@@ -639,7 +650,7 @@ describe("useQuestionsStore", () => {
       const store = useQuestionsStore();
       store.questions = [existingQuestion];
       assignThemeAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
-      const fakeDto: QuestionThemeAssignmentCreationDto = { themeId: "theme-id-456", isPrimary: false, isHint: true };
+      const fakeDto = createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-id-456", isPrimary: false, isHint: true });
 
       await store.assignThemeAndStoreQuestion("question-id-123", fakeDto);
 
@@ -652,7 +663,7 @@ describe("useQuestionsStore", () => {
       const store = useQuestionsStore();
       store.questions = [existingQuestion];
       assignThemeAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
-      const fakeDto: QuestionThemeAssignmentCreationDto = { themeId: "theme-id-456", isPrimary: false, isHint: true };
+      const fakeDto = createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-id-456", isPrimary: false, isHint: true });
 
       await store.assignThemeAndStoreQuestion("question-id-123", fakeDto);
 
@@ -664,7 +675,7 @@ describe("useQuestionsStore", () => {
       const store = useQuestionsStore();
       store.questions = [existingQuestion];
 
-      await store.assignThemeAndStoreQuestion("question-id-123", { themeId: "theme-id-456", isPrimary: false, isHint: true });
+      await store.assignThemeAndStoreQuestion("question-id-123", createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-id-456", isPrimary: false, isHint: true }));
 
       expect(store.questions).toStrictEqual([existingQuestion]);
     });
@@ -673,7 +684,7 @@ describe("useQuestionsStore", () => {
   describe("useAsyncAction setup for assignTheme", () => {
     it("should pass an async function calling repository.assignTheme as action to useAsyncAction when created.", async() => {
       const fakeQuestion = createFakeQuestion();
-      const fakeDto: QuestionThemeAssignmentCreationDto = { themeId: "theme-id-456", isPrimary: false, isHint: true };
+      const fakeDto = createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-id-456", isPrimary: false, isHint: true });
       useQuestionsStore();
       const mockAssignTheme = questionsRepository($fetch).assignTheme as ReturnType<typeof vi.fn>;
       mockAssignTheme.mockResolvedValue(fakeQuestion);
@@ -685,7 +696,7 @@ describe("useQuestionsStore", () => {
 
     it("should return the result from repository.assignTheme when the captured action is invoked.", async() => {
       const fakeQuestion = createFakeQuestion();
-      const fakeDto: QuestionThemeAssignmentCreationDto = { themeId: "theme-id-456", isPrimary: false, isHint: true };
+      const fakeDto = createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-id-456", isPrimary: false, isHint: true });
       useQuestionsStore();
       const mockAssignTheme = questionsRepository($fetch).assignTheme as ReturnType<typeof vi.fn>;
       mockAssignTheme.mockResolvedValue(fakeQuestion);
@@ -932,7 +943,7 @@ describe("useQuestionsStore", () => {
   describe("modifyThemeAssignmentAndStoreQuestion", () => {
     it("should call the modifyThemeAssignment execute function with the id, themeId and dto when invoked.", async() => {
       const store = useQuestionsStore();
-      const fakeDto: QuestionThemeAssignmentModificationDto = { isPrimary: true, isHint: false };
+      const fakeDto = createFakeQuestionThemeAssignmentModificationDto({ isPrimary: true, isHint: false });
 
       await store.modifyThemeAssignmentAndStoreQuestion("question-id-123", "theme-id-456", fakeDto);
 
@@ -946,7 +957,7 @@ describe("useQuestionsStore", () => {
       const store = useQuestionsStore();
       store.questions = [otherQuestion, existingQuestion];
       modifyThemeAssignmentAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
-      const fakeDto: QuestionThemeAssignmentModificationDto = { isPrimary: true, isHint: false };
+      const fakeDto = createFakeQuestionThemeAssignmentModificationDto({ isPrimary: true, isHint: false });
 
       await store.modifyThemeAssignmentAndStoreQuestion("question-id-123", "theme-id-456", fakeDto);
 
@@ -959,7 +970,7 @@ describe("useQuestionsStore", () => {
       const store = useQuestionsStore();
       store.questions = [existingQuestion];
       modifyThemeAssignmentAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
-      const fakeDto: QuestionThemeAssignmentModificationDto = { isPrimary: true, isHint: false };
+      const fakeDto = createFakeQuestionThemeAssignmentModificationDto({ isPrimary: true, isHint: false });
 
       await store.modifyThemeAssignmentAndStoreQuestion("question-id-123", "theme-id-456", fakeDto);
 
@@ -974,7 +985,7 @@ describe("useQuestionsStore", () => {
       const store = useQuestionsStore();
       store.questions = [existingQuestion];
       modifyThemeAssignmentAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
-      const fakeDto: QuestionThemeAssignmentModificationDto = { isPrimary: true, isHint: false };
+      const fakeDto = createFakeQuestionThemeAssignmentModificationDto({ isPrimary: true, isHint: false });
 
       await store.modifyThemeAssignmentAndStoreQuestion("question-id-123", "theme-id-456", fakeDto);
 
@@ -987,7 +998,7 @@ describe("useQuestionsStore", () => {
       const store = useQuestionsStore();
       store.questions = [existingQuestion];
       modifyThemeAssignmentAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
-      const fakeDto: QuestionThemeAssignmentModificationDto = { isPrimary: true, isHint: false };
+      const fakeDto = createFakeQuestionThemeAssignmentModificationDto({ isPrimary: true, isHint: false });
 
       await store.modifyThemeAssignmentAndStoreQuestion("question-id-123", "theme-id-456", fakeDto);
 
@@ -999,7 +1010,7 @@ describe("useQuestionsStore", () => {
       const store = useQuestionsStore();
       store.questions = [existingQuestion];
 
-      await store.modifyThemeAssignmentAndStoreQuestion("question-id-123", "theme-id-456", { isPrimary: true, isHint: false });
+      await store.modifyThemeAssignmentAndStoreQuestion("question-id-123", "theme-id-456", createFakeQuestionThemeAssignmentModificationDto({ isPrimary: true, isHint: false }));
 
       expect(store.questions).toStrictEqual([existingQuestion]);
     });
@@ -1008,7 +1019,7 @@ describe("useQuestionsStore", () => {
   describe("useAsyncAction setup for modifyThemeAssignment", () => {
     it("should pass an async function calling repository.modifyThemeAssignment as action to useAsyncAction when created.", async() => {
       const fakeQuestion = createFakeQuestion();
-      const fakeDto: QuestionThemeAssignmentModificationDto = { isPrimary: true, isHint: false };
+      const fakeDto = createFakeQuestionThemeAssignmentModificationDto({ isPrimary: true, isHint: false });
       useQuestionsStore();
       const mockModifyThemeAssignment = questionsRepository($fetch).modifyThemeAssignment as ReturnType<typeof vi.fn>;
       mockModifyThemeAssignment.mockResolvedValue(fakeQuestion);
@@ -1020,7 +1031,7 @@ describe("useQuestionsStore", () => {
 
     it("should return the result from repository.modifyThemeAssignment when the captured action is invoked.", async() => {
       const fakeQuestion = createFakeQuestion();
-      const fakeDto: QuestionThemeAssignmentModificationDto = { isPrimary: true, isHint: false };
+      const fakeDto = createFakeQuestionThemeAssignmentModificationDto({ isPrimary: true, isHint: false });
       useQuestionsStore();
       const mockModifyThemeAssignment = questionsRepository($fetch).modifyThemeAssignment as ReturnType<typeof vi.fn>;
       mockModifyThemeAssignment.mockResolvedValue(fakeQuestion);
@@ -1103,7 +1114,7 @@ describe("useQuestionsStore", () => {
   describe("modifyAndStoreQuestion", () => {
     it("should call the modifyQuestion execute function with the id and dto when invoked.", async() => {
       const store = useQuestionsStore();
-      const fakeDto: QuestionModificationDto = { category: "trivia" };
+      const fakeDto = createFakeQuestionModificationDto({ category: "trivia" });
 
       await store.modifyAndStoreQuestion("question-id-123", fakeDto);
 
@@ -1117,7 +1128,7 @@ describe("useQuestionsStore", () => {
       const store = useQuestionsStore();
       store.questions = [otherQuestion, existingQuestion];
       modifyAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
-      const fakeDto: QuestionModificationDto = { category: "trivia" };
+      const fakeDto = createFakeQuestionModificationDto({ category: "trivia" });
 
       await store.modifyAndStoreQuestion("question-id-123", fakeDto);
 
@@ -1130,7 +1141,7 @@ describe("useQuestionsStore", () => {
       const store = useQuestionsStore();
       store.questions = [existingQuestion];
       modifyAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
-      const fakeDto: QuestionModificationDto = { category: "trivia" };
+      const fakeDto = createFakeQuestionModificationDto({ category: "trivia" });
 
       await store.modifyAndStoreQuestion("question-id-123", fakeDto);
 
@@ -1145,7 +1156,7 @@ describe("useQuestionsStore", () => {
       const store = useQuestionsStore();
       store.questions = [existingQuestion];
       modifyAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
-      const fakeDto: QuestionModificationDto = { category: "trivia" };
+      const fakeDto = createFakeQuestionModificationDto({ category: "trivia" });
 
       await store.modifyAndStoreQuestion("question-id-123", fakeDto);
 
@@ -1158,7 +1169,7 @@ describe("useQuestionsStore", () => {
       const store = useQuestionsStore();
       store.questions = [existingQuestion];
       modifyAsyncActionMock.execute.mockResolvedValue(updatedQuestion);
-      const fakeDto: QuestionModificationDto = { category: "trivia" };
+      const fakeDto = createFakeQuestionModificationDto({ category: "trivia" });
 
       await store.modifyAndStoreQuestion("question-id-123", fakeDto);
 
@@ -1170,7 +1181,7 @@ describe("useQuestionsStore", () => {
       const store = useQuestionsStore();
       store.questions = [existingQuestion];
 
-      await store.modifyAndStoreQuestion("question-id-123", { category: "trivia" });
+      await store.modifyAndStoreQuestion("question-id-123", createFakeQuestionModificationDto({ category: "trivia" }));
 
       expect(store.questions).toStrictEqual([existingQuestion]);
     });
@@ -1179,7 +1190,7 @@ describe("useQuestionsStore", () => {
   describe("useAsyncAction setup for modifyQuestion", () => {
     it("should pass an async function calling repository.modify as action to useAsyncAction when created.", async() => {
       const fakeQuestion = createFakeQuestion();
-      const fakeDto: QuestionModificationDto = { category: "trivia" };
+      const fakeDto = createFakeQuestionModificationDto({ category: "trivia" });
       useQuestionsStore();
       const mockModify = questionsRepository($fetch).modify as ReturnType<typeof vi.fn>;
       mockModify.mockResolvedValue(fakeQuestion);
@@ -1191,7 +1202,7 @@ describe("useQuestionsStore", () => {
 
     it("should return the result from repository.modify when the captured action is invoked.", async() => {
       const fakeQuestion = createFakeQuestion();
-      const fakeDto: QuestionModificationDto = { category: "trivia" };
+      const fakeDto = createFakeQuestionModificationDto({ category: "trivia" });
       useQuestionsStore();
       const mockModify = questionsRepository($fetch).modify as ReturnType<typeof vi.fn>;
       mockModify.mockResolvedValue(fakeQuestion);
