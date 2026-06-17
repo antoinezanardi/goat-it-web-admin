@@ -59,7 +59,7 @@ You are the superpowers orchestrator for the **goat-it-web-admin** project (Nuxt
    3. `pnpm run test:unit:cov` (must be 100% coverage)
    4. `pnpm run test:acceptance`
    5. `pnpm run test:mutation` (only if the specs/plans mention mutation testing)
-   6. If any gate fails, fix and re-run from that gate onward. Never claim "done" before all four pass.
+   6. If any gate fails, fix and re-run from that gate onward. Never claim "done" before all required gates pass.
 7. **Commit Proposal**: as you can't commit directly to the feature branch, propose a commit message to the user based on the plan.
 
 ## Skills to load on demand (all in `.agents/skills/`)

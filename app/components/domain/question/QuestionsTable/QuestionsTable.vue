@@ -72,8 +72,12 @@ function onStartCreateFromQuestionsTableHeader(): void {
 }
 
 function onUpdateFilterFromQuestionsTableHeader(updatedFilters: Partial<QuestionsTableFilters>): void {
-  for (const [key, value] of Object.entries(updatedFilters)) {
-    setFilterValue(key as keyof QuestionsTableFilters, value as QuestionStatus | QuestionCategory | QuestionCognitiveDifficulty | undefined);
+  const filterKeys: (keyof QuestionsTableFilters)[] = ["status", "category", "cognitiveDifficulty"];
+
+  for (const key of filterKeys) {
+    if (key in updatedFilters) {
+      setFilterValue(key, updatedFilters[key]);
+    }
   }
 }
 

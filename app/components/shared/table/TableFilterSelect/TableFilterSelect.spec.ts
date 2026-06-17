@@ -9,7 +9,7 @@ import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { TableFilterSelect } from "#components";
 import type { USelectMenu } from "#components";
 
-import type { TableFilterSelectItem, TableFilterSelectProps } from "~/components/shared/table/TableFilterSelect/table-filter-select.types";
+import type { TableFilterSelectAllItem, TableFilterSelectItem, TableFilterSelectProps } from "~/components/shared/table/TableFilterSelect/table-filter-select.types";
 
 describe("TableFilterSelect Component", () => {
   const defaultItems = [
@@ -43,7 +43,7 @@ describe("TableFilterSelect Component", () => {
   describe("Select Menu", () => {
     it("should prepend the 'All' option as first item when mounted.", () => {
       const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
-      const items = selectMenu.props("items") as TableFilterSelectItem[];
+      const items = selectMenu.props("items") as (TableFilterSelectItem | TableFilterSelectAllItem)[];
 
       expect(items[0]).toStrictEqual({ label: "common.table.filters.all", value: undefined });
     });
@@ -63,7 +63,7 @@ describe("TableFilterSelect Component", () => {
 
     it("should render all provided items after the 'All' option when mounted.", () => {
       const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
-      const items = selectMenu.props("items") as TableFilterSelectItem[];
+      const items = selectMenu.props("items") as (TableFilterSelectItem | TableFilterSelectAllItem)[];
 
       expect(items).toHaveLength(3);
     });
@@ -76,7 +76,7 @@ describe("TableFilterSelect Component", () => {
         },
       });
       const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
-      const items = selectMenu.props("items") as TableFilterSelectItem[];
+      const items = selectMenu.props("items") as (TableFilterSelectItem | TableFilterSelectAllItem)[];
 
       expect(items[1]).toStrictEqual({ label: "Active", value: "active", icon: "i-lucide-check" });
     });
