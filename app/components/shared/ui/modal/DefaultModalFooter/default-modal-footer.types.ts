@@ -1,4 +1,4 @@
-type DefaultModalFooterProperties = {
+type DefaultModalFooterProps = {
   primaryButtonLabel: string;
   primaryButtonIcon?: string;
   closeButtonLabel?: string;
@@ -13,6 +13,6 @@ type DefaultModalFooterEmits = {
 };
 
 export type {
-  DefaultModalFooterProperties,
+  DefaultModalFooterProps,
   DefaultModalFooterEmits,
 };

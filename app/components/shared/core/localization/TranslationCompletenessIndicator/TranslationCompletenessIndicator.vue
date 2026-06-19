@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { TranslationCompletenessIndicatorProperties } from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-indicator.types";
+import type { TranslationCompletenessIndicatorProps } from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-indicator.types";
 import {
   TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE,
   TRANSLATION_COMPLETENESS_RING_RADIUS,
   TRANSLATION_COMPLETENESS_RING_SIZE,
 } from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-indicator.constants";
 
-const props = defineProps<TranslationCompletenessIndicatorProperties>();
+const props = defineProps<TranslationCompletenessIndicatorProps>();
 
 const { t } = useI18n();
 

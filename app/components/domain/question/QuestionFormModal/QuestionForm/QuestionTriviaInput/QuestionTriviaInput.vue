@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { QUESTION_TRIVIA_INPUT_UI } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionTriviaInput/question-trivia-input.constants";
-import type { QuestionTriviaInputEmits, QuestionTriviaInputProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionTriviaInput/question-trivia-input.types";
+import type { QuestionTriviaInputEmits, QuestionTriviaInputProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionTriviaInput/question-trivia-input.types";
 
-const props = withDefaults(defineProps<QuestionTriviaInputProperties>(), {
+const props = withDefaults(defineProps<QuestionTriviaInputProps>(), {
   modelValue: () => [],
 });
 

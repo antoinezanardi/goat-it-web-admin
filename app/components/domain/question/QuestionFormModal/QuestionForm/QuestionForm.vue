@@ -6,14 +6,14 @@ import type { QuestionCreationDto, QuestionModificationDto, QuestionThemeAssignm
 import type { QuestionCreationDtoShell } from "#shared/types/question.types";
 import type { Form } from "#ui/types";
 import { QUESTION_FORM_CONTEXT_TEXTAREA_ROWS } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.constants";
-import type { QuestionFormEmits, QuestionFormProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
+import type { QuestionFormEmits, QuestionFormProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
 import { createQuestionCreationDtoShell } from "~/composables/domain/question/helpers/shell/question.shell.helpers";
 import { createLocalizedTextShell, createLocalizedTextsShell } from "~/composables/core/localization/helpers/shell/localization.shell.helpers";
 import { QUESTION_DEFAULT_AUTHOR } from "~/composables/domain/question/constants/question-author.constants";
 import { stripEmptyValues } from "#shared/utils/helpers/object/object.helpers";
 import { prepareZodSchemaForFormValidation } from "~/utils/helpers/zod/zod.helpers";
 
-const props = withDefaults(defineProps<QuestionFormProperties>(), {
+const props = withDefaults(defineProps<QuestionFormProps>(), {
   mode: "create",
   question: undefined,
 });

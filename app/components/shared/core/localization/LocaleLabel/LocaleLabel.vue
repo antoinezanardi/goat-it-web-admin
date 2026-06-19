@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { LocaleLabelProperties } from "~/components/shared/core/localization/LocaleLabel/locale-label.types";
+import type { LocaleLabelProps } from "~/components/shared/core/localization/LocaleLabel/locale-label.types";
 import { LOCALE_FLAG_ICONS } from "~/components/shared/core/localization/LocaleLabel/locale-label.constants";
 
-const props = defineProps<LocaleLabelProperties>();
+const props = defineProps<LocaleLabelProps>();
 
 const { t } = useI18n();
 

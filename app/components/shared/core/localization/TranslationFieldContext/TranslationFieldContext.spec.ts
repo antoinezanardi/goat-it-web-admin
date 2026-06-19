@@ -7,11 +7,11 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 
 import { TranslationFieldContext, TranslationsOverview } from "#components";
 
-import type { TranslationFieldContextProperties } from "~/components/shared/core/localization/TranslationFieldContext/translation-field-context.types";
+import type { TranslationFieldContextProps } from "~/components/shared/core/localization/TranslationFieldContext/translation-field-context.types";
 
 describe("TranslationFieldContext Component", () => {
   let wrapper: VueWrapper;
-  const defaultProps: TranslationFieldContextProperties = {
+  const defaultProps: TranslationFieldContextProps = {
     localizedText: createFakeLocalizedText({ en: "Hello", fr: "Bonjour" }),
     label: "Label",
   };

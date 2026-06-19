@@ -1,9 +1,9 @@
 import type { QuestionThemeStatus } from "@goat-it/schemas/question-theme";
 
-type QuestionThemeStatusBadgeProperties = {
+type QuestionThemeStatusBadgeProps = {
   status: QuestionThemeStatus;
 };
 
 export type {
-  QuestionThemeStatusBadgeProperties,
+  QuestionThemeStatusBadgeProps,
 };

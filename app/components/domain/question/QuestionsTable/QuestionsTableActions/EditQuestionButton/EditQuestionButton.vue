@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { EditQuestionButtonEmits, EditQuestionButtonProperties } from "~/components/domain/question/QuestionsTable/QuestionsTableActions/EditQuestionButton/edit-question-button.types";
+import type { EditQuestionButtonEmits, EditQuestionButtonProps } from "~/components/domain/question/QuestionsTable/QuestionsTableActions/EditQuestionButton/edit-question-button.types";
 
-const props = defineProps<EditQuestionButtonProperties>();
+const props = defineProps<EditQuestionButtonProps>();
 
 const emit = defineEmits<EditQuestionButtonEmits>();
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { QuestionThemesTableActionsEmits, QuestionThemesTableActionsProperties } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableActions/question-themes-table-actions.types";
+import type { QuestionThemesTableActionsEmits, QuestionThemesTableActionsProps } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableActions/question-themes-table-actions.types";
 
-const props = defineProps<QuestionThemesTableActionsProperties>();
+const props = defineProps<QuestionThemesTableActionsProps>();
 
 const emit = defineEmits<QuestionThemesTableActionsEmits>();
 

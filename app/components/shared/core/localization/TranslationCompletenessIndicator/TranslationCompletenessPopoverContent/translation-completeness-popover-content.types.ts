@@ -1,7 +1,7 @@
 import type { LocalizedText, LocalizedTexts } from "@goat-it/schemas/shared/locale";
 
-type TranslationCompletenessPopoverContentProperties = {
+type TranslationCompletenessPopoverContentProps = {
   requiredFields: (Partial<LocalizedText> | Partial<LocalizedTexts>)[];
 };
 
-export type { TranslationCompletenessPopoverContentProperties };
+export type { TranslationCompletenessPopoverContentProps };

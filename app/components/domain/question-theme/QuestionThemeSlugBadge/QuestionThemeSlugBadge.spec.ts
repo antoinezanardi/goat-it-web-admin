@@ -7,17 +7,17 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UBadge } from "#components";
 import { QuestionThemeSlugBadge } from "#components";
 
-import type { QuestionThemeSlugBadgeProperties } from "~/components/domain/question-theme/QuestionThemeSlugBadge/question-theme-slug-badge.types";
+import type { QuestionThemeSlugBadgeProps } from "~/components/domain/question-theme/QuestionThemeSlugBadge/question-theme-slug-badge.types";
 
 describe("QuestionThemeSlugBadge Component", () => {
   let wrapper: VueWrapper;
-  const defaultQuestionThemeSlugBadgeProperties: QuestionThemeSlugBadgeProperties = {
+  const defaultQuestionThemeSlugBadgeProps: QuestionThemeSlugBadgeProps = {
     slug: "math-algebra",
   } as const;
 
   async function mountQuestionThemeSlugBadgeComponent(options: MountSuspendedOptions<typeof QuestionThemeSlugBadge> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionThemeSlugBadge, {
-      props: defaultQuestionThemeSlugBadgeProperties,
+      props: defaultQuestionThemeSlugBadgeProps,
       ...options,
     });
   }
@@ -34,7 +34,7 @@ describe("QuestionThemeSlugBadge Component", () => {
     it("should pass the slug prop as label to the badge component when mounted.", () => {
       const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
 
-      expect(badge.props("label")).toBe(defaultQuestionThemeSlugBadgeProperties.slug);
+      expect(badge.props("label")).toBe(defaultQuestionThemeSlugBadgeProps.slug);
     });
   });
 });

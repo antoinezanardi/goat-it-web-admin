@@ -1,4 +1,4 @@
-type QuestionSourceUrlsInputProperties = {
+type QuestionSourceUrlsInputProps = {
   modelValue: string[];
 };
 
@@ -7,6 +7,6 @@ type QuestionSourceUrlsInputEmits = {
 };
 
 export type {
-  QuestionSourceUrlsInputProperties,
+  QuestionSourceUrlsInputProps,
   QuestionSourceUrlsInputEmits,
 };

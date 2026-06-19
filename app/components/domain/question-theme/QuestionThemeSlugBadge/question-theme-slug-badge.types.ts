@@ -1,7 +1,7 @@
-type QuestionThemeSlugBadgeProperties = {
+type QuestionThemeSlugBadgeProps = {
   slug: string;
 };
 
 export type {
-  QuestionThemeSlugBadgeProperties,
+  QuestionThemeSlugBadgeProps,
 };

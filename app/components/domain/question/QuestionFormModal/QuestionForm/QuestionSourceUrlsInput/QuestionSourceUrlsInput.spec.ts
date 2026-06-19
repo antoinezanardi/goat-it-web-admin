@@ -9,12 +9,12 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UFormField, UInputTags, UTooltip } from "#components";
 import { QuestionSourceUrlsInput } from "#components";
 
-import type { QuestionSourceUrlsInputProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionSourceUrlsInput/question-source-urls-input.types";
+import type { QuestionSourceUrlsInputProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionSourceUrlsInput/question-source-urls-input.types";
 
 describe("QuestionSourceUrlsInput Component", () => {
   let wrapper: VueWrapper;
 
-  const defaultProperties: QuestionSourceUrlsInputProperties = {
+  const defaultProperties: QuestionSourceUrlsInputProps = {
     modelValue: [],
   };
 

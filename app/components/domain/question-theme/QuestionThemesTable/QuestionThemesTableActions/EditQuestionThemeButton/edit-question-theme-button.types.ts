@@ -1,4 +1,4 @@
-type EditQuestionThemeButtonProperties = {
+type EditQuestionThemeButtonProps = {
   questionThemeId: string;
   questionThemeSlug: string;
 };
@@ -8,6 +8,6 @@ type EditQuestionThemeButtonEmits = {
 };
 
 export type {
-  EditQuestionThemeButtonProperties,
+  EditQuestionThemeButtonProps,
   EditQuestionThemeButtonEmits,
 };

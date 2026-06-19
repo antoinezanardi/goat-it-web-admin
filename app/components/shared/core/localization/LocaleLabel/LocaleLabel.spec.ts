@@ -7,11 +7,11 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { LocaleLabel } from "#components";
 
 import { LOCALE_FLAG_ICONS } from "~/components/shared/core/localization/LocaleLabel/locale-label.constants";
-import type { LocaleLabelProperties } from "~/components/shared/core/localization/LocaleLabel/locale-label.types";
+import type { LocaleLabelProps } from "~/components/shared/core/localization/LocaleLabel/locale-label.types";
 
 describe("LocaleLabel Component", () => {
   let wrapper: VueWrapper;
-  const defaultProps: LocaleLabelProperties = { locale: "fr" };
+  const defaultProps: LocaleLabelProps = { locale: "fr" };
 
   async function mountLocaleLabelComponent(options: MountSuspendedOptions<typeof LocaleLabel> = {}): Promise<VueWrapper> {
     return mountSuspended(LocaleLabel, {

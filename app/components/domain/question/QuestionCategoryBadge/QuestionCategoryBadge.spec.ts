@@ -7,17 +7,17 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UBadge } from "#components";
 import { QuestionCategoryBadge } from "#components";
 
-import type { QuestionCategoryBadgeProperties } from "~/components/domain/question/QuestionCategoryBadge/question-category-badge.types";
+import type { QuestionCategoryBadgeProps } from "~/components/domain/question/QuestionCategoryBadge/question-category-badge.types";
 
 describe("QuestionCategoryBadge Component", () => {
   let wrapper: VueWrapper;
-  const defaultQuestionCategoryBadgeProperties: QuestionCategoryBadgeProperties = {
+  const defaultQuestionCategoryBadgeProps: QuestionCategoryBadgeProps = {
     category: "trivia",
   } as const;
 
   async function mountQuestionCategoryBadgeComponent(options: MountSuspendedOptions<typeof QuestionCategoryBadge> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionCategoryBadge, {
-      props: defaultQuestionCategoryBadgeProperties,
+      props: defaultQuestionCategoryBadgeProps,
       ...options,
     });
   }

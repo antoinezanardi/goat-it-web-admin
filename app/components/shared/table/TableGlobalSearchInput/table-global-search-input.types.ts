@@ -1,4 +1,4 @@
-type TableGlobalSearchInputProperties = {
+type TableGlobalSearchInputProps = {
   modelValue: string;
   placeholder?: string;
 };
@@ -8,6 +8,6 @@ type TableGlobalSearchInputEmits = {
 };
 
 export type {
-  TableGlobalSearchInputProperties as TableGlobalSearchInputProps,
+  TableGlobalSearchInputProps,
   TableGlobalSearchInputEmits,
 };

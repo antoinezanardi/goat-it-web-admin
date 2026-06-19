@@ -7,19 +7,19 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { DefaultModalFooter } from "#components";
 import type { UButton, UIcon } from "#components";
 
-import type { DefaultModalFooterProperties } from "~/components/shared/ui/modal/DefaultModalFooter/default-modal-footer.types";
+import type { DefaultModalFooterProps } from "~/components/shared/ui/modal/DefaultModalFooter/default-modal-footer.types";
 
 describe("DefaultModalFooter Component", () => {
   let wrapper: VueWrapper;
 
-  const defaultDefaultModalFooterProperties: DefaultModalFooterProperties = {
+  const defaultDefaultModalFooterProps: DefaultModalFooterProps = {
     primaryButtonLabel: "common.create",
     primaryButtonIcon: "i-lucide-circle-plus",
   } as const;
 
   async function mountDefaultModalFooterComponent(options: MountSuspendedOptions<typeof DefaultModalFooter> = {}): Promise<VueWrapper> {
     return mountSuspended(DefaultModalFooter, {
-      props: defaultDefaultModalFooterProperties,
+      props: defaultDefaultModalFooterProps,
       ...options,
     });
   }

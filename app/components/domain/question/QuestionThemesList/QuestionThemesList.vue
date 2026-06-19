@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { QuestionThemesListProperties } from "~/components/domain/question/QuestionThemesList/question-themes-list.types";
+import type { QuestionThemesListProps } from "~/components/domain/question/QuestionThemesList/question-themes-list.types";
 import { getThemeLocalizedLabel } from "~/composables/domain/question-theme/helpers/question-theme.helpers";
 
-defineProps<QuestionThemesListProperties>();
+defineProps<QuestionThemesListProps>();
 
 const { locale, t } = useI18n();
 

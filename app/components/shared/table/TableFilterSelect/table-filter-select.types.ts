@@ -11,7 +11,7 @@ type TableFilterSelectAllItem = {
 
 type TableFilterSelectOptionItem<T extends string = string> = TableFilterSelectItem<T> | TableFilterSelectAllItem;
 
-type TableFilterSelectProperties<T extends string = string> = {
+type TableFilterSelectProps<T extends string = string> = {
   modelValue: T | undefined;
   items: TableFilterSelectItem<T>[];
   label: string;
@@ -27,6 +27,6 @@ export type {
   TableFilterSelectAllItem,
   TableFilterSelectItem,
   TableFilterSelectOptionItem,
-  TableFilterSelectProperties as TableFilterSelectProps,
+  TableFilterSelectProps,
   TableFilterSelectEmits,
 };

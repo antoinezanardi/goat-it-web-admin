@@ -1,9 +1,9 @@
 import type { LocalizedTexts } from "@goat-it/schemas/shared/locale";
 
-type QuestionThemeAliasesListProperties = {
+type QuestionThemeAliasesListProps = {
   localizedTexts: Partial<LocalizedTexts>;
 };
 
 export type {
-  QuestionThemeAliasesListProperties,
+  QuestionThemeAliasesListProps,
 };

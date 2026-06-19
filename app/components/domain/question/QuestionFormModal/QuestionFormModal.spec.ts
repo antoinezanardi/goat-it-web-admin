@@ -17,7 +17,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { QuestionFormModal } from "#components";
 import type { QuestionForm, DefaultModalFooter, DefaultModalTitle } from "#components";
 
-import type { QuestionFormModalProperties } from "~/components/domain/question/QuestionFormModal/question-form-modal.types";
+import type { QuestionFormModalProps } from "~/components/domain/question/QuestionFormModal/question-form-modal.types";
 import { QUESTION_ICON } from "~/composables/domain/question/question.constants";
 
 describe("QuestionFormModal Component", () => {
@@ -25,14 +25,14 @@ describe("QuestionFormModal Component", () => {
   let pinia: TestingPinia;
   let questionThemesStore: ReturnType<typeof mockStore<typeof useQuestionThemesStore>>;
 
-  const defaultQuestionFormModalProperties: QuestionFormModalProperties & { open: boolean } = {
+  const defaultQuestionFormModalProps: QuestionFormModalProps & { open: boolean } = {
     isSubmitting: false,
     open: true,
   } as const;
 
   async function mountQuestionFormModalComponent(options: MountSuspendedOptions<typeof QuestionFormModal> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionFormModal, {
-      props: defaultQuestionFormModalProperties,
+      props: defaultQuestionFormModalProps,
       global: {
         plugins: [pinia],
       },
@@ -177,7 +177,7 @@ describe("QuestionFormModal Component", () => {
     it("should pass the editQuestion i18n key as title to the default modal title when mode is edit.", async() => {
       wrapper = await mountQuestionFormModalComponent({
         props: {
-          ...defaultQuestionFormModalProperties,
+          ...defaultQuestionFormModalProps,
           mode: "edit",
           question: createFakeQuestion(),
         },
@@ -190,7 +190,7 @@ describe("QuestionFormModal Component", () => {
     it("should pass the common.edit i18n key as primaryButtonLabel to the footer when mode is edit.", async() => {
       wrapper = await mountQuestionFormModalComponent({
         props: {
-          ...defaultQuestionFormModalProperties,
+          ...defaultQuestionFormModalProps,
           mode: "edit",
           question: createFakeQuestion(),
         },
@@ -203,7 +203,7 @@ describe("QuestionFormModal Component", () => {
     it("should pass the pencil icon as primaryButtonIcon to the footer when mode is edit.", async() => {
       wrapper = await mountQuestionFormModalComponent({
         props: {
-          ...defaultQuestionFormModalProperties,
+          ...defaultQuestionFormModalProps,
           mode: "edit",
           question: createFakeQuestion(),
         },
@@ -217,7 +217,7 @@ describe("QuestionFormModal Component", () => {
       const fakeQuestion = createFakeQuestion();
       wrapper = await mountQuestionFormModalComponent({
         props: {
-          ...defaultQuestionFormModalProperties,
+          ...defaultQuestionFormModalProps,
           mode: "edit",
           question: fakeQuestion,
         },
@@ -230,7 +230,7 @@ describe("QuestionFormModal Component", () => {
     it("should pass the mode to the form when mode is edit.", async() => {
       wrapper = await mountQuestionFormModalComponent({
         props: {
-          ...defaultQuestionFormModalProperties,
+          ...defaultQuestionFormModalProps,
           mode: "edit",
           question: createFakeQuestion(),
         },
@@ -244,7 +244,7 @@ describe("QuestionFormModal Component", () => {
       const fakeData = createFakeQuestionCreationDto();
       wrapper = await mountQuestionFormModalComponent({
         props: {
-          ...defaultQuestionFormModalProperties,
+          ...defaultQuestionFormModalProps,
           mode: "edit",
           question: createFakeQuestion(),
         },

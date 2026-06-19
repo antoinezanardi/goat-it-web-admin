@@ -1,6 +1,6 @@
 import type { QuestionCategory } from "@goat-it/schemas/question";
 
-type QuestionsTableCategoryFilterProperties = {
+type QuestionsTableCategoryFilterProps = {
   modelValue: QuestionCategory | undefined;
 };
 
@@ -9,6 +9,6 @@ type QuestionsTableCategoryFilterEmits = {
 };
 
 export type {
-  QuestionsTableCategoryFilterProperties as QuestionsTableCategoryFilterProps,
+  QuestionsTableCategoryFilterProps,
   QuestionsTableCategoryFilterEmits,
 };

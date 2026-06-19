@@ -6,7 +6,7 @@ type QuestionsTableFilters = {
   cognitiveDifficulty: QuestionCognitiveDifficulty | undefined;
 };
 
-type QuestionsTableHeaderProperties = {
+type QuestionsTableHeaderProps = {
   searchTerm: string;
   activeFilterCount: number;
   filters: QuestionsTableFilters;
@@ -21,6 +21,6 @@ type QuestionsTableHeaderEmits = {
 
 export type {
   QuestionsTableFilters,
-  QuestionsTableHeaderProperties as QuestionsTableHeaderProps,
+  QuestionsTableHeaderProps,
   QuestionsTableHeaderEmits,
 };

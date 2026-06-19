@@ -7,12 +7,12 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 
 import { QuestionThemeTranslationCompletenessIndicator, TranslationCompletenessIndicator } from "#components";
 
-import type { QuestionThemeTranslationCompletenessIndicatorProperties } from "~/components/domain/question-theme/QuestionThemeTranslationCompletenessIndicator/question-theme-translation-completeness-indicator.types";
+import type { QuestionThemeTranslationCompletenessIndicatorProps } from "~/components/domain/question-theme/QuestionThemeTranslationCompletenessIndicator/question-theme-translation-completeness-indicator.types";
 
 describe("QuestionThemeTranslationCompletenessIndicator Component", () => {
   let wrapper: VueWrapper;
   const questionTheme = createFakeQuestionTheme();
-  const defaultProperties: QuestionThemeTranslationCompletenessIndicatorProperties = {
+  const defaultProperties: QuestionThemeTranslationCompletenessIndicatorProps = {
     questionTheme,
   } as const;
 

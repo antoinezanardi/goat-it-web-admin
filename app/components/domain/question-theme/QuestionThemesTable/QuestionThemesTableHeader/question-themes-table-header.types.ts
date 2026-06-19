@@ -4,7 +4,7 @@ type QuestionThemesTableFilters = {
   status: QuestionThemeStatus | undefined;
 };
 
-type QuestionThemesTableHeaderProperties = {
+type QuestionThemesTableHeaderProps = {
   searchTerm: string;
   activeFilterCount: number;
   filters: QuestionThemesTableFilters;
@@ -19,6 +19,6 @@ type QuestionThemesTableHeaderEmits = {
 
 export type {
   QuestionThemesTableFilters,
-  QuestionThemesTableHeaderProperties as QuestionThemesTableHeaderProps,
+  QuestionThemesTableHeaderProps,
   QuestionThemesTableHeaderEmits,
 };

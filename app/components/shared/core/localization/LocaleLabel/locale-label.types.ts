@@ -1,7 +1,7 @@
 import type { Locale } from "@goat-it/schemas/shared/locale";
 
-type LocaleLabelProperties = {
+type LocaleLabelProps = {
   locale: Locale;
 };
 
-export type { LocaleLabelProperties };
+export type { LocaleLabelProps };

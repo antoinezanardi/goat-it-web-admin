@@ -2,10 +2,10 @@
 import type { QuestionCategory } from "@goat-it/schemas/question";
 import { QUESTION_CATEGORIES } from "@goat-it/schemas/question";
 
-import type { QuestionCategorySelectorEmits, QuestionCategorySelectorItem, QuestionCategorySelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCategorySelector/question-category-selector.types";
+import type { QuestionCategorySelectorEmits, QuestionCategorySelectorItem, QuestionCategorySelectorProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCategorySelector/question-category-selector.types";
 import { getQuestionCategoryUiMetadata } from "~/composables/domain/question/helpers/question.helpers";
 
-const props = defineProps<QuestionCategorySelectorProperties>();
+const props = defineProps<QuestionCategorySelectorProps>();
 const emit = defineEmits<QuestionCategorySelectorEmits>();
 
 const { t } = useI18n();

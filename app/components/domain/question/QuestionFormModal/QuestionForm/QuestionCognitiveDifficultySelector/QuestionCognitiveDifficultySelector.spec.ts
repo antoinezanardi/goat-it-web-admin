@@ -8,11 +8,11 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UButton } from "#components";
 import { QuestionCognitiveDifficultySelector } from "#components";
 
-import type { QuestionCognitiveDifficultySelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCognitiveDifficultySelector/question-cognitive-difficulty-selector.types";
+import type { QuestionCognitiveDifficultySelectorProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCognitiveDifficultySelector/question-cognitive-difficulty-selector.types";
 
 describe("QuestionCognitiveDifficultySelector Component", () => {
   let wrapper: VueWrapper;
-  const defaultProperties: QuestionCognitiveDifficultySelectorProperties = {
+  const defaultProperties: QuestionCognitiveDifficultySelectorProps = {
     modelValue: undefined,
   } as const;
 

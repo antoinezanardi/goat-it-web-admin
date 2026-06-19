@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { TranslationFieldContextProperties } from "~/components/shared/core/localization/TranslationFieldContext/translation-field-context.types";
+import type { TranslationFieldContextProps } from "~/components/shared/core/localization/TranslationFieldContext/translation-field-context.types";
 
-const props = defineProps<TranslationFieldContextProperties>();
+const props = defineProps<TranslationFieldContextProps>();
 
 const { t } = useI18n();
 

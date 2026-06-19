@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { QuestionThemeAliasPillProperties } from "~/components/domain/question-theme/QuestionThemeAliasPill/question-theme-alias-pill.types";
+import type { QuestionThemeAliasPillProps } from "~/components/domain/question-theme/QuestionThemeAliasPill/question-theme-alias-pill.types";
 
-defineProps<QuestionThemeAliasPillProperties>();
+defineProps<QuestionThemeAliasPillProps>();
 </script>
 
 <template>

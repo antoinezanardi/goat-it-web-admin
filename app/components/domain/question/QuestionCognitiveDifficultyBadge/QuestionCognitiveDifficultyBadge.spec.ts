@@ -7,17 +7,17 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UBadge } from "#components";
 import { QuestionCognitiveDifficultyBadge } from "#components";
 
-import type { QuestionCognitiveDifficultyBadgeProperties } from "~/components/domain/question/QuestionCognitiveDifficultyBadge/question-cognitive-difficulty-badge.types";
+import type { QuestionCognitiveDifficultyBadgeProps } from "~/components/domain/question/QuestionCognitiveDifficultyBadge/question-cognitive-difficulty-badge.types";
 
 describe("QuestionCognitiveDifficultyBadge Component", () => {
   let wrapper: VueWrapper;
-  const defaultQuestionCognitiveDifficultyBadgeProperties: QuestionCognitiveDifficultyBadgeProperties = {
+  const defaultQuestionCognitiveDifficultyBadgeProps: QuestionCognitiveDifficultyBadgeProps = {
     difficulty: "easy",
   } as const;
 
   async function mountQuestionCognitiveDifficultyBadgeComponent(options: MountSuspendedOptions<typeof QuestionCognitiveDifficultyBadge> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionCognitiveDifficultyBadge, {
-      props: defaultQuestionCognitiveDifficultyBadgeProperties,
+      props: defaultQuestionCognitiveDifficultyBadgeProps,
       ...options,
     });
   }

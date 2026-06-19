@@ -8,18 +8,18 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UButton, UTooltip } from "#components";
 import { EditQuestionButton } from "#components";
 
-import type { EditQuestionButtonProperties } from "~/components/domain/question/QuestionsTable/QuestionsTableActions/EditQuestionButton/edit-question-button.types";
+import type { EditQuestionButtonProps } from "~/components/domain/question/QuestionsTable/QuestionsTableActions/EditQuestionButton/edit-question-button.types";
 
 describe("EditQuestionButton Component", () => {
   let wrapper: VueWrapper;
 
-  const defaultProperties: EditQuestionButtonProperties = {
+  const defaultProps: EditQuestionButtonProps = {
     questionId: "question-id-123",
   };
 
   async function mountEditQuestionButtonComponent(options: MountSuspendedOptions<typeof EditQuestionButton> = {}): Promise<VueWrapper> {
     return mountSuspended(EditQuestionButton, {
-      props: defaultProperties,
+      props: defaultProps,
       ...options,
     });
   }

@@ -8,17 +8,17 @@ import type { UIcon } from "#components";
 import { QuestionThemeIcon } from "#components";
 
 import { QUESTION_THEME_UNKNOWN_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants";
-import type { QuestionThemeIconProperties } from "~/components/domain/question-theme/QuestionThemeIcon/question-theme-icon.types";
+import type { QuestionThemeIconProps } from "~/components/domain/question-theme/QuestionThemeIcon/question-theme-icon.types";
 
 describe("QuestionThemeIcon Component", () => {
   let wrapper: VueWrapper;
-  const defaultQuestionThemeIconProperties: QuestionThemeIconProperties = {
+  const defaultQuestionThemeIconProps: QuestionThemeIconProps = {
     slug: "music",
   } as const;
 
   async function mountQuestionThemeIconComponent(options: MountSuspendedOptions<typeof QuestionThemeIcon> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionThemeIcon, {
-      props: defaultQuestionThemeIconProperties,
+      props: defaultQuestionThemeIconProps,
       ...options,
     });
   }

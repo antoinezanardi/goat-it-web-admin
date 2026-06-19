@@ -1,6 +1,6 @@
 import type { QuestionStatus } from "@goat-it/schemas/question";
 
-type QuestionsTableStatusFilterProperties = {
+type QuestionsTableStatusFilterProps = {
   modelValue: QuestionStatus | undefined;
 };
 
@@ -9,6 +9,6 @@ type QuestionsTableStatusFilterEmits = {
 };
 
 export type {
-  QuestionsTableStatusFilterProperties as QuestionsTableStatusFilterProps,
+  QuestionsTableStatusFilterProps,
   QuestionsTableStatusFilterEmits,
 };

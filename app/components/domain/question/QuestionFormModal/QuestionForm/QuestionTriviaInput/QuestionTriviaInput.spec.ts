@@ -10,18 +10,18 @@ import type { UFormField, UInputTags } from "#components";
 import { QuestionTriviaInput } from "#components";
 
 import { QUESTION_TRIVIA_INPUT_UI } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionTriviaInput/question-trivia-input.constants";
-import type { QuestionTriviaInputProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionTriviaInput/question-trivia-input.types";
+import type { QuestionTriviaInputProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionTriviaInput/question-trivia-input.types";
 
 describe("QuestionTriviaInput Component", () => {
   let wrapper: VueWrapper;
 
-  const defaultProperties: QuestionTriviaInputProperties = {
+  const defaultProps: QuestionTriviaInputProps = {
     modelValue: ["Existing trivia"],
   };
 
   async function mountQuestionTriviaInputComponent(options: MountSuspendedOptions<typeof QuestionTriviaInput> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionTriviaInput, {
-      props: defaultProperties,
+      props: defaultProps,
       ...options,
     });
   }

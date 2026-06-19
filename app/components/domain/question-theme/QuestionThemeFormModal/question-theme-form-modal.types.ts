@@ -2,7 +2,7 @@ import type { QuestionThemeCreationDto, QuestionThemeModificationDto } from "@go
 
 import type { QuestionThemeFormMode } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
 
-type QuestionThemeFormModalProperties = {
+type QuestionThemeFormModalProps = {
   mode?: QuestionThemeFormMode;
   questionTheme?: QuestionTheme;
   isSubmitting?: boolean;
@@ -15,6 +15,6 @@ type QuestionThemeFormModalEmits = {
 };
 
 export type {
-  QuestionThemeFormModalProperties,
+  QuestionThemeFormModalProps,
   QuestionThemeFormModalEmits,
 };

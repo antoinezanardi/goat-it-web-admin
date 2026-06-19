@@ -14,7 +14,7 @@ import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 import type { UForm, UFormField, UInput, UTextarea, UInputTags, InputColorPicker, TranslationFieldContext } from "#components";
 import { QuestionThemeForm } from "#components";
 
-import type { QuestionThemeFormProperties } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
+import type { QuestionThemeFormProps } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
 
 type QuestionThemeFormVm = ComponentVm & {
   canSubmit: boolean;
@@ -24,13 +24,13 @@ type QuestionThemeFormVm = ComponentVm & {
 describe("QuestionThemeForm Component", () => {
   let wrapper: VueWrapper;
 
-  const defaultQuestionThemeFormProperties: QuestionThemeFormProperties = {
+  const defaultQuestionThemeFormProps: QuestionThemeFormProps = {
     existingSlugs: [],
   } as const;
 
   async function mountQuestionThemeFormComponent(options: MountSuspendedOptions<typeof QuestionThemeForm> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionThemeForm, {
-      props: defaultQuestionThemeFormProperties,
+      props: defaultQuestionThemeFormProps,
       ...options,
     });
   }

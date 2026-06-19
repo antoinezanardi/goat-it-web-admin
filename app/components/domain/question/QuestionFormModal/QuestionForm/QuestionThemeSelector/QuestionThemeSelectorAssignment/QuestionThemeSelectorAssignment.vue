@@ -3,9 +3,9 @@ import { getThemeLocalizedLabel } from "~/composables/domain/question-theme/help
 import type { ButtonVariant } from "~/utils/types/button.types";
 import type { AppColor } from "~/utils/types/color.types";
 import { QUESTION_THEME_SELECTOR_ASSIGNMENT_ICON_SIZE } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/QuestionThemeSelectorAssignment/question-theme-selector-assignment.constants";
-import type { QuestionThemeSelectorAssignmentEmits, QuestionThemeSelectorAssignmentProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/QuestionThemeSelectorAssignment/question-theme-selector-assignment.types";
+import type { QuestionThemeSelectorAssignmentEmits, QuestionThemeSelectorAssignmentProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/QuestionThemeSelectorAssignment/question-theme-selector-assignment.types";
 
-const props = defineProps<QuestionThemeSelectorAssignmentProperties>();
+const props = defineProps<QuestionThemeSelectorAssignmentProps>();
 const emit = defineEmits<QuestionThemeSelectorAssignmentEmits>();
 
 const { t, locale: currentLocale } = useI18n();

@@ -3,9 +3,9 @@ import type { QuestionThemeAssignmentCreationDto, QuestionThemeAssignmentModific
 import { QUESTION_THEME_ASSIGNMENTS_MAX_ITEMS, QUESTION_THEME_ASSIGNMENTS_MIN_ITEMS } from "@goat-it/schemas/question";
 
 import { getThemeLocalizedLabel } from "~/composables/domain/question-theme/helpers/question-theme.helpers";
-import type { QuestionThemeSelectorEmits, QuestionThemeSelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/question-theme-selector.types";
+import type { QuestionThemeSelectorEmits, QuestionThemeSelectorProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/question-theme-selector.types";
 
-const props = withDefaults(defineProps<QuestionThemeSelectorProperties>(), {
+const props = withDefaults(defineProps<QuestionThemeSelectorProps>(), {
   disabled: false,
   mode: "create",
   isSubmitting: false,

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { QUESTION_THEME_SLUG_ICON_MAP, QUESTION_THEME_UNKNOWN_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants";
-import type { QuestionThemeIconProperties } from "~/components/domain/question-theme/QuestionThemeIcon/question-theme-icon.types";
+import type { QuestionThemeIconProps } from "~/components/domain/question-theme/QuestionThemeIcon/question-theme-icon.types";
 
-const props = defineProps<QuestionThemeIconProperties>();
+const props = defineProps<QuestionThemeIconProps>();
 
 const icon = computed<string>(() => QUESTION_THEME_SLUG_ICON_MAP[props.slug] ?? QUESTION_THEME_UNKNOWN_ICON);
 

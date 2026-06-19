@@ -1,4 +1,4 @@
-type TableFiltersSectionProperties = {
+type TableFiltersSectionProps = {
   activeFilterCount?: number;
 };
 
@@ -7,6 +7,6 @@ type TableFiltersSectionEmits = {
 };
 
 export type {
-  TableFiltersSectionProperties as TableFiltersSectionProps,
+  TableFiltersSectionProps,
   TableFiltersSectionEmits,
 };
