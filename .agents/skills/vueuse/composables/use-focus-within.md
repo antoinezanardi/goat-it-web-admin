@@ -1,6 +1,6 @@
 # useFocusWithin
 
-Reactive utility to track if an element or one of its decendants has focus. It is meant to match the behavior of the CSS pseudo-class. A common use case would be on a form element to see if any of its inputs currently have focus.
+Reactive utility to track if an element or one of its descendants has focus. It is meant to match the behavior of the CSS pseudo-class. A common use case would be on a form element to see if any of its inputs currently have focus.
 
 **Package:** `@vueuse/core`
 **Category:** Sensors
@@ -35,8 +35,8 @@ watch(focused, (focused) => {
 
 ## Returns
 
-| Name    | Type       |
-| ------- | ---------- |
+| Name | Type |
+| --- | --- |
 | focused | `computed` |
 
 ## Reference
