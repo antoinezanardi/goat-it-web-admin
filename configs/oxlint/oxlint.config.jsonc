@@ -1305,6 +1305,7 @@
         "**/tests/unit/utils/mocks/composables/**"
       ],
       "rules": {
+        "eslint/max-lines-per-function": "off",
         "unicorn/filename-case": [
           "error",
           {
