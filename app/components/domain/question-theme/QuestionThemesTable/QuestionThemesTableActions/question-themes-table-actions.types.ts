@@ -1,4 +1,4 @@
-type QuestionThemesTableActionsProperties = {
+type QuestionThemesTableActionsProps = {
   questionTheme: Pick<QuestionTheme, "id" | "slug" | "status">;
 };
 
@@ -7,6 +7,6 @@ type QuestionThemesTableActionsEmits = {
 };
 
 export type {
-  QuestionThemesTableActionsProperties,
+  QuestionThemesTableActionsProps,
   QuestionThemesTableActionsEmits,
 };

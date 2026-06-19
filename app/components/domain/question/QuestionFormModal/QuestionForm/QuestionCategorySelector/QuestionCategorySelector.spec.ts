@@ -8,11 +8,11 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { USelect } from "#components";
 import { QuestionCategorySelector } from "#components";
 
-import type { QuestionCategorySelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCategorySelector/question-category-selector.types";
+import type { QuestionCategorySelectorProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCategorySelector/question-category-selector.types";
 
 describe("QuestionCategorySelector Component", () => {
   let wrapper: VueWrapper;
-  const defaultProperties: QuestionCategorySelectorProperties = {
+  const defaultProperties: QuestionCategorySelectorProps = {
     modelValue: undefined,
   } as const;
 

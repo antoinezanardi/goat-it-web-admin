@@ -1,5 +1,5 @@
-type TableEmptyStateProperties = {
+type TableEmptyStateProps = {
   hasActiveFilter: boolean;
 };
 
-export type { TableEmptyStateProperties as TableEmptyStateProps };
+export type { TableEmptyStateProps };

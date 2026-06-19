@@ -2,9 +2,9 @@
 import { QUESTION_SOURCE_URLS_MAX_ITEMS } from "@goat-it/schemas/question";
 import { z } from "zod";
 
-import type { QuestionSourceUrlsInputEmits, QuestionSourceUrlsInputProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionSourceUrlsInput/question-source-urls-input.types";
+import type { QuestionSourceUrlsInputEmits, QuestionSourceUrlsInputProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionSourceUrlsInput/question-source-urls-input.types";
 
-const props = defineProps<QuestionSourceUrlsInputProperties>();
+const props = defineProps<QuestionSourceUrlsInputProps>();
 const emit = defineEmits<QuestionSourceUrlsInputEmits>();
 
 const { t } = useI18n();

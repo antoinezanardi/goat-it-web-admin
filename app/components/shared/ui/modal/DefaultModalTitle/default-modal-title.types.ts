@@ -1,8 +1,8 @@
-type DefaultModalTitleProperties = {
+type DefaultModalTitleProps = {
   icon: string;
   title: string;
 };
 
 export type {
-  DefaultModalTitleProperties,
+  DefaultModalTitleProps,
 };

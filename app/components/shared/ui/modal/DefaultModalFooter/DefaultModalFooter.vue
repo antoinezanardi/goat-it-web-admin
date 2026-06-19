@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { DefaultModalFooterEmits, DefaultModalFooterProperties } from "~/components/shared/ui/modal/DefaultModalFooter/default-modal-footer.types";
+import type { DefaultModalFooterEmits, DefaultModalFooterProps } from "~/components/shared/ui/modal/DefaultModalFooter/default-modal-footer.types";
 
-const props = defineProps<DefaultModalFooterProperties>();
+const props = defineProps<DefaultModalFooterProps>();
 
 const emit = defineEmits<DefaultModalFooterEmits>();
 

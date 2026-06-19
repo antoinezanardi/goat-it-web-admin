@@ -7,17 +7,17 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UBadge } from "#components";
 import { QuestionThemeAliasPill } from "#components";
 
-import type { QuestionThemeAliasPillProperties } from "~/components/domain/question-theme/QuestionThemeAliasPill/question-theme-alias-pill.types";
+import type { QuestionThemeAliasPillProps } from "~/components/domain/question-theme/QuestionThemeAliasPill/question-theme-alias-pill.types";
 
 describe("QuestionThemeAliasPill Component", () => {
   let wrapper: VueWrapper;
-  const defaultQuestionThemeAliasPillProperties: QuestionThemeAliasPillProperties = {
+  const defaultQuestionThemeAliasPillProps: QuestionThemeAliasPillProps = {
     alias: "alias-1",
   } as const;
 
   async function mountQuestionThemeAliasPillComponent(options: MountSuspendedOptions<typeof QuestionThemeAliasPill> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionThemeAliasPill, {
-      props: defaultQuestionThemeAliasPillProperties,
+      props: defaultQuestionThemeAliasPillProps,
       ...options,
     });
   }
@@ -34,7 +34,7 @@ describe("QuestionThemeAliasPill Component", () => {
     it("should render the alias as slot content inside the badge component when mounted.", () => {
       const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
 
-      expect(badge.text()).toBe(defaultQuestionThemeAliasPillProperties.alias);
+      expect(badge.text()).toBe(defaultQuestionThemeAliasPillProps.alias);
     });
   });
 });

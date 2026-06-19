@@ -1,6 +1,6 @@
 import type { VNode } from "vue";
 
-type InputTagsFieldProperties = {
+type InputTagsFieldProps = {
   modelValue?: string[];
   addHintText: string;
   removeTooltipText: (item: string) => string;
@@ -25,6 +25,6 @@ type InputTagsFieldSlots = {
 
 export type {
   InputTagsFieldEmits,
-  InputTagsFieldProperties,
+  InputTagsFieldProps,
   InputTagsFieldSlots,
 };

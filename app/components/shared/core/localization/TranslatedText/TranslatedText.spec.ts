@@ -10,11 +10,11 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { TranslatedText, TranslationsOverview } from "#components";
 import type { UBadge, UPopover } from "#components";
 
-import type { TranslatedTextProperties } from "~/components/shared/core/localization/TranslatedText/translated-text.types";
+import type { TranslatedTextProps } from "~/components/shared/core/localization/TranslatedText/translated-text.types";
 
 describe("TranslatedText Component", () => {
   let wrapper: VueWrapper;
-  const defaultTranslatedTextProperties: TranslatedTextProperties = {
+  const defaultTranslatedTextProps: TranslatedTextProps = {
     localizedText: createFakeLocalizedText({
       [DEFAULT_MOCKED_LOCALE]: "Hello",
     }),
@@ -22,7 +22,7 @@ describe("TranslatedText Component", () => {
 
   async function mountTranslatedTextComponent(options: MountSuspendedOptions<typeof TranslatedText> = {}): Promise<VueWrapper> {
     return mountSuspended(TranslatedText, {
-      props: defaultTranslatedTextProperties,
+      props: defaultTranslatedTextProps,
       ...options,
     });
   }

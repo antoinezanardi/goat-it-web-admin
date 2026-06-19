@@ -9,11 +9,11 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { QuestionThemeAliasPill, TranslationsOverview } from "#components";
 import { QuestionThemeAliasesList } from "#components";
 
-import type { QuestionThemeAliasesListProperties } from "~/components/domain/question-theme/QuestionThemeAliasesList/question-theme-aliases-list.types";
+import type { QuestionThemeAliasesListProps } from "~/components/domain/question-theme/QuestionThemeAliasesList/question-theme-aliases-list.types";
 
 describe("QuestionThemeAliasesList Component", () => {
   let wrapper: VueWrapper;
-  const defaultQuestionThemeAliasesListProperties: QuestionThemeAliasesListProperties = {
+  const defaultQuestionThemeAliasesListProps: QuestionThemeAliasesListProps = {
     localizedTexts: createFakeLocalizedTexts({
       [DEFAULT_MOCKED_LOCALE]: ["alias-1", "alias-2"],
     }),
@@ -21,7 +21,7 @@ describe("QuestionThemeAliasesList Component", () => {
 
   async function mountQuestionThemeAliasesListComponent(options: MountSuspendedOptions<typeof QuestionThemeAliasesList> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionThemeAliasesList, {
-      props: defaultQuestionThemeAliasesListProperties,
+      props: defaultQuestionThemeAliasesListProps,
       ...options,
     });
   }

@@ -1,6 +1,6 @@
 import type { QuestionThemeStatus } from "@goat-it/schemas/question-theme";
 
-type QuestionThemesTableStatusFilterProperties = {
+type QuestionThemesTableStatusFilterProps = {
   modelValue: QuestionThemeStatus | undefined;
 };
 
@@ -9,6 +9,6 @@ type QuestionThemesTableStatusFilterEmits = {
 };
 
 export type {
-  QuestionThemesTableStatusFilterProperties as QuestionThemesTableStatusFilterProps,
+  QuestionThemesTableStatusFilterProps,
   QuestionThemesTableStatusFilterEmits,
 };

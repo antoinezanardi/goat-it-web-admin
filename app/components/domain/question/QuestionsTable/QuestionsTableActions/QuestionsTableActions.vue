@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { QuestionsTableActionsEmits, QuestionsTableActionsProperties } from "~/components/domain/question/QuestionsTable/QuestionsTableActions/questions-table-actions.types";
+import type { QuestionsTableActionsEmits, QuestionsTableActionsProps } from "~/components/domain/question/QuestionsTable/QuestionsTableActions/questions-table-actions.types";
 
-const props = defineProps<QuestionsTableActionsProperties>();
+const props = defineProps<QuestionsTableActionsProps>();
 const emit = defineEmits<QuestionsTableActionsEmits>();
 
 function onStartEditFromEditQuestionButton(id: string): void {

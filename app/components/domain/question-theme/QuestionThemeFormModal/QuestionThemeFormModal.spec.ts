@@ -13,12 +13,12 @@ import { QuestionThemeFormModal } from "#components";
 import type { QuestionThemeForm, DefaultModalFooter, DefaultModalTitle, QuestionThemeTranslationCompletenessIndicator } from "#components";
 
 import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants";
-import type { QuestionThemeFormModalProperties } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.types";
+import type { QuestionThemeFormModalProps } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.types";
 
 describe("QuestionThemeFormModal Component", () => {
   let wrapper: VueWrapper;
 
-  const defaultQuestionThemeFormModalProperties: QuestionThemeFormModalProperties & { open: boolean } = {
+  const defaultQuestionThemeFormModalProps: QuestionThemeFormModalProps & { open: boolean } = {
     isSubmitting: false,
     existingSlugs: [],
     open: true,
@@ -26,7 +26,7 @@ describe("QuestionThemeFormModal Component", () => {
 
   async function mountQuestionThemeFormModalComponent(options: MountSuspendedOptions<typeof QuestionThemeFormModal> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionThemeFormModal, {
-      props: defaultQuestionThemeFormModalProperties,
+      props: defaultQuestionThemeFormModalProps,
       ...options,
     });
   }
@@ -111,7 +111,7 @@ describe("QuestionThemeFormModal Component", () => {
     it("should pass the provided existingSlugs to the QuestionThemeForm component when existingSlugs are provided.", async() => {
       wrapper = await mountQuestionThemeFormModalComponent({
         props: {
-          ...defaultQuestionThemeFormModalProperties,
+          ...defaultQuestionThemeFormModalProps,
           existingSlugs: ["slug-one", "slug-two"],
         },
       });
@@ -183,7 +183,7 @@ describe("QuestionThemeFormModal Component", () => {
     it("should pass the editTheme i18n key as title to the default modal title when mode is edit.", async() => {
       wrapper = await mountQuestionThemeFormModalComponent({
         props: {
-          ...defaultQuestionThemeFormModalProperties,
+          ...defaultQuestionThemeFormModalProps,
           mode: "edit",
           questionTheme: createFakeQuestionTheme(),
         },
@@ -196,7 +196,7 @@ describe("QuestionThemeFormModal Component", () => {
     it("should pass the common.edit i18n key as primaryButtonLabel to the footer when mode is edit.", async() => {
       wrapper = await mountQuestionThemeFormModalComponent({
         props: {
-          ...defaultQuestionThemeFormModalProperties,
+          ...defaultQuestionThemeFormModalProps,
           mode: "edit",
           questionTheme: createFakeQuestionTheme(),
         },
@@ -209,7 +209,7 @@ describe("QuestionThemeFormModal Component", () => {
     it("should pass the pencil icon as primaryButtonIcon to the footer when mode is edit.", async() => {
       wrapper = await mountQuestionThemeFormModalComponent({
         props: {
-          ...defaultQuestionThemeFormModalProperties,
+          ...defaultQuestionThemeFormModalProps,
           mode: "edit",
           questionTheme: createFakeQuestionTheme(),
         },
@@ -223,7 +223,7 @@ describe("QuestionThemeFormModal Component", () => {
       const fakeTheme = createFakeQuestionTheme();
       wrapper = await mountQuestionThemeFormModalComponent({
         props: {
-          ...defaultQuestionThemeFormModalProperties,
+          ...defaultQuestionThemeFormModalProps,
           mode: "edit",
           questionTheme: fakeTheme,
         },
@@ -236,7 +236,7 @@ describe("QuestionThemeFormModal Component", () => {
     it("should pass the mode to the form when mode is edit.", async() => {
       wrapper = await mountQuestionThemeFormModalComponent({
         props: {
-          ...defaultQuestionThemeFormModalProperties,
+          ...defaultQuestionThemeFormModalProps,
           mode: "edit",
           questionTheme: createFakeQuestionTheme(),
         },
@@ -250,7 +250,7 @@ describe("QuestionThemeFormModal Component", () => {
       const fakeData = createFakeQuestionThemeModificationDto();
       wrapper = await mountQuestionThemeFormModalComponent({
         props: {
-          ...defaultQuestionThemeFormModalProperties,
+          ...defaultQuestionThemeFormModalProps,
           mode: "edit",
           questionTheme: createFakeQuestionTheme(),
         },
@@ -266,7 +266,7 @@ describe("QuestionThemeFormModal Component", () => {
       const fakeTheme = createFakeQuestionTheme();
       wrapper = await mountQuestionThemeFormModalComponent({
         props: {
-          ...defaultQuestionThemeFormModalProperties,
+          ...defaultQuestionThemeFormModalProps,
           mode: "edit",
           questionTheme: fakeTheme,
         },
@@ -280,7 +280,7 @@ describe("QuestionThemeFormModal Component", () => {
       const fakeTheme = createFakeQuestionTheme();
       wrapper = await mountQuestionThemeFormModalComponent({
         props: {
-          ...defaultQuestionThemeFormModalProperties,
+          ...defaultQuestionThemeFormModalProps,
           mode: "edit",
           questionTheme: fakeTheme,
         },

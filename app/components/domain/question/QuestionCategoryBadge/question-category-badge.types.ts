@@ -1,7 +1,7 @@
 import type { QuestionCategory } from "@goat-it/schemas/question";
 
-type QuestionCategoryBadgeProperties = {
+type QuestionCategoryBadgeProps = {
   category: QuestionCategory;
 };
 
-export type { QuestionCategoryBadgeProperties };
+export type { QuestionCategoryBadgeProps };

@@ -7,12 +7,12 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UIcon, UTooltip } from "#components";
 import { QuestionSourceUrlTag } from "#components";
 
-import type { QuestionSourceUrlTagProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionSourceUrlsInput/QuestionSourceUrlTag/question-source-url-tag.types";
+import type { QuestionSourceUrlTagProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionSourceUrlsInput/QuestionSourceUrlTag/question-source-url-tag.types";
 
 describe("QuestionSourceUrlTag Component", () => {
   let wrapper: VueWrapper;
 
-  const defaultProperties: QuestionSourceUrlTagProperties = {
+  const defaultProperties: QuestionSourceUrlTagProps = {
     url: "https://docs.google.com/spreadsheets/d/abc123",
   };
 

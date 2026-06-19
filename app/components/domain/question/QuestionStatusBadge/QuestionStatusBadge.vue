@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { QUESTION_STATUS_COLOR_MAP } from "~/components/domain/question/QuestionStatusBadge/question-status-badge.constants";
-import type { QuestionStatusBadgeProperties } from "~/components/domain/question/QuestionStatusBadge/question-status-badge.types";
+import type { QuestionStatusBadgeProps } from "~/components/domain/question/QuestionStatusBadge/question-status-badge.types";
 
-const props = defineProps<QuestionStatusBadgeProperties>();
+const props = defineProps<QuestionStatusBadgeProps>();
 
 const badgeColor = computed<"info" | "success" | "error">(() => QUESTION_STATUS_COLOR_MAP[props.status]);
 </script>

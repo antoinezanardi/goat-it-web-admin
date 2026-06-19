@@ -5,7 +5,7 @@ import type { QuestionTheme } from "#shared/types/question-theme.types";
 
 type QuestionFormMode = "create" | "edit";
 
-type QuestionFormProperties = {
+type QuestionFormProps = {
   mode?: QuestionFormMode;
   question?: Question;
   availableThemes: QuestionTheme[];
@@ -18,6 +18,6 @@ type QuestionFormEmits = {
 
 export type {
   QuestionFormMode,
-  QuestionFormProperties,
+  QuestionFormProps,
   QuestionFormEmits,
 };

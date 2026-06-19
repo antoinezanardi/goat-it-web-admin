@@ -1,8 +1,8 @@
-type PageHeaderProperties = {
+type PageHeaderProps = {
   title: string;
   icon: string;
 };
 
 export type {
-  PageHeaderProperties,
+  PageHeaderProps,
 };

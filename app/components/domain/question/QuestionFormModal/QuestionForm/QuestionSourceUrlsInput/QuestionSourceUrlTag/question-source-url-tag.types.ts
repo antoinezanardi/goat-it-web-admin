@@ -1,5 +1,5 @@
-type QuestionSourceUrlTagProperties = {
+type QuestionSourceUrlTagProps = {
   url: string;
 };
 
-export type { QuestionSourceUrlTagProperties };
+export type { QuestionSourceUrlTagProps };

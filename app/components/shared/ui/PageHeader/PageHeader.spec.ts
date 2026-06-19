@@ -7,18 +7,18 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UIcon, UPageHeader } from "#components";
 import { PageHeader } from "#components";
 
-import type { PageHeaderProperties } from "~/components/shared/ui/PageHeader/page-header.types";
+import type { PageHeaderProps } from "~/components/shared/ui/PageHeader/page-header.types";
 
 describe("PageHeader Component", () => {
   let wrapper: VueWrapper;
-  const defaultPageHeaderProperties: PageHeaderProperties = {
+  const defaultPageHeaderProps: PageHeaderProps = {
     title: "Test Title",
     icon: "i-lucide-palette",
   } as const;
 
   async function mountPageHeaderComponent(options: MountSuspendedOptions<typeof PageHeader> = {}): Promise<VueWrapper> {
     return mountSuspended(PageHeader, {
-      props: defaultPageHeaderProperties,
+      props: defaultPageHeaderProps,
       ...options,
     });
   }
@@ -33,14 +33,14 @@ describe("PageHeader Component", () => {
 
   describe("Page Header", () => {
     it("should pass the title prop to the page header component when mounted.", async() => {
-      await wrapper.setProps({ ...defaultPageHeaderProperties, title: "My Page" });
+      await wrapper.setProps({ ...defaultPageHeaderProps, title: "My Page" });
       const pageHeader = wrapper.getComponent<typeof UPageHeader>({ name: "UPageHeader" });
 
       expect(pageHeader.text()).toContain("My Page");
     });
 
     it("should pass the icon name prop to the icon component when mounted.", async() => {
-      await wrapper.setProps({ ...defaultPageHeaderProperties, icon: "i-lucide-star" });
+      await wrapper.setProps({ ...defaultPageHeaderProps, icon: "i-lucide-star" });
       const icon = wrapper.getComponent<typeof UIcon>({ name: "UIcon" });
 
       expect(icon.props("name")).toBe("i-lucide-star");

@@ -8,7 +8,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UIcon } from "#components";
 import { TranslationCompletenessIndicator } from "#components";
 
-import type { TranslationCompletenessIndicatorProperties } from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-indicator.types";
+import type { TranslationCompletenessIndicatorProps } from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-indicator.types";
 import {
   TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE,
   TRANSLATION_COMPLETENESS_RING_SIZE,
@@ -21,7 +21,7 @@ describe("TranslationCompletenessIndicator Component", () => {
   const twoCompleteField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "", es: "", it: "", pt: "" });
   const oneCompleteField = createFakeLocalizedText({ en: "Hello", fr: "", de: "", es: "", it: "", pt: "" });
   const noneCompleteField = createFakeLocalizedText({ en: "", fr: "", de: "", es: "", it: "", pt: "" });
-  const defaultProps: TranslationCompletenessIndicatorProperties = {
+  const defaultProps: TranslationCompletenessIndicatorProps = {
     requiredFields: [fullyTranslatedField],
   };
 

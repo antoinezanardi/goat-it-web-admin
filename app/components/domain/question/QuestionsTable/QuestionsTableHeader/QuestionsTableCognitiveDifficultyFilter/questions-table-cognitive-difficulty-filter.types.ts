@@ -1,6 +1,6 @@
 import type { QuestionCognitiveDifficulty } from "@goat-it/schemas/question";
 
-type QuestionsTableCognitiveDifficultyFilterProperties = {
+type QuestionsTableCognitiveDifficultyFilterProps = {
   modelValue: QuestionCognitiveDifficulty | undefined;
 };
 
@@ -9,6 +9,6 @@ type QuestionsTableCognitiveDifficultyFilterEmits = {
 };
 
 export type {
-  QuestionsTableCognitiveDifficultyFilterProperties as QuestionsTableCognitiveDifficultyFilterProps,
+  QuestionsTableCognitiveDifficultyFilterProps,
   QuestionsTableCognitiveDifficultyFilterEmits,
 };

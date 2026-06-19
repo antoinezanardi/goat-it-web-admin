@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { QuestionThemeAliasesListProperties } from "~/components/domain/question-theme/QuestionThemeAliasesList/question-theme-aliases-list.types";
+import type { QuestionThemeAliasesListProps } from "~/components/domain/question-theme/QuestionThemeAliasesList/question-theme-aliases-list.types";
 
-const props = defineProps<QuestionThemeAliasesListProperties>();
+const props = defineProps<QuestionThemeAliasesListProps>();
 
 const { locale: currentLocale } = useI18n();
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { ConfirmDialogEmits, ConfirmDialogProperties } from "~/components/shared/ui/modal/ConfirmDialog/confirm-dialog.types";
+import type { ConfirmDialogEmits, ConfirmDialogProps } from "~/components/shared/ui/modal/ConfirmDialog/confirm-dialog.types";
 
-const props = defineProps<ConfirmDialogProperties>();
+const props = defineProps<ConfirmDialogProps>();
 
 const emit = defineEmits<ConfirmDialogEmits>();
 

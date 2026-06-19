@@ -1,7 +1,7 @@
 import type { QuestionTheme } from "#shared/types/question-theme.types";
 
-type QuestionThemeTranslationCompletenessIndicatorProperties = {
+type QuestionThemeTranslationCompletenessIndicatorProps = {
   questionTheme: QuestionTheme;
 };
 
-export type { QuestionThemeTranslationCompletenessIndicatorProperties };
+export type { QuestionThemeTranslationCompletenessIndicatorProps };

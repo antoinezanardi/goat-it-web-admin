@@ -1,7 +1,7 @@
 import type { QuestionThemeAssignment } from "#shared/types/question.types";
 
-type QuestionThemesListProperties = {
+type QuestionThemesListProps = {
   themes: QuestionThemeAssignment[];
 };
 
-export type { QuestionThemesListProperties };
+export type { QuestionThemesListProps };

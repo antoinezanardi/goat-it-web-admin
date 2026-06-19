@@ -1,4 +1,4 @@
-type EditQuestionButtonProperties = {
+type EditQuestionButtonProps = {
   questionId: string;
 };
 
@@ -7,6 +7,6 @@ type EditQuestionButtonEmits = {
 };
 
 export type {
-  EditQuestionButtonProperties,
+  EditQuestionButtonProps,
   EditQuestionButtonEmits,
 };

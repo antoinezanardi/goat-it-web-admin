@@ -36,6 +36,23 @@ const ESLINT_UNICORN_FLAT_CONFIG: Linter.Config = {
     ],
     "unicorn/import-style": "error",
     "unicorn/isolated-functions": "error",
+    "unicorn/name-replacements": [
+      "error",
+      {
+        replacements: {
+          repository: {
+            repo: false,
+          },
+          props: false,
+        },
+        allowList: {
+          env: true,
+          Env: true,
+          docs: true,
+          props: true,
+        },
+      },
+    ],
     "unicorn/new-for-builtins": "error",
     "unicorn/no-abusive-eslint-disable": "error",
     "unicorn/no-accessor-recursion": "error",
@@ -147,17 +164,6 @@ const ESLINT_UNICORN_FLAT_CONFIG: Linter.Config = {
     "unicorn/prefer-ternary": "error",
     "unicorn/prefer-top-level-await": "error",
     "unicorn/prefer-type-error": "error",
-    "unicorn/prevent-abbreviations": [
-      "error",
-      {
-        allowList: {
-          env: true,
-          Env: true,
-          docs: true,
-          props: true,
-        },
-      },
-    ],
     "unicorn/relative-url-style": "error",
     "unicorn/require-array-join-separator": "error",
     "unicorn/require-module-attributes": "error",

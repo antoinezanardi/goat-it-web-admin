@@ -2,7 +2,7 @@ import type { QuestionThemeCreationDto, QuestionThemeModificationDto } from "@go
 
 type QuestionThemeFormMode = "create" | "edit";
 
-type QuestionThemeFormProperties = {
+type QuestionThemeFormProps = {
   mode?: QuestionThemeFormMode;
   questionTheme?: QuestionTheme;
   existingSlugs: string[];
@@ -15,6 +15,6 @@ type QuestionThemeFormEmits = {
 
 export type {
   QuestionThemeFormMode,
-  QuestionThemeFormProperties,
+  QuestionThemeFormProps,
   QuestionThemeFormEmits,
 };

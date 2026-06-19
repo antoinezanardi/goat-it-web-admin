@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { PageHeaderProperties } from "~/components/shared/ui/PageHeader/page-header.types";
+import type { PageHeaderProps } from "~/components/shared/ui/PageHeader/page-header.types";
 
-defineProps<PageHeaderProperties>();
+defineProps<PageHeaderProps>();
 </script>
 
 <template>

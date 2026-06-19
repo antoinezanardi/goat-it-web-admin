@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { QuestionThemeStatusBadgeProperties } from "~/components/domain/question-theme/QuestionThemeStatusBadge/question-theme-status-badge.types";
+import type { QuestionThemeStatusBadgeProps } from "~/components/domain/question-theme/QuestionThemeStatusBadge/question-theme-status-badge.types";
 
-const props = defineProps<QuestionThemeStatusBadgeProperties>();
+const props = defineProps<QuestionThemeStatusBadgeProps>();
 
 const badgeColor = computed<"success" | "neutral">(() => (props.status === "active" ? "success" : "neutral"));
 </script>

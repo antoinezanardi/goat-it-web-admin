@@ -1,7 +1,7 @@
 import type { Question } from "#shared/types/question.types";
 
-type QuestionTranslationCompletenessIndicatorProperties = {
+type QuestionTranslationCompletenessIndicatorProps = {
   question: Question;
 };
 
-export type { QuestionTranslationCompletenessIndicatorProperties };
+export type { QuestionTranslationCompletenessIndicatorProps };

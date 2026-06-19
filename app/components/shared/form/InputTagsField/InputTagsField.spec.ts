@@ -8,14 +8,14 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { UFormField, UInputTags, UKbd } from "#components";
 import { InputTagsField } from "#components";
 
-import type { InputTagsFieldProperties } from "~/components/shared/form/InputTagsField/input-tags-field.types";
+import type { InputTagsFieldProps } from "~/components/shared/form/InputTagsField/input-tags-field.types";
 
 describe("InputTagsField Component", () => {
   let wrapper: VueWrapper;
 
   const defaultRemoveTooltipText = vi.fn<(item: string) => string>((item: string) => `Remove alias ${item}`);
 
-  const defaultProperties: InputTagsFieldProperties = {
+  const defaultProperties: InputTagsFieldProps = {
     modelValue: ["nature", "ecology"],
     addHintText: "to add an alias",
     removeTooltipText: defaultRemoveTooltipText,

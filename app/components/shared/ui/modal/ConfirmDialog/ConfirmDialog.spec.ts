@@ -8,12 +8,12 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { ConfirmDialog } from "#components";
 import type { DefaultModalFooter, DefaultModalTitle, UModal } from "#components";
 
-import type { ConfirmDialogProperties } from "~/components/shared/ui/modal/ConfirmDialog/confirm-dialog.types";
+import type { ConfirmDialogProps } from "~/components/shared/ui/modal/ConfirmDialog/confirm-dialog.types";
 
 describe("ConfirmDialog Component", () => {
   let wrapper: VueWrapper;
 
-  const defaultConfirmDialogProperties: ConfirmDialogProperties = {
+  const defaultConfirmDialogProps: ConfirmDialogProps = {
     icon: "i-lucide-archive",
     title: "Archive this theme?",
     description: "This theme will be archived.",
@@ -21,7 +21,7 @@ describe("ConfirmDialog Component", () => {
 
   async function mountConfirmDialogComponent(options: MountSuspendedOptions<typeof ConfirmDialog> = {}): Promise<VueWrapper> {
     return mountSuspended(ConfirmDialog, {
-      props: defaultConfirmDialogProperties,
+      props: defaultConfirmDialogProps,
       ...options,
     });
   }
@@ -82,7 +82,7 @@ describe("ConfirmDialog Component", () => {
     it("should pass the custom confirm label to the footer primary button when primaryButtonLabel prop is provided.", async() => {
       wrapper = await mountConfirmDialogComponent({
         props: {
-          ...defaultConfirmDialogProperties,
+          ...defaultConfirmDialogProps,
           primaryButtonLabel: "Delete it",
         },
       });
@@ -100,7 +100,7 @@ describe("ConfirmDialog Component", () => {
     it("should pass the custom cancel label to the footer close button when closeButtonLabel prop is provided.", async() => {
       wrapper = await mountConfirmDialogComponent({
         props: {
-          ...defaultConfirmDialogProperties,
+          ...defaultConfirmDialogProps,
           closeButtonLabel: "Never mind",
         },
       });

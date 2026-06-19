@@ -7,12 +7,12 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 
 import { TranslationCompletenessPopoverContent } from "#components";
 
-import type { TranslationCompletenessPopoverContentProperties } from "~/components/shared/core/localization/TranslationCompletenessIndicator/TranslationCompletenessPopoverContent/translation-completeness-popover-content.types";
+import type { TranslationCompletenessPopoverContentProps } from "~/components/shared/core/localization/TranslationCompletenessIndicator/TranslationCompletenessPopoverContent/translation-completeness-popover-content.types";
 
 describe("TranslationCompletenessPopoverContent Component", () => {
   let wrapper: VueWrapper;
   const fullyTranslatedField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "Hallo", es: "Hola", it: "Ciao", pt: "Olá" });
-  const defaultProps: TranslationCompletenessPopoverContentProperties = {
+  const defaultProps: TranslationCompletenessPopoverContentProps = {
     requiredFields: [fullyTranslatedField],
   };
 

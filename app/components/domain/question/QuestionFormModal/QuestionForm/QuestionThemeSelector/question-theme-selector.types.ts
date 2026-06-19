@@ -2,7 +2,7 @@ import type { QuestionThemeAssignmentCreationDto, QuestionThemeAssignmentModific
 
 import type { QuestionFormMode } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
 
-type QuestionThemeSelectorProperties = {
+type QuestionThemeSelectorProps = {
   modelValue: QuestionThemeAssignmentCreationDto[];
   availableThemes: QuestionTheme[];
   disabled?: boolean;
@@ -18,6 +18,6 @@ type QuestionThemeSelectorEmits = {
 };
 
 export type {
-  QuestionThemeSelectorProperties,
+  QuestionThemeSelectorProps,
   QuestionThemeSelectorEmits,
 };

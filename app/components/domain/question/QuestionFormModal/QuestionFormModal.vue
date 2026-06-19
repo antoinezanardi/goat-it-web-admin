@@ -2,11 +2,11 @@
 import type { QuestionCreationDto, QuestionModificationDto } from "@goat-it/schemas/question";
 
 import { QUESTION_FORM_MODAL_UI } from "~/components/domain/question/QuestionFormModal/question-form-modal.constants";
-import type { QuestionFormModalEmits, QuestionFormModalProperties } from "~/components/domain/question/QuestionFormModal/question-form-modal.types";
+import type { QuestionFormModalEmits, QuestionFormModalProps } from "~/components/domain/question/QuestionFormModal/question-form-modal.types";
 import type QuestionForm from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionForm.vue";
 import { QUESTION_ICON } from "~/composables/domain/question/question.constants";
 
-const props = withDefaults(defineProps<QuestionFormModalProperties>(), {
+const props = withDefaults(defineProps<QuestionFormModalProps>(), {
   mode: "create",
   question: undefined,
   isSubmitting: false,

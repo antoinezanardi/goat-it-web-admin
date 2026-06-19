@@ -3,10 +3,10 @@ import type { QuestionThemeCreationDto, QuestionThemeModificationDto } from "@go
 
 import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants";
 import { QUESTION_THEME_FORM_MODAL_UI } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.constants";
-import type { QuestionThemeFormModalEmits, QuestionThemeFormModalProperties } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.types";
+import type { QuestionThemeFormModalEmits, QuestionThemeFormModalProps } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.types";
 import type QuestionThemeForm from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/QuestionThemeForm.vue";
 
-const props = withDefaults(defineProps<QuestionThemeFormModalProperties>(), {
+const props = withDefaults(defineProps<QuestionThemeFormModalProps>(), {
   mode: "create",
   questionTheme: undefined,
   isSubmitting: false,
