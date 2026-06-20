@@ -10,6 +10,13 @@
       }
     }
   },
+  "plugin": [
+    ["opencode-mempalace", {
+      "mcpCommand": ["mempalace-mcp"],
+      "palacePath": ".mempalace",
+      "threshold": 20
+    }]
+  ],
   "permission": {
     "skill": { "*": "allow" },
     "bash": {

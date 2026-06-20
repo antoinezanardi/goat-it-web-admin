@@ -26,7 +26,6 @@ handling, Nuxt conventions, and other repo-specific rules).
   - Watch mode:      `pnpm run test:unit:watch`
   - Mutation (Stryker): `pnpm run test:mutation` / `pnpm run test:mutation:force`
   - Acceptance (Cucumber + Playwright): `pnpm run test:acceptance`
-  - Acceptance (skip build): `pnpm run test:acceptance:skip-build`
   - Acceptance build only: `pnpm run test:acceptance:build`
   - Install Playwright: `pnpm run test:acceptance:prepare` (run once locally)
 
@@ -40,15 +39,14 @@ Running a single test or file (`NODE_OPTIONS='--no-webstorage'` is required):
 Running acceptance tests:
 
 - Full run (build + test):  `pnpm run test:acceptance`
-- Skip build (fast iteration, if no sources have been modified but only acceptance tests code): `pnpm run test:acceptance:skip-build`
 - Build only:               `pnpm run test:acceptance:build`
-- Specific feature:         `pnpm run test:acceptance:skip-build tests/acceptance/features/home/home.feature`
-- Specific scenario (line): `pnpm run test:acceptance:skip-build tests/acceptance/features/home/home.feature:8`
-- By scenario name:         `pnpm run test:acceptance:skip-build --name "should display"`
-- By tag:                   `pnpm run test:acceptance:skip-build --tags "@question-themes"`
-- Multiple tags (OR):       `pnpm run test:acceptance:skip-build --tags "@home or @questions"`
-- Exclude tag:              `pnpm run test:acceptance:skip-build --tags "not @accessibility"`
-- By tag (AND):             `pnpm run test:acceptance:skip-build --tags "@question-themes and @accessibility"`
+- Specific feature:         `pnpm run test:acceptance tests/acceptance/features/home/home.feature`
+- Specific scenario (line): `pnpm run test:acceptance tests/acceptance/features/home/home.feature:8`
+- By scenario name:         `pnpm run test:acceptance --name "should display"`
+- By tag:                   `pnpm run test:acceptance --tags "@question-themes"`
+- Multiple tags (OR):       `pnpm run test:acceptance --tags "@home or @questions"`
+- Exclude tag:              `pnpm run test:acceptance --tags "not @accessibility"`
+- By tag (AND):             `pnpm run test:acceptance --tags "@question-themes and @accessibility"`
 
 **Mandatory quality gates** — agents MUST run all four commands below **in order**
 before considering any task complete. **Do NOT skip any gate**, even for "trivial" changes:
@@ -266,6 +264,40 @@ Slash commands available in OpenCode sessions:
 
 - `docs/unit-testing.md` – Full human-readable unit testing guide (patterns, examples, pitfalls).
 - `docs/acceptance-testing.md` – Full acceptance testing guide (Cucumber, Playwright, patterns, examples).
+
+## MemPalace (persistent project memory)
+
+MemPalace is a local memory system that stores project context as searchable embeddings.
+It runs as an MCP server with 33 tools (prefixed `mcp_mempalace_*`). All data stays on
+your machine — no API keys, no cloud.
+
+### What's in the palace
+
+- **Drawers** of project files (code, docs, configs, tests) under wing `goat_it_web_admin`
+- Rooms: `app`, `testing`, `documentation`, `backend`, `frontend`, `shared`, `configuration`,
+  `scripts`, `general`, `docker`, `design`, `modules`
+- Future sessions will be auto-mined by the plugin (every 20 message pairs)
+
+### How agents should use it
+
+1. **For tasks involving codebase context** (architecture, patterns, past decisions): query MemPalace first:
+   ```
+   Search for patterns, decisions, or architecture related to the task
+   ```
+   Use `mcp mempalace_search` with the wing filter to find relevant drawers. Skip MemPalace for trivial or purely mechanical tasks.
+
+2. **File learnings** to the knowledge graph after making decisions:
+   Use `mcp mempalace_kg_add` to persist important decisions, conventions,
+   or discoveries that future sessions should know.
+
+3. **Write diary entries** at session end:
+   Use `mcp mempalace_diary_write` to summarize what was accomplished.
+
+### Key commands
+
+- `mempalace search "query"` — semantic search across all project content
+- `mempalace search "query" --wing goat_it_web_admin --room app` — scoped search
+- `mempalace status` — show drawer counts by room
 
 ## Copilot instructions (`.github/copilot-instructions.md`)
 
