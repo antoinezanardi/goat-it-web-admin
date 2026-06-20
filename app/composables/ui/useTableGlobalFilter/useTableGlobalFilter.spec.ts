@@ -220,7 +220,7 @@ describe(useTableGlobalFilter, () => {
       expect(filteredCount.value).toBe(4);
     });
 
-    it("should update when keys change and the matching set changes.", async() => {
+    it("should return zero matches when no key matches the search term.", async() => {
       const keys = ref(["name"]);
       const { searchTerm, filteredCount } = useTableGlobalFilter({ data, keys });
 
@@ -228,7 +228,14 @@ describe(useTableGlobalFilter, () => {
       await nextTick();
 
       expect(filteredCount.value).toBe(0);
+    });
 
+    it("should update matches when keys are expanded to include a matching field.", async() => {
+      const keys = ref(["name"]);
+      const { searchTerm, filteredCount } = useTableGlobalFilter({ data, keys });
+
+      searchTerm.value = "equations";
+      await nextTick();
       keys.value = ["name", "description"];
       await nextTick();
 

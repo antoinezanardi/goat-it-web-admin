@@ -517,7 +517,7 @@ describe("QuestionsTable Component", () => {
       expect(header.props("filteredCount")).toBe(0);
     });
 
-    it("should pass filteredCount from the composable to the table header.", async() => {
+    it("should pass filteredCount from the composable to the table header when the composable provides a count.", async() => {
       const tableGlobalFilter = useTableGlobalFilter({ data: [], keys: [] });
       tableGlobalFilter.filteredCount.value = 42;
       await nextTick();

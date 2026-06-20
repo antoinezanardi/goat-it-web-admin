@@ -32,12 +32,7 @@ function useTableGlobalFilter<T>(options: UseTableGlobalFilterOptions<T>): UseTa
 
   const hasActiveFilter = computed<boolean>(() => globalFilter.value.trim().length > 0);
 
-  const filteredCount = computed<number>(() => {
-    if (!hasActiveFilter.value) {
-      return toValue(data).length;
-    }
-    return matchingReferenceIndices.value.size;
-  });
+  const filteredCount = computed<number>(() => matchingReferenceIndices.value.size);
 
   return {
     searchTerm,

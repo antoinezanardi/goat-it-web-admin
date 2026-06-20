@@ -37,11 +37,11 @@ function onClearFilters(): void {
     class="flex flex-col gap-2"
   >
     <div class="flex items-center justify-between">
-      <div class="flex items-center gap-4">
+      <div class="flex gap-4 items-center">
         <TableRowCount
-          data-testid="questions-table-row-count"
           :count="filteredCount"
-          :count-key="$t('questions.itemsCount')"
+          count-key="questions.itemsCount"
+          data-testid="questions-table-row-count"
           :loading="isLoading"
         />
 

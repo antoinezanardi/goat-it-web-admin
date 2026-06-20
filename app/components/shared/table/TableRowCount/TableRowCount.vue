@@ -11,6 +11,7 @@ defineProps<TableRowCountProps>();
       class="h-5 w-24"
       data-testid="table-row-count-skeleton"
     />
+
     <span
       v-else
       data-testid="table-row-count-text"

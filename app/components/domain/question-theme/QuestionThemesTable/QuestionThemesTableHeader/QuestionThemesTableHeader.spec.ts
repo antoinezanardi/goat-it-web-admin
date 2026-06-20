@@ -146,7 +146,7 @@ describe("QuestionThemesTableHeader Component", () => {
       expect(rowCount.exists()).toBe(true);
     });
 
-    it("should pass filteredCount to the row count component.", async() => {
+    it("should pass filteredCount to the row count component when a filteredCount prop is provided.", async() => {
       wrapper = await mountQuestionThemesTableHeaderComponent({ props: { ...defaultProps, filteredCount: 5 } });
 
       const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='question-themes-table-row-count']");
@@ -154,7 +154,7 @@ describe("QuestionThemesTableHeader Component", () => {
       expect(rowCount.props("count")).toBe(5);
     });
 
-    it("should pass the question themes itemsCount key to the row count component.", () => {
+    it("should pass the question themes itemsCount key to the row count component when rendered.", () => {
       const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='question-themes-table-row-count']");
 
       expect(rowCount.props("countKey")).toBe("questionThemes.itemsCount");
@@ -174,14 +174,16 @@ describe("QuestionThemesTableHeader Component", () => {
       expect(rowCount.props("loading")).toBe(true);
     });
 
-    it("should render the row count to the left of the search input.", () => {
-      const rowCount = wrapper.find("[data-testid='question-themes-table-row-count']");
+    it("should render the row count to the left of the search input when rendered.", () => {
+      const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='question-themes-table-row-count']");
       const searchInput = wrapper.findComponent<typeof TableGlobalSearchInput>({ name: "TableGlobalSearchInput" });
 
-      const rowCountIndex = Array.from(rowCount.element.parentElement?.children ?? []).indexOf(rowCount.element);
-      const searchInputIndex = Array.from(searchInput.element.parentElement?.children ?? []).indexOf(searchInput.element);
+      const rowCountElement = rowCount.element as HTMLElement;
+      const searchInputElement = searchInput.element as HTMLElement;
 
-      expect(rowCountIndex).toBeLessThan(searchInputIndex);
+      // Acceptable as DOCUMENT_POSITION_FOLLOWING constant value is 4
+      // oxlint-disable-next-line no-bitwise
+      expect(rowCountElement.compareDocumentPosition(searchInputElement) & 4).toBeTruthy();
     });
   });
 });
