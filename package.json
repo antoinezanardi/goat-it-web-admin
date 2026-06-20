@@ -138,7 +138,7 @@
     "happy-dom": "^20.10.6",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
-    "lint-staged": "^17.0.7",
+    "lint-staged": "^17.0.8",
     "nuxt": "^4.4.8",
     "oxlint": "^1.70.0",
     "oxlint-tsgolint": "^0.23.0",
