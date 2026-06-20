@@ -112,6 +112,7 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
 
   - Use `type` imports for type-only symbols (`import type { Foo } from '...'`).
   - Prefer named exports; avoid default exports for utilities and composables.
+  - Barrel exports are forbidden (`export { foo } from '...'` or `export * from '...'`). Always import directly from the source module.
 
 - Import aliases:
   - `@/` and `~/` → `app/`

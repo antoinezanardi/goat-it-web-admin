@@ -22,6 +22,11 @@
       "rtk git push *": "deny"
     }
   },
+  "lsp": {
+    "oxlint": {
+      "command": ["oxlint", "--lsp"]
+    }
+  },
   "compaction": {
     "auto": true,
     "prune": true,
