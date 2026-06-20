@@ -6,6 +6,7 @@
     "cantArchive": "Fragenthema konnte nicht archiviert werden",
     "cantModify": "Fragenthema konnte nicht geändert werden",
     "fetching": "Fragenthemen werden abgerufen…",
+    "itemsCount": "0 Themen | {count} Thema | {count} Themen",
     "createNew": "Neues Thema erstellen",
     "editTheme": "Thema bearbeiten",
     "createSuccessfully": "Fragenthema erfolgreich erstellt",

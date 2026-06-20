@@ -37,11 +37,13 @@ function onClearFilters(): void {
     class="flex flex-col gap-2"
   >
     <div class="flex items-center justify-between">
-      <TableGlobalSearchInput
-        data-testid="questions-table-header-search-input"
-        :model-value="searchTerm"
-        @update:model-value="onUpdateModelValueFromTableGlobalSearchInput"
-      />
+      <div class="flex gap-4 items-center">
+        <TableGlobalSearchInput
+          data-testid="questions-table-header-search-input"
+          :model-value="searchTerm"
+          @update:model-value="onUpdateModelValueFromTableGlobalSearchInput"
+        />
+      </div>
 
       <UButton
         :aria-label="$t('questions.createNew')"
@@ -55,25 +57,34 @@ function onClearFilters(): void {
       </UButton>
     </div>
 
-    <TableFiltersSection
-      :active-filter-count="activeFilterCount"
-      data-testid="questions-table-header-filters-section"
-      @clear="onClearFilters"
-    >
-      <QuestionsTableStatusFilter
-        :model-value="filters.status"
-        @update:model-value="onUpdateStatusFilter"
-      />
+    <div class="flex items-center justify-between">
+      <TableFiltersSection
+        :active-filter-count="activeFilterCount"
+        data-testid="questions-table-header-filters-section"
+        @clear="onClearFilters"
+      >
+        <QuestionsTableStatusFilter
+          :model-value="filters.status"
+          @update:model-value="onUpdateStatusFilter"
+        />
 
-      <QuestionsTableCategoryFilter
-        :model-value="filters.category"
-        @update:model-value="onUpdateCategoryFilter"
-      />
+        <QuestionsTableCategoryFilter
+          :model-value="filters.category"
+          @update:model-value="onUpdateCategoryFilter"
+        />
 
-      <QuestionsTableCognitiveDifficultyFilter
-        :model-value="filters.cognitiveDifficulty"
-        @update:model-value="onUpdateCognitiveDifficultyFilter"
+        <QuestionsTableCognitiveDifficultyFilter
+          :model-value="filters.cognitiveDifficulty"
+          @update:model-value="onUpdateCognitiveDifficultyFilter"
+        />
+      </TableFiltersSection>
+
+      <TableRowCount
+        :count="filteredCount"
+        count-key="questions.itemsCount"
+        data-testid="questions-table-row-count"
+        :loading="isLoading"
       />
-    </TableFiltersSection>
+    </div>
   </div>
 </template>

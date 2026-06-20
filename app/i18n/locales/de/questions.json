@@ -20,6 +20,7 @@
     "modifySuccessfully": "Frage erfolgreich bearbeitet",
     "modifyThemeAssignmentSuccessfully": "Fragenthema erfolgreich geändert",
     "fetching": "Fragen werden geladen...",
+    "itemsCount": "0 Fragen | {count} Frage | {count} Fragen",
     "missingThemeTranslation": "–– fehlende Themenübersetzung ––",
     "selectThemes": "Themen auswählen…",
     "searchThemes": "Themen suchen...",

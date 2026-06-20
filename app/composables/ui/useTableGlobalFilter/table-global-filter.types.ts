@@ -14,6 +14,7 @@ type UseTableGlobalFilter<T> = {
   globalFilter: Ref<string>;
   globalFilterFunction: FilterFn<T>;
   hasActiveFilter: ComputedRef<boolean>;
+  filteredCount: ComputedRef<number>;
 };
 
 export type {

@@ -6,6 +6,7 @@
     "cantArchive": "Impossibile archiviare il tema delle domande",
     "cantModify": "Impossibile modificare il tema delle domande",
     "fetching": "Recupero dei temi delle domande in corso…",
+    "itemsCount": "0 temi | {count} tema | {count} temi",
     "createNew": "Crea un nuovo tema",
     "editTheme": "Modifica tema",
     "createSuccessfully": "Tema delle domande creato con successo",

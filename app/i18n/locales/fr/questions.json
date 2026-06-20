@@ -2,6 +2,7 @@
   "questions": {
     "pageTitle": "Questions",
     "fetching": "Chargement des questions...",
+    "itemsCount": "0 question | {count} question | {count} questions",
     "createNew": "Créer une nouvelle question",
     "editQuestion": "Modifier la question",
     "cantFetch": "Impossible de récupérer les questions",

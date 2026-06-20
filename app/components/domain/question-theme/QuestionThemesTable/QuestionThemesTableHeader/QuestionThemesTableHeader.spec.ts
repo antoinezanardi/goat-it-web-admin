@@ -6,14 +6,16 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 
 import { QuestionThemesTableHeader } from "#components";
-import type { TableGlobalSearchInput, UButton, TableFiltersSection, QuestionThemesTableStatusFilter } from "#components";
+import type { TableGlobalSearchInput, UButton, TableFiltersSection, QuestionThemesTableStatusFilter, TableRowCount } from "#components";
 
 import type { QuestionThemesTableHeaderProps } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableHeader/question-themes-table-header.types";
 
 describe("QuestionThemesTableHeader Component", () => {
   const defaultProps: QuestionThemesTableHeaderProps = {
     searchTerm: "",
+    filteredCount: 0,
     activeFilterCount: 0,
+    isLoading: false,
     filters: { status: undefined },
   };
   let wrapper: VueWrapper;
@@ -134,6 +136,42 @@ describe("QuestionThemesTableHeader Component", () => {
       getWrapperVm(statusFilter).$emit("update:modelValue", "archived");
 
       expect(wrapper.emitted("update:filter")).toStrictEqual([[{ status: "archived" }]]);
+    });
+  });
+
+  describe("Table row count", () => {
+    it("should render the table row count component when mounted.", () => {
+      const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='question-themes-table-row-count']");
+
+      expect(rowCount.exists()).toBe(true);
+    });
+
+    it("should pass filteredCount to the row count component when a filteredCount prop is provided.", async() => {
+      wrapper = await mountQuestionThemesTableHeaderComponent({ props: { ...defaultProps, filteredCount: 5 } });
+
+      const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='question-themes-table-row-count']");
+
+      expect(rowCount.props("count")).toBe(5);
+    });
+
+    it("should pass the question themes itemsCount key to the row count component when rendered.", () => {
+      const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='question-themes-table-row-count']");
+
+      expect(rowCount.props("countKey")).toBe("questionThemes.itemsCount");
+    });
+
+    it("should pass loading as false to the row count component when not loading.", () => {
+      const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='question-themes-table-row-count']");
+
+      expect(rowCount.props("loading")).toBe(false);
+    });
+
+    it("should pass loading as true to the row count component when loading.", async() => {
+      wrapper = await mountQuestionThemesTableHeaderComponent({ props: { ...defaultProps, isLoading: true } });
+
+      const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='question-themes-table-row-count']");
+
+      expect(rowCount.props("loading")).toBe(true);
     });
   });
 });

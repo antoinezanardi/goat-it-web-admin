@@ -8,7 +8,9 @@ type QuestionsTableFilters = {
 
 type QuestionsTableHeaderProps = {
   searchTerm: string;
+  filteredCount: number;
   activeFilterCount: number;
+  isLoading: boolean;
   filters: QuestionsTableFilters;
 };
 

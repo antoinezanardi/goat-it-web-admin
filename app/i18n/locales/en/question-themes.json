@@ -6,6 +6,7 @@
     "cantArchive": "Unable to archive question theme",
     "cantModify": "Unable to modify question theme",
     "fetching": "Fetching question themes...",
+    "itemsCount": "0 themes | {count} theme | {count} themes",
     "createNew": "Create a new theme",
     "editTheme": "Edit theme",
     "createSuccessfully": "Question theme created successfully",

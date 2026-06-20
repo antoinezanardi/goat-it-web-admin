@@ -20,6 +20,7 @@
     "modifySuccessfully": "Question modified successfully",
     "modifyThemeAssignmentSuccessfully": "Question theme modified successfully",
     "fetching": "Loading questions...",
+    "itemsCount": "0 questions | {count} question | {count} questions",
     "missingThemeTranslation": "–– missing theme translation ––",
     "selectThemes": "Select themes…",
     "searchThemes": "Search themes...",

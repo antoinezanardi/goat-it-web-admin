@@ -44,7 +44,8 @@ You are the superpowers orchestrator for the **goat-it-web-admin** project (Nuxt
 2. **Create feature branch from `develop`:**
    - If on `develop` → Choose the best branch name based on [.validate-branch-namerc.json](../../configs/validate-branch-name/.validate-branch-namerc.json) rules, then run `git checkout -b <branch-name> develop`.
    - If not on `develop` → STOP and ask the user to switch to `develop` before creating the feature branch.
-3. **Write plans from specs** → dispatch `plan-writer` subagent with the spec path inline (do NOT make it read the spec file separately — pass the path + key context) → produces `docs/superpowers/plans/YYYY-MM-DD-<feature>.md`.
+3. **Write plans from specs** → dispatch `plan-writer` subagent with the spec path inline (do NOT make it read the spec file separately — pass the path + key context)
+   - Ask the subagent to produce the plan in `docs/superpowers/plans/YYYY-MM-DD-<feature>.md`.
    - Read the plan file and ask the user to confirm it. If the user says "no", stop and ask for clarification or edits.
    - If the user says "yes", mark the plan as done in TodoWrite.
 4. **Implement tasks** → per task:
@@ -58,7 +59,7 @@ You are the superpowers orchestrator for the **goat-it-web-admin** project (Nuxt
    2. `pnpm run typecheck`
    3. `pnpm run test:unit:cov` (must be 100% coverage)
    4. `pnpm run test:acceptance`
-   5. `pnpm run test:mutation` (only if the specs/plans mention mutation testing)
+   5. `pnpm run test:mutation` (only if the specs/plans mention mutation testing, must be 100% mutation score)
    6. If any gate fails, fix and re-run from that gate onward. Never claim "done" before all required gates pass.
 7. **Commit Proposal**: as you can't commit directly to the feature branch, propose a commit message to the user based on the plan.
 
@@ -67,7 +68,6 @@ You are the superpowers orchestrator for the **goat-it-web-admin** project (Nuxt
 ### Discipline skills (delegated to subagents)
 - `test-driven-development` — passed to `implementer` / `tdd-writer`
 - `systematic-debugging` — passed to `debugger` / `investigator`
-- **`receiving-code-review`** — load THIS when you (the orchestrator) receive feedback from a subagent. Verify before re-dispatching. No performative agreement. Push back with technical reasoning if the feedback is wrong.
 
 ### Domain skills (project-specific, load when relevant)
 - `nuxt` — Nuxt 4 routing, composables, auto-imports, server routes, SSR

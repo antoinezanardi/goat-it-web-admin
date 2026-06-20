@@ -508,4 +508,29 @@ describe("QuestionsTable Component", () => {
       expect(emptyState.props("hasActiveFilter")).toBe(true);
     });
   });
+
+  describe("Table row count", () => {
+    it("should pass filteredCount of 0 to the table header when no data is present.", () => {
+      questionsStore.questions = [];
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+
+      expect(header.props("filteredCount")).toBe(0);
+    });
+
+    it("should pass isLoading as false to the table header when not fetching.", () => {
+      questionsStore.isFetchingQuestions = false;
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+
+      expect(header.props("isLoading")).toBe(false);
+    });
+
+    it("should pass isLoading as true to the table header when fetching.", async() => {
+      questionsStore.isFetchingQuestions = true;
+      wrapper = await mountQuestionsTableComponent();
+
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+
+      expect(header.props("isLoading")).toBe(true);
+    });
+  });
 });

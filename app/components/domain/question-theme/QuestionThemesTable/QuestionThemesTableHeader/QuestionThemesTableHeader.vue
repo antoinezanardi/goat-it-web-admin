@@ -29,11 +29,13 @@ function onClearFilters(): void {
     class="flex flex-col gap-2"
   >
     <div class="flex items-center justify-between">
-      <TableGlobalSearchInput
-        data-testid="question-themes-table-header-search-input"
-        :model-value="searchTerm"
-        @update:model-value="onUpdateModelValueFromTableGlobalSearchInput"
-      />
+      <div class="flex gap-4 items-center">
+        <TableGlobalSearchInput
+          data-testid="question-themes-table-header-search-input"
+          :model-value="searchTerm"
+          @update:model-value="onUpdateModelValueFromTableGlobalSearchInput"
+        />
+      </div>
 
       <UButton
         id="create-question-theme-button"
@@ -47,15 +49,24 @@ function onClearFilters(): void {
       </UButton>
     </div>
 
-    <TableFiltersSection
-      :active-filter-count="activeFilterCount"
-      data-testid="question-themes-table-header-filters-section"
-      @clear="onClearFilters"
-    >
-      <QuestionThemesTableStatusFilter
-        :model-value="filters.status"
-        @update:model-value="onUpdateStatusFilter"
+    <div class="flex items-center justify-between">
+      <TableFiltersSection
+        :active-filter-count="activeFilterCount"
+        data-testid="question-themes-table-header-filters-section"
+        @clear="onClearFilters"
+      >
+        <QuestionThemesTableStatusFilter
+          :model-value="filters.status"
+          @update:model-value="onUpdateStatusFilter"
+        />
+      </TableFiltersSection>
+
+      <TableRowCount
+        :count="filteredCount"
+        count-key="questionThemes.itemsCount"
+        data-testid="question-themes-table-row-count"
+        :loading="isLoading"
       />
-    </TableFiltersSection>
+    </div>
   </div>
 </template>

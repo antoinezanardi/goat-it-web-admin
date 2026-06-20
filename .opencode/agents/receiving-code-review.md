@@ -3,7 +3,7 @@ description: Triages and evaluates code review feedback (PR comments, peer revie
 mode: primary
 model: opencode-go/deepseek-v4-pro
 temperature: 0.3
-steps: 30
+steps: 80
 hidden: false
 permission:
   bash:
@@ -38,8 +38,8 @@ permission:
     "rtk echo *": "allow"
     "pnpm run lint*": "allow"
     "rtk pnpm run lint*": "allow"
-    "pnpm run typecheck": "allow"
-    "rtk pnpm run typecheck": "allow"
+    "pnpm run typecheck*": "allow"
+    "rtk pnpm run typecheck*": "allow"
     "pnpm run test:unit*": "allow"
     "rtk pnpm run test:unit*": "allow"
     "pnpm run test:acceptance*": "allow"

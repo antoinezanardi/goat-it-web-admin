@@ -7,7 +7,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { createFakeQuestionsTableFilters } from "~~/tests/unit/utils/faketories/questions/components/questions-table-filters.faketory";
 
 import { QuestionsTableHeader } from "#components";
-import type { TableGlobalSearchInput, TableFiltersSection, QuestionsTableStatusFilter, QuestionsTableCategoryFilter, QuestionsTableCognitiveDifficultyFilter } from "#components";
+import type { TableGlobalSearchInput, TableFiltersSection, QuestionsTableStatusFilter, QuestionsTableCategoryFilter, QuestionsTableCognitiveDifficultyFilter, TableRowCount } from "#components";
 
 import type { QuestionsTableHeaderProps } from "~/components/domain/question/QuestionsTable/QuestionsTableHeader/questions-table-header.types";
 
@@ -15,7 +15,9 @@ describe("QuestionsTableHeader Component", () => {
   let wrapper: VueWrapper;
   const defaultProps: QuestionsTableHeaderProps = {
     searchTerm: "",
+    filteredCount: 0,
     activeFilterCount: 0,
+    isLoading: false,
     filters: createFakeQuestionsTableFilters({ status: undefined, category: undefined, cognitiveDifficulty: undefined }),
   };
 
@@ -178,6 +180,42 @@ describe("QuestionsTableHeader Component", () => {
       getWrapperVm(cognitiveDifficultyFilter).$emit("update:modelValue", "hard");
 
       expect(wrapper.emitted("update:filter")).toStrictEqual([[{ cognitiveDifficulty: "hard" }]]);
+    });
+  });
+
+  describe("Table row count", () => {
+    it("should render the table row count component when mounted.", () => {
+      const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='questions-table-row-count']");
+
+      expect(rowCount.exists()).toBe(true);
+    });
+
+    it("should pass filteredCount to the row count component when a filteredCount prop is provided.", async() => {
+      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, filteredCount: 5 } });
+
+      const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='questions-table-row-count']");
+
+      expect(rowCount.props("count")).toBe(5);
+    });
+
+    it("should pass the questions itemsCount key to the row count component when rendered.", () => {
+      const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='questions-table-row-count']");
+
+      expect(rowCount.props("countKey")).toBe("questions.itemsCount");
+    });
+
+    it("should pass loading as false to the row count component when not loading.", () => {
+      const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='questions-table-row-count']");
+
+      expect(rowCount.props("loading")).toBe(false);
+    });
+
+    it("should pass loading as true to the row count component when loading.", async() => {
+      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, isLoading: true } });
+
+      const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='questions-table-row-count']");
+
+      expect(rowCount.props("loading")).toBe(true);
     });
   });
 });
