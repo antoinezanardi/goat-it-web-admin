@@ -37,11 +37,20 @@ function onClearFilters(): void {
     class="flex flex-col gap-2"
   >
     <div class="flex items-center justify-between">
-      <TableGlobalSearchInput
-        data-testid="questions-table-header-search-input"
-        :model-value="searchTerm"
-        @update:model-value="onUpdateModelValueFromTableGlobalSearchInput"
-      />
+      <div class="flex items-center gap-4">
+        <TableRowCount
+          data-testid="questions-table-row-count"
+          :count="filteredCount"
+          :count-key="$t('questions.itemsCount')"
+          :loading="isLoading"
+        />
+
+        <TableGlobalSearchInput
+          data-testid="questions-table-header-search-input"
+          :model-value="searchTerm"
+          @update:model-value="onUpdateModelValueFromTableGlobalSearchInput"
+        />
+      </div>
 
       <UButton
         :aria-label="$t('questions.createNew')"

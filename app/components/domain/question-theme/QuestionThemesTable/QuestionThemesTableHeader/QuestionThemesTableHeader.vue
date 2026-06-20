@@ -29,11 +29,20 @@ function onClearFilters(): void {
     class="flex flex-col gap-2"
   >
     <div class="flex items-center justify-between">
-      <TableGlobalSearchInput
-        data-testid="question-themes-table-header-search-input"
-        :model-value="searchTerm"
-        @update:model-value="onUpdateModelValueFromTableGlobalSearchInput"
-      />
+      <div class="flex items-center gap-4">
+        <TableRowCount
+          data-testid="question-themes-table-row-count"
+          :count="filteredCount"
+          :count-key="$t('questionThemes.itemsCount')"
+          :loading="isLoading"
+        />
+
+        <TableGlobalSearchInput
+          data-testid="question-themes-table-header-search-input"
+          :model-value="searchTerm"
+          @update:model-value="onUpdateModelValueFromTableGlobalSearchInput"
+        />
+      </div>
 
       <UButton
         id="create-question-theme-button"

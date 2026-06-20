@@ -44,7 +44,7 @@ const fuseKeys = computed<string[]>(() => [
   "status",
 ]);
 
-const { searchTerm, globalFilter, globalFilterFunction, hasActiveFilter } = useTableGlobalFilter<QuestionTheme>({
+const { searchTerm, globalFilter, globalFilterFunction, hasActiveFilter, filteredCount } = useTableGlobalFilter<QuestionTheme>({
   data: questionThemes,
   keys: fuseKeys,
 });
@@ -73,7 +73,9 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
         v-model:search-term="searchTerm"
         :active-filter-count="activeFilterCount"
         data-testid="question-themes-table-header"
+        :filtered-count="filteredCount"
         :filters="headerFilters"
+        :is-loading="isFetchingQuestionThemes"
         @clear-filters="clearFilters"
         @start-create="onStartCreateFromQuestionThemesTableHeader"
         @update:filter="onUpdateFilterFromQuestionThemesTableHeader"

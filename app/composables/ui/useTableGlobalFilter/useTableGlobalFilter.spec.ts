@@ -180,4 +180,59 @@ describe(useTableGlobalFilter, () => {
       expect(shouldAutoRemove).toBe(expected);
     });
   });
+
+  describe("filteredCount", () => {
+    it("should return data length when no search term is active.", () => {
+      const { filteredCount } = useTableGlobalFilter({ data, keys: ["name", "description"] });
+
+      expect(filteredCount.value).toBe(3);
+    });
+
+    it("should return 0 when data is empty and no search term is active.", () => {
+      data.value = [];
+      const { filteredCount } = useTableGlobalFilter({ data, keys: ["name", "description"] });
+
+      expect(filteredCount.value).toBe(0);
+    });
+
+    it("should return the number of matching rows when a search term is active.", () => {
+      const { searchTerm, filteredCount } = useTableGlobalFilter({ data, keys: ["name", "description"] });
+
+      searchTerm.value = "Math";
+
+      expect(filteredCount.value).toBe(1);
+    });
+
+    it("should return data length when search term is only whitespace.", () => {
+      const { searchTerm, filteredCount } = useTableGlobalFilter({ data, keys: ["name", "description"] });
+
+      searchTerm.value = "   ";
+
+      expect(filteredCount.value).toBe(3);
+    });
+
+    it("should update when data changes.", async() => {
+      const { filteredCount } = useTableGlobalFilter({ data, keys: ["name", "description"] });
+
+      data.value = [...data.value, { id: "4", name: "Geography", description: "Earth and maps" }];
+      await nextTick();
+
+      expect(filteredCount.value).toBe(4);
+    });
+
+    it("should update when keys change and the matching set changes.", async() => {
+      const keys = ref(["name"]);
+      const { searchTerm, filteredCount } = useTableGlobalFilter({ data, keys });
+
+      searchTerm.value = "equations";
+      await nextTick();
+
+      expect(filteredCount.value).toBe(0);
+
+      keys.value = ["name", "description"];
+      await nextTick();
+
+      expect(filteredCount.value).toBe(1);
+    });
+  });
 });

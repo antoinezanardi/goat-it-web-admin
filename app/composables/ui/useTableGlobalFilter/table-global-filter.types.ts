@@ -1,6 +1,6 @@
 import type { IFuseOptions } from "fuse.js";
 import type { FilterFn } from "@tanstack/vue-table";
-import type { ComputedRef, MaybeRefOrGetter, Ref } from "vue";
+import type { MaybeRefOrGetter, Ref } from "vue";
 
 type UseTableGlobalFilterOptions<T> = {
   data: MaybeRefOrGetter<T[]>;
@@ -14,6 +14,7 @@ type UseTableGlobalFilter<T> = {
   globalFilter: Ref<string>;
   globalFilterFunction: FilterFn<T>;
   hasActiveFilter: ComputedRef<boolean>;
+  filteredCount: Ref<number>;
 };
 
 export type {

@@ -6,7 +6,9 @@ type QuestionThemesTableFilters = {
 
 type QuestionThemesTableHeaderProps = {
   searchTerm: string;
+  filteredCount: number;
   activeFilterCount: number;
+  isLoading: boolean;
   filters: QuestionThemesTableFilters;
 };
 
