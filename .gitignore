@@ -64,3 +64,9 @@ tests/acceptance/logs
 docs/superpowers
 .superpowers
 .playwright-mcp
+
+# MemPalace files
+mempalace.yaml
+entities.json
+.mempalace/
+hallways.json
