@@ -44,5 +44,3 @@ function useTableGlobalFilter<T>(options: UseTableGlobalFilterOptions<T>): UseTa
 }
 
 export { useTableGlobalFilter };
-
-export { type UseTableGlobalFilter } from "~/composables/ui/useTableGlobalFilter/table-global-filter.types";
