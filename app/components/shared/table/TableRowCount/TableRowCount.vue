@@ -12,11 +12,14 @@ defineProps<TableRowCountProps>();
       data-testid="table-row-count-skeleton"
     />
 
-    <span
+    <UBadge
       v-else
+      color="secondary"
       data-testid="table-row-count-text"
+      size="lg"
+      variant="outline"
     >
       {{ $t(countKey, count) }}
-    </span>
+    </UBadge>
   </div>
 </template>

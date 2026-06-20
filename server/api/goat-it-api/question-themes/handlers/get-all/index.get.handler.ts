@@ -9,7 +9,6 @@ async function getQuestionThemesHandler(event: H3Event): Promise<QuestionTheme[]
   const config = useRuntimeConfig(event);
   const endpoint = createGoatItApiEndpoint("question-themes");
   const fetchOptions = createGoatItApiFetchOptions(config.goatItApi);
-  
   const rawQuery = getQuery(event);
   const query = ADMIN_FIND_QUESTION_THEMES_QUERY_DTO.parse(rawQuery);
 

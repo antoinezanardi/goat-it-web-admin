@@ -182,10 +182,16 @@ describe(useTableGlobalFilter, () => {
   });
 
   describe("filteredCount", () => {
-    it("should return data length when no search term is active.", () => {
-      const { filteredCount } = useTableGlobalFilter({ data, keys: ["name", "description"] });
+    it.each<{ description: string; searchTermValue: string; expected: number }>([
+      { description: "no search term is active", searchTermValue: "", expected: 3 },
+      { description: "search term is only whitespace", searchTermValue: "   ", expected: 3 },
+      { description: "a matching search term is active", searchTermValue: "Math", expected: 1 },
+    ])("should return $expected when $description.", ({ searchTermValue, expected }) => {
+      const { searchTerm, filteredCount } = useTableGlobalFilter({ data, keys: ["name", "description"] });
 
-      expect(filteredCount.value).toBe(3);
+      searchTerm.value = searchTermValue;
+
+      expect(filteredCount.value).toBe(expected);
     });
 
     it("should return 0 when data is empty and no search term is active.", () => {
@@ -193,22 +199,6 @@ describe(useTableGlobalFilter, () => {
       const { filteredCount } = useTableGlobalFilter({ data, keys: ["name", "description"] });
 
       expect(filteredCount.value).toBe(0);
-    });
-
-    it("should return the number of matching rows when a search term is active.", () => {
-      const { searchTerm, filteredCount } = useTableGlobalFilter({ data, keys: ["name", "description"] });
-
-      searchTerm.value = "Math";
-
-      expect(filteredCount.value).toBe(1);
-    });
-
-    it("should return data length when search term is only whitespace.", () => {
-      const { searchTerm, filteredCount } = useTableGlobalFilter({ data, keys: ["name", "description"] });
-
-      searchTerm.value = "   ";
-
-      expect(filteredCount.value).toBe(3);
     });
 
     it("should update when data changes.", async() => {

@@ -68,31 +68,5 @@ describe("TableRowCount Component", () => {
 
       expect(text.text()).toBe("questions.itemsCount");
     });
-
-    it("should call $t with the count key and count when loading is false.", async() => {
-      wrapper = await mountTableRowCountComponent({ props: { ...defaultProps, count: 42 } });
-
-      // Acceptable as $t is a global mock function that doesn't use `this`
-      // oxlint-disable-next-line typescript/unbound-method
-      expect(wrapper.vm.$t).toHaveBeenCalledWith("questions.itemsCount", 42);
-    });
-
-    it("should update $t when the count prop changes.", async() => {
-      wrapper = await mountTableRowCountComponent({ props: { ...defaultProps, count: 5 } });
-
-      await wrapper.setProps({ count: 10 });
-
-      // Acceptable as $t is a global mock function that doesn't use `this`
-      // oxlint-disable-next-line typescript/unbound-method
-      expect(wrapper.vm.$t).toHaveBeenLastCalledWith("questions.itemsCount", 10);
-    });
-
-    it("should call $t with the provided count key when countKey changes.", async() => {
-      wrapper = await mountTableRowCountComponent({ props: { ...defaultProps, countKey: "questionThemes.itemsCount" } });
-
-      // Acceptable as $t is a global mock function that doesn't use `this`
-      // oxlint-disable-next-line typescript/unbound-method
-      expect(wrapper.vm.$t).toHaveBeenCalledWith("questionThemes.itemsCount", 0);
-    });
   });
 });

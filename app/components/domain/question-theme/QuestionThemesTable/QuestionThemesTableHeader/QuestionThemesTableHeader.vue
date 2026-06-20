@@ -30,13 +30,6 @@ function onClearFilters(): void {
   >
     <div class="flex items-center justify-between">
       <div class="flex gap-4 items-center">
-        <TableRowCount
-          :count="filteredCount"
-          count-key="questionThemes.itemsCount"
-          data-testid="question-themes-table-row-count"
-          :loading="isLoading"
-        />
-
         <TableGlobalSearchInput
           data-testid="question-themes-table-header-search-input"
           :model-value="searchTerm"
@@ -56,15 +49,24 @@ function onClearFilters(): void {
       </UButton>
     </div>
 
-    <TableFiltersSection
-      :active-filter-count="activeFilterCount"
-      data-testid="question-themes-table-header-filters-section"
-      @clear="onClearFilters"
-    >
-      <QuestionThemesTableStatusFilter
-        :model-value="filters.status"
-        @update:model-value="onUpdateStatusFilter"
+    <div class="flex items-center justify-between">
+      <TableFiltersSection
+        :active-filter-count="activeFilterCount"
+        data-testid="question-themes-table-header-filters-section"
+        @clear="onClearFilters"
+      >
+        <QuestionThemesTableStatusFilter
+          :model-value="filters.status"
+          @update:model-value="onUpdateStatusFilter"
+        />
+      </TableFiltersSection>
+
+      <TableRowCount
+        :count="filteredCount"
+        count-key="questionThemes.itemsCount"
+        data-testid="question-themes-table-row-count"
+        :loading="isLoading"
       />
-    </TableFiltersSection>
+    </div>
   </div>
 </template>

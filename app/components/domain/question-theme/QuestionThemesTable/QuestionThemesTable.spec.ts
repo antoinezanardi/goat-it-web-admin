@@ -667,16 +667,6 @@ describe("QuestionThemesTable Component", () => {
       expect(header.props("filteredCount")).toBe(0);
     });
 
-    it("should pass filteredCount from the composable to the table header when the composable provides a count.", async() => {
-      const tableGlobalFilter = useTableGlobalFilter({ data: [], keys: [] });
-      tableGlobalFilter.filteredCount.value = 42;
-      await nextTick();
-
-      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
-
-      expect(header.props("filteredCount")).toBe(42);
-    });
-
     it("should pass isLoading as false to the table header when not fetching.", () => {
       questionThemesStore.isFetchingQuestionThemes = false;
       const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");

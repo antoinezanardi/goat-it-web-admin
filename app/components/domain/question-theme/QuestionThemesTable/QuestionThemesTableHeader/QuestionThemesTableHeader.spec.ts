@@ -173,17 +173,5 @@ describe("QuestionThemesTableHeader Component", () => {
 
       expect(rowCount.props("loading")).toBe(true);
     });
-
-    it("should render the row count to the left of the search input when rendered.", () => {
-      const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='question-themes-table-row-count']");
-      const searchInput = wrapper.findComponent<typeof TableGlobalSearchInput>({ name: "TableGlobalSearchInput" });
-
-      const rowCountElement = rowCount.element as HTMLElement;
-      const searchInputElement = searchInput.element as HTMLElement;
-
-      // Acceptable as DOCUMENT_POSITION_FOLLOWING constant value is 4
-      // oxlint-disable-next-line no-bitwise
-      expect(rowCountElement.compareDocumentPosition(searchInputElement) & 4).toBeTruthy();
-    });
   });
 });
