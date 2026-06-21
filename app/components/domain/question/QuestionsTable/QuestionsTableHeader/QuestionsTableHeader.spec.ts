@@ -217,5 +217,12 @@ describe("QuestionsTableHeader Component", () => {
 
       expect(rowCount.props("loading")).toBe(true);
     });
+
+    it("should render the row count inside the filters section toolbarEnd slot when the component is mounted.", () => {
+      const filtersSection = wrapper.find("[data-testid='questions-table-header-filters-section']");
+      const rowCount = filtersSection.find("[data-testid='questions-table-row-count']");
+
+      expect(rowCount.exists()).toBe(true);
+    });
   });
 });

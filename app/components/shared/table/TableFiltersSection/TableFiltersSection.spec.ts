@@ -63,6 +63,17 @@ describe("TableFiltersSection Component", () => {
     });
   });
 
+  describe("Toolbar end slot", () => {
+    it("should render the toolbar-end slot content when provided.", async() => {
+      wrapper = await mountTableFiltersSectionComponent({
+        slots: { toolbarEnd: "<div data-testid='toolbar-end-slot-content'>Row Count</div>" },
+      });
+      const toolbarEndContent = wrapper.find("[data-testid='toolbar-end-slot-content']");
+
+      expect(toolbarEndContent.exists()).toBe(true);
+    });
+  });
+
   describe("Collapsible area", () => {
     it("should be collapsed when rendered.", () => {
       const collapsible = wrapper.find("[data-testid='table-filters-section']");

@@ -49,24 +49,24 @@ function onClearFilters(): void {
       </UButton>
     </div>
 
-    <div class="flex items-center justify-between">
-      <TableFiltersSection
-        :active-filter-count="activeFilterCount"
-        data-testid="question-themes-table-header-filters-section"
-        @clear="onClearFilters"
-      >
-        <QuestionThemesTableStatusFilter
-          :model-value="filters.status"
-          @update:model-value="onUpdateStatusFilter"
+    <TableFiltersSection
+      :active-filter-count="activeFilterCount"
+      data-testid="question-themes-table-header-filters-section"
+      @clear="onClearFilters"
+    >
+      <template #toolbarEnd>
+        <TableRowCount
+          :count="filteredCount"
+          count-key="questionThemes.itemsCount"
+          data-testid="question-themes-table-row-count"
+          :loading="isLoading"
         />
-      </TableFiltersSection>
+      </template>
 
-      <TableRowCount
-        :count="filteredCount"
-        count-key="questionThemes.itemsCount"
-        data-testid="question-themes-table-row-count"
-        :loading="isLoading"
+      <QuestionThemesTableStatusFilter
+        :model-value="filters.status"
+        @update:model-value="onUpdateStatusFilter"
       />
-    </div>
+    </TableFiltersSection>
   </div>
 </template>

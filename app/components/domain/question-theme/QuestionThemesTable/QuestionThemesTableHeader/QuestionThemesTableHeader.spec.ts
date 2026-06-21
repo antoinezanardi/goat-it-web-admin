@@ -173,5 +173,12 @@ describe("QuestionThemesTableHeader Component", () => {
 
       expect(rowCount.props("loading")).toBe(true);
     });
+
+    it("should render the row count inside the toolbarEnd slot when the filters section is mounted.", () => {
+      const filtersSection = wrapper.find("[data-testid='question-themes-table-header-filters-section']");
+      const rowCount = filtersSection.find("[data-testid='question-themes-table-row-count']");
+
+      expect(rowCount.exists()).toBe(true);
+    });
   });
 });
