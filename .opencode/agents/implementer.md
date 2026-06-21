@@ -17,8 +17,8 @@ permission:
     "rtk pnpm run test:mutation*": "allow"
     "pnpm run lint*": "allow"
     "rtk pnpm run lint*": "allow"
-    "pnpm run typecheck": "allow"
-    "rtk pnpm run typecheck": "allow"
+    "pnpm run typecheck*": "allow"
+    "rtk pnpm run typecheck*": "allow"
     "git status*": "allow"
     "rtk git status*": "allow"
     "git log*": "allow"
@@ -63,7 +63,17 @@ If anything is unclear (requirements, approach, dependencies, assumptions) — *
 2. Run all related tests — verify no regression
 3. If some tests fail, try to fix them. If you can't, report `BLOCKED` or `NEEDS_CONTEXT`.
 4. Self-review (see below)
-5. Report back
+5. Run minimal mandatory fast quality gate checks listed below and fix until they pass:
+   - `pnpm run typecheck`
+   - `pnpm run lint:oxlint:fix <full-path-modified-files>` (on modified files only)
+   - `pnpm run lint:eslint:fix <full-path-modified-files>` (on modified files only)
+6. Report back
+
+## What you do NOT do
+
+1. **Do not** commit.
+2. **Do not** run the FULL quality gate checks **UNLESS** it is stated in the task steps. The orchestrator will run them at the end of the cycle.
+3. **Do not** run the full test suite coverage unless it is stated in the task steps. Your job is to run the tests only on your tasks files.
 
 ## Project-specific rules (goat-it-web-admin)
 

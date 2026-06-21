@@ -57,34 +57,34 @@ function onClearFilters(): void {
       </UButton>
     </div>
 
-    <div class="flex items-center justify-between">
-      <TableFiltersSection
-        :active-filter-count="activeFilterCount"
-        data-testid="questions-table-header-filters-section"
-        @clear="onClearFilters"
-      >
-        <QuestionsTableStatusFilter
-          :model-value="filters.status"
-          @update:model-value="onUpdateStatusFilter"
+    <TableFiltersSection
+      :active-filter-count="activeFilterCount"
+      data-testid="questions-table-header-filters-section"
+      @clear="onClearFilters"
+    >
+      <template #toolbarEnd>
+        <TableRowCount
+          :count="filteredCount"
+          count-key="questions.itemsCount"
+          data-testid="questions-table-row-count"
+          :loading="isLoading"
         />
+      </template>
 
-        <QuestionsTableCategoryFilter
-          :model-value="filters.category"
-          @update:model-value="onUpdateCategoryFilter"
-        />
-
-        <QuestionsTableCognitiveDifficultyFilter
-          :model-value="filters.cognitiveDifficulty"
-          @update:model-value="onUpdateCognitiveDifficultyFilter"
-        />
-      </TableFiltersSection>
-
-      <TableRowCount
-        :count="filteredCount"
-        count-key="questions.itemsCount"
-        data-testid="questions-table-row-count"
-        :loading="isLoading"
+      <QuestionsTableStatusFilter
+        :model-value="filters.status"
+        @update:model-value="onUpdateStatusFilter"
       />
-    </div>
+
+      <QuestionsTableCategoryFilter
+        :model-value="filters.category"
+        @update:model-value="onUpdateCategoryFilter"
+      />
+
+      <QuestionsTableCognitiveDifficultyFilter
+        :model-value="filters.cognitiveDifficulty"
+        @update:model-value="onUpdateCognitiveDifficultyFilter"
+      />
+    </TableFiltersSection>
   </div>
 </template>
