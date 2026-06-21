@@ -47,6 +47,11 @@ You are the plan writer. You turn an approved spec into a complete, executable i
 - **Exact commands with expected output.**
 - **DRY, YAGNI, TDD.**
 
+## Before writing the plan
+
+- Query the MemPalace MCP server for relevant past context: file structure patterns, naming conventions, and past plan structures from similar features in this project.
+- Tell the user what you found or didn't find. This helps you align the plan with existing codebase conventions.
+
 ## Announce at start
 
 "I'm using the `writing-plans` skill to create the implementation plan."
