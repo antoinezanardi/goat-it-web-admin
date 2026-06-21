@@ -62,7 +62,7 @@ If anything is unclear (requirements, approach, dependencies, assumptions) — *
 1. Read the task steps (provided by orchestrator). The steps are detailed and precise from a strong model. Follow them exactly.
 2. Run all related tests — verify no regression
 3. If some tests fail, try to fix them. If you can't, report `BLOCKED` or `NEEDS_CONTEXT`.
-4. Self-review (see below)
+4. Self-review (see below) — the final-reviewer will check cross-task consistency, naming, architecture, and code conventions across the full branch later. Ensure names are precise and patterns match the existing codebase.
 5. Run minimal mandatory fast quality gate checks listed below and fix until they pass:
    - `pnpm run typecheck`
    - `pnpm run lint:oxlint:fix <full-path-modified-files>` (on modified files only)
