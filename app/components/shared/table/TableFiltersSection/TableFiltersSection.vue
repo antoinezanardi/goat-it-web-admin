@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { TABLE_FILTERS_SECTION_CONTENT_ID, TABLE_FILTERS_SECTION_TOGGLE_UI } from "~/components/shared/table/TableFiltersSection/table-filters-section.constants";
 import type { TableFiltersSectionEmits, TableFiltersSectionProps, TableFiltersSectionSlots } from "~/components/shared/table/TableFiltersSection/table-filters-section.types";
 
 const props = withDefaults(defineProps<TableFiltersSectionProps>(), {
@@ -11,11 +12,9 @@ defineSlots<TableFiltersSectionSlots>();
 
 const { t } = useI18n();
 
-const CONTENT_ID = "table-filters-section-content";
-
 const isExpanded = ref<boolean>(false);
 
-const toggleIcon = computed<string>(() => (isExpanded.value ? "i-lucide-chevron-up" : "i-lucide-chevron-down"));
+const dataState = computed<"open" | "closed">(() => (isExpanded.value ? "open" : "closed"));
 
 function onToggle(): void {
   isExpanded.value = !isExpanded.value;
@@ -28,16 +27,18 @@ function onClickClear(): void {
 
 <template>
   <div
-    :data-state="isExpanded ? 'open' : 'closed'"
+    class="group"
+    :data-state="dataState"
     data-testid="table-filters-section"
   >
     <div class="flex items-center justify-between w-full">
       <UButton
-        :aria-controls="CONTENT_ID"
+        :aria-controls="TABLE_FILTERS_SECTION_CONTENT_ID"
         :aria-expanded="isExpanded"
         color="neutral"
         data-testid="table-filters-section-toggle"
-        :icon="toggleIcon"
+        icon="i-lucide-chevron-down"
+        :ui="TABLE_FILTERS_SECTION_TOGGLE_UI"
         variant="outline"
         @click="onToggle"
       >
@@ -59,9 +60,9 @@ function onClickClear(): void {
 
     <div
       v-if="isExpanded"
-      :id="CONTENT_ID"
+      :id="TABLE_FILTERS_SECTION_CONTENT_ID"
       class="bg-elevated border border-default flex flex-wrap gap-3 items-center mt-2 p-3 rounded-lg w-full"
-      :data-state="isExpanded ? 'open' : 'closed'"
+      data-testid="table-filters-section-content"
     >
       <slot/>
 

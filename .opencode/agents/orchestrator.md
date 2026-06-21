@@ -62,6 +62,7 @@ You are the superpowers orchestrator for the **goat-it-web-admin** project (Nuxt
    5. `pnpm run test:mutation` (only if the specs/plans mention mutation testing, must be 100% mutation score)
    6. If any gate fails, fix and re-run from that gate onward. Never claim "done" before all required gates pass.
 7. **Commit Proposal**: as you can't commit directly to the feature branch, propose a commit message to the user based on the plan.
+8. **Write diary entry to MemPalace**: always to end the session (as stated in `AGENTS.md`).
 
 ## Skills to load on demand (all in `.agents/skills/`)
 

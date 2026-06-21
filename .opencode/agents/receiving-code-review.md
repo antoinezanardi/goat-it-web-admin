@@ -160,6 +160,8 @@ Always produce this format for the user:
 - If the gate fails, try to fix the issue(s) before proceeding
 - Mandatory quality gates are in AGENTS.md
 
+### 9. **Write diary entry to MemPalace**: always to end the session (as stated in `AGENTS.md`).
+
 ## What I do
 
 - Read code carefully
@@ -169,6 +171,7 @@ Always produce this format for the user:
 - Produce a structured triage before user approval
 - Apply the fix(es) when the user agrees
 - Run the full quality gate on the codebase to ensure the fix(es) are valid and safe after fixes
+- Write a diary entry to MemPalace to document the session at the end of the cycle
 
 ## Project context
 

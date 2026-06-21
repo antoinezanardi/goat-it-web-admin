@@ -41,12 +41,12 @@ describe("TableFiltersSection Component", () => {
       expect(toggleButton.props("icon")).toBe("i-lucide-chevron-down");
     });
 
-    it("should render the toggle button with a chevron-up icon when expanded.", async() => {
+    it("should keep the chevron-down icon when expanded and rotate via CSS.", async() => {
       const toggleButton = wrapper.find("[data-testid='table-filters-section-toggle']");
       await toggleButton.trigger("click");
       const button = wrapper.findComponent<typeof UButton>({ name: "UButton" });
 
-      expect(button.props("icon")).toBe("i-lucide-chevron-up");
+      expect(button.props("icon")).toBe("i-lucide-chevron-down");
     });
 
     it("should not render the badge when activeFilterCount is 0.", () => {
