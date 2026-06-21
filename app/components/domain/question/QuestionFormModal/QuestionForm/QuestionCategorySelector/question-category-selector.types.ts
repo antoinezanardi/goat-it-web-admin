@@ -8,7 +8,7 @@ type QuestionCategorySelectorItem = {
   icon: QuestionCategoryUiMetadata["icon"];
 };
 
-type QuestionCategorySelectorProperties = {
+type QuestionCategorySelectorProps = {
   modelValue?: QuestionCategory;
 };
 
@@ -18,6 +18,6 @@ type QuestionCategorySelectorEmits = {
 
 export type {
   QuestionCategorySelectorItem,
-  QuestionCategorySelectorProperties,
+  QuestionCategorySelectorProps,
   QuestionCategorySelectorEmits,
 };

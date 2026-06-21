@@ -6,6 +6,7 @@
     "cantArchive": "Não foi possível arquivar o tema de perguntas",
     "cantModify": "Não foi possível modificar o tema de perguntas",
     "fetching": "A obter temas de perguntas…",
+    "itemsCount": "0 temas | {count} tema | {count} temas",
     "createNew": "Criar um novo tema",
     "editTheme": "Editar tema",
     "createSuccessfully": "Tema de perguntas criado com sucesso",

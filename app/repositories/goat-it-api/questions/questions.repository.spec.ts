@@ -2,7 +2,7 @@ import type { $Fetch } from "nitropack";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
-import { createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
+import { createFakeAdminFindQuestionsQueryDto, createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
 import { createFakeQuestionThemeAssignmentCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-creation/question-theme-assignment-creation.dto.faketory";
 import { createFakeQuestionThemeAssignmentModificationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-modification/question-theme-assignment-modification.dto.faketory";
 import { createFakeQuestionModificationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-modification/question-modification.dto.faketory";
@@ -33,12 +33,21 @@ describe(questionsRepository, () => {
   });
 
   describe("getAll", () => {
-    it("should call fetch with correct endpoint when called.", async() => {
+    it("should call fetch with the correct endpoint and undefined query when called without params.", async() => {
       const repository = questionsRepository(fetchMock);
       fetchMock.mockResolvedValue([]);
       await repository.getAll();
 
-      expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/questions");
+      expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/questions", { query: undefined });
+    });
+
+    it("should call fetch with the correct endpoint and query when called with query params.", async() => {
+      const repository = questionsRepository(fetchMock);
+      fetchMock.mockResolvedValue([]);
+      const query = createFakeAdminFindQuestionsQueryDto();
+      await repository.getAll(query);
+
+      expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/questions", { query });
     });
 
     it("should return questions from fetch when called.", async() => {

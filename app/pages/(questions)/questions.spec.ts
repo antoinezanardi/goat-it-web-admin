@@ -82,41 +82,11 @@ describe("Questions Page", () => {
     });
   });
 
-  describe("Loading state", () => {
-    it("should render the loading spinner when fetching is true.", async() => {
-      questionsStore.isFetchingQuestions = true;
-      wrapper = await mountQuestionsPage();
-
-      const spinner = wrapper.find("#questions-fetching-spinner");
-
-      expect(spinner.exists()).toBeTruthy();
-    });
-
-    it("should not render the loading spinner when fetching is false.", async() => {
-      questionsStore.isFetchingQuestions = false;
-      wrapper = await mountQuestionsPage();
-
-      const spinner = wrapper.find("#questions-fetching-spinner");
-
-      expect(spinner.exists()).toBeFalsy();
-    });
-
-    it("should render the questions table when fetching is false.", async() => {
-      questionsStore.isFetchingQuestions = false;
-      wrapper = await mountQuestionsPage();
-
+  describe("Questions table", () => {
+    it("should always render the questions table when mounted.", () => {
       const table = wrapper.find("#questions-table");
 
       expect(table.exists()).toBeTruthy();
-    });
-
-    it("should not render the questions table when fetching is true.", async() => {
-      questionsStore.isFetchingQuestions = true;
-      wrapper = await mountQuestionsPage();
-
-      const table = wrapper.find("#questions-table");
-
-      expect(table.exists()).toBeFalsy();
     });
   });
 

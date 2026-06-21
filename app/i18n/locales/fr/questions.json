@@ -2,6 +2,7 @@
   "questions": {
     "pageTitle": "Questions",
     "fetching": "Chargement des questions...",
+    "itemsCount": "0 question | {count} question | {count} questions",
     "createNew": "Créer une nouvelle question",
     "editQuestion": "Modifier la question",
     "cantFetch": "Impossible de récupérer les questions",
@@ -48,10 +49,10 @@
       "translations": "Traductions"
     },
     "category": {
-      "trivia": "Culture générale",
+      "trivia": "Savoir & faits insolites",
       "lexicon": "Lexique",
-      "riddle": "Énigme",
-      "explanation": "Explication"
+      "riddle": "Mystères & devinettes",
+      "explanation": "Comment & pourquoi ?"
     },
     "difficulty": {
       "easy": "Facile",

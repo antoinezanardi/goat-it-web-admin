@@ -5,12 +5,12 @@ import type { QuestionThemeCreationDto, QuestionThemeModificationDto } from "@go
 
 import type { QuestionThemeCreationDtoShell } from "#shared/types/question-theme.types";
 import type { Form } from "#ui/types";
-import type { QuestionThemeFormProperties, QuestionThemeFormEmits } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
+import type { QuestionThemeFormProps, QuestionThemeFormEmits } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
 import { prepareZodSchemaForFormValidation } from "~/utils/helpers/zod/zod.helpers";
 import { createQuestionThemeCreationDtoShell } from "~/composables/domain/question-theme/helpers/shell/question-theme.shell.helpers";
 import { stripEmptyValues } from "#shared/utils/helpers/object/object.helpers";
 
-const props = withDefaults(defineProps<QuestionThemeFormProperties>(), {
+const props = withDefaults(defineProps<QuestionThemeFormProps>(), {
   mode: "create",
   questionTheme: undefined,
 });

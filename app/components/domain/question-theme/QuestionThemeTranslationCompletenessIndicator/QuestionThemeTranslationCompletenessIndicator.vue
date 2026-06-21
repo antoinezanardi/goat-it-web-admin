@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { QuestionThemeTranslationCompletenessIndicatorProperties } from "~/components/domain/question-theme/QuestionThemeTranslationCompletenessIndicator/question-theme-translation-completeness-indicator.types";
+import type { QuestionThemeTranslationCompletenessIndicatorProps } from "~/components/domain/question-theme/QuestionThemeTranslationCompletenessIndicator/question-theme-translation-completeness-indicator.types";
 
-const props = defineProps<QuestionThemeTranslationCompletenessIndicatorProperties>();
+const props = defineProps<QuestionThemeTranslationCompletenessIndicatorProps>();
 
 const requiredFields = computed(() => [props.questionTheme.label, props.questionTheme.description]);
 </script>

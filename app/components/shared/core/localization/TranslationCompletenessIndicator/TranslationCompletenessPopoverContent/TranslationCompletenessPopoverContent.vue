@@ -2,9 +2,9 @@
 import { LOCALES } from "@goat-it/schemas/shared/locale";
 import type { Locale } from "@goat-it/schemas/shared/locale";
 
-import type { TranslationCompletenessPopoverContentProperties } from "~/components/shared/core/localization/TranslationCompletenessIndicator/TranslationCompletenessPopoverContent/translation-completeness-popover-content.types";
+import type { TranslationCompletenessPopoverContentProps } from "~/components/shared/core/localization/TranslationCompletenessIndicator/TranslationCompletenessPopoverContent/translation-completeness-popover-content.types";
 
-const props = defineProps<TranslationCompletenessPopoverContentProperties>();
+const props = defineProps<TranslationCompletenessPopoverContentProps>();
 
 const { t } = useI18n();
 

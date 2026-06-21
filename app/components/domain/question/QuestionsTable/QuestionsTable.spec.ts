@@ -7,8 +7,10 @@ import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 import type { vi } from "vitest";
+import type { AdminFindQuestionsQueryDto } from "@goat-it/schemas/question";
 
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
+import { createFakeQuestionsTableFilters } from "~~/tests/unit/utils/faketories/questions/components/questions-table-filters.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
@@ -41,6 +43,46 @@ describe("QuestionsTable Component", () => {
 
   it("should render the questions table component when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
+  });
+
+  describe("Loading state", () => {
+    it("should pass loading as false to the table component when the store is not fetching.", () => {
+      questionsStore.isFetchingQuestions = false;
+      const table = wrapper.getComponent({ name: "UTable" });
+
+      expect(table.props("loading")).toBe(false);
+    });
+
+    it("should pass loading as true to the table component when the store is fetching.", async() => {
+      questionsStore.isFetchingQuestions = true;
+      wrapper = await mountQuestionsTableComponent();
+      const table = wrapper.getComponent({ name: "UTable" });
+
+      expect(table.props("loading")).toBe(true);
+    });
+
+    it("should render loading spinner with fetching label inside the table when the store is fetching.", async() => {
+      questionsStore.isFetchingQuestions = true;
+      wrapper = await mountQuestionsTableComponent();
+      const spinner = wrapper.find("#loading-spinner");
+
+      expect(spinner.exists()).toBeTruthy();
+    });
+
+    it("should render loading spinner label with translated fetching text when the store is fetching.", async() => {
+      questionsStore.isFetchingQuestions = true;
+      wrapper = await mountQuestionsTableComponent();
+      const spinnerLabel = wrapper.find("#loading-spinner-label");
+
+      expect(spinnerLabel.text()).toBe("questions.fetching");
+    });
+
+    it("should not render loading spinner when the store is not fetching.", () => {
+      questionsStore.isFetchingQuestions = false;
+      const spinner = wrapper.find("#loading-spinner");
+
+      expect(spinner.exists()).toBeFalsy();
+    });
   });
 
   describe("Columns", () => {
@@ -326,6 +368,79 @@ describe("QuestionsTable Component", () => {
     });
   });
 
+  describe("Header filters", () => {
+    it("should pass active filter count of 0 to the table header when no filter is active.", () => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+
+      expect(header.props("activeFilterCount")).toBe(0);
+    });
+
+    it("should pass all undefined filters to the table header when no filter is active.", () => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+
+      expect(header.props("filters")).toStrictEqual(createFakeQuestionsTableFilters({ status: undefined, category: undefined, cognitiveDifficulty: undefined }));
+    });
+
+    it("should call fetchAndStoreQuestions with status query when the header emits update:filter with status.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { status: "active" });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": "active",
+        "category": undefined,
+        "cognitive-difficulty": undefined,
+      } as AdminFindQuestionsQueryDto);
+    });
+
+    it("should call fetchAndStoreQuestions with category query when the header emits update:filter with category.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { category: "trivia" });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": undefined,
+        "category": "trivia",
+        "cognitive-difficulty": undefined,
+      } as AdminFindQuestionsQueryDto);
+    });
+
+    it("should call fetchAndStoreQuestions with cognitive difficulty query when the header emits update:filter with cognitiveDifficulty.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { cognitiveDifficulty: "easy" });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": undefined,
+        "category": undefined,
+        "cognitive-difficulty": "easy",
+      } as AdminFindQuestionsQueryDto);
+    });
+
+    it("should call fetchAndStoreQuestions with combined query when multiple filters are set.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { status: "active", category: "trivia", cognitiveDifficulty: "easy" });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": "active",
+        "category": "trivia",
+        "cognitive-difficulty": "easy",
+      } as AdminFindQuestionsQueryDto);
+    });
+
+    it("should call fetchAndStoreQuestions with undefined when the header emits clearFilters.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { status: "active" });
+      await nextTick();
+
+      getWrapperVm(header).$emit("clearFilters");
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenLastCalledWith(undefined);
+    });
+  });
+
   describe("Global filter", () => {
     it("should pass globalFilter to the table component when mounted.", () => {
       const table = wrapper.getComponent({ name: "UTable" });
@@ -371,7 +486,7 @@ describe("QuestionsTable Component", () => {
       expect(emptyState.props("hasActiveFilter")).toBe(false);
     });
 
-    it("should pass hasActiveFilter as true to the empty state component when the filter is active.", async() => {
+    it("should pass hasActiveFilter as true to the empty state component when the global filter is active.", async() => {
       questionsStore.questions = [];
       const { globalFilter } = useTableGlobalFilter({ data: [], keys: [] });
       globalFilter.value = "search text";
@@ -380,6 +495,42 @@ describe("QuestionsTable Component", () => {
       const emptyState = wrapper.findComponent<typeof TableEmptyState>("[data-testid='questions-table-empty-state']");
 
       expect(emptyState.props("hasActiveFilter")).toBe(true);
+    });
+
+    it("should pass hasActiveFilter as true to the empty state component when a dropdown filter is active.", async() => {
+      questionsStore.questions = [];
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { status: "active" });
+      await nextTick();
+
+      const emptyState = wrapper.findComponent<typeof TableEmptyState>("[data-testid='questions-table-empty-state']");
+
+      expect(emptyState.props("hasActiveFilter")).toBe(true);
+    });
+  });
+
+  describe("Table row count", () => {
+    it("should pass filteredCount of 0 to the table header when no data is present.", () => {
+      questionsStore.questions = [];
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+
+      expect(header.props("filteredCount")).toBe(0);
+    });
+
+    it("should pass isLoading as false to the table header when not fetching.", () => {
+      questionsStore.isFetchingQuestions = false;
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+
+      expect(header.props("isLoading")).toBe(false);
+    });
+
+    it("should pass isLoading as true to the table header when fetching.", async() => {
+      questionsStore.isFetchingQuestions = true;
+      wrapper = await mountQuestionsTableComponent();
+
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+
+      expect(header.props("isLoading")).toBe(true);
     });
   });
 });

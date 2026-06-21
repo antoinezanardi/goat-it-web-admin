@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { InputTagsFieldEmits, InputTagsFieldProperties, InputTagsFieldSlots } from "~/components/shared/form/InputTagsField/input-tags-field.types";
+import type { InputTagsFieldEmits, InputTagsFieldProps, InputTagsFieldSlots } from "~/components/shared/form/InputTagsField/input-tags-field.types";
 
-const props = withDefaults(defineProps<InputTagsFieldProperties>(), {
+const props = withDefaults(defineProps<InputTagsFieldProps>(), {
   modelValue: () => [],
   placeholder: undefined,
   required: false,

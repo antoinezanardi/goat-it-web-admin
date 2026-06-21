@@ -32,14 +32,15 @@ function useTableGlobalFilter<T>(options: UseTableGlobalFilterOptions<T>): UseTa
 
   const hasActiveFilter = computed<boolean>(() => globalFilter.value.trim().length > 0);
 
+  const filteredCount = computed<number>(() => matchingReferenceIndices.value.size);
+
   return {
     searchTerm,
     globalFilter,
     globalFilterFunction,
     hasActiveFilter,
+    filteredCount,
   };
 }
 
 export { useTableGlobalFilter };
-
-export { type UseTableGlobalFilter } from "~/composables/ui/useTableGlobalFilter/table-global-filter.types";

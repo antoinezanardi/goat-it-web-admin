@@ -16,9 +16,14 @@
       "noData": "Keine Daten",
       "noResults": "Keine Ergebnisse gefunden",
       "actions": "Aktionen",
-      "filter": {
-        "placeholder": "Filtern...",
-        "clear": "Filter löschen"
+      "search": {
+        "placeholder": "Suchen...",
+        "clear": "Suche löschen"
+      },
+      "filters": {
+        "label": "Filter",
+        "all": "Alle",
+        "clearAll": "Alle löschen"
       }
     },
     "form": {

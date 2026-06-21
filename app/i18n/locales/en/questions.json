@@ -20,6 +20,7 @@
     "modifySuccessfully": "Question modified successfully",
     "modifyThemeAssignmentSuccessfully": "Question theme modified successfully",
     "fetching": "Loading questions...",
+    "itemsCount": "0 questions | {count} question | {count} questions",
     "missingThemeTranslation": "–– missing theme translation ––",
     "selectThemes": "Select themes…",
     "searchThemes": "Search themes...",
@@ -34,10 +35,10 @@
       "sources": "References"
     },
     "category": {
-      "trivia": "Trivia",
+      "trivia": "Knowledge & fun facts",
       "lexicon": "Lexicon",
-      "riddle": "Riddle",
-      "explanation": "Explanation"
+      "riddle": "Mysteries & riddles",
+      "explanation": "How & why?"
     },
     "difficulty": {
       "easy": "Easy",

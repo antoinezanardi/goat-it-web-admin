@@ -1,16 +1,41 @@
 <script setup lang="ts">
+import type { AdminFindQuestionsQueryDto, QuestionCategory, QuestionCognitiveDifficulty, QuestionStatus } from "@goat-it/schemas/question";
 import type { TableColumn } from "@nuxt/ui";
 
+import type { QuestionsTableFilters } from "~/components/domain/question/QuestionsTable/QuestionsTableHeader/questions-table-header.types";
 import type { QuestionsTableEmits, QuestionsTableGlobalFilterOptions } from "~/components/domain/question/QuestionsTable/questions-table.types";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
+import { TABLE_UI } from "~/utils/constants/table/table.constants.ts";
 
 const emit = defineEmits<QuestionsTableEmits>();
 
 const { t, locale: currentLocale } = useI18n();
 
 const questionsStore = useQuestionsStore();
-const { questions } = storeToRefs(questionsStore);
+const { questions, isFetchingQuestions } = storeToRefs(questionsStore);
 
+const { filters, activeFilterCount, clearFilters, setFilterValue, hasActiveFilters } = useTableFilters({
+  definitions: {
+    status: { default: undefined as QuestionStatus | undefined },
+    category: { default: undefined as QuestionCategory | undefined },
+    cognitiveDifficulty: { default: undefined as QuestionCognitiveDifficulty | undefined },
+  },
+});
+const filterValues = computed((): [QuestionStatus | undefined, QuestionCategory | undefined, QuestionCognitiveDifficulty | undefined] => [
+  filters.status.value,
+  filters.category.value,
+  filters.cognitiveDifficulty.value,
+]);
+
+watch(filterValues, async([status, category, cognitiveDifficulty]): Promise<void> => {
+  const isAllUndefined = status === undefined && category === undefined && cognitiveDifficulty === undefined;
+  const query: AdminFindQuestionsQueryDto | undefined = isAllUndefined ? undefined : {
+    status,
+    category,
+    "cognitive-difficulty": cognitiveDifficulty,
+  } as AdminFindQuestionsQueryDto;
+  await questionsStore.fetchAndStoreQuestions(query);
+});
 const columns = computed<TableColumn<Question>[]>(() => [
   createTableColumn<Question>({ accessorKey: "category", header: t("questions.fields.category"), isCentered: true }),
   createTableColumn<Question>({ accessorKey: "themes", header: t("questions.fields.themes"), isCentered: true }),
@@ -27,15 +52,37 @@ const fuseKeys = computed<string[]>(() => [
   "status",
 ]);
 
-const { searchTerm, globalFilter, globalFilterFunction, hasActiveFilter } = useTableGlobalFilter<Question>({
+const { searchTerm, globalFilter, globalFilterFunction, hasActiveFilter: hasActiveGlobalFilter, filteredCount } = useTableGlobalFilter<Question>({
   data: questions,
   keys: fuseKeys,
 });
 
 const globalFilterOptions = computed<QuestionsTableGlobalFilterOptions>(() => ({ globalFilterFn: globalFilterFunction }));
 
+const hasActiveFilter = computed<boolean>(() => hasActiveGlobalFilter.value || hasActiveFilters.value);
+
+const headerFilters = computed<QuestionsTableFilters>(() => ({
+  status: filters.status.value,
+  category: filters.category.value,
+  cognitiveDifficulty: filters.cognitiveDifficulty.value,
+}));
+
 function onStartCreateFromQuestionsTableHeader(): void {
   emit("startCreate");
+}
+
+function onUpdateFilterFromQuestionsTableHeader(updatedFilters: Partial<QuestionsTableFilters>): void {
+  const filterKeys: (keyof QuestionsTableFilters)[] = ["status", "category", "cognitiveDifficulty"];
+
+  for (const key of filterKeys) {
+    if (key in updatedFilters) {
+      setFilterValue(key, updatedFilters[key]);
+    }
+  }
+}
+
+function onClearFiltersFromQuestionsTableHeader(): void {
+  clearFilters();
 }
 
 function onStartEditFromQuestionsTableActions(id: string): void {
@@ -48,8 +95,14 @@ function onStartEditFromQuestionsTableActions(id: string): void {
     <template #header>
       <QuestionsTableHeader
         v-model:search-term="searchTerm"
+        :active-filter-count="activeFilterCount"
         data-testid="questions-table-header"
+        :filtered-count="filteredCount"
+        :filters="headerFilters"
+        :is-loading="isFetchingQuestions"
+        @clear-filters="onClearFiltersFromQuestionsTableHeader"
         @start-create="onStartCreateFromQuestionsTableHeader"
+        @update:filter="onUpdateFilterFromQuestionsTableHeader"
       />
     </template>
 
@@ -59,8 +112,10 @@ function onStartEditFromQuestionsTableActions(id: string): void {
       :data="questions"
       data-testid="questions-table-data"
       :global-filter-options="globalFilterOptions"
+      :loading="isFetchingQuestions"
       sticky
       :tabindex="0"
+      :ui="TABLE_UI"
     >
       <template #category-cell="{ row }">
         <QuestionCategoryBadge
@@ -111,6 +166,12 @@ function onStartEditFromQuestionsTableActions(id: string): void {
             :question="row.original"
             @start-edit="onStartEditFromQuestionsTableActions"
           />
+        </div>
+      </template>
+
+      <template #loading>
+        <div class="animate-fade-slide-up-in">
+          <LoadingSpinner :label="$t('questions.fetching')"/>
         </div>
       </template>
 

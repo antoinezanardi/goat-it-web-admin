@@ -1,4 +1,4 @@
-import { ADMIN_QUESTION_THEME_DTO } from "@goat-it/schemas/question-theme";
+import { ADMIN_FIND_QUESTION_THEMES_QUERY_DTO, ADMIN_QUESTION_THEME_DTO } from "@goat-it/schemas/question-theme";
 import type { H3Event } from "h3";
 import { z } from "zod";
 
@@ -9,9 +9,11 @@ async function getQuestionThemesHandler(event: H3Event): Promise<QuestionTheme[]
   const config = useRuntimeConfig(event);
   const endpoint = createGoatItApiEndpoint("question-themes");
   const fetchOptions = createGoatItApiFetchOptions(config.goatItApi);
+  const rawQuery = getQuery(event);
+  const query = ADMIN_FIND_QUESTION_THEMES_QUERY_DTO.parse(rawQuery);
 
   try {
-    const rawData = await $fetch(endpoint, fetchOptions);
+    const rawData = await $fetch(endpoint, { ...fetchOptions, query });
     const adminQuestionThemes = z.array(ADMIN_QUESTION_THEME_DTO).parse(rawData);
 
     return adminQuestionThemes.map(createQuestionThemeFromAdminQuestionThemeDto);

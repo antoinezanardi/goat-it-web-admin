@@ -6,6 +6,7 @@
     "cantArchive": "Impossible d'archiver le thème de question",
     "cantModify": "Impossible de modifier le thème de question",
     "fetching": "Récupération des thèmes de questions…",
+    "itemsCount": "0 thème | {count} thème | {count} thèmes",
     "createNew": "Créer un nouveau thème",
     "editTheme": "Modifier le thème",
     "createSuccessfully": "Thème de question créé avec succès",

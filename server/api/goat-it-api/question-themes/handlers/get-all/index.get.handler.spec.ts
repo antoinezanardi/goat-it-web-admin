@@ -39,7 +39,13 @@ describe("Server Goat It API Question Themes Get Handler", () => {
       expect(createGoatItApiFetchOptions).toHaveBeenCalledExactlyOnceWith(expectedGoatItApiConfig);
     });
 
-    it("should fetch question themes from goat it api with correct endpoint and fetch options when called.", async() => {
+    it("should get query from event when called.", async() => {
+      await getQuestionThemesHandler(mockedEvent);
+
+      expect(getQuery).toHaveBeenCalledExactlyOnceWith(mockedEvent);
+    });
+
+    it("should fetch question themes from goat it api with correct endpoint, fetch options and query when called.", async() => {
       const expectedEndpoint = "/admin/question-themes";
       const expectedFetchOptions = {
         baseURL: "https://api.goat-it.com",
@@ -51,7 +57,33 @@ describe("Server Goat It API Question Themes Get Handler", () => {
       vi.mocked(createGoatItApiFetchOptions).mockReturnValue(expectedFetchOptions);
       await getQuestionThemesHandler(mockedEvent);
 
-      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, expectedFetchOptions);
+      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, { ...expectedFetchOptions, query: { "sort-by": "slug", "sort-order": "asc" } });
+    });
+
+    it("should fetch question themes with status query param when query contains status.", async() => {
+      const expectedEndpoint = "/admin/question-themes";
+      const expectedFetchOptions = {
+        baseURL: "https://api.goat-it.com",
+        headers: {
+          "goat-it-api-key": "test-admin-key",
+        },
+      };
+      vi.mocked(createGoatItApiEndpoint).mockReturnValue(expectedEndpoint);
+      vi.mocked(createGoatItApiFetchOptions).mockReturnValue(expectedFetchOptions);
+      vi.mocked(getQuery).mockReturnValue({ status: "active" });
+      await getQuestionThemesHandler(mockedEvent);
+
+      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, { ...expectedFetchOptions, query: { "sort-by": "slug", "sort-order": "asc", "status": "active" } });
+    });
+
+    it("should throw zod error when query params are invalid.", async() => {
+      vi.mocked(getQuery).mockReturnValue({ status: "invalid-status" });
+
+      const asyncFunction = async(): Promise<void> => {
+        await getQuestionThemesHandler(mockedEvent);
+      };
+
+      await expect(asyncFunction).rejects.toThrow(ZodError);
     });
 
     it("should return mapped question themes when called.", async() => {

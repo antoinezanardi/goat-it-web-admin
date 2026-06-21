@@ -11,13 +11,13 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { QuestionThemesTableActions } from "#components";
 import type { ArchiveQuestionThemeButton, EditQuestionThemeButton } from "#components";
 
-import type { QuestionThemesTableActionsProperties } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableActions/question-themes-table-actions.types";
+import type { QuestionThemesTableActionsProps } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableActions/question-themes-table-actions.types";
 
 describe("QuestionThemesTableActions Component", () => {
   let wrapper: VueWrapper;
   let pinia: TestingPinia;
 
-  const defaultProperties: QuestionThemesTableActionsProperties = {
+  const defaultProperties: QuestionThemesTableActionsProps = {
     questionTheme: createFakeQuestionTheme({ id: "theme-id-123", slug: "music", status: "active" }),
   };
 

@@ -34,3 +34,41 @@ When(
     await expect(dialog).toBeHidden();
   },
 );
+
+When(
+  /^the user (?:expands|collapses) the question themes filters$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    const toggleButton = this.page.getByRole("button", { name: "Filters" });
+
+    await expect(toggleButton).toBeVisible();
+    await toggleButton.click();
+  },
+);
+
+When(
+  /^the user filters question themes by status "(?<status>[^"]*)"$/u,
+  async function(this: GoatItWorld, status: string): Promise<void> {
+    const filterSelect = this.page.getByTestId("question-themes-table-status-filter");
+
+    await expect(filterSelect).toBeVisible();
+
+    const selectButton = filterSelect.getByRole("button");
+
+    await selectButton.click();
+
+    const listbox = this.page.getByRole("listbox");
+
+    await expect(listbox).toBeVisible();
+    await listbox.getByRole("option", { name: status }).click();
+  },
+);
+
+When(
+  /^the user clears the question themes filters$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    const clearButton = this.page.getByRole("button", { name: "Clear all" });
+
+    await expect(clearButton).toBeVisible();
+    await clearButton.click();
+  },
+);

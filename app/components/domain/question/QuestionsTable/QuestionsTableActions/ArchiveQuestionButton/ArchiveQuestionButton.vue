@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import ConfirmDialog from "~/components/shared/ui/modal/ConfirmDialog/ConfirmDialog.vue";
-import type { ArchiveQuestionButtonProperties } from "~/components/domain/question/QuestionsTable/QuestionsTableActions/ArchiveQuestionButton/archive-question-button.types";
+import type { ArchiveQuestionButtonProps } from "~/components/domain/question/QuestionsTable/QuestionsTableActions/ArchiveQuestionButton/archive-question-button.types";
 
-const props = defineProps<ArchiveQuestionButtonProperties>();
+const props = defineProps<ArchiveQuestionButtonProps>();
 
 const { t } = useI18n();
 const overlay = useOverlay();

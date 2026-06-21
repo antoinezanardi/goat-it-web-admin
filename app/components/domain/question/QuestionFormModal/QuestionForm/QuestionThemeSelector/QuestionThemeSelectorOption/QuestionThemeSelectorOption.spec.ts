@@ -9,7 +9,7 @@ import type { QuestionThemeIcon } from "#components";
 import { QuestionThemeSelectorOption } from "#components";
 
 import { QUESTION_THEME_SELECTOR_OPTION_ICON_SIZE } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/QuestionThemeSelectorOption/question-theme-selector-option.constants";
-import type { QuestionThemeSelectorOptionProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/QuestionThemeSelectorOption/question-theme-selector-option.types";
+import type { QuestionThemeSelectorOptionProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/QuestionThemeSelectorOption/question-theme-selector-option.types";
 
 describe("QuestionThemeSelectorOption Component", () => {
   let wrapper: VueWrapper;
@@ -21,13 +21,13 @@ describe("QuestionThemeSelectorOption Component", () => {
     label: { en: "Geography", fr: "Géographie", es: undefined, de: undefined, it: undefined, pt: undefined },
   });
 
-  const defaultProperties: QuestionThemeSelectorOptionProperties = {
+  const defaultProps: QuestionThemeSelectorOptionProps = {
     theme: fakeTheme,
   };
 
   async function mountQuestionThemeSelectorOptionComponent(options: MountSuspendedOptions<typeof QuestionThemeSelectorOption> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionThemeSelectorOption, {
-      props: defaultProperties,
+      props: defaultProps,
       ...options,
     });
   }

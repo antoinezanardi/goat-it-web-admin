@@ -180,4 +180,56 @@ describe(useTableGlobalFilter, () => {
       expect(shouldAutoRemove).toBe(expected);
     });
   });
+
+  describe("filteredCount", () => {
+    it.each<{ description: string; searchTermValue: string; expected: number }>([
+      { description: "no search term is active", searchTermValue: "", expected: 3 },
+      { description: "search term is only whitespace", searchTermValue: "   ", expected: 3 },
+      { description: "a matching search term is active", searchTermValue: "Math", expected: 1 },
+    ])("should return $expected when $description.", ({ searchTermValue, expected }) => {
+      const { searchTerm, filteredCount } = useTableGlobalFilter({ data, keys: ["name", "description"] });
+
+      searchTerm.value = searchTermValue;
+
+      expect(filteredCount.value).toBe(expected);
+    });
+
+    it("should return 0 when data is empty and no search term is active.", () => {
+      data.value = [];
+      const { filteredCount } = useTableGlobalFilter({ data, keys: ["name", "description"] });
+
+      expect(filteredCount.value).toBe(0);
+    });
+
+    it("should update when data changes.", async() => {
+      const { filteredCount } = useTableGlobalFilter({ data, keys: ["name", "description"] });
+
+      data.value = [...data.value, { id: "4", name: "Geography", description: "Earth and maps" }];
+      await nextTick();
+
+      expect(filteredCount.value).toBe(4);
+    });
+
+    it("should return zero matches when no key matches the search term.", async() => {
+      const keys = ref(["name"]);
+      const { searchTerm, filteredCount } = useTableGlobalFilter({ data, keys });
+
+      searchTerm.value = "equations";
+      await nextTick();
+
+      expect(filteredCount.value).toBe(0);
+    });
+
+    it("should update matches when keys are expanded to include a matching field.", async() => {
+      const keys = ref(["name"]);
+      const { searchTerm, filteredCount } = useTableGlobalFilter({ data, keys });
+
+      searchTerm.value = "equations";
+      await nextTick();
+      keys.value = ["name", "description"];
+      await nextTick();
+
+      expect(filteredCount.value).toBe(1);
+    });
+  });
 });

@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import type { TranslationCompletenessIndicatorProperties } from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-indicator.types";
+import type { TranslationCompletenessIndicatorProps } from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-indicator.types";
 import {
   TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE,
   TRANSLATION_COMPLETENESS_RING_RADIUS,
   TRANSLATION_COMPLETENESS_RING_SIZE,
 } from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-indicator.constants";
 
-const props = defineProps<TranslationCompletenessIndicatorProperties>();
+const props = defineProps<TranslationCompletenessIndicatorProps>();
 
 const { t } = useI18n();
 
 const requiredFieldsReference = toRef(() => props.requiredFields);
 const { completedCount, totalCount, isFullyTranslated } = useTranslationCompleteness(requiredFieldsReference);
 const strokeDashoffset = computed<number>(() => TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE * (1 - completedCount.value / totalCount));
+
+const completenessIcon = computed<string>(() => (isFullyTranslated.value ? "i-lucide-globe-check" : "i-lucide-globe"));
 
 const ringColor = computed<string>(() => {
   if (isFullyTranslated.value) {
@@ -64,7 +66,7 @@ const ringColor = computed<string>(() => {
 
       <UIcon
         class="-translate-x-1/2 -translate-y-1/2 absolute left-1/2 size-4 top-1/2"
-        name="i-lucide-globe"
+        :name="completenessIcon"
       />
     </button>
 

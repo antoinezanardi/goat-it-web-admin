@@ -7,19 +7,19 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { DefaultModalTitle } from "#components";
 import type { UIcon } from "#components";
 
-import type { DefaultModalTitleProperties } from "~/components/shared/ui/modal/DefaultModalTitle/default-modal-title.types";
+import type { DefaultModalTitleProps } from "~/components/shared/ui/modal/DefaultModalTitle/default-modal-title.types";
 
 describe("DefaultModalTitle Component", () => {
   let wrapper: VueWrapper;
 
-  const defaultDefaultModalTitleProperties: DefaultModalTitleProperties = {
+  const defaultDefaultModalTitleProps: DefaultModalTitleProps = {
     icon: "i-lucide-palette",
     title: "My modal title",
   } as const;
 
   async function mountDefaultModalTitleComponent(options: MountSuspendedOptions<typeof DefaultModalTitle> = {}): Promise<VueWrapper> {
     return mountSuspended(DefaultModalTitle, {
-      props: defaultDefaultModalTitleProperties,
+      props: defaultDefaultModalTitleProps,
       ...options,
     });
   }

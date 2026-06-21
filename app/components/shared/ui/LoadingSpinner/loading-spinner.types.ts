@@ -1,7 +1,7 @@
-type LoadingSpinnerProperties = {
+type LoadingSpinnerProps = {
   label?: string;
 };
 
 export type {
-  LoadingSpinnerProperties,
+  LoadingSpinnerProps,
 };

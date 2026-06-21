@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { QuestionSourceUrlTagProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionSourceUrlsInput/QuestionSourceUrlTag/question-source-url-tag.types";
+import type { QuestionSourceUrlTagProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionSourceUrlsInput/QuestionSourceUrlTag/question-source-url-tag.types";
 
-const props = defineProps<QuestionSourceUrlTagProperties>();
+const props = defineProps<QuestionSourceUrlTagProps>();
 
 const { t } = useI18n();
 

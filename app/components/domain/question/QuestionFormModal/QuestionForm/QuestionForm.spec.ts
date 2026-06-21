@@ -19,7 +19,7 @@ import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 import type { UForm, UFormField, UInput, UTextarea, QuestionCategorySelector, QuestionCognitiveDifficultySelector, QuestionSourceUrlsInput, QuestionThemeSelector, QuestionTriviaInput, TranslationFieldContext } from "#components";
 import { QuestionForm } from "#components";
 
-import type { QuestionFormProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
+import type { QuestionFormProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
 
 type QuestionFormVm = ComponentVm & {
   canSubmit: boolean;
@@ -33,7 +33,7 @@ describe("QuestionForm Component", () => {
     createFakeQuestionTheme({ id: "theme-2" }),
   ];
 
-  const defaultProperties: QuestionFormProperties = {
+  const defaultProperties: QuestionFormProps = {
     availableThemes: fakeThemes,
   };
 

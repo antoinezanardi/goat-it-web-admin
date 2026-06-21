@@ -1,6 +1,6 @@
 import type { QuestionThemeAssignmentCreationDto } from "@goat-it/schemas/question";
 
-type QuestionThemeSelectorAssignmentProperties = {
+type QuestionThemeSelectorAssignmentProps = {
   assignment: QuestionThemeAssignmentCreationDto;
   theme: QuestionTheme | undefined;
   isPrimaryDisabled: boolean;
@@ -15,4 +15,4 @@ type QuestionThemeSelectorAssignmentEmits = {
   remove: [];
 };
 
-export type { QuestionThemeSelectorAssignmentEmits, QuestionThemeSelectorAssignmentProperties };
+export type { QuestionThemeSelectorAssignmentEmits, QuestionThemeSelectorAssignmentProps };

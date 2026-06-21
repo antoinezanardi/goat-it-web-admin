@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { DefaultModalTitleProperties } from "~/components/shared/ui/modal/DefaultModalTitle/default-modal-title.types";
+import type { DefaultModalTitleProps } from "~/components/shared/ui/modal/DefaultModalTitle/default-modal-title.types";
 
-defineProps<DefaultModalTitleProperties>();
+defineProps<DefaultModalTitleProps>();
 </script>
 
 <template>

@@ -1,4 +1,4 @@
-type QuestionTriviaInputProperties = {
+type QuestionTriviaInputProps = {
   modelValue?: string[];
 };
 
@@ -6,4 +6,4 @@ type QuestionTriviaInputEmits = {
   "update:modelValue": [value: string[]];
 };
 
-export type { QuestionTriviaInputEmits, QuestionTriviaInputProperties };
+export type { QuestionTriviaInputEmits, QuestionTriviaInputProps };

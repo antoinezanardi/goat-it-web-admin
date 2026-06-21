@@ -8,11 +8,11 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { USelect } from "#components";
 import { QuestionCategorySelector } from "#components";
 
-import type { QuestionCategorySelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCategorySelector/question-category-selector.types";
+import type { QuestionCategorySelectorProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCategorySelector/question-category-selector.types";
 
 describe("QuestionCategorySelector Component", () => {
   let wrapper: VueWrapper;
-  const defaultProperties: QuestionCategorySelectorProperties = {
+  const defaultProperties: QuestionCategorySelectorProps = {
     modelValue: undefined,
   } as const;
 
@@ -101,6 +101,20 @@ describe("QuestionCategorySelector Component", () => {
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
 
       expect(select.props("modelValue")).toBe("trivia");
+    });
+
+    it("should not pass an icon to the select component when no category is selected.", () => {
+      const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
+
+      expect(select.props("icon")).toBeUndefined();
+    });
+
+    it("should pass the selected category icon to the select component when a category is selected.", async() => {
+      wrapper = await mountQuestionCategorySelectorComponent({ props: { modelValue: "trivia" } });
+
+      const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
+
+      expect(select.props("icon")).toBe("i-lucide-lightbulb");
     });
 
     describe("Emits", () => {

@@ -9,11 +9,11 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 
 import { LocaleLabel, TranslationsOverview } from "#components";
 
-import type { TranslationsOverviewProperties } from "~/components/shared/core/localization/TranslationsOverview/translations-overview.types";
+import type { TranslationsOverviewProps } from "~/components/shared/core/localization/TranslationsOverview/translations-overview.types";
 
 describe("TranslationsOverview Component", () => {
   let wrapper: VueWrapper;
-  const defaultProps: TranslationsOverviewProperties = {
+  const defaultProps: TranslationsOverviewProps = {
     localizedText: createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "Hallo", es: "", it: "", pt: "" }),
   };
 

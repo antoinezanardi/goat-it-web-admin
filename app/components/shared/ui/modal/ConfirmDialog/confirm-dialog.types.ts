@@ -1,4 +1,4 @@
-type ConfirmDialogProperties = {
+type ConfirmDialogProps = {
   icon: string;
   title: string;
   description: string;
@@ -11,6 +11,6 @@ type ConfirmDialogEmits = {
 };
 
 export type {
-  ConfirmDialogProperties,
+  ConfirmDialogProps,
   ConfirmDialogEmits,
 };

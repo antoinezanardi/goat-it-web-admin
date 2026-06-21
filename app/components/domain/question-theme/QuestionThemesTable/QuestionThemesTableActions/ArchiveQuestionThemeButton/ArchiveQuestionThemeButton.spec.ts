@@ -12,7 +12,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 
 import { ArchiveQuestionThemeButton, ConfirmDialog } from "#components";
 
-import type { ArchiveQuestionThemeButtonProperties } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableActions/ArchiveQuestionThemeButton/archive-question-theme-button.types";
+import type { ArchiveQuestionThemeButtonProps } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableActions/ArchiveQuestionThemeButton/archive-question-theme-button.types";
 
 describe("ArchiveQuestionThemeButton Component", () => {
   let wrapper: VueWrapper;
@@ -21,7 +21,7 @@ describe("ArchiveQuestionThemeButton Component", () => {
   let overlayInstance: UseOverlayInstanceMock;
   let overlayMock: UseOverlayMock;
 
-  const defaultProperties: ArchiveQuestionThemeButtonProperties = {
+  const defaultProperties: ArchiveQuestionThemeButtonProps = {
     questionThemeId: "theme-id-123",
     questionThemeSlug: "music",
   };

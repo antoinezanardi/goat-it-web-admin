@@ -21,6 +21,7 @@
   --ui-text-toned: var(--ui-color-neutral-700);
   --ui-text-muted: var(--ui-color-neutral-600);
   --ui-text-dimmed: var(--ui-text-muted);
+  --ui-secondary: var(--ui-color-secondary-800);
 }
 
 .dark {
@@ -29,6 +30,7 @@
   --ui-text-toned: var(--ui-color-neutral-200);
   --ui-text-muted: var(--ui-color-neutral-300);
   --ui-text-dimmed: var(--ui-text-muted);
+  --ui-secondary: var(--ui-color-secondary-300);
 }
 
 /* Fix Reka UI toast viewport focus proxy accessibility violation (aria-hidden-focus).

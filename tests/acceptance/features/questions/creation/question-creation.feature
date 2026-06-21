@@ -10,7 +10,7 @@ Feature: ❓ Question Creation
     When the user clicks on the button with name "Create a new question"
     And the user fills the question form with the following attributes:
       | statement                      | answer | difficulty | category | themes    | sourceUrls                      |
-      | What is the capital of France? | Paris  | easy       | Trivia   | Geography | https://en.wikipedia.org/France |
+      | What is the capital of France? | Paris  | easy       | Knowledge & fun facts | Geography | https://en.wikipedia.org/France |
     And the user clicks on the button with name "Create"
     Then the toast with exact text "Question created successfully" should be visible
 
@@ -28,7 +28,7 @@ Feature: ❓ Question Creation
     When the user clicks on the button with name "Create a new question"
     And the user fills the question form with the following attributes:
       | statement | answer | difficulty | category | sourceUrls          |
-      | Test      | Answer | easy       | Trivia   | https://example.com |
+      | Test      | Answer | easy       | Knowledge & fun facts | https://example.com |
     Then the button with name "Create" should be disabled
 
   Scenario: ❓ Question creation modal closes without creating when clicking close button in the modal footer
@@ -47,7 +47,7 @@ Feature: ❓ Question Creation
     When the user clicks on the button with name "Create a new question"
     And the user fills the question form with the following attributes:
       | statement | answer | context            | difficulty | category | themes  | sourceUrls          |
-      | Test      | Answer | Some extra context | medium     | Riddle   | History | https://example.com |
+      | Test      | Answer | Some extra context | medium     | Mysteries & riddles   | History | https://example.com |
     And the user clicks on the button with name "Create"
     Then the toast with exact text "Question created successfully" should be visible
 
@@ -125,6 +125,6 @@ Feature: ❓ Question Creation
     When the user clicks on the button with name "Create a new question"
     And the user fills the question form with the following attributes:
       | statement          | answer | trivia                            | difficulty | category | themes  | sourceUrls          |
-      | What is H2O?      | Water  | H2O is the most common substance | hard       | Trivia   | Science | https://example.com |
+      | What is H2O?      | Water  | H2O is the most common substance | hard       | Knowledge & fun facts | Science | https://example.com |
     And the user clicks on the button with name "Create"
     Then the toast with exact text "Question created successfully" should be visible

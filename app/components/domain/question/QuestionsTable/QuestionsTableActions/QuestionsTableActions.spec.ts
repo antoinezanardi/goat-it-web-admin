@@ -11,13 +11,13 @@ import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { QuestionsTableActions } from "#components";
 import type { ArchiveQuestionButton, EditQuestionButton } from "#components";
 
-import type { QuestionsTableActionsProperties } from "~/components/domain/question/QuestionsTable/QuestionsTableActions/questions-table-actions.types";
+import type { QuestionsTableActionsProps } from "~/components/domain/question/QuestionsTable/QuestionsTableActions/questions-table-actions.types";
 
 describe("QuestionsTableActions Component", () => {
   let wrapper: VueWrapper;
   let pinia: TestingPinia;
 
-  const defaultProperties: QuestionsTableActionsProperties = {
+  const defaultProps: QuestionsTableActionsProps = {
     question: createFakeQuestion({ id: "question-id-123", status: "active" }),
   };
 
@@ -26,7 +26,7 @@ describe("QuestionsTableActions Component", () => {
       global: {
         plugins: [pinia],
       },
-      props: defaultProperties,
+      props: defaultProps,
       ...options,
     });
   }
@@ -42,19 +42,19 @@ describe("QuestionsTableActions Component", () => {
 
   describe("Edit button", () => {
     it("should render the edit button when mounted.", () => {
-      const editButton = wrapper.findComponent<typeof EditQuestionButton>(`[data-testid='questions-table-actions-edit-${defaultProperties.question.id}']`);
+      const editButton = wrapper.findComponent<typeof EditQuestionButton>(`[data-testid='questions-table-actions-edit-${defaultProps.question.id}']`);
 
       expect(editButton.exists()).toBeTruthy();
     });
 
     it("should pass the question id to the edit button when mounted.", () => {
-      const editButton = wrapper.findComponent<typeof EditQuestionButton>(`[data-testid='questions-table-actions-edit-${defaultProperties.question.id}']`);
+      const editButton = wrapper.findComponent<typeof EditQuestionButton>(`[data-testid='questions-table-actions-edit-${defaultProps.question.id}']`);
 
       expect(editButton.props("questionId")).toBe("question-id-123");
     });
 
     it("should emit startEdit with the question id when the edit button emits startEdit.", () => {
-      const editButton = wrapper.findComponent<typeof EditQuestionButton>(`[data-testid='questions-table-actions-edit-${defaultProperties.question.id}']`);
+      const editButton = wrapper.findComponent<typeof EditQuestionButton>(`[data-testid='questions-table-actions-edit-${defaultProps.question.id}']`);
       getWrapperVm(editButton).$emit("startEdit", "question-id-123");
 
       expect(wrapper.emitted("startEdit")).toStrictEqual([["question-id-123"]]);
@@ -63,13 +63,13 @@ describe("QuestionsTableActions Component", () => {
 
   describe("Archive button", () => {
     it("should render the archive button when the question status is active.", () => {
-      const archiveButton = wrapper.findComponent<typeof ArchiveQuestionButton>(`[data-testid='questions-table-actions-archive-${defaultProperties.question.id}']`);
+      const archiveButton = wrapper.findComponent<typeof ArchiveQuestionButton>(`[data-testid='questions-table-actions-archive-${defaultProps.question.id}']`);
 
       expect(archiveButton.exists()).toBeTruthy();
     });
 
     it("should pass the question id to the archive button when the question status is active.", () => {
-      const archiveButton = wrapper.findComponent<typeof ArchiveQuestionButton>(`[data-testid='questions-table-actions-archive-${defaultProperties.question.id}']`);
+      const archiveButton = wrapper.findComponent<typeof ArchiveQuestionButton>(`[data-testid='questions-table-actions-archive-${defaultProps.question.id}']`);
 
       expect(archiveButton.props("questionId")).toBe("question-id-123");
     });

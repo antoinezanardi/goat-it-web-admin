@@ -20,6 +20,7 @@
     "modifySuccessfully": "Pregunta modificada con éxito",
     "modifyThemeAssignmentSuccessfully": "Tema de la pregunta modificado con éxito",
     "fetching": "Cargando preguntas...",
+    "itemsCount": "0 preguntas | {count} pregunta | {count} preguntas",
     "missingThemeTranslation": "–– traducción del tema faltante ––",
     "selectThemes": "Seleccionar temas…",
     "searchThemes": "Buscar temas...",
@@ -34,10 +35,10 @@
       "sources": "Referencias"
     },
     "category": {
-      "trivia": "Cultura general",
+      "trivia": "Saber & hechos curiosos",
       "lexicon": "Léxico",
-      "riddle": "Enigma",
-      "explanation": "Explicación"
+      "riddle": "Misterios & adivinanzas",
+      "explanation": "Cómo & por qué?"
     },
     "difficulty": {
       "easy": "Fácil",

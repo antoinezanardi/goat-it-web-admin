@@ -1,6 +1,6 @@
-type ArchiveQuestionThemeButtonProperties = {
+type ArchiveQuestionThemeButtonProps = {
   questionThemeId: string;
   questionThemeSlug: string;
 };
 
-export type { ArchiveQuestionThemeButtonProperties };
+export type { ArchiveQuestionThemeButtonProps };

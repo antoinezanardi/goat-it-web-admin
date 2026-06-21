@@ -1,7 +1,7 @@
 import type { LocalizedText, LocalizedTexts } from "@goat-it/schemas/shared/locale";
 
-type TranslationCompletenessIndicatorProperties = {
+type TranslationCompletenessIndicatorProps = {
   requiredFields: (Partial<LocalizedText> | Partial<LocalizedTexts>)[];
 };
 
-export type { TranslationCompletenessIndicatorProperties };
+export type { TranslationCompletenessIndicatorProps };

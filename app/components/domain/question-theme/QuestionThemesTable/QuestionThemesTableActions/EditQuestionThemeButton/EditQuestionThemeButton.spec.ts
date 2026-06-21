@@ -6,12 +6,12 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 
 import { EditQuestionThemeButton } from "#components";
 
-import type { EditQuestionThemeButtonProperties } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableActions/EditQuestionThemeButton/edit-question-theme-button.types";
+import type { EditQuestionThemeButtonProps } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableActions/EditQuestionThemeButton/edit-question-theme-button.types";
 
 describe("EditQuestionThemeButton Component", () => {
   let wrapper: VueWrapper;
 
-  const defaultProperties: EditQuestionThemeButtonProperties = {
+  const defaultProperties: EditQuestionThemeButtonProps = {
     questionThemeId: "theme-id-123",
     questionThemeSlug: "music",
   };

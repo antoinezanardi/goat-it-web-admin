@@ -2,7 +2,7 @@ import { vi, describe, it, expect, beforeEach } from "vitest";
 import type { $Fetch } from "nitropack";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
-import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
+import { createFakeAdminFindQuestionThemesQueryDto, createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 
 import { questionThemesRepository } from "@/repositories/goat-it-api/question-themes/question-themes.repository";
 
@@ -26,12 +26,21 @@ describe(questionThemesRepository, () => {
   });
 
   describe("getAll", () => {
-    it("should call fetch with the correct endpoint when called.", async() => {
+    it("should call fetch with the correct endpoint and undefined query when called without params.", async() => {
       const repository = questionThemesRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue([]);
       await repository.getAll();
 
-      expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/question-themes");
+      expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/question-themes", { query: undefined });
+    });
+
+    it("should call fetch with the correct endpoint and query when called with query params.", async() => {
+      const repository = questionThemesRepository(fetchMock as $Fetch);
+      fetchMock.mockResolvedValue([]);
+      const query = createFakeAdminFindQuestionThemesQueryDto();
+      await repository.getAll(query);
+
+      expect(fetchMock).toHaveBeenCalledExactlyOnceWith("/api/goat-it-api/question-themes", { query });
     });
 
     it("should return question themes from fetch when called.", async() => {

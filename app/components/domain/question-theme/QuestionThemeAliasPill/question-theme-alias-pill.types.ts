@@ -1,5 +1,5 @@
-type QuestionThemeAliasPillProperties = {
+type QuestionThemeAliasPillProps = {
   alias: string;
 };
 
-export type { QuestionThemeAliasPillProperties };
+export type { QuestionThemeAliasPillProps };

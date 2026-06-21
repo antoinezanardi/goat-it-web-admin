@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { QuestionThemeSlugBadgeProperties } from "~/components/domain/question-theme/QuestionThemeSlugBadge/question-theme-slug-badge.types";
+import type { QuestionThemeSlugBadgeProps } from "~/components/domain/question-theme/QuestionThemeSlugBadge/question-theme-slug-badge.types";
 
-defineProps<QuestionThemeSlugBadgeProperties>();
+defineProps<QuestionThemeSlugBadgeProps>();
 </script>
 
 <template>

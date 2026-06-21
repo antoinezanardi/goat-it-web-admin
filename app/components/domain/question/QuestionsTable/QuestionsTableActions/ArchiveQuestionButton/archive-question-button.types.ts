@@ -1,5 +1,5 @@
-type ArchiveQuestionButtonProperties = {
+type ArchiveQuestionButtonProps = {
   questionId: string;
 };
 
-export type { ArchiveQuestionButtonProperties };
+export type { ArchiveQuestionButtonProps };

@@ -1,5 +1,5 @@
-type QuestionThemeSelectorOptionProperties = {
+type QuestionThemeSelectorOptionProps = {
   theme: QuestionTheme;
 };
 
-export type { QuestionThemeSelectorOptionProperties };
+export type { QuestionThemeSelectorOptionProps };

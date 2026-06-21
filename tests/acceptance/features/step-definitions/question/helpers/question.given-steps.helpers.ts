@@ -24,6 +24,32 @@ async function createQuestionViaUi(page: Page, row: QuestionFormRow): Promise<vo
   const successToast = page.getByText("Question created successfully", { exact: true });
 
   await expect(successToast).toBeVisible();
+
+  if (row.status === "archived") {
+    if (row.statement === undefined) {
+      throw new Error("Cannot archive a question without a statement");
+    }
+    await archiveQuestionViaUi(page, row.statement);
+  }
 }
 
-export { createQuestionViaUi };
+async function archiveQuestionViaUi(page: Page, statement: string): Promise<void> {
+  const table = page.getByRole("table");
+  const row = table.getByRole("row").filter({ has: page.getByText(statement, { exact: true }) });
+  const archiveButton = row.getByRole("button", { name: "Archive the question" });
+
+  await expect(archiveButton).toBeVisible();
+  await archiveButton.click();
+
+  const dialog = page.getByRole("dialog");
+
+  await expect(dialog).toBeVisible();
+
+  const confirmButton = dialog.getByRole("button", { name: "Confirm" });
+
+  await expect(confirmButton).toBeVisible();
+  await confirmButton.click();
+  await expect(dialog).toBeHidden();
+}
+
+export { archiveQuestionViaUi, createQuestionViaUi };

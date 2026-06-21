@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { getThemeLocalizedLabel } from "~/composables/domain/question-theme/helpers/question-theme.helpers";
 import { QUESTION_THEME_SELECTOR_OPTION_ICON_SIZE } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/QuestionThemeSelectorOption/question-theme-selector-option.constants";
-import type { QuestionThemeSelectorOptionProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/QuestionThemeSelectorOption/question-theme-selector-option.types";
+import type { QuestionThemeSelectorOptionProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/QuestionThemeSelectorOption/question-theme-selector-option.types";
 
-const props = defineProps<QuestionThemeSelectorOptionProperties>();
+const props = defineProps<QuestionThemeSelectorOptionProps>();
 
 const { t, locale: currentLocale } = useI18n();
 

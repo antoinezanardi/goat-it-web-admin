@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { TranslatedTextProperties } from "~/components/shared/core/localization/TranslatedText/translated-text.types";
+import type { TranslatedTextProps } from "~/components/shared/core/localization/TranslatedText/translated-text.types";
 
-const props = defineProps<TranslatedTextProperties>();
+const props = defineProps<TranslatedTextProps>();
 
 const { isCurrentLocaleMissing, currentLocaleDisplayValue } = useLocalizedValue(toRef(() => props.localizedText));
 

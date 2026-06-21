@@ -4,10 +4,10 @@ import { QUESTION_COGNITIVE_DIFFICULTIES } from "@goat-it/schemas/question";
 
 import type { ButtonVariant } from "~/utils/types/button.types";
 import type { AppColor } from "~/utils/types/color.types";
-import type { QuestionCognitiveDifficultySelectorEmits, QuestionCognitiveDifficultySelectorItem, QuestionCognitiveDifficultySelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCognitiveDifficultySelector/question-cognitive-difficulty-selector.types";
+import type { QuestionCognitiveDifficultySelectorEmits, QuestionCognitiveDifficultySelectorItem, QuestionCognitiveDifficultySelectorProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCognitiveDifficultySelector/question-cognitive-difficulty-selector.types";
 import { getQuestionCognitiveDifficultyUiMetadata } from "~/composables/domain/question/helpers/question.helpers";
 
-const props = defineProps<QuestionCognitiveDifficultySelectorProperties>();
+const props = defineProps<QuestionCognitiveDifficultySelectorProps>();
 const emit = defineEmits<QuestionCognitiveDifficultySelectorEmits>();
 
 const items = computed<QuestionCognitiveDifficultySelectorItem[]>(() => QUESTION_COGNITIVE_DIFFICULTIES.map(difficulty => {

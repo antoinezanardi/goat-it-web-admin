@@ -1,4 +1,4 @@
-import { ADMIN_QUESTION_DTO } from "@goat-it/schemas/question";
+import { ADMIN_FIND_QUESTIONS_QUERY_DTO, ADMIN_QUESTION_DTO } from "@goat-it/schemas/question";
 import type { H3Event } from "h3";
 import { z } from "zod";
 
@@ -10,9 +10,11 @@ async function getQuestionsHandler(event: H3Event): Promise<Question[]> {
   const config = useRuntimeConfig(event);
   const endpoint = createGoatItApiEndpoint("questions");
   const fetchOptions = createGoatItApiFetchOptions(config.goatItApi);
+  const rawQuery = getQuery(event);
+  const query = ADMIN_FIND_QUESTIONS_QUERY_DTO.parse(rawQuery);
 
   try {
-    const rawData = await $fetch(endpoint, fetchOptions);
+    const rawData = await $fetch(endpoint, { ...fetchOptions, query });
     const adminQuestions = z.array(ADMIN_QUESTION_DTO).parse(rawData);
 
     return adminQuestions.map(createQuestionFromAdminQuestionDto);

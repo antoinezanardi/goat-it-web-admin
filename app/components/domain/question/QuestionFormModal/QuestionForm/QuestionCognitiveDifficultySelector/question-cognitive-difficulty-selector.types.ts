@@ -6,7 +6,7 @@ type QuestionCognitiveDifficultySelectorItem = {
   value: QuestionCognitiveDifficulty;
 } & QuestionCognitiveDifficultyUiMetadata;
 
-type QuestionCognitiveDifficultySelectorProperties = {
+type QuestionCognitiveDifficultySelectorProps = {
   modelValue?: QuestionCognitiveDifficulty;
 };
 
@@ -16,6 +16,6 @@ type QuestionCognitiveDifficultySelectorEmits = {
 
 export type {
   QuestionCognitiveDifficultySelectorItem,
-  QuestionCognitiveDifficultySelectorProperties,
+  QuestionCognitiveDifficultySelectorProps,
   QuestionCognitiveDifficultySelectorEmits,
 };

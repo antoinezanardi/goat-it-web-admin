@@ -12,7 +12,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 
 import { ArchiveQuestionButton, ConfirmDialog } from "#components";
 
-import type { ArchiveQuestionButtonProperties } from "~/components/domain/question/QuestionsTable/QuestionsTableActions/ArchiveQuestionButton/archive-question-button.types";
+import type { ArchiveQuestionButtonProps } from "~/components/domain/question/QuestionsTable/QuestionsTableActions/ArchiveQuestionButton/archive-question-button.types";
 
 describe("ArchiveQuestionButton Component", () => {
   let wrapper: VueWrapper;
@@ -21,7 +21,7 @@ describe("ArchiveQuestionButton Component", () => {
   let overlayInstance: UseOverlayInstanceMock;
   let overlayMock: UseOverlayMock;
 
-  const defaultProperties: ArchiveQuestionButtonProperties = {
+  const defaultProps: ArchiveQuestionButtonProps = {
     questionId: "question-id-123",
   };
 
@@ -30,7 +30,7 @@ describe("ArchiveQuestionButton Component", () => {
       global: {
         plugins: [pinia],
       },
-      props: defaultProperties,
+      props: defaultProps,
       ...options,
     });
   }

@@ -12,7 +12,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import type { QuestionThemeIcon, UButton, UFormField, USelectMenu, UTooltip } from "#components";
 import { QuestionThemeSelector } from "#components";
 
-import type { QuestionThemeSelectorProperties } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/question-theme-selector.types";
+import type { QuestionThemeSelectorProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionThemeSelector/question-theme-selector.types";
 
 describe("QuestionThemeSelector Component", () => {
   let wrapper: VueWrapper;
@@ -22,7 +22,7 @@ describe("QuestionThemeSelector Component", () => {
     createFakeQuestionTheme({ id: "theme-3", label: { en: "Science", fr: "Science", es: undefined, de: undefined, it: undefined, pt: undefined } }),
   ];
 
-  const defaultProperties: QuestionThemeSelectorProperties = {
+  const defaultProperties: QuestionThemeSelectorProps = {
     modelValue: [],
     availableThemes: fakeThemes,
   };
@@ -627,7 +627,7 @@ describe("QuestionThemeSelector Component", () => {
       createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: true }),
     ];
 
-    async function mountInEditMode(overrides: Partial<QuestionThemeSelectorProperties> = {}): Promise<VueWrapper> {
+    async function mountInEditMode(overrides: Partial<QuestionThemeSelectorProps> = {}): Promise<VueWrapper> {
       return mountQuestionThemeSelectorComponent({
         props: {
           ...defaultProperties,

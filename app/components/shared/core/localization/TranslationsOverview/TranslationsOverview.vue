@@ -2,10 +2,10 @@
 import { LOCALES } from "@goat-it/schemas/shared/locale";
 import type { Locale } from "@goat-it/schemas/shared/locale";
 
-import type { TranslationsOverviewProperties } from "~/components/shared/core/localization/TranslationsOverview/translations-overview.types";
+import type { TranslationsOverviewProps } from "~/components/shared/core/localization/TranslationsOverview/translations-overview.types";
 import { getLocalizedDisplayValue, getLocalizedTextsDisplayValue, isLocalizedValueMissing } from "#shared/utils/helpers/localization/localization.helpers";
 
-const props = withDefaults(defineProps<TranslationsOverviewProperties>(), {
+const props = withDefaults(defineProps<TranslationsOverviewProps>(), {
   hideHeader: false,
 });
 

@@ -50,6 +50,46 @@ describe("QuestionThemesTable Component", () => {
     });
   });
 
+  describe("Loading state", () => {
+    it("should pass loading as false to the table component when the store is not fetching.", () => {
+      questionThemesStore.isFetchingQuestionThemes = false;
+      const table = wrapper.getComponent({ name: "UTable" });
+
+      expect(table.props("loading")).toBe(false);
+    });
+
+    it("should pass loading as true to the table component when the store is fetching.", async() => {
+      questionThemesStore.isFetchingQuestionThemes = true;
+      wrapper = await mountQuestionThemesTableComponent();
+      const table = wrapper.getComponent({ name: "UTable" });
+
+      expect(table.props("loading")).toBe(true);
+    });
+
+    it("should render loading spinner with fetching label inside the table when the store is fetching.", async() => {
+      questionThemesStore.isFetchingQuestionThemes = true;
+      wrapper = await mountQuestionThemesTableComponent();
+      const spinner = wrapper.find("#loading-spinner");
+
+      expect(spinner.exists()).toBeTruthy();
+    });
+
+    it("should render loading spinner label with translated fetching text when the store is fetching.", async() => {
+      questionThemesStore.isFetchingQuestionThemes = true;
+      wrapper = await mountQuestionThemesTableComponent();
+      const spinnerLabel = wrapper.find("#loading-spinner-label");
+
+      expect(spinnerLabel.text()).toBe("questionThemes.fetching");
+    });
+
+    it("should not render loading spinner when the store is not fetching.", () => {
+      questionThemesStore.isFetchingQuestionThemes = false;
+      const spinner = wrapper.find("#loading-spinner");
+
+      expect(spinner.exists()).toBeFalsy();
+    });
+  });
+
   describe("Columns", () => {
     it("should pass columns with translated header to the table component when mounted.", () => {
       const table = wrapper.getComponent({ name: "UTable" });
@@ -519,6 +559,45 @@ describe("QuestionThemesTable Component", () => {
 
       expect(searchTerm.value).toBe("updated from header");
     });
+
+    it("should pass active filter count of 0 to the table header when no filter is active.", () => {
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+
+      expect(header.props("activeFilterCount")).toBe(0);
+    });
+
+    it("should pass undefined status filter to the table header when no status filter is active.", () => {
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+
+      expect(header.props("filters")).toStrictEqual({ status: undefined });
+    });
+
+    it("should call fetchAndStoreQuestionThemes with status query when the header emits update:filter.", async() => {
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+      getWrapperVm(header).$emit("update:filter", { status: "active" });
+      await nextTick();
+
+      expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenCalledWith({ status: "active" });
+    });
+
+    it("should not update filters when the header emits update:filter without status key.", async() => {
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+      getWrapperVm(header).$emit("update:filter", {});
+      await nextTick();
+
+      expect(questionThemesStore.fetchAndStoreQuestionThemes).not.toHaveBeenCalled();
+    });
+
+    it("should call fetchAndStoreQuestionThemes with undefined when the header emits clearFilters.", async() => {
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+      getWrapperVm(header).$emit("update:filter", { status: "active" });
+      await nextTick();
+
+      getWrapperVm(header).$emit("clearFilters");
+      await nextTick();
+
+      expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenLastCalledWith(undefined);
+    });
   });
 
   describe("Global filter", () => {
@@ -577,6 +656,31 @@ describe("QuestionThemesTable Component", () => {
       const emptyState = wrapper.findComponent<typeof TableEmptyState>("[data-testid='question-themes-table-empty-state']");
 
       expect(emptyState.props("hasActiveFilter")).toBe(true);
+    });
+  });
+
+  describe("Table row count", () => {
+    it("should pass filteredCount of 0 to the table header when no data is present.", () => {
+      questionThemesStore.questionThemes = [];
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+
+      expect(header.props("filteredCount")).toBe(0);
+    });
+
+    it("should pass isLoading as false to the table header when not fetching.", () => {
+      questionThemesStore.isFetchingQuestionThemes = false;
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+
+      expect(header.props("isLoading")).toBe(false);
+    });
+
+    it("should pass isLoading as true to the table header when fetching.", async() => {
+      questionThemesStore.isFetchingQuestionThemes = true;
+      wrapper = await mountQuestionThemesTableComponent();
+
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+
+      expect(header.props("isLoading")).toBe(true);
     });
   });
 });
