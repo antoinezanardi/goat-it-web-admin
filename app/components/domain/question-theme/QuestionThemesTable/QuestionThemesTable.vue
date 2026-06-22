@@ -6,6 +6,7 @@ import type { QuestionThemesTableEmits, QuestionThemesTableGlobalFilterOptions }
 import type { QuestionThemesTableFilters } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableHeader/question-themes-table-header.types";
 import { TABLE_UI } from "~/utils/constants/table/table.constants.ts";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
+import { toKebabCaseKeys } from "#shared/utils/helpers/object/object.helpers";
 
 const emit = defineEmits<QuestionThemesTableEmits>();
 
@@ -20,9 +21,10 @@ const { filters, activeFilterCount, clearFilters, setFilterValue } = useTableFil
   },
 });
 
-watch(() => filters.status.value, async status => {
-  const query = status === undefined ? undefined : { status } as AdminFindQuestionThemesQueryDto;
-  await questionThemesStore.fetchAndStoreQuestionThemes(query);
+const filterValues = computed(() => ({ status: filters.status.value }));
+
+watch(filterValues, async(values): Promise<void> => {
+  await questionThemesStore.fetchAndStoreQuestionThemes(toKebabCaseKeys(values) as AdminFindQuestionThemesQueryDto);
 });
 
 const columns = computed<TableColumn<QuestionTheme>[]>(() => [

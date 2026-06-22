@@ -7,6 +7,7 @@ import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 import type { vi } from "vitest";
+import type { AdminFindQuestionThemesQueryDto } from "@goat-it/schemas/question-theme";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 import { createFakeLocalizedText, createFakeLocalizedTexts } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
@@ -596,7 +597,9 @@ describe("QuestionThemesTable Component", () => {
       getWrapperVm(header).$emit("clearFilters");
       await nextTick();
 
-      expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenLastCalledWith(undefined);
+      expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenLastCalledWith({
+        status: undefined,
+      } as AdminFindQuestionThemesQueryDto);
     });
   });
 

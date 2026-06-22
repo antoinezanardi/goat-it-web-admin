@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { isEmptyRecord, isRecord, stripEmptyValues } from "#shared/utils/helpers/object/object.helpers";
+import { isEmptyRecord, isRecord, stripEmptyValues, toKebabCaseKeys } from "#shared/utils/helpers/object/object.helpers";
 
 describe("Object Helpers", () => {
   describe(isRecord, () => {
@@ -109,6 +109,30 @@ describe("Object Helpers", () => {
       const input = { items: [1, 2, 3], nested: { value: undefined } };
 
       expect(stripEmptyValues(input)).toStrictEqual({ items: [1, 2, 3], nested: undefined });
+    });
+  });
+
+  describe(toKebabCaseKeys, () => {
+    it("should convert camelCase keys to kebab-case when keys are in camelCase.", () => {
+      const input = { cognitiveDifficulty: "hard", someKey: "value" };
+
+      expect(toKebabCaseKeys(input)).toStrictEqual({ "cognitive-difficulty": "hard", "some-key": "value" });
+    });
+
+    it("should keep kebab-case keys unchanged when keys are already kebab-case.", () => {
+      const input = { "status": "active", "already-kebab": "value" };
+
+      expect(toKebabCaseKeys(input)).toStrictEqual({ "status": "active", "already-kebab": "value" });
+    });
+
+    it("should return an empty object when given an empty object.", () => {
+      expect(toKebabCaseKeys({})).toStrictEqual({});
+    });
+
+    it("should preserve values of different types when keys are converted.", () => {
+      const input = { numberKey: 42, booleanKey: true, nullKey: null, arrayKey: [1, 2] };
+
+      expect(toKebabCaseKeys(input)).toStrictEqual({ "number-key": 42, "boolean-key": true, "null-key": null, "array-key": [1, 2] });
     });
   });
 });
