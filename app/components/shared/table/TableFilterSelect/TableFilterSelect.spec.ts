@@ -116,4 +116,71 @@ describe("TableFilterSelect Component", () => {
       expect(wrapper.text()).toContain("Status");
     });
   });
+
+  describe("Multiple mode", () => {
+    const multipleProps: TableFilterSelectProps = {
+      modelValue: [],
+      items: defaultItems,
+      label: "Themes",
+      multiple: true,
+    };
+
+    beforeEach(async() => {
+      wrapper = await mountTableFilterSelectComponent({ props: multipleProps });
+    });
+
+    it("should not prepend the 'All' option when multiple is true.", () => {
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+      const items = selectMenu.props("items") as (TableFilterSelectItem | TableFilterSelectAllItem)[];
+
+      expect(items).toHaveLength(2);
+    });
+
+    it("should pass only the option items without 'All' when multiple is true.", () => {
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+      const items = selectMenu.props("items") as (TableFilterSelectItem | TableFilterSelectAllItem)[];
+
+      expect(items[0]).toStrictEqual({ label: "Active", value: "active" });
+    });
+
+    it("should pass multiple as true to the select menu when multiple is true.", () => {
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+      expect(selectMenu.props("multiple")).toBe(true);
+    });
+
+    it("should pass loading as true to the select menu when loading is true.", async() => {
+      wrapper = await mountTableFilterSelectComponent({ props: { ...multipleProps, loading: true } });
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+      expect(selectMenu.props("loading")).toBe(true);
+    });
+
+    it("should pass the label as placeholder to the select menu when multiple is true.", () => {
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+      expect(selectMenu.props("placeholder")).toBe("Themes");
+    });
+
+    it("should pass an empty array as modelValue to the select menu when no value is selected.", () => {
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+      expect(selectMenu.props("modelValue")).toStrictEqual([]);
+    });
+
+    it("should pass the selected values as modelValue to the select menu when values are selected.", async() => {
+      wrapper = await mountTableFilterSelectComponent({ props: { ...multipleProps, modelValue: ["active", "archived"] } });
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+      expect(selectMenu.props("modelValue")).toStrictEqual(["active", "archived"]);
+    });
+
+    it("should emit update:modelValue with an array when the select menu emits an array value.", () => {
+      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
+
+      getWrapperVm(selectMenu).$emit("update:modelValue", ["active"]);
+
+      expect(wrapper.emitted("update:modelValue")).toStrictEqual([[["active"]]]);
+    });
+  });
 });

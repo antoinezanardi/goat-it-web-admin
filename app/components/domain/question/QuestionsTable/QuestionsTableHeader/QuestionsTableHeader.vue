@@ -26,6 +26,10 @@ function onUpdateCognitiveDifficultyFilter(value: QuestionCognitiveDifficulty | 
   emit("update:filter", { cognitiveDifficulty: value });
 }
 
+function onUpdateThemeFilter(value: string[]): void {
+  emit("update:filter", { themeIds: value });
+}
+
 function onClearFilters(): void {
   emit("clearFilters");
 }
@@ -84,6 +88,11 @@ function onClearFilters(): void {
       <QuestionsTableCognitiveDifficultyFilter
         :model-value="filters.cognitiveDifficulty"
         @update:model-value="onUpdateCognitiveDifficultyFilter"
+      />
+
+      <QuestionsTableThemeFilter
+        :model-value="filters.themeIds"
+        @update:model-value="onUpdateThemeFilter"
       />
     </TableFiltersSection>
   </div>

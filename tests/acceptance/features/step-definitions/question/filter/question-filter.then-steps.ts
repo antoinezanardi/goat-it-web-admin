@@ -40,7 +40,7 @@ Then(
 );
 
 Then(
-  /^the questions (?<filter>status|category|cognitive difficulty) filter should be visible$/u,
+  /^the questions (?<filter>status|category|cognitive difficulty|theme) filter should be visible$/u,
   async function(this: GoatItWorld, filter: string): Promise<void> {
     const testId = `questions-table-${filter.replaceAll(" ", "-")}-filter`;
     const filterSelect = this.page.getByTestId(testId);
@@ -50,7 +50,7 @@ Then(
 );
 
 Then(
-  /^the questions (?<filter>status|category|cognitive difficulty) filter should not be visible$/u,
+  /^the questions (?<filter>status|category|cognitive difficulty|theme) filter should not be visible$/u,
   async function(this: GoatItWorld, filter: string): Promise<void> {
     const testId = `questions-table-${filter.replaceAll(" ", "-")}-filter`;
     const filterSelect = this.page.getByTestId(testId);
@@ -76,5 +76,45 @@ Then(
 
     await expect(emptyState).toBeVisible();
     await expect(emptyState).toContainText("No results found");
+  },
+);
+
+Then(
+  /^the theme filter dropdown should contain an option with the text "(?<option>[^"]+)"$/u,
+  async function(this: GoatItWorld, option: string): Promise<void> {
+    const listbox = this.page.getByRole("listbox");
+
+    await expect(listbox).toBeVisible();
+    await expect(listbox.getByRole("option", { name: option })).toBeVisible();
+  },
+);
+
+Then(
+  /^the theme filter dropdown should not contain an option with the text "(?<option>[^"]+)"$/u,
+  async function(this: GoatItWorld, option: string): Promise<void> {
+    const listbox = this.page.getByRole("listbox");
+
+    await expect(listbox).toBeVisible();
+    await expect(listbox.getByRole("option", { name: option })).not.toBeVisible();
+  },
+);
+
+Then(
+  /^the user should not be able to select the "(?<theme>[^"]+)" theme filter$/u,
+  async function(this: GoatItWorld, theme: string): Promise<void> {
+    const filterSelect = this.page.getByTestId("questions-table-theme-filter");
+
+    await expect(filterSelect).toBeVisible();
+
+    const selectButton = filterSelect.getByRole("button");
+
+    await selectButton.click();
+
+    const listbox = this.page.getByRole("listbox");
+
+    await expect(listbox).toBeVisible();
+    await expect(listbox.getByRole("option", { name: theme })).toHaveCount(0);
+    await this.page.keyboard.press("Escape");
+    await expect(listbox).toBeHidden();
   },
 );

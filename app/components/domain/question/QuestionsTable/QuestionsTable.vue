@@ -20,12 +20,14 @@ const { filters, activeFilterCount, clearFilters, setFilterValue, hasActiveFilte
     status: { default: undefined as QuestionStatus | undefined },
     category: { default: undefined as QuestionCategory | undefined },
     cognitiveDifficulty: { default: undefined as QuestionCognitiveDifficulty | undefined },
+    themeIds: { default: [] as string[] },
   },
 });
 const filterValues = computed(() => ({
   status: filters.status.value,
   category: filters.category.value,
   cognitiveDifficulty: filters.cognitiveDifficulty.value,
+  themeIds: filters.themeIds.value,
 }));
 
 watch(filterValues, async(values): Promise<void> => {
@@ -61,6 +63,7 @@ const headerFilters = computed<QuestionsTableFilters>(() => ({
   status: filters.status.value,
   category: filters.category.value,
   cognitiveDifficulty: filters.cognitiveDifficulty.value,
+  themeIds: filters.themeIds.value,
 }));
 
 function onStartCreateFromQuestionsTableHeader(): void {
@@ -68,7 +71,7 @@ function onStartCreateFromQuestionsTableHeader(): void {
 }
 
 function onUpdateFilterFromQuestionsTableHeader(updatedFilters: Partial<QuestionsTableFilters>): void {
-  const filterKeys: (keyof QuestionsTableFilters)[] = ["status", "category", "cognitiveDifficulty"];
+  const filterKeys: (keyof QuestionsTableFilters)[] = ["status", "category", "cognitiveDifficulty", "themeIds"];
 
   for (const key of filterKeys) {
     if (key in updatedFilters) {

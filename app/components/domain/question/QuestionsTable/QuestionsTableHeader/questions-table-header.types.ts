@@ -4,6 +4,7 @@ type QuestionsTableFilters = {
   status: QuestionStatus | undefined;
   category: QuestionCategory | undefined;
   cognitiveDifficulty: QuestionCognitiveDifficulty | undefined;
+  themeIds: string[];
 };
 
 type QuestionsTableHeaderProps = {
