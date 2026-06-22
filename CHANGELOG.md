@@ -1,5 +1,68 @@
 # 🐐👑 Goat It Web Admin Versioning Changelog
 
+## [1.4.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.3.0...v1.4.0) (2026-06-21)
+
+### 🚀 Features
+
+* **agents:** enhance superpowers lifecycle with opencode go agents ([#304](https://github.com/antoinezanardi/goat-it-web-admin/issues/304)) ([0feb949](https://github.com/antoinezanardi/goat-it-web-admin/commit/0feb94993479d5390cad5db3fb7fb765d6a070d7))
+* **ai:** add mempalace plugin ([#354](https://github.com/antoinezanardi/goat-it-web-admin/issues/354)) ([2ff714a](https://github.com/antoinezanardi/goat-it-web-admin/commit/2ff714ab91672db487e91e8866a5100a8756124d))
+* **filters:** add advanced filtering functionality to QuestionsTable ([#333](https://github.com/antoinezanardi/goat-it-web-admin/issues/333)) ([22b1441](https://github.com/antoinezanardi/goat-it-web-admin/commit/22b14419a09210837c3f7c02152bcdcf591dfa4b))
+* **filters:** add status filter to question themes table ([#301](https://github.com/antoinezanardi/goat-it-web-admin/issues/301)) ([51f16b5](https://github.com/antoinezanardi/goat-it-web-admin/commit/51f16b5c8f6f10793db9a2e6459487a9fe9d69a4))
+* **question-themes:** add loading spinner inside tables ([#303](https://github.com/antoinezanardi/goat-it-web-admin/issues/303)) ([451e2aa](https://github.com/antoinezanardi/goat-it-web-admin/commit/451e2aa7603f46c877af09063cb527b8819b58b2))
+* **questions:** update category names for trivia and riddles ([#297](https://github.com/antoinezanardi/goat-it-web-admin/issues/297)) ([eb43f46](https://github.com/antoinezanardi/goat-it-web-admin/commit/eb43f46a9225a0ff49fb8ad47c49e1ce0b8a45fb))
+* **ui:** add filtered row count to questions and themes tables ([#352](https://github.com/antoinezanardi/goat-it-web-admin/issues/352)) ([c535ca7](https://github.com/antoinezanardi/goat-it-web-admin/commit/c535ca787ff432f76bf4226f7b29b127993b5396))
+
+### 📖 Docs
+
+* **agents:** enhance AI dev workflow ([#357](https://github.com/antoinezanardi/goat-it-web-admin/issues/357)) ([5a02e77](https://github.com/antoinezanardi/goat-it-web-admin/commit/5a02e77f29a72d8b038782a9ff5d667fbf5e0f8b))
+* **brainstormer:** update process flow ([#350](https://github.com/antoinezanardi/goat-it-web-admin/issues/350)) ([4a786ee](https://github.com/antoinezanardi/goat-it-web-admin/commit/4a786ee70bbc02c2fbb9fa605f5142c72b57c593))
+* **skills:** update all skills ([#351](https://github.com/antoinezanardi/goat-it-web-admin/issues/351)) ([3a9ef9e](https://github.com/antoinezanardi/goat-it-web-admin/commit/3a9ef9edd8f88bd42b00ddb64ab538970063a773))
+
+### 🔩 Refactor
+
+* **filters:** move row count into toolbar slot and update filters layout ([#356](https://github.com/antoinezanardi/goat-it-web-admin/issues/356)) ([8d4f55f](https://github.com/antoinezanardi/goat-it-web-admin/commit/8d4f55f8c1dbf39ae6dfe9c34d7fabb7cbeb98f8))
+
+### 🧹 Chore
+
+* **config:** update opencode settings ([#353](https://github.com/antoinezanardi/goat-it-web-admin/issues/353)) ([71985a6](https://github.com/antoinezanardi/goat-it-web-admin/commit/71985a6e677dd3f4379563465e7c5a1efa4d2d68))
+* **pnpm:** update minimumReleaseAge to 0 ([40ca6df](https://github.com/antoinezanardi/goat-it-web-admin/commit/40ca6dfd681a10916d2a31361d70e0b685dceb12))
+
+### 📦 Upgraded Dependencies
+
+| Package | Version |
+| --- | :---: |
+| `actions/checkout action` | `v7` |
+| `commitlint monorepo` | `^21.0.2` |
+| `@cucumber/cucumber` | `v13` |
+| `@eslint/config-inspector` | `^3.0.4` |
+| `@faker-js/faker` | `^10.5.0` |
+| `@iconify-json/lucide` | `^1.2.114` |
+| `@nuxt/eslint` | `^1.16.0` |
+| `@nuxt/hints` | `^1.1.3` |
+| `@nuxt/ui` | `^4.8.2` |
+| `@types/node` | `^25.9.4` |
+| `@vitest/eslint-plugin` | `^1.6.20` |
+| `@vue/test-utils` | `^2.4.11` |
+| `eslint` | `^10.4.1` |
+| `eslint-plugin-unicorn` | `v68` |
+| `fuse.js` | `^7.4.2` |
+| `lint-staged` | `^17.0.8` |
+| `type-fest` | `^5.7.0` |
+| `vue-eslint-parser` | `^10.4.1` |
+| `vue-tsc` | `^3.3.3` |
+| `eslint monorepo` | `^10.5.0` |
+| `happy-dom monorepo` | `^20.10.6` |
+| `node.js` | `v26.3.1` |
+| `nuxtjs monorepo` | `^4.4.8` |
+| `oxlint monorepo` | `^1.70.0` |
+| `playwright monorepo` | `^1.61.0` |
+| `pnpm` | `v11.8.0` |
+| `semantic-release monorepo` | `^25.0.5` |
+| `sonarsource/sonarqube-scan-action action` | `v8.2` |
+| `tailwindcss monorepo` | `^4.3.1` |
+| `vitest monorepo` | `^4.1.9` |
+| `vue-language-tools monorepo` | `^3.3.5` |
+
 ## [1.3.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.2.0...v1.3.0) (2026-05-27)
 
 ### 🚀 Features
