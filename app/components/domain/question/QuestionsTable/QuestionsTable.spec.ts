@@ -437,7 +437,11 @@ describe("QuestionsTable Component", () => {
       getWrapperVm(header).$emit("clearFilters");
       await nextTick();
 
-      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenLastCalledWith(undefined);
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenLastCalledWith({
+        "status": undefined,
+        "category": undefined,
+        "cognitive-difficulty": undefined,
+      } as AdminFindQuestionsQueryDto);
     });
   });
 

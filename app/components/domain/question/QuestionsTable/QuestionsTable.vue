@@ -6,6 +6,7 @@ import type { QuestionsTableFilters } from "~/components/domain/question/Questio
 import type { QuestionsTableEmits, QuestionsTableGlobalFilterOptions } from "~/components/domain/question/QuestionsTable/questions-table.types";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
 import { TABLE_UI } from "~/utils/constants/table/table.constants.ts";
+import { toKebabCaseKeys } from "#shared/utils/helpers/object/object.helpers";
 
 const emit = defineEmits<QuestionsTableEmits>();
 
@@ -21,21 +22,16 @@ const { filters, activeFilterCount, clearFilters, setFilterValue, hasActiveFilte
     cognitiveDifficulty: { default: undefined as QuestionCognitiveDifficulty | undefined },
   },
 });
-const filterValues = computed((): [QuestionStatus | undefined, QuestionCategory | undefined, QuestionCognitiveDifficulty | undefined] => [
-  filters.status.value,
-  filters.category.value,
-  filters.cognitiveDifficulty.value,
-]);
+const filterValues = computed(() => ({
+  status: filters.status.value,
+  category: filters.category.value,
+  cognitiveDifficulty: filters.cognitiveDifficulty.value,
+}));
 
-watch(filterValues, async([status, category, cognitiveDifficulty]): Promise<void> => {
-  const isAllUndefined = status === undefined && category === undefined && cognitiveDifficulty === undefined;
-  const query: AdminFindQuestionsQueryDto | undefined = isAllUndefined ? undefined : {
-    status,
-    category,
-    "cognitive-difficulty": cognitiveDifficulty,
-  } as AdminFindQuestionsQueryDto;
-  await questionsStore.fetchAndStoreQuestions(query);
+watch(filterValues, async(values): Promise<void> => {
+  await questionsStore.fetchAndStoreQuestions(toKebabCaseKeys(values) as AdminFindQuestionsQueryDto);
 });
+
 const columns = computed<TableColumn<Question>[]>(() => [
   createTableColumn<Question>({ accessorKey: "category", header: t("questions.fields.category"), isCentered: true }),
   createTableColumn<Question>({ accessorKey: "themes", header: t("questions.fields.themes"), isCentered: true }),

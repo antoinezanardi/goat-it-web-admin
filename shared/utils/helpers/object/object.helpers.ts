@@ -1,3 +1,5 @@
+import { dash } from "radashi";
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value) && Object.getPrototypeOf(value) === Object.prototype;
 }
@@ -30,8 +32,17 @@ function stripEmptyValues<T>(input: T): T {
   return result as T;
 }
 
+function toKebabCaseKeys(object: Record<string, unknown>): Record<string, unknown> {
+  const entries = Object.entries(object).map(([key, value]: [string, unknown]): [string, unknown] => [dash(key), value]);
+
+  // Acceptable as Object.fromEntries returns a plain object with kebab-case keys
+  // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+  return Object.fromEntries(entries) as Record<string, unknown>;
+}
+
 export {
   isRecord,
   isEmptyRecord,
   stripEmptyValues,
+  toKebabCaseKeys,
 };
