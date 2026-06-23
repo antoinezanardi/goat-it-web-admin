@@ -79,3 +79,64 @@ When(
     await clearButton.click();
   },
 );
+
+When(
+  /^the user filters questions by theme "(?<theme>[^"]+)"$/u,
+  async function(this: GoatItWorld, theme: string): Promise<void> {
+    const filterSelect = this.page.getByTestId("questions-table-theme-filter");
+
+    await expect(filterSelect).toBeVisible();
+
+    const selectButton = filterSelect.getByRole("button");
+
+    await selectButton.click();
+
+    const listbox = this.page.getByRole("listbox");
+
+    await expect(listbox).toBeVisible();
+    await listbox.getByRole("option", { name: theme }).click();
+    await this.page.keyboard.press("Escape");
+    await expect(listbox).toBeHidden();
+  },
+);
+
+When(
+  /^the user searches for "(?<search>[^"]+)" in the theme filter$/u,
+  async function(this: GoatItWorld, search: string): Promise<void> {
+    const filterSelect = this.page.getByTestId("questions-table-theme-filter");
+
+    await expect(filterSelect).toBeVisible();
+
+    const selectButton = filterSelect.getByRole("button");
+
+    await selectButton.click();
+
+    const listbox = this.page.getByRole("listbox");
+
+    await expect(listbox).toBeVisible();
+
+    const searchInput = listbox.locator("input, [role=combobox]").first();
+
+    await searchInput.fill(search);
+  },
+);
+
+When(
+  /^the user removes the "(?<theme>[^"]+)" theme filter$/u,
+  async function(this: GoatItWorld, theme: string): Promise<void> {
+    const filterSelect = this.page.getByTestId("questions-table-theme-filter");
+
+    await expect(filterSelect).toBeVisible();
+
+    const selectButton = filterSelect.getByRole("button");
+
+    await selectButton.click();
+
+    const listbox = this.page.getByRole("listbox");
+
+    await expect(listbox).toBeVisible();
+    await listbox.getByRole("option", { name: theme }).click();
+    await this.page.keyboard.press("Escape");
+    await expect(listbox).toBeHidden();
+  },
+);

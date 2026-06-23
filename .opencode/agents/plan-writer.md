@@ -31,6 +31,8 @@ permission:
     "rtk head *": "allow"
     "tail *": "allow"
     "rtk tail *": "allow"
+    "mkdir *": "allow"
+    "rtk mkdir *": "allow"
   task: deny
   webfetch: deny
 ---

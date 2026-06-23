@@ -85,6 +85,28 @@ describe(useTableFilters, () => {
 
       expect(activeFilterCount.value).toBe(2);
     });
+
+    it("should return 0 when an array filter is empty.", () => {
+      const { activeFilterCount } = useTableFilters({
+        definitions: {
+          themeIds: { default: [] as string[] },
+        },
+      });
+
+      expect(activeFilterCount.value).toBe(0);
+    });
+
+    it("should return 1 when an array filter contains items.", () => {
+      const { filters, activeFilterCount } = useTableFilters({
+        definitions: {
+          themeIds: { default: [] as string[] },
+        },
+      });
+
+      filters.themeIds.value = ["theme-1", "theme-2"];
+
+      expect(activeFilterCount.value).toBe(1);
+    });
   });
 
   describe("hasActiveFilters", () => {
@@ -153,6 +175,19 @@ describe(useTableFilters, () => {
       clearFilters();
 
       expect(activeFilterCount.value).toBe(0);
+    });
+
+    it("should reset an array filter to its default empty value when called.", () => {
+      const { filters, clearFilters } = useTableFilters({
+        definitions: {
+          themeIds: { default: [] as string[] },
+        },
+      });
+
+      filters.themeIds.value = ["theme-1"];
+      clearFilters();
+
+      expect(filters.themeIds.value).toStrictEqual([]);
     });
   });
 

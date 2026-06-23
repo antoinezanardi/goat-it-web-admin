@@ -378,7 +378,7 @@ describe("QuestionsTable Component", () => {
     it("should pass all undefined filters to the table header when no filter is active.", () => {
       const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
 
-      expect(header.props("filters")).toStrictEqual(createFakeQuestionsTableFilters({ status: undefined, category: undefined, cognitiveDifficulty: undefined }));
+      expect(header.props("filters")).toStrictEqual(createFakeQuestionsTableFilters({ status: undefined, category: undefined, cognitiveDifficulty: undefined, themeIds: [] }));
     });
 
     it("should call fetchAndStoreQuestions with status query when the header emits update:filter with status.", async() => {
@@ -390,6 +390,7 @@ describe("QuestionsTable Component", () => {
         "status": "active",
         "category": undefined,
         "cognitive-difficulty": undefined,
+        "theme-ids": [] as string[],
       } as AdminFindQuestionsQueryDto);
     });
 
@@ -402,6 +403,7 @@ describe("QuestionsTable Component", () => {
         "status": undefined,
         "category": "trivia",
         "cognitive-difficulty": undefined,
+        "theme-ids": [] as string[],
       } as AdminFindQuestionsQueryDto);
     });
 
@@ -414,6 +416,7 @@ describe("QuestionsTable Component", () => {
         "status": undefined,
         "category": undefined,
         "cognitive-difficulty": "easy",
+        "theme-ids": [] as string[],
       } as AdminFindQuestionsQueryDto);
     });
 
@@ -426,6 +429,7 @@ describe("QuestionsTable Component", () => {
         "status": "active",
         "category": "trivia",
         "cognitive-difficulty": "easy",
+        "theme-ids": [] as string[],
       } as AdminFindQuestionsQueryDto);
     });
 
@@ -441,7 +445,49 @@ describe("QuestionsTable Component", () => {
         "status": undefined,
         "category": undefined,
         "cognitive-difficulty": undefined,
+        "theme-ids": [] as string[],
       } as AdminFindQuestionsQueryDto);
+    });
+
+    it("should call fetchAndStoreQuestions with theme-ids query when the header emits update:filter with themeIds.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { themeIds: ["theme-1", "theme-2"] });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": undefined,
+        "category": undefined,
+        "cognitive-difficulty": undefined,
+        "theme-ids": ["theme-1", "theme-2"],
+      } as AdminFindQuestionsQueryDto);
+    });
+
+    it("should call fetchAndStoreQuestions with combined query when multiple filters including themeIds are set.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { status: "active", category: "trivia", cognitiveDifficulty: "easy", themeIds: ["theme-1"] });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": "active",
+        "category": "trivia",
+        "cognitive-difficulty": "easy",
+        "theme-ids": ["theme-1"],
+      } as AdminFindQuestionsQueryDto);
+    });
+
+    it("should pass themeIds in header filters to the table header when themes are selected.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { themeIds: ["theme-1"] });
+      await nextTick();
+
+      const expectedFilters = createFakeQuestionsTableFilters({
+        status: undefined,
+        category: undefined,
+        cognitiveDifficulty: undefined,
+        themeIds: ["theme-1"],
+      });
+
+      expect(header.props("filters")).toStrictEqual(expectedFilters);
     });
   });
 

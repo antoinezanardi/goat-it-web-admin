@@ -8,6 +8,7 @@ function createFakeQuestionsTableFilters(filters: Partial<QuestionsTableFilters>
     status: faker.helpers.arrayElement(QUESTION_STATUSES),
     category: faker.helpers.arrayElement(QUESTION_CATEGORIES),
     cognitiveDifficulty: faker.helpers.arrayElement(QUESTION_COGNITIVE_DIFFICULTIES),
+    themeIds: [],
     ...filters,
   };
 }

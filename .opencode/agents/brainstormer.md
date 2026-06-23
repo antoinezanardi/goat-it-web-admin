@@ -8,6 +8,7 @@ permission:
   edit:
     "*": "deny"
     "docs/superpowers/specs/**": "allow"
+    ".superpowers/brainstorm/**": "allow"
 ---
 
 You are the brainstormer. You turn ideas into fully formed designs through natural collaborative dialogue.

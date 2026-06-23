@@ -4,6 +4,8 @@ import type { TableFilterSelectAllItem, TableFilterSelectEmits, TableFilterSelec
 const props = withDefaults(defineProps<TableFilterSelectProps<T>>(), {
   icon: undefined,
   placeholder: undefined,
+  multiple: false,
+  loading: false,
 });
 
 const emit = defineEmits<TableFilterSelectEmits<T>>();
@@ -15,17 +17,16 @@ const allItemsSelectOption = computed<TableFilterSelectAllItem>(() => ({
   value: undefined,
 }));
 
-const selectOptions = computed<(TableFilterSelectItem | TableFilterSelectAllItem)[]>(() => [
-  allItemsSelectOption.value,
-  ...props.items,
-]);
+const selectOptions = computed<(TableFilterSelectItem | TableFilterSelectAllItem)[]>(() => (props.multiple ? props.items : [allItemsSelectOption.value, ...props.items]));
 
-const selectMenuModelValue = computed<string | undefined>(() => props.modelValue);
+const placeholderText = computed<string>(() => (props.placeholder ?? t("common.table.filters.all")));
 
-function onUpdateModelValue(value: string | undefined): void {
-  // Acceptable as USelectMenu emits string, but we only provide T values as items
-  // oxlint-disable-next-line no-unsafe-type-assertion
-  emit("update:modelValue", value as T | undefined);
+function onUpdateModelValue(value: string | (string | undefined)[] | undefined): void {
+  if (props.multiple) {
+    emit("update:modelValue", value as T[]);
+  } else {
+    emit("update:modelValue", value as T | undefined);
+  }
 }
 </script>
 
@@ -39,8 +40,10 @@ function onUpdateModelValue(value: string | undefined): void {
     <USelectMenu
       :icon="icon"
       :items="selectOptions"
-      :model-value="selectMenuModelValue"
-      :placeholder="allItemsSelectOption.label"
+      :loading="loading"
+      :model-value="modelValue"
+      :multiple="multiple"
+      :placeholder="placeholderText"
       value-key="value"
       @update:model-value="onUpdateModelValue"
     />

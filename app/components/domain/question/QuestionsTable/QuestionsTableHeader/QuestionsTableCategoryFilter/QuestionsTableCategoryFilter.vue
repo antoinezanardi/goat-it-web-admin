@@ -21,8 +21,8 @@ const categoryItems = computed<TableFilterSelectItem<QuestionCategory>[]>(() => 
   };
 }));
 
-function onUpdateModelValue(value: QuestionCategory | undefined): void {
-  emit("update:modelValue", value);
+function onUpdateModelValue(value: QuestionCategory | QuestionCategory[] | undefined): void {
+  emit("update:modelValue", value as QuestionCategory | undefined);
 }
 </script>
 
