@@ -6,6 +6,7 @@ import { nextTick } from "vue";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
+import { createFakeTableFilterSelectItem } from "~~/tests/unit/utils/faketories/shared/table-filter-select/table-filter-select-item.faketory.ts";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
@@ -22,17 +23,20 @@ describe("QuestionsTableThemeFilter Component", () => {
 
   const fakeActiveThemeOne = createFakeQuestionTheme({
     id: "theme-1",
+    slug: "history-civilizations",
     status: "active",
     label: { en: "Geography", fr: "Géographie", es: undefined, de: undefined, it: undefined, pt: undefined },
   });
   const fakeActiveThemeTwo = createFakeQuestionTheme({
     id: "theme-2",
+    slug: "geography-travels",
     status: "active",
     label: { en: "History", fr: "Histoire", es: undefined, de: undefined, it: undefined, pt: undefined },
   });
   const fakeActiveThemes = [fakeActiveThemeOne, fakeActiveThemeTwo];
   const fakeArchivedTheme = createFakeQuestionTheme({
     id: "theme-3",
+    slug: "animals",
     status: "archived",
     label: { en: "Science", fr: "Science", es: undefined, de: undefined, it: undefined, pt: undefined },
   });
@@ -66,7 +70,6 @@ describe("QuestionsTableThemeFilter Component", () => {
   });
 
   it("should pass only active themes as items to the table filter select when mounted.", async() => {
-    createWrapper();
     questionThemesStore.questionThemes = [...fakeActiveThemes, fakeArchivedTheme];
     wrapper = await mountQuestionsTableThemeFilterComponent();
 
@@ -77,7 +80,6 @@ describe("QuestionsTableThemeFilter Component", () => {
   });
 
   it("should pass only active theme ids as item values to the table filter select when mounted.", async() => {
-    createWrapper();
     questionThemesStore.questionThemes = [...fakeActiveThemes, fakeArchivedTheme];
     wrapper = await mountQuestionsTableThemeFilterComponent();
 
@@ -88,25 +90,23 @@ describe("QuestionsTableThemeFilter Component", () => {
   });
 
   it("should use the first theme localized label as the first item label when mounted.", async() => {
-    createWrapper();
     questionThemesStore.questionThemes = fakeActiveThemes;
     wrapper = await mountQuestionsTableThemeFilterComponent();
 
     const filterSelect = wrapper.findComponent<typeof TableFilterSelect>({ name: "TableFilterSelect" });
     const items = filterSelect.props("items") as { label: string; value: string }[];
 
-    expect(items[0]).toStrictEqual({ label: "Geography", value: "theme-1" });
+    expect(items[0]).toStrictEqual({ label: "Geography", value: "theme-1", icon: "i-lucide-landmark" });
   });
 
   it("should use the second theme localized label as the second item label when mounted.", async() => {
-    createWrapper();
     questionThemesStore.questionThemes = fakeActiveThemes;
     wrapper = await mountQuestionsTableThemeFilterComponent();
 
     const filterSelect = wrapper.findComponent<typeof TableFilterSelect>({ name: "TableFilterSelect" });
     const items = filterSelect.props("items") as { label: string; value: string }[];
 
-    expect(items[1]).toStrictEqual({ label: "History", value: "theme-2" });
+    expect(items[1]).toStrictEqual({ label: "History", value: "theme-2", icon: "i-lucide-globe" });
   });
 
   it("should pass the translated themes field label to the table filter select when mounted.", () => {
@@ -129,7 +129,6 @@ describe("QuestionsTableThemeFilter Component", () => {
   });
 
   it("should pass isFetchingQuestionThemes as loading to the table filter select when mounted.", async() => {
-    createWrapper();
     questionThemesStore.isFetchingQuestionThemes = true;
     wrapper = await mountQuestionsTableThemeFilterComponent();
     const filterSelect = wrapper.findComponent<typeof TableFilterSelect>({ name: "TableFilterSelect" });
@@ -145,8 +144,23 @@ describe("QuestionsTableThemeFilter Component", () => {
     expect(wrapper.emitted("update:modelValue")).toStrictEqual([[["theme-1", "theme-2"]]]);
   });
 
+  it("should emit update:modelValue with a wrapped array when the table filter select emits a string value.", () => {
+    const filterSelect = wrapper.findComponent<typeof TableFilterSelect>({ name: "TableFilterSelect" });
+
+    getWrapperVm(filterSelect).$emit("update:modelValue", "theme-1");
+
+    expect(wrapper.emitted("update:modelValue")).toStrictEqual([[["theme-1"]]]);
+  });
+
+  it("should emit update:modelValue with an empty array when the table filter select emits undefined.", () => {
+    const filterSelect = wrapper.findComponent<typeof TableFilterSelect>({ name: "TableFilterSelect" });
+
+    getWrapperVm(filterSelect).$emit("update:modelValue", undefined);
+
+    expect(wrapper.emitted("update:modelValue")).toStrictEqual([[[]]]);
+  });
+
   it("should use the missing theme translation key when a theme has no label for the current locale.", async() => {
-    createWrapper();
     questionThemesStore.questionThemes = [
       createFakeQuestionTheme({
         id: "theme-missing",
@@ -160,9 +174,12 @@ describe("QuestionsTableThemeFilter Component", () => {
     const items = filterSelect.props("items") as { label: string; value: string }[];
 
     await nextTick();
+    const expectedQuestionTheme = createFakeTableFilterSelectItem({
+      icon: "i-lucide-circle-help",
+      label: "questions.missingThemeTranslation",
+      value: "theme-missing",
+    });
 
-    // Acceptable as items[0] is guaranteed to exist in this test context
-    // oxlint-disable-next-line no-unsafe-type-assertion
-    expect((items[0] as { label: string; value: string }).label).toBe("questions.missingThemeTranslation");
+    expect(items[0]).toStrictEqual(expectedQuestionTheme);
   });
 });

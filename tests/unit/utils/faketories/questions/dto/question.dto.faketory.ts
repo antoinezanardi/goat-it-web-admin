@@ -43,10 +43,7 @@ function createFakeAdminFindQuestionsQueryDto(dto: Partial<AdminFindQuestionsQue
     "category": faker.helpers.arrayElement(QUESTION_CATEGORIES),
     "cognitive-difficulty": faker.helpers.arrayElement(QUESTION_COGNITIVE_DIFFICULTIES),
     "author-role": faker.helpers.arrayElement(QUESTION_AUTHOR_ROLES),
-    "theme-ids": faker.helpers.arrayElements(
-      Array.from({ length: 5 }, () => faker.database.mongodbObjectId()),
-      { min: 0, max: 4 },
-    ),
+    "theme-ids": [faker.database.mongodbObjectId()],
     ...dto,
   };
 }

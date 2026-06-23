@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { QUESTION_THEME_SLUG_ICON_MAP, QUESTION_THEME_UNKNOWN_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants";
+import { getThemeIcon } from "~/composables/domain/question-theme/helpers/question-theme.helpers";
 import type { QuestionThemeIconProps } from "~/components/domain/question-theme/QuestionThemeIcon/question-theme-icon.types";
 
 const props = defineProps<QuestionThemeIconProps>();
 
-const icon = computed<string>(() => QUESTION_THEME_SLUG_ICON_MAP[props.slug] ?? QUESTION_THEME_UNKNOWN_ICON);
+const icon = computed<string>(() => getThemeIcon(props.slug));
 
 const colorReference = computed<string | undefined>(() => props.color);
 const { adaptedColor } = useHexColor(colorReference);

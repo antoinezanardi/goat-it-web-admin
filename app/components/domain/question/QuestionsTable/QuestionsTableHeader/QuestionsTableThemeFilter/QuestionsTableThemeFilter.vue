@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getThemeLocalizedLabel } from "~/composables/domain/question-theme/helpers/question-theme.helpers";
+import { getThemeIcon, getThemeLocalizedLabel } from "~/composables/domain/question-theme/helpers/question-theme.helpers";
 import type { TableFilterSelectItem } from "~/components/shared/table/TableFilterSelect/table-filter-select.types";
 import type { QuestionsTableThemeFilterEmits, QuestionsTableThemeFilterProps } from "~/components/domain/question/QuestionsTable/QuestionsTableHeader/QuestionsTableThemeFilter/questions-table-theme-filter.types";
 
@@ -10,15 +10,22 @@ const { t, locale } = useI18n();
 const questionThemesStore = useQuestionThemesStore();
 const { questionThemes, isFetchingQuestionThemes } = storeToRefs(questionThemesStore);
 
-const activeThemes = computed(() => questionThemes.value.filter(theme => theme.status === "active"));
+const activeThemes = computed<QuestionTheme[]>(() => questionThemes.value.filter(theme => theme.status === "active"));
 
-const themeItems = computed<TableFilterSelectItem<string>[]>(() => activeThemes.value.map(theme => ({
+const themeItems = computed<TableFilterSelectItem[]>(() => activeThemes.value.map(theme => ({
   label: getThemeLocalizedLabel(theme, locale.value, t("questions.missingThemeTranslation")),
   value: theme.id,
+  icon: getThemeIcon(theme.slug),
 })));
 
 function onUpdateModelValue(value: string | string[] | undefined): void {
-  emit("update:modelValue", value as string[]);
+  if (Array.isArray(value)) {
+    emit("update:modelValue", value);
+  } else if (typeof value === "string") {
+    emit("update:modelValue", [value]);
+  } else {
+    emit("update:modelValue", []);
+  }
 }
 </script>
 
