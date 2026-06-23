@@ -19,7 +19,7 @@ const allItemsSelectOption = computed<TableFilterSelectAllItem>(() => ({
 
 const selectOptions = computed<(TableFilterSelectItem | TableFilterSelectAllItem)[]>(() => (props.multiple ? props.items : [allItemsSelectOption.value, ...props.items]));
 
-const placeholderText = computed<string>(() => (props.multiple ? props.label : allItemsSelectOption.value.label));
+const placeholderText = computed<string>(() => (props.placeholder ?? t("common.table.filters.all")));
 
 function onUpdateModelValue(value: string | (string | undefined)[] | undefined): void {
   if (props.multiple) {

@@ -156,12 +156,6 @@ describe("TableFilterSelect Component", () => {
       expect(selectMenu.props("loading")).toBe(true);
     });
 
-    it("should pass the label as placeholder to the select menu when multiple is true.", () => {
-      const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
-
-      expect(selectMenu.props("placeholder")).toBe("Themes");
-    });
-
     it("should pass an empty array as modelValue to the select menu when no value is selected.", () => {
       const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
 
