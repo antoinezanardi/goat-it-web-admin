@@ -3,6 +3,11 @@
   "model": "opencode-go/deepseek-v4-pro",
   "small_model": "opencode-go/deepseek-v4-flash",
   "default_agent": "orchestrator",
+  "agent": {
+    "explore": {
+      "model": "opencode-go/deepseek-v4-flash"
+    }
+  },
   "provider": {
     "opencode-go": {
       "options": {

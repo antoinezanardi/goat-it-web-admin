@@ -48,6 +48,8 @@ You are the plan writer. You turn an approved spec into a complete, executable i
 - **Complete code in every step** — if a step changes code, show the code.
 - **Exact commands with expected output.**
 - **DRY, YAGNI, TDD.**
+- **Each task tests only its own files.** Never run `pnpm run test:unit:cov` or the full test suite. Use `pnpm run test:unit <path/to/test.spec.ts>` for focused tests.
+- **No full quality gates in the plan.** The orchestrator runs `lint:fix` → `typecheck` → `test:unit:cov` → `test:acceptance` at the end of the cycle. Tasks should only run focused checks (e.g., lint/typecheck on modified files, focused unit tests).
 
 ## Before writing the plan
 
@@ -98,6 +100,13 @@ Expected: FAIL with "function not defined"
 Run: `pnpm run test:unit path/to/test.spec.ts`
 Expected: PASS
 
+When acceptance (BDD) scenarios are part of the task, use `--tags` instead of feature file paths:
+```
+- [ ] **Step 4: Run acceptance test to verify it passes**
+Run: `pnpm run test:acceptance --tags "@feature-tag or @scenario-tag"`
+Expected: The tagged scenario passes
+```
+
 ### Task 2: ...
 ```
 
@@ -121,7 +130,7 @@ Expected: PASS
 1. **Spec coverage:** every requirement → a task. List gaps.
 2. **Placeholder scan:** any "TBD" / vague step? Fix.
 3. **Type consistency:** signatures match across tasks? A function called `clearLayers()` in Task 3 but `clearFullLayers()` in Task 7 = bug.
-4. **Test coverage:** every task has tests, follows 5 Vitest projects rule.
+4. **Test coverage:** every task has tests for its own files only, follows 5 Vitest projects rule. No full `test:unit:cov` run in any task.
 
 Fix issues inline. No re-review.
 

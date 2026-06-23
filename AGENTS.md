@@ -40,8 +40,6 @@ Running acceptance tests:
 
 - Full run (build + test):  `pnpm run test:acceptance`
 - Build only:               `pnpm run test:acceptance:build`
-- Specific feature:         `pnpm run test:acceptance tests/acceptance/features/home/home.feature`
-- Specific scenario (line): `pnpm run test:acceptance tests/acceptance/features/home/home.feature:8`
 - By scenario name:         `pnpm run test:acceptance --name "should display"`
 - By tag:                   `pnpm run test:acceptance --tags "@question-themes"`
 - Multiple tags (OR):       `pnpm run test:acceptance --tags "@home or @questions"`
@@ -57,6 +55,8 @@ before considering any task complete. **Do NOT skip any gate**, even for "trivia
 4. `pnpm run test:acceptance`
 
 If any gate fails, fix the issue and re-run from that gate onward until all four pass.
+
+> **Orchestrator runs the full gate.** Per-task agents (implementer, plan-writer) must NOT run the full `test:unit:cov` or `test:acceptance` suite — only focused tests on their own files. The orchestrator is the sole executor of all 4 gates at the end of the cycle.
 
 ## Repository structure
 
