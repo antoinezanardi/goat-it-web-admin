@@ -102,12 +102,8 @@ Expected: PASS
 
 When acceptance (BDD) scenarios are part of the task, use `--tags` instead of feature file paths:
 ```
-- [ ] **Step 2: Run acceptance test to verify it fails**
-Run: `pnpm run test:acceptance --tags "@feature-tag"`
-Expected: The tagged scenario fails
-
 - [ ] **Step 4: Run acceptance test to verify it passes**
-Run: `pnpm run test:acceptance --tags "@feature-tag"`
+Run: `pnpm run test:acceptance --tags "@feature-tag or @scenario-tag"`
 Expected: The tagged scenario passes
 ```
 
