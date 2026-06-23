@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { QuestionCreationDto, QuestionModificationDto } from "@goat-it/schemas/question";
+import { nextTick, watch } from "vue";
 
 import { QUESTION_FORM_MODAL_UI } from "~/components/domain/question/QuestionFormModal/question-form-modal.constants";
 import type { QuestionFormModalEmits, QuestionFormModalProps } from "~/components/domain/question/QuestionFormModal/question-form-modal.types";
@@ -15,6 +16,19 @@ const props = withDefaults(defineProps<QuestionFormModalProps>(), {
 const emit = defineEmits<QuestionFormModalEmits>();
 
 const open = defineModel<boolean>("open", { default: false });
+
+watch(open, async isOpen => {
+  if (!isOpen) {return;}
+
+  // Retry until the lazy modal has mounted and the form ref is available
+  for (let i = 0; i < 10; i++) {
+    await nextTick();
+    if (formReference.value) {
+      await formReference.value.focusFirstField();
+      return;
+    }
+  }
+});
 
 const formReference = useTemplateRef<InstanceType<typeof QuestionForm>>("formReference");
 
@@ -43,7 +57,7 @@ function onCloseModal(): void {
 </script>
 
 <template>
-  <LazyUModal
+  <UModal
     v-model:open="open"
     :close="!isSubmitting"
     :dismissible="!isSubmitting"
@@ -81,5 +95,5 @@ function onCloseModal(): void {
         @primary-button-click="onClickFromFooterPrimaryButton"
       />
     </template>
-  </LazyUModal>
+  </UModal>
 </template>

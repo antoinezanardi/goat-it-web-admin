@@ -128,3 +128,21 @@ Feature: ❓ Question Creation
       | What is H2O?      | Water  | H2O is the most common substance | hard       | Knowledge & fun facts | Science | https://example.com |
     And the user clicks on the button with name "Create"
     Then the toast with exact text "Question created successfully" should be visible
+
+  Scenario: ❓ Question creation modal autofocuses the statement field
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    Then the input with name "Statement*" should be focused
+
+  Scenario: ❓ Question form submits with Meta+Enter shortcut
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label     | slug      | description       | aliases |
+      | Geography | geography | A geography theme | geo     |
+    And the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | statement                      | answer | difficulty | category | themes    | sourceUrls                      |
+      | What is the capital of France? | Paris  | easy       | Knowledge & fun facts | Geography | https://en.wikipedia.org/France |
+    And the user presses the "Meta+Enter" key
+    Then the toast with exact text "Question created successfully" should be visible

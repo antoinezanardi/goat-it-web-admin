@@ -33,6 +33,10 @@ permission:
     "rtk tail *": "allow"
     "mkdir *": "allow"
     "rtk mkdir *": "allow"
+    "write-file *": "allow"
+    "rtk write-file *": "allow"
+    "sed *": "allow"
+    "rtk sed *": "allow"
   task: deny
   webfetch: deny
 ---
@@ -124,6 +128,7 @@ Expected: The tagged scenario passes
 - TypeScript: `any` is forbidden; use `unknown` + narrowing
 - No `console.log` in production; use `useAppToast` for user-facing messages
 - 100% test coverage (every line, branch, function)
+- Always **ONE** assertion per unit test, split into multiple tests if needed
 
 ## Self-review (mandatory after writing)
 

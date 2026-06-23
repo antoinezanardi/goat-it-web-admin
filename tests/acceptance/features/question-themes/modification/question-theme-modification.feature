@@ -72,3 +72,11 @@ Feature: 🎨 Question Theme Modification
     Then the heading with exact name "Edit theme" should be visible
     When the user clicks on the close button in the modal footer
     Then the heading with exact name "Edit theme" should be hidden
+
+  Scenario: 🎨 Question theme modification modal autofocuses the label field
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label      | slug       | description  | aliases |
+      | Test Theme | test-theme | A test theme | test    |
+    When the user clicks on the button with exact name "Edit question theme with slug test-theme"
+    Then the input with name "Label*" should be focused

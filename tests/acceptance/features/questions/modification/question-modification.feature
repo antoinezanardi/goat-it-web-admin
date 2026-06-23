@@ -31,3 +31,6 @@ Feature: ❓ Question Modification
   Scenario: ❓ Question modification modal closes without saving when clicking close button in the modal footer
     When the user clicks on the close button in the modal footer
     Then the heading with exact name "Edit question" should be hidden
+
+  Scenario: ❓ Question modification modal autofocuses the statement field
+    Then the input with name "Statement*" should be focused

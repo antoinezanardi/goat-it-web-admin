@@ -81,7 +81,7 @@ describe("DefaultModalFooter Component", () => {
       it("should pass the primaryButtonLabel prop to the primary button when mounted.", () => {
         const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-primary-button']");
 
-        expect(primaryButton.text()).toBe("common.create");
+        expect(primaryButton.props("label")).toBe("common.create");
       });
     });
 
@@ -136,6 +136,68 @@ describe("DefaultModalFooter Component", () => {
 
         expect(wrapper.emitted("primaryButtonClick")).toBeDefined();
       });
+    });
+  });
+
+  describe("Shortcut display", () => {
+    function findPrimaryButtonKbdComponents(): { props: (key: string) => unknown }[] {
+      const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-primary-button']");
+
+      return primaryButton.findAllComponents({ name: "UKbd" }) as unknown as { props: (key: string) => unknown }[];
+    }
+
+    it("should render two UKbd components in the trailing slot when mounted.", () => {
+      const kbdComponents = findPrimaryButtonKbdComponents();
+
+      expect(kbdComponents).toHaveLength(2);
+    });
+
+    it("should render UKbd with meta value when mounted.", () => {
+      const kbdComponents = findPrimaryButtonKbdComponents();
+
+      expect(kbdComponents[0]?.props("value")).toBe("meta");
+    });
+
+    it("should render UKbd with enter value when mounted.", () => {
+      const kbdComponents = findPrimaryButtonKbdComponents();
+
+      expect(kbdComponents[1]?.props("value")).toBe("enter");
+    });
+
+    it("should render UKbd components with sm size when mounted.", () => {
+      const kbdComponents = findPrimaryButtonKbdComponents();
+
+      const hasAllSmSize = kbdComponents.every(kbd => kbd.props("size") === "sm");
+
+      expect(hasAllSmSize).toBeTruthy();
+    });
+  });
+
+  describe("Keyboard shortcut", () => {
+    function dispatchMetaEnterKeydown(): void {
+      globalThis.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", ctrlKey: true, bubbles: true }));
+    }
+
+    it("should emit primaryButtonClick when meta+enter is pressed and primary button is enabled.", () => {
+      dispatchMetaEnterKeydown();
+
+      expect(wrapper.emitted("primaryButtonClick")).toBeDefined();
+    });
+
+    it("should not emit primaryButtonClick when meta+enter is pressed and primary button is disabled.", async() => {
+      await wrapper.setProps({ isPrimaryButtonDisabled: true });
+
+      dispatchMetaEnterKeydown();
+
+      expect(wrapper.emitted("primaryButtonClick")).toBeUndefined();
+    });
+
+    it("should not emit primaryButtonClick when meta+enter is pressed and primary button is loading.", async() => {
+      await wrapper.setProps({ isPrimaryButtonLoading: true });
+
+      dispatchMetaEnterKeydown();
+
+      expect(wrapper.emitted("primaryButtonClick")).toBeUndefined();
     });
   });
 });

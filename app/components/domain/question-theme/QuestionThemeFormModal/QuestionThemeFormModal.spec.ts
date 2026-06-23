@@ -2,10 +2,11 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { flushPromises } from "@vue/test-utils";
 import type { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 
@@ -294,6 +295,47 @@ describe("QuestionThemeFormModal Component", () => {
       const indicator = wrapper.findComponent({ name: "QuestionThemeTranslationCompletenessIndicator" });
 
       expect(indicator.exists()).toBeFalsy();
+    });
+  });
+
+  describe("Auto-focus", () => {
+    type QuestionThemeFormVm = ComponentVm & {
+      focusFirstField: () => Promise<void>;
+    };
+
+    it("should call focusFirstField on the form when open becomes true.", async() => {
+      wrapper = await mountQuestionThemeFormModalComponent({
+        props: {
+          ...defaultQuestionThemeFormModalProps,
+          open: false,
+        },
+      });
+
+      await wrapper.setProps({ open: true });
+
+      const formReference = getWrapperVm(wrapper).$.refs.formReference as unknown as QuestionThemeFormVm;
+      const focusFirstFieldSpy = vi.spyOn(formReference, "focusFirstField").mockResolvedValue();
+      await flushPromises();
+
+      expect(focusFirstFieldSpy).toHaveBeenCalledOnce();
+    });
+
+    it("should not call focusFirstField on the form when open becomes false.", async() => {
+      wrapper = await mountQuestionThemeFormModalComponent({
+        props: {
+          ...defaultQuestionThemeFormModalProps,
+          open: true,
+        },
+      });
+
+      const formReference = getWrapperVm(wrapper).$.refs.formReference as unknown as QuestionThemeFormVm;
+      const focusFirstFieldSpy = vi.spyOn(formReference, "focusFirstField").mockResolvedValue();
+      await flushPromises();
+
+      await wrapper.setProps({ open: false });
+      await flushPromises();
+
+      expect(focusFirstFieldSpy).not.toHaveBeenCalled();
     });
   });
 });

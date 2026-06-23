@@ -2,7 +2,7 @@ import { createTestingPinia } from "@pinia/testing";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 import { createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
@@ -23,6 +23,7 @@ import type { QuestionFormProps } from "~/components/domain/question/QuestionFor
 
 type QuestionFormVm = ComponentVm & {
   canSubmit: boolean;
+  focusFirstField: () => Promise<void>;
   triggerFormSubmit: () => Promise<void>;
 };
 
@@ -310,6 +311,24 @@ describe("QuestionForm Component", () => {
       const triviaInput = wrapper.findComponent<typeof QuestionTriviaInput>("[data-testid='question-trivia-input']");
 
       expect(triviaInput.exists()).toBe(false);
+    });
+  });
+
+  describe("Exposed focusFirstField", () => {
+    it("should focus the statement input when focusFirstField is called.", async() => {
+      const vm = getWrapperVm<QuestionFormVm>(wrapper);
+      const focusSpy = vi.fn<() => void>();
+      vm.$.refs.statementInput = { inputRef: { value: { focus: focusSpy } } } as unknown as Element;
+      await vm.focusFirstField();
+
+      expect(focusSpy).toHaveBeenCalledExactlyOnceWith();
+    });
+
+    it("should not throw when focusFirstField is called and statement input ref is null.", async() => {
+      const vm = getWrapperVm<QuestionFormVm>(wrapper);
+      vm.$.refs.statementInput = null;
+
+      await expect(vm.focusFirstField()).resolves.toBeUndefined();
     });
   });
 

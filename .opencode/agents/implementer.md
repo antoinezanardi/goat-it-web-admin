@@ -45,6 +45,8 @@ permission:
     "rtk tail *": "allow"
     "head *": "allow"
     "rtk head *": "allow"
+    "echo *": "allow"
+    "rtk echo *": "allow"
   task: deny
   webfetch: deny
 ---

@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type { UInput } from "#components";
 import type { FormSubmitEvent, FormError } from "@nuxt/ui";
 import { QUESTION_THEME_CREATION_DTO, QUESTION_THEME_MODIFICATION_DTO } from "@goat-it/schemas/question-theme";
 import type { QuestionThemeCreationDto, QuestionThemeModificationDto } from "@goat-it/schemas/question-theme";
+import { nextTick } from "vue";
 
 import type { QuestionThemeCreationDtoShell } from "#shared/types/question-theme.types";
 import type { Form } from "#ui/types";
@@ -20,6 +22,7 @@ const emit = defineEmits<QuestionThemeFormEmits>();
 const { locale: currentLocale, t } = useI18n();
 
 const form = useTemplateRef<Form<QuestionThemeCreationDto | QuestionThemeModificationDto>>("form");
+const labelInput = useTemplateRef<InstanceType<typeof UInput>>("labelInput");
 
 function createInitialFormState(): QuestionThemeCreationDtoShell {
   if (props.mode !== "edit" || !props.questionTheme) {
@@ -82,12 +85,18 @@ async function triggerFormSubmit(): Promise<void> {
   }
 }
 
+async function focusFirstField(): Promise<void> {
+  await nextTick();
+  labelInput.value?.inputRef?.focus();
+}
+
 function removeAliasTooltipText(item: string): string {
   return t("questionThemes.form.removeAlias", { value: item });
 }
 
 defineExpose({
   canSubmit,
+  focusFirstField,
   triggerFormSubmit,
 });
 </script>
@@ -110,6 +119,7 @@ defineExpose({
         required
       >
         <UInput
+          ref="labelInput"
           v-model="formState.label[currentLocale]"
           class="w-full"
           :placeholder="$t('questionThemes.placeholders.label')"
