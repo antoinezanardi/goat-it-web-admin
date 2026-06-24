@@ -1,5 +1,5 @@
 ---
-description: Runs the full quality gate (lint → typecheck → unit → acceptance → optional mutation) with auto-fix for the goat-it-web-admin project. Dispatched by orchestrator after all tasks, or by receiving-code-review after applying fixes.
+description: Runs the full quality gate (lint → typecheck → unit → optional mutation → acceptance) with auto-fix for the goat-it-web-admin project. Dispatched by orchestrator after all tasks, or by receiving-code-review after applying fixes.
 mode: subagent
 model: opencode-go/deepseek-v4-flash
 temperature: 0.2

@@ -50,8 +50,7 @@ Running acceptance tests:
 > `pnpm run test:acceptance --tags "@feature-tag"`
 > Always build fresh (do not use `test:acceptance:skip-build`).
 
-**Mandatory quality gates** — agents MUST run all four commands below **in order**
-before considering any task complete. **Do NOT skip any gate**, even for "trivial" changes:
+**Mandatory quality gates** — the orchestrator (via the gatekeeper agent) runs these four commands **in order** before considering any task complete. **Do NOT skip any gate**, even for "trivial" changes:
 
 1. `pnpm run lint:fix`
 2. `pnpm run typecheck`

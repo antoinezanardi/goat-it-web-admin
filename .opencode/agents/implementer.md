@@ -76,6 +76,7 @@ If anything is unclear (requirements, approach, dependencies, assumptions) — *
 1. **Do not** commit.
 2. **Do not** run the FULL quality gate checks **UNLESS** it is stated in the task steps. The orchestrator will run them at the end of the cycle.
 3. **Do not** run the full test suite coverage unless it is stated in the task steps. Your job is to run the tests only on your tasks files.
+4. **Do not** run acceptance tests without scoping them to a tag. Acceptance tests are **HEAVY** (full server build + Playwright). If you need to run them, always use `pnpm run test:acceptance --tags "@feature-tag"` where the tag matches the scenarios you created or modified.
 
 ## Project-specific rules (goat-it-web-admin)
 
