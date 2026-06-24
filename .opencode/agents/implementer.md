@@ -65,7 +65,7 @@ If anything is unclear (requirements, approach, dependencies, assumptions) — *
 2. Run all related tests — verify no regression
 3. If some tests fail, try to fix them. If you can't, report `BLOCKED` or `NEEDS_CONTEXT`.
 4. Self-review (see below) — the final-reviewer will check cross-task consistency, naming, architecture, and code conventions across the full branch later. Ensure names are precise and patterns match the existing codebase.
-5. Run minimal mandatory fast quality gate checks listed below and fix until they pass:
+5. Run minimal mandatory fast quality gate checks listed below in sequence and fix any issues:
    - `pnpm run typecheck`
    - `pnpm run lint:oxlint:fix <full-path-modified-files>` (on modified files only)
    - `pnpm run lint:eslint:fix <full-path-modified-files>` (on modified files only)
@@ -76,6 +76,7 @@ If anything is unclear (requirements, approach, dependencies, assumptions) — *
 1. **Do not** commit.
 2. **Do not** run the FULL quality gate checks **UNLESS** it is stated in the task steps. The orchestrator will run them at the end of the cycle.
 3. **Do not** run the full test suite coverage unless it is stated in the task steps. Your job is to run the tests only on your tasks files.
+4. **Do not** run acceptance tests without scoping them to a tag. Acceptance tests are **HEAVY** (full server build + Playwright). If you need to run them, always use `pnpm run test:acceptance --tags "@feature-tag"` where the tag matches the scenarios you created or modified.
 
 ## Project-specific rules (goat-it-web-admin)
 

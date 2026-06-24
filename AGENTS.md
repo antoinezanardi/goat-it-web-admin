@@ -46,8 +46,11 @@ Running acceptance tests:
 - Exclude tag:              `pnpm run test:acceptance --tags "not @accessibility"`
 - By tag (AND):             `pnpm run test:acceptance --tags "@question-themes and @accessibility"`
 
-**Mandatory quality gates** — agents MUST run all four commands below **in order**
-before considering any task complete. **Do NOT skip any gate**, even for "trivial" changes:
+> **Per-task agents** should scope acceptance tests to their changes with `--tags`:
+> `pnpm run test:acceptance --tags "@feature-tag"`
+> Always build fresh (do not use `test:acceptance:skip-build`).
+
+**Mandatory quality gates** — the orchestrator (via the gatekeeper agent) runs these four commands **in order** before considering any task complete. **Do NOT skip any gate**, even for "trivial" changes:
 
 1. `pnpm run lint:fix`
 2. `pnpm run typecheck`
@@ -56,7 +59,10 @@ before considering any task complete. **Do NOT skip any gate**, even for "trivia
 
 If any gate fails, fix the issue and re-run from that gate onward until all four pass.
 
-> **Orchestrator runs the full gate.** Per-task agents (implementer, plan-writer) must NOT run the full `test:unit:cov` or `test:acceptance` suite — only focused tests on their own files. The orchestrator is the sole executor of all 4 gates at the end of the cycle.
+> **Orchestrator runs the full gate.** Per-task agents (implementer, plan-writer) must NOT run the full `lint:fix`, `test:unit:cov`, or `test:acceptance` suite — only focused checks on their own files:
+> - Lint: `pnpm run lint:eslint:fix <path>` and `pnpm run lint:oxlint:fix <path>` on modified files
+> - Unit tests: `pnpm run test:unit <path>` on modified files
+> - Acceptance tests: `pnpm run test:acceptance --tags "@tag"` if acceptance scenarios are part of the task
 
 ## Repository structure
 
@@ -152,6 +158,14 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
   - Never swallow exceptions silently — re-throw with context, return typed failure, or log + show i18n UI message.
   - Zod parse errors propagate naturally; do not catch unless you can recover.
   - No `console.log` in production code. `console.error` only for unexpected errors that are caught and handled gracefully.
+
+- **No agent-generated comments in source code.** Agents must never add comments to `.ts`, `.vue`, or other source files unless one of the following applies:
+  1. **Lint disable comments** — following the two-line format described in "Lint disable comments (last resort)" below
+  2. **JSDoc-type documentation** — for public API surfaces, exported functions, and composables
+
+  No explanatory comments, no `// TODO`, no `// FIXME`, no inline notes, no section markers (`// ---`, `// Types:`, `// Helpers`, etc.). Code and tests should be self-documenting through clear naming, small functions, and well-structured files.
+
+  The implementer agent already enforces "No `// TODO` / `// FIXME`" — this extends to all comment types.
 
 - Control flow:
   - Prefer early returns over deeply nested `if/else` blocks. Guard clauses at the top
