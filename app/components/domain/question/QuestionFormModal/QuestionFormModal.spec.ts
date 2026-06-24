@@ -173,6 +173,47 @@ describe("QuestionFormModal Component", () => {
     });
   });
 
+  describe("Auto-focus", () => {
+    type QuestionFormVm = ComponentVm & {
+      focusFirstField: () => Promise<void>;
+    };
+
+    it("should call focusFirstField on the form when open becomes true.", async() => {
+      wrapper = await mountQuestionFormModalComponent({
+        props: {
+          ...defaultQuestionFormModalProps,
+          open: false,
+        },
+      });
+
+      await wrapper.setProps({ open: true });
+
+      const formReference = getWrapperVm(wrapper).$.refs.formReference as unknown as QuestionFormVm;
+      const focusFirstFieldSpy = vi.spyOn(formReference, "focusFirstField").mockResolvedValue();
+      await flushPromises();
+
+      expect(focusFirstFieldSpy).toHaveBeenCalledExactlyOnceWith();
+    });
+
+    it("should not call focusFirstField on the form when open becomes false.", async() => {
+      wrapper = await mountQuestionFormModalComponent({
+        props: {
+          ...defaultQuestionFormModalProps,
+          open: true,
+        },
+      });
+
+      const formReference = getWrapperVm(wrapper).$.refs.formReference as unknown as QuestionFormVm;
+      const focusFirstFieldSpy = vi.spyOn(formReference, "focusFirstField").mockResolvedValue();
+      await flushPromises();
+
+      await wrapper.setProps({ open: false });
+      await flushPromises();
+
+      expect(focusFirstFieldSpy).not.toHaveBeenCalled();
+    });
+  });
+
   describe("Edit mode", () => {
     it("should pass the editQuestion i18n key as title to the default modal title when mode is edit.", async() => {
       wrapper = await mountQuestionFormModalComponent({

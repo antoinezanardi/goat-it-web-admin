@@ -31,3 +31,12 @@ Feature: ❓ Question Modification
   Scenario: ❓ Question modification modal closes without saving when clicking close button in the modal footer
     When the user clicks on the close button in the modal footer
     Then the heading with exact name "Edit question" should be hidden
+
+  Scenario: ❓ Question modification modal autofocuses the statement field
+    Then the input with name "Statement*" should be focused
+
+  Scenario: ❓ Question modification form submits with Meta+Enter shortcut
+    When the user fills the input with name "Statement*" with text "What is the capital of Germany?"
+    And the user fills the input with name "Answer*" with text "Berlin"
+    And the user presses the "Meta+Enter" key
+    Then the toast with exact text "Question modified successfully" should be visible

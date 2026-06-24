@@ -14,6 +14,8 @@ const closeButtonDisplayedLabel = computed<string>(() => {
   return t("common.close");
 });
 
+const canFirePrimary = computed<boolean>(() => !props.isPrimaryButtonDisabled && !props.isPrimaryButtonLoading);
+
 function onClickFromCloseButton(): void {
   emit("closeModal");
 }
@@ -21,6 +23,19 @@ function onClickFromCloseButton(): void {
 function onClickFromPrimaryButton(): void {
   emit("primaryButtonClick");
 }
+
+defineShortcuts({
+  // Acceptable as defineShortcuts uses underscore-separated key names
+  // eslint-disable-next-line camelcase
+  meta_enter: {
+    handler: () => {
+      if (canFirePrimary.value) {
+        onClickFromPrimaryButton();
+      }
+    },
+    usingInput: true,
+  },
+});
 </script>
 
 <template>
@@ -35,12 +50,27 @@ function onClickFromPrimaryButton(): void {
     />
 
     <UButton
+      :aria-label="primaryButtonLabel"
       data-testid="default-modal-footer-primary-button"
       :disabled="isPrimaryButtonDisabled"
       :icon="primaryButtonIcon"
       :label="primaryButtonLabel"
       :loading="isPrimaryButtonLoading"
       @click="onClickFromPrimaryButton"
-    />
+    >
+      <template #trailing>
+        <UKbd
+          data-testid="default-modal-footer-primary-button-shortcut-meta"
+          size="sm"
+          value="meta"
+        />
+
+        <UKbd
+          data-testid="default-modal-footer-primary-button-shortcut-enter"
+          size="sm"
+          value="enter"
+        />
+      </template>
+    </UButton>
   </div>
 </template>

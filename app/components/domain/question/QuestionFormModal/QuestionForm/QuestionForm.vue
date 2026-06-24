@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import type { ComponentExposed } from "vue-component-type-helpers";
 import type { FormSubmitEvent } from "@nuxt/ui";
 import { QUESTION_CREATION_DTO, QUESTION_MODIFICATION_DTO } from "@goat-it/schemas/question";
 import type { QuestionCreationDto, QuestionModificationDto, QuestionThemeAssignmentCreationDto, QuestionThemeAssignmentModificationDto } from "@goat-it/schemas/question";
+import { nextTick } from "vue";
+
+import type { UInput } from "#components";
 
 import type { QuestionCreationDtoShell } from "#shared/types/question.types";
 import type { Form } from "#ui/types";
@@ -35,6 +39,7 @@ const themeAssignments = computed<QuestionThemeAssignmentCreationDto[]>(() => {
 });
 
 const form = useTemplateRef<Form<QuestionCreationDto | QuestionModificationDto>>("form");
+const statementInput = useTemplateRef<ComponentExposed<typeof UInput>>("statementInput");
 
 const isSubmitting = ref<boolean>(false);
 
@@ -118,8 +123,14 @@ async function triggerFormSubmit(): Promise<void> {
   }
 }
 
+async function focusFirstField(): Promise<void> {
+  await nextTick();
+  statementInput.value?.inputRef?.focus();
+}
+
 defineExpose({
   canSubmit,
+  focusFirstField,
   triggerFormSubmit,
 });
 </script>
@@ -147,6 +158,7 @@ defineExpose({
           required
         >
           <UInput
+            ref="statementInput"
             v-model="formState.content.statement[currentLocale]"
             class="w-full"
             :placeholder="$t('questions.placeholders.statement')"
