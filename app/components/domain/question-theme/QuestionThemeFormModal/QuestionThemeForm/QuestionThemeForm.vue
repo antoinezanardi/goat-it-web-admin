@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import type { UInput } from "#components";
+import type { ComponentExposed } from "vue-component-type-helpers";
 import type { FormSubmitEvent, FormError } from "@nuxt/ui";
 import { QUESTION_THEME_CREATION_DTO, QUESTION_THEME_MODIFICATION_DTO } from "@goat-it/schemas/question-theme";
 import type { QuestionThemeCreationDto, QuestionThemeModificationDto } from "@goat-it/schemas/question-theme";
 import { nextTick } from "vue";
+
+import type { UInput } from "#components";
 
 import type { QuestionThemeCreationDtoShell } from "#shared/types/question-theme.types";
 import type { Form } from "#ui/types";
@@ -22,7 +24,7 @@ const emit = defineEmits<QuestionThemeFormEmits>();
 const { locale: currentLocale, t } = useI18n();
 
 const form = useTemplateRef<Form<QuestionThemeCreationDto | QuestionThemeModificationDto>>("form");
-const labelInput = useTemplateRef<InstanceType<typeof UInput>>("labelInput");
+const labelInput = useTemplateRef<ComponentExposed<typeof UInput>>("labelInput");
 
 function createInitialFormState(): QuestionThemeCreationDtoShell {
   if (props.mode !== "edit" || !props.questionTheme) {

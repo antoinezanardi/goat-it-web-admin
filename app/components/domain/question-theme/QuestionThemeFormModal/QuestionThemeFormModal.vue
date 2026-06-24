@@ -17,20 +17,15 @@ const emit = defineEmits<QuestionThemeFormModalEmits>();
 
 const open = defineModel<boolean>("open", { default: false });
 
-watch(open, async isOpen => {
-  if (!isOpen) {return;}
-
-  // Retry until the lazy modal has mounted and the form ref is available
-  for (let i = 0; i < 10; i++) {
-    await nextTick();
-    if (formReference.value) {
-      await formReference.value.focusFirstField();
-      return;
-    }
-  }
-});
-
 const formReference = useTemplateRef<InstanceType<typeof QuestionThemeForm>>("formReference");
+
+watch(open, async isOpen => {
+  if (!isOpen) {
+    return;
+  }
+  await nextTick();
+  await formReference.value?.focusFirstField();
+}, { immediate: true });
 
 const modalTitle = computed<string>(() => (props.mode === "edit" ? "questionThemes.editTheme" : "questionThemes.createNew"));
 const primaryButtonLabel = computed<string>(() => (props.mode === "edit" ? "common.edit" : "common.create"));

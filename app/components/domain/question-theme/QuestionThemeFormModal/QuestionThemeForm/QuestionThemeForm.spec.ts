@@ -289,7 +289,7 @@ describe("QuestionThemeForm Component", () => {
     it("should focus the label input when focusFirstField is called.", async() => {
       const vm = getWrapperVm<QuestionThemeFormVm>(wrapper);
       const focusSpy = vi.fn<() => void>();
-      vm.$.refs.labelInput = { inputRef: { value: { focus: focusSpy } } } as unknown as Element;
+      vm.$.refs.labelInput = { inputRef: { focus: focusSpy } } as unknown as Element;
       await vm.focusFirstField();
 
       expect(focusSpy).toHaveBeenCalledExactlyOnceWith();

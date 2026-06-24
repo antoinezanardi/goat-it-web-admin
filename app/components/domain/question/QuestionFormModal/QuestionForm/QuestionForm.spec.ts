@@ -318,7 +318,7 @@ describe("QuestionForm Component", () => {
     it("should focus the statement input when focusFirstField is called.", async() => {
       const vm = getWrapperVm<QuestionFormVm>(wrapper);
       const focusSpy = vi.fn<() => void>();
-      vm.$.refs.statementInput = { inputRef: { value: { focus: focusSpy } } } as unknown as Element;
+      vm.$.refs.statementInput = { inputRef: { focus: focusSpy } } as unknown as Element;
       await vm.focusFirstField();
 
       expect(focusSpy).toHaveBeenCalledExactlyOnceWith();

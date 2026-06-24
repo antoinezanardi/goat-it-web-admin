@@ -83,7 +83,7 @@ definePageMeta({
       />
     </UContainer>
 
-    <QuestionThemeFormModal
+    <LazyQuestionThemeFormModal
       v-model:open="isQuestionThemeFormModalOpen"
       data-testid="question-theme-form-modal"
       :existing-slugs="questionThemeSlugs"

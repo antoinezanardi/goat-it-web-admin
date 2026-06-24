@@ -33,7 +33,6 @@ defineShortcuts({
         onClickFromPrimaryButton();
       }
     },
-    // Allow shortcut even when focus is in an input/textarea
     usingInput: true,
   },
 });
@@ -61,11 +60,13 @@ defineShortcuts({
     >
       <template #trailing>
         <UKbd
+          data-testid="default-modal-footer-primary-button-shortcut-meta"
           size="sm"
           value="meta"
         />
 
         <UKbd
+          data-testid="default-modal-footer-primary-button-shortcut-enter"
           size="sm"
           value="enter"
         />

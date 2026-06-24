@@ -192,7 +192,7 @@ describe("QuestionFormModal Component", () => {
       const focusFirstFieldSpy = vi.spyOn(formReference, "focusFirstField").mockResolvedValue();
       await flushPromises();
 
-      expect(focusFirstFieldSpy).toHaveBeenCalledOnce();
+      expect(focusFirstFieldSpy).toHaveBeenCalledExactlyOnceWith();
     });
 
     it("should not call focusFirstField on the form when open becomes false.", async() => {

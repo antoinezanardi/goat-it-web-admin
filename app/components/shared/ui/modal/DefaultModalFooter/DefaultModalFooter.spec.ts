@@ -1,11 +1,12 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
+import type { ComponentExposed } from "vue-component-type-helpers";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { DefaultModalFooter } from "#components";
-import type { UButton, UIcon } from "#components";
+import type { UButton, UIcon, UKbd } from "#components";
 
 import type { DefaultModalFooterProps } from "~/components/shared/ui/modal/DefaultModalFooter/default-modal-footer.types";
 
@@ -140,36 +141,42 @@ describe("DefaultModalFooter Component", () => {
   });
 
   describe("Shortcut display", () => {
-    function findPrimaryButtonKbdComponents(): { props: (key: string) => unknown }[] {
-      const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-primary-button']");
+    let primaryButton: VueWrapper;
 
-      return primaryButton.findAllComponents({ name: "UKbd" }) as unknown as { props: (key: string) => unknown }[];
-    }
-
-    it("should render two UKbd components in the trailing slot when mounted.", () => {
-      const kbdComponents = findPrimaryButtonKbdComponents();
-
-      expect(kbdComponents).toHaveLength(2);
+    beforeEach(() => {
+      primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-primary-button']");
     });
 
-    it("should render UKbd with meta value when mounted.", () => {
-      const kbdComponents = findPrimaryButtonKbdComponents();
+    describe("Meta KBD", () => {
+      let metaKbd: VueWrapper<ComponentExposed<typeof UKbd>>;
 
-      expect(kbdComponents[0]?.props("value")).toBe("meta");
+      beforeEach(() => {
+        metaKbd = primaryButton.findComponent<typeof UKbd>("[data-testid='default-modal-footer-primary-button-shortcut-meta']");
+      });
+
+      it("should render UKbd with meta value when mounted.", () => {
+        expect(metaKbd.props("value")).toBe("meta");
+      });
+
+      it("should render UKbd with sm size when mounted.", () => {
+        expect(metaKbd.props("size")).toBe("sm");
+      });
     });
 
-    it("should render UKbd with enter value when mounted.", () => {
-      const kbdComponents = findPrimaryButtonKbdComponents();
+    describe("Enter KBD", () => {
+      let enterKbd: VueWrapper<ComponentExposed<typeof UKbd>>;
 
-      expect(kbdComponents[1]?.props("value")).toBe("enter");
-    });
+      beforeEach(() => {
+        enterKbd = primaryButton.findComponent<typeof UKbd>("[data-testid='default-modal-footer-primary-button-shortcut-enter']");
+      });
 
-    it("should render UKbd components with sm size when mounted.", () => {
-      const kbdComponents = findPrimaryButtonKbdComponents();
+      it("should render UKbd with enter value when mounted.", () => {
+        expect(enterKbd.props("value")).toBe("enter");
+      });
 
-      const hasAllSmSize = kbdComponents.every(kbd => kbd.props("size") === "sm");
-
-      expect(hasAllSmSize).toBeTruthy();
+      it("should render UKbd with sm size when mounted.", () => {
+        expect(enterKbd.props("size")).toBe("sm");
+      });
     });
   });
 
@@ -181,7 +188,7 @@ describe("DefaultModalFooter Component", () => {
     it("should emit primaryButtonClick when meta+enter is pressed and primary button is enabled.", () => {
       dispatchMetaEnterKeydown();
 
-      expect(wrapper.emitted("primaryButtonClick")).toBeDefined();
+      expect(wrapper.emitted("primaryButtonClick")).toHaveLength(1);
     });
 
     it("should not emit primaryButtonClick when meta+enter is pressed and primary button is disabled.", async() => {

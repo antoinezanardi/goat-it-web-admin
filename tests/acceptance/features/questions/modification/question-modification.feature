@@ -34,3 +34,9 @@ Feature: ❓ Question Modification
 
   Scenario: ❓ Question modification modal autofocuses the statement field
     Then the input with name "Statement*" should be focused
+
+  Scenario: ❓ Question modification form submits with Meta+Enter shortcut
+    When the user fills the input with name "Statement*" with text "What is the capital of Germany?"
+    And the user fills the input with name "Answer*" with text "Berlin"
+    And the user presses the "Meta+Enter" key
+    Then the toast with exact text "Question modified successfully" should be visible
