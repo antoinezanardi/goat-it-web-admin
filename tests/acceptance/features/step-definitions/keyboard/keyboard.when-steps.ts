@@ -5,6 +5,8 @@ import type { GoatItWorld } from "#acceptance/features/support/types/world.types
 When(
   /^the user presses the "(?<key>[^"]*)" key$/u,
   async function(this: GoatItWorld, key: string): Promise<void> {
-    await this.page.keyboard.press(key);
+    const osAgnosticKey = process.platform === "darwin" ? key : key.replaceAll("Meta", "Control");
+
+    await this.page.keyboard.press(osAgnosticKey);
   },
 );

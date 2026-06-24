@@ -125,7 +125,6 @@ async function triggerFormSubmit(): Promise<void> {
 
 async function focusFirstField(): Promise<void> {
   await nextTick();
-  await nextTick();
   statementInput.value?.inputRef?.focus();
 }
 
