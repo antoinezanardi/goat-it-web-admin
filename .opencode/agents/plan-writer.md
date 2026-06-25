@@ -8,6 +8,7 @@ steps: 80
 permission:
   edit:
     "docs/superpowers/plans/**": "allow"
+    "/tmp": "allow"
     "*": "deny"
   bash:
     "*": "ask"
@@ -37,6 +38,8 @@ permission:
     "rtk write-file *": "allow"
     "sed *": "allow"
     "rtk sed *": "allow"
+    "xargs *": "allow"
+    "rtk xargs *": "allow"
   task: deny
   webfetch: deny
 ---
@@ -67,6 +70,8 @@ You are the plan writer. You turn an approved spec into a complete, executable i
 ## Your output
 
 `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
+
+Use `Edit` tool to write/edit the plan.
 
 ## Plan structure (mandatory header)
 

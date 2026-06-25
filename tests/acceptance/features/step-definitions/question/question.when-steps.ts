@@ -104,3 +104,16 @@ When(
     await hintSwitch.click();
   },
 );
+
+When(
+  /^the user clicks the expand button on the question row with statement "(?<statement>[^"]+)"$/u,
+  async function(this: GoatItWorld, statement: string): Promise<void> {
+    const table = this.page.getByRole("table");
+    const row = table.getByRole("row").filter({ has: this.page.getByText(statement, { exact: true }) });
+    const expandButton = row.getByRole("button", { name: `See answer and more info for question "${statement}"` });
+
+    await expect(expandButton).toBeVisible();
+    await expandButton.click();
+    await this.page.waitForTimeout(500);
+  },
+);

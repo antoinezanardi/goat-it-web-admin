@@ -89,7 +89,7 @@ You are the final reviewer. You review the whole implementation holistically —
 - **Repositories:** factory function pattern, calls internal Nitro routes only
 - **Server handlers:** thin route file + `*.handler.ts` with logic, Zod validation, mapper usage
 - **Tests:** `describe(fn, ...)` for functions, `describe("<Component>", ...)` for components. Test names `"should X when Y."`. `toHaveBeenCalledExactlyOnceWith` for single calls. No `xit`/`it.skip`/`describe.skip`
-- **i18n:** keys consistent, present in `fr/` first, all 6 locales populated (or at least placeholder)
+- **i18n:** keys consistent, present in `fr/` first, all 6 locales populated (or at least placeholder). **No hardcoded strings**, always use `t()`
 - **No dead code:** no unused imports, parameters, or variables
 
 ### 4. Architectural fit

@@ -93,6 +93,10 @@
       "context": "Contexto para entender la respuesta",
       "trivia": "ej.: París se llamaba antes Lutecia",
       "sourceUrls": "ej.: https://es.wikipedia.org/"
+    },
+    "table": {
+      "expandTooltip": "Ver respuesta y más información",
+      "collapseTooltip": "Ocultar respuesta y más información"
     }
   }
 }

@@ -93,6 +93,10 @@
       "context": "Contesto per comprendere la risposta",
       "trivia": "es.: Parigi si chiamava un tempo Lutezia",
       "sourceUrls": "es.: https://it.wikipedia.org/"
+    },
+    "table": {
+      "expandTooltip": "Vedi risposta e altre informazioni",
+      "collapseTooltip": "Nascondi risposta e altre informazioni"
     }
   }
 }

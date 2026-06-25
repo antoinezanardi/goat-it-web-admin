@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { h } from "vue";
 import type { AdminFindQuestionsQueryDto, QuestionCategory, QuestionCognitiveDifficulty, QuestionStatus } from "@goat-it/schemas/question";
 import type { TableColumn } from "@nuxt/ui";
 
@@ -11,6 +12,8 @@ import { toKebabCaseKeys } from "#shared/utils/helpers/object/object.helpers";
 const emit = defineEmits<QuestionsTableEmits>();
 
 const { t, locale: currentLocale } = useI18n();
+
+const expanded = ref<Record<string, boolean>>({});
 
 const questionsStore = useQuestionsStore();
 const { questions, isFetchingQuestions } = storeToRefs(questionsStore);
@@ -35,6 +38,7 @@ watch(filterValues, async(values): Promise<void> => {
 });
 
 const columns = computed<TableColumn<Question>[]>(() => [
+  createTableColumn<Question>({ accessorKey: "expand", header: () => h("span", { class: "sr-only" }, t("questions.table.expandTooltip")), isCentered: true }),
   createTableColumn<Question>({ accessorKey: "category", header: t("questions.fields.category"), isCentered: true }),
   createTableColumn<Question>({ accessorKey: "themes", header: t("questions.fields.themes"), isCentered: true }),
   createTableColumn<Question>({ accessorKey: "statement", header: t("questions.fields.statement"), tdClass: "whitespace-normal break-words" }),
@@ -65,6 +69,16 @@ const headerFilters = computed<QuestionsTableFilters>(() => ({
   cognitiveDifficulty: filters.cognitiveDifficulty.value,
   themeIds: filters.themeIds.value,
 }));
+
+function getStatementText(statement: Record<string, string | undefined>): string {
+  return statement[currentLocale.value] ?? "";
+}
+
+function getExpandAriaLabel(isExpanded: boolean | undefined, statementText: string): string {
+  const action = isExpanded ? t("questions.table.collapseTooltip") : t("questions.table.expandTooltip");
+
+  return `${action} for question "${statementText}"`;
+}
 
 function onStartCreateFromQuestionsTableHeader(): void {
   emit("startCreate");
@@ -106,6 +120,7 @@ function onStartEditFromQuestionsTableActions(id: string): void {
     </template>
 
     <UTable
+      v-model:expanded="expanded"
       v-model:global-filter="globalFilter"
       :columns="columns"
       :data="questions"
@@ -116,6 +131,26 @@ function onStartEditFromQuestionsTableActions(id: string): void {
       :tabindex="0"
       :ui="TABLE_UI"
     >
+      <template #expand-cell="{ row }">
+        <div class="flex justify-center">
+          <UTooltip
+            :data-testid="`expand-tooltip-${row.original.id}`"
+            :text="expanded[row.original.id] ? $t('questions.table.collapseTooltip') : $t('questions.table.expandTooltip')"
+          >
+            <UButton
+              :aria-label="getExpandAriaLabel(expanded[row.original.id], getStatementText(row.original.content.statement))"
+              class="duration-200 transition-transform"
+              :class="{ 'rotate-180': expanded[row.original.id] }"
+              color="neutral"
+              :data-testid="`expand-button-${row.original.id}`"
+              icon="i-lucide-chevron-down"
+              variant="ghost"
+              @click="row.toggleExpanded()"
+            />
+          </UTooltip>
+        </div>
+      </template>
+
       <template #category-cell="{ row }">
         <QuestionCategoryBadge
           :category="row.original.category"
@@ -166,6 +201,13 @@ function onStartEditFromQuestionsTableActions(id: string): void {
             @start-edit="onStartEditFromQuestionsTableActions"
           />
         </div>
+      </template>
+
+      <template #expanded="{ row }">
+        <QuestionsTableExpandedRow
+          :data-testid="`questions-table-expanded-row-${row.original.id}`"
+          :question="row.original"
+        />
       </template>
 
       <template #loading>
