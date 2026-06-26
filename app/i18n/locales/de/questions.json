@@ -96,7 +96,8 @@
     },
     "table": {
       "expandTooltip": "Antwort und mehr anzeigen",
-      "collapseTooltip": "Antwort und mehr ausblenden"
+      "collapseTooltip": "Antwort und mehr ausblenden",
+      "expandAriaLabel": "{action} für Frage \"{statement}\""
     }
   }
 }

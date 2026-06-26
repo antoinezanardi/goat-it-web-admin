@@ -96,7 +96,8 @@
     },
     "table": {
       "expandTooltip": "See answer and more info",
-      "collapseTooltip": "Hide answer and more info"
+      "collapseTooltip": "Hide answer and more info",
+      "expandAriaLabel": "{action} for question \"{statement}\""
     }
   }
 }

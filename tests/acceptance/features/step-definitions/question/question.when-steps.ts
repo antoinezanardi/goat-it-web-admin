@@ -114,6 +114,5 @@ When(
 
     await expect(expandButton).toBeVisible();
     await expandButton.click();
-    await this.page.waitForTimeout(500);
   },
 );

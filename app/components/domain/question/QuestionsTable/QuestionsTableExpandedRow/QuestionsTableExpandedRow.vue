@@ -9,13 +9,13 @@ const { locale: currentLocale } = useI18n();
 
 const triviaList = computed(() => props.question.content.trivia?.[currentLocale.value] ?? []);
 
-function getLocalizedTrivium(trivium: string): Partial<LocalizedText> {
-  return { [currentLocale.value]: trivium };
+function toLocalizedText(text: string): Partial<LocalizedText> {
+  return { [currentLocale.value]: text };
 }
 </script>
 
 <template>
-  <div class="p-4 space-y-4">
+  <div class="p-4 space-y-4 whitespace-normal">
     <div>
       <p class="font-semibold mb-1 text-muted text-sm">
         {{ $t("questions.fields.answer") }}
@@ -47,10 +47,14 @@ function getLocalizedTrivium(trivium: string): Partial<LocalizedText> {
         <li
           v-for="(trivium, index) in triviaList"
           :key="`trivia-${question.id}-${index}`"
+          class="flex gap-x-1 items-baseline"
+          :data-testid="`expanded-trivia-${question.id}-${index}`"
         >
-          - <TranslatedText
-            :data-testid="`expanded-trivia-${question.id}-${index}`"
-            :localized-text="getLocalizedTrivium(trivium)"
+          <span class="shrink-0">- </span>
+
+          <TranslatedText
+            :data-testid="`expanded-trivia-text-${question.id}-${index}`"
+            :localized-text="toLocalizedText(trivium)"
           />
         </li>
       </ul>

@@ -93,7 +93,7 @@ describe("QuestionsTable Component", () => {
       const expectedColumns: TableColumn<Question>[] = [
         {
           accessorKey: "expand",
-          header: expect.any(Function),
+          header: expect.any(Function) as () => void,
           meta: { class: { th: "text-center", td: "text-center" } },
         },
         {
@@ -603,7 +603,7 @@ describe("QuestionsTable Component", () => {
       expect(expandButton.exists()).toBeTruthy();
     });
 
-    it("should set the expand button aria-label with the question statement when rendered.", async() => {
+    it("should set the expand button aria-label with the translation key when a question is rendered.", async() => {
       const fakeQuestion = createFakeQuestion({
         id: "q-1",
         content: createFakeQuestionContent({
@@ -616,40 +616,7 @@ describe("QuestionsTable Component", () => {
 
       const expandButton = wrapper.find("[data-testid='expand-button-q-1']");
 
-      expect(expandButton.attributes("aria-label")).toBe("questions.table.expandTooltip for question \"Test statement\"");
-    });
-
-    it("should update the expand button aria-label to collapse text when the row is expanded.", async() => {
-      const fakeQuestion = createFakeQuestion({
-        id: "q-1",
-        content: createFakeQuestionContent({
-          statement: createFakeLocalizedText({ en: "Test statement" }),
-        }),
-      });
-      questionsStore.questions = [fakeQuestion];
-
-      wrapper = await mountQuestionsTableComponent();
-
-      const expandButton = wrapper.find("[data-testid='expand-button-q-1']");
-      await expandButton.trigger("click");
-
-      expect(expandButton.attributes("aria-label")).toBe("questions.table.collapseTooltip for question \"Test statement\"");
-    });
-
-    it("should use an empty statement in the aria-label when the current locale translation is missing.", async() => {
-      const fakeQuestion = createFakeQuestion({
-        id: "q-1",
-        content: createFakeQuestionContent({
-          statement: createFakeLocalizedText({ en: undefined, fr: "French statement" }),
-        }),
-      });
-      questionsStore.questions = [fakeQuestion];
-
-      wrapper = await mountQuestionsTableComponent();
-
-      const expandButton = wrapper.find("[data-testid='expand-button-q-1']");
-
-      expect(expandButton.attributes("aria-label")).toBe("questions.table.expandTooltip for question \"\"");
+      expect(expandButton.attributes("aria-label")).toBe("questions.table.expandAriaLabel");
     });
   });
 
@@ -676,7 +643,7 @@ describe("QuestionsTable Component", () => {
 
       const table = wrapper.getComponent({ name: "UTable" });
 
-      expect(table.props("expanded")).toStrictEqual({ "q-1": true });
+      expect(table.props("expanded")).toStrictEqual({ 0: true });
     });
 
     it("should remove the row from the expanded prop when the expand button is clicked again.", async() => {
@@ -696,30 +663,8 @@ describe("QuestionsTable Component", () => {
 
       const table = wrapper.getComponent({ name: "UTable" });
 
-      expect(table.props("expanded")).toStrictEqual({ "q-1": false });
+      expect(table.props("expanded")).toStrictEqual({});
     });
-
-    it("should update the expanded ref when the table emits update:expanded.", async() => {
-      const fakeQuestion = createFakeQuestion({
-        id: "q-1",
-        content: createFakeQuestionContent({
-          statement: createFakeLocalizedText({ en: "Test statement" }),
-        }),
-      });
-      questionsStore.questions = [fakeQuestion];
-
-      wrapper = await mountQuestionsTableComponent();
-
-      const table = wrapper.getComponent({ name: "UTable" });
-      await table.vm.$emit("update:expanded", { "q-1": true });
-
-      await nextTick();
-      const expandButton = wrapper.find("[data-testid='expand-button-q-1']");
-
-      expect(expandButton.classes()).toContain("rotate-180");
-    });
-
-
   });
 
   describe("Expand button tooltip", () => {

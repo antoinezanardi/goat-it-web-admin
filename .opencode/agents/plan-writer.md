@@ -38,8 +38,6 @@ permission:
     "rtk write-file *": "allow"
     "sed *": "allow"
     "rtk sed *": "allow"
-    "xargs *": "allow"
-    "rtk xargs *": "allow"
   task: deny
   webfetch: deny
 ---

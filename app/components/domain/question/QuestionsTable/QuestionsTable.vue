@@ -2,11 +2,13 @@
 import { h } from "vue";
 import type { AdminFindQuestionsQueryDto, QuestionCategory, QuestionCognitiveDifficulty, QuestionStatus } from "@goat-it/schemas/question";
 import type { TableColumn } from "@nuxt/ui";
+import type { Locale } from "@goat-it/schemas/shared/locale";
 
 import type { QuestionsTableFilters } from "~/components/domain/question/QuestionsTable/QuestionsTableHeader/questions-table-header.types";
 import type { QuestionsTableEmits, QuestionsTableGlobalFilterOptions } from "~/components/domain/question/QuestionsTable/questions-table.types";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
 import { TABLE_UI } from "~/utils/constants/table/table.constants.ts";
+import { getLocalizedDisplayValue } from "#shared/utils/helpers/localization/localization.helpers";
 import { toKebabCaseKeys } from "#shared/utils/helpers/object/object.helpers";
 
 const emit = defineEmits<QuestionsTableEmits>();
@@ -71,13 +73,13 @@ const headerFilters = computed<QuestionsTableFilters>(() => ({
 }));
 
 function getStatementText(statement: Record<string, string | undefined>): string {
-  return statement[currentLocale.value] ?? "";
+  return getLocalizedDisplayValue(statement, currentLocale.value as Locale) ?? "";
 }
 
 function getExpandAriaLabel(isExpanded: boolean | undefined, statementText: string): string {
   const action = isExpanded ? t("questions.table.collapseTooltip") : t("questions.table.expandTooltip");
 
-  return `${action} for question "${statementText}"`;
+  return t("questions.table.expandAriaLabel", { action, statement: statementText });
 }
 
 function onStartCreateFromQuestionsTableHeader(): void {
@@ -135,12 +137,12 @@ function onStartEditFromQuestionsTableActions(id: string): void {
         <div class="flex justify-center">
           <UTooltip
             :data-testid="`expand-tooltip-${row.original.id}`"
-            :text="expanded[row.original.id] ? $t('questions.table.collapseTooltip') : $t('questions.table.expandTooltip')"
+            :text="row.getIsExpanded() ? $t('questions.table.collapseTooltip') : $t('questions.table.expandTooltip')"
           >
             <UButton
-              :aria-label="getExpandAriaLabel(expanded[row.original.id], getStatementText(row.original.content.statement))"
+              :aria-label="getExpandAriaLabel(row.getIsExpanded(), getStatementText(row.original.content.statement))"
               class="duration-200 transition-transform"
-              :class="{ 'rotate-180': expanded[row.original.id] }"
+              :class="{ 'rotate-180': row.getIsExpanded() }"
               color="neutral"
               :data-testid="`expand-button-${row.original.id}`"
               icon="i-lucide-chevron-down"

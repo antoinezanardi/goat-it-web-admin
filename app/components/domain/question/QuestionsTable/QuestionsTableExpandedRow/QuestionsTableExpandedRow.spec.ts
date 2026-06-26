@@ -143,7 +143,7 @@ describe("QuestionsTableExpandedRow Component", () => {
 
     wrapper = await mountQuestionsTableExpandedRowComponent({ props: { question: questionWithTrivia } });
 
-    const triviaText = wrapper.findComponent<typeof TranslatedTextComponent>("[data-testid='expanded-trivia-q-triv-0']");
+    const triviaText = wrapper.findComponent<typeof TranslatedTextComponent>("[data-testid='expanded-trivia-text-q-triv-0']");
 
     expect(triviaText.props("localizedText")).toStrictEqual({ en: "Fact one" });
   });
@@ -189,7 +189,7 @@ describe("QuestionsTableExpandedRow Component", () => {
     expect(triviaText.exists()).toBeFalsy();
   });
 
-  it("should render the correct data-testid attributes for all sections when question has answer, context and trivia.", async() => {
+  describe("All sections present", () => {
     const questionWithAll: Question = createFakeQuestion({
       id: "q-all",
       content: createFakeQuestionContent({
@@ -198,12 +198,28 @@ describe("QuestionsTableExpandedRow Component", () => {
       }),
     });
 
-    wrapper = await mountQuestionsTableExpandedRowComponent({ props: { question: questionWithAll } });
+    it("should render the answer section when question has answer, context and trivia.", async() => {
+      wrapper = await mountQuestionsTableExpandedRowComponent({ props: { question: questionWithAll } });
 
-    expect([
-      wrapper.find("[data-testid='expanded-answer-q-all']").exists(),
-      wrapper.find("[data-testid='expanded-context-q-all']").exists(),
-      wrapper.find("[data-testid='expanded-trivia-q-all-0']").exists(),
-    ]).toStrictEqual([true, true, true]);
+      const answerText = wrapper.findComponent<typeof TranslatedTextComponent>("[data-testid='expanded-answer-q-all']");
+
+      expect(answerText.props("localizedText")).toStrictEqual(questionWithAll.content.answer);
+    });
+
+    it("should render the context section when question has answer, context and trivia.", async() => {
+      wrapper = await mountQuestionsTableExpandedRowComponent({ props: { question: questionWithAll } });
+
+      const contextText = wrapper.findComponent<typeof TranslatedTextComponent>("[data-testid='expanded-context-q-all']");
+
+      expect(contextText.props("localizedText")).toStrictEqual(questionWithAll.content.context);
+    });
+
+    it("should render the trivia section when question has answer, context and trivia.", async() => {
+      wrapper = await mountQuestionsTableExpandedRowComponent({ props: { question: questionWithAll } });
+
+      const triviaText = wrapper.findComponent<typeof TranslatedTextComponent>("[data-testid='expanded-trivia-text-q-all-0']");
+
+      expect(triviaText.props("localizedText")).toStrictEqual({ en: "Fact one" });
+    });
   });
 });
