@@ -93,6 +93,11 @@
       "context": "Kontext zum Verständnis der Antwort",
       "trivia": "z. B.: Paris hieß früher Lutetia",
       "sourceUrls": "z. B.: https://de.wikipedia.org/"
+    },
+    "table": {
+      "expandTooltip": "Antwort und mehr anzeigen",
+      "collapseTooltip": "Antwort und mehr ausblenden",
+      "expandAriaLabel": "{action} für Frage \"{statement}\""
     }
   }
 }

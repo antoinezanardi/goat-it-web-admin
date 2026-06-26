@@ -212,6 +212,19 @@ describe("QuestionFormModal Component", () => {
 
       expect(focusFirstFieldSpy).not.toHaveBeenCalled();
     });
+
+    it("should not throw when open becomes true and form reference is null.", async() => {
+      wrapper = await mountQuestionFormModalComponent({
+        props: {
+          ...defaultQuestionFormModalProps,
+          open: false,
+        },
+      });
+
+      getWrapperVm(wrapper).$.refs.formReference = null;
+
+      await expect(wrapper.setProps({ open: true })).resolves.toBeUndefined();
+    });
   });
 
   describe("Edit mode", () => {

@@ -46,7 +46,9 @@ permission:
     "rtk pnpm run test:acceptance*": "allow"
     "pnpm run test:mutation*": "allow"
     "rtk pnpm run test:mutation*": "allow"
-  task: deny
+  task:
+    "*": "deny"
+    "gatekeeper": "allow"
   webfetch: allow
 ---
 

@@ -60,7 +60,9 @@ You are the **gatekeeper** subagent for the goat-it-web-admin project. You run t
 
 ## Gate execution order (strict, no parallelism)
 
-1. **Lint**: `pnpm run lint:fix`
+1. **Lint**: (Run the command below in sequence)
+   - `pnpm run lint:oxlint:fix`
+   - `pnpm run lint:eslint:fix`
    - Run oxlint first (config-based, no file args needed), then ESLint
    - Auto-fix runs as part of the commands themselves
    - You can scope linting to a specific file by adding `path/to/file.ts` at the end of the command. Multiple files can be specified

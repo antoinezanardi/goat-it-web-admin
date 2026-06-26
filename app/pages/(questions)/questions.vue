@@ -75,15 +75,19 @@ definePageMeta({
 </script>
 
 <template>
-  <div id="questions-page">
+  <div
+    id="questions-page"
+    class="flex flex-col h-[calc(100dvh-var(--ui-header-height))]"
+  >
     <PageHeader
       :icon="QUESTION_ICON"
       :title="$t(QUESTIONS_PAGE_TITLE_KEY)"
     />
 
-    <UContainer>
+    <UContainer class="flex flex-1 flex-col min-h-0">
       <QuestionsTable
         id="questions-table"
+        class="max-h-full"
         @start-create="onStartCreateFromQuestionsTable"
         @start-edit="onStartEditFromQuestionsTable"
       />
