@@ -131,7 +131,7 @@
     "@vueuse/nuxt": "^14.3.0",
     "commitlint": "^21.1.0",
     "cross-env": "^10.1.0",
-    "eslint": "^10.5.0",
+    "eslint": "^10.6.0",
     "eslint-plugin-oxlint": "^1.71.0",
     "eslint-plugin-unicorn": "^69.0.0",
     "fuse.js": "^7.4.2",
