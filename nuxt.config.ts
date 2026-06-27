@@ -58,6 +58,7 @@ export default defineNuxtConfig({
       componentDetection: true,
     },
   },
+  spaLoadingTemplate: "templates/spa-loading-template.html",
   runtimeConfig: {
     goatItApi: {
       baseUrl: "",
