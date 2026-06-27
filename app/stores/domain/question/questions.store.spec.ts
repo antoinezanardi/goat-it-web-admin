@@ -316,6 +316,7 @@ describe("useQuestionsStore", () => {
 
       expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({
         description: "questions.createSuccessfully",
+        id: "question-create-success",
       });
     });
 
@@ -474,6 +475,7 @@ describe("useQuestionsStore", () => {
 
       expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({
         description: "questions.archiveSuccessfully",
+        id: "question-archive-success",
       });
     });
 
@@ -498,7 +500,7 @@ describe("useQuestionsStore", () => {
 
       await store.archiveAndStoreQuestion("question-id-123");
 
-      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questions.archiveSuccessfully" });
+      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questions.archiveSuccessfully", id: "question-archive-success" });
     });
 
     it("should not update questions when archive resolves with undefined.", async() => {
@@ -641,6 +643,7 @@ describe("useQuestionsStore", () => {
 
       expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({
         description: "questions.assignThemeSuccessfully",
+        id: "question-assign-theme-success",
       });
     });
 
@@ -667,7 +670,7 @@ describe("useQuestionsStore", () => {
 
       await store.assignThemeAndStoreQuestion("question-id-123", fakeDto);
 
-      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questions.assignThemeSuccessfully" });
+      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questions.assignThemeSuccessfully", id: "question-assign-theme-success" });
     });
 
     it("should not update questions when assignTheme resolves with undefined.", async() => {
@@ -809,6 +812,7 @@ describe("useQuestionsStore", () => {
 
       expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({
         description: "questions.removeThemeSuccessfully",
+        id: "question-remove-theme-success",
       });
     });
 
@@ -833,7 +837,7 @@ describe("useQuestionsStore", () => {
 
       await store.removeThemeAndStoreQuestion("question-id-123", "theme-id-456");
 
-      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questions.removeThemeSuccessfully" });
+      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questions.removeThemeSuccessfully", id: "question-remove-theme-success" });
     });
 
     it("should not update questions when removeTheme resolves with undefined.", async() => {
@@ -976,6 +980,7 @@ describe("useQuestionsStore", () => {
 
       expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({
         description: "questions.modifyThemeAssignmentSuccessfully",
+        id: "question-modify-theme-assignment-success",
       });
     });
 
@@ -1002,7 +1007,10 @@ describe("useQuestionsStore", () => {
 
       await store.modifyThemeAssignmentAndStoreQuestion("question-id-123", "theme-id-456", fakeDto);
 
-      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questions.modifyThemeAssignmentSuccessfully" });
+      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({
+        description: "questions.modifyThemeAssignmentSuccessfully",
+        id: "question-modify-theme-assignment-success",
+      });
     });
 
     it("should not update questions when modifyThemeAssignment resolves with undefined.", async() => {
@@ -1147,6 +1155,7 @@ describe("useQuestionsStore", () => {
 
       expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({
         description: "questions.modifySuccessfully",
+        id: "question-modify-success",
       });
     });
 
@@ -1173,7 +1182,7 @@ describe("useQuestionsStore", () => {
 
       await store.modifyAndStoreQuestion("question-id-123", fakeDto);
 
-      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questions.modifySuccessfully" });
+      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questions.modifySuccessfully", id: "question-modify-success" });
     });
 
     it("should not update questions when modifyQuestion resolves with undefined.", async() => {
