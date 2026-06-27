@@ -35,8 +35,8 @@ function onStartCreateFromQuestionsTable(): void {
 }
 
 function onStartEditFromQuestionsTable(id: string): void {
-  const targetQuestion = questionsStore.questions.find(question => question.id === id);
-  if (!targetQuestion) {
+  const doesTargetQuestionExist = questionsStore.questions.some(question => question.id === id);
+  if (!doesTargetQuestionExist) {
     return;
   }
   formMode.value = "edit";
