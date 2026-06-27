@@ -66,7 +66,7 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
     const createdQuestionTheme = await createQuestionTheme(creationDto);
     if (createdQuestionTheme) {
       questionThemes.value.unshift(createdQuestionTheme);
-      addSuccessToast({ description: t("questionThemes.createSuccessfully") });
+      addSuccessToast({ description: t("questionThemes.createSuccessfully"), id: "question-theme-create-success" });
     }
   }
 
@@ -76,7 +76,7 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
       return;
     }
     questionThemes.value = replaceInArrayById(questionThemes.value, id, archivedQuestionTheme);
-    addSuccessToast({ description: t("questionThemes.archiveSuccessfully") });
+    addSuccessToast({ description: t("questionThemes.archiveSuccessfully"), id: "question-theme-archive-success" });
   }
 
   async function modifyAndStoreQuestionTheme(id: string, modificationDto: QuestionThemeModificationDto): Promise<void> {
@@ -85,7 +85,7 @@ export const useQuestionThemesStore = defineStore(StoreNames.QUESTION_THEMES, ()
       return;
     }
     questionThemes.value = replaceInArrayById(questionThemes.value, id, modifiedQuestionTheme);
-    addSuccessToast({ description: t("questionThemes.modifySuccessfully") });
+    addSuccessToast({ description: t("questionThemes.modifySuccessfully"), id: "question-theme-modify-success" });
   }
   return {
     questionThemes,

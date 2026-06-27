@@ -98,7 +98,7 @@ export const useQuestionsStore = defineStore(StoreNames.QUESTIONS, () => {
     const createdQuestion = await createQuestion(creationDto);
     if (createdQuestion) {
       questions.value.unshift(createdQuestion);
-      addSuccessToast({ description: t("questions.createSuccessfully") });
+      addSuccessToast({ description: t("questions.createSuccessfully"), id: "question-create-success" });
     }
   }
 
@@ -108,7 +108,7 @@ export const useQuestionsStore = defineStore(StoreNames.QUESTIONS, () => {
       return;
     }
     questions.value = replaceInArrayById(questions.value, id, archivedQuestion);
-    addSuccessToast({ description: t("questions.archiveSuccessfully") });
+    addSuccessToast({ description: t("questions.archiveSuccessfully"), id: "question-archive-success" });
   }
 
   async function assignThemeAndStoreQuestion(id: string, dto: QuestionThemeAssignmentCreationDto): Promise<void> {
@@ -117,7 +117,7 @@ export const useQuestionsStore = defineStore(StoreNames.QUESTIONS, () => {
       return;
     }
     questions.value = replaceInArrayById(questions.value, id, updatedQuestion);
-    addSuccessToast({ description: t("questions.assignThemeSuccessfully") });
+    addSuccessToast({ description: t("questions.assignThemeSuccessfully"), id: "question-assign-theme-success" });
   }
 
   async function removeThemeAndStoreQuestion(id: string, themeId: string): Promise<void> {
@@ -126,7 +126,7 @@ export const useQuestionsStore = defineStore(StoreNames.QUESTIONS, () => {
       return;
     }
     questions.value = replaceInArrayById(questions.value, id, updatedQuestion);
-    addSuccessToast({ description: t("questions.removeThemeSuccessfully") });
+    addSuccessToast({ description: t("questions.removeThemeSuccessfully"), id: "question-remove-theme-success" });
   }
 
   async function modifyThemeAssignmentAndStoreQuestion(id: string, themeId: string, dto: QuestionThemeAssignmentModificationDto): Promise<void> {
@@ -135,7 +135,7 @@ export const useQuestionsStore = defineStore(StoreNames.QUESTIONS, () => {
       return;
     }
     questions.value = replaceInArrayById(questions.value, id, updatedQuestion);
-    addSuccessToast({ description: t("questions.modifyThemeAssignmentSuccessfully") });
+    addSuccessToast({ description: t("questions.modifyThemeAssignmentSuccessfully"), id: "question-modify-theme-assignment-success" });
   }
 
   async function modifyAndStoreQuestion(id: string, dto: QuestionModificationDto): Promise<void> {
@@ -144,7 +144,7 @@ export const useQuestionsStore = defineStore(StoreNames.QUESTIONS, () => {
       return;
     }
     questions.value = replaceInArrayById(questions.value, id, modifiedQuestion);
-    addSuccessToast({ description: t("questions.modifySuccessfully") });
+    addSuccessToast({ description: t("questions.modifySuccessfully"), id: "question-modify-success" });
   }
   return {
     questions,
