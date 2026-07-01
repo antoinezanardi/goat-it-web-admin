@@ -22,7 +22,7 @@ function mockElementRect(): DOMRect {
     toJSON() {
       return this;
     },
-  } as DOMRect;
+  };
 }
 
 function saveAndMockElementProperty(property: string, value: number): void {
