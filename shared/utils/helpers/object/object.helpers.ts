@@ -35,9 +35,7 @@ function stripEmptyValues<T>(input: T): T {
 function toKebabCaseKeys(object: Record<string, unknown>): Record<string, unknown> {
   const entries = Object.entries(object).map(([key, value]: [string, unknown]): [string, unknown] => [dash(key), value]);
 
-  // Acceptable as Object.fromEntries returns a plain object with kebab-case keys
-  // oxlint-disable-next-line typescript/no-unsafe-type-assertion
-  return Object.fromEntries(entries) as Record<string, unknown>;
+  return Object.fromEntries(entries);
 }
 
 export {

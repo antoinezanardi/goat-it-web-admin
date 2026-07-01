@@ -113,7 +113,7 @@ describe("Zod Helpers", () => {
 
       const result = stripSchemaLevelRegexErrors(schema);
 
-      const minCheck = (result as unknown as ZodInternalSchema)._zod.def.checks?.find(internalCheck => internalCheck._zod.def.format !== "regex");
+      const minCheck = result._zod.def.checks?.find(internalCheck => internalCheck._zod.def.format !== "regex");
 
       expect(minCheck?._zod.def).toHaveProperty("error");
     });

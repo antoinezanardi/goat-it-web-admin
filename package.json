@@ -141,7 +141,7 @@
     "lint-staged": "^17.0.8",
     "nuxt": "^4.4.8",
     "oxlint": "^1.72.0",
-    "oxlint-tsgolint": "^0.23.0",
+    "oxlint-tsgolint": "^0.24.0",
     "pinia": "^3.0.4",
     "playwright": "^1.61.1",
     "playwright-core": "^1.61.1",
