@@ -133,7 +133,7 @@
     "cross-env": "^10.1.0",
     "eslint": "^10.6.0",
     "eslint-plugin-oxlint": "^1.72.0",
-    "eslint-plugin-unicorn": "^69.0.0",
+    "eslint-plugin-unicorn": "^70.0.0",
     "fuse.js": "^7.4.2",
     "happy-dom": "^20.10.6",
     "husky": "^9.1.7",
