@@ -13,6 +13,8 @@ async function getQuestionsHandler(event: H3Event): Promise<Question[]> {
   const rawQuery = getQuery(event);
   const query = ADMIN_FIND_QUESTIONS_QUERY_DTO.parse(rawQuery);
 
+  query.limit = 0;
+
   try {
     const rawData = await $fetch(endpoint, { ...fetchOptions, query });
     const adminQuestions = z.array(ADMIN_QUESTION_DTO).parse(rawData);

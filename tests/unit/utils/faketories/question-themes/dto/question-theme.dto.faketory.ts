@@ -10,6 +10,7 @@ function createFakeAdminFindQuestionThemesQueryDto(dto: Partial<AdminFindQuestio
     "sort-by": faker.helpers.arrayElement(ADMIN_QUESTION_THEME_SORTABLE_FIELDS),
     "sort-order": faker.helpers.arrayElement(SORT_ORDERS),
     "status": faker.helpers.arrayElement(QUESTION_THEME_STATUSES),
+    "limit": faker.number.int({ min: 0, max: 100 }),
     ...dto,
   };
 }

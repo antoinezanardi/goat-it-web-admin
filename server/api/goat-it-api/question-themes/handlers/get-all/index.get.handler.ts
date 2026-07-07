@@ -11,6 +11,7 @@ async function getQuestionThemesHandler(event: H3Event): Promise<QuestionTheme[]
   const fetchOptions = createGoatItApiFetchOptions(config.goatItApi);
   const rawQuery = getQuery(event);
   const query = ADMIN_FIND_QUESTION_THEMES_QUERY_DTO.parse(rawQuery);
+  query.limit = 0;
 
   try {
     const rawData = await $fetch(endpoint, { ...fetchOptions, query });

@@ -49,7 +49,7 @@ You are the superpowers orchestrator for the **goat-it-web-admin** project (Nuxt
    - Read the plan file and ask the user to confirm it. If the user says "no", stop and ask for clarification or edits.
    - If the user says "yes", mark the plan as done in TodoWrite.
 4. **Implement tasks** → per task:
-   - Dispatch `implementer` (with FULL task text inline, do NOT make it read the plan). The `implementer` is dumb so you must provide as much context as possible.
+   - Dispatch `implementer` (with FULL task text inline VERBATIM, do NOT make it read the plan). The `implementer` is dumb so you must provide as much context as possible and the exact task's text with each step.
    - Inform the implementer: "The final-reviewer will check cross-task consistency, architectural fit, and code conventions afterward. Self-review accordingly."
    - If the task is dependent on a subsequent task, `typecheck` could not pass yet when it is implemented. Thus, tell the dispatcher to ignore related typecheck failures for this specific task.
    - If `implementer` returns `BLOCKED` or `NEED_CONTEXT`, stop and ask the user to clarify the task.
