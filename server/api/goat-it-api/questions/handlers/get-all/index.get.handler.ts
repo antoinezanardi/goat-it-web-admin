@@ -5,13 +5,17 @@ import { z } from "zod";
 import type { Question } from "#shared/types/question.types";
 import { createQuestionFromAdminQuestionDto } from "#server/utils/goat-it-api/mappers/question/question.mappers";
 import { createGoatItApiEndpoint, createGoatItApiFetchOptions, handleGoatItApiError } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
+import { FIND_QUERY_UNBOUNDED_LIMIT } from "#server/utils/goat-it-api/goat-it-api.constants";
 
 async function getQuestionsHandler(event: H3Event): Promise<Question[]> {
   const config = useRuntimeConfig(event);
   const endpoint = createGoatItApiEndpoint("questions");
   const fetchOptions = createGoatItApiFetchOptions(config.goatItApi);
   const rawQuery = getQuery(event);
-  const query = ADMIN_FIND_QUESTIONS_QUERY_DTO.parse(rawQuery);
+  const query = ADMIN_FIND_QUESTIONS_QUERY_DTO.parse({
+    ...rawQuery,
+    limit: FIND_QUERY_UNBOUNDED_LIMIT,
+  });
 
   try {
     const rawData = await $fetch(endpoint, { ...fetchOptions, query });

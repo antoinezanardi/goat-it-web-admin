@@ -51,7 +51,7 @@ describe("Server Goat It API Questions Get Handler", () => {
       vi.mocked(createGoatItApiFetchOptions).mockReturnValue(expectedFetchOptions);
       await getQuestionsHandler(mockedEvent);
 
-      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, { ...expectedFetchOptions, query: { "sort-by": "createdAt", "sort-order": "desc" } });
+      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, { ...expectedFetchOptions, query: { "sort-by": "createdAt", "sort-order": "desc", "limit": 0 } });
     });
 
     it("should get query from event when called.", async() => {
@@ -73,7 +73,10 @@ describe("Server Goat It API Questions Get Handler", () => {
       vi.mocked(getQuery).mockReturnValue({ status: "active" });
       await getQuestionsHandler(mockedEvent);
 
-      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, { ...expectedFetchOptions, query: { "sort-by": "createdAt", "sort-order": "desc", "status": "active" } });
+      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, {
+        ...expectedFetchOptions,
+        query: { "sort-by": "createdAt", "sort-order": "desc", "status": "active", "limit": 0 },
+      });
     });
 
     it("should fetch questions with category and cognitive-difficulty query params when query contains them.", async() => {
@@ -91,7 +94,7 @@ describe("Server Goat It API Questions Get Handler", () => {
 
       expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, {
         ...expectedFetchOptions,
-        query: { "sort-by": "createdAt", "sort-order": "desc", "category": "trivia", "cognitive-difficulty": "easy" },
+        query: { "sort-by": "createdAt", "sort-order": "desc", "category": "trivia", "cognitive-difficulty": "easy", "limit": 0 },
       });
     });
 

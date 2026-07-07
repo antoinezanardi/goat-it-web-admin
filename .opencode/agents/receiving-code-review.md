@@ -14,6 +14,8 @@ permission:
     "rtk git log *": "allow"
     "git diff *": "allow"
     "rtk git diff *": "allow"
+    "git show *": "allow"
+    "rtk git show *": "allow"
     "git add *": "deny"
     "rtk git add *": "deny"
     "git commit *": "deny"

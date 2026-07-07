@@ -57,7 +57,7 @@ describe("Server Goat It API Question Themes Get Handler", () => {
       vi.mocked(createGoatItApiFetchOptions).mockReturnValue(expectedFetchOptions);
       await getQuestionThemesHandler(mockedEvent);
 
-      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, { ...expectedFetchOptions, query: { "sort-by": "slug", "sort-order": "asc" } });
+      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, { ...expectedFetchOptions, query: { "sort-by": "slug", "sort-order": "asc", "limit": 0 } });
     });
 
     it("should fetch question themes with status query param when query contains status.", async() => {
@@ -73,7 +73,10 @@ describe("Server Goat It API Question Themes Get Handler", () => {
       vi.mocked(getQuery).mockReturnValue({ status: "active" });
       await getQuestionThemesHandler(mockedEvent);
 
-      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, { ...expectedFetchOptions, query: { "sort-by": "slug", "sort-order": "asc", "status": "active" } });
+      expect($fetch).toHaveBeenCalledExactlyOnceWith(expectedEndpoint, {
+        ...expectedFetchOptions,
+        query: { "sort-by": "slug", "sort-order": "asc", "limit": 0, "status": "active" },
+      });
     });
 
     it("should throw zod error when query params are invalid.", async() => {
