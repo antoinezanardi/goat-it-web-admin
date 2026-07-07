@@ -4,14 +4,17 @@ import { z } from "zod";
 
 import { createQuestionThemeFromAdminQuestionThemeDto } from "#server/utils/goat-it-api/mappers/goat-it-api.mappers";
 import { createGoatItApiEndpoint, createGoatItApiFetchOptions, handleGoatItApiError } from "#server/utils/goat-it-api/helpers/goat-it-api.helpers";
+import { FIND_QUERY_UNBOUNDED_LIMIT } from "#server/utils/goat-it-api/goat-it-api.constants";
 
 async function getQuestionThemesHandler(event: H3Event): Promise<QuestionTheme[]> {
   const config = useRuntimeConfig(event);
   const endpoint = createGoatItApiEndpoint("question-themes");
   const fetchOptions = createGoatItApiFetchOptions(config.goatItApi);
   const rawQuery = getQuery(event);
-  const query = ADMIN_FIND_QUESTION_THEMES_QUERY_DTO.parse(rawQuery);
-  query.limit = 0;
+  const query = ADMIN_FIND_QUESTION_THEMES_QUERY_DTO.parse({
+    ...rawQuery,
+    limit: FIND_QUERY_UNBOUNDED_LIMIT,
+  });
 
   try {
     const rawData = await $fetch(endpoint, { ...fetchOptions, query });
