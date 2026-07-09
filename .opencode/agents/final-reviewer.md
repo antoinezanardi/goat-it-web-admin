@@ -64,10 +64,6 @@ You are the final reviewer. You review the whole implementation holistically —
 
 ## What to check
 
-### 0. Ignored files
-
-- **`tests/mutation/`** — ignore entirely if present. Do not flag it in any review category.
-
 ### 1. Spec coverage
 - Every requirement in the spec is implemented
 - Walk the spec section by section; for each, cite where it's implemented (file:line)
