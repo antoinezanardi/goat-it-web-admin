@@ -24,7 +24,6 @@ handling, Nuxt conventions, and other repo-specific rules).
   - Full unit run:   `pnpm run test:unit`
   - With coverage:   `pnpm run test:unit:cov`
   - Watch mode:      `pnpm run test:unit:watch`
-  - Mutation (Stryker): `pnpm run test:mutation` / `pnpm run test:mutation:force`
   - Acceptance (Cucumber + Playwright): `pnpm run test:acceptance`
   - Acceptance build only: `pnpm run test:acceptance:build`
   - Install Playwright: `pnpm run test:acceptance:prepare` (run once locally)
@@ -327,7 +326,6 @@ your machine — no API keys, no cloud.
 - Vitest config:    `configs/vitest/vitest.config.ts` + `vitest.config.constants.ts`
 - ESLint config:    `eslint.config.ts` + `configs/eslint/flat-configs/`
 - Oxlint config:    `configs/oxlint/oxlint.config.jsonc`
-- Stryker config:   `configs/stryker/stryker.config.mjs`
 - Cucumber config:  `configs/cucumber/cucumber.json`
 - Nuxt config:      `nuxt.config.ts`
 - Env files:        `envs/.env.development`, `envs/.env.test`, `envs/.env.example`

@@ -1,5 +1,5 @@
 ---
-description: Runs the full quality gate (lint → typecheck → unit → optional mutation → acceptance) with auto-fix for the goat-it-web-admin project. Dispatched by orchestrator after all tasks, or by receiving-code-review after applying fixes.
+description: Runs the full quality gate (lint → typecheck → unit → acceptance) with auto-fix for the goat-it-web-admin project. Dispatched by orchestrator after all tasks, or by receiving-code-review after applying fixes.
 mode: subagent
 model: opencode-go/deepseek-v4-flash
 temperature: 0.2
@@ -16,8 +16,6 @@ permission:
     "rtk pnpm run test:unit*": "allow"
     "pnpm run test:acceptance*": "allow"
     "rtk pnpm run test:acceptance*": "allow"
-    "pnpm run test:mutation*": "allow"
-    "rtk pnpm run test:mutation*": "allow"
     "pnpm run test:unit:*": "allow"
     "rtk pnpm run test:unit:*": "allow"
     "git status*": "allow"
@@ -54,10 +52,6 @@ permission:
 
 You are the **gatekeeper** subagent for the goat-it-web-admin project. You run the full quality gate with auto-fix capability.
 
-## Inputs
-
-- `MUTATION_TESTING`: `true` if mutation testing is required, `false` otherwise
-
 ## Gate execution order (strict, no parallelism)
 
 1. **Lint**: (Run the command below in sequence)
@@ -74,10 +68,7 @@ You are the **gatekeeper** subagent for the goat-it-web-admin project. You run t
    - If fails or coverage < 100%: inspect failures, fix broken tests, re-run
    - You can scope unit tests to a specific file by adding `path/to/file.spec.ts` at the end of the command. Multiple files can be specified
 
-4. **Mutation tests** (only if `MUTATION_TESTING=true`): `pnpm run test:mutation`
-   - If fails or mutation score < 100%: inspect surviving mutants, fix, re-run
-
-5. **Acceptance tests**: `pnpm run test:acceptance`
+4. **Acceptance tests**: `pnpm run test:acceptance`
    - If fails: inspect failures, fix, re-run
    - You can scope acceptance tests to a specific tag by adding `--tags "@question-themes"` at the end of the command.
    - Acceptance tests are **HEAVY**, so when re-running when trying to fix, you should always use the `--tags` option to avoid re-running tests that have already passed.
@@ -105,8 +96,7 @@ Gates executed:
 1. Lint: ✅ (or ❌ with details)
 2. Typecheck: ✅ (or ❌ with details)
 3. Unit tests (cov): ✅ 100% (or ❌ with details)
-4. Mutation tests: ✅ 100% | ⏭️ skipped | ❌ with details
-5. Acceptance: ✅ (or ❌ with details)
+4. Acceptance: ✅ (or ❌ with details)
 
 Changes made:
 - file/path.ts: fixed ESLint error (no-unused-vars)

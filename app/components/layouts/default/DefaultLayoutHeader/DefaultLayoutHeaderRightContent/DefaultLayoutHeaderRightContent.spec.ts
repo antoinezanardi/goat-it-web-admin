@@ -42,7 +42,7 @@ describe("DefaultLayoutHeaderRightContent Component", () => {
   describe("Color Mode Switch Tooltip", () => {
     it("should have a tooltip with switch to dark mode text when color mode is light.", async() => {
       const colorMode = useColorMode();
-      colorMode.value = "light";
+      colorMode.preference = "light";
       await nextTick();
 
       const colorModeSwitchTooltip = wrapper.getComponent<typeof UTooltip>("#default-layout-header-color-mode-switch-tooltip");
@@ -52,7 +52,7 @@ describe("DefaultLayoutHeaderRightContent Component", () => {
 
     it("should have a tooltip with switch to light mode text when color mode is dark.", async() => {
       const colorMode = useColorMode();
-      colorMode.value = "dark";
+      colorMode.preference = "dark";
       await nextTick();
 
       const colorModeSwitchTooltip = wrapper.getComponent<typeof UTooltip>("#default-layout-header-color-mode-switch-tooltip");
