@@ -71,6 +71,7 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
 <template>
   <UCard
     id="question-themes-table"
+    class="flex flex-col mb-4"
     :ui="TABLE_CARD_UI"
   >
     <template #header>
@@ -89,6 +90,7 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
 
     <UTable
       v-model:global-filter="globalFilter"
+      class="flex-1 min-h-0"
       :columns="columns"
       :data="questionThemes"
       data-testid="question-themes-table-data"
@@ -97,6 +99,7 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
       sticky
       :tabindex="0"
       :ui="TABLE_UI"
+      virtualize
     >
       <template #icon-cell="{ row }">
         <QuestionThemeIcon
