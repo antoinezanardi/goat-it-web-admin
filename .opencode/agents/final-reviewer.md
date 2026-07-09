@@ -64,10 +64,6 @@ You are the final reviewer. You review the whole implementation holistically —
 
 ## What to check
 
-### 0. Ignored files
-
-- **`tests/mutation/incremental/`** — ignore entirely. This is a Stryker incremental cache file (auto-generated, can exceed 20k lines). Do not flag it in any review category. If the only change on the branch is this file, the review is trivially clean.
-
 ### 1. Spec coverage
 - Every requirement in the spec is implemented
 - Walk the spec section by section; for each, cite where it's implemented (file:line)

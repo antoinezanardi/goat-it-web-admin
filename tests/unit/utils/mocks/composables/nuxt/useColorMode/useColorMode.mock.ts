@@ -1,20 +1,29 @@
-import { ref } from "vue";
-import type { Ref } from "vue";
+import { computed, ref } from "vue";
+import type { ComputedRef, Ref } from "vue";
 
 type UseColorModeMock = {
-  value: Ref<string>["value"];
+  preference: string;
+  readonly value: string;
+  unknown: boolean;
+  forced: boolean;
 };
 
 function createUseColorModeMock(initialValue = "light"): UseColorModeMock {
-  const colorModeReference = ref(initialValue);
+  const preference: Ref<string> = ref(initialValue);
+  const value: ComputedRef<string> = computed(() => (preference.value === "system" ? "light" : preference.value));
 
   return {
+    get preference() {
+      return preference.value;
+    },
+    set preference(updatedValue: string) {
+      preference.value = updatedValue;
+    },
     get value() {
-      return colorModeReference.value;
+      return value.value;
     },
-    set value(updatedValue: string) {
-      colorModeReference.value = updatedValue;
-    },
+    unknown: false,
+    forced: false,
   };
 }
 

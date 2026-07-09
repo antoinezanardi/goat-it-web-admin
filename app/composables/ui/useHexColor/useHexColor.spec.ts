@@ -28,7 +28,7 @@ describe("useHexColor", () => {
     });
 
     it("should return a lightened color when color is defined and mode is dark.", () => {
-      useColorModeMock.value = "dark";
+      useColorModeMock.preference = "dark";
       const color = computed<string | undefined>(() => "#FF0000");
       const { adaptedColor } = useHexColor(color);
 
