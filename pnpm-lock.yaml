@@ -51,8 +51,8 @@ importers:
         specifier: ^10.4.1
         version: 10.4.1(@vue/compiler-dom@3.5.38)(db0@0.3.4)(eslint@10.7.0(jiti@2.7.0)(supports-color@10.2.2))(ioredis@5.10.1)(magicast@0.5.2)(pinia@3.0.4(typescript@6.0.3)(vue@3.5.38(typescript@6.0.3)))(rollup@4.60.3)(supports-color@10.2.2)(typescript@6.0.3)(vite@7.3.3(@types/node@25.9.5)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.9.0))(vue@3.5.38(typescript@6.0.3))
       '@pinia/nuxt':
-        specifier: ^0.11.3
-        version: 0.11.3(magicast@0.5.2)(pinia@3.0.4(typescript@6.0.3)(vue@3.5.38(typescript@6.0.3)))
+        specifier: ^1.0.0
+        version: 1.0.0(magicast@0.5.2)(pinia@3.0.4(typescript@6.0.3)(vue@3.5.38(typescript@6.0.3)))
       '@pinia/testing':
         specifier: ^2.0.0
         version: 2.0.0(pinia@3.0.4(typescript@6.0.3)(vue@3.5.38(typescript@6.0.3)))
@@ -2635,10 +2635,10 @@ packages:
     resolution: {integrity: sha512-tmmZ3lQxAe/k/+rNnXQRawJ4NjxO2hqiOLTHvWchtGZULp4RyFeh6aU4XdOYBFe2KE1oShQTv4AblOs2iOrNnQ==}
     engines: {node: '>= 10.0.0'}
 
-  '@pinia/nuxt@0.11.3':
-    resolution: {integrity: sha512-7WVNHpWx4qAEzOlnyrRC88kYrwnlR/PrThWT0XI1dSNyUAXu/KBv9oR37uCgYkZroqP5jn8DfzbkNF3BtKvE9w==}
+  '@pinia/nuxt@1.0.0':
+    resolution: {integrity: sha512-qOMjc8qEiHQnTj/bmGk0DNBHD99ZfakeKBmrfJCuHN4Or1PavKhrBDnEmI2ozysY6bxkgtikRpRKRlyqsyGh2Q==}
     peerDependencies:
-      pinia: ^3.0.4
+      pinia: ^4.0.0
 
   '@pinia/testing@2.0.0':
     resolution: {integrity: sha512-cZv+h+1C9OICCEVWM2F1X6ja73ofCGWOa1/kxmepBiPml4aQfdCmDBR+VqVR1avPba7VlIo6loGNdoGU7Fu09A==}
@@ -10386,7 +10386,7 @@ snapshots:
       '@parcel/watcher-win32-ia32': 2.5.6
       '@parcel/watcher-win32-x64': 2.5.6
 
-  '@pinia/nuxt@0.11.3(magicast@0.5.2)(pinia@3.0.4(typescript@6.0.3)(vue@3.5.38(typescript@6.0.3)))':
+  '@pinia/nuxt@1.0.0(magicast@0.5.2)(pinia@3.0.4(typescript@6.0.3)(vue@3.5.38(typescript@6.0.3)))':
     dependencies:
       '@nuxt/kit': 4.4.8(magicast@0.5.2)
       pinia: 3.0.4(typescript@6.0.3)(vue@3.5.38(typescript@6.0.3))
