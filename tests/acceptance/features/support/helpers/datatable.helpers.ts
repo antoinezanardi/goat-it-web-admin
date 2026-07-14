@@ -1,6 +1,7 @@
-import type { DataTable } from "@cucumber/cucumber";
 import type { ZodType } from "zod";
 import { z } from "zod";
+
+import type { DataTable } from "~~/tests/acceptance/features/support/types/cucumber.types.ts";
 
 /**
  * Creates a Zod schema that coerces an empty string to `undefined` and validates non-empty strings.
@@ -22,9 +23,7 @@ function zCoerceOptionalString(): ZodType<string | undefined> {
  * @param schema - The Zod schema each row must conform to.
  * @returns An array of validated, typed rows.
  */
-type DataTableType = InstanceType<typeof DataTable>;
-
-function validateDataTableAndGetRows<T>(dataTable: DataTableType, schema: ZodType<T>): T[] {
+function validateDataTableAndGetRows<T>(dataTable: DataTable, schema: ZodType<T>): T[] {
   const rows = dataTable.hashes();
 
   if (rows.length === 0) {
