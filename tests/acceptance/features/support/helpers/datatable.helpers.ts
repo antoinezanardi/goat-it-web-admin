@@ -22,7 +22,9 @@ function zCoerceOptionalString(): ZodType<string | undefined> {
  * @param schema - The Zod schema each row must conform to.
  * @returns An array of validated, typed rows.
  */
-function validateDataTableAndGetRows<T>(dataTable: DataTable, schema: ZodType<T>): T[] {
+type DataTableType = InstanceType<typeof DataTable>;
+
+function validateDataTableAndGetRows<T>(dataTable: DataTableType, schema: ZodType<T>): T[] {
   const rows = dataTable.hashes();
 
   if (rows.length === 0) {

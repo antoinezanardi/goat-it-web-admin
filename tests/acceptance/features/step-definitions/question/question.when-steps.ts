@@ -1,6 +1,6 @@
 import { When } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
-import type { DataTable } from "@cucumber/cucumber";
+import type { DataTable } from "#acceptance/features/support/types/cucumber.types.ts";
 
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
 import { validateDataTableAndGetFirstRow } from "#acceptance/features/support/helpers/datatable.helpers.ts";

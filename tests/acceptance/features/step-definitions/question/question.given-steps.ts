@@ -1,5 +1,5 @@
 import { Given } from "@cucumber/cucumber";
-import type { DataTable } from "@cucumber/cucumber";
+import type { DataTable } from "#acceptance/features/support/types/cucumber.types.ts";
 
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
 import { validateDataTableAndGetFirstRow, validateDataTableAndGetRows } from "#acceptance/features/support/helpers/datatable.helpers.ts";
