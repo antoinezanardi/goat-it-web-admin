@@ -72,3 +72,24 @@ Feature: 🎨 Question Theme Modification
     Then the heading with exact name "Edit theme" should be visible
     When the user clicks on the close button in the modal footer
     Then the heading with exact name "Edit theme" should be hidden
+
+  Scenario: 🎨 Question theme modification modal autofocuses the label field
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label      | slug       | description  | aliases |
+      | Test Theme | test-theme | A test theme | test    |
+    When the user clicks on the button with exact name "Edit question theme with slug test-theme"
+    Then the input with name "Label*" should be focused
+
+  Scenario: 🎨 Question theme modification form submits with Meta+Enter shortcut
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label      | slug       | description  | aliases |
+      | Test Theme | test-theme | A test theme | test    |
+    When the user clicks on the button with exact name "Edit question theme with slug test-theme"
+    And the user fills the input with name "Label*" with text "Updated Theme"
+    And the user presses the "Meta+Enter" key
+    Then the question theme table should contain a row with the following attributes:
+      | label         | slug       |
+      | Updated Theme | test-theme |
+    And the toast with exact text "Question theme modified successfully" should be visible

@@ -1,15 +1,21 @@
 <script setup lang="ts">
+import { h } from "vue";
 import type { AdminFindQuestionsQueryDto, QuestionCategory, QuestionCognitiveDifficulty, QuestionStatus } from "@goat-it/schemas/question";
 import type { TableColumn } from "@nuxt/ui";
+import type { Locale } from "@goat-it/schemas/shared/locale";
 
 import type { QuestionsTableFilters } from "~/components/domain/question/QuestionsTable/QuestionsTableHeader/questions-table-header.types";
 import type { QuestionsTableEmits, QuestionsTableGlobalFilterOptions } from "~/components/domain/question/QuestionsTable/questions-table.types";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
-import { TABLE_UI } from "~/utils/constants/table/table.constants.ts";
+import { TABLE_UI, TABLE_CARD_UI } from "~/utils/constants/table/table.constants.ts";
+import { getLocalizedDisplayValue } from "#shared/utils/helpers/localization/localization.helpers";
+import { toKebabCaseKeys } from "#shared/utils/helpers/object/object.helpers";
 
 const emit = defineEmits<QuestionsTableEmits>();
 
 const { t, locale: currentLocale } = useI18n();
+
+const expanded = ref<Record<string, boolean>>({});
 
 const questionsStore = useQuestionsStore();
 const { questions, isFetchingQuestions } = storeToRefs(questionsStore);
@@ -19,24 +25,22 @@ const { filters, activeFilterCount, clearFilters, setFilterValue, hasActiveFilte
     status: { default: undefined as QuestionStatus | undefined },
     category: { default: undefined as QuestionCategory | undefined },
     cognitiveDifficulty: { default: undefined as QuestionCognitiveDifficulty | undefined },
+    themeIds: { default: [] as string[] },
   },
 });
-const filterValues = computed((): [QuestionStatus | undefined, QuestionCategory | undefined, QuestionCognitiveDifficulty | undefined] => [
-  filters.status.value,
-  filters.category.value,
-  filters.cognitiveDifficulty.value,
-]);
+const filterValues = computed(() => ({
+  status: filters.status.value,
+  category: filters.category.value,
+  cognitiveDifficulty: filters.cognitiveDifficulty.value,
+  themeIds: filters.themeIds.value,
+}));
 
-watch(filterValues, async([status, category, cognitiveDifficulty]): Promise<void> => {
-  const isAllUndefined = status === undefined && category === undefined && cognitiveDifficulty === undefined;
-  const query: AdminFindQuestionsQueryDto | undefined = isAllUndefined ? undefined : {
-    status,
-    category,
-    "cognitive-difficulty": cognitiveDifficulty,
-  } as AdminFindQuestionsQueryDto;
-  await questionsStore.fetchAndStoreQuestions(query);
+watch(filterValues, async(values): Promise<void> => {
+  await questionsStore.fetchAndStoreQuestions(toKebabCaseKeys(values) as AdminFindQuestionsQueryDto);
 });
+
 const columns = computed<TableColumn<Question>[]>(() => [
+  createTableColumn<Question>({ accessorKey: "expand", header: () => h("span", { class: "sr-only" }, t("questions.table.expandTooltip")), isCentered: true }),
   createTableColumn<Question>({ accessorKey: "category", header: t("questions.fields.category"), isCentered: true }),
   createTableColumn<Question>({ accessorKey: "themes", header: t("questions.fields.themes"), isCentered: true }),
   createTableColumn<Question>({ accessorKey: "statement", header: t("questions.fields.statement"), tdClass: "whitespace-normal break-words" }),
@@ -65,14 +69,25 @@ const headerFilters = computed<QuestionsTableFilters>(() => ({
   status: filters.status.value,
   category: filters.category.value,
   cognitiveDifficulty: filters.cognitiveDifficulty.value,
+  themeIds: filters.themeIds.value,
 }));
+
+function getStatementText(statement: Record<string, string | undefined>): string {
+  return getLocalizedDisplayValue(statement, currentLocale.value as Locale) ?? "";
+}
+
+function getExpandAriaLabel(isExpanded: boolean | undefined, statementText: string): string {
+  const action = isExpanded ? t("questions.table.collapseTooltip") : t("questions.table.expandTooltip");
+
+  return t("questions.table.expandAriaLabel", { action, statement: statementText });
+}
 
 function onStartCreateFromQuestionsTableHeader(): void {
   emit("startCreate");
 }
 
 function onUpdateFilterFromQuestionsTableHeader(updatedFilters: Partial<QuestionsTableFilters>): void {
-  const filterKeys: (keyof QuestionsTableFilters)[] = ["status", "category", "cognitiveDifficulty"];
+  const filterKeys: (keyof QuestionsTableFilters)[] = ["status", "category", "cognitiveDifficulty", "themeIds"];
 
   for (const key of filterKeys) {
     if (key in updatedFilters) {
@@ -91,7 +106,11 @@ function onStartEditFromQuestionsTableActions(id: string): void {
 </script>
 
 <template>
-  <UCard id="questions-table">
+  <UCard
+    id="questions-table"
+    class="flex flex-col mb-4"
+    :ui="TABLE_CARD_UI"
+  >
     <template #header>
       <QuestionsTableHeader
         v-model:search-term="searchTerm"
@@ -107,7 +126,9 @@ function onStartEditFromQuestionsTableActions(id: string): void {
     </template>
 
     <UTable
+      v-model:expanded="expanded"
       v-model:global-filter="globalFilter"
+      class="flex-1 min-h-0"
       :columns="columns"
       :data="questions"
       data-testid="questions-table-data"
@@ -116,7 +137,28 @@ function onStartEditFromQuestionsTableActions(id: string): void {
       sticky
       :tabindex="0"
       :ui="TABLE_UI"
+      virtualize
     >
+      <template #expand-cell="{ row }">
+        <div class="flex justify-center">
+          <UTooltip
+            :data-testid="`expand-tooltip-${row.original.id}`"
+            :text="row.getIsExpanded() ? $t('questions.table.collapseTooltip') : $t('questions.table.expandTooltip')"
+          >
+            <UButton
+              :aria-label="getExpandAriaLabel(row.getIsExpanded(), getStatementText(row.original.content.statement))"
+              class="duration-200 transition-transform"
+              :class="{ 'rotate-180': row.getIsExpanded() }"
+              color="neutral"
+              :data-testid="`expand-button-${row.original.id}`"
+              icon="i-lucide-chevron-down"
+              variant="ghost"
+              @click="row.toggleExpanded()"
+            />
+          </UTooltip>
+        </div>
+      </template>
+
       <template #category-cell="{ row }">
         <QuestionCategoryBadge
           :category="row.original.category"
@@ -167,6 +209,13 @@ function onStartEditFromQuestionsTableActions(id: string): void {
             @start-edit="onStartEditFromQuestionsTableActions"
           />
         </div>
+      </template>
+
+      <template #expanded="{ row }">
+        <QuestionsTableExpandedRow
+          :data-testid="`questions-table-expanded-row-${row.original.id}`"
+          :question="row.original"
+        />
       </template>
 
       <template #loading>

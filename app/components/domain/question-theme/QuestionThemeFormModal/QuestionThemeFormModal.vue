@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { QuestionThemeCreationDto, QuestionThemeModificationDto } from "@goat-it/schemas/question-theme";
+import { nextTick, watch } from "vue";
 
 import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants";
 import { QUESTION_THEME_FORM_MODAL_UI } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.constants";
@@ -17,6 +18,14 @@ const emit = defineEmits<QuestionThemeFormModalEmits>();
 const open = defineModel<boolean>("open", { default: false });
 
 const formReference = useTemplateRef<InstanceType<typeof QuestionThemeForm>>("formReference");
+
+watch(open, async isOpen => {
+  if (!isOpen) {
+    return;
+  }
+  await nextTick();
+  await formReference.value?.focusFirstField();
+}, { immediate: true });
 
 const modalTitle = computed<string>(() => (props.mode === "edit" ? "questionThemes.editTheme" : "questionThemes.createNew"));
 const primaryButtonLabel = computed<string>(() => (props.mode === "edit" ? "common.edit" : "common.create"));
@@ -41,7 +50,7 @@ function onCloseModal(): void {
 </script>
 
 <template>
-  <LazyUModal
+  <UModal
     v-model:open="open"
     :close="!isSubmitting"
     :dismissible="!isSubmitting"
@@ -87,5 +96,5 @@ function onCloseModal(): void {
         @primary-button-click="onClickFromFooterPrimaryButton"
       />
     </template>
-  </LazyUModal>
+  </UModal>
 </template>

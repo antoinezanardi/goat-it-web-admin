@@ -35,8 +35,8 @@ function onStartCreateFromQuestionsTable(): void {
 }
 
 function onStartEditFromQuestionsTable(id: string): void {
-  const targetQuestion = questionsStore.questions.find(question => question.id === id);
-  if (!targetQuestion) {
+  const doesTargetQuestionExist = questionsStore.questions.some(question => question.id === id);
+  if (!doesTargetQuestionExist) {
     return;
   }
   formMode.value = "edit";
@@ -75,15 +75,19 @@ definePageMeta({
 </script>
 
 <template>
-  <div id="questions-page">
+  <div
+    id="questions-page"
+    class="flex flex-col h-[calc(100dvh-var(--ui-header-height))]"
+  >
     <PageHeader
       :icon="QUESTION_ICON"
       :title="$t(QUESTIONS_PAGE_TITLE_KEY)"
     />
 
-    <UContainer>
+    <UContainer class="flex flex-1 flex-col min-h-0">
       <QuestionsTable
         id="questions-table"
+        class="max-h-full"
         @start-create="onStartCreateFromQuestionsTable"
         @start-edit="onStartEditFromQuestionsTable"
       />

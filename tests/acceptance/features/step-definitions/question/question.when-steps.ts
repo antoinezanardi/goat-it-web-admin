@@ -1,7 +1,7 @@
 import { When } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
-import type { DataTable } from "@cucumber/cucumber";
 
+import type { DataTable } from "#acceptance/features/support/types/cucumber.types.ts";
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
 import { validateDataTableAndGetFirstRow } from "#acceptance/features/support/helpers/datatable.helpers.ts";
 import { QUESTION_FORM_ROW_SCHEMA } from "#acceptance/features/step-definitions/question/datatables/question.datatables.schemas.ts";
@@ -102,5 +102,17 @@ When(
 
     await expect(hintSwitch).toBeVisible();
     await hintSwitch.click();
+  },
+);
+
+When(
+  /^the user clicks the expand button on the question row with statement "(?<statement>[^"]+)"$/u,
+  async function(this: GoatItWorld, statement: string): Promise<void> {
+    const table = this.page.getByRole("table");
+    const row = table.getByRole("row").filter({ has: this.page.getByText(statement, { exact: true }) });
+    const expandButton = row.getByRole("button", { name: `See answer and more info for question "${statement}"` });
+
+    await expect(expandButton).toBeVisible();
+    await expandButton.click();
   },
 );

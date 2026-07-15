@@ -15,7 +15,7 @@ import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 // oxlint-disable-next-line typescript/no-unnecessary-type-parameters, typescript/no-explicit-any
 function getWrapperVm<T extends ComponentVm = ComponentVm>(wrapper: VueWrapper<any>): T {
   // Acceptable as VTU wrapper.vm is loosely typed and requires assertion to access component internals
-  // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+  // oxlint-disable-next-line typescript/no-unsafe-type-assertion typescript/no-unnecessary-type-assertion
   return wrapper.vm as unknown as T;
 }
 

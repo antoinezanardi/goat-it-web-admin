@@ -1,11 +1,12 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
+import type { ComponentExposed } from "vue-component-type-helpers";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { DefaultModalFooter } from "#components";
-import type { UButton, UIcon } from "#components";
+import type { UButton, UIcon, UKbd } from "#components";
 
 import type { DefaultModalFooterProps } from "~/components/shared/ui/modal/DefaultModalFooter/default-modal-footer.types";
 
@@ -37,7 +38,7 @@ describe("DefaultModalFooter Component", () => {
       it("should display the common.close i18n key as label when closeButtonLabel prop is not provided.", () => {
         const closeButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-close-button']");
 
-        expect(closeButton.text()).toBe("common.close");
+        expect(closeButton.props("label")).toBe("common.close");
       });
 
       it("should display the custom label when closeButtonLabel prop is provided.", async() => {
@@ -45,7 +46,7 @@ describe("DefaultModalFooter Component", () => {
 
         const closeButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-close-button']");
 
-        expect(closeButton.text()).toBe("common.cancel");
+        expect(closeButton.props("label")).toBe("common.cancel");
       });
     });
 
@@ -76,12 +77,30 @@ describe("DefaultModalFooter Component", () => {
     });
   });
 
+  describe("Close button shortcut display", () => {
+    let closeButton: VueWrapper;
+    let escapeKbd: VueWrapper<ComponentExposed<typeof UKbd>>;
+
+    beforeEach(() => {
+      closeButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-close-button']");
+      escapeKbd = closeButton.findComponent<typeof UKbd>("[data-testid='default-modal-footer-close-button-shortcut-escape']");
+    });
+
+    it("should render UKbd with escape value when mounted.", () => {
+      expect(escapeKbd.props("value")).toBe("escape");
+    });
+
+    it("should render UKbd with sm size when mounted.", () => {
+      expect(escapeKbd.props("size")).toBe("sm");
+    });
+  });
+
   describe("Primary button", () => {
     describe("Label", () => {
       it("should pass the primaryButtonLabel prop to the primary button when mounted.", () => {
         const primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-primary-button']");
 
-        expect(primaryButton.text()).toBe("common.create");
+        expect(primaryButton.props("label")).toBe("common.create");
       });
     });
 
@@ -136,6 +155,74 @@ describe("DefaultModalFooter Component", () => {
 
         expect(wrapper.emitted("primaryButtonClick")).toBeDefined();
       });
+    });
+  });
+
+  describe("Shortcut display", () => {
+    let primaryButton: VueWrapper;
+
+    beforeEach(() => {
+      primaryButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-primary-button']");
+    });
+
+    describe("Meta KBD", () => {
+      let metaKbd: VueWrapper<ComponentExposed<typeof UKbd>>;
+
+      beforeEach(() => {
+        metaKbd = primaryButton.findComponent<typeof UKbd>("[data-testid='default-modal-footer-primary-button-shortcut-meta']");
+      });
+
+      it("should render UKbd with meta value when mounted.", () => {
+        expect(metaKbd.props("value")).toBe("meta");
+      });
+
+      it("should render UKbd with sm size when mounted.", () => {
+        expect(metaKbd.props("size")).toBe("sm");
+      });
+    });
+
+    describe("Enter KBD", () => {
+      let enterKbd: VueWrapper<ComponentExposed<typeof UKbd>>;
+
+      beforeEach(() => {
+        enterKbd = primaryButton.findComponent<typeof UKbd>("[data-testid='default-modal-footer-primary-button-shortcut-enter']");
+      });
+
+      it("should render UKbd with enter value when mounted.", () => {
+        expect(enterKbd.props("value")).toBe("enter");
+      });
+
+      it("should render UKbd with sm size when mounted.", () => {
+        expect(enterKbd.props("size")).toBe("sm");
+      });
+    });
+  });
+
+  describe("Keyboard shortcut", () => {
+    function dispatchMetaEnterKeydown(): void {
+      globalThis.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", ctrlKey: true, bubbles: true }));
+    }
+
+    it("should emit primaryButtonClick when meta+enter is pressed and primary button is enabled.", () => {
+      dispatchMetaEnterKeydown();
+
+      expect(wrapper.emitted("primaryButtonClick")).toHaveLength(1);
+    });
+
+    it("should not emit primaryButtonClick when meta+enter is pressed and primary button is disabled.", async() => {
+      await wrapper.setProps({ isPrimaryButtonDisabled: true });
+
+      dispatchMetaEnterKeydown();
+
+      expect(wrapper.emitted("primaryButtonClick")).toBeUndefined();
+    });
+
+    it("should not emit primaryButtonClick when meta+enter is pressed and primary button is loading.", async() => {
+      await wrapper.setProps({ isPrimaryButtonLoading: true });
+
+      dispatchMetaEnterKeydown();
+
+      expect(wrapper.emitted("primaryButtonClick")).toBeUndefined();
     });
   });
 });

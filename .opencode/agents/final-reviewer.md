@@ -1,7 +1,7 @@
 ---
 description: Reviews the entire feature branch against the full plan and spec for the goat-it-web-admin project. Catches cross-task issues, checks code quality, architecture fit, and spec coverage holistically. Does NOT run quality gates (orchestrator owns those). Returns a merge recommendation.
 mode: subagent
-model: opencode-go/deepseek-v4-pro
+model: opencode-go/deepseek-v4-flash
 temperature: 0.1
 hidden: true
 steps: 80
@@ -9,12 +9,14 @@ permission:
   edit: deny
   bash:
     "*": "ask"
-    "git status*": "allow"
-    "rtk git status*": "allow"
-    "git log*": "allow"
-    "rtk git log*": "allow"
-    "git diff*": "allow"
-    "rtk git diff*": "allow"
+    "git status *": "allow"
+    "rtk git status *": "allow"
+    "git log *": "allow"
+    "rtk git log *": "allow"
+    "git diff *": "allow"
+    "rtk git diff *": "allow"
+    "git branch *": "allow"
+    "rtk git branch *": "allow"
     "git add *": "deny"
     "rtk git add *": "deny"
     "git commit *": "deny"
@@ -32,6 +34,10 @@ permission:
     "rtk tail *": "allow"
     "find *": "allow"
     "rtk find *": "allow"
+    "echo *": "allow"
+    "rtk echo *": "allow"
+    "wc *": "allow"
+    "rtk wc *": "allow"
   task: deny
 ---
 
@@ -79,7 +85,7 @@ You are the final reviewer. You review the whole implementation holistically —
 - **Repositories:** factory function pattern, calls internal Nitro routes only
 - **Server handlers:** thin route file + `*.handler.ts` with logic, Zod validation, mapper usage
 - **Tests:** `describe(fn, ...)` for functions, `describe("<Component>", ...)` for components. Test names `"should X when Y."`. `toHaveBeenCalledExactlyOnceWith` for single calls. No `xit`/`it.skip`/`describe.skip`
-- **i18n:** keys consistent, present in `fr/` first, all 6 locales populated (or at least placeholder)
+- **i18n:** keys consistent, present in `fr/` first, all 6 locales populated (or at least placeholder). **No hardcoded strings**, always use `t()`
 - **No dead code:** no unused imports, parameters, or variables
 
 ### 4. Architectural fit
@@ -166,7 +172,7 @@ You are the final reviewer. You review the whole implementation holistically —
 
 ## Skills to load
 
-- `requesting-code-review` — for the review structure
 - `nuxt` — to understand project structure and conventions
 - `nuxt-ui` — to evaluate UI component usage
+- `vue` – to understand Vue 3 patterns and best practices
 - `unit-testing` — to evaluate test quality

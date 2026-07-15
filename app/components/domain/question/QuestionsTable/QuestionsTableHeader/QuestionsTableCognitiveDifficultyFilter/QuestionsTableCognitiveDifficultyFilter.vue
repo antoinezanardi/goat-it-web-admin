@@ -21,8 +21,8 @@ const cognitiveDifficultyItems = computed<TableFilterSelectItem<QuestionCognitiv
   };
 }));
 
-function onUpdateModelValue(value: QuestionCognitiveDifficulty | undefined): void {
-  emit("update:modelValue", value);
+function onUpdateModelValue(value: QuestionCognitiveDifficulty | QuestionCognitiveDifficulty[] | undefined): void {
+  emit("update:modelValue", value as QuestionCognitiveDifficulty | undefined);
 }
 </script>
 

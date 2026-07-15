@@ -11,3 +11,12 @@ Then(
     await expect(locator).toHaveValue(value);
   },
 );
+
+Then(
+  /^the input with name "(?<name>[^"]*)" should be focused$/u,
+  async function(this: GoatItWorld, name: string): Promise<void> {
+    const locator = this.page.getByRole("textbox", { name });
+
+    await expect(locator).toBeFocused();
+  },
+);

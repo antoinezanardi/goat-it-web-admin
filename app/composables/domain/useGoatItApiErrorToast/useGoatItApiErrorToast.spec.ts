@@ -104,6 +104,7 @@ describe("useGoatItApiErrorToast", () => {
       expect(useAppToastMock.addErrorToast).toHaveBeenCalledExactlyOnceWith({
         title: "Can't archive question theme",
         description: "translated:errors.goatItApi.questionThemeReferencedByLiveQuestions",
+        id: "api-error-questionThemeReferencedByLiveQuestions",
       });
     });
 
@@ -136,6 +137,7 @@ describe("useGoatItApiErrorToast", () => {
       expect(useAppToastMock.addErrorToast).toHaveBeenCalledExactlyOnceWith({
         title: "Can't fetch question themes",
         description: "translated:errors.unknown",
+        id: "api-error-unknown",
       });
     });
 
@@ -167,6 +169,7 @@ describe("useGoatItApiErrorToast", () => {
       expect(useAppToastMock.addErrorToast).toHaveBeenCalledExactlyOnceWith({
         title: "Can't create question theme",
         description: "translated:errors.unknown",
+        id: "api-error-unknown",
       });
     });
 
@@ -196,6 +199,7 @@ describe("useGoatItApiErrorToast", () => {
       expect(useAppToastMock.addErrorToast).toHaveBeenCalledExactlyOnceWith({
         title: "Can't create question theme",
         description: "translated:errors.unknown",
+        id: "api-error-unknown",
       });
     });
 
@@ -223,6 +227,7 @@ describe("useGoatItApiErrorToast", () => {
       expect(useAppToastMock.addErrorToast).toHaveBeenCalledExactlyOnceWith({
         title: "Can't fetch question themes",
         description: "translated:errors.unknown",
+        id: "api-error-unknown",
       });
     });
 
@@ -247,6 +252,7 @@ describe("useGoatItApiErrorToast", () => {
       expect(useAppToastMock.addErrorToast).toHaveBeenCalledExactlyOnceWith({
         title: "Can't fetch question themes",
         description: "translated:errors.unknown",
+        id: "api-error-unknown",
       });
     });
 
@@ -270,6 +276,7 @@ describe("useGoatItApiErrorToast", () => {
       expect(useAppToastMock.addErrorToast).toHaveBeenCalledExactlyOnceWith({
         title: "Can't fetch question themes",
         description: "translated:errors.unknown",
+        id: "api-error-unknown",
       });
     });
 

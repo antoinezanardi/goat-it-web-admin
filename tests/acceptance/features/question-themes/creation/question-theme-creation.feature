@@ -66,3 +66,20 @@ Feature: 🎨 Question Theme Creation
     Then the heading with exact name "Create a new theme" should be visible
     When the user clicks on the close button in the modal footer
     Then the heading with exact name "Create a new theme" should be hidden
+
+  Scenario: 🎨 Question theme creation modal autofocuses the label field
+    Given the user is on question-themes page
+    When the user clicks on the button with name "Create a new theme"
+    Then the input with name "Label*" should be focused
+
+  Scenario: 🎨 Question theme form submits with Meta+Enter shortcut
+    Given the user is on question-themes page
+    When the user clicks on the button with name "Create a new theme"
+    And the user fills the question theme form with the following attributes:
+      | label                 | slug                  | description                    | aliases | color  |
+      | Acceptance Test Theme | acceptance-test-theme | A theme for acceptance testing | test    | FF5733 |
+    And the user presses the "Meta+Enter" key
+    Then the question theme table should contain a row with the following attributes:
+      | label                 | slug                  | description                    | aliases | status |
+      | Acceptance Test Theme | acceptance-test-theme | A theme for acceptance testing | test    | Active |
+    And the toast with exact text "Question theme created successfully" should be visible

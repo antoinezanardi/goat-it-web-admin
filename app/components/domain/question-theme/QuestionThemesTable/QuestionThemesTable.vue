@@ -4,8 +4,9 @@ import type { TableColumn } from "@nuxt/ui";
 
 import type { QuestionThemesTableEmits, QuestionThemesTableGlobalFilterOptions } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 import type { QuestionThemesTableFilters } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableHeader/question-themes-table-header.types";
-import { TABLE_UI } from "~/utils/constants/table/table.constants.ts";
+import { TABLE_UI, TABLE_CARD_UI } from "~/utils/constants/table/table.constants.ts";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
+import { toKebabCaseKeys } from "#shared/utils/helpers/object/object.helpers";
 
 const emit = defineEmits<QuestionThemesTableEmits>();
 
@@ -20,9 +21,10 @@ const { filters, activeFilterCount, clearFilters, setFilterValue } = useTableFil
   },
 });
 
-watch(() => filters.status.value, async status => {
-  const query = status === undefined ? undefined : { status } as AdminFindQuestionThemesQueryDto;
-  await questionThemesStore.fetchAndStoreQuestionThemes(query);
+const filterValues = computed(() => ({ status: filters.status.value }));
+
+watch(filterValues, async(values): Promise<void> => {
+  await questionThemesStore.fetchAndStoreQuestionThemes(toKebabCaseKeys(values) as AdminFindQuestionThemesQueryDto);
 });
 
 const columns = computed<TableColumn<QuestionTheme>[]>(() => [
@@ -67,7 +69,11 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
 </script>
 
 <template>
-  <UCard id="question-themes-table">
+  <UCard
+    id="question-themes-table"
+    class="flex flex-col mb-4"
+    :ui="TABLE_CARD_UI"
+  >
     <template #header>
       <QuestionThemesTableHeader
         v-model:search-term="searchTerm"
@@ -84,6 +90,7 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
 
     <UTable
       v-model:global-filter="globalFilter"
+      class="flex-1 min-h-0"
       :columns="columns"
       :data="questionThemes"
       data-testid="question-themes-table-data"
@@ -92,6 +99,7 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
       sticky
       :tabindex="0"
       :ui="TABLE_UI"
+      virtualize
     >
       <template #icon-cell="{ row }">
         <QuestionThemeIcon

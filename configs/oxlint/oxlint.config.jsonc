@@ -20,10 +20,13 @@
     "defineNuxtConfig": "readonly",
     "defineNuxtPlugin": "readonly",
     "definePageMeta": "readonly",
+    "defineShortcuts": "readonly",
     "defineProps": "readonly",
     "defineSlots": "readonly",
     "defineStore": "readonly",
     "document": "readonly",
+    "KeyboardEvent": "readonly",
+    "window": "readonly",
     "fetch": "readonly",
     "getQuery": "readonly",
     "getRouterParam": "readonly",
@@ -72,7 +75,6 @@
     ".agents/**/*",
     ".opencode/**/*",
     "tests/unit/coverage/**/*",
-    "tests/mutation/**/*",
     "tests/acceptance/reports/**/*"
   ],
   "options": {

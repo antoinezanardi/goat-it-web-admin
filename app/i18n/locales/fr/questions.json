@@ -93,6 +93,11 @@
       "context": "Contexte pour comprendre la réponse",
       "trivia": "ex : Paris s'appelait autrefois Lutèce",
       "sourceUrls": "ex : https://fr.wikipedia.org/"
+    },
+    "table": {
+      "expandTooltip": "Voir la réponse et plus d'infos",
+      "collapseTooltip": "Masquer la réponse et plus d'infos",
+      "expandAriaLabel": "{action} pour la question \"{statement}\""
     }
   }
 }

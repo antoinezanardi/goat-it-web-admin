@@ -58,6 +58,7 @@ export default defineNuxtConfig({
       componentDetection: true,
     },
   },
+  spaLoadingTemplate: "templates/spa-loading-template.html",
   runtimeConfig: {
     goatItApi: {
       baseUrl: "",
@@ -85,8 +86,9 @@ export default defineNuxtConfig({
         "@goat-it/schemas/question",
         "@goat-it/schemas/question-theme",
         "@goat-it/schemas/shared/locale",
-        "zod",
         "fuse.js",
+        "radashi",
+        "zod",
       ],
     },
   },

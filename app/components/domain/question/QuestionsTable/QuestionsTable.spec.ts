@@ -9,6 +9,8 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { vi } from "vitest";
 import type { AdminFindQuestionsQueryDto } from "@goat-it/schemas/question";
 
+import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
+import { createFakeQuestionContent } from "~~/tests/unit/utils/faketories/questions/entity/question-content/question-content.entity.faketory";
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
 import { createFakeQuestionsTableFilters } from "~~/tests/unit/utils/faketories/questions/components/questions-table-filters.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
@@ -89,6 +91,11 @@ describe("QuestionsTable Component", () => {
     it("should pass columns with translated headers to the table component when mounted.", () => {
       const table = wrapper.getComponent({ name: "UTable" });
       const expectedColumns: TableColumn<Question>[] = [
+        {
+          accessorKey: "expand",
+          header: expect.any(Function) as () => void,
+          meta: { class: { th: "text-center", td: "text-center" } },
+        },
         {
           accessorKey: "category",
           header: "questions.fields.category",
@@ -378,7 +385,7 @@ describe("QuestionsTable Component", () => {
     it("should pass all undefined filters to the table header when no filter is active.", () => {
       const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
 
-      expect(header.props("filters")).toStrictEqual(createFakeQuestionsTableFilters({ status: undefined, category: undefined, cognitiveDifficulty: undefined }));
+      expect(header.props("filters")).toStrictEqual(createFakeQuestionsTableFilters({ status: undefined, category: undefined, cognitiveDifficulty: undefined, themeIds: [] }));
     });
 
     it("should call fetchAndStoreQuestions with status query when the header emits update:filter with status.", async() => {
@@ -390,6 +397,7 @@ describe("QuestionsTable Component", () => {
         "status": "active",
         "category": undefined,
         "cognitive-difficulty": undefined,
+        "theme-ids": [] as string[],
       } as AdminFindQuestionsQueryDto);
     });
 
@@ -402,6 +410,7 @@ describe("QuestionsTable Component", () => {
         "status": undefined,
         "category": "trivia",
         "cognitive-difficulty": undefined,
+        "theme-ids": [] as string[],
       } as AdminFindQuestionsQueryDto);
     });
 
@@ -414,6 +423,7 @@ describe("QuestionsTable Component", () => {
         "status": undefined,
         "category": undefined,
         "cognitive-difficulty": "easy",
+        "theme-ids": [] as string[],
       } as AdminFindQuestionsQueryDto);
     });
 
@@ -426,6 +436,7 @@ describe("QuestionsTable Component", () => {
         "status": "active",
         "category": "trivia",
         "cognitive-difficulty": "easy",
+        "theme-ids": [] as string[],
       } as AdminFindQuestionsQueryDto);
     });
 
@@ -437,7 +448,53 @@ describe("QuestionsTable Component", () => {
       getWrapperVm(header).$emit("clearFilters");
       await nextTick();
 
-      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenLastCalledWith(undefined);
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenLastCalledWith({
+        "status": undefined,
+        "category": undefined,
+        "cognitive-difficulty": undefined,
+        "theme-ids": [] as string[],
+      } as AdminFindQuestionsQueryDto);
+    });
+
+    it("should call fetchAndStoreQuestions with theme-ids query when the header emits update:filter with themeIds.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { themeIds: ["theme-1", "theme-2"] });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": undefined,
+        "category": undefined,
+        "cognitive-difficulty": undefined,
+        "theme-ids": ["theme-1", "theme-2"],
+      } as AdminFindQuestionsQueryDto);
+    });
+
+    it("should call fetchAndStoreQuestions with combined query when multiple filters including themeIds are set.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { status: "active", category: "trivia", cognitiveDifficulty: "easy", themeIds: ["theme-1"] });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": "active",
+        "category": "trivia",
+        "cognitive-difficulty": "easy",
+        "theme-ids": ["theme-1"],
+      } as AdminFindQuestionsQueryDto);
+    });
+
+    it("should pass themeIds in header filters to the table header when themes are selected.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { themeIds: ["theme-1"] });
+      await nextTick();
+
+      const expectedFilters = createFakeQuestionsTableFilters({
+        status: undefined,
+        category: undefined,
+        cognitiveDifficulty: undefined,
+        themeIds: ["theme-1"],
+      });
+
+      expect(header.props("filters")).toStrictEqual(expectedFilters);
     });
   });
 
@@ -531,6 +588,154 @@ describe("QuestionsTable Component", () => {
       const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
 
       expect(header.props("isLoading")).toBe(true);
+    });
+  });
+
+  describe("Expand column", () => {
+    it("should render the expand button for each row when questions are present.", async() => {
+      const fakeQuestion = createFakeQuestion({ id: "q-1" });
+      questionsStore.questions = [fakeQuestion];
+
+      wrapper = await mountQuestionsTableComponent();
+
+      const expandButton = wrapper.find("[data-testid='expand-button-q-1']");
+
+      expect(expandButton.exists()).toBeTruthy();
+    });
+
+    it("should set the expand button aria-label with the translation key when a question is rendered.", async() => {
+      const fakeQuestion = createFakeQuestion({
+        id: "q-1",
+        content: createFakeQuestionContent({
+          statement: createFakeLocalizedText({ en: "Test statement" }),
+        }),
+      });
+      questionsStore.questions = [fakeQuestion];
+
+      wrapper = await mountQuestionsTableComponent();
+
+      const expandButton = wrapper.find("[data-testid='expand-button-q-1']");
+
+      expect(expandButton.attributes("aria-label")).toBe("questions.table.expandAriaLabel");
+    });
+  });
+
+  describe("Expanded state", () => {
+    it("should pass an empty expanded object to the table component when mounted.", () => {
+      const table = wrapper.getComponent({ name: "UTable" });
+
+      expect(table.props("expanded")).toStrictEqual({});
+    });
+
+    it("should update the table expanded prop when the expand button is clicked.", async() => {
+      const fakeQuestion = createFakeQuestion({
+        id: "q-1",
+        content: createFakeQuestionContent({
+          statement: createFakeLocalizedText({ en: "Test statement" }),
+        }),
+      });
+      questionsStore.questions = [fakeQuestion];
+
+      wrapper = await mountQuestionsTableComponent();
+
+      const expandButton = wrapper.find("[data-testid='expand-button-q-1']");
+      await expandButton.trigger("click");
+
+      const table = wrapper.getComponent({ name: "UTable" });
+
+      expect(table.props("expanded")).toStrictEqual({ 0: true });
+    });
+
+    it("should remove the row from the expanded prop when the expand button is clicked again.", async() => {
+      const fakeQuestion = createFakeQuestion({
+        id: "q-1",
+        content: createFakeQuestionContent({
+          statement: createFakeLocalizedText({ en: "Test statement" }),
+        }),
+      });
+      questionsStore.questions = [fakeQuestion];
+
+      wrapper = await mountQuestionsTableComponent();
+
+      const expandButton = wrapper.find("[data-testid='expand-button-q-1']");
+      await expandButton.trigger("click");
+      await expandButton.trigger("click");
+
+      const table = wrapper.getComponent({ name: "UTable" });
+
+      expect(table.props("expanded")).toStrictEqual({});
+    });
+  });
+
+  describe("Expand button tooltip", () => {
+    it("should display the expand tooltip text when the row is collapsed.", async() => {
+      const fakeQuestion = createFakeQuestion({
+        id: "q-1",
+        content: createFakeQuestionContent({
+          statement: createFakeLocalizedText({ en: "Test statement" }),
+        }),
+      });
+      questionsStore.questions = [fakeQuestion];
+
+      wrapper = await mountQuestionsTableComponent();
+
+      const tooltip = wrapper.findComponent({ name: "UTooltip" });
+
+      expect(tooltip.props("text")).toBe("questions.table.expandTooltip");
+    });
+
+    it("should display the collapse tooltip text when the row is expanded.", async() => {
+      const fakeQuestion = createFakeQuestion({
+        id: "q-1",
+        content: createFakeQuestionContent({
+          statement: createFakeLocalizedText({ en: "Test statement" }),
+        }),
+      });
+      questionsStore.questions = [fakeQuestion];
+
+      wrapper = await mountQuestionsTableComponent();
+
+      const expandButton = wrapper.find("[data-testid='expand-button-q-1']");
+      await expandButton.trigger("click");
+
+      const tooltip = wrapper.findComponent({ name: "UTooltip" });
+
+      expect(tooltip.props("text")).toBe("questions.table.collapseTooltip");
+    });
+  });
+
+  describe("Expand button chevron", () => {
+    it("should not have the rotate-180 class when the row is collapsed.", async() => {
+      const fakeQuestion = createFakeQuestion({
+        id: "q-1",
+        content: createFakeQuestionContent({
+          statement: createFakeLocalizedText({ en: "Test statement" }),
+        }),
+      });
+      questionsStore.questions = [fakeQuestion];
+
+      wrapper = await mountQuestionsTableComponent();
+
+      const expandButton = wrapper.find("[data-testid='expand-button-q-1']");
+
+      expect(expandButton.classes()).not.toContain("rotate-180");
+    });
+
+    it("should have the rotate-180 class when the row is expanded.", async() => {
+      const fakeQuestion = createFakeQuestion({
+        id: "q-1",
+        content: createFakeQuestionContent({
+          statement: createFakeLocalizedText({ en: "Test statement" }),
+        }),
+      });
+      questionsStore.questions = [fakeQuestion];
+
+      wrapper = await mountQuestionsTableComponent();
+
+      const expandButton = wrapper.find("[data-testid='expand-button-q-1']");
+      await expandButton.trigger("click");
+
+      expect(expandButton.classes()).toContain("rotate-180");
     });
   });
 });

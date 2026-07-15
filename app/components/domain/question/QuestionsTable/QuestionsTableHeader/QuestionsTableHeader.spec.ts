@@ -7,7 +7,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { createFakeQuestionsTableFilters } from "~~/tests/unit/utils/faketories/questions/components/questions-table-filters.faketory";
 
 import { QuestionsTableHeader } from "#components";
-import type { TableGlobalSearchInput, TableFiltersSection, QuestionsTableStatusFilter, QuestionsTableCategoryFilter, QuestionsTableCognitiveDifficultyFilter, TableRowCount } from "#components";
+import type { TableGlobalSearchInput, TableFiltersSection, QuestionsTableStatusFilter, QuestionsTableCategoryFilter, QuestionsTableCognitiveDifficultyFilter, QuestionsTableThemeFilter, TableRowCount } from "#components";
 
 import type { QuestionsTableHeaderProps } from "~/components/domain/question/QuestionsTable/QuestionsTableHeader/questions-table-header.types";
 
@@ -18,7 +18,7 @@ describe("QuestionsTableHeader Component", () => {
     filteredCount: 0,
     activeFilterCount: 0,
     isLoading: false,
-    filters: createFakeQuestionsTableFilters({ status: undefined, category: undefined, cognitiveDifficulty: undefined }),
+    filters: createFakeQuestionsTableFilters({ status: undefined, category: undefined, cognitiveDifficulty: undefined, themeIds: [] }),
   };
 
   async function mountQuestionsTableHeaderComponent(options: MountSuspendedOptions<typeof QuestionsTableHeader> = {}): Promise<VueWrapper> {
@@ -180,6 +180,31 @@ describe("QuestionsTableHeader Component", () => {
       getWrapperVm(cognitiveDifficultyFilter).$emit("update:modelValue", "hard");
 
       expect(wrapper.emitted("update:filter")).toStrictEqual([[{ cognitiveDifficulty: "hard" }]]);
+    });
+  });
+
+  describe("Theme filter", () => {
+    it("should render the theme filter with an empty modelValue when no themes are selected.", async() => {
+      await expandFiltersSection();
+      const themeFilter = wrapper.findComponent<typeof QuestionsTableThemeFilter>({ name: "QuestionsTableThemeFilter" });
+
+      expect(themeFilter.props("modelValue")).toStrictEqual([]);
+    });
+
+    it("should pass the theme filter value when themes are selected.", async() => {
+      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, filters: createFakeQuestionsTableFilters({ themeIds: ["theme-1"] }) } });
+      await expandFiltersSection();
+      const themeFilter = wrapper.findComponent<typeof QuestionsTableThemeFilter>({ name: "QuestionsTableThemeFilter" });
+
+      expect(themeFilter.props("modelValue")).toStrictEqual(["theme-1"]);
+    });
+
+    it("should emit update:filter with themeIds when the theme filter emits update:modelValue.", async() => {
+      await expandFiltersSection();
+      const themeFilter = wrapper.findComponent<typeof QuestionsTableThemeFilter>({ name: "QuestionsTableThemeFilter" });
+      getWrapperVm(themeFilter).$emit("update:modelValue", ["theme-1", "theme-2"]);
+
+      expect(wrapper.emitted("update:filter")).toStrictEqual([[{ themeIds: ["theme-1", "theme-2"] }]]);
     });
   });
 

@@ -15,8 +15,8 @@ const statusItems = computed<TableFilterSelectItem<QuestionStatus>[]>(() => QUES
   value: status,
 })));
 
-function onUpdateModelValue(value: QuestionStatus | undefined): void {
-  emit("update:modelValue", value);
+function onUpdateModelValue(value: QuestionStatus | QuestionStatus[] | undefined): void {
+  emit("update:modelValue", value as QuestionStatus | undefined);
 }
 </script>
 

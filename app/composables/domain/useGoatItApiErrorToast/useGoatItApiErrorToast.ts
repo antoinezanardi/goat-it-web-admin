@@ -35,7 +35,7 @@ function useGoatItApiErrorToast(): UseGoatItApiErrorToast {
     const errorCodeValue = extractErrorCode(error);
 
     if (errorCodeValue === undefined || errorCodeValue === "") {
-      addErrorToast({ title, description: i18n.t("errors.unknown") });
+      addErrorToast({ title, description: i18n.t("errors.unknown"), id: "api-error-unknown" });
 
       return;
     }
@@ -43,13 +43,13 @@ function useGoatItApiErrorToast(): UseGoatItApiErrorToast {
     const i18nKey = `errors.goatItApi.${errorCodeValue}`;
 
     if (i18n.te(i18nKey)) {
-      addErrorToast({ title, description: i18n.t(i18nKey) });
+      addErrorToast({ title, description: i18n.t(i18nKey), id: `api-error-${errorCodeValue}` });
 
       return;
     }
 
     console.error(`Unknown Goat It API error code: ${errorCodeValue}`);
-    addErrorToast({ title, description: i18n.t("errors.unknown") });
+    addErrorToast({ title, description: i18n.t("errors.unknown"), id: "api-error-unknown" });
   }
   return { handleGoatItApiError };
 }

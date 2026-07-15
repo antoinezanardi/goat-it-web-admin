@@ -300,6 +300,7 @@ describe("useQuestionThemesStore", () => {
 
       expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({
         description: "questionThemes.createSuccessfully",
+        id: "question-theme-create-success",
       });
     });
 
@@ -458,6 +459,7 @@ describe("useQuestionThemesStore", () => {
 
       expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({
         description: "questionThemes.archiveSuccessfully",
+        id: "question-theme-archive-success",
       });
     });
 
@@ -482,7 +484,7 @@ describe("useQuestionThemesStore", () => {
 
       await store.archiveAndStoreQuestionTheme("theme-id-123");
 
-      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questionThemes.archiveSuccessfully" });
+      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questionThemes.archiveSuccessfully", id: "question-theme-archive-success" });
     });
 
     it("should not update questionThemes when archive resolves with undefined.", async() => {
@@ -623,6 +625,7 @@ describe("useQuestionThemesStore", () => {
 
       expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({
         description: "questionThemes.modifySuccessfully",
+        id: "question-theme-modify-success",
       });
     });
 
@@ -647,7 +650,7 @@ describe("useQuestionThemesStore", () => {
 
       await store.modifyAndStoreQuestionTheme("theme-id-123", createFakeQuestionThemeModificationDto());
 
-      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questionThemes.modifySuccessfully" });
+      expect(useAppToast().addSuccessToast).toHaveBeenCalledExactlyOnceWith({ description: "questionThemes.modifySuccessfully", id: "question-theme-modify-success" });
     });
 
     it("should not update questionThemes when modify resolves with undefined.", async() => {

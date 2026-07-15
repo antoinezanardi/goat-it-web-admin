@@ -12,7 +12,13 @@ function useTableFilters<T extends FilterDefinitions>(options: UseTableFiltersOp
   // oxlint-disable-next-line no-unsafe-type-assertion
   const filters = Object.fromEntries(defaults.map(({ key, default: defaultValue }) => [key, ref(defaultValue)])) as FilterRefs<T>;
 
-  const activeFilterCount = computed<number>(() => defaults.filter(({ key, default: defaultValue }) => filters[key as keyof typeof filters].value !== defaultValue).length);
+  const activeFilterCount = computed<number>(() => defaults.filter(({ key, default: defaultValue }) => {
+    const currentValue = filters[key as keyof typeof filters].value;
+    if (Array.isArray(currentValue)) {
+      return currentValue.length > 0;
+    }
+    return currentValue !== defaultValue;
+  }).length);
 
   const hasActiveFilters = computed<boolean>(() => activeFilterCount.value > 0);
 

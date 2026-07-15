@@ -1,7 +1,7 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
@@ -18,6 +18,7 @@ import type { QuestionThemeFormProps } from "~/components/domain/question-theme/
 
 type QuestionThemeFormVm = ComponentVm & {
   canSubmit: boolean;
+  focusFirstField: () => Promise<void>;
   triggerFormSubmit: () => Promise<void>;
 };
 
@@ -281,6 +282,24 @@ describe("QuestionThemeForm Component", () => {
       await vm.triggerFormSubmit();
 
       expect(wrapper.emitted("submitCreation")).toBeUndefined();
+    });
+  });
+
+  describe("Exposed focusFirstField", () => {
+    it("should focus the label input when focusFirstField is called.", async() => {
+      const vm = getWrapperVm<QuestionThemeFormVm>(wrapper);
+      const focusSpy = vi.fn<() => void>();
+      vm.$.refs.labelInput = { inputRef: { focus: focusSpy } } as unknown as Element;
+      await vm.focusFirstField();
+
+      expect(focusSpy).toHaveBeenCalledExactlyOnceWith();
+    });
+
+    it("should not throw when focusFirstField is called and label input ref is null.", async() => {
+      const vm = getWrapperVm<QuestionThemeFormVm>(wrapper);
+      vm.$.refs.labelInput = null;
+
+      await expect(vm.focusFirstField()).resolves.toBeUndefined();
     });
   });
 

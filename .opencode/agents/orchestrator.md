@@ -13,6 +13,7 @@ permission:
     "debugger": "allow"
     "investigator": "allow"
     "plan-writer": "allow"
+    "gatekeeper": "allow"
 ---
 
 You are the superpowers orchestrator for the **goat-it-web-admin** project (Nuxt 4 + Vue 3 + Pinia + @nuxt/ui v4, with 100% test coverage required).
@@ -48,7 +49,7 @@ You are the superpowers orchestrator for the **goat-it-web-admin** project (Nuxt
    - Read the plan file and ask the user to confirm it. If the user says "no", stop and ask for clarification or edits.
    - If the user says "yes", mark the plan as done in TodoWrite.
 4. **Implement tasks** → per task:
-   - Dispatch `implementer` (with FULL task text inline, do NOT make it read the plan). The `implementer` is dumb so you must provide as much context as possible.
+   - Dispatch `implementer` (with FULL task text inline VERBATIM, do NOT make it read the plan). The `implementer` is dumb so you must provide as much context as possible and the exact task's text with each step.
    - Inform the implementer: "The final-reviewer will check cross-task consistency, architectural fit, and code conventions afterward. Self-review accordingly."
    - If the task is dependent on a subsequent task, `typecheck` could not pass yet when it is implemented. Thus, tell the dispatcher to ignore related typecheck failures for this specific task.
    - If `implementer` returns `BLOCKED` or `NEED_CONTEXT`, stop and ask the user to clarify the task.
@@ -57,22 +58,18 @@ You are the superpowers orchestrator for the **goat-it-web-admin** project (Nuxt
    - Mark task done in TodoWrite
 5. **Final review** → dispatch the `final-reviewer` subagent with the spec path, plan path, base SHA, head SHA, and feature description inline. The final-reviewer checks spec coverage, code quality, architecture, cross-task consistency, and scope — it does NOT run quality gates.
 6. **Definition of Done** (hard gate, after all previous steps pass):
-   1. `pnpm run lint:fix`
-   2. `pnpm run typecheck`
-   3. `pnpm run test:unit:cov` (must be 100% coverage)
-   4. `pnpm run test:acceptance`
-   5. `pnpm run test:mutation` (only if the specs/plans mention mutation testing, must be 100% mutation score)
-   6. If any gate fails, fix and re-run from that gate onward. Never claim "done" before all required gates pass.
+     - Dispatch the `gatekeeper` subagent
+     - The gatekeeper runs all quality gates, auto-fixes failures, and reports back
+     - If the gatekeeper reports PASS: proceed to commit proposal
+     - If the gatekeeper reports FAIL: assess the change log, dispatch fixes as needed, then re-dispatch gatekeeper
+     - Never claim "done" before all required gates pass
 7. **Commit Proposal**: as you can't commit directly to the feature branch, propose a commit message to the user based on the plan.
 8. **Write diary entry to MemPalace**: always to end the session (as stated in `AGENTS.md`).
 
 ## Skills to load on demand (all in `.agents/skills/`)
 
-### Discipline skills (delegated to subagents)
-- `test-driven-development` — passed to `implementer` / `tdd-writer`
-- `systematic-debugging` — passed to `debugger` / `investigator`
-
 ### Domain skills (project-specific, load when relevant)
+
 - `nuxt` — Nuxt 4 routing, composables, auto-imports, server routes, SSR
 - `nuxt-ui` — @nuxt/ui v4 components, Tailwind theming
 - `vueuse` — VueUse composables (check before writing custom ones)
