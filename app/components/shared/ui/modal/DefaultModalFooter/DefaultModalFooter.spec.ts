@@ -38,7 +38,7 @@ describe("DefaultModalFooter Component", () => {
       it("should display the common.close i18n key as label when closeButtonLabel prop is not provided.", () => {
         const closeButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-close-button']");
 
-        expect(closeButton.text()).toBe("common.close");
+        expect(closeButton.props("label")).toBe("common.close");
       });
 
       it("should display the custom label when closeButtonLabel prop is provided.", async() => {
@@ -46,7 +46,7 @@ describe("DefaultModalFooter Component", () => {
 
         const closeButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-close-button']");
 
-        expect(closeButton.text()).toBe("common.cancel");
+        expect(closeButton.props("label")).toBe("common.cancel");
       });
     });
 
@@ -74,6 +74,24 @@ describe("DefaultModalFooter Component", () => {
 
         expect(wrapper.emitted("closeModal")).toBeDefined();
       });
+    });
+  });
+
+  describe("Close button shortcut display", () => {
+    let closeButton: VueWrapper;
+    let escapeKbd: VueWrapper<ComponentExposed<typeof UKbd>>;
+
+    beforeEach(() => {
+      closeButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-close-button']");
+      escapeKbd = closeButton.findComponent<typeof UKbd>("[data-testid='default-modal-footer-close-button-shortcut-escape']");
+    });
+
+    it("should render UKbd with escape value when mounted.", () => {
+      expect(escapeKbd.props("value")).toBe("escape");
+    });
+
+    it("should render UKbd with sm size when mounted.", () => {
+      expect(escapeKbd.props("size")).toBe("sm");
     });
   });
 

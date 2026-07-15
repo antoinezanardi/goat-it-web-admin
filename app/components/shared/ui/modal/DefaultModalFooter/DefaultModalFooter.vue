@@ -41,13 +41,22 @@ defineShortcuts({
 <template>
   <div class="default-modal-footer flex gap-2 justify-end w-full">
     <UButton
+      :aria-label="closeButtonDisplayedLabel"
       color="neutral"
       data-testid="default-modal-footer-close-button"
       :disabled="isCloseButtonDisabled"
       icon="i-lucide-x"
       :label="closeButtonDisplayedLabel"
       @click="onClickFromCloseButton"
-    />
+    >
+      <template #trailing>
+        <UKbd
+          data-testid="default-modal-footer-close-button-shortcut-escape"
+          size="sm"
+          value="escape"
+        />
+      </template>
+    </UButton>
 
     <UButton
       :aria-label="primaryButtonLabel"
