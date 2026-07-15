@@ -47,7 +47,15 @@ defineShortcuts({
       icon="i-lucide-x"
       :label="closeButtonDisplayedLabel"
       @click="onClickFromCloseButton"
-    />
+    >
+      <template #trailing>
+        <UKbd
+          data-testid="default-modal-footer-close-button-shortcut-escape"
+          size="sm"
+          value="escape"
+        />
+      </template>
+    </UButton>
 
     <UButton
       :aria-label="primaryButtonLabel"
