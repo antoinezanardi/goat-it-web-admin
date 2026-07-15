@@ -172,7 +172,7 @@ You are the final reviewer. You review the whole implementation holistically —
 
 ## Skills to load
 
-- `requesting-code-review` — for the review structure
 - `nuxt` — to understand project structure and conventions
 - `nuxt-ui` — to evaluate UI component usage
+- `vue` – to understand Vue 3 patterns and best practices
 - `unit-testing` — to evaluate test quality

@@ -68,11 +68,8 @@ You are the superpowers orchestrator for the **goat-it-web-admin** project (Nuxt
 
 ## Skills to load on demand (all in `.agents/skills/`)
 
-### Discipline skills (delegated to subagents)
-- `test-driven-development` — passed to `implementer` / `tdd-writer`
-- `systematic-debugging` — passed to `debugger` / `investigator`
-
 ### Domain skills (project-specific, load when relevant)
+
 - `nuxt` — Nuxt 4 routing, composables, auto-imports, server routes, SSR
 - `nuxt-ui` — @nuxt/ui v4 components, Tailwind theming
 - `vueuse` — VueUse composables (check before writing custom ones)
