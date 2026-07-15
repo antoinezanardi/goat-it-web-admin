@@ -1,5 +1,74 @@
 # 🐐👑 Goat It Web Admin Versioning Changelog
 
+## [1.5.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.4.0...v1.5.0) (2026-07-15)
+
+### 🚀 Features
+
+* **app:** spa loader on boot ([#378](https://github.com/antoinezanardi/goat-it-web-admin/issues/378)) ([7cef4a6](https://github.com/antoinezanardi/goat-it-web-admin/commit/7cef4a674843cbe91fc9a73de61e4d502a34a980))
+* **form-shortcuts:** add auto-focus and Cmd+Enter keyboard shortcut to form modals ([#367](https://github.com/antoinezanardi/goat-it-web-admin/issues/367)) ([7b3051c](https://github.com/antoinezanardi/goat-it-web-admin/commit/7b3051c642026922127ec36616b91b881233d248))
+* **questions:** add expandable rows to questions table ([#373](https://github.com/antoinezanardi/goat-it-web-admin/issues/373)) ([a1d0fe8](https://github.com/antoinezanardi/goat-it-web-admin/commit/a1d0fe8a0a66468873e81d5404882722c475f666))
+* **questions:** add multi-value theme filter to questions table ([#361](https://github.com/antoinezanardi/goat-it-web-admin/issues/361)) ([4bc3fe4](https://github.com/antoinezanardi/goat-it-web-admin/commit/4bc3fe42730b6e708f32b5d5e994eff16327104b))
+* **toasts:** deduplicate Nuxt UI toasts via stable id prop ([#377](https://github.com/antoinezanardi/goat-it-web-admin/issues/377)) ([5e7631b](https://github.com/antoinezanardi/goat-it-web-admin/commit/5e7631b257a44954bf7e1cdef6945e61a7130c02))
+* **ui:** add Esc shortcut indicator to DefaultModalFooter close button ([#429](https://github.com/antoinezanardi/goat-it-web-admin/issues/429)) ([98fde5d](https://github.com/antoinezanardi/goat-it-web-admin/commit/98fde5d18e731356a8588c2368ee47d9a7dad01b))
+
+### 📖 Docs
+
+* **agents:** add gatekeeper subagent ([#370](https://github.com/antoinezanardi/goat-it-web-admin/issues/370)) ([ec27f12](https://github.com/antoinezanardi/goat-it-web-admin/commit/ec27f1204f87ee7c6eeed2ee2b17e86fbf3964a0))
+* **agents:** enhance agents context and model ([#363](https://github.com/antoinezanardi/goat-it-web-admin/issues/363)) ([0277435](https://github.com/antoinezanardi/goat-it-web-admin/commit/0277435674bf8354bc234046df82bc84bf110fc8))
+* **agents:** update AGENTS.md with improved clarity and structure ([#422](https://github.com/antoinezanardi/goat-it-web-admin/issues/422)) ([5235474](https://github.com/antoinezanardi/goat-it-web-admin/commit/52354749540daacd1de40c31c59c1094d9f6f2ed))
+
+### 🎨 Styles
+
+* **question-themes:** constrain table to viewport height ([#406](https://github.com/antoinezanardi/goat-it-web-admin/issues/406)) ([027f703](https://github.com/antoinezanardi/goat-it-web-admin/commit/027f703c832a1bfa7d3bbad2b990f88523668e33))
+
+### 🔩 Refactor
+
+* **filters:** use generic kebab case helper ([#360](https://github.com/antoinezanardi/goat-it-web-admin/issues/360)) ([36b78ad](https://github.com/antoinezanardi/goat-it-web-admin/commit/36b78ad19d381179a4cf3dca104f56288fc7f30d))
+* **skills:** extract plan-writer custom skill from upstream writing-plans ([#428](https://github.com/antoinezanardi/goat-it-web-admin/issues/428)) ([8e660e0](https://github.com/antoinezanardi/goat-it-web-admin/commit/8e660e0fdfc8c9fee403975708e46e868afeb2d2))
+
+### 🧹 Chore
+
+* **quality:** bump nuxt-ui to version 4.9.0 and remove mutation tests ([#405](https://github.com/antoinezanardi/goat-it-web-admin/issues/405)) ([e4c33e4](https://github.com/antoinezanardi/goat-it-web-admin/commit/e4c33e4dbb1c5338281123a98a950d3608c5649b))
+* **schemas:** upgrade @goat-it/schemas to 0.0.14-beta and override limit to 0 ([#396](https://github.com/antoinezanardi/goat-it-web-admin/issues/396)) ([0f4e3c2](https://github.com/antoinezanardi/goat-it-web-admin/commit/0f4e3c290196511ca8da187d2e436ae8894f32f4))
+
+### 📦 Upgraded Dependencies
+
+| Package | Version |
+| --- | :---: |
+| `pin conventional-changelog-writer to v9 for conventionalcommits@10 compat` | `` |
+| `actions/cache action` | `v6` |
+| `actions/setup-node action` | `v7` |
+| `commitlint monorepo` | `^21.2.0` |
+| `@axe-core/playwright` | `^4.12.1` |
+| `@cucumber/cucumber` | `^13.1.0` |
+| `@eslint/config-inspector` | `^3.1.0` |
+| `@goat-it/schemas` | `^0.0.16` |
+| `@iconify-json/lucide` | `^1.2.117` |
+| `@nuxtjs/i18n` | `^10.4.1` |
+| `@pinia/nuxt` | `v1` |
+| `@pinia/testing` | `v2` |
+| `@types/node` | `^25.9.5` |
+| `@vitest/eslint-plugin` | `^1.6.23` |
+| `commitlint` | `^21.2.1` |
+| `conventional-changelog-writer` | `^9.2.0` |
+| `eslint` | `^10.7.0` |
+| `eslint-plugin-oxlint` | `^1.73.0` |
+| `eslint-plugin-unicorn` | `v72` |
+| `fuse.js` | `^7.5.0` |
+| `oxlint` | `^1.73.0` |
+| `oxlint-tsgolint` | `^0.24.0` |
+| `pinia` | `v4` |
+| `semantic-release` | `^25.0.7` |
+| `tailwindcss` | `^4.3.2` |
+| `type-fest` | `^5.8.0` |
+| `node.js` | `v26.5.0` |
+| `oxlint monorepo` | `^1.72.0` |
+| `playwright monorepo` | `^1.61.1` |
+| `pnpm` | `v11.9.0` |
+| `raven-actions/actionlint action` | `v2.2.0` |
+| `vitest monorepo` | `^4.1.10` |
+| `vue-language-tools monorepo` | `^3.3.7` |
+
 ## [1.4.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.3.0...v1.4.0) (2026-06-21)
 
 ### 🚀 Features
