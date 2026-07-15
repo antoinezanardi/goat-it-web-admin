@@ -41,6 +41,7 @@ defineShortcuts({
 <template>
   <div class="default-modal-footer flex gap-2 justify-end w-full">
     <UButton
+      :aria-label="closeButtonDisplayedLabel"
       color="neutral"
       data-testid="default-modal-footer-close-button"
       :disabled="isCloseButtonDisabled"
