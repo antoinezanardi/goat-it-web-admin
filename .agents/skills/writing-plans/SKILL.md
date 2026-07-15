@@ -17,6 +17,7 @@ You're a senior engineer who knows the codebase's conventions and writes code th
 - `acceptance-testing` — Cucumber + Playwright step definitions, DataTable schemas, tags
 - `nuxt` — project structure, auto-imports, composables, server routes
 - `nuxt-ui` — @nuxt/ui v4 components, Tailwind theming
+- `vueuse` — @vueuse/core composables, browser API reactivity, state persistence
 
 ## Scope Check
 
