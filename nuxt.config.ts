@@ -71,7 +71,6 @@ export default defineNuxtConfig({
   ],
   sourcemap: { client: "hidden" },
   experimental: {
-    serverAppConfig: false,
     viteEnvironmentApi: true,
   },
   compatibilityDate: "2025-01-15",
