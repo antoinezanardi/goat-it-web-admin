@@ -1,8 +1,8 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
+import { createFakeLocalizedText, createFakeLocalizedTexts } from "@goat-it/schemas/testing/shared";
 
-import { createFakeLocalizedText, createFakeLocalizedTexts } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { TranslationFieldContext, TranslationsOverview } from "#components";

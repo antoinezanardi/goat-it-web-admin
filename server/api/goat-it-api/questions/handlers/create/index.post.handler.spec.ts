@@ -1,7 +1,7 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
 import { ZodError } from "zod";
+import { createFakeAdminQuestionDto, createFakeQuestionCreationDto, createFakeQuestionThemeAssignmentCreationDto } from "@goat-it/schemas/testing/question";
 
-import { createFakeAdminQuestionDto, createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
 import { createFakeH3Event } from "~~/tests/unit/utils/faketories/shared/h3/h3-event.faketory";
 
 import { createQuestionFromAdminQuestionDto } from "#server/utils/goat-it-api/mappers/question/question.mappers";
@@ -12,7 +12,7 @@ import { createQuestionHandler } from "#server/api/goat-it-api/questions/handler
 vi.mock(import("#server/utils/goat-it-api/helpers/goat-it-api.helpers"));
 
 describe("Server Goat It API Questions Create Handler", () => {
-  const fakeCreationDto = createFakeQuestionCreationDto();
+  const fakeCreationDto = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
   const mockedEvent = createFakeH3Event();
 
   beforeEach(() => {

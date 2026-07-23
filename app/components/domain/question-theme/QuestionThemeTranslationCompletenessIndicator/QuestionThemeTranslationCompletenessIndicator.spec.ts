@@ -1,7 +1,9 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
+import { createFakeLocalizedText, createFakeLocalizedTexts } from "@goat-it/schemas/testing/shared";
 
+import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
@@ -11,7 +13,11 @@ import type { QuestionThemeTranslationCompletenessIndicatorProps } from "~/compo
 
 describe("QuestionThemeTranslationCompletenessIndicator Component", () => {
   let wrapper: VueWrapper;
-  const questionTheme = createFakeQuestionTheme();
+  const questionTheme = createFakeQuestionTheme({
+    label: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Label" }),
+    description: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Description" }),
+    aliases: createFakeLocalizedTexts({ [DEFAULT_MOCKED_LOCALE]: ["alias-one", "alias-two"] }),
+  });
   const defaultProperties: QuestionThemeTranslationCompletenessIndicatorProps = {
     questionTheme,
   } as const;

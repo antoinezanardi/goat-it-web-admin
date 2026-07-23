@@ -8,8 +8,8 @@ import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 import type { vi } from "vitest";
 import type { AdminFindQuestionsQueryDto } from "@goat-it/schemas/question";
+import { createFakeLocalizedText } from "@goat-it/schemas/testing/shared";
 
-import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 import { createFakeQuestionContent } from "~~/tests/unit/utils/faketories/questions/entity/question-content/question-content.entity.faketory";
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
 import { createFakeQuestionsTableFilters } from "~~/tests/unit/utils/faketories/questions/components/questions-table-filters.faketory";

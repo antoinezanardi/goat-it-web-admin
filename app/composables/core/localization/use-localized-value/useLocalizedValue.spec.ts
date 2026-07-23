@@ -1,7 +1,6 @@
 import type { LocalizedText } from "@goat-it/schemas/shared/locale";
 import { beforeEach, describe, expect, it } from "vitest";
-
-import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
+import { createFakeLocalizedText } from "@goat-it/schemas/testing/shared";
 
 import type { useLocalizedValue as UseLocalizedValueType } from "~/composables/core/localization/use-localized-value/useLocalizedValue";
 import type { UseLocalizedValue } from "~/composables/core/localization/use-localized-value/use-localized-value.types";

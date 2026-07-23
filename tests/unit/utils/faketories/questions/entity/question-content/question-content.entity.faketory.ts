@@ -1,6 +1,5 @@
 import { faker } from "@faker-js/faker";
-
-import { createFakeLocalizedText, createFakeLocalizedTexts } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
+import { createFakeLocalizedText, createFakeLocalizedTexts } from "@goat-it/schemas/testing/shared";
 
 import type { QuestionContent } from "#shared/types/question.types";
 

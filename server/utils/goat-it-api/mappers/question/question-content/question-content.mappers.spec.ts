@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
-
-import { createFakeAdminQuestionContentDto } from "~~/tests/unit/utils/faketories/questions/dto/question-content/question-content.dto.faketory";
+import { createFakeAdminQuestionContentDto } from "@goat-it/schemas/testing/question";
 
 import { createQuestionContentFromAdminQuestionContentDto } from "#server/utils/goat-it-api/mappers/question/question-content/question-content.mappers";
 

@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
-
-import { createFakeLocalizedText, createFakeLocalizedTexts } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
+import { createFakeLocalizedText, createFakeLocalizedTexts } from "@goat-it/schemas/testing/shared";
 
 import { isLocalizedValueMissing, getLocalizedDisplayValue, getLocalizedTextsDisplayValue } from "#shared/utils/helpers/localization/localization.helpers";
 

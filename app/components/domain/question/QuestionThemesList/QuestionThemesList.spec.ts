@@ -1,10 +1,10 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
+import { createFakeLocalizedText } from "@goat-it/schemas/testing/shared";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 import { createFakeQuestionThemeAssignment } from "~~/tests/unit/utils/faketories/questions/entity/question-theme-assignment/question-theme-assignment.entity.faketory";
-import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import type { QuestionThemeIcon, UTooltip } from "#components";
