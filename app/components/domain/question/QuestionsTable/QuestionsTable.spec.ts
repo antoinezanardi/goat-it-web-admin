@@ -618,6 +618,22 @@ describe("QuestionsTable Component", () => {
 
       expect(expandButton.attributes("aria-label")).toBe("questions.table.expandAriaLabel");
     });
+
+    it("should set the expand button aria-label with the translation key when the statement has no value for the current locale.", async() => {
+      const fakeQuestion = createFakeQuestion({
+        id: "q-1",
+        content: createFakeQuestionContent({
+          statement: createFakeLocalizedText({ fr: "Déclaration test", [DEFAULT_MOCKED_LOCALE]: undefined }),
+        }),
+      });
+      questionsStore.questions = [fakeQuestion];
+
+      wrapper = await mountQuestionsTableComponent();
+
+      const expandButton = wrapper.find("[data-testid='expand-button-q-1']");
+
+      expect(expandButton.attributes("aria-label")).toBe("questions.table.expandAriaLabel");
+    });
   });
 
   describe("Expanded state", () => {

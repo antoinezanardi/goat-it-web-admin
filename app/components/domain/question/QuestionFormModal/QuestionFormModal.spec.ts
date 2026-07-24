@@ -5,7 +5,7 @@ import { flushPromises } from "@vue/test-utils";
 import type { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { createFakeQuestionCreationDto, createFakeQuestionThemeAssignmentCreationDto } from "@goat-it/schemas/testing/question";
+import { createFakeQuestionCreationDto, createFakeQuestionModificationDto, createFakeQuestionThemeAssignmentCreationDto } from "@goat-it/schemas/testing/question";
 import { createFakeLocalizedText } from "@goat-it/schemas/testing/shared";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
@@ -304,7 +304,7 @@ describe("QuestionFormModal Component", () => {
     });
 
     it("should emit submitModification when the form emits submitModification.", async() => {
-      const fakeData = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
+      const fakeData = createFakeQuestionModificationDto();
       wrapper = await mountQuestionFormModalComponent({
         props: {
           ...defaultQuestionFormModalProps,
