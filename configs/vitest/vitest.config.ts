@@ -6,6 +6,12 @@ import { VITEST_COMPOSABLES_PROJECT_CONFIG, VITEST_IGNORED_STARTING_BY_LOGS, VIT
 export default defineConfig({
   test: {
     hookTimeout: 20_000,
+    testTimeout: 20_000,
+    experimental: {
+      importDurations: {
+        print: true,
+      },
+    },
     projects: [
       await defineVitestProject(VITEST_NUXT_PROJECT_CONFIG),
       await defineVitestProject(VITEST_COMPOSABLES_PROJECT_CONFIG),
@@ -34,10 +40,7 @@ export default defineConfig({
       ],
       reportsDirectory: "tests/unit/coverage",
       reporter: [
-        "clover",
-        "json",
         "lcov",
-        "text",
         "text-summary",
         "html",
       ],
