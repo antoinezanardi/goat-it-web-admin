@@ -380,10 +380,9 @@ describe("QuestionThemeForm Component", () => {
         },
       });
       const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
-      const state = uForm.props("state") as Record<string, unknown>;
-      const aliases = state.aliases as Record<string, unknown>;
+      const state = uForm.props("state") as { aliases: Record<string, string[]> };
 
-      expect(aliases[DEFAULT_MOCKED_LOCALE]).toStrictEqual([]);
+      expect(state.aliases[DEFAULT_MOCKED_LOCALE]).toStrictEqual([]);
     });
 
     it("should not return a slug error when the slug equals the edited theme's own slug.", async() => {

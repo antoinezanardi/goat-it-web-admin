@@ -101,7 +101,7 @@ You are the final reviewer. You review the whole implementation holistically —
 - Repositories: `<resource>.repository.ts` in `app/repositories/goat-it-api/<resource>/`
 - Server handlers: `<resource>.<method>.handler.ts` in `server/api/.../handlers/`
 - Tests: `*.spec.ts` colocated with source
-- Faketories: `<entity>.<layer>.faketory.ts` in `tests/unit/utils/faketories/`
+- Faketories: `<entity>.<layer>.faketory.ts` — prefer `@goat-it/schemas/testing/` when available, fall back to `tests/unit/utils/faketories/`
 - Mocks: `<composable|repository>.mock.ts` triplet
 - Configs: changes to `configs/` files are appropriate and consistent
 

@@ -31,7 +31,7 @@ Before writing the test:
 
 - Read the source file completely.
 - Read any types, interfaces, or constants it imports.
-- Check whether a faketory already exists for the domain types involved (look in `tests/unit/utils/faketories/`).
+- Check whether a faketory already exists for the domain types involved (look in `@goat-it/schemas/testing/` first, then `tests/unit/utils/faketories/`).
 - Check whether mock files already exist for any dependencies (look in `tests/unit/utils/mocks/`).
 
 ### 5. Write the test

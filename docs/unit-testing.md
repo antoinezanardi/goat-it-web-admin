@@ -1461,7 +1461,12 @@ export { createMyRepositoryMock };
 
 ## 9. Faketories
 
-Faketories generate typed fake data for tests. They live in `tests/unit/utils/faketories/`.
+Faketories generate typed fake data for tests. They live in two locations:
+
+1. **`@goat-it/schemas/testing/`** (preferred when available) — faketories from the schemas package, co-located with their Zod schemas and DTO types. Import directly from the package's testing sub-path (e.g. `@goat-it/schemas/testing/question`, `@goat-it/schemas/testing/question-theme`, `@goat-it/schemas/testing/shared`).
+2. **`tests/unit/utils/faketories/`** (fallback) — local faketories for entities whose schemas do not yet export a testing factory.
+
+If a faketory exists in `@goat-it/schemas`, use it. If not, create it locally following the pattern below.
 
 ### Structure
 
