@@ -1,11 +1,8 @@
 import type { $Fetch } from "nitropack";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { createFakeAdminFindQuestionsQueryDto, createFakeQuestionCreationDto, createFakeQuestionThemeAssignmentCreationDto, createFakeQuestionThemeAssignmentModificationDto, createFakeQuestionModificationDto } from "@goat-it/schemas/testing/question";
 
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
-import { createFakeAdminFindQuestionsQueryDto, createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
-import { createFakeQuestionThemeAssignmentCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-creation/question-theme-assignment-creation.dto.faketory";
-import { createFakeQuestionThemeAssignmentModificationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-modification/question-theme-assignment-modification.dto.faketory";
-import { createFakeQuestionModificationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-modification/question-modification.dto.faketory";
 
 import type { Question } from "#shared/types/question.types";
 import { questionsRepository } from "~/repositories/goat-it-api/questions/questions.repository";
@@ -84,7 +81,7 @@ describe(questionsRepository, () => {
   describe("create", () => {
     it("should call fetch with correct endpoint and body when called.", async() => {
       const repository = questionsRepository(fetchMock);
-      const dto = createFakeQuestionCreationDto();
+      const dto = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
       fetchMock.mockResolvedValue(createFakeQuestion());
       await repository.create(dto);
 
@@ -96,7 +93,7 @@ describe(questionsRepository, () => {
       const repository = questionsRepository(fetchMock);
       fetchMock.mockResolvedValue(fakeQuestion);
 
-      const result = await repository.create(createFakeQuestionCreationDto());
+      const result = await repository.create(createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] }));
 
       expect(result).toStrictEqual(fakeQuestion);
     });

@@ -1,13 +1,10 @@
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import type { vi } from "vitest";
 import { beforeEach, describe, expect, it } from "vitest";
+import { createFakeQuestionThemeAssignmentCreationDto, createFakeQuestionThemeAssignmentModificationDto, createFakeQuestionModificationDto, createFakeAdminFindQuestionsQueryDto, createFakeQuestionCreationDto } from "@goat-it/schemas/testing/question";
 
-import { createFakeQuestionThemeAssignmentCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-creation/question-theme-assignment-creation.dto.faketory.ts";
-import { createFakeQuestionThemeAssignmentModificationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-modification/question-theme-assignment-modification.dto.faketory";
-import { createFakeQuestionModificationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-modification/question-modification.dto.faketory";
 import { createUseAsyncActionMock } from "~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock";
 import type { UseAsyncActionMock } from "~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock";
-import { createFakeAdminFindQuestionsQueryDto, createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
 
 import type { Question } from "#shared/types/question.types";
@@ -288,7 +285,7 @@ describe("useQuestionsStore", () => {
   describe("createAndStoreQuestion", () => {
     it("should call the create execute function with the creation dto when invoked.", async() => {
       const store = useQuestionsStore();
-      const fakeCreationDto = createFakeQuestionCreationDto();
+      const fakeCreationDto = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
 
       await store.createAndStoreQuestion(fakeCreationDto);
 
@@ -299,7 +296,7 @@ describe("useQuestionsStore", () => {
       const fakeCreatedQuestion = createFakeQuestion();
       const store = useQuestionsStore();
       createAsyncActionMock.execute.mockResolvedValue(fakeCreatedQuestion);
-      const fakeCreationDto = createFakeQuestionCreationDto();
+      const fakeCreationDto = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
 
       await store.createAndStoreQuestion(fakeCreationDto);
 
@@ -310,7 +307,7 @@ describe("useQuestionsStore", () => {
       const fakeCreatedQuestion = createFakeQuestion();
       const store = useQuestionsStore();
       createAsyncActionMock.execute.mockResolvedValue(fakeCreatedQuestion);
-      const fakeCreationDto = createFakeQuestionCreationDto();
+      const fakeCreationDto = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
 
       await store.createAndStoreQuestion(fakeCreationDto);
 
@@ -322,7 +319,7 @@ describe("useQuestionsStore", () => {
 
     it("should not update questions when creation resolves with undefined.", async() => {
       const store = useQuestionsStore();
-      const fakeCreationDto = createFakeQuestionCreationDto();
+      const fakeCreationDto = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
 
       await store.createAndStoreQuestion(fakeCreationDto);
 
@@ -350,7 +347,7 @@ describe("useQuestionsStore", () => {
   describe("useAsyncAction setup for create", () => {
     it("should pass an async function calling repository.create as action to useAsyncAction when created.", async() => {
       const fakeQuestion = createFakeQuestion();
-      const fakeCreationDto = createFakeQuestionCreationDto();
+      const fakeCreationDto = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
       useQuestionsStore();
       const mockCreate = questionsRepository($fetch).create as ReturnType<typeof vi.fn>;
       mockCreate.mockResolvedValue(fakeQuestion);
@@ -362,7 +359,7 @@ describe("useQuestionsStore", () => {
 
     it("should return the result from repository.create when the captured action is invoked.", async() => {
       const fakeQuestion = createFakeQuestion();
-      const fakeCreationDto = createFakeQuestionCreationDto();
+      const fakeCreationDto = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
       useQuestionsStore();
       const mockCreate = questionsRepository($fetch).create as ReturnType<typeof vi.fn>;
       mockCreate.mockResolvedValue(fakeQuestion);

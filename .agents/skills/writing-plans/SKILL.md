@@ -139,7 +139,7 @@ If you find issues, fix them inline. If a spec requirement has no task, add the 
 - **Repositories:** `<resource>.repository.ts` in `app/repositories/goat-it-api/<resource>/`
 - **Server handlers:** `<resource>.<method>.handler.ts` in `server/api/.../handlers/`
 - **Tests:** Colocated `*.spec.ts` — `describe(functionName, ...)` for functions, `describe("<ComponentName> Component", ...)` for components
-- **Faketories:** `<entity>.<layer>.faketory.ts` in `tests/unit/utils/faketories/`
+- **Faketories:** `<entity>.<layer>.faketory.ts` — prefer `@goat-it/schemas/testing/` when available, fall back to `tests/unit/utils/faketories/`
 - **Mocks:** `<composable|repository>.mock.ts` triplet in `tests/unit/utils/mocks/`
 - **Vitest projects:** 5 projects (nuxt, composables, stores, repositories, node) — pick the right one per source path
 - **TypeScript:** No `any`, explicit return types, `import type { ... }` for type-only imports

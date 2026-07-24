@@ -8,8 +8,8 @@ import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 import type { vi } from "vitest";
 import type { AdminFindQuestionsQueryDto } from "@goat-it/schemas/question";
+import { createFakeLocalizedText } from "@goat-it/schemas/testing/shared";
 
-import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 import { createFakeQuestionContent } from "~~/tests/unit/utils/faketories/questions/entity/question-content/question-content.entity.faketory";
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
 import { createFakeQuestionsTableFilters } from "~~/tests/unit/utils/faketories/questions/components/questions-table-filters.faketory";
@@ -608,6 +608,22 @@ describe("QuestionsTable Component", () => {
         id: "q-1",
         content: createFakeQuestionContent({
           statement: createFakeLocalizedText({ en: "Test statement" }),
+        }),
+      });
+      questionsStore.questions = [fakeQuestion];
+
+      wrapper = await mountQuestionsTableComponent();
+
+      const expandButton = wrapper.find("[data-testid='expand-button-q-1']");
+
+      expect(expandButton.attributes("aria-label")).toBe("questions.table.expandAriaLabel");
+    });
+
+    it("should set the expand button aria-label with the translation key when the statement has no value for the current locale.", async() => {
+      const fakeQuestion = createFakeQuestion({
+        id: "q-1",
+        content: createFakeQuestionContent({
+          statement: createFakeLocalizedText({ fr: "Déclaration test", [DEFAULT_MOCKED_LOCALE]: undefined }),
         }),
       });
       questionsStore.questions = [fakeQuestion];

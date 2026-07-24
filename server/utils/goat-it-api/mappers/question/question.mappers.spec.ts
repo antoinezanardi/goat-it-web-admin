@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { createFakeAdminQuestionDto, createFakeQuestionRejectionDto } from "@goat-it/schemas/testing/question";
 
-import { createFakeAdminQuestionDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
-import { createFakeAdminQuestionRejectionDto } from "~~/tests/unit/utils/faketories/questions/dto/question-rejection/question-rejection.dto.faketory";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
 
@@ -10,7 +9,7 @@ import { createQuestionFromAdminQuestionDto } from "#server/utils/goat-it-api/ma
 describe("Question Mappers", () => {
   describe(createQuestionFromAdminQuestionDto, () => {
     it("should create question from admin question dto with correct properties when called.", () => {
-      const dto = createFakeAdminQuestionDto();
+      const dto = createFakeAdminQuestionDto({ rejection: undefined });
       const result = createQuestionFromAdminQuestionDto(dto);
       const expected = createFakeQuestion({
         id: dto.id,
@@ -28,7 +27,7 @@ describe("Question Mappers", () => {
         cognitiveDifficulty: dto.cognitiveDifficulty,
         author: dto.author,
         status: dto.status,
-        rejection: undefined,
+        rejection: dto.rejection,
         sourceUrls: dto.sourceUrls,
         createdAt: new Date(dto.createdAt),
         updatedAt: new Date(dto.updatedAt),
@@ -38,7 +37,7 @@ describe("Question Mappers", () => {
     });
 
     it("should map rejection when dto has a rejection.", () => {
-      const fakeRejection = createFakeAdminQuestionRejectionDto();
+      const fakeRejection = createFakeQuestionRejectionDto();
       const dto = createFakeAdminQuestionDto({ rejection: fakeRejection });
       const result = createQuestionFromAdminQuestionDto(dto);
 

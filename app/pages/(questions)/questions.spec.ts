@@ -5,10 +5,9 @@ import type { VueWrapper } from "@vue/test-utils";
 import { flushPromises } from "@vue/test-utils";
 import { nextTick } from "vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { createFakeQuestionCreationDto, createFakeQuestionModificationDto, createFakeQuestionThemeAssignmentCreationDto } from "@goat-it/schemas/testing/question";
 
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
-import { createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
-import { createFakeQuestionModificationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-modification/question-modification.dto.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
@@ -120,7 +119,7 @@ describe("Questions Page", () => {
     });
 
     it("should call createAndStoreQuestion when modal emits submitCreation.", async() => {
-      const fakeDto = createFakeQuestionCreationDto();
+      const fakeDto = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
       const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-form-modal']");
       getWrapperVm(modal).$emit("submitCreation", fakeDto);
       await flushPromises();
@@ -135,7 +134,7 @@ describe("Questions Page", () => {
       const table = wrapper.findComponent<typeof QuestionsTable>({ name: "QuestionsTable" });
       getWrapperVm(table).$emit("startCreate");
 
-      const fakeDto = createFakeQuestionCreationDto();
+      const fakeDto = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
       const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-form-modal']");
       getWrapperVm(modal).$emit("submitCreation", fakeDto);
       await flushPromises();

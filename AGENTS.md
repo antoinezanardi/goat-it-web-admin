@@ -219,7 +219,7 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
   - New repository mock → register in `VITEST_REPOSITORIES_MOCK_SETUP_FILES`
   - New domain alias → register in `nuxt.config.ts` `imports.dir` and Vitest aliases
 
-- Fake data: faketory functions (`@faker-js/faker`) in `tests/unit/utils/faketories/`.
+- Fake data: faketory functions (`@faker-js/faker`) — prefer `@goat-it/schemas/testing/` when available, fall back to `tests/unit/utils/faketories/`.
   - Accept `Partial<T>`; named `createFake<Entity>` (e.g. `createFakeQuestionTheme`).
   - Two layers per entity: `entity/` (domain type) and `dto/` (raw API DTO).
 

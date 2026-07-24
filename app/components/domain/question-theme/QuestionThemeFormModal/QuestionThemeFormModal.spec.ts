@@ -3,12 +3,14 @@ import { flushPromises } from "@vue/test-utils";
 import type { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "@goat-it/schemas/testing/question-theme";
+import { createFakeLocalizedText, createFakeLocalizedTexts } from "@goat-it/schemas/testing/shared";
 
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
+import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
-import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 
 import { QuestionThemeFormModal } from "#components";
 import type { QuestionThemeForm, DefaultModalFooter, DefaultModalTitle, QuestionThemeTranslationCompletenessIndicator } from "#components";
@@ -181,12 +183,18 @@ describe("QuestionThemeFormModal Component", () => {
   });
 
   describe("Edit mode", () => {
+    const defaultThemeLocaleOverrides = {
+      label: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Label" }),
+      description: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Description" }),
+      aliases: createFakeLocalizedTexts({ [DEFAULT_MOCKED_LOCALE]: ["alias-one", "alias-two"] }),
+    };
+
     it("should pass the editTheme i18n key as title to the default modal title when mode is edit.", async() => {
       wrapper = await mountQuestionThemeFormModalComponent({
         props: {
           ...defaultQuestionThemeFormModalProps,
           mode: "edit",
-          questionTheme: createFakeQuestionTheme(),
+          questionTheme: createFakeQuestionTheme(defaultThemeLocaleOverrides),
         },
       });
       const modalTitle = wrapper.findComponent<typeof DefaultModalTitle>("[data-testid='question-theme-form-modal-title']");
@@ -199,7 +207,7 @@ describe("QuestionThemeFormModal Component", () => {
         props: {
           ...defaultQuestionThemeFormModalProps,
           mode: "edit",
-          questionTheme: createFakeQuestionTheme(),
+          questionTheme: createFakeQuestionTheme(defaultThemeLocaleOverrides),
         },
       });
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
@@ -212,7 +220,7 @@ describe("QuestionThemeFormModal Component", () => {
         props: {
           ...defaultQuestionThemeFormModalProps,
           mode: "edit",
-          questionTheme: createFakeQuestionTheme(),
+          questionTheme: createFakeQuestionTheme(defaultThemeLocaleOverrides),
         },
       });
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
@@ -221,7 +229,7 @@ describe("QuestionThemeFormModal Component", () => {
     });
 
     it("should pass the question theme to the form when mode is edit.", async() => {
-      const fakeTheme = createFakeQuestionTheme();
+      const fakeTheme = createFakeQuestionTheme(defaultThemeLocaleOverrides);
       wrapper = await mountQuestionThemeFormModalComponent({
         props: {
           ...defaultQuestionThemeFormModalProps,
@@ -239,7 +247,7 @@ describe("QuestionThemeFormModal Component", () => {
         props: {
           ...defaultQuestionThemeFormModalProps,
           mode: "edit",
-          questionTheme: createFakeQuestionTheme(),
+          questionTheme: createFakeQuestionTheme(defaultThemeLocaleOverrides),
         },
       });
       const form = wrapper.findComponent<typeof QuestionThemeForm>("[data-testid='question-theme-form-modal-form']");
@@ -253,7 +261,7 @@ describe("QuestionThemeFormModal Component", () => {
         props: {
           ...defaultQuestionThemeFormModalProps,
           mode: "edit",
-          questionTheme: createFakeQuestionTheme(),
+          questionTheme: createFakeQuestionTheme(defaultThemeLocaleOverrides),
         },
       });
       const form = wrapper.findComponent<typeof QuestionThemeForm>("[data-testid='question-theme-form-modal-form']") as VueWrapper;
@@ -264,7 +272,7 @@ describe("QuestionThemeFormModal Component", () => {
     });
 
     it("should render the question theme translation completeness indicator when mode is edit and questionTheme is provided.", async() => {
-      const fakeTheme = createFakeQuestionTheme();
+      const fakeTheme = createFakeQuestionTheme(defaultThemeLocaleOverrides);
       wrapper = await mountQuestionThemeFormModalComponent({
         props: {
           ...defaultQuestionThemeFormModalProps,
@@ -278,7 +286,7 @@ describe("QuestionThemeFormModal Component", () => {
     });
 
     it("should pass the question theme to the translation completeness indicator when mode is edit.", async() => {
-      const fakeTheme = createFakeQuestionTheme();
+      const fakeTheme = createFakeQuestionTheme(defaultThemeLocaleOverrides);
       wrapper = await mountQuestionThemeFormModalComponent({
         props: {
           ...defaultQuestionThemeFormModalProps,

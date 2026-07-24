@@ -2,12 +2,12 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "@goat-it/schemas/testing/question-theme";
+import { createFakeLocalizedText, createFakeLocalizedTexts } from "@goat-it/schemas/testing/shared";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
-import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
-import { createFakeLocalizedText, createFakeLocalizedTexts } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
@@ -367,8 +367,26 @@ describe("QuestionThemeForm Component", () => {
       expect(aliases[DEFAULT_MOCKED_LOCALE]).toStrictEqual(["alias-one", "alias-two"]);
     });
 
+    it("should initialize aliases as empty array when the theme has no aliases for the current locale.", async() => {
+      const fakeTheme = createFakeQuestionTheme({
+        ...editThemeProperties,
+        aliases: createFakeLocalizedTexts({ fr: ["alias-fr"], [DEFAULT_MOCKED_LOCALE]: undefined }),
+      });
+      wrapper = await mountQuestionThemeFormComponent({
+        props: {
+          mode: "edit",
+          questionTheme: fakeTheme,
+          existingSlugs: ["existing-slug"],
+        },
+      });
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const state = uForm.props("state") as { aliases: Record<string, string[]> };
+
+      expect(state.aliases[DEFAULT_MOCKED_LOCALE]).toStrictEqual([]);
+    });
+
     it("should not return a slug error when the slug equals the edited theme's own slug.", async() => {
-      const fakeTheme = createFakeQuestionTheme({ slug: "existing-slug" });
+      const fakeTheme = createFakeQuestionTheme(editThemeProperties);
       wrapper = await mountQuestionThemeFormComponent({
         props: {
           mode: "edit",
@@ -384,7 +402,7 @@ describe("QuestionThemeForm Component", () => {
     });
 
     it("should return a slug error when the slug matches another existing slug in edit mode.", async() => {
-      const fakeTheme = createFakeQuestionTheme({ slug: "existing-slug" });
+      const fakeTheme = createFakeQuestionTheme(editThemeProperties);
       wrapper = await mountQuestionThemeFormComponent({
         props: {
           mode: "edit",
@@ -400,8 +418,14 @@ describe("QuestionThemeForm Component", () => {
     });
 
     it("should emit submitModification with the form data when the form is submitted in edit mode.", async() => {
-      const fakeTheme = createFakeQuestionTheme({ slug: "existing-slug" });
-      const fakeModificationDto = createFakeQuestionThemeModificationDto();
+      const fakeTheme = createFakeQuestionTheme(editThemeProperties);
+      const fakeModificationDto = createFakeQuestionThemeModificationDto({
+        slug: "modified-slug",
+        label: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Modified Label" }),
+        description: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Modified Description" }),
+        aliases: createFakeLocalizedTexts({ [DEFAULT_MOCKED_LOCALE]: ["modified-alias"] }),
+        color: "#FF0000",
+      });
       wrapper = await mountQuestionThemeFormComponent({
         props: {
           mode: "edit",
@@ -423,8 +447,14 @@ describe("QuestionThemeForm Component", () => {
     });
 
     it("should not emit submitCreation when the form is submitted in edit mode.", async() => {
-      const fakeTheme = createFakeQuestionTheme({ slug: "existing-slug" });
-      const fakeModificationDto = createFakeQuestionThemeModificationDto();
+      const fakeTheme = createFakeQuestionTheme(editThemeProperties);
+      const fakeModificationDto = createFakeQuestionThemeModificationDto({
+        slug: "modified-slug",
+        label: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Modified Label" }),
+        description: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Modified Description" }),
+        aliases: createFakeLocalizedTexts({ [DEFAULT_MOCKED_LOCALE]: ["modified-alias"] }),
+        color: "#FF0000",
+      });
       wrapper = await mountQuestionThemeFormComponent({
         props: {
           mode: "edit",
@@ -445,8 +475,13 @@ describe("QuestionThemeForm Component", () => {
     });
 
     describe("Translation field contexts", () => {
-      it("should render translation field context for label with localized text from question theme label when mode is edit.", async() => {
-        const fakeTheme = createFakeQuestionTheme();
+      const fakeTheme = createFakeQuestionTheme({
+        label: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Label" }),
+        description: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Description" }),
+        aliases: createFakeLocalizedTexts({ [DEFAULT_MOCKED_LOCALE]: ["alias-one", "alias-two"] }),
+      });
+
+      beforeEach(async() => {
         wrapper = await mountQuestionThemeFormComponent({
           props: {
             mode: "edit",
@@ -454,82 +489,44 @@ describe("QuestionThemeForm Component", () => {
             existingSlugs: [],
           },
         });
+      });
+
+      it("should render translation field context for label with localized text from question theme label when mode is edit.", () => {
         const labelContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-label']");
 
         expect(labelContext.props("localizedText")).toStrictEqual(fakeTheme.label);
       });
 
-      it("should render translation field context for description with localized text from question theme description when mode is edit.", async() => {
-        const fakeTheme = createFakeQuestionTheme();
-        wrapper = await mountQuestionThemeFormComponent({
-          props: {
-            mode: "edit",
-            questionTheme: fakeTheme,
-            existingSlugs: [],
-          },
-        });
+      it("should render translation field context for description with localized text from question theme description when mode is edit.", () => {
         const descriptionContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-description']");
 
         expect(descriptionContext.props("localizedText")).toStrictEqual(fakeTheme.description);
       });
 
-      it("should render translation field context for aliases with localized texts from question theme aliases when mode is edit.", async() => {
-        const fakeTheme = createFakeQuestionTheme();
-        wrapper = await mountQuestionThemeFormComponent({
-          props: {
-            mode: "edit",
-            questionTheme: fakeTheme,
-            existingSlugs: [],
-          },
-        });
+      it("should render translation field context for aliases with localized texts from question theme aliases when mode is edit.", () => {
         const aliasesContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-aliases']");
 
         expect(aliasesContext.props("localizedTexts")).toStrictEqual(fakeTheme.aliases);
       });
 
-      it("should pass label field name to translation field context for label when mode is edit.", async() => {
-        const fakeTheme = createFakeQuestionTheme();
+      it.each([
+        { field: "label", expectedLabel: "questionThemes.fields.label" },
+        { field: "description", expectedLabel: "questionThemes.fields.description" },
+        { field: "aliases", expectedLabel: "questionThemes.fields.aliases" },
+      ])("should pass the $field field name to translation field context for $field when mode is edit.", ({ field, expectedLabel }) => {
+        const context = wrapper.findComponent<typeof TranslationFieldContext>(`[data-testid='translation-field-context-${field}']`);
+
+        expect(context.props("label")).toBe(expectedLabel);
+      });
+
+      it("should not render any translation field context when mode is create.", async() => {
         wrapper = await mountQuestionThemeFormComponent({
           props: {
-            mode: "edit",
+            mode: "create",
             questionTheme: fakeTheme,
             existingSlugs: [],
           },
         });
-        const labelContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-label']");
-
-        expect(labelContext.props("label")).toBe("questionThemes.fields.label");
-      });
-
-      it("should pass description field name to translation field context for description when mode is edit.", async() => {
-        const fakeTheme = createFakeQuestionTheme();
-        wrapper = await mountQuestionThemeFormComponent({
-          props: {
-            mode: "edit",
-            questionTheme: fakeTheme,
-            existingSlugs: [],
-          },
-        });
-        const descriptionContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-description']");
-
-        expect(descriptionContext.props("label")).toBe("questionThemes.fields.description");
-      });
-
-      it("should pass aliases field name to translation field context for aliases when mode is edit.", async() => {
-        const fakeTheme = createFakeQuestionTheme();
-        wrapper = await mountQuestionThemeFormComponent({
-          props: {
-            mode: "edit",
-            questionTheme: fakeTheme,
-            existingSlugs: [],
-          },
-        });
-        const aliasesContext = wrapper.findComponent<typeof TranslationFieldContext>("[data-testid='translation-field-context-aliases']");
-
-        expect(aliasesContext.props("label")).toBe("questionThemes.fields.aliases");
-      });
-
-      it("should not render any translation field context when mode is create.", () => {
         const translationFieldContexts = wrapper.findAll("[data-testid^='translation-field-context-']");
 
         expect(translationFieldContexts).toHaveLength(0);

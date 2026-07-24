@@ -3,10 +3,10 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { createFakeQuestionCreationDto, createFakeQuestionModificationDto, createFakeQuestionThemeAssignmentCreationDto } from "@goat-it/schemas/testing/question";
+import { createFakeLocalizedText } from "@goat-it/schemas/testing/shared";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
-import { createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
-import { createFakeQuestionModificationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-modification/question-modification.dto.faketory";
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
 import { createFakeQuestionContent } from "~~/tests/unit/utils/faketories/questions/entity/question-content/question-content.entity.faketory";
 import { createFakeQuestionThemeAssignment } from "~~/tests/unit/utils/faketories/questions/entity/question-theme-assignment/question-theme-assignment.entity.faketory";
@@ -334,7 +334,7 @@ describe("QuestionForm Component", () => {
 
   describe("Form Submission", () => {
     it("should emit submitCreation when form submits in create mode.", async() => {
-      const fakeCreationDto = createFakeQuestionCreationDto();
+      const fakeCreationDto = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
       const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
       getWrapperVm(uForm).$emit("submit", { data: fakeCreationDto });
       await nextTick();
@@ -372,6 +372,8 @@ describe("QuestionForm Component", () => {
       createFakeQuestionThemeAssignment({ isPrimary: false, isHint: true }),
     ];
     const fakeContent = createFakeQuestionContent({
+      statement: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Statement" }),
+      answer: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Answer" }),
       context: { [DEFAULT_MOCKED_LOCALE]: "Some context" },
       trivia: { [DEFAULT_MOCKED_LOCALE]: ["Fun fact"] },
     });

@@ -245,7 +245,7 @@ function createFakeMyEntity(myEntity: Partial<MyEntity> = {}): MyEntity {
 }
 ```
 
-- Location: `tests/unit/utils/faketories/<entity-name>/entity/` and `…/dto/`
+- Location: `@goat-it/schemas/testing/<entity>` (preferred when available) or `tests/unit/utils/faketories/<entity-name>/entity/` and `…/dto/` (fallback)
 - Shared faketories: `tests/unit/utils/faketories/shared/locale/` (e.g. `createFakeLocalizedText`, `createFakeLocalizedTexts`)
 - Always accept `Partial<T> = {}` and spread it last
 - DTOs use ISO strings for dates; entities use `Date` objects
