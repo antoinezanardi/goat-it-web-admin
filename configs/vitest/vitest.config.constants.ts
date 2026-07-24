@@ -33,9 +33,11 @@ const VITEST_PROJECT_COMMON_INLINE_CONFIG: InlineConfig = {
 
 const VITEST_PROJECT_COMMON_NUXT_INLINE_CONFIG: InlineConfig = {
   ...VITEST_PROJECT_COMMON_INLINE_CONFIG,
+  hookTimeout: 20_000,
   environment: "nuxt",
   pool: "threads",
   isolate: false,
+  css: false,
   deps: {
     optimizer: {
       client: {
@@ -142,6 +144,14 @@ const VITEST_NODE_PROJECT_CONFIG: TestProjectInlineConfiguration = {
     ],
     pool: "threads",
     isolate: false,
+    deps: {
+      optimizer: {
+        ssr: {
+          enabled: true,
+          include: ["h3", "ofetch", "zod"],
+        },
+      },
+    },
   },
 } as const;
 
