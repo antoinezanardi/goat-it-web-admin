@@ -21,13 +21,25 @@
     "modifyThemeAssignmentSuccessfully": "Question theme modified successfully",
     "fetching": "Loading questions...",
     "itemsCount": "0 questions | {count} question | {count} questions",
-    "missingThemeTranslation": "–– missing theme translation ––",
-    "selectThemes": "Select themes…",
+    "missingThemeTranslation": "\u2013\u2013 missing theme translation \u2013\u2013",
+    "selectThemes": "Select themes\u2026",
     "searchThemes": "Search themes...",
     "noMatchingTheme": "No matching theme.",
     "promoteAsPrimaryTheme": "Promote as primary theme",
     "primaryTheme": "Primary theme",
-    "selectCategory": "Select category…",
+    "selectCategory": "Select category\u2026",
+    "authorRole": {
+      "admin": "Admin",
+      "game": "Game",
+      "ai": "AI"
+    },
+    "rejectionType": {
+      "inappropriate-content": "Inappropriate Content",
+      "incorrect-information": "Incorrect Information",
+      "poor-quality": "Poor Quality",
+      "duplicate-question": "Duplicate Question",
+      "other": "Other"
+    },
     "sections": {
       "content": "Content",
       "classification": "Classification",

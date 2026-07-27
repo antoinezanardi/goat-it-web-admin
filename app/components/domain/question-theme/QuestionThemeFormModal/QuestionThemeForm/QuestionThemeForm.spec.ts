@@ -367,6 +367,26 @@ describe("QuestionThemeForm Component", () => {
       expect(aliases[DEFAULT_MOCKED_LOCALE]).toStrictEqual(["alias-one", "alias-two"]);
     });
 
+    it("should initialize with undefined slug when mode is edit without a question theme.", async() => {
+      wrapper = await mountQuestionThemeFormComponent({
+        props: { mode: "edit" as const, existingSlugs: [] },
+      });
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const state = uForm.props("state") as Record<string, unknown>;
+
+      expect(state.slug).toBeUndefined();
+    });
+
+    it("should initialize with undefined color when mode is edit without a question theme.", async() => {
+      wrapper = await mountQuestionThemeFormComponent({
+        props: { mode: "edit" as const, existingSlugs: [] },
+      });
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const state = uForm.props("state") as Record<string, unknown>;
+
+      expect(state.color).toBeUndefined();
+    });
+
     it("should initialize aliases as empty array when the theme has no aliases for the current locale.", async() => {
       const fakeTheme = createFakeQuestionTheme({
         ...editThemeProperties,

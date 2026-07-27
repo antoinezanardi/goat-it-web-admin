@@ -304,6 +304,19 @@ describe("QuestionThemeFormModal Component", () => {
 
       expect(indicator.exists()).toBeFalsy();
     });
+
+    it("should not render the question theme translation completeness indicator when mode is edit without a question theme.", async() => {
+      wrapper = await mountQuestionThemeFormModalComponent({
+        props: {
+          ...defaultQuestionThemeFormModalProps,
+          mode: "edit",
+          questionTheme: undefined,
+        },
+      });
+      const indicator = wrapper.findComponent({ name: "QuestionThemeTranslationCompletenessIndicator" });
+
+      expect(indicator.exists()).toBeFalsy();
+    });
   });
 
   describe("Auto-focus", () => {

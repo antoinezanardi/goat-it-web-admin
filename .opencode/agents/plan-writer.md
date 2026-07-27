@@ -1,7 +1,7 @@
 ---
 description: Writes a detailed implementation plan from an approved spec for the goat-it-web-admin Nuxt 4 project. Produces bite-sized tasks (2-5min steps) with full code in every step. No placeholders. Dispatched by the orchestrator after spec approval.
 mode: subagent
-model: opencode-go/kimi-k2.7-code
+model: opencode-go/deepseek-v4-pro
 temperature: 0.2
 hidden: false
 steps: 80
@@ -53,6 +53,15 @@ You are the plan writer. You turn an approved spec into a complete, executable i
 ## Announce at start
 
 "I'm using the `writing-plans` skill to create the implementation plan."
+
+## Self-review
+
+When the plan is complete, check for:
+
+- [ ] All tasks are bite-sized (2-5 min)
+- [ ] All tasks have implementation, test (when applicable), and verification steps
+- [ ] Only one `expect` per `it` in unit tests, use `it.each` for multiple assertions on the same subject
+- [ ] Every `type` are in `.types.ts` files and `constants` in `.constants.ts` files
 
 ## Output
 

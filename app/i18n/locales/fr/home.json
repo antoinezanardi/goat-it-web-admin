@@ -1,5 +1,23 @@
 {
   "home": {
-    "pageTitle": "Accueil"
+    "pageTitle": "Accueil",
+    "cantFetchStats": "Impossible de récupérer les statistiques du tableau de bord",
+    "tabs": {
+      "questions": "Questions",
+      "questionThemes": "Thèmes de questions"
+    },
+    "stats": {
+      "byStatus": "Par statut",
+      "byCategory": "Par catégorie",
+      "byCognitiveDifficulty": "Par difficulté",
+      "byAuthorRole": "Par rôle d'auteur",
+      "byRejectionType": "Par type de rejet",
+      "byQuestionCount": "Questions par thème",
+      "noData": "Aucune donnée disponible"
+    },
+    "chartView": {
+      "doughnut": "Graphique en anneau",
+      "bar": "Graphique à barres"
+    }
   }
 }

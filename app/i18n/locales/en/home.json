@@ -1,5 +1,23 @@
 {
   "home": {
-    "pageTitle": "Home"
+    "pageTitle": "Home",
+    "cantFetchStats": "Unable to fetch dashboard statistics",
+    "tabs": {
+      "questions": "Questions",
+      "questionThemes": "Question Themes"
+    },
+    "stats": {
+      "byStatus": "By Status",
+      "byCategory": "By Category",
+      "byCognitiveDifficulty": "By Difficulty",
+      "byAuthorRole": "By Author Role",
+      "byRejectionType": "By Rejection Type",
+      "byQuestionCount": "Questions per Theme",
+      "noData": "No data available"
+    },
+    "chartView": {
+      "doughnut": "Doughnut chart",
+      "bar": "Bar chart"
+    }
   }
 }

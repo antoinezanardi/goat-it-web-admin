@@ -1,5 +1,23 @@
 {
   "home": {
-    "pageTitle": "Home"
+    "pageTitle": "Home",
+    "cantFetchStats": "Impossibile recuperare le statistiche della dashboard",
+    "tabs": {
+      "questions": "Domande",
+      "questionThemes": "Temi delle domande"
+    },
+    "stats": {
+      "byStatus": "Per stato",
+      "byCategory": "Per categoria",
+      "byCognitiveDifficulty": "Per difficoltà",
+      "byAuthorRole": "Per ruolo autore",
+      "byRejectionType": "Per tipo di rifiuto",
+      "byQuestionCount": "Domande per tema",
+      "noData": "Nessun dato disponibile"
+    },
+    "chartView": {
+      "doughnut": "Grafico a ciambella",
+      "bar": "Grafico a barre"
+    }
   }
 }
