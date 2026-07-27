@@ -148,7 +148,7 @@ const VITEST_NODE_PROJECT_CONFIG: TestProjectInlineConfiguration = {
       optimizer: {
         ssr: {
           enabled: true,
-          include: ["h3", "ofetch", "zod"],
+          include: ["ofetch", "zod"],
         },
       },
     },
