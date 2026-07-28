@@ -2,6 +2,7 @@ import type { StatsCardItem } from "~/components/domain/dashboard/StatsCard/stat
 
 type StatsDoughnutChartProps = {
   items: StatsCardItem[];
+  titleKey: string;
 };
 
 export type { StatsDoughnutChartProps };

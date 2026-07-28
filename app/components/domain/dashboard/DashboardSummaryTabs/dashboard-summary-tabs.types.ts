@@ -1,4 +1,8 @@
-type DashboardTab = "questions" | "questionThemes";
+import type { TupleToUnion } from "type-fest";
+
+import type { DASHBOARD_TABS } from "~/components/domain/dashboard/DashboardSummaryTabs/dashboard-summary-tabs.constants";
+
+type DashboardTab = TupleToUnion<typeof DASHBOARD_TABS>;
 
 type DashboardSummaryTabsProps = {
   questionTotal: number;

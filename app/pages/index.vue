@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DashboardTab } from "~/components/domain/dashboard/DashboardSummaryTabs/dashboard-summary-tabs.types";
 import { HOME_PAGE_ICON, HOME_PAGE_ORDER, HOME_PAGE_TITLE_KEY } from "~/pages/index.constants";
-import { DASHBOARD_TAB } from "~/components/domain/dashboard/DashboardSummaryTabs/dashboard-summary-tabs.constants";
+import { DASHBOARD_TABS } from "~/components/domain/dashboard/DashboardSummaryTabs/dashboard-summary-tabs.constants";
 
 const { t } = useI18n();
 
@@ -16,7 +16,9 @@ definePageMeta({
 });
 
 const dashboardStore = useDashboardStore();
-const activeTab = ref<DashboardTab>(DASHBOARD_TAB.QUESTIONS);
+const [QUESTIONS, QUESTION_THEMES] = DASHBOARD_TABS;
+
+const activeTab = ref<DashboardTab>(QUESTIONS);
 
 void dashboardStore.fetchAndStoreDashboardStats();
 
@@ -62,12 +64,12 @@ function onActiveTabChange(tab: DashboardTab): void {
 
         <template v-else>
           <QuestionStatsContent
-            v-if="activeTab === DASHBOARD_TAB.QUESTIONS && dashboardStore.questionStats"
+            v-if="activeTab === QUESTIONS && dashboardStore.questionStats"
             :stats="dashboardStore.questionStats"
           />
 
           <QuestionThemeStatsContent
-            v-if="activeTab === DASHBOARD_TAB.QUESTION_THEMES && dashboardStore.questionThemeStats"
+            v-if="activeTab === QUESTION_THEMES && dashboardStore.questionThemeStats"
             :stats="dashboardStore.questionThemeStats"
           />
         </template>

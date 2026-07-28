@@ -20,9 +20,10 @@ const byQuestionCountItems = computed<StatsCardItem[]>(() => props.stats.byQuest
   const theme = themesStore.questionThemes.find(t => t.slug === entry.themeSlug);
 
   return {
-    value: entry.activeQuestionCount,
     color: theme?.color ?? "primary",
-    labelKey: getThemeLocalizedLabel(theme, locale.value as Locale, entry.themeSlug),
+    label: getThemeLocalizedLabel(theme, locale.value as Locale, entry.themeSlug),
+    labelKey: entry.themeSlug,
+    value: entry.activeQuestionCount,
   };
 }));
 </script>

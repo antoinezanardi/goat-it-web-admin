@@ -17,7 +17,7 @@ describe("StatsHorizontalBarChart Component", () => {
 
   async function mountStatsHorizontalBarChart(options: MountSuspendedOptions<typeof StatsHorizontalBarChartComponent> = {}): Promise<VueWrapper> {
     return mountSuspended(StatsHorizontalBarChartComponent, {
-      props: { items: defaultItems },
+      props: { items: defaultItems, titleKey: "home.stats.byStatus" },
       ...options,
     });
   }
@@ -26,17 +26,17 @@ describe("StatsHorizontalBarChart Component", () => {
     wrapper = await mountStatsHorizontalBarChart();
   });
 
-  it("should render the Bar component with correct data when mounted.", () => {
+  it("should render the Bar component with correct data sorted by value descending when mounted.", () => {
     const bar = wrapper.getComponent({ name: "Bar" });
 
     expect(bar.props("data")).toStrictEqual({
-      labels: [firstItem.labelKey, secondItem.labelKey],
+      labels: [secondItem.labelKey, firstItem.labelKey],
       datasets: [
         {
-          data: [10, 20],
+          data: [20, 10],
           backgroundColor: [
-            CHART_COLOR_HEX_MAP[firstItem.color],
             CHART_COLOR_HEX_MAP[secondItem.color],
+            CHART_COLOR_HEX_MAP[firstItem.color],
           ],
           borderWidth: 0,
           borderRadius: 4,
@@ -64,6 +64,7 @@ describe("StatsHorizontalBarChart Component", () => {
     wrapper = await mountStatsHorizontalBarChart({
       props: {
         items: [{ labelKey: "questions.status.pending", value: 10, color: hexColor }],
+        titleKey: "home.stats.byStatus",
       },
     });
 

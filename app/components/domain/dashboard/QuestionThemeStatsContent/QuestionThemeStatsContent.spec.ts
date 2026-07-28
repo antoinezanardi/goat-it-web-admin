@@ -125,11 +125,12 @@ describe("QuestionThemeStatsContent Component", () => {
     wrapper = await mountQuestionThemeStatsContent();
 
     const countCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
-    const items = countCard?.props("items") as { labelKey: string; color: string }[];
+    const items = countCard?.props("items") as { label: string; color: string; value: number }[];
 
     expect(items[0]).toStrictEqual({
       color: themeColor,
-      labelKey: "Custom Label",
+      label: themeLabel,
+      labelKey: "test-theme",
       value: 10,
     });
   });

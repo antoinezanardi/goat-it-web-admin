@@ -1,5 +1,6 @@
 type StatsCardItem = {
   labelKey: string;
+  label?: string;
   value: number;
   color: string;
 };

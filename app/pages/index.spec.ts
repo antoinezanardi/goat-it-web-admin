@@ -10,7 +10,7 @@ import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 
 import type { PageHeader, DashboardSummaryTabs, QuestionStatsContent, QuestionThemeStatsContent } from "#components";
 
-import { DASHBOARD_TAB } from "@/components/domain/dashboard/DashboardSummaryTabs/dashboard-summary-tabs.constants";
+import { DASHBOARD_TABS } from "@/components/domain/dashboard/DashboardSummaryTabs/dashboard-summary-tabs.constants";
 import { HOME_PAGE_ICON, HOME_PAGE_ORDER, HOME_PAGE_TITLE_KEY } from "@/pages/index.constants";
 import { useDashboardStore } from "@/stores/domain/dashboard/dashboard.store";
 import HomePage from "@/pages/index.vue";
@@ -127,7 +127,7 @@ describe("Home Page", () => {
     const store = useDashboardStore();
     store.questionThemeStats = createFakeQuestionThemeStatsDto();
     const tabs = wrapper.findComponent<typeof DashboardSummaryTabs>({ name: "DashboardSummaryTabs" });
-    getWrapperVm(tabs).$emit("update:activeTab", DASHBOARD_TAB.QUESTION_THEMES);
+    getWrapperVm(tabs).$emit("update:activeTab", DASHBOARD_TABS[1]);
     await flushPromises();
 
     const content = wrapper.findComponent<typeof QuestionThemeStatsContent>({ name: "QuestionThemeStatsContent" });
@@ -142,8 +142,6 @@ describe("Home Page", () => {
   });
 
   it("should render skeleton placeholders when dashboard stats are being fetched.", async() => {
-    // Acceptable as we need to mount with the fetching state set before mount to ensure reactive rendering
-    // oxlint-disable-next-line react-compiler/react-hooks-compiler
     const store = useDashboardStore();
     vi.spyOn(store, "isFetchingDashboardStats", "get").mockReturnValue(true);
     wrapper = await mountHomePage();

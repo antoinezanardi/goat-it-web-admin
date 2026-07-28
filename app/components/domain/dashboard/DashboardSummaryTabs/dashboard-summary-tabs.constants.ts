@@ -1,6 +1,3 @@
-const DASHBOARD_TAB = {
-  QUESTIONS: "questions",
-  QUESTION_THEMES: "questionThemes",
-} as const;
+const DASHBOARD_TABS = ["questions", "questionThemes"] as const;
 
-export { DASHBOARD_TAB };
+export { DASHBOARD_TABS };

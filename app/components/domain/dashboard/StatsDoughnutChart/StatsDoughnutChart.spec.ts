@@ -17,7 +17,7 @@ describe("StatsDoughnutChart Component", () => {
 
   async function mountStatsDoughnutChart(options: MountSuspendedOptions<typeof StatsDoughnutChartComponent> = {}): Promise<VueWrapper> {
     return mountSuspended(StatsDoughnutChartComponent, {
-      props: { items: defaultItems },
+      props: { items: defaultItems, titleKey: "home.stats.byStatus" },
       ...options,
     });
   }
@@ -75,6 +75,7 @@ describe("StatsDoughnutChart Component", () => {
     wrapper = await mountStatsDoughnutChart({
       props: {
         items: [{ labelKey: "questions.status.pending", value: 0, color: "info" }],
+        titleKey: "home.stats.byStatus",
       },
     });
 
@@ -86,6 +87,7 @@ describe("StatsDoughnutChart Component", () => {
     wrapper = await mountStatsDoughnutChart({
       props: {
         items: [{ labelKey: "questions.status.pending", value: 10, color: hexColor }],
+        titleKey: "home.stats.byStatus",
       },
     });
 
@@ -100,6 +102,7 @@ describe("StatsDoughnutChart Component", () => {
     wrapper = await mountStatsDoughnutChart({
       props: {
         items: [{ labelKey: "questions.status.pending", value: 10, color: hexColor }],
+        titleKey: "home.stats.byStatus",
       },
     });
 

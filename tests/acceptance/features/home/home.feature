@@ -37,3 +37,20 @@ Feature: 🏡 Home Page
     Then the element with testid "stats-card-by-status-bar-chart" should be visible
     When the user clicks on the element with testid "stats-card-by-status-doughnut-toggle"
     Then the element with testid "stats-card-by-status-doughnut-chart" should be visible
+
+  Scenario: 🏡 Home Page displays correct stats counts when questions and themes exist
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label      | slug       | description          | aliases |
+      | Home Theme | home-theme | Theme for home stats | home    |
+    And the user is on questions page
+    And multiple questions exist with the following attributes:
+      | statement       | answer | difficulty | category              | themes     | sourceUrls          | status |
+      | Home Question 1 | Answer | easy       | Knowledge & fun facts | Home Theme | https://example.com | active |
+      | Home Question 2 | Answer | medium     | Knowledge & fun facts | Home Theme | https://example.com | active |
+      | Home Question 3 | Answer | hard       | Knowledge & fun facts | Home Theme | https://example.com | active |
+      | Home Question 4 | Answer | easy       | Lexicon               | Home Theme | https://example.com | active |
+      | Home Question 5 | Answer | medium     | Knowledge & fun facts | Home Theme | https://example.com | active |
+    And the user is on home page
+    Then the element with testid "dashboard-summary-tab-questions" should contain text "5"
+    And the element with testid "dashboard-summary-tab-question-themes" should contain text "1"

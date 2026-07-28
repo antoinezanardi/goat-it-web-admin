@@ -10,7 +10,7 @@ const props = defineProps<StatsDoughnutChartProps>();
 const { t } = useI18n();
 
 const chartData = computed(() => ({
-  labels: props.items.map(item => t(item.labelKey)),
+  labels: props.items.map(item => item.label ?? t(item.labelKey)),
   datasets: [
     {
       data: props.items.map(item => item.value),
@@ -27,6 +27,7 @@ const total = computed<number>(() => props.items.reduce((sum, item) => sum + ite
   <div class="flex flex-col gap-3 items-center">
     <div class="max-w-[240px] relative w-full">
       <Doughnut
+        :aria-label="$t(props.titleKey)"
         :data="chartData"
         :options="DOUGHNUT_CHART_OPTIONS"
       />
@@ -47,7 +48,7 @@ const total = computed<number>(() => props.items.reduce((sum, item) => sum + ite
           :style="{ 'backgroundColor': CHART_COLOR_HEX_MAP[item.color] ?? item.color }"
         />
 
-        <span>{{ $t(item.labelKey) }}</span>
+        <span>{{ item.label ?? $t(item.labelKey) }}</span>
 
         <span class="font-medium text-(--ui-text)">{{ item.value }}</span>
       </div>

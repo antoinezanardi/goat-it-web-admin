@@ -9,24 +9,27 @@ const props = defineProps<StatsHorizontalBarChartProps>();
 
 const { t } = useI18n();
 
+const sortedItems = computed(() => [...props.items].toSorted((itemA, itemB) => itemB.value - itemA.value));
+
 const chartData = computed(() => ({
-  labels: props.items.map(item => t(item.labelKey)),
+  labels: sortedItems.value.map(item => item.label ?? t(item.labelKey)),
   datasets: [
     {
-      data: props.items.map(item => item.value),
-      backgroundColor: props.items.map(item => CHART_COLOR_HEX_MAP[item.color] ?? item.color),
+      data: sortedItems.value.map(item => item.value),
+      backgroundColor: sortedItems.value.map(item => CHART_COLOR_HEX_MAP[item.color] ?? item.color),
       borderWidth: 0,
       borderRadius: 4,
     },
   ],
 }));
 
-const chartHeight = computed<number>(() => Math.max(props.items.length * ITEM_HEIGHT, MIN_CHART_HEIGHT));
+const chartHeight = computed<number>(() => Math.max(sortedItems.value.length * ITEM_HEIGHT, MIN_CHART_HEIGHT));
 </script>
 
 <template>
   <div :style="{ 'height': `${chartHeight}px` }">
     <Bar
+      :aria-label="$t(props.titleKey)"
       :data="chartData"
       :options="HORIZONTAL_BAR_CHART_OPTIONS"
     />

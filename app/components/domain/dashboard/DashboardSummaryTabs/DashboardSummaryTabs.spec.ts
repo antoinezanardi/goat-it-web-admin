@@ -5,8 +5,10 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import DashboardSummaryTabsComponent from "@/components/domain/dashboard/DashboardSummaryTabs/DashboardSummaryTabs.vue";
-import { DASHBOARD_TAB } from "@/components/domain/dashboard/DashboardSummaryTabs/dashboard-summary-tabs.constants";
+import { DASHBOARD_TABS } from "@/components/domain/dashboard/DashboardSummaryTabs/dashboard-summary-tabs.constants";
 import type { DashboardSummaryTabsProps } from "@/components/domain/dashboard/DashboardSummaryTabs/dashboard-summary-tabs.types";
+
+const [QUESTIONS, QUESTION_THEMES] = DASHBOARD_TABS;
 
 describe("DashboardSummaryTabs Component", () => {
   let wrapper: VueWrapper;
@@ -14,7 +16,7 @@ describe("DashboardSummaryTabs Component", () => {
   const defaultProps: DashboardSummaryTabsProps = {
     questionTotal: 42,
     questionThemeTotal: 8,
-    activeTab: DASHBOARD_TAB.QUESTIONS,
+    activeTab: QUESTIONS,
     isFetching: false,
   };
 
@@ -42,7 +44,7 @@ describe("DashboardSummaryTabs Component", () => {
 
     await themeCards[1]?.trigger("click");
 
-    expect(wrapper.emitted("update:activeTab")).toStrictEqual([[DASHBOARD_TAB.QUESTION_THEMES]]);
+    expect(wrapper.emitted("update:activeTab")).toStrictEqual([[QUESTION_THEMES]]);
   });
 
   it("should not emit when clicking the already active tab.", async() => {
@@ -55,18 +57,18 @@ describe("DashboardSummaryTabs Component", () => {
 
   it("should emit update:activeTab with questions when clicking the questions tab while questionThemes is active.", async() => {
     wrapper = await mountDashboardSummaryTabs({
-      props: { ...defaultProps, activeTab: DASHBOARD_TAB.QUESTION_THEMES },
+      props: { ...defaultProps, activeTab: QUESTION_THEMES },
     });
     const cards = wrapper.findAllComponents({ name: "UCard" });
 
     await cards[0]?.trigger("click");
 
-    expect(wrapper.emitted("update:activeTab")).toStrictEqual([[DASHBOARD_TAB.QUESTIONS]]);
+    expect(wrapper.emitted("update:activeTab")).toStrictEqual([[QUESTIONS]]);
   });
 
   it("should not emit when clicking the already active themes tab.", async() => {
     wrapper = await mountDashboardSummaryTabs({
-      props: { ...defaultProps, activeTab: DASHBOARD_TAB.QUESTION_THEMES },
+      props: { ...defaultProps, activeTab: QUESTION_THEMES },
     });
     const cards = wrapper.findAllComponents({ name: "UCard" });
 
@@ -102,18 +104,18 @@ describe("DashboardSummaryTabs Component", () => {
 
     await cards[1]?.trigger("keydown", { key: "Enter" });
 
-    expect(wrapper.emitted("update:activeTab")).toStrictEqual([[DASHBOARD_TAB.QUESTION_THEMES]]);
+    expect(wrapper.emitted("update:activeTab")).toStrictEqual([[QUESTION_THEMES]]);
   });
 
   it("should emit update:activeTab with questions when pressing Space on the questions card while themes is active.", async() => {
     wrapper = await mountDashboardSummaryTabs({
-      props: { ...defaultProps, activeTab: DASHBOARD_TAB.QUESTION_THEMES },
+      props: { ...defaultProps, activeTab: QUESTION_THEMES },
     });
     const cards = wrapper.findAll("[role='tab']");
 
     await cards[0]?.trigger("keydown", { key: " " });
 
-    expect(wrapper.emitted("update:activeTab")).toStrictEqual([[DASHBOARD_TAB.QUESTIONS]]);
+    expect(wrapper.emitted("update:activeTab")).toStrictEqual([[QUESTIONS]]);
   });
 
   it("should not emit when pressing a non-activation key on the questions card.", async() => {

@@ -20,7 +20,7 @@ function onToggleBar(): void {
   <UCard>
     <template #header>
       <div class="flex items-center justify-between">
-        <span class="font-semibold text-(--ui-text)">{{ $t(props.titleKey) }}</span>
+        <span class="font-semibold text-default">{{ $t(props.titleKey) }}</span>
 
         <div class="flex gap-1">
           <UButton
@@ -48,7 +48,7 @@ function onToggleBar(): void {
 
     <div
       v-if="props.items.length === 0"
-      class="flex items-center justify-center py-8 text-(--ui-text-muted)"
+      class="flex items-center justify-center py-8 text-muted"
     >
       {{ $t("home.stats.noData") }}
     </div>
@@ -57,14 +57,20 @@ function onToggleBar(): void {
       v-else-if="currentView === 'doughnut'"
       :data-testid="`${props.testId}-doughnut-chart`"
     >
-      <StatsDoughnutChart :items="props.items"/>
+      <StatsDoughnutChart
+        :items="props.items"
+        :title-key="props.titleKey"
+      />
     </div>
 
     <div
       v-else
       :data-testid="`${props.testId}-bar-chart`"
     >
-      <StatsHorizontalBarChart :items="props.items"/>
+      <StatsHorizontalBarChart
+        :items="props.items"
+        :title-key="props.titleKey"
+      />
     </div>
   </UCard>
 </template>
