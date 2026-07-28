@@ -4,8 +4,10 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { createFakeQuestionThemeStatsDto } from "@goat-it/schemas/testing/question-theme";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 
 import QuestionThemeStatsContentComponent from "@/components/domain/dashboard/QuestionThemeStatsContent/QuestionThemeStatsContent.vue";
+import { useQuestionThemesStore } from "@/stores/domain/question-theme/question-themes.store";
 
 describe("QuestionThemeStatsContent Component", () => {
   let wrapper: VueWrapper;
@@ -113,4 +115,22 @@ describe("QuestionThemeStatsContent Component", () => {
       expect(items[index]?.color).toBe("primary");
     },
   );
+
+  it("should use theme color and localized label when theme is found in the store.", async() => {
+    const themeColor = "#FF00FF";
+    const themeLabel = "Custom Label";
+    const theme = createFakeQuestionTheme({ slug: "test-theme", color: themeColor, label: { en: themeLabel, fr: "Étiquette" } });
+    const store = useQuestionThemesStore();
+    store.questionThemes = [theme];
+    wrapper = await mountQuestionThemeStatsContent();
+
+    const countCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const items = countCard?.props("items") as { labelKey: string; color: string }[];
+
+    expect(items[0]).toStrictEqual({
+      color: themeColor,
+      labelKey: "Custom Label",
+      value: 10,
+    });
+  });
 });

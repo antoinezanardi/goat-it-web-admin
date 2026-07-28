@@ -80,4 +80,31 @@ describe("StatsDoughnutChart Component", () => {
 
     expect(wrapper.text()).toContain("0");
   });
+
+  it("should use raw hex color as fallback when item color is not a semantic AppColor.", async() => {
+    const hexColor = "#ff0000";
+    wrapper = await mountStatsDoughnutChart({
+      props: {
+        items: [{ labelKey: "questions.status.pending", value: 10, color: hexColor }],
+      },
+    });
+
+    const doughnut = wrapper.getComponent({ name: "Doughnut" });
+    const doughnutData = doughnut.props("data") as { datasets: { backgroundColor: string[] }[] };
+
+    expect(doughnutData.datasets[0]?.backgroundColor[0]).toBe(hexColor);
+  });
+
+  it("should use raw hex color as fallback for legend circle when item color is raw hex.", async() => {
+    const hexColor = "#ff0000";
+    wrapper = await mountStatsDoughnutChart({
+      props: {
+        items: [{ labelKey: "questions.status.pending", value: 10, color: hexColor }],
+      },
+    });
+
+    const circle = wrapper.find("[style]");
+
+    expect(circle.attributes("style")).toContain(hexColor);
+  });
 });

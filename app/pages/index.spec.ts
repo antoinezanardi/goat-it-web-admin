@@ -6,9 +6,11 @@ import { createFakeQuestionStatsDto } from "@goat-it/schemas/testing/question";
 import { createFakeQuestionThemeStatsDto } from "@goat-it/schemas/testing/question-theme";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 
 import type { PageHeader, DashboardSummaryTabs, QuestionStatsContent, QuestionThemeStatsContent } from "#components";
 
+import { DASHBOARD_TAB } from "@/components/domain/dashboard/DashboardSummaryTabs/dashboard-summary-tabs.constants";
 import { HOME_PAGE_ICON, HOME_PAGE_ORDER, HOME_PAGE_TITLE_KEY } from "@/pages/index.constants";
 import { useDashboardStore } from "@/stores/domain/dashboard/dashboard.store";
 import HomePage from "@/pages/index.vue";
@@ -105,9 +107,10 @@ describe("Home Page", () => {
     expect(tabs.props("questionThemeTotal")).toBe(8);
   });
 
-  it("should render QuestionStatsContent by default when activeTab is questions.", () => {
+  it("should render QuestionStatsContent by default when activeTab is questions.", async() => {
     const store = useDashboardStore();
     store.questionStats = createFakeQuestionStatsDto();
+    await flushPromises();
 
     const content = wrapper.findComponent<typeof QuestionStatsContent>({ name: "QuestionStatsContent" });
 
@@ -123,8 +126,8 @@ describe("Home Page", () => {
   it("should render QuestionThemeStatsContent when activeTab changes to questionThemes.", async() => {
     const store = useDashboardStore();
     store.questionThemeStats = createFakeQuestionThemeStatsDto();
-    const tabs = wrapper.getComponent<typeof DashboardSummaryTabs>({ name: "DashboardSummaryTabs" });
-    (tabs.vm as { $emit: (event: string, ...arguments_: unknown[]) => void }).$emit("update:activeTab", "questionThemes");
+    const tabs = wrapper.findComponent<typeof DashboardSummaryTabs>({ name: "DashboardSummaryTabs" });
+    getWrapperVm(tabs).$emit("update:activeTab", DASHBOARD_TAB.QUESTION_THEMES);
     await flushPromises();
 
     const content = wrapper.findComponent<typeof QuestionThemeStatsContent>({ name: "QuestionThemeStatsContent" });

@@ -1,6 +1,4 @@
-import type { AppColor } from "~/utils/types/color.types";
-
-const CHART_COLOR_HEX_MAP: Record<AppColor, string> = {
+const CHART_COLOR_HEX_MAP: Record<string, string> = {
   primary: "#22c55e",
   secondary: "#6366f1",
   success: "#10b981",

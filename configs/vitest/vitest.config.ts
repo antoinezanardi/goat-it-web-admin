@@ -35,6 +35,7 @@ export default defineConfig({
       ],
       reportsDirectory: "tests/unit/coverage",
       reporter: [
+        "text",
         "lcov",
         "text-summary",
         "html",

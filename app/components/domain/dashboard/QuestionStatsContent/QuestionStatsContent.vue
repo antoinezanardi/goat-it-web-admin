@@ -1,15 +1,10 @@
 <script setup lang="ts">
-import type { QuestionStatsDto } from "@goat-it/schemas/question";
-
+import type { QuestionStatsContentProps } from "~/components/domain/dashboard/QuestionStatsContent/question-stats-content.types";
 import type { StatsCardItem } from "~/components/domain/dashboard/StatsCard/stats-card.types";
 import { QUESTION_CATEGORY_UI_METADATA } from "~/composables/domain/question/constants/question-category.constants";
 import { QUESTION_COGNITIVE_DIFFICULTY_UI_METADATA } from "~/composables/domain/question/constants/question-cognitive-difficulty.constants";
 
-/** Props for the QuestionStatsContent component. */
-const props = defineProps<{
-  /** The question statistics DTO to display. */
-  stats: QuestionStatsDto;
-}>();
+const props = defineProps<QuestionStatsContentProps>();
 
 const byStatusItems = computed<StatsCardItem[]>(() => [
   { labelKey: "questions.status.pending", value: props.stats.byStatus.pending, color: "info" },

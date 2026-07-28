@@ -1,24 +1,30 @@
 <script setup lang="ts">
-import type { QuestionThemeStatsDto } from "@goat-it/schemas/question-theme";
+import type { Locale } from "@goat-it/schemas/shared/locale";
 
+import type { QuestionThemeStatsContentProps } from "~/components/domain/dashboard/QuestionThemeStatsContent/question-theme-stats-content.types";
 import type { StatsCardItem } from "~/components/domain/dashboard/StatsCard/stats-card.types";
+import { getThemeLocalizedLabel } from "~/composables/domain/question-theme/helpers/question-theme.helpers";
+import { useQuestionThemesStore } from "~/stores/domain/question-theme/question-themes.store";
 
-/** Props for the QuestionThemeStatsContent component. */
-const props = defineProps<{
-  /** The question theme statistics DTO to display. */
-  stats: QuestionThemeStatsDto;
-}>();
+const props = defineProps<QuestionThemeStatsContentProps>();
+
+const themesStore = useQuestionThemesStore();
+const { locale } = useI18n();
 
 const byStatusItems = computed<StatsCardItem[]>(() => [
   { labelKey: "questionThemes.status.active", value: props.stats.byStatus.active, color: "success" },
   { labelKey: "questionThemes.status.archived", value: props.stats.byStatus.archived, color: "warning" },
 ]);
 
-const byQuestionCountItems = computed<StatsCardItem[]>(() => props.stats.byQuestionCount.map(entry => ({
-  value: entry.activeQuestionCount,
-  color: "primary" as const,
-  labelKey: entry.themeSlug,
-})));
+const byQuestionCountItems = computed<StatsCardItem[]>(() => props.stats.byQuestionCount.map(entry => {
+  const theme = themesStore.questionThemes.find(t => t.slug === entry.themeSlug);
+
+  return {
+    value: entry.activeQuestionCount,
+    color: theme?.color ?? "primary",
+    labelKey: getThemeLocalizedLabel(theme, locale.value as Locale, entry.themeSlug),
+  };
+}));
 </script>
 
 <template>

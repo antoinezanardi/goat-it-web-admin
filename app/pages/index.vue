@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { DashboardTab } from "~/composables/domain/dashboard/constants/dashboard.constants";
+import type { DashboardTab } from "~/components/domain/dashboard/DashboardSummaryTabs/dashboard-summary-tabs.types";
 import { HOME_PAGE_ICON, HOME_PAGE_ORDER, HOME_PAGE_TITLE_KEY } from "~/pages/index.constants";
+import { DASHBOARD_TAB } from "~/components/domain/dashboard/DashboardSummaryTabs/dashboard-summary-tabs.constants";
 
 const { t } = useI18n();
 
@@ -15,7 +16,7 @@ definePageMeta({
 });
 
 const dashboardStore = useDashboardStore();
-const activeTab = ref<DashboardTab>("questions");
+const activeTab = ref<DashboardTab>(DASHBOARD_TAB.QUESTIONS);
 
 void dashboardStore.fetchAndStoreDashboardStats();
 
@@ -28,44 +29,49 @@ function onActiveTabChange(tab: DashboardTab): void {
 </script>
 
 <template>
-  <div id="home-page">
+  <div
+    id="home-page"
+    class="flex flex-col h-[calc(100dvh-var(--ui-header-height))]"
+  >
     <PageHeader
       :icon="HOME_PAGE_ICON"
       :title="$t(HOME_PAGE_TITLE_KEY)"
     />
 
-    <div class="flex flex-col gap-6">
-      <DashboardSummaryTabs
-        :active-tab="activeTab"
-        :is-fetching="dashboardStore.isFetchingDashboardStats"
-        :question-theme-total="questionThemeTotal"
-        :question-total="questionTotal"
-        @update:active-tab="onActiveTabChange"
-      />
+    <UContainer class="flex flex-1 flex-col min-h-0">
+      <div class="flex flex-col gap-6">
+        <DashboardSummaryTabs
+          :active-tab="activeTab"
+          :is-fetching="dashboardStore.isFetchingDashboardStats"
+          :question-theme-total="questionThemeTotal"
+          :question-total="questionTotal"
+          @update:active-tab="onActiveTabChange"
+        />
 
-      <div v-if="dashboardStore.isFetchingDashboardStats">
-        <div class="gap-4 grid grid-cols-2">
-          <USkeleton
-            v-for="n in 4"
-            :key="n"
-            class="h-64"
-          />
+        <div v-if="dashboardStore.isFetchingDashboardStats">
+          <div class="gap-4 grid grid-cols-2">
+            <USkeleton
+              v-for="n in 4"
+              :key="n"
+              class="h-64"
+            />
+          </div>
+
+          <USkeleton class="h-64 mt-4"/>
         </div>
 
-        <USkeleton class="h-64 mt-4"/>
+        <template v-else>
+          <QuestionStatsContent
+            v-if="activeTab === DASHBOARD_TAB.QUESTIONS && dashboardStore.questionStats"
+            :stats="dashboardStore.questionStats"
+          />
+
+          <QuestionThemeStatsContent
+            v-if="activeTab === DASHBOARD_TAB.QUESTION_THEMES && dashboardStore.questionThemeStats"
+            :stats="dashboardStore.questionThemeStats"
+          />
+        </template>
       </div>
-
-      <template v-else>
-        <QuestionStatsContent
-          v-if="activeTab === 'questions' && dashboardStore.questionStats"
-          :stats="dashboardStore.questionStats"
-        />
-
-        <QuestionThemeStatsContent
-          v-if="activeTab === 'questionThemes' && dashboardStore.questionThemeStats"
-          :stats="dashboardStore.questionThemeStats"
-        />
-      </template>
-    </div>
+    </UContainer>
   </div>
 </template>

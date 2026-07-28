@@ -58,4 +58,18 @@ describe("StatsHorizontalBarChart Component", () => {
 
     expect((options.plugins as Record<string, unknown>).legend).toStrictEqual({ display: false });
   });
+
+  it("should use raw hex color as fallback when item color is not a semantic AppColor.", async() => {
+    const hexColor = "#ff0000";
+    wrapper = await mountStatsHorizontalBarChart({
+      props: {
+        items: [{ labelKey: "questions.status.pending", value: 10, color: hexColor }],
+      },
+    });
+
+    const bar = wrapper.getComponent({ name: "Bar" });
+    const barData = bar.props("data") as { datasets: { backgroundColor: string[] }[] };
+
+    expect(barData.datasets[0]?.backgroundColor[0]).toBe(hexColor);
+  });
 });

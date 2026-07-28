@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import StatsCardComponent from "@/components/domain/dashboard/StatsCard/StatsCard.vue";
-import type { StatsCardItem } from "@/components/domain/dashboard/StatsCard/stats-card.types";
+import type { StatsCardItem, StatsCardProps } from "@/components/domain/dashboard/StatsCard/stats-card.types";
 
 describe("StatsCard Component", () => {
   let wrapper: VueWrapper;
@@ -15,10 +15,10 @@ describe("StatsCard Component", () => {
     { labelKey: "questions.status.active", value: 20, color: "success" },
   ];
 
-  const defaultProps = {
+  const defaultProps: StatsCardProps = {
     titleKey: "home.stats.byStatus",
     items: defaultItems,
-    defaultView: "doughnut" as const,
+    defaultView: "doughnut",
     testId: "stats-card-test",
   };
 

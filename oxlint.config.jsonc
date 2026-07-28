@@ -26,6 +26,7 @@
     "defineStore": "readonly",
     "document": "readonly",
     "KeyboardEvent": "readonly",
+    "onMounted": "readonly",
     "window": "readonly",
     "fetch": "readonly",
     "getQuery": "readonly",

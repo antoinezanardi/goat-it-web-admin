@@ -2,6 +2,7 @@
 import { Doughnut } from "vue-chartjs";
 
 import type { StatsDoughnutChartProps } from "~/components/domain/dashboard/StatsDoughnutChart/stats-doughnut-chart.types";
+import { DOUGHNUT_CHART_OPTIONS } from "~/components/domain/dashboard/StatsDoughnutChart/stats-doughnut-chart.constants";
 import { CHART_COLOR_HEX_MAP } from "~/composables/domain/dashboard/constants/dashboard-chart-colors.constants";
 
 const props = defineProps<StatsDoughnutChartProps>();
@@ -13,27 +14,13 @@ const chartData = computed(() => ({
   datasets: [
     {
       data: props.items.map(item => item.value),
-      backgroundColor: props.items.map(item => CHART_COLOR_HEX_MAP[item.color]),
+      backgroundColor: props.items.map(item => CHART_COLOR_HEX_MAP[item.color] ?? item.color),
       borderWidth: 0,
     },
   ],
 }));
 
-const chartOptions = computed(() => ({
-  responsive: true,
-  maintainAspectRatio: true,
-  cutout: "60%",
-  plugins: {
-    legend: {
-      display: false,
-    },
-    tooltip: {
-      enabled: true,
-    },
-  },
-}));
-
-const total = computed(() => props.items.reduce((sum, item) => sum + item.value, 0));
+const total = computed<number>(() => props.items.reduce((sum, item) => sum + item.value, 0));
 </script>
 
 <template>
@@ -41,7 +28,7 @@ const total = computed(() => props.items.reduce((sum, item) => sum + item.value,
     <div class="max-w-[240px] relative w-full">
       <Doughnut
         :data="chartData"
-        :options="chartOptions"
+        :options="DOUGHNUT_CHART_OPTIONS"
       />
 
       <div class="absolute flex inset-0 items-center justify-center pointer-events-none">
@@ -57,7 +44,7 @@ const total = computed(() => props.items.reduce((sum, item) => sum + item.value,
       >
         <span
           class="rounded-full shrink-0 size-2.5"
-          :style="{ 'backgroundColor': CHART_COLOR_HEX_MAP[item.color] }"
+          :style="{ 'backgroundColor': CHART_COLOR_HEX_MAP[item.color] ?? item.color }"
         />
 
         <span>{{ $t(item.labelKey) }}</span>

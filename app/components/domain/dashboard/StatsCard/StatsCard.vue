@@ -1,16 +1,7 @@
 <script setup lang="ts">
-import type { StatsCardItem, StatsCardView } from "~/components/domain/dashboard/StatsCard/stats-card.types";
+import type { StatsCardProps, StatsCardView } from "~/components/domain/dashboard/StatsCard/stats-card.types";
 
-const props = defineProps<{
-  /** Translation key for the card title */
-  titleKey: string;
-  /** Items to display in the chart */
-  items: StatsCardItem[];
-  /** Default chart view when the component mounts */
-  defaultView: StatsCardView;
-  /** Test identifier prefix for data-testid attributes */
-  testId: string;
-}>();
+const props = defineProps<StatsCardProps>();
 
 // Acceptable as we intentionally initialize local state from prop defaultView without reactivity
 // eslint-disable-next-line vue/no-setup-props-reactivity-loss
@@ -36,7 +27,7 @@ function onToggleBar(): void {
             :aria-label="$t('home.chartView.doughnut')"
             color="neutral"
             :data-testid="`${props.testId}-doughnut-toggle`"
-            icon="i-lucide-chart-no-axes-gantt"
+            icon="i-lucide-pie-chart"
             size="xs"
             :variant="currentView === 'doughnut' ? 'solid' : 'ghost'"
             @click="onToggleDoughnut"

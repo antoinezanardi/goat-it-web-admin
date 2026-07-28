@@ -99,7 +99,7 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
   - `any` is forbidden. Use precise types; `unknown` + narrowing when truly needed.
   - No unsafe type assertions without an explicit ESLint disable comment explaining why.
   - Use `zod` for runtime validation of external data (API responses, request bodies, env vars).
-  - Types colocated: component props inline, shared in `shared/types/`, server-local in
+  - Types, props and emits colocated : shared in `shared/types/`, server-local in
     `server/utils/**/*.types.ts`.
   - `type-fest` utilities (e.g. `TupleToUnion`, `ArrayValues`) preferred over manual mapped types.
 

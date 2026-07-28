@@ -1,14 +1,20 @@
-import type { AppColor } from "~/utils/types/color.types";
-
 type StatsCardItem = {
   labelKey: string;
   value: number;
-  color: AppColor;
+  color: string;
 };
 
 type StatsCardView = "doughnut" | "bar";
 
+type StatsCardProps = {
+  titleKey: string;
+  items: StatsCardItem[];
+  defaultView: StatsCardView;
+  testId: string;
+};
+
 export type {
   StatsCardItem,
   StatsCardView,
+  StatsCardProps,
 };
