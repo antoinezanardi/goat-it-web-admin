@@ -1,4 +1,6 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
+import { createTestingPinia } from "@pinia/testing";
+import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
 import { flushPromises } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -7,6 +9,7 @@ import { createFakeQuestionThemeStatsDto } from "@goat-it/schemas/testing/questi
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
+import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 
 import type { PageHeader, DashboardSummaryTabs, QuestionStatsContent, QuestionThemeStatsContent } from "#components";
 
@@ -17,19 +20,23 @@ import HomePage from "@/pages/index.vue";
 
 describe("Home Page", () => {
   let wrapper: VueWrapper;
+  let pinia: TestingPinia;
+  let dashboardStore: ReturnType<typeof mockStore<typeof useDashboardStore>>;
 
   async function mountHomePage(options: MountSuspendedOptions<typeof HomePage> = {}): Promise<VueWrapper> {
     return mountSuspended(HomePage, {
       shallow: true,
+      global: {
+        plugins: [pinia],
+      },
       ...options,
     });
   }
 
   beforeEach(async() => {
-    const store = useDashboardStore();
-    // Acceptable as we need to verify the function is called on mount without running actual side effects
-    vi.spyOn(store, "fetchAndStoreDashboardStats").mockResolvedValue(undefined);
+    pinia = createTestingPinia();
     wrapper = await mountHomePage();
+    dashboardStore = mockStore(useDashboardStore);
   });
 
   it("should define page metadata when mounted.", () => {
@@ -64,9 +71,7 @@ describe("Home Page", () => {
   });
 
   it("should call fetchAndStoreDashboardStats when the page is mounted.", () => {
-    const store = useDashboardStore();
-
-    expect(store.fetchAndStoreDashboardStats).toHaveBeenCalledExactlyOnceWith();
+    expect(dashboardStore.fetchAndStoreDashboardStats).toHaveBeenCalledExactlyOnceWith();
   });
 
   it("should render DashboardSummaryTabs with zero questionTotal when stats are not loaded.", () => {
@@ -82,11 +87,10 @@ describe("Home Page", () => {
   });
 
   it("should render DashboardSummaryTabs with actual questionTotal when stats are loaded.", async() => {
-    const store = useDashboardStore();
     const fakeQuestionStats = createFakeQuestionStatsDto({ total: 42 });
     const fakeQuestionThemeStats = createFakeQuestionThemeStatsDto({ total: 8 });
-    store.questionStats = fakeQuestionStats;
-    store.questionThemeStats = fakeQuestionThemeStats;
+    dashboardStore.questionStats = fakeQuestionStats;
+    dashboardStore.questionThemeStats = fakeQuestionThemeStats;
     await flushPromises();
 
     const tabs = wrapper.getComponent<typeof DashboardSummaryTabs>({ name: "DashboardSummaryTabs" });
@@ -95,11 +99,10 @@ describe("Home Page", () => {
   });
 
   it("should render DashboardSummaryTabs with actual questionThemeTotal when stats are loaded.", async() => {
-    const store = useDashboardStore();
     const fakeQuestionStats = createFakeQuestionStatsDto({ total: 42 });
     const fakeQuestionThemeStats = createFakeQuestionThemeStatsDto({ total: 8 });
-    store.questionStats = fakeQuestionStats;
-    store.questionThemeStats = fakeQuestionThemeStats;
+    dashboardStore.questionStats = fakeQuestionStats;
+    dashboardStore.questionThemeStats = fakeQuestionThemeStats;
     await flushPromises();
 
     const tabs = wrapper.getComponent<typeof DashboardSummaryTabs>({ name: "DashboardSummaryTabs" });
@@ -108,8 +111,7 @@ describe("Home Page", () => {
   });
 
   it("should render QuestionStatsContent by default when activeTab is questions.", async() => {
-    const store = useDashboardStore();
-    store.questionStats = createFakeQuestionStatsDto();
+    dashboardStore.questionStats = createFakeQuestionStatsDto();
     await flushPromises();
 
     const content = wrapper.findComponent<typeof QuestionStatsContent>({ name: "QuestionStatsContent" });
@@ -124,8 +126,7 @@ describe("Home Page", () => {
   });
 
   it("should render QuestionThemeStatsContent when activeTab changes to questionThemes.", async() => {
-    const store = useDashboardStore();
-    store.questionThemeStats = createFakeQuestionThemeStatsDto();
+    dashboardStore.questionThemeStats = createFakeQuestionThemeStatsDto();
     const tabs = wrapper.findComponent<typeof DashboardSummaryTabs>({ name: "DashboardSummaryTabs" });
     getWrapperVm(tabs).$emit("update:activeTab", DASHBOARD_TABS[1]);
     await flushPromises();
@@ -142,8 +143,7 @@ describe("Home Page", () => {
   });
 
   it("should render skeleton placeholders when dashboard stats are being fetched.", async() => {
-    const store = useDashboardStore();
-    vi.spyOn(store, "isFetchingDashboardStats", "get").mockReturnValue(true);
+    vi.spyOn(dashboardStore, "isFetchingDashboardStats", "get").mockReturnValue(true);
     wrapper = await mountHomePage();
 
     const skeletons = wrapper.findAllComponents({ name: "USkeleton" });

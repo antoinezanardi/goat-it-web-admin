@@ -67,32 +67,16 @@ describe("QuestionStatsContent Component", () => {
     expect(categoryCard?.props("testId")).toBe("stats-card-by-category");
   });
 
-  it("should map byStatus item at index 0 with info color when mounted.", () => {
+  it.each([
+    { index: 0, color: "info" },
+    { index: 1, color: "success" },
+    { index: 2, color: "warning" },
+    { index: 3, color: "error" },
+  ])("should map byStatus item at index $index with $color color when mounted.", ({ index, color }) => {
     const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
     const items = statusCard?.props("items") as { labelKey: string; color: string }[];
 
-    expect(items[0]?.color).toBe("info");
-  });
-
-  it("should map byStatus item at index 1 with success color when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
-    const items = statusCard?.props("items") as { labelKey: string; color: string }[];
-
-    expect(items[1]?.color).toBe("success");
-  });
-
-  it("should map byStatus item at index 2 with warning color when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
-    const items = statusCard?.props("items") as { labelKey: string; color: string }[];
-
-    expect(items[2]?.color).toBe("warning");
-  });
-
-  it("should map byStatus item at index 3 with error color when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
-    const items = statusCard?.props("items") as { labelKey: string; color: string }[];
-
-    expect(items[3]?.color).toBe("error");
+    expect(items[index]?.color).toBe(color);
   });
 
   it("should map byCategory item at index 0 with trivia color when mounted.", () => {

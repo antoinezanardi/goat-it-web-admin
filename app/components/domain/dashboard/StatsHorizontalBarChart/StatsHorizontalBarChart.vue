@@ -24,10 +24,12 @@ const chartData = computed(() => ({
 }));
 
 const chartHeight = computed<number>(() => Math.max(sortedItems.value.length * ITEM_HEIGHT, MIN_CHART_HEIGHT));
+
+const containerStyle = computed(() => ({ height: `${chartHeight.value}px` }));
 </script>
 
 <template>
-  <div :style="{ 'height': `${chartHeight}px` }">
+  <div :style="containerStyle">
     <Bar
       :aria-label="$t(props.titleKey)"
       :data="chartData"

@@ -107,7 +107,7 @@ describe("useAsyncAction", () => {
     it("should expose the fetchStatus ref from useFetchStatus when called.", () => {
       const { fetchStatus } = useAsyncAction(vi.fn<() => Promise<void>>(), vi.fn<(error: unknown) => void>());
 
-      expect(fetchStatus).toBe(useFetchStatusMock.fetchStatus);
+      expect(fetchStatus).toStrictEqual(useFetchStatusMock.fetchStatus);
     });
   });
 
@@ -115,7 +115,7 @@ describe("useAsyncAction", () => {
     it("should expose the isIdle computed ref from useFetchStatus when called.", () => {
       const { isIdle } = useAsyncAction(vi.fn<() => Promise<void>>(), vi.fn<(error: unknown) => void>());
 
-      expect(isIdle).toBe(useFetchStatusMock.isIdle);
+      expect(isIdle).toStrictEqual(useFetchStatusMock.isIdle);
     });
   });
 
@@ -123,7 +123,7 @@ describe("useAsyncAction", () => {
     it("should expose the isPending computed ref from useFetchStatus when called.", () => {
       const { isPending } = useAsyncAction(vi.fn<() => Promise<void>>(), vi.fn<(error: unknown) => void>());
 
-      expect(isPending).toBe(useFetchStatusMock.isPending);
+      expect(isPending).toStrictEqual(useFetchStatusMock.isPending);
     });
   });
 
@@ -131,7 +131,7 @@ describe("useAsyncAction", () => {
     it("should expose the isSuccess computed ref from useFetchStatus when called.", () => {
       const { isSuccess } = useAsyncAction(vi.fn<() => Promise<void>>(), vi.fn<(error: unknown) => void>());
 
-      expect(isSuccess).toBe(useFetchStatusMock.isSuccess);
+      expect(isSuccess).toStrictEqual(useFetchStatusMock.isSuccess);
     });
   });
 
@@ -139,7 +139,7 @@ describe("useAsyncAction", () => {
     it("should expose the isError computed ref from useFetchStatus when called.", () => {
       const { isError } = useAsyncAction(vi.fn<() => Promise<void>>(), vi.fn<(error: unknown) => void>());
 
-      expect(isError).toBe(useFetchStatusMock.isError);
+      expect(isError).toStrictEqual(useFetchStatusMock.isError);
     });
   });
 });
