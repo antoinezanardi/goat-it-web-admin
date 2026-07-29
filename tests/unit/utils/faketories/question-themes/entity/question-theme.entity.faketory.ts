@@ -1,7 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { QUESTION_THEME_STATUSES } from "@goat-it/schemas/question-theme";
-
-import { createFakeLocalizedText, createFakeLocalizedTexts } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
+import { createFakeLocalizedText, createFakeLocalizedTexts } from "@goat-it/schemas/testing/shared";
 
 function createFakeQuestionTheme(questionTheme: Partial<QuestionTheme> = {}): QuestionTheme {
   return {

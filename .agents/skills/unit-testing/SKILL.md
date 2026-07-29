@@ -70,6 +70,7 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 ### Single-call assertions
 
 - Always use `toHaveBeenCalledExactlyOnceWith(...)` — never combine `toHaveBeenCalledTimes(1)` + `toHaveBeenCalledWith(...)`.
+- One assertion per test — **NEVER** combine multiple assertions in a single `it` block
 
 ### No hardcoded translations
 
@@ -98,6 +99,7 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 - [ ] Only test props that are **dynamically bound** (prefixed with `:` in the template). Skip static string props without `:` (e.g. `variant="subtle"`, `color="neutral"`)
 - [ ] Every named slot in the template must be exercised by at least one test
 - [ ] Cover loading/empty/populated states
+- [ ] One assertion per test — **NEVER** combine multiple assertions in a single `it` block
 
 ### Page (`nuxt` project)
 
@@ -107,6 +109,7 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 - [ ] Assert `definePageMeta` was called with expected metadata
 - [ ] Assert `useHead` via `vi.mocked(useHead).mock.calls[0]?.[0]` — extract and call the function argument
 - [ ] Cover conditional render states (loading, empty, etc.)
+- [ ] One assertion per test — **NEVER** combine multiple assertions in a single `it` block
 
 ### Layout (`nuxt` project)
 
@@ -114,6 +117,7 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 - [ ] Import directly (not from `#components`)
 - [ ] `describe("MyLayout Layout", ...)` — string label in the form `"<LayoutName> Layout"`
 - [ ] `shallow: true`
+- [ ] One assertion per test — **NEVER** combine multiple assertions in a single `it` block
 
 ### Composable (`composables` project)
 
@@ -124,6 +128,7 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 - [ ] `let useFoo: typeof UseFooType` at module level (Patterns A and B)
 - [ ] `beforeEach`: recreate mocks (Pattern A), then `({ useFoo } = await import(...))`
 - [ ] Test every returned ref, computed, and function
+- [ ] One assertion per test — **NEVER** combine multiple assertions in a single `it` block
 
 ### Store (`stores` project)
 
@@ -136,6 +141,7 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 - [ ] Assert `capturedOnError?.()` triggers `useAppToast().addErrorToast` with the correct i18n key
 - [ ] Mutate `useAsyncActionMock.fetchStatus.value` to drive reactive getter assertions (e.g. `isPending`, `isFetching`)
 - [ ] `setActivePinia(createPinia())` runs automatically — do NOT call it manually
+- [ ] One assertion per test — **NEVER** combine multiple assertions in a single `it` block
 
 ### Repository (`repositories` project)
 
@@ -147,6 +153,7 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 - [ ] Include a top-level test asserting the repository shape: `expect(repository).toStrictEqual({ getAll: expect.any(Function), ... })`
 - [ ] For methods with params (e.g. `getById(id)`, `patch(id, dto)`, `archive(id)`), test the interpolated URL
 - [ ] Use `toStrictEqual(value)` for return assertions. If type can't be inferred, use `toStrictEqual<T>(value)` for example `toStrictEqual<QuestionTheme[]>([]);`
+- [ ] One assertion per test — **NEVER** combine multiple assertions in a single `it` block
 
 ### Server handler (`nuxt` project)
 
@@ -163,17 +170,20 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 - [ ] Use `HttpStatusCode` enum from `#server/utils/http/http.enums` for status code values
 - [ ] For routes with params: assert `getRouterParam` was called with `(event, "id")`
 - [ ] For routes with body: assert `readBody` was called with `(event)`
+- [ ] One assertion per test — **NEVER** combine multiple assertions in a single `it` block
 
 ### Server util / mapper / helper (`node` project)
 
 - [ ] Pure function tests — no mocking
 - [ ] Import with `#server/utils/...`
 - [ ] Cover all branches and edge cases
+- [ ] One assertion per test — **NEVER** combine multiple assertions in a single `it` block
 
 ### Shared helper (`node` project)
 
 - [ ] Import with `#shared/utils/...`
 - [ ] Test all branches including edge cases (empty string, undefined, etc.)
+- [ ] One assertion per test — **NEVER** combine multiple assertions in a single `it` block
 
 ### i18n translation parity (`node` project)
 
@@ -245,7 +255,7 @@ function createFakeMyEntity(myEntity: Partial<MyEntity> = {}): MyEntity {
 }
 ```
 
-- Location: `tests/unit/utils/faketories/<entity-name>/entity/` and `…/dto/`
+- Location: `@goat-it/schemas/testing/<entity>` (preferred when available) or `tests/unit/utils/faketories/<entity-name>/entity/` and `…/dto/` (fallback)
 - Shared faketories: `tests/unit/utils/faketories/shared/locale/` (e.g. `createFakeLocalizedText`, `createFakeLocalizedTexts`)
 - Always accept `Partial<T> = {}` and spread it last
 - DTOs use ISO strings for dates; entities use `Date` objects

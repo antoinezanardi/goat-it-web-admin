@@ -71,7 +71,6 @@ export default defineNuxtConfig({
   ],
   sourcemap: { client: "hidden" },
   experimental: {
-    serverAppConfig: false,
     viteEnvironmentApi: true,
   },
   compatibilityDate: "2025-01-15",
@@ -86,8 +85,10 @@ export default defineNuxtConfig({
         "@goat-it/schemas/question",
         "@goat-it/schemas/question-theme",
         "@goat-it/schemas/shared/locale",
+        "chart.js",
         "fuse.js",
         "radashi",
+        "vue-chartjs",
         "zod",
       ],
     },

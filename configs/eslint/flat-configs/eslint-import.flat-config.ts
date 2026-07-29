@@ -8,7 +8,7 @@ const ESLINT_IMPORT_FLAT_CONFIG: Linter.Config = {
     "import/export": "error",
     "import/no-deprecated": "error",
     "import/no-empty-named-blocks": "error",
-    "import/no-extraneous-dependencies": ["error", { peerDependencies: false }],
+    "import/no-extraneous-dependencies": ["error", { peerDependencies: false, whitelist: ["vue", "ofetch", "h3"] }],
     "import/no-mutable-exports": "error",
     "import/no-named-as-default": "error",
     "import/no-named-as-default-member": "error",

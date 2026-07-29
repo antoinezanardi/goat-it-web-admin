@@ -99,7 +99,7 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
   - `any` is forbidden. Use precise types; `unknown` + narrowing when truly needed.
   - No unsafe type assertions without an explicit ESLint disable comment explaining why.
   - Use `zod` for runtime validation of external data (API responses, request bodies, env vars).
-  - Types colocated: component props inline, shared in `shared/types/`, server-local in
+  - Types, props and emits colocated : shared in `shared/types/`, server-local in
     `server/utils/**/*.types.ts`.
   - `type-fest` utilities (e.g. `TupleToUnion`, `ArrayValues`) preferred over manual mapped types.
 
@@ -219,7 +219,7 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
   - New repository mock → register in `VITEST_REPOSITORIES_MOCK_SETUP_FILES`
   - New domain alias → register in `nuxt.config.ts` `imports.dir` and Vitest aliases
 
-- Fake data: faketory functions (`@faker-js/faker`) in `tests/unit/utils/faketories/`.
+- Fake data: faketory functions (`@faker-js/faker`) — prefer `@goat-it/schemas/testing/` when available, fall back to `tests/unit/utils/faketories/`.
   - Accept `Partial<T>`; named `createFake<Entity>` (e.g. `createFakeQuestionTheme`).
   - Two layers per entity: `entity/` (domain type) and `dto/` (raw API DTO).
 
@@ -283,7 +283,7 @@ MemPalace stores project context as searchable embeddings. It runs as an MCP ser
 
 - Vitest config:    `configs/vitest/vitest.config.ts` + `vitest.config.constants.ts`
 - ESLint config:    `eslint.config.ts` + `configs/eslint/flat-configs/`
-- Oxlint config:    `configs/oxlint/oxlint.config.jsonc`
+- Oxlint config:    `oxlint.config.jsonc`
 - Cucumber config:  `configs/cucumber/cucumber.json`
 - Nuxt config:      `nuxt.config.ts`
 - Env files:        `envs/.env.development`, `envs/.env.test`, `envs/.env.example`

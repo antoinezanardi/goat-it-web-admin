@@ -5,10 +5,13 @@ import { flushPromises } from "@vue/test-utils";
 import type { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { createFakeQuestionCreationDto, createFakeQuestionModificationDto, createFakeQuestionThemeAssignmentCreationDto } from "@goat-it/schemas/testing/question";
+import { createFakeLocalizedText } from "@goat-it/schemas/testing/shared";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
+import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
+import { createFakeQuestionContent } from "~~/tests/unit/utils/faketories/questions/entity/question-content/question-content.entity.faketory";
 import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/entity/question.entity.faketory";
-import { createFakeQuestionCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question.dto.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
@@ -164,7 +167,7 @@ describe("QuestionFormModal Component", () => {
 
   describe("Submit creation", () => {
     it("should emit submitCreation when the form emits submitCreation.", () => {
-      const fakeData = createFakeQuestionCreationDto();
+      const fakeData = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
       const form = wrapper.findComponent<typeof QuestionForm>("[data-testid='question-form-modal-form']") as VueWrapper;
 
       getWrapperVm(form).$emit("submitCreation", fakeData);
@@ -228,12 +231,19 @@ describe("QuestionFormModal Component", () => {
   });
 
   describe("Edit mode", () => {
+    const fakeQuestion = createFakeQuestion({
+      content: createFakeQuestionContent({
+        statement: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Statement" }),
+        answer: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Answer" }),
+      }),
+    });
+
     it("should pass the editQuestion i18n key as title to the default modal title when mode is edit.", async() => {
       wrapper = await mountQuestionFormModalComponent({
         props: {
           ...defaultQuestionFormModalProps,
           mode: "edit",
-          question: createFakeQuestion(),
+          question: fakeQuestion,
         },
       });
       const modalTitle = wrapper.findComponent<typeof DefaultModalTitle>("[data-testid='question-form-modal-title']");
@@ -246,7 +256,7 @@ describe("QuestionFormModal Component", () => {
         props: {
           ...defaultQuestionFormModalProps,
           mode: "edit",
-          question: createFakeQuestion(),
+          question: fakeQuestion,
         },
       });
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-form-modal-footer']");
@@ -259,7 +269,7 @@ describe("QuestionFormModal Component", () => {
         props: {
           ...defaultQuestionFormModalProps,
           mode: "edit",
-          question: createFakeQuestion(),
+          question: fakeQuestion,
         },
       });
       const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-form-modal-footer']");
@@ -268,7 +278,6 @@ describe("QuestionFormModal Component", () => {
     });
 
     it("should pass the question to the form when mode is edit.", async() => {
-      const fakeQuestion = createFakeQuestion();
       wrapper = await mountQuestionFormModalComponent({
         props: {
           ...defaultQuestionFormModalProps,
@@ -286,7 +295,7 @@ describe("QuestionFormModal Component", () => {
         props: {
           ...defaultQuestionFormModalProps,
           mode: "edit",
-          question: createFakeQuestion(),
+          question: fakeQuestion,
         },
       });
       const form = wrapper.findComponent<typeof QuestionForm>("[data-testid='question-form-modal-form']");
@@ -295,12 +304,12 @@ describe("QuestionFormModal Component", () => {
     });
 
     it("should emit submitModification when the form emits submitModification.", async() => {
-      const fakeData = createFakeQuestionCreationDto();
+      const fakeData = createFakeQuestionModificationDto();
       wrapper = await mountQuestionFormModalComponent({
         props: {
           ...defaultQuestionFormModalProps,
           mode: "edit",
-          question: createFakeQuestion(),
+          question: fakeQuestion,
         },
       });
       const form = wrapper.findComponent<typeof QuestionForm>("[data-testid='question-form-modal-form']") as VueWrapper;

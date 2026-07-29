@@ -1,7 +1,7 @@
 ---
 description: Reviews the entire feature branch against the full plan and spec for the goat-it-web-admin project. Catches cross-task issues, checks code quality, architecture fit, and spec coverage holistically. Does NOT run quality gates (orchestrator owns those). Returns a merge recommendation.
 mode: subagent
-model: opencode-go/deepseek-v4-flash
+model: opencode-go/deepseek-v4-pro
 temperature: 0.1
 hidden: true
 steps: 80
@@ -101,7 +101,7 @@ You are the final reviewer. You review the whole implementation holistically —
 - Repositories: `<resource>.repository.ts` in `app/repositories/goat-it-api/<resource>/`
 - Server handlers: `<resource>.<method>.handler.ts` in `server/api/.../handlers/`
 - Tests: `*.spec.ts` colocated with source
-- Faketories: `<entity>.<layer>.faketory.ts` in `tests/unit/utils/faketories/`
+- Faketories: `<entity>.<layer>.faketory.ts` — prefer `@goat-it/schemas/testing/` when available, fall back to `tests/unit/utils/faketories/`
 - Mocks: `<composable|repository>.mock.ts` triplet
 - Configs: changes to `configs/` files are appropriate and consistent
 

@@ -3,8 +3,8 @@ import type { VueWrapper } from "@vue/test-utils";
 import { flushPromises } from "@vue/test-utils";
 import { nextTick } from "vue";
 import { beforeEach, describe, expect, it } from "vitest";
+import { createFakeQuestionThemeAssignmentCreationDto } from "@goat-it/schemas/testing/question";
 
-import { createFakeQuestionThemeAssignmentCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-creation/question-theme-assignment-creation.dto.faketory";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
@@ -454,7 +454,7 @@ describe("QuestionThemeSelector Component", () => {
           },
         });
 
-        const hintSwitch = wrapper.getComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
+        const hintSwitch = wrapper.find("[data-testid='question-theme-selector-assignment-theme-1']").findComponent({ name: "USwitch" }) as VueWrapper;
 
         expect((hintSwitch.props() as Record<string, unknown>).modelValue).toBeFalsy();
       });
@@ -467,7 +467,7 @@ describe("QuestionThemeSelector Component", () => {
           },
         });
 
-        const hintSwitch = wrapper.getComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
+        const hintSwitch = wrapper.find("[data-testid='question-theme-selector-assignment-theme-1']").findComponent({ name: "USwitch" }) as VueWrapper;
 
         expect((hintSwitch.props() as Record<string, unknown>).modelValue).toBeTruthy();
       });
@@ -480,7 +480,7 @@ describe("QuestionThemeSelector Component", () => {
           },
         });
 
-        const hintSwitch = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
+        const hintSwitch = wrapper.find("[data-testid='question-theme-selector-assignment-theme-1']").findComponent({ name: "USwitch" }) as VueWrapper;
         getWrapperVm(hintSwitch).$emit("update:modelValue", true);
 
         expect(wrapper.emitted("update:modelValue")).toStrictEqual([[[{ themeId: "theme-1", isPrimary: true, isHint: true }]]]);
@@ -497,7 +497,7 @@ describe("QuestionThemeSelector Component", () => {
           },
         });
 
-        const hintSwitch = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
+        const hintSwitch = wrapper.find("[data-testid='question-theme-selector-assignment-theme-1']").findComponent({ name: "USwitch" }) as VueWrapper;
         getWrapperVm(hintSwitch).$emit("update:modelValue", true);
 
         expect(wrapper.emitted("update:modelValue")).toStrictEqual([
@@ -602,7 +602,7 @@ describe("QuestionThemeSelector Component", () => {
         },
       });
 
-      const hintSwitch = wrapper.getComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
+      const hintSwitch = wrapper.find("[data-testid='question-theme-selector-assignment-theme-1']").findComponent({ name: "USwitch" }) as VueWrapper;
 
       expect((hintSwitch.props() as Record<string, unknown>).disabled).toBeTruthy();
     });
@@ -758,7 +758,7 @@ describe("QuestionThemeSelector Component", () => {
     describe("Toggle hint", () => {
       it("should emit modifyThemeInEditMode with isHint true when toggling hint from false in edit mode.", async() => {
         wrapper = await mountInEditMode();
-        const hintSwitch = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
+        const hintSwitch = wrapper.find("[data-testid='question-theme-selector-assignment-theme-1']").findComponent({ name: "USwitch" }) as VueWrapper;
 
         getWrapperVm(hintSwitch).$emit("update:modelValue", true);
 
@@ -767,7 +767,7 @@ describe("QuestionThemeSelector Component", () => {
 
       it("should emit modifyThemeInEditMode with isHint false when toggling hint from true in edit mode.", async() => {
         wrapper = await mountInEditMode();
-        const hintSwitch = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-2']") as VueWrapper;
+        const hintSwitch = wrapper.find("[data-testid='question-theme-selector-assignment-theme-2']").findComponent({ name: "USwitch" }) as VueWrapper;
 
         getWrapperVm(hintSwitch).$emit("update:modelValue", false);
 
@@ -776,7 +776,7 @@ describe("QuestionThemeSelector Component", () => {
 
       it("should not emit update:modelValue when toggling hint in edit mode.", async() => {
         wrapper = await mountInEditMode();
-        const hintSwitch = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
+        const hintSwitch = wrapper.find("[data-testid='question-theme-selector-assignment-theme-1']").findComponent({ name: "USwitch" }) as VueWrapper;
 
         getWrapperVm(hintSwitch).$emit("update:modelValue", true);
 

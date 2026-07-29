@@ -38,28 +38,16 @@ describe("QuestionCategoryBadge Component", () => {
         expect(badge.props("label")).toBe("questions.category.trivia");
       });
 
-      it("should pass the lexicon category i18n key as label to the badge component when category is lexicon.", async() => {
-        await wrapper.setProps({ category: "lexicon" });
+      it.each([
+        { category: "lexicon", expectedLabel: "questions.category.lexicon" },
+        { category: "riddle", expectedLabel: "questions.category.riddle" },
+        { category: "explanation", expectedLabel: "questions.category.explanation" },
+      ])("should pass the $expectedLabel i18n key as label to the badge component when category is $category.", async({ category, expectedLabel }) => {
+        await wrapper.setProps({ category });
 
         const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
 
-        expect(badge.props("label")).toBe("questions.category.lexicon");
-      });
-
-      it("should pass the riddle category i18n key as label to the badge component when category is riddle.", async() => {
-        await wrapper.setProps({ category: "riddle" });
-
-        const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-        expect(badge.props("label")).toBe("questions.category.riddle");
-      });
-
-      it("should pass the explanation category i18n key as label to the badge component when category is explanation.", async() => {
-        await wrapper.setProps({ category: "explanation" });
-
-        const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-        expect(badge.props("label")).toBe("questions.category.explanation");
+        expect(badge.props("label")).toBe(expectedLabel);
       });
     });
 
@@ -70,28 +58,16 @@ describe("QuestionCategoryBadge Component", () => {
         expect(badge.props("color")).toBe("secondary");
       });
 
-      it("should use the primary color for the badge component when category is lexicon.", async() => {
-        await wrapper.setProps({ category: "lexicon" });
+      it.each([
+        { category: "lexicon", expectedColor: "primary" },
+        { category: "riddle", expectedColor: "warning" },
+        { category: "explanation", expectedColor: "info" },
+      ])("should use the $expectedColor color for the badge component when category is $category.", async({ category, expectedColor }) => {
+        await wrapper.setProps({ category });
 
         const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
 
-        expect(badge.props("color")).toBe("primary");
-      });
-
-      it("should use the warning color for the badge component when category is riddle.", async() => {
-        await wrapper.setProps({ category: "riddle" });
-
-        const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-        expect(badge.props("color")).toBe("warning");
-      });
-
-      it("should use the info color for the badge component when category is explanation.", async() => {
-        await wrapper.setProps({ category: "explanation" });
-
-        const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-        expect(badge.props("color")).toBe("info");
+        expect(badge.props("color")).toBe(expectedColor);
       });
     });
 
@@ -102,28 +78,16 @@ describe("QuestionCategoryBadge Component", () => {
         expect(badge.props("icon")).toBe("i-lucide-lightbulb");
       });
 
-      it("should use the book-open icon for the badge component when category is lexicon.", async() => {
-        await wrapper.setProps({ category: "lexicon" });
+      it.each([
+        { category: "lexicon", expectedIcon: "i-lucide-book-open" },
+        { category: "riddle", expectedIcon: "i-lucide-puzzle" },
+        { category: "explanation", expectedIcon: "i-lucide-message-circle" },
+      ])("should use the $expectedIcon icon for the badge component when category is $category.", async({ category, expectedIcon }) => {
+        await wrapper.setProps({ category });
 
         const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
 
-        expect(badge.props("icon")).toBe("i-lucide-book-open");
-      });
-
-      it("should use the puzzle icon for the badge component when category is riddle.", async() => {
-        await wrapper.setProps({ category: "riddle" });
-
-        const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-        expect(badge.props("icon")).toBe("i-lucide-puzzle");
-      });
-
-      it("should use the message-circle icon for the badge component when category is explanation.", async() => {
-        await wrapper.setProps({ category: "explanation" });
-
-        const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-        expect(badge.props("icon")).toBe("i-lucide-message-circle");
+        expect(badge.props("icon")).toBe(expectedIcon);
       });
     });
   });

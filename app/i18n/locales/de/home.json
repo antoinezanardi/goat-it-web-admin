@@ -1,5 +1,23 @@
 {
   "home": {
-    "pageTitle": "Startseite"
+    "pageTitle": "Startseite",
+    "cantFetchStats": "Dashboard-Statistiken konnten nicht abgerufen werden",
+    "tabs": {
+      "questions": "Fragen",
+      "questionThemes": "Fragenthemen"
+    },
+    "stats": {
+      "byStatus": "Nach Status",
+      "byCategory": "Nach Kategorie",
+      "byCognitiveDifficulty": "Nach Schwierigkeit",
+      "byAuthorRole": "Nach Autorenrolle",
+      "byRejectionType": "Nach Ablehnungstyp",
+      "byQuestionCount": "Fragen pro Thema",
+      "noData": "Keine Daten verfügbar"
+    },
+    "chartView": {
+      "doughnut": "Ringdiagramm",
+      "bar": "Balkendiagramm"
+    }
   }
 }

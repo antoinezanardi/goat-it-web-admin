@@ -1,8 +1,8 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
+import { createFakeQuestionThemeAssignmentCreationDto } from "@goat-it/schemas/testing/question";
 
-import { createFakeQuestionThemeAssignmentCreationDto } from "~~/tests/unit/utils/faketories/questions/dto/question-theme-assignment-creation/question-theme-assignment-creation.dto.faketory";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
@@ -217,7 +217,7 @@ describe("QuestionThemeSelectorAssignment Component", () => {
 
   describe("Hint Switch", () => {
     it("should pass assignment isHint as model-value to the switch when mounted.", () => {
-      const switchComponent = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
+      const switchComponent = wrapper.findComponent({ name: "USwitch" }) as VueWrapper;
 
       expect((switchComponent.props() as Record<string, unknown>).modelValue).toBe(fakeAssignment.isHint);
     });
@@ -226,19 +226,19 @@ describe("QuestionThemeSelectorAssignment Component", () => {
       wrapper = await mountQuestionThemeSelectorAssignmentComponent({
         props: { ...defaultProps, isHintDisabled: true },
       });
-      const switchComponent = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
+      const switchComponent = wrapper.findComponent({ name: "USwitch" }) as VueWrapper;
 
       expect((switchComponent.props() as Record<string, unknown>).disabled).toBeTruthy();
     });
 
     it("should not disable switch when isHintDisabled is false.", () => {
-      const switchComponent = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
+      const switchComponent = wrapper.findComponent({ name: "USwitch" }) as VueWrapper;
 
       expect((switchComponent.props() as Record<string, unknown>).disabled).toBeFalsy();
     });
 
     it("should emit toggleHint when switch value changes.", () => {
-      const switchComponent = wrapper.findComponent("[data-testid='question-theme-selector-hint-theme-1']") as VueWrapper;
+      const switchComponent = wrapper.findComponent({ name: "USwitch" }) as VueWrapper;
       getWrapperVm(switchComponent).$emit("update:modelValue", false);
 
       expect(wrapper.emitted("toggleHint")).toStrictEqual([[]]);

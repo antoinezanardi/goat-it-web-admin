@@ -1,6 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-
-import { createFakeLocalizedText } from "~~/tests/unit/utils/faketories/shared/locale/locale.faketory";
+import { createFakeLocalizedText } from "@goat-it/schemas/testing/shared";
 
 import type { useTranslationCompleteness as UseTranslationCompletenessType } from "~/composables/core/localization/use-translation-completeness/useTranslationCompleteness";
 import type { UseTranslationCompleteness } from "~/composables/core/localization/use-translation-completeness/use-translation-completeness.types";

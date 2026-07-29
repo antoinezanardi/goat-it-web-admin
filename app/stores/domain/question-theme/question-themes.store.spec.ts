@@ -2,10 +2,10 @@ import type { AdminFindQuestionThemesQueryDto } from "@goat-it/schemas/question-
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import type { vi } from "vitest";
 import { beforeEach, describe, expect, it } from "vitest";
+import { createFakeAdminFindQuestionThemesQueryDto, createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "@goat-it/schemas/testing/question-theme";
 
 import { createUseAsyncActionMock } from "~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock";
 import type { UseAsyncActionMock } from "~~/tests/unit/utils/mocks/composables/core/useAsyncAction/useAsyncAction.mock";
-import { createFakeAdminFindQuestionThemesQueryDto, createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "~~/tests/unit/utils/faketories/question-themes/dto/question-theme.dto.faketory";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 
 import type { useQuestionThemesStore as UseQuestionThemesStoreType } from "@/stores/domain/question-theme/question-themes.store";

@@ -1,5 +1,23 @@
 {
   "home": {
-    "pageTitle": "Início"
+    "pageTitle": "Início",
+    "cantFetchStats": "Não foi possível obter as estatísticas do painel",
+    "tabs": {
+      "questions": "Perguntas",
+      "questionThemes": "Temas de perguntas"
+    },
+    "stats": {
+      "byStatus": "Por estado",
+      "byCategory": "Por categoria",
+      "byCognitiveDifficulty": "Por dificuldade",
+      "byAuthorRole": "Por papel do autor",
+      "byRejectionType": "Por tipo de rejeição",
+      "byQuestionCount": "Perguntas por tema",
+      "noData": "Nenhum dado disponível"
+    },
+    "chartView": {
+      "doughnut": "Gráfico de rosca",
+      "bar": "Gráfico de barras"
+    }
   }
 }
