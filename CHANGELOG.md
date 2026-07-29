@@ -1,5 +1,53 @@
 # 🐐👑 Goat It Web Admin Versioning Changelog
 
+## [1.6.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.5.0...v1.6.0) (2026-07-29)
+
+### 🚀 Features
+
+* **dashboard:** add stats dashboard home page ([#469](https://github.com/antoinezanardi/goat-it-web-admin/issues/469)) ([0490adc](https://github.com/antoinezanardi/goat-it-web-admin/commit/0490adc92e4bee4f7071e8e479744bd6a018fdf9))
+
+### 🔩 Refactor
+
+* **tests:** simplify badge and translation tests with parameterization ([#445](https://github.com/antoinezanardi/goat-it-web-admin/issues/445)) ([36e471f](https://github.com/antoinezanardi/goat-it-web-admin/commit/36e471f9299e15e9d57af73e7c698040ed359eaa))
+* **tests:** use goat-it schemas faketories ([#458](https://github.com/antoinezanardi/goat-it-web-admin/issues/458)) ([d51647b](https://github.com/antoinezanardi/goat-it-web-admin/commit/d51647bc49d5e4ee46836b69bfd7db13376890ce))
+
+### ⚡️ Performance
+
+* **vitest:** optimize test configuration for faster runs ([#462](https://github.com/antoinezanardi/goat-it-web-admin/issues/462)) ([e75f75d](https://github.com/antoinezanardi/goat-it-web-admin/commit/e75f75dfd10044b69fdaad67cf3cd5a6a158d5ca))
+
+### 🧹 Chore
+
+* **cucumber:** update @cucumber/cucumber to ^13.1.1 and remove manual types ([#434](https://github.com/antoinezanardi/goat-it-web-admin/issues/434)) ([9613fc1](https://github.com/antoinezanardi/goat-it-web-admin/commit/9613fc17697a1d85f38a3b25db665d85bbb3a648))
+
+### 📦 Upgraded Dependencies
+
+| Package | Version |
+| --- | :---: |
+| `@goat-it/schemas` | `^0.0.19` |
+| `@iconify-json/lucide` | `^1.2.120` |
+| `@nuxt/hints` | `^1.1.4` |
+| `@nuxt/test-utils` | `^4.1.0` |
+| `@nuxt/ui` | `^4.10.0` |
+| `@nuxtjs/i18n` | `^10.5.0` |
+| `@pinia/nuxt` | `^1.0.1` |
+| `@semantic-release/git` | `^11.0.1` |
+| `@vitest/eslint-plugin` | `^1.6.24` |
+| `chart.js` | `v4.5.1` |
+| `eslint` | `^10.8.0` |
+| `happy-dom` | `^20.11.1` |
+| `lint-staged` | `^17.2.0` |
+| `nuxt` | `^4.5.1` |
+| `oxlint` | `^1.74.0` |
+| `oxlint-tsgolint` | `v7` |
+| `semantic-release` | `^25.0.8` |
+| `tailwindcss` | `^4.3.3` |
+| `oxlint monorepo` | `^1.76.0` |
+| `playwright monorepo` | `^1.62.0` |
+| `pnpm` | `v11.17.0` |
+| `semantic-release monorepo (major)` | `` |
+| `vue-language-tools monorepo` | `^3.3.8` |
+| `vueuse monorepo` | `^14.4.0` |
+
 ## [1.5.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.4.0...v1.5.0) (2026-07-15)
 
 ### 🚀 Features
