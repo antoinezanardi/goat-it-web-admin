@@ -1,7 +1,7 @@
 ---
 description: Reviews the entire feature branch against the full plan and spec for the goat-it-web-admin project. Catches cross-task issues, checks code quality, architecture fit, and spec coverage holistically. Does NOT run quality gates (orchestrator owns those). Returns a merge recommendation.
 mode: subagent
-model: opencode-go/deepseek-v4-flash
+model: opencode-go/deepseek-v4-pro
 temperature: 0.1
 hidden: true
 steps: 80

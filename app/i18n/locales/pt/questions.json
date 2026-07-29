@@ -21,13 +21,25 @@
     "modifyThemeAssignmentSuccessfully": "Tema da pergunta modificado com sucesso",
     "fetching": "Carregando perguntas...",
     "itemsCount": "0 perguntas | {count} pergunta | {count} perguntas",
-    "missingThemeTranslation": "–– tradução do tema ausente ––",
-    "selectThemes": "Selecionar temas…",
+    "missingThemeTranslation": "\u2013\u2013 tradução do tema ausente \u2013\u2013",
+    "selectThemes": "Selecionar temas\u2026",
     "searchThemes": "Pesquisar temas...",
     "noMatchingTheme": "Nenhum tema correspondente.",
     "promoteAsPrimaryTheme": "Promover como tema principal",
     "primaryTheme": "Tema principal",
-    "selectCategory": "Selecionar categoria…",
+    "selectCategory": "Selecionar categoria\u2026",
+    "authorRole": {
+      "admin": "Admin",
+      "game": "Jogo",
+      "ai": "IA"
+    },
+    "rejectionType": {
+      "inappropriate-content": "Conteúdo inapropriado",
+      "incorrect-information": "Informação incorreta",
+      "poor-quality": "Má qualidade",
+      "duplicate-question": "Pergunta duplicada",
+      "other": "Outro"
+    },
     "sections": {
       "content": "Conteúdo",
       "classification": "Classificação",

@@ -146,3 +146,11 @@ If you find issues, fix them inline. If a spec requirement has no task, add the 
 - **No `console.log`:** Use `useAppToast` for UI feedback
 - **i18n:** Assert keys, not translated strings. Texts must be translated into the six locales of this project.
 - **Quality gates (NOT in plan steps — orchestrator runs them):** `lint:fix` → `typecheck` → `test:unit:cov` → `test:acceptance`
+
+## Self-review
+
+When the plan is complete, check for:
+
+- [ ] All tasks are bite-sized (2-5 min)
+- [ ] All tasks have implementation, test (when applicable), and verification steps
+- [ ] Only one `expect` per `it` in unit tests, use `it.each` for multiple assertions on the same subject

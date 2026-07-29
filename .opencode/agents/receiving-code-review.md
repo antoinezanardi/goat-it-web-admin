@@ -28,6 +28,8 @@ permission:
     "rtk grep *": "allow"
     "ls *": "allow"
     "rtk ls *": "allow"
+    "rg *": "allow"
+    "rtk rg *": "allow"
     "head *": "allow"
     "rtk head *": "allow"
     "tail *": "allow"
@@ -49,6 +51,8 @@ permission:
   task:
     "*": "deny"
     "gatekeeper": "allow"
+    "implementer": "allow"
+    "explore": "allow"
   webfetch: allow
 ---
 

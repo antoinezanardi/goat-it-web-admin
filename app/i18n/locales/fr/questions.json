@@ -21,13 +21,25 @@
     "removeThemeSuccessfully": "Thème de la question supprimé avec succès",
     "modifySuccessfully": "Question modifiée avec succès",
     "modifyThemeAssignmentSuccessfully": "Thème de la question modifié avec succès",
-    "missingThemeTranslation": "–– traduction du thème manquante ––",
-    "selectThemes": "Sélectionner les thèmes…",
+    "missingThemeTranslation": "\u2013\u2013 traduction du thème manquante \u2013\u2013",
+    "selectThemes": "Sélectionner les thèmes\u2026",
     "searchThemes": "Rechercher des thèmes...",
     "noMatchingTheme": "Aucun thème correspondant.",
     "promoteAsPrimaryTheme": "Promouvoir comme thème principal",
     "primaryTheme": "Thème principal",
-    "selectCategory": "Sélectionner la catégorie…",
+    "selectCategory": "Sélectionner la catégorie\u2026",
+    "authorRole": {
+      "admin": "Admin",
+      "game": "Jeu",
+      "ai": "IA"
+    },
+    "rejectionType": {
+      "inappropriate-content": "Contenu inapproprié",
+      "incorrect-information": "Information incorrecte",
+      "poor-quality": "Mauvaise qualité",
+      "duplicate-question": "Question en double",
+      "other": "Autre"
+    },
     "sections": {
       "content": "Contenu",
       "classification": "Classification",

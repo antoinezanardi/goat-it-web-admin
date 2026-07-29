@@ -84,6 +84,7 @@ const VITEST_COMPOSABLES_MOCK_SETUP_FILES = [
   path.resolve(processCwd, "tests/unit/setup/nuxt/composables/use-goat-it-api-error-toast.nuxt.unit-setup.ts"),
   path.resolve(processCwd, "tests/unit/setup/nuxt/composables/use-overlay.nuxt.unit-setup.ts"),
   path.resolve(processCwd, "tests/unit/setup/nuxt/composables/use-table-global-filter.nuxt.unit-setup.ts"),
+  path.resolve(processCwd, "tests/unit/setup/nuxt/composables/vue-chartjs.nuxt.unit-setup.ts"),
 ] as const;
 
 const VITEST_COMPOSABLES_PROJECT_INCLUDES = ["app/composables/**/*.spec.ts"];
@@ -93,6 +94,7 @@ const VITEST_STORES_PROJECT_INCLUDES = ["app/**/*.store.spec.ts"];
 const VITEST_REPOSITORIES_PROJECT_INCLUDES = ["app/**/*.repository.spec.ts"];
 
 const VITEST_REPOSITORIES_MOCK_SETUP_FILES = [
+  path.resolve(processCwd, "tests/unit/setup/nuxt/repositories/dashboard-repository.nuxt.unit-setup.ts"),
   path.resolve(processCwd, "tests/unit/setup/nuxt/repositories/question-themes-repository.nuxt.unit-setup.ts"),
   path.resolve(processCwd, "tests/unit/setup/nuxt/repositories/questions-repository.nuxt.unit-setup.ts"),
 ] as const;
@@ -112,7 +114,7 @@ const VITEST_IGNORED_STARTING_BY_LOGS = [
   "[Vue warn]: App already provides property with key \"Symbol(pinia)\"",
   "[nuxt] error caught during app initialization Error: Context conflict",
   "[Vue warn]: There is already an app instance mounted on the host container",
-  "[Vue Router warn]: No match found for location with path \"",
+  "[VUE_ROUTER_R0004] No match found for location with path \"",
 ] as const;
 
 const VITEST_REPOSITORIES_PROJECT_CONFIG: TestProjectInlineConfiguration = {

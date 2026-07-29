@@ -21,13 +21,25 @@
     "modifyThemeAssignmentSuccessfully": "Fragenthema erfolgreich geändert",
     "fetching": "Fragen werden geladen...",
     "itemsCount": "0 Fragen | {count} Frage | {count} Fragen",
-    "missingThemeTranslation": "–– fehlende Themenübersetzung ––",
-    "selectThemes": "Themen auswählen…",
+    "missingThemeTranslation": "\u2013\u2013 fehlende Themenübersetzung \u2013\u2013",
+    "selectThemes": "Themen auswählen\u2026",
     "searchThemes": "Themen suchen...",
     "noMatchingTheme": "Kein passendes Thema.",
     "promoteAsPrimaryTheme": "Als Hauptthema festlegen",
     "primaryTheme": "Hauptthema",
-    "selectCategory": "Kategorie auswählen…",
+    "selectCategory": "Kategorie auswählen\u2026",
+    "authorRole": {
+      "admin": "Admin",
+      "game": "Spiel",
+      "ai": "KI"
+    },
+    "rejectionType": {
+      "inappropriate-content": "Unangemessener Inhalt",
+      "incorrect-information": "Falsche Information",
+      "poor-quality": "Schlechte Qualität",
+      "duplicate-question": "Doppelte Frage",
+      "other": "Andere"
+    },
     "sections": {
       "content": "Inhalt",
       "classification": "Klassifizierung",
