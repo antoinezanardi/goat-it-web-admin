@@ -30,7 +30,9 @@ const navigationMenuItems = computed<NavigationMenuItem[]>(() => router.getRoute
         <img
           :alt="$t('common.app.logo')"
           class="h-10 w-auto"
+          height="128"
           src="/img/logo/logo-128.avif"
+          width="128"
         >
 
         <span
