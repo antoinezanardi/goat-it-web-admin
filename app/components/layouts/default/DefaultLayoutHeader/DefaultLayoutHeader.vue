@@ -25,6 +25,30 @@ const navigationMenuItems = computed<NavigationMenuItem[]>(() => router.getRoute
     id="default-layout-header"
     :title="$t('common.app.name')"
   >
+    <template #title>
+      <div class="gap-2 inline-flex items-center">
+        <img
+          :alt="$t('common.app.logo')"
+          class="h-10 w-auto"
+          src="/img/logo/logo-128.avif"
+        >
+
+        <span
+          class="hidden md:inline"
+          data-testid="default-layout-header-full-name"
+        >
+          {{ $t('common.app.name') }}
+        </span>
+
+        <span
+          class="inline md:hidden"
+          data-testid="default-layout-header-short-name"
+        >
+          {{ $t('common.app.nameShort') }}
+        </span>
+      </div>
+    </template>
+
     <UNavigationMenu
       id="default-layout-header-navigation-menu"
       :items="navigationMenuItems"

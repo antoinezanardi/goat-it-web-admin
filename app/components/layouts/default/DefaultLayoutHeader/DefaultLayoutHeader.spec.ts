@@ -33,6 +33,38 @@ describe("DefaultLayoutHeader Component", () => {
     });
   });
 
+  describe("Title", () => {
+    it("should render the logo image with the correct i18n alt attribute when mounted.", () => {
+      const logo = wrapper.find("img");
+
+      expect(logo.attributes("alt")).toBe("common.app.logo");
+    });
+
+    it("should render the full app name span with the correct i18n text when mounted.", () => {
+      const fullNameSpan = wrapper.find("[data-testid='default-layout-header-full-name']");
+
+      expect(fullNameSpan.text()).toBe("common.app.name");
+    });
+
+    it("should render the full app name span visible on medium and larger screens when mounted.", () => {
+      const fullNameSpan = wrapper.find("[data-testid='default-layout-header-full-name']");
+
+      expect(fullNameSpan.attributes("class")).toContain("hidden md:inline");
+    });
+
+    it("should render the short app name span with the correct i18n text when mounted.", () => {
+      const shortNameSpan = wrapper.find("[data-testid='default-layout-header-short-name']");
+
+      expect(shortNameSpan.text()).toBe("common.app.nameShort");
+    });
+
+    it("should render the short app name span visible on small screens when mounted.", () => {
+      const shortNameSpan = wrapper.find("[data-testid='default-layout-header-short-name']");
+
+      expect(shortNameSpan.attributes("class")).toContain("inline md:hidden");
+    });
+  });
+
   describe("Navigation Menu", () => {
     it("should pass the items sorted by order as props to the navigation menu component when mounted.", () => {
       const navigationMenu = wrapper.getComponent({ name: "UNavigationMenu" });

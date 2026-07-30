@@ -1,7 +1,9 @@
 {
   "common": {
     "app": {
-      "name": "Goat It Admin"
+      "name": "Goat It Admin",
+      "logo": "Logo de Goat It",
+      "nameShort": "Admin"
     },
     "gitHub": "GitHub",
     "success": "Éxito",
