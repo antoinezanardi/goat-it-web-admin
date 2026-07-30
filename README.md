@@ -1,4 +1,12 @@
-# 🐐 Goat It Web Admin
+<h1 align="center">
+  <strong>Goat It Web Admin</strong>
+</h1>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/antoinezanardi/goat-it-web-admin/refs/heads/develop/public/img/logo/logo-512.avif" alt="Goat It Web Admin Logo" width="200"/>
+</p>
+
+---
 
 ![TypeScript](https://img.shields.io/badge/-TypeScript-black?style=for-the-badge&logoColor=white&logo=typescript&color=2F73BF)
 ![Nuxt](https://img.shields.io/badge/-Nuxt-black?style=for-the-badge&logoColor=white&logo=nuxt&color=00DC82)
@@ -23,6 +31,7 @@
 ## 📖 Table of Contents
 
 - [🐐 What is this project ?](#what-is-this-project)
+- [🎮 Live demo](#live-demo)
 - [🔨 Installation](#installation)
 - [🚀 Build](#build)
 - [🐳 Docker](#docker)
@@ -36,6 +45,10 @@
 ## <a name="what-is-this-project">🐐 What is this project ?</a>
 
 Goat It Web Admin is an intuitive admin UI built with Nuxt 4 and Vue 3, designed to manage questions, themes, and games for the Goat It app.
+
+## <a name="live-demo">🎮 Live demo</a>
+
+You can test the app live at **[admin.staging.goat-it.fr](https://admin.staging.goat-it.fr/)**.
 
 ## <a name="installation">🔨 Installation</a>
 
