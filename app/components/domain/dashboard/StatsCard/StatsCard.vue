@@ -7,7 +7,7 @@ const props = defineProps<StatsCardProps>();
 // eslint-disable-next-line vue/no-setup-props-reactivity-loss
 const currentView = ref<StatsCardView>(props.defaultView);
 
-const areAllValuesZero = computed<boolean>(() => props.items.length === 0 || props.items.every(item => item.value === 0));
+const areAllValuesZero = computed<boolean>(() => props.items.every(item => item.value === 0));
 
 function onToggleDoughnut(): void {
   currentView.value = "doughnut";
