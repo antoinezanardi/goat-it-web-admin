@@ -43,14 +43,7 @@ const byRejectionTypeItems = computed<StatsCardItem[]>(() => [
 
 <template>
   <div class="flex flex-col gap-4">
-    <div class="gap-4 grid grid-cols-2">
-      <StatsCard
-        default-view="doughnut"
-        :items="byStatusItems"
-        test-id="stats-card-by-status"
-        title-key="home.stats.byStatus"
-      />
-
+    <div class="gap-4 grid grid-cols-1 sm:grid-cols-2">
       <StatsCard
         default-view="doughnut"
         :items="byCategoryItems"
@@ -63,6 +56,13 @@ const byRejectionTypeItems = computed<StatsCardItem[]>(() => [
         :items="byDifficultyItems"
         test-id="stats-card-by-difficulty"
         title-key="home.stats.byCognitiveDifficulty"
+      />
+
+      <StatsCard
+        default-view="doughnut"
+        :items="byStatusItems"
+        test-id="stats-card-by-status"
+        title-key="home.stats.byStatus"
       />
 
       <StatsCard

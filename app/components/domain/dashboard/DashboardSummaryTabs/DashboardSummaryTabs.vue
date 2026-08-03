@@ -30,7 +30,7 @@ const tabs = computed(() => [
 
 <template>
   <div
-    class="gap-4 grid grid-cols-2"
+    class="gap-4 grid grid-cols-1 sm:grid-cols-2"
     role="tablist"
   >
     <DashboardSummaryTab
