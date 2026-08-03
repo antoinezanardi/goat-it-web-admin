@@ -15,6 +15,11 @@ describe("StatsCard Component", () => {
     { labelKey: "questions.status.active", value: 20, color: "success" },
   ];
 
+  const allZeroItems: StatsCardItem[] = [
+    { labelKey: "questions.status.pending", value: 0, color: "info" },
+    { labelKey: "questions.status.active", value: 0, color: "success" },
+  ];
+
   const defaultProps: StatsCardProps = {
     titleKey: "home.stats.byStatus",
     items: defaultItems,
@@ -93,5 +98,29 @@ describe("StatsCard Component", () => {
     });
 
     expect(wrapper.text()).toContain("home.stats.noData");
+  });
+
+  it("should show empty state message when all items have value zero.", async() => {
+    wrapper = await mountStatsCard({
+      props: { ...defaultProps, items: allZeroItems },
+    });
+
+    expect(wrapper.text()).toContain("home.stats.noData");
+  });
+
+  it("should not render the doughnut chart when all items have value zero.", async() => {
+    wrapper = await mountStatsCard({
+      props: { ...defaultProps, items: allZeroItems },
+    });
+
+    expect(wrapper.find("[data-testid='stats-card-test-doughnut-chart']").exists()).toBeFalsy();
+  });
+
+  it("should not render the bar chart when all items have value zero.", async() => {
+    wrapper = await mountStatsCard({
+      props: { ...defaultProps, items: allZeroItems },
+    });
+
+    expect(wrapper.find("[data-testid='stats-card-test-bar-chart']").exists()).toBeFalsy();
   });
 });

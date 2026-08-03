@@ -40,57 +40,57 @@ describe("QuestionThemeStatsContent Component", () => {
   });
 
   it("should pass correct titleKey to the by-status card when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
+    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
 
     expect(statusCard?.props("titleKey")).toBe("home.stats.byStatus");
   });
 
   it("should pass correct defaultView to the by-status card when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
+    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
 
     expect(statusCard?.props("defaultView")).toBe("doughnut");
   });
 
   it("should pass correct testId to the by-status card when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
+    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
 
     expect(statusCard?.props("testId")).toBe("stats-card-theme-by-status");
   });
 
   it("should pass correct titleKey to the by-question-count card when mounted.", () => {
-    const countCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const countCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
 
     expect(countCard?.props("titleKey")).toBe("home.stats.byQuestionCount");
   });
 
   it("should pass correct defaultView to the by-question-count card when mounted.", () => {
-    const countCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const countCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
 
     expect(countCard?.props("defaultView")).toBe("bar");
   });
 
   it("should pass correct testId to the by-question-count card when mounted.", () => {
-    const countCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const countCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
 
     expect(countCard?.props("testId")).toBe("stats-card-by-question-count");
   });
 
   it("should map byStatus item at index 0 with active labelKey when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
+    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
     const items = statusCard?.props("items") as { labelKey: string }[];
 
     expect(items[0]?.labelKey).toBe("questionThemes.status.active");
   });
 
   it("should map byStatus item at index 1 with archived labelKey when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
+    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
     const items = statusCard?.props("items") as { labelKey: string }[];
 
     expect(items[1]?.labelKey).toBe("questionThemes.status.archived");
   });
 
   it("should map byQuestionCount items count correctly when mounted.", () => {
-    const countCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const countCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
     const items = countCard?.props("items") as { labelKey: string; color: string }[];
 
     expect(items).toHaveLength(fakeStats.byQuestionCount.length);
@@ -99,7 +99,7 @@ describe("QuestionThemeStatsContent Component", () => {
   it.each(fakeStats.byQuestionCount.map((item, index) => [index, item.themeSlug] as const))(
     "should map byQuestionCount item at index %i with correct labelKey when mounted.",
     (index: number, expectedLabelKey: string) => {
-      const countCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+      const countCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
       const items = countCard?.props("items") as { labelKey: string; color: string }[];
 
       expect(items[index]?.labelKey).toBe(expectedLabelKey);
@@ -109,7 +109,7 @@ describe("QuestionThemeStatsContent Component", () => {
   it.each(fakeStats.byQuestionCount.map((_item: unknown, index: number) => [index] as const))(
     "should map byQuestionCount item at index %i with primary color when mounted.",
     (index: number) => {
-      const countCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+      const countCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
       const items = countCard?.props("items") as { labelKey: string; color: string }[];
 
       expect(items[index]?.color).toBe("primary");
@@ -124,7 +124,7 @@ describe("QuestionThemeStatsContent Component", () => {
     store.questionThemes = [theme];
     wrapper = await mountQuestionThemeStatsContent();
 
-    const countCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const countCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
     const items = countCard?.props("items") as { label: string; color: string; value: number }[];
 
     expect(items[0]).toStrictEqual({
@@ -133,5 +133,17 @@ describe("QuestionThemeStatsContent Component", () => {
       labelKey: "test-theme",
       value: 10,
     });
+  });
+
+  it("should apply grid-cols-1 class to the grid container when mounted.", () => {
+    const grid = wrapper.find(".grid");
+
+    expect(grid.classes()).toContain("grid-cols-1");
+  });
+
+  it("should apply sm:grid-cols-2 class to the grid container when mounted.", () => {
+    const grid = wrapper.find(".grid");
+
+    expect(grid.classes()).toContain("sm:grid-cols-2");
   });
 });
