@@ -106,7 +106,7 @@
     "@iconify-json/circle-flags": "^1.2.10",
     "@iconify-json/lucide": "^1.2.121",
     "@number-flow/vue": "^0.5.2",
-    "@nuxt/eslint": "^1.16.0",
+    "@nuxt/eslint": "^1.17.0",
     "@nuxt/hints": "^1.1.4",
     "@nuxt/test-utils": "^4.1.0",
     "@nuxt/ui": "^4.10.0",
