@@ -3,7 +3,7 @@ import path from "node:path";
 import type { TestProjectInlineConfiguration } from "vitest/config";
 import type { InlineConfig } from "vitest/node";
 
-import { VitestProjectNames } from "./vitest.config.enums";
+import { VitestProjectNames } from "./vitest.config.enums.ts";
 
 const processCwd = process.cwd();
 
