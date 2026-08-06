@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   modules: [
     "@nuxt/ui",
     "@nuxtjs/i18n",
+    "@nuxtjs/robots",
     "@vueuse/nuxt",
     "@nuxt/hints",
     "@pinia/nuxt",
@@ -49,10 +50,14 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: process.env.NUXT_PUBLIC_DEFAULT_LOCALE,
       },
+      meta: [{ name: "robots", content: "noindex, nofollow" }],
       title: "Goat It Web Admin",
     },
   },
   css: ["~/assets/css/main.css"],
+  site: {
+    indexable: false,
+  },
   ui: {
     experimental: {
       componentDetection: true,
