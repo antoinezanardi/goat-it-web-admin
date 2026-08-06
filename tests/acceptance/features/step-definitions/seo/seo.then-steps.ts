@@ -17,9 +17,13 @@ Then(
   /^the robots.txt file should block all crawlers$/u,
   async function(this: GoatItWorld): Promise<void> {
     const response = await this.page.request.get(url("/robots.txt"));
-    const body = await response.text();
 
-    expect(body).toContain("User-agent: *");
-    expect(body).toContain("Disallow: /");
+    expect(response.ok()).toBeTruthy();
+
+    const body = await response.text();
+    const lines = body.split("\n").map(line => line.trim());
+
+    expect(lines).toContain("User-agent: *");
+    expect(lines).toContain("Disallow: /");
   },
 );

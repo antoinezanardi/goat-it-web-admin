@@ -254,4 +254,7 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ["stores/**"],
   },
+  robots: {
+    metaTag: false,
+  },
 });
