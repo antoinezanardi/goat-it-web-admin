@@ -34,8 +34,8 @@ importers:
         specifier: ^1.2.10
         version: 1.2.10
       '@iconify-json/lucide':
-        specifier: ^1.2.121
-        version: 1.2.121
+        specifier: ^1.2.122
+        version: 1.2.122
       '@number-flow/vue':
         specifier: ^0.5.2
         version: 0.5.2(vue@3.5.40(typescript@6.0.3))
@@ -1187,8 +1187,8 @@ packages:
   '@iconify-json/circle-flags@1.2.10':
     resolution: {integrity: sha512-sZRxs689a281RtZvuAiKtV7pQHv8Tk0HkinSM7QvLgdLEK8xgGRCcbDvL09Rq+/KtemmsMzGhS9/qt+r3ca+Ug==}
 
-  '@iconify-json/lucide@1.2.121':
-    resolution: {integrity: sha512-zSoQQSmsyFaeTpSwURHJ9PIrsDcGFpDNhGlpiTrs+Ua4uFeH5UsE26L4OEBLrgLWoSK0UO+JhsO8yehSw0403g==}
+  '@iconify-json/lucide@1.2.122':
+    resolution: {integrity: sha512-Dpt+ZbYTyKZqyRkEHmxEcsSsRW9yRTmkaweT2A1hfH7zKHZZ7FKmcn5evTh93ZlkYq2Vpb1YZUBsjc9AxZlcUg==}
 
   '@iconify/collections@1.0.715':
     resolution: {integrity: sha512-4EP9EOD9qx/Ybu+FtepdxL49FV1mFKsPuLTl06ccwvP5lZyErzTy5CODamEnsnKsYr+8jle2DdlDxqzVBok9hQ==}
@@ -8646,7 +8646,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/lucide@1.2.121':
+  '@iconify-json/lucide@1.2.122':
     dependencies:
       '@iconify/types': 2.0.0
 
