@@ -1,5 +1,40 @@
 # 🐐👑 Goat It Web Admin Versioning Changelog
 
+## [1.7.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.6.0...v1.7.0) (2026-08-07)
+
+### 🚀 Features
+
+* **dashboard:** reorder stat cards, add all-zero empty state, fix mobile layout ([#487](https://github.com/antoinezanardi/goat-it-web-admin/issues/487)) ([4d5a997](https://github.com/antoinezanardi/goat-it-web-admin/commit/4d5a9976a98ae10429d96eb724fe65fff92d3921))
+* **layout:** goat it logo ([#477](https://github.com/antoinezanardi/goat-it-web-admin/issues/477)) ([7b76954](https://github.com/antoinezanardi/goat-it-web-admin/commit/7b7695429e129be094afe4e257858f145d138b75))
+* **seo:** block all crawlers with @nuxtjs/robots ([#500](https://github.com/antoinezanardi/goat-it-web-admin/issues/500)) ([afacf03](https://github.com/antoinezanardi/goat-it-web-admin/commit/afacf03ad056b483cea8ab6549fde175948331e2))
+
+### 🐛 Bug Fixes
+
+* **release:** correct retrieved cache ([52dd308](https://github.com/antoinezanardi/goat-it-web-admin/commit/52dd3082028b4e7fc1d69ac427df48bb368724b7))
+
+### 📖 Docs
+
+* **README:** add logo and live demo section ([#479](https://github.com/antoinezanardi/goat-it-web-admin/issues/479)) ([bbeac96](https://github.com/antoinezanardi/goat-it-web-admin/commit/bbeac968837f6c37e6ab08996c88da710f874254))
+
+### 📦 Upgraded Dependencies
+
+| Package | Version |
+| --- | :---: |
+| `@eslint/config-inspector` | `^3.2.0` |
+| `@iconify-json/lucide` | `^1.2.121` |
+| `@nuxt/eslint` | `^1.17.0` |
+| `@vitest/eslint-plugin` | `^1.6.26` |
+| `eslint-plugin-unicorn` | `v73` |
+| `lint-staged` | `^17.3.0` |
+| `nuxt` | `^4.5.2` |
+| `semantic-release` | `^25.0.9` |
+| `vite` | `^8.2.1` |
+| `node.js` | `v26.7.0` |
+| `oxlint monorepo` | `^1.77.0` |
+| `playwright monorepo` | `^1.62.1` |
+| `pnpm` | `v11.20.0` |
+| `vue-language-tools monorepo` | `^3.3.9` |
+
 ## [1.6.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.5.0...v1.6.0) (2026-07-29)
 
 ### 🚀 Features
