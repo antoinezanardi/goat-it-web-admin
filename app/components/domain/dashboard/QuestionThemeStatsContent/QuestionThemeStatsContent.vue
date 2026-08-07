@@ -29,19 +29,19 @@ const byQuestionCountItems = computed<StatsCardItem[]>(() => props.stats.byQuest
 </script>
 
 <template>
-  <div class="gap-4 grid grid-cols-2">
-    <StatsCard
-      default-view="doughnut"
-      :items="byStatusItems"
-      test-id="stats-card-theme-by-status"
-      title-key="home.stats.byStatus"
-    />
-
+  <div class="gap-4 grid grid-cols-1 sm:grid-cols-2">
     <StatsCard
       default-view="bar"
       :items="byQuestionCountItems"
       test-id="stats-card-by-question-count"
       title-key="home.stats.byQuestionCount"
+    />
+
+    <StatsCard
+      default-view="doughnut"
+      :items="byStatusItems"
+      test-id="stats-card-theme-by-status"
+      title-key="home.stats.byStatus"
     />
   </div>
 </template>

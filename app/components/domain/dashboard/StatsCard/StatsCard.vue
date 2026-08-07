@@ -7,6 +7,8 @@ const props = defineProps<StatsCardProps>();
 // eslint-disable-next-line vue/no-setup-props-reactivity-loss
 const currentView = ref<StatsCardView>(props.defaultView);
 
+const areAllValuesZero = computed<boolean>(() => props.items.every(item => item.value === 0));
+
 function onToggleDoughnut(): void {
   currentView.value = "doughnut";
 }
@@ -17,7 +19,7 @@ function onToggleBar(): void {
 </script>
 
 <template>
-  <UCard>
+  <UCard :data-testid="props.testId">
     <template #header>
       <div class="flex items-center justify-between">
         <span class="font-semibold text-default">{{ $t(props.titleKey) }}</span>
@@ -47,7 +49,7 @@ function onToggleBar(): void {
     </template>
 
     <div
-      v-if="props.items.length === 0"
+      v-if="areAllValuesZero"
       class="flex items-center justify-center py-8 text-muted"
     >
       {{ $t("home.stats.noData") }}

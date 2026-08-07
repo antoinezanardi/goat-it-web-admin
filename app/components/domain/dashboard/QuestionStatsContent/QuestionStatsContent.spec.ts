@@ -32,37 +32,37 @@ describe("QuestionStatsContent Component", () => {
   });
 
   it("should pass correct titleKey to the by-status card when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
+    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[2];
 
     expect(statusCard?.props("titleKey")).toBe("home.stats.byStatus");
   });
 
   it("should pass correct defaultView to the by-status card when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
+    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[2];
 
     expect(statusCard?.props("defaultView")).toBe("doughnut");
   });
 
   it("should pass correct testId to the by-status card when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
+    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[2];
 
     expect(statusCard?.props("testId")).toBe("stats-card-by-status");
   });
 
   it("should pass correct titleKey to the by-category card when mounted.", () => {
-    const categoryCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const categoryCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
 
     expect(categoryCard?.props("titleKey")).toBe("home.stats.byCategory");
   });
 
   it("should pass correct defaultView to the by-category card when mounted.", () => {
-    const categoryCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const categoryCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
 
     expect(categoryCard?.props("defaultView")).toBe("doughnut");
   });
 
   it("should pass correct testId to the by-category card when mounted.", () => {
-    const categoryCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const categoryCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
 
     expect(categoryCard?.props("testId")).toBe("stats-card-by-category");
   });
@@ -73,56 +73,56 @@ describe("QuestionStatsContent Component", () => {
     { index: 2, color: "warning" },
     { index: 3, color: "error" },
   ])("should map byStatus item at index $index with $color color when mounted.", ({ index, color }) => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
+    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[2];
     const items = statusCard?.props("items") as { labelKey: string; color: string }[];
 
     expect(items[index]?.color).toBe(color);
   });
 
   it("should map byCategory item at index 0 with trivia color when mounted.", () => {
-    const categoryCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const categoryCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
     const items = categoryCard?.props("items") as { color: string }[];
 
     expect(items[0]?.color).toBe(QUESTION_CATEGORY_UI_METADATA.trivia.color);
   });
 
   it("should map byCategory item at index 1 with lexicon color when mounted.", () => {
-    const categoryCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const categoryCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
     const items = categoryCard?.props("items") as { color: string }[];
 
     expect(items[1]?.color).toBe(QUESTION_CATEGORY_UI_METADATA.lexicon.color);
   });
 
   it("should map byCategory item at index 2 with riddle color when mounted.", () => {
-    const categoryCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const categoryCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
     const items = categoryCard?.props("items") as { color: string }[];
 
     expect(items[2]?.color).toBe(QUESTION_CATEGORY_UI_METADATA.riddle.color);
   });
 
   it("should map byCategory item at index 3 with explanation color when mounted.", () => {
-    const categoryCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const categoryCard = wrapper.findAllComponents({ name: "StatsCard" })[0];
     const items = categoryCard?.props("items") as { color: string }[];
 
     expect(items[3]?.color).toBe(QUESTION_CATEGORY_UI_METADATA.explanation.color);
   });
 
   it("should map byDifficulty item at index 0 with easy color when mounted.", () => {
-    const difficultyCard = wrapper.findAllComponents({ name: "StatsCard" })[2];
+    const difficultyCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
     const items = difficultyCard?.props("items") as { color: string }[];
 
     expect(items[0]?.color).toBe(QUESTION_COGNITIVE_DIFFICULTY_UI_METADATA.easy.color);
   });
 
   it("should map byDifficulty item at index 1 with medium color when mounted.", () => {
-    const difficultyCard = wrapper.findAllComponents({ name: "StatsCard" })[2];
+    const difficultyCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
     const items = difficultyCard?.props("items") as { color: string }[];
 
     expect(items[1]?.color).toBe(QUESTION_COGNITIVE_DIFFICULTY_UI_METADATA.medium.color);
   });
 
   it("should map byDifficulty item at index 2 with hard color when mounted.", () => {
-    const difficultyCard = wrapper.findAllComponents({ name: "StatsCard" })[2];
+    const difficultyCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
     const items = difficultyCard?.props("items") as { color: string }[];
 
     expect(items[2]?.color).toBe(QUESTION_COGNITIVE_DIFFICULTY_UI_METADATA.hard.color);
@@ -138,5 +138,17 @@ describe("QuestionStatsContent Component", () => {
     const rejectionCard = wrapper.findAllComponents({ name: "StatsCard" })[4];
 
     expect(rejectionCard?.props("testId")).toBe("stats-card-by-rejection-type");
+  });
+
+  it("should apply grid-cols-1 class to the grid container when mounted.", () => {
+    const grid = wrapper.find(".grid");
+
+    expect(grid.classes()).toContain("grid-cols-1");
+  });
+
+  it("should apply sm:grid-cols-2 class to the grid container when mounted.", () => {
+    const grid = wrapper.find(".grid");
+
+    expect(grid.classes()).toContain("sm:grid-cols-2");
   });
 });

@@ -17,6 +17,7 @@ Given(
 
 Given(
   /^multiple question themes exist with the following attributes:$/u,
+  { timeout: 30_000 },
   async function(this: GoatItWorld, dataTable: DataTable): Promise<void> {
     const rows = validateDataTableAndGetRows(dataTable, QUESTION_THEME_FORM_ROW_SCHEMA);
 

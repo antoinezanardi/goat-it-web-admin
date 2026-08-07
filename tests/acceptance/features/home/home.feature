@@ -32,7 +32,17 @@ Feature: 🏡 Home Page
     And the text "Questions per Theme" should be hidden
 
   Scenario: 🏡 Home Page toggles chart view on a stat card
-    Given the user is on home page
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label      | slug       | description          | aliases |
+      | Home Theme | home-theme | Theme for home stats | home    |
+    And the user is on questions page
+    And multiple questions exist with the following attributes:
+      | statement       | answer | difficulty | category              | themes     | sourceUrls          | status |
+      | Home Question 1 | Answer | easy       | Knowledge & fun facts | Home Theme | https://example.com | active |
+      | Home Question 2 | Answer | medium     | Knowledge & fun facts | Home Theme | https://example.com | active |
+      | Home Question 3 | Answer | hard       | Knowledge & fun facts | Home Theme | https://example.com | active |
+    And the user is on home page
     When the user clicks on the element with testid "stats-card-by-status-bar-toggle"
     Then the element with testid "stats-card-by-status-bar-chart" should be visible
     When the user clicks on the element with testid "stats-card-by-status-doughnut-toggle"
@@ -54,3 +64,14 @@ Feature: 🏡 Home Page
     And the user is on home page
     Then the element with testid "dashboard-summary-tab-questions" should contain exact text "5"
     And the element with testid "dashboard-summary-tab-question-themes" should contain exact text "1"
+
+  Scenario: 🏡 Home Page displays "No data available" when no stats exist
+    Given the user is on home page
+    Then the question by category stat should display no data
+    And the question by difficulty stat should display no data
+    And the question by status stat should display no data
+    And the question by author role stat should display no data
+    And the question by rejection type stat should display no data
+    When the user clicks on the tab with exact name "Question Themes"
+    Then the question theme by question count stat should display no data
+    And the question theme by status stat should display no data
