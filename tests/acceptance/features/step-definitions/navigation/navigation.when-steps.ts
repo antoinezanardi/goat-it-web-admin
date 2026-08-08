@@ -1,9 +1,19 @@
 import { When } from "@cucumber/cucumber";
 
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
-import { waitForPageLoadStates } from "#acceptance/features/support/helpers/navigation.helpers.ts";
 
-When(/^the user reloads the page$/u, async function(this: GoatItWorld): Promise<void> {
-  await this.page.reload();
-  await waitForPageLoadStates(this);
-});
+When(
+  /^the user clicks on the navigation link with name "(?<name>[^"]*)"$/u,
+  async function(this: GoatItWorld, name: string): Promise<void> {
+    const link = this.page.getByRole("link", { name, exact: true });
+
+    await link.click();
+  },
+);
+
+When(
+  /^the user navigates back$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    await this.page.goBack();
+  },
+);

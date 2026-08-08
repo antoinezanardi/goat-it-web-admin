@@ -36,3 +36,40 @@ Feature: ❓ Questions Page
     And the exact text "Trivia" should be visible
     And the text "- Paris was founded in the 3rd century BC" should be visible
     And the text "- Paris was originally called Lutetia" should be visible
+
+  @questions-page
+  Scenario: ❓ Questions page should show confirmation dialog when navigating away with dirty form open
+    Given the user is on question-themes page
+    When the user clicks on the navigation link with name "Questions"
+    And the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | statement | answer | difficulty | category | sourceUrls          |
+      | Test      | Answer | easy       | Knowledge & fun facts | https://example.com |
+    And the user navigates back
+    Then the heading with exact name "Unsaved Changes" should be visible
+
+  @questions-page
+  Scenario: ❓ Questions page should stay on page when cancelling navigation away from dirty form
+    Given the user is on question-themes page
+    When the user clicks on the navigation link with name "Questions"
+    And the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | statement | answer | difficulty | category | sourceUrls          |
+      | Test      | Answer | easy       | Knowledge & fun facts | https://example.com |
+    And the user navigates back
+    Then the heading with exact name "Unsaved Changes" should be visible
+    When the user clicks on the button with name "Cancel"
+    Then the heading with exact name "Create a new question" should be visible
+
+  @questions-page
+  Scenario: ❓ Questions page should navigate to question themes after confirming discard of dirty form
+    Given the user is on question-themes page
+    When the user clicks on the navigation link with name "Questions"
+    And the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | statement | answer | difficulty | category | sourceUrls          |
+      | Test      | Answer | easy       | Knowledge & fun facts | https://example.com |
+    And the user navigates back
+    Then the heading with exact name "Unsaved Changes" should be visible
+    When the user clicks on the button with name "Confirm"
+    Then the user should be on question-themes page

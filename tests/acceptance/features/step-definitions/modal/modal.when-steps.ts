@@ -30,3 +30,14 @@ When(
     await closeButton.click();
   },
 );
+
+When(
+  /^the user clicks on the overlay outside of the modal$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    const dialog = this.page.getByRole("dialog").first();
+
+    await expect(dialog).toBeVisible();
+
+    await this.page.locator("body").click({ position: { x: 10, y: 10 } });
+  },
+);

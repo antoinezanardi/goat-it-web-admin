@@ -20,6 +20,7 @@ type QuestionThemeFormVm = ComponentVm & {
   canSubmit: boolean;
   focusFirstField: () => Promise<void>;
   triggerFormSubmit: () => Promise<void>;
+  isDirty: boolean;
 };
 
 describe("QuestionThemeForm Component", () => {
@@ -215,6 +216,99 @@ describe("QuestionThemeForm Component", () => {
       await nextTick();
 
       expect(getWrapperVm<QuestionThemeFormVm>(wrapper).canSubmit).toBeTruthy();
+    });
+  });
+
+  describe("Exposed isDirty", () => {
+    it("should expose isDirty as false when mounted in create mode.", () => {
+      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).isDirty).toBeFalsy();
+    });
+
+    it("should expose isDirty as true when typing in the label field.", async() => {
+      const labelFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-label-field']");
+      const labelInput = labelFormField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(labelInput).$emit("update:modelValue", "New Label");
+      await nextTick();
+
+      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).isDirty).toBeTruthy();
+    });
+
+    it("should expose isDirty as false when typing and then clearing the label field.", async() => {
+      const labelFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-label-field']");
+      const labelInput = labelFormField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(labelInput).$emit("update:modelValue", "New Label");
+      await nextTick();
+      getWrapperVm(labelInput).$emit("update:modelValue", undefined);
+      await nextTick();
+
+      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).isDirty).toBeFalsy();
+    });
+
+    it("should expose isDirty as false when mounted in edit mode.", async() => {
+      const fakeTheme = createFakeQuestionTheme({
+        slug: "existing-slug",
+        color: "#123456",
+        label: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Label" }),
+        description: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Description" }),
+        aliases: createFakeLocalizedTexts({ [DEFAULT_MOCKED_LOCALE]: ["alias-one", "alias-two"] }),
+      });
+      wrapper = await mountQuestionThemeFormComponent({
+        props: {
+          mode: "edit",
+          questionTheme: fakeTheme,
+          existingSlugs: ["existing-slug"],
+        },
+      });
+
+      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).isDirty).toBeFalsy();
+    });
+
+    it("should expose isDirty as true when modifying the label in edit mode.", async() => {
+      const fakeTheme = createFakeQuestionTheme({
+        slug: "existing-slug",
+        color: "#123456",
+        label: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Label" }),
+        description: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Description" }),
+        aliases: createFakeLocalizedTexts({ [DEFAULT_MOCKED_LOCALE]: ["alias-one", "alias-two"] }),
+      });
+      wrapper = await mountQuestionThemeFormComponent({
+        props: {
+          mode: "edit",
+          questionTheme: fakeTheme,
+          existingSlugs: ["existing-slug"],
+        },
+      });
+      const labelFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-label-field']");
+      const labelInput = labelFormField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(labelInput).$emit("update:modelValue", "Modified Label");
+      await nextTick();
+
+      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).isDirty).toBeTruthy();
+    });
+
+    it("should expose isDirty as false when modifying and then reverting the label in edit mode.", async() => {
+      const fakeTheme = createFakeQuestionTheme({
+        slug: "existing-slug",
+        color: "#123456",
+        label: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Label" }),
+        description: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Description" }),
+        aliases: createFakeLocalizedTexts({ [DEFAULT_MOCKED_LOCALE]: ["alias-one", "alias-two"] }),
+      });
+      wrapper = await mountQuestionThemeFormComponent({
+        props: {
+          mode: "edit",
+          questionTheme: fakeTheme,
+          existingSlugs: ["existing-slug"],
+        },
+      });
+      const labelFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-label-field']");
+      const labelInput = labelFormField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(labelInput).$emit("update:modelValue", "Modified Label");
+      await nextTick();
+      getWrapperVm(labelInput).$emit("update:modelValue", "Existing Label");
+      await nextTick();
+
+      expect(getWrapperVm<QuestionThemeFormVm>(wrapper).isDirty).toBeFalsy();
     });
   });
 

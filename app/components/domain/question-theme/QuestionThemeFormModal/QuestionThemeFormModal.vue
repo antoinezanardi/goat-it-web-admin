@@ -6,6 +6,7 @@ import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/constan
 import { QUESTION_THEME_FORM_MODAL_UI } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.constants";
 import type { QuestionThemeFormModalEmits, QuestionThemeFormModalProps } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.types";
 import type QuestionThemeForm from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/QuestionThemeForm.vue";
+import { useFormDirtyGuard } from "~/composables/ui/useFormDirtyGuard/useFormDirtyGuard";
 
 const props = withDefaults(defineProps<QuestionThemeFormModalProps>(), {
   mode: "create",
@@ -18,6 +19,13 @@ const emit = defineEmits<QuestionThemeFormModalEmits>();
 const open = defineModel<boolean>("open", { default: false });
 
 const formReference = useTemplateRef<InstanceType<typeof QuestionThemeForm>>("formReference");
+
+const isDirty = computed<boolean>(() => formReference.value?.isDirty ?? false);
+
+const { onRequestClose, forceClose } = useFormDirtyGuard(open, isDirty, {
+  titleKey: "common.unsavedChanges.title",
+  descriptionKey: "common.unsavedChanges.description",
+});
 
 watch(open, async isOpen => {
   if (!isOpen) {
@@ -44,9 +52,7 @@ function onSubmitModificationFromForm(data: QuestionThemeModificationDto): void 
   emit("submitModification", data);
 }
 
-function onCloseModal(): void {
-  open.value = false;
-}
+defineExpose({ isDirty, forceClose });
 </script>
 
 <template>
@@ -92,7 +98,7 @@ function onCloseModal(): void {
         :is-primary-button-loading="isSubmitting"
         :primary-button-icon="primaryButtonIcon"
         :primary-button-label="$t(primaryButtonLabel)"
-        @close-modal="onCloseModal"
+        @close-modal="onRequestClose"
         @primary-button-click="onClickFromFooterPrimaryButton"
       />
     </template>
