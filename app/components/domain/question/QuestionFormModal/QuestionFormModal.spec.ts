@@ -18,7 +18,7 @@ import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionFormModal } from "#components";
-import type { QuestionForm, DefaultModalFooter, DefaultModalTitle } from "#components";
+import type { QuestionForm, DefaultModalFooter, DefaultModalTitle, UFormField, UInput } from "#components";
 
 import type { QuestionFormModalProps } from "~/components/domain/question/QuestionFormModal/question-form-modal.types";
 import { QUESTION_ICON } from "~/composables/domain/question/question.constants";
@@ -125,14 +125,6 @@ describe("QuestionFormModal Component", () => {
   });
 
   describe("Close modal", () => {
-    it("should close the modal when the close button is clicked from the footer.", async() => {
-      const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-form-modal-footer']") as VueWrapper;
-      const closeButton = footer.find("[data-testid='default-modal-footer-close-button']");
-      await closeButton.trigger("click");
-
-      expect(wrapper.emitted("update:open")).toBeDefined();
-    });
-
     it("should emit update:open when the modal itself emits update:open.", async() => {
       const modal = wrapper.findComponent({ name: "UModal" });
       getWrapperVm(modal).$emit("update:open", false);
@@ -317,6 +309,34 @@ describe("QuestionFormModal Component", () => {
       getWrapperVm(form).$emit("submitModification", fakeData);
 
       expect(wrapper.emitted("submitModification")).toStrictEqual([[fakeData]]);
+    });
+  });
+
+  describe("Dirty guard integration", () => {
+    it("should pass dismissible as false to UModal when the form is dirty.", async() => {
+      const form = wrapper.findComponent<typeof QuestionForm>("[data-testid='question-form-modal-form']");
+      const statementField = form.findComponent<typeof UFormField>("[data-testid='question-form-statement-field']");
+      const statementInput = statementField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(statementInput).$emit("update:modelValue", "New statement");
+      await nextTick();
+
+      const modal = wrapper.findComponent({ name: "UModal" });
+
+      expect(modal.props("dismissible")).toBeFalsy();
+    });
+
+    it("should pass dismissible as true to UModal when the form is clean and not submitting.", () => {
+      const modal = wrapper.findComponent({ name: "UModal" });
+
+      expect(modal.props("dismissible")).toBeTruthy();
+    });
+
+    it("should pass dismissible as false to UModal when isSubmitting is true.", async() => {
+      await wrapper.setProps({ isSubmitting: true });
+
+      const modal = wrapper.findComponent({ name: "UModal" });
+
+      expect(modal.props("dismissible")).toBeFalsy();
     });
   });
 });

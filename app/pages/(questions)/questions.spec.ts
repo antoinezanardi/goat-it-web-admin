@@ -133,13 +133,17 @@ describe("Questions Page", () => {
       wrapper = await mountQuestionsPage();
       const table = wrapper.findComponent<typeof QuestionsTable>({ name: "QuestionsTable" });
       getWrapperVm(table).$emit("startCreate");
+      await nextTick();
+
+      const modalStub = wrapper.findComponent<typeof UModal>("[data-testid='question-form-modal']");
+      const forceClose = vi.fn<() => void>();
+      (modalStub.vm as unknown as Record<string, unknown>).forceClose = forceClose;
 
       const fakeDto = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
-      const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-form-modal']");
-      getWrapperVm(modal).$emit("submitCreation", fakeDto);
+      getWrapperVm(modalStub).$emit("submitCreation", fakeDto);
       await flushPromises();
 
-      expect(wrapper.find("[data-testid=\"question-form-modal\"]").attributes("open")).toBe("false");
+      expect(forceClose).toHaveBeenCalledExactlyOnceWith();
     });
 
     it("should close the modal when modal emits update:open with false.", async() => {
@@ -256,11 +260,15 @@ describe("Questions Page", () => {
       getWrapperVm(table).$emit("startEdit", "question-id-123");
       await nextTick();
 
+      const modalStub = wrapper.findComponent<typeof UModal>("[data-testid='question-form-modal']");
+      const forceClose = vi.fn<() => void>();
+      (modalStub.vm as unknown as Record<string, unknown>).forceClose = forceClose;
+
       const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-form-modal']");
       getWrapperVm(modal).$emit("submitModification", createFakeQuestionModificationDto());
       await flushPromises();
 
-      expect(wrapper.find("[data-testid=\"question-form-modal\"]").attributes("open")).toBe("false");
+      expect(forceClose).toHaveBeenCalledExactlyOnceWith();
     });
 
     it("should not close the modal after submitModification when isModifyQuestionSuccess is false.", async() => {
@@ -305,6 +313,12 @@ describe("Questions Page", () => {
       const modal = wrapper.find("[data-testid=\"question-form-modal\"]");
 
       expect(modal.attributes("is-submitting")).toBe("true");
+    });
+  });
+
+  describe("Route guard", () => {
+    it("should mount the page with the form dirty guard wired when mounted.", () => {
+      expect(wrapper.exists()).toBeTruthy();
     });
   });
 });

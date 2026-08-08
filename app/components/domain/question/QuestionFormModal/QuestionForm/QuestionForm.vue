@@ -3,6 +3,7 @@ import type { ComponentExposed } from "vue-component-type-helpers";
 import type { FormSubmitEvent } from "@nuxt/ui";
 import { QUESTION_CREATION_DTO, QUESTION_MODIFICATION_DTO } from "@goat-it/schemas/question";
 import type { QuestionCreationDto, QuestionModificationDto, QuestionThemeAssignmentCreationDto, QuestionThemeAssignmentModificationDto } from "@goat-it/schemas/question";
+import { isEqual } from "radashi";
 import { nextTick } from "vue";
 
 import type { UInput } from "#components";
@@ -64,6 +65,10 @@ function createInitialFormState(): QuestionCreationDtoShell {
   };
 }
 const formState = reactive<QuestionCreationDtoShell>(createInitialFormState());
+
+const initialFormState = createInitialFormState();
+
+const isDirty = computed<boolean>(() => !isEqual(formState, initialFormState));
 
 const formStateToSubmit = computed<QuestionCreationDtoShell>(() => (isSubmitting.value ? stripEmptyValues(formState) : formState));
 
@@ -132,6 +137,7 @@ defineExpose({
   canSubmit,
   focusFirstField,
   triggerFormSubmit,
+  isDirty,
 });
 </script>
 

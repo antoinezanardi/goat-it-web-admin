@@ -31,6 +31,10 @@
     "form": {
       "press": "Premere",
       "enterKey": "Invio"
+    },
+    "unsavedChanges": {
+      "title": "Modifiche non salvate",
+      "description": "Hai modifiche non salvate. Sei sicuro di volerle scartare?"
     }
   }
 }

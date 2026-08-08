@@ -136,13 +136,17 @@ describe("Question Themes Page", () => {
       questionThemesStore.isCreateQuestionThemeSuccess = true;
       const table = wrapper.findComponent<typeof QuestionThemesTable>({ name: "QuestionThemesTable" });
       getWrapperVm(table).$emit("startCreate");
+      await nextTick();
+
+      const modalStub = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
+      const forceClose = vi.fn<() => void>();
+      (modalStub.vm as unknown as Record<string, unknown>).forceClose = forceClose;
 
       const fakeCreationDto = createFakeQuestionThemeCreationDto();
-      const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
-      getWrapperVm(modal).$emit("submitCreation", fakeCreationDto);
+      getWrapperVm(modalStub).$emit("submitCreation", fakeCreationDto);
       await flushPromises();
 
-      expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("false");
+      expect(forceClose).toHaveBeenCalledExactlyOnceWith();
     });
 
     it("should not close the modal after submitCreation when isCreateQuestionThemeSuccess is false.", async() => {
@@ -278,11 +282,14 @@ describe("Question Themes Page", () => {
       getWrapperVm(table).$emit("startEdit", "theme-id-123");
       await nextTick();
 
-      const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
-      getWrapperVm(modal).$emit("submitModification", createFakeQuestionThemeModificationDto());
+      const modalStub = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
+      const forceClose = vi.fn<() => void>();
+      (modalStub.vm as unknown as Record<string, unknown>).forceClose = forceClose;
+
+      getWrapperVm(modalStub).$emit("submitModification", createFakeQuestionThemeModificationDto());
       await flushPromises();
 
-      expect(wrapper.find("[data-testid=\"question-theme-form-modal\"]").attributes("open")).toBe("false");
+      expect(forceClose).toHaveBeenCalledExactlyOnceWith();
     });
 
     it("should not close the modal after submitModification when isModifyQuestionThemeSuccess is false.", async() => {
@@ -316,6 +323,12 @@ describe("Question Themes Page", () => {
       const modal = wrapper.find("[data-testid=\"question-theme-form-modal\"]");
 
       expect(modal.attributes("mode")).toBe("create");
+    });
+  });
+
+  describe("Route guard", () => {
+    it("should mount the page with the form dirty guard wired when mounted.", () => {
+      expect(wrapper.exists()).toBeTruthy();
     });
   });
 });

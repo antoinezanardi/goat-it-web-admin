@@ -6,6 +6,7 @@ import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/constan
 import { useQuestionThemesStore } from "~/stores/domain/question-theme/question-themes.store";
 import { QUESTION_THEMES_PAGE_ORDER, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
 import type { QuestionThemeFormMode } from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeForm/question-theme-form.types";
+import type QuestionThemeFormModal from "~/components/domain/question-theme/QuestionThemeFormModal/QuestionThemeFormModal.vue";
 
 const questionThemesStore = useQuestionThemesStore();
 const { t } = useI18n();
@@ -23,6 +24,8 @@ const formMode = ref<QuestionThemeFormMode>("create");
 const questionThemeToEdit = ref<QuestionTheme | undefined>(undefined);
 
 const isSubmitting = computed<boolean>(() => isCreatingQuestionTheme.value || isModifyingQuestionTheme.value);
+
+const formModalReference = useTemplateRef<InstanceType<typeof QuestionThemeFormModal>>("formModalRef");
 
 function onStartCreateFromQuestionThemesTable(): void {
   formMode.value = "create";
@@ -43,7 +46,7 @@ function onStartEditFromQuestionThemesTable(id: string): void {
 async function onSubmitCreationFromQuestionThemeFormModal(questionThemeCreationDto: QuestionThemeCreationDto): Promise<void> {
   await questionThemesStore.createAndStoreQuestionTheme(questionThemeCreationDto);
   if (isCreateQuestionThemeSuccess.value) {
-    isQuestionThemeFormModalOpen.value = false;
+    formModalReference.value?.forceClose();
   }
 }
 
@@ -53,7 +56,7 @@ async function onSubmitModificationFromQuestionThemeFormModal(questionThemeModif
   }
   await questionThemesStore.modifyAndStoreQuestionTheme(questionThemeToEdit.value.id, questionThemeModificationDto);
   if (isModifyQuestionThemeSuccess.value) {
-    isQuestionThemeFormModalOpen.value = false;
+    formModalReference.value?.forceClose();
   }
 }
 
@@ -88,6 +91,7 @@ definePageMeta({
     </UContainer>
 
     <LazyQuestionThemeFormModal
+      ref="formModalRef"
       v-model:open="isQuestionThemeFormModalOpen"
       data-testid="question-theme-form-modal"
       :existing-slugs="questionThemeSlugs"

@@ -6,6 +6,7 @@ import { QUESTION_FORM_MODAL_UI } from "~/components/domain/question/QuestionFor
 import type { QuestionFormModalEmits, QuestionFormModalProps } from "~/components/domain/question/QuestionFormModal/question-form-modal.types";
 import type QuestionForm from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionForm.vue";
 import { QUESTION_ICON } from "~/composables/domain/question/question.constants";
+import { useFormDirtyGuard } from "~/composables/ui/useFormDirtyGuard/useFormDirtyGuard";
 
 const props = withDefaults(defineProps<QuestionFormModalProps>(), {
   mode: "create",
@@ -18,6 +19,13 @@ const emit = defineEmits<QuestionFormModalEmits>();
 const open = defineModel<boolean>("open", { default: false });
 
 const formReference = useTemplateRef<InstanceType<typeof QuestionForm>>("formReference");
+
+const isDirty = computed<boolean>(() => formReference.value?.isDirty ?? false);
+
+const { onRequestClose, forceClose } = useFormDirtyGuard(open, isDirty, {
+  titleKey: "common.unsavedChanges.title",
+  descriptionKey: "common.unsavedChanges.description",
+});
 
 watch(open, async isOpen => {
   if (!isOpen) {
@@ -46,16 +54,14 @@ function onSubmitModificationFromForm(data: QuestionModificationDto): void {
   emit("submitModification", data);
 }
 
-function onCloseModal(): void {
-  open.value = false;
-}
+defineExpose({ isDirty, forceClose });
 </script>
 
 <template>
   <UModal
     v-model:open="open"
     :close="!isSubmitting"
-    :dismissible="!isSubmitting"
+    :dismissible="!isSubmitting && !isDirty"
     :ui="QUESTION_FORM_MODAL_UI"
   >
     <template #title>
@@ -86,7 +92,7 @@ function onCloseModal(): void {
         :is-primary-button-loading="isSubmitting"
         :primary-button-icon="primaryButtonIcon"
         :primary-button-label="$t(primaryButtonLabel)"
-        @close-modal="onCloseModal"
+        @close-modal="onRequestClose"
         @primary-button-click="onClickFromFooterPrimaryButton"
       />
     </template>

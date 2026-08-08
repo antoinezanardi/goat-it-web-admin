@@ -31,6 +31,10 @@
     "form": {
       "press": "Drücken Sie",
       "enterKey": "Eingabe"
+    },
+    "unsavedChanges": {
+      "title": "Ungespeicherte Änderungen",
+      "description": "Sie haben ungespeicherte Änderungen. Möchten Sie sie wirklich verwerfen?"
     }
   }
 }

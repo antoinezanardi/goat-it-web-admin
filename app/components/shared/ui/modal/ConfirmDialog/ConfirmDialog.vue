@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import type { ConfirmDialogEmits, ConfirmDialogProps } from "~/components/shared/ui/modal/ConfirmDialog/confirm-dialog.types";
 
-const props = defineProps<ConfirmDialogProps>();
+const props = withDefaults(defineProps<ConfirmDialogProps>(), {
+  dismissible: true,
+  close: true,
+});
 
 const emit = defineEmits<ConfirmDialogEmits>();
 
@@ -27,7 +30,9 @@ function onPrimaryButtonClickFromFooter(): void {
 <template>
   <UModal
     v-model:open="isOpen"
+    :close="close"
     data-testid="confirm-dialog-modal"
+    :dismissible="dismissible"
   >
     <template #title>
       <DefaultModalTitle

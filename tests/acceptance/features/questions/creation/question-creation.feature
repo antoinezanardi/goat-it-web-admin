@@ -1,4 +1,4 @@
-@questions @question-creation
+@questions @question-creation @question-form-modal
 Feature: ❓ Question Creation
 
   Scenario: ❓ Question is created and displayed successfully
@@ -146,3 +146,73 @@ Feature: ❓ Question Creation
       | What is the capital of France? | Paris  | easy       | Knowledge & fun facts | Geography | https://en.wikipedia.org/France |
     And the user presses the "Meta+Enter" key
     Then the toast with exact text "Question created successfully" should be visible
+
+  @question-form-modal
+  Scenario: ❓ Question creation modal should show confirmation dialog when closing dirty create form via X button
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | statement | answer | difficulty | category | sourceUrls          |
+      | Test      | Answer | easy       | Knowledge & fun facts | https://example.com |
+    And the user clicks on the close button in the modal header
+    Then the heading with exact name "Unsaved Changes" should be visible
+
+  @question-form-modal
+  Scenario: ❓ Question creation modal should show confirmation dialog when closing dirty create form via footer close button
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | statement | answer | difficulty | category | sourceUrls          |
+      | Test      | Answer | easy       | Knowledge & fun facts | https://example.com |
+    And the user clicks on the close button in the modal footer
+    Then the heading with exact name "Unsaved Changes" should be visible
+
+  @question-form-modal
+  Scenario: ❓ Question creation modal should NOT close dirty form when clicking overlay backdrop
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | statement | answer | difficulty | category | sourceUrls          |
+      | Test      | Answer | easy       | Knowledge & fun facts | https://example.com |
+    And the user clicks on the overlay outside of the modal
+    Then the heading with exact name "Create a new question" should be visible
+
+  @question-form-modal
+  Scenario: ❓ Question creation modal should close clean create form immediately via X button
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    Then the heading with exact name "Create a new question" should be visible
+    When the user clicks on the close button in the modal header
+    Then the heading with exact name "Create a new question" should be hidden
+
+  @question-form-modal
+  Scenario: ❓ Question creation modal should close clean create form via overlay click
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    Then the heading with exact name "Create a new question" should be visible
+    When the user clicks on the overlay outside of the modal
+    Then the heading with exact name "Create a new question" should be hidden
+
+  @question-form-modal
+  Scenario: ❓ Question creation modal should discard changes on confirmation and close modal
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | statement | answer | difficulty | category | sourceUrls          |
+      | Test      | Answer | easy       | Knowledge & fun facts | https://example.com |
+    And the user clicks on the close button in the modal footer
+    Then the heading with exact name "Unsaved Changes" should be visible
+    When the user clicks on the button with name "Confirm"
+    Then the heading with exact name "Create a new question" should be hidden
+
+  @question-form-modal
+  Scenario: ❓ Question creation modal should keep modal open on cancellation of confirmation dialog
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | statement | answer | difficulty | category | sourceUrls          |
+      | Test      | Answer | easy       | Knowledge & fun facts | https://example.com |
+    And the user clicks on the close button in the modal footer
+    Then the heading with exact name "Unsaved Changes" should be visible
+    When the user clicks on the button with name "Cancel"
+    Then the heading with exact name "Create a new question" should be visible

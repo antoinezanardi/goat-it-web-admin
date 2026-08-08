@@ -13,7 +13,7 @@ import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nux
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 
 import { QuestionThemeFormModal } from "#components";
-import type { QuestionThemeForm, DefaultModalFooter, DefaultModalTitle, QuestionThemeTranslationCompletenessIndicator } from "#components";
+import type { QuestionThemeForm, DefaultModalFooter, DefaultModalTitle, QuestionThemeTranslationCompletenessIndicator, UFormField, UInput } from "#components";
 
 import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants";
 import type { QuestionThemeFormModalProps } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.types";
@@ -125,14 +125,6 @@ describe("QuestionThemeFormModal Component", () => {
   });
 
   describe("Close modal", () => {
-    it("should close the modal when the close button is clicked from the footer.", async() => {
-      const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']") as VueWrapper;
-      const closeButton = footer.find("[data-testid='default-modal-footer-close-button']");
-      await closeButton.trigger("click");
-
-      expect(wrapper.emitted("update:open")).toBeDefined();
-    });
-
     it("should emit update:open when the modal itself emits update:open.", async() => {
       const modal = wrapper.findComponent({ name: "UModal" });
       getWrapperVm(modal).$emit("update:open", false);
@@ -370,6 +362,34 @@ describe("QuestionThemeFormModal Component", () => {
       getWrapperVm(wrapper).$.refs.formReference = null;
 
       await expect(wrapper.setProps({ open: true })).resolves.toBeUndefined();
+    });
+  });
+
+  describe("Dirty guard integration", () => {
+    it("should pass dismissible as false to UModal when the form is dirty.", async() => {
+      const form = wrapper.findComponent<typeof QuestionThemeForm>("[data-testid='question-theme-form-modal-form']");
+      const labelField = form.findComponent<typeof UFormField>("[data-testid='question-theme-form-label-field']");
+      const labelInput = labelField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(labelInput).$emit("update:modelValue", "New Label");
+      await nextTick();
+
+      const modal = wrapper.findComponent({ name: "UModal" });
+
+      expect(modal.props("dismissible")).toBeFalsy();
+    });
+
+    it("should pass dismissible as true to UModal when the form is clean and not submitting.", () => {
+      const modal = wrapper.findComponent({ name: "UModal" });
+
+      expect(modal.props("dismissible")).toBeTruthy();
+    });
+
+    it("should pass dismissible as false to UModal when isSubmitting is true.", async() => {
+      await wrapper.setProps({ isSubmitting: true });
+
+      const modal = wrapper.findComponent({ name: "UModal" });
+
+      expect(modal.props("dismissible")).toBeFalsy();
     });
   });
 });

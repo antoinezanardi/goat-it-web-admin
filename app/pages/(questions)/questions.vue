@@ -3,6 +3,7 @@ import type { QuestionCreationDto, QuestionModificationDto } from "@goat-it/sche
 import { computed, ref } from "vue";
 
 import type { Question } from "#shared/types/question.types";
+import type QuestionFormModal from "~/components/domain/question/QuestionFormModal/QuestionFormModal.vue";
 import type { QuestionFormMode } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
 import { QUESTION_ICON } from "~/composables/domain/question/question.constants";
 import { QUESTIONS_PAGE_ORDER, QUESTIONS_PAGE_TITLE_KEY } from "~/pages/(questions)/questions.constants";
@@ -14,6 +15,8 @@ const { t } = useI18n();
 const isQuestionFormModalOpen = ref<boolean>(false);
 const formMode = ref<QuestionFormMode>("create");
 const questionToEditId = ref<string | undefined>(undefined);
+
+const formModalReference = useTemplateRef<InstanceType<typeof QuestionFormModal>>("formModalRef");
 
 // Acceptable as `return` is the same as `return undefined`
 // oxlint-disable-next-line vue/return-in-computed-property
@@ -47,7 +50,7 @@ function onStartEditFromQuestionsTable(id: string): void {
 async function onSubmitCreationFromQuestionFormModal(questionCreationDto: QuestionCreationDto): Promise<void> {
   await questionsStore.createAndStoreQuestion(questionCreationDto);
   if (isCreateQuestionSuccess.value) {
-    isQuestionFormModalOpen.value = false;
+    formModalReference.value?.forceClose();
   }
 }
 
@@ -57,7 +60,7 @@ async function onSubmitModificationFromQuestionFormModal(questionModificationDto
   }
   await questionsStore.modifyAndStoreQuestion(questionToEdit.value.id, questionModificationDto);
   if (isModifyQuestionSuccess.value) {
-    isQuestionFormModalOpen.value = false;
+    formModalReference.value?.forceClose();
   }
 }
 
@@ -95,6 +98,7 @@ definePageMeta({
 
     <LazyQuestionFormModal
       :key="formModalKey"
+      ref="formModalRef"
       v-model:open="isQuestionFormModalOpen"
       data-testid="question-form-modal"
       :is-submitting="isSubmitting"
