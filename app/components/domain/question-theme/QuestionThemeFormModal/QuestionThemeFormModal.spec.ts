@@ -18,6 +18,11 @@ import type { QuestionThemeForm, DefaultModalFooter, DefaultModalTitle, Question
 import { QUESTION_THEME_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants";
 import type { QuestionThemeFormModalProps } from "~/components/domain/question-theme/QuestionThemeFormModal/question-theme-form-modal.types";
 
+type QuestionThemeFormModalVm = ComponentVm & {
+  isDirty: boolean;
+  forceClose: () => void;
+};
+
 describe("QuestionThemeFormModal Component", () => {
   let wrapper: VueWrapper;
 
@@ -393,9 +398,7 @@ describe("QuestionThemeFormModal Component", () => {
     });
 
     it("should expose isDirty as false when the form is clean.", () => {
-      // Acceptable as accessing defineExpose property from component instance
-      // oxlint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const isDirty = (wrapper.vm as unknown as { isDirty: boolean }).isDirty;
+      const isDirty = getWrapperVm<QuestionThemeFormModalVm>(wrapper).isDirty;
 
       expect(isDirty).toBe(false);
     });
@@ -407,9 +410,7 @@ describe("QuestionThemeFormModal Component", () => {
       getWrapperVm(labelInput).$emit("update:modelValue", "New Label");
       await nextTick();
 
-      // Acceptable as accessing defineExpose property from component instance
-      // oxlint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const isDirty = (wrapper.vm as unknown as { isDirty: boolean }).isDirty;
+      const isDirty = getWrapperVm<QuestionThemeFormModalVm>(wrapper).isDirty;
 
       expect(isDirty).toBe(true);
     });
@@ -422,9 +423,7 @@ describe("QuestionThemeFormModal Component", () => {
         },
       });
 
-      // Acceptable as accessing defineExpose property from component instance
-      // oxlint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const isDirty = (wrapper.vm as unknown as { isDirty: boolean }).isDirty;
+      const isDirty = getWrapperVm<QuestionThemeFormModalVm>(wrapper).isDirty;
 
       expect(isDirty).toBe(false);
     });

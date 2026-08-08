@@ -116,8 +116,8 @@ describe("useFormDirtyGuard", () => {
     it("should show dialog and revert open when open transitions to false with a dirty form.", async() => {
       isDirty.value = true;
       mockOverlayInstanceOpen.mockReturnValue({
-        result: new Promise(() => {
-          // Never resolves.
+        result: new Promise<never>(() => {
+          /* Empty */
         }),
       });
       useFormDirtyGuard(open, isDirty, messages);
@@ -130,8 +130,8 @@ describe("useFormDirtyGuard", () => {
     it("should create the confirmation dialog when open transitions to false with a dirty form.", async() => {
       isDirty.value = true;
       mockOverlayInstanceOpen.mockReturnValue({
-        result: new Promise(() => {
-          // Never resolves.
+        result: new Promise<never>(() => {
+          /* Empty */
         }),
       });
       useFormDirtyGuard(open, isDirty, messages);
@@ -210,17 +210,6 @@ describe("useFormDirtyGuard", () => {
       await routeGuard({ fullPath: "/target-route" });
 
       expect(mockPush).not.toHaveBeenCalled();
-    });
-
-    it("should return true when the route guard confirmation is accepted.", async() => {
-      isDirty.value = true;
-      mockOverlayInstanceOpen.mockReturnValue({ result: Promise.resolve(true) });
-      useFormDirtyGuard(open, isDirty, messages);
-      const routeGuard = getRouteGuard();
-
-      const result = await routeGuard({ fullPath: "/target-route" });
-
-      expect(result).toBe(true);
     });
 
     it("should keep open true when the route guard confirmation is rejected.", async() => {

@@ -23,6 +23,11 @@ import type { QuestionForm, DefaultModalFooter, DefaultModalTitle, UFormField, U
 import type { QuestionFormModalProps } from "~/components/domain/question/QuestionFormModal/question-form-modal.types";
 import { QUESTION_ICON } from "~/composables/domain/question/question.constants";
 
+type QuestionFormModalVm = ComponentVm & {
+  isDirty: boolean;
+  forceClose: () => void;
+};
+
 describe("QuestionFormModal Component", () => {
   let wrapper: VueWrapper;
   let pinia: TestingPinia;
@@ -340,9 +345,7 @@ describe("QuestionFormModal Component", () => {
     });
 
     it("should expose isDirty as false when the form is clean.", () => {
-      // Acceptable as accessing defineExpose property from component instance
-      // oxlint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const isDirty = (wrapper.vm as unknown as { isDirty: boolean }).isDirty;
+      const isDirty = getWrapperVm<QuestionFormModalVm>(wrapper).isDirty;
 
       expect(isDirty).toBe(false);
     });
@@ -354,9 +357,7 @@ describe("QuestionFormModal Component", () => {
       getWrapperVm(statementInput).$emit("update:modelValue", "New statement");
       await nextTick();
 
-      // Acceptable as accessing defineExpose property from component instance
-      // oxlint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const isDirty = (wrapper.vm as unknown as { isDirty: boolean }).isDirty;
+      const isDirty = getWrapperVm<QuestionFormModalVm>(wrapper).isDirty;
 
       expect(isDirty).toBe(true);
     });
@@ -369,9 +370,7 @@ describe("QuestionFormModal Component", () => {
         },
       });
 
-      // Acceptable as accessing defineExpose property from component instance
-      // oxlint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const isDirty = (wrapper.vm as unknown as { isDirty: boolean }).isDirty;
+      const isDirty = getWrapperVm<QuestionFormModalVm>(wrapper).isDirty;
 
       expect(isDirty).toBe(false);
     });

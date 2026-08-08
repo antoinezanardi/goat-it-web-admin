@@ -11,6 +11,7 @@ import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/ent
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
 import type { PageHeader, UModal } from "#components";
 
@@ -18,6 +19,8 @@ import type QuestionsTable from "@/components/domain/question/QuestionsTable/Que
 import { QUESTION_ICON } from "~/composables/domain/question/question.constants";
 import { QUESTIONS_PAGE_ORDER, QUESTIONS_PAGE_TITLE_KEY } from "@/pages/(questions)/questions.constants";
 import QuestionPage from "@/pages/(questions)/questions.vue";
+
+type QuestionFormModalStubVm = ComponentVm & { forceClose: () => void };
 
 describe("Questions Page", () => {
   let wrapper: VueWrapper;
@@ -137,7 +140,7 @@ describe("Questions Page", () => {
 
       const modalStub = wrapper.findComponent<typeof UModal>("[data-testid='question-form-modal']");
       const forceClose = vi.fn<() => void>();
-      (modalStub.vm as unknown as Record<string, unknown>).forceClose = forceClose;
+      getWrapperVm<QuestionFormModalStubVm>(modalStub).forceClose = forceClose;
 
       const fakeDto = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
       getWrapperVm(modalStub).$emit("submitCreation", fakeDto);
@@ -262,7 +265,7 @@ describe("Questions Page", () => {
 
       const modalStub = wrapper.findComponent<typeof UModal>("[data-testid='question-form-modal']");
       const forceClose = vi.fn<() => void>();
-      (modalStub.vm as unknown as Record<string, unknown>).forceClose = forceClose;
+      getWrapperVm<QuestionFormModalStubVm>(modalStub).forceClose = forceClose;
 
       const modal = wrapper.findComponent<typeof UModal>("[data-testid='question-form-modal']");
       getWrapperVm(modal).$emit("submitModification", createFakeQuestionModificationDto());

@@ -10,6 +10,7 @@ import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModification
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 
 import type { PageHeader, UModal } from "#components";
@@ -19,6 +20,8 @@ import type QuestionThemeFormModal from "@/components/domain/question-theme/Ques
 import type QuestionThemesTable from "@/components/domain/question-theme/QuestionThemesTable/QuestionThemesTable.vue";
 import { QUESTION_THEMES_PAGE_ORDER, QUESTION_THEMES_PAGE_TITLE_KEY } from "~/pages/(questions-themes)/question-themes.constants";
 import QuestionThemesPage from "@/pages/(questions-themes)/question-themes.vue";
+
+type QuestionThemeFormModalStubVm = ComponentVm & { forceClose: () => void };
 
 describe("Question Themes Page", () => {
   let wrapper: VueWrapper;
@@ -140,7 +143,7 @@ describe("Question Themes Page", () => {
 
       const modalStub = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
       const forceClose = vi.fn<() => void>();
-      (modalStub.vm as unknown as Record<string, unknown>).forceClose = forceClose;
+      getWrapperVm<QuestionThemeFormModalStubVm>(modalStub).forceClose = forceClose;
 
       const fakeCreationDto = createFakeQuestionThemeCreationDto();
       getWrapperVm(modalStub).$emit("submitCreation", fakeCreationDto);
@@ -284,7 +287,7 @@ describe("Question Themes Page", () => {
 
       const modalStub = wrapper.findComponent<typeof UModal>("[data-testid='question-theme-form-modal']");
       const forceClose = vi.fn<() => void>();
-      (modalStub.vm as unknown as Record<string, unknown>).forceClose = forceClose;
+      getWrapperVm<QuestionThemeFormModalStubVm>(modalStub).forceClose = forceClose;
 
       getWrapperVm(modalStub).$emit("submitModification", createFakeQuestionThemeModificationDto());
       await flushPromises();
