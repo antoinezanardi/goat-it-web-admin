@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import type { DefaultModalFooterEmits, DefaultModalFooterProps } from "~/components/shared/ui/modal/DefaultModalFooter/default-modal-footer.types";
 
-const props = defineProps<DefaultModalFooterProps>();
+const props = withDefaults(defineProps<DefaultModalFooterProps>(), {
+  disableShortcuts: false,
+});
 
 const emit = defineEmits<DefaultModalFooterEmits>();
 
@@ -29,6 +31,9 @@ defineShortcuts({
   // eslint-disable-next-line camelcase
   meta_enter: {
     handler: () => {
+      if (props.disableShortcuts) {
+        return;
+      }
       if (canFirePrimary.value) {
         onClickFromPrimaryButton();
       }

@@ -224,5 +224,19 @@ describe("DefaultModalFooter Component", () => {
 
       expect(wrapper.emitted("primaryButtonClick")).toBeUndefined();
     });
+
+    it("should not emit primaryButtonClick when the meta+enter shortcut is triggered and shortcuts are disabled.", async() => {
+      await wrapper.setProps({ disableShortcuts: true });
+
+      dispatchMetaEnterKeydown();
+
+      expect(wrapper.emitted("primaryButtonClick")).toBeUndefined();
+    });
+
+    it("should emit primaryButtonClick when the meta+enter shortcut is triggered and shortcuts are not disabled.", () => {
+      dispatchMetaEnterKeydown();
+
+      expect(wrapper.emitted("primaryButtonClick")).toHaveLength(1);
+    });
   });
 });

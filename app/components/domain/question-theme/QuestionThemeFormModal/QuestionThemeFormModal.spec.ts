@@ -1,7 +1,7 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { flushPromises } from "@vue/test-utils";
 import type { VueWrapper } from "@vue/test-utils";
-import { nextTick } from "vue";
+import { nextTick, ref } from "vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createFakeQuestionThemeCreationDto, createFakeQuestionThemeModificationDto } from "@goat-it/schemas/testing/question-theme";
 import { createFakeLocalizedText, createFakeLocalizedTexts } from "@goat-it/schemas/testing/shared";
@@ -426,6 +426,22 @@ describe("QuestionThemeFormModal Component", () => {
       const isDirty = getWrapperVm<QuestionThemeFormModalVm>(wrapper).isDirty;
 
       expect(isDirty).toBe(false);
+    });
+
+    it("should pass isGuardDialogOpen as disableShortcuts to the footer when isGuardDialogOpen is false.", () => {
+      const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
+
+      expect(footer.props("disableShortcuts")).toBeFalsy();
+    });
+
+    it("should pass true as disableShortcuts to the footer when isGuardDialogOpen is true.", async() => {
+      const guardMock = useFormDirtyGuard(ref(true), ref(false), { titleKey: "", descriptionKey: "" });
+      guardMock.isGuardDialogOpen.value = true;
+      await nextTick();
+
+      const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-theme-form-modal-footer']");
+
+      expect(footer.props("disableShortcuts")).toBeTruthy();
     });
   });
 });

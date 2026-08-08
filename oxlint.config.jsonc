@@ -51,6 +51,7 @@
     "useColorMode": "readonly",
     "useFetch": "readonly",
     "useFetchStatus": "readonly",
+    "useFormDirtyGuard": "readonly",
     "useGoatItApiErrorToast": "readonly",
     "useHead": "readonly",
     "useHexColor": "readonly",

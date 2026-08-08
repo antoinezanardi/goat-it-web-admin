@@ -40,3 +40,12 @@ Feature: ❓ Question Modification
     And the user fills the input with name "Answer*" with text "Berlin"
     And the user presses the "Meta+Enter" key
     Then the toast with exact text "Question modified successfully" should be visible
+
+  @question-form-modal
+  Scenario: ❓ Question modification modal should discard changes via keyboard shortcut without submitting
+    When the user fills the input with name "Statement*" with text "What is the capital of Germany?"
+    And the user clicks on the close button in the modal footer
+    Then the heading with exact name "Unsaved Changes" should be visible
+    When the user presses the "Meta+Enter" key
+    Then the heading with exact name "Edit question" should be hidden
+    And the exact text "Question modified successfully" should be hidden

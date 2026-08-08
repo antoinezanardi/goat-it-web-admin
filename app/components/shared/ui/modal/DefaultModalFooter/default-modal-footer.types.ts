@@ -5,6 +5,7 @@ type DefaultModalFooterProps = {
   isPrimaryButtonDisabled?: boolean;
   isPrimaryButtonLoading?: boolean;
   isCloseButtonDisabled?: boolean;
+  disableShortcuts?: boolean;
 };
 
 type DefaultModalFooterEmits = {

@@ -3,7 +3,7 @@ import { createTestingPinia } from "@pinia/testing";
 import type { TestingPinia } from "@pinia/testing";
 import { flushPromises } from "@vue/test-utils";
 import type { VueWrapper } from "@vue/test-utils";
-import { nextTick } from "vue";
+import { nextTick, ref } from "vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createFakeQuestionCreationDto, createFakeQuestionModificationDto, createFakeQuestionThemeAssignmentCreationDto } from "@goat-it/schemas/testing/question";
 import { createFakeLocalizedText } from "@goat-it/schemas/testing/shared";
@@ -373,6 +373,22 @@ describe("QuestionFormModal Component", () => {
       const isDirty = getWrapperVm<QuestionFormModalVm>(wrapper).isDirty;
 
       expect(isDirty).toBe(false);
+    });
+
+    it("should pass false as disableShortcuts to the footer when isGuardDialogOpen is false.", () => {
+      const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-form-modal-footer']");
+
+      expect(footer.props("disableShortcuts")).toBeFalsy();
+    });
+
+    it("should pass true as disableShortcuts to the footer when isGuardDialogOpen is true.", async() => {
+      const guardMock = useFormDirtyGuard(ref(false), ref(false), { titleKey: "", descriptionKey: "" });
+      guardMock.isGuardDialogOpen.value = true;
+      await nextTick();
+
+      const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-form-modal-footer']");
+
+      expect(footer.props("disableShortcuts")).toBeTruthy();
     });
   });
 });
