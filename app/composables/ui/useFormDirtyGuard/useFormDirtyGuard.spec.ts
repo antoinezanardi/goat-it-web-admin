@@ -140,6 +140,40 @@ describe("useFormDirtyGuard", () => {
 
       expect(mockOverlayCreate).toHaveBeenCalledExactlyOnceWith(expect.any(Object), {});
     });
+
+    it("should set isGuardDialogOpen to true when the confirmation dialog is shown with a dirty form.", async() => {
+      isDirty.value = true;
+      mockOverlayInstanceOpen.mockReturnValue({
+        result: new Promise<never>(() => {
+          /* Empty */
+        }),
+      });
+      const { isGuardDialogOpen } = useFormDirtyGuard(open, isDirty, messages);
+      open.value = false;
+      await flushPromises();
+
+      expect(isGuardDialogOpen.value).toBeTruthy();
+    });
+
+    it("should set isGuardDialogOpen to false when the confirmation dialog is confirmed.", async() => {
+      isDirty.value = true;
+      mockOverlayInstanceOpen.mockReturnValue({ result: Promise.resolve(true) });
+      const { isGuardDialogOpen } = useFormDirtyGuard(open, isDirty, messages);
+      open.value = false;
+      await flushPromises();
+
+      expect(isGuardDialogOpen.value).toBeFalsy();
+    });
+
+    it("should set isGuardDialogOpen to false when the confirmation dialog is cancelled.", async() => {
+      isDirty.value = true;
+      mockOverlayInstanceOpen.mockReturnValue({ result: Promise.resolve(false) });
+      const { isGuardDialogOpen } = useFormDirtyGuard(open, isDirty, messages);
+      open.value = false;
+      await flushPromises();
+
+      expect(isGuardDialogOpen.value).toBeFalsy();
+    });
   });
 
   describe("onBeforeRouteLeave", () => {
@@ -232,6 +266,44 @@ describe("useFormDirtyGuard", () => {
       const result = await routeGuard({ fullPath: "/target-route" });
 
       expect(result).toBe(false);
+    });
+
+    it("should set isGuardDialogOpen to false when the route guard confirmation is accepted.", async() => {
+      isDirty.value = true;
+      mockOverlayInstanceOpen.mockReturnValue({ result: Promise.resolve(true) });
+      const { isGuardDialogOpen } = useFormDirtyGuard(open, isDirty, messages);
+      const routeGuard = getRouteGuard();
+
+      await routeGuard({ fullPath: "/target-route" });
+
+      expect(isGuardDialogOpen.value).toBeFalsy();
+    });
+
+    it("should set isGuardDialogOpen to false when the route guard confirmation is rejected.", async() => {
+      isDirty.value = true;
+      mockOverlayInstanceOpen.mockReturnValue({ result: Promise.resolve(false) });
+      const { isGuardDialogOpen } = useFormDirtyGuard(open, isDirty, messages);
+      const routeGuard = getRouteGuard();
+
+      await routeGuard({ fullPath: "/target-route" });
+
+      expect(isGuardDialogOpen.value).toBeFalsy();
+    });
+
+    it("should set isGuardDialogOpen to true when the route guard dialog is shown.", async() => {
+      isDirty.value = true;
+      mockOverlayInstanceOpen.mockReturnValue({
+        result: new Promise<never>(() => {
+          /* Empty */
+        }),
+      });
+      const { isGuardDialogOpen } = useFormDirtyGuard(open, isDirty, messages);
+      const routeGuard = getRouteGuard();
+
+      routeGuard({ fullPath: "/target-route" });
+      await flushPromises();
+
+      expect(isGuardDialogOpen.value).toBeTruthy();
     });
   });
 

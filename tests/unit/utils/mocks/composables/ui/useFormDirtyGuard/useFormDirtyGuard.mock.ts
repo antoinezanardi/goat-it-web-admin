@@ -1,4 +1,5 @@
 import { vi } from "vitest";
+import { ref } from "vue";
 
 import type { ToMock } from "~~/tests/unit/utils/types/mock.types";
 
@@ -14,6 +15,7 @@ function createUseFormDirtyGuardMock(overrides: Partial<UseFormDirtyGuardMock> =
   return {
     onRequestClose: vi.fn<UseFormDirtyGuardReturn["onRequestClose"]>(),
     forceClose: vi.fn<UseFormDirtyGuardReturn["forceClose"]>(),
+    isGuardDialogOpen: ref(false),
     ...overrides,
   };
 }

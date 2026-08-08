@@ -11,7 +11,6 @@ async function showConfirmDialog(titleKey: string, descriptionKey: string): Prom
     icon: "i-lucide-triangle-alert",
     title: titleKey,
     description: descriptionKey,
-    dismissible: false,
     close: false,
   });
 
@@ -27,11 +26,14 @@ function useFormDirtyGuard(
 
   const formOpen = open;
   const bypassGuard = ref<boolean>(false);
+  const isGuardDialogOpen = ref<boolean>(false);
 
   watch(formOpen, async(nextValue, previousValue) => {
     if (previousValue && !nextValue && isDirty.value && !bypassGuard.value) {
       formOpen.value = true;
+      isGuardDialogOpen.value = true;
       const isConfirmed = await showConfirmDialog(t(messages.titleKey), t(messages.descriptionKey));
+      isGuardDialogOpen.value = false;
       if (isConfirmed) {
         bypassGuard.value = true;
         formOpen.value = false;
@@ -46,7 +48,9 @@ function useFormDirtyGuard(
       return;
     }
 
+    isGuardDialogOpen.value = true;
     const isConfirmed = await showConfirmDialog(t(messages.titleKey), t(messages.descriptionKey));
+    isGuardDialogOpen.value = false;
     if (isConfirmed) {
       bypassGuard.value = true;
       formOpen.value = false;
@@ -70,6 +74,7 @@ function useFormDirtyGuard(
   return {
     onRequestClose,
     forceClose,
+    isGuardDialogOpen,
   };
 }
 

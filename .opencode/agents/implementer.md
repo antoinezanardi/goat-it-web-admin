@@ -49,6 +49,16 @@ permission:
     "rtk echo *": "allow"
     "which *": "allow"
     "rtk which *": "allow"
+    "rg *": "allow"
+    "rtk rg *": "allow"
+    "wc *": "allow"
+    "rtk wc *": "allow"
+    "sed *": "allow"
+    "rtk sed *": "allow"
+    "docker ps *": "allow"
+    "rtk docker ps *": "allow"
+    "curl *": "allow"
+    "rtk curl *": "allow"
   task: deny
   webfetch: deny
 ---

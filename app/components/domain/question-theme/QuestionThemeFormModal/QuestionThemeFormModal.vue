@@ -22,7 +22,7 @@ const formReference = useTemplateRef<InstanceType<typeof QuestionThemeForm>>("fo
 
 const isDirty = computed<boolean>(() => formReference.value?.isDirty ?? false);
 
-const { onRequestClose, forceClose } = useFormDirtyGuard(open, isDirty, {
+const { onRequestClose, forceClose, isGuardDialogOpen } = useFormDirtyGuard(open, isDirty, {
   titleKey: "common.unsavedChanges.title",
   descriptionKey: "common.unsavedChanges.description",
 });
@@ -93,6 +93,7 @@ defineExpose({ isDirty, forceClose });
     <template #footer>
       <DefaultModalFooter
         data-testid="question-theme-form-modal-footer"
+        :disable-shortcuts="isGuardDialogOpen"
         :is-close-button-disabled="isSubmitting"
         :is-primary-button-disabled="!formReference?.canSubmit"
         :is-primary-button-loading="isSubmitting"
