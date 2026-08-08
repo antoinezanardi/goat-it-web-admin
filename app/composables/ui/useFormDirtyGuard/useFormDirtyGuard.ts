@@ -24,7 +24,6 @@ function useFormDirtyGuard(
   messages: UseFormDirtyGuardMessages,
 ): UseFormDirtyGuardReturn {
   const { t } = useI18n();
-  const router = useRouter();
 
   const formOpen = open;
   const bypassGuard = ref<boolean>(false);
@@ -42,7 +41,7 @@ function useFormDirtyGuard(
     }
   });
 
-  onBeforeRouteLeave(async to => {
+  onBeforeRouteLeave(async _to => {
     if (!formOpen.value || !isDirty.value) {
       return;
     }
@@ -51,7 +50,8 @@ function useFormDirtyGuard(
     if (isConfirmed) {
       bypassGuard.value = true;
       formOpen.value = false;
-      await router.push(to.fullPath);
+
+      return true;
     }
     return false;
   });

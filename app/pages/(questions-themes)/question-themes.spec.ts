@@ -325,10 +325,4 @@ describe("Question Themes Page", () => {
       expect(modal.attributes("mode")).toBe("create");
     });
   });
-
-  describe("Route guard", () => {
-    it("should mount the page with the form dirty guard wired when mounted.", () => {
-      expect(wrapper.exists()).toBeTruthy();
-    });
-  });
 });

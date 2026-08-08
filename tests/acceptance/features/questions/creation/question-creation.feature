@@ -158,6 +158,16 @@ Feature: ❓ Question Creation
     Then the heading with exact name "Unsaved Changes" should be visible
 
   @question-form-modal
+  Scenario: ❓ Question creation modal should show confirmation dialog when closing dirty create form via Escape key
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | statement | answer | difficulty | category | sourceUrls          |
+      | Test      | Answer | easy       | Knowledge & fun facts | https://example.com |
+    And the user presses the "Escape" key
+    Then the heading with exact name "Unsaved Changes" should be visible
+
+  @question-form-modal
   Scenario: ❓ Question creation modal should show confirmation dialog when closing dirty create form via footer close button
     Given the user is on questions page
     When the user clicks on the button with name "Create a new question"
@@ -168,14 +178,14 @@ Feature: ❓ Question Creation
     Then the heading with exact name "Unsaved Changes" should be visible
 
   @question-form-modal
-  Scenario: ❓ Question creation modal should NOT close dirty form when clicking overlay backdrop
+  Scenario: ❓ Question creation modal should show confirmation dialog when clicking overlay backdrop with dirty form
     Given the user is on questions page
     When the user clicks on the button with name "Create a new question"
     And the user fills the question form with the following attributes:
       | statement | answer | difficulty | category | sourceUrls          |
       | Test      | Answer | easy       | Knowledge & fun facts | https://example.com |
     And the user clicks on the overlay outside of the modal
-    Then the heading with exact name "Create a new question" should be visible
+    Then the heading with exact name "Unsaved Changes" should be visible
 
   @question-form-modal
   Scenario: ❓ Question creation modal should close clean create form immediately via X button

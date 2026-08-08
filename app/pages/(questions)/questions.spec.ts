@@ -315,10 +315,4 @@ describe("Questions Page", () => {
       expect(modal.attributes("is-submitting")).toBe("true");
     });
   });
-
-  describe("Route guard", () => {
-    it("should mount the page with the form dirty guard wired when mounted.", () => {
-      expect(wrapper.exists()).toBeTruthy();
-    });
-  });
 });

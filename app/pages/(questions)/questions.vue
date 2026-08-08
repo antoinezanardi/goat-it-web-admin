@@ -16,7 +16,7 @@ const isQuestionFormModalOpen = ref<boolean>(false);
 const formMode = ref<QuestionFormMode>("create");
 const questionToEditId = ref<string | undefined>(undefined);
 
-const formModalReference = useTemplateRef<InstanceType<typeof QuestionFormModal>>("formModalRef");
+const formModal = useTemplateRef<InstanceType<typeof QuestionFormModal>>("formModalRef");
 
 // Acceptable as `return` is the same as `return undefined`
 // oxlint-disable-next-line vue/return-in-computed-property
@@ -50,7 +50,7 @@ function onStartEditFromQuestionsTable(id: string): void {
 async function onSubmitCreationFromQuestionFormModal(questionCreationDto: QuestionCreationDto): Promise<void> {
   await questionsStore.createAndStoreQuestion(questionCreationDto);
   if (isCreateQuestionSuccess.value) {
-    formModalReference.value?.forceClose();
+    formModal.value?.forceClose();
   }
 }
 
@@ -60,7 +60,7 @@ async function onSubmitModificationFromQuestionFormModal(questionModificationDto
   }
   await questionsStore.modifyAndStoreQuestion(questionToEdit.value.id, questionModificationDto);
   if (isModifyQuestionSuccess.value) {
-    formModalReference.value?.forceClose();
+    formModal.value?.forceClose();
   }
 }
 

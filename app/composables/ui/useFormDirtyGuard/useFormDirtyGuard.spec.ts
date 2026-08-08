@@ -33,6 +33,12 @@ describe("useFormDirtyGuard", () => {
 
   const messages = { titleKey: "common.unsavedChanges.title", descriptionKey: "common.unsavedChanges.description" };
 
+  function getRouteGuard(): (to: { fullPath: string }) => unknown {
+    // Acceptable as `toHaveBeenCalledExactlyOnceWith` ensures calls[0] exists before this helper runs
+    // oxlint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return mockOnBeforeRouteLeave.mock.calls[0]![0];
+  }
+
   beforeEach(async() => {
     open = ref<boolean>(true);
     isDirty = ref<boolean>(false);
@@ -132,7 +138,7 @@ describe("useFormDirtyGuard", () => {
       open.value = false;
       await flushPromises();
 
-      expect(mockOverlayCreate).toHaveBeenCalledOnce();
+      expect(mockOverlayCreate).toHaveBeenCalledExactlyOnceWith(expect.any(Object), {});
     });
   });
 
@@ -140,12 +146,12 @@ describe("useFormDirtyGuard", () => {
     it("should register a route guard when used.", () => {
       useFormDirtyGuard(open, isDirty, messages);
 
-      expect(mockOnBeforeRouteLeave).toHaveBeenCalledOnce();
+      expect(mockOnBeforeRouteLeave).toHaveBeenCalledExactlyOnceWith(expect.any(Function));
     });
 
     it("should not show the confirmation dialog when the route guard runs with a clean form.", async() => {
       useFormDirtyGuard(open, isDirty, messages);
-      const routeGuard = mockOnBeforeRouteLeave.mock.calls[0]?.[0] as (to: { fullPath: string }) => unknown;
+      const routeGuard = getRouteGuard();
 
       await routeGuard({ fullPath: "/target-route" });
 
@@ -156,7 +162,7 @@ describe("useFormDirtyGuard", () => {
       open.value = false;
       isDirty.value = true;
       useFormDirtyGuard(open, isDirty, messages);
-      const routeGuard = mockOnBeforeRouteLeave.mock.calls[0]?.[0] as (to: { fullPath: string }) => unknown;
+      const routeGuard = getRouteGuard();
 
       await routeGuard({ fullPath: "/target-route" });
 
@@ -167,54 +173,76 @@ describe("useFormDirtyGuard", () => {
       isDirty.value = true;
       mockOverlayInstanceOpen.mockReturnValue({ result: Promise.resolve(true) });
       useFormDirtyGuard(open, isDirty, messages);
-      const routeGuard = mockOnBeforeRouteLeave.mock.calls[0]?.[0] as (to: { fullPath: string }) => unknown;
+      const routeGuard = getRouteGuard();
 
       await routeGuard({ fullPath: "/target-route" });
 
-      expect(mockOverlayCreate).toHaveBeenCalledOnce();
+      expect(mockOverlayCreate).toHaveBeenCalledExactlyOnceWith(expect.any(Object), {});
     });
 
     it("should set open to false when the route guard confirmation is accepted.", async() => {
       isDirty.value = true;
       mockOverlayInstanceOpen.mockReturnValue({ result: Promise.resolve(true) });
       useFormDirtyGuard(open, isDirty, messages);
-      const routeGuard = mockOnBeforeRouteLeave.mock.calls[0]?.[0] as (to: { fullPath: string }) => unknown;
+      const routeGuard = getRouteGuard();
 
       await routeGuard({ fullPath: "/target-route" });
 
       expect(open.value).toBeFalsy();
     });
 
-    it("should push to the target route when the route guard confirmation is accepted.", async() => {
+    it("should return true to allow navigation when the route guard confirmation is accepted.", async() => {
       isDirty.value = true;
       mockOverlayInstanceOpen.mockReturnValue({ result: Promise.resolve(true) });
       useFormDirtyGuard(open, isDirty, messages);
-      const routeGuard = mockOnBeforeRouteLeave.mock.calls[0]?.[0] as (to: { fullPath: string }) => unknown;
-      await routeGuard({ fullPath: "/target-route" });
-
-      expect(mockPush).toHaveBeenCalledExactlyOnceWith("/target-route");
-    });
-
-    it("should return false when the route guard runs with a dirty form.", async() => {
-      isDirty.value = true;
-      mockOverlayInstanceOpen.mockReturnValue({ result: Promise.resolve(true) });
-      useFormDirtyGuard(open, isDirty, messages);
-      const routeGuard = mockOnBeforeRouteLeave.mock.calls[0]?.[0] as (to: { fullPath: string }) => unknown;
+      const routeGuard = getRouteGuard();
 
       const result = await routeGuard({ fullPath: "/target-route" });
 
-      expect(result).toBe(false);
+      expect(result).toBe(true);
+    });
+
+    it("should not call router.push when the route guard confirmation is accepted.", async() => {
+      isDirty.value = true;
+      mockOverlayInstanceOpen.mockReturnValue({ result: Promise.resolve(true) });
+      useFormDirtyGuard(open, isDirty, messages);
+      const routeGuard = getRouteGuard();
+      await routeGuard({ fullPath: "/target-route" });
+
+      expect(mockPush).not.toHaveBeenCalled();
+    });
+
+    it("should return true when the route guard confirmation is accepted.", async() => {
+      isDirty.value = true;
+      mockOverlayInstanceOpen.mockReturnValue({ result: Promise.resolve(true) });
+      useFormDirtyGuard(open, isDirty, messages);
+      const routeGuard = getRouteGuard();
+
+      const result = await routeGuard({ fullPath: "/target-route" });
+
+      expect(result).toBe(true);
     });
 
     it("should keep open true when the route guard confirmation is rejected.", async() => {
       isDirty.value = true;
       mockOverlayInstanceOpen.mockReturnValue({ result: Promise.resolve(false) });
       useFormDirtyGuard(open, isDirty, messages);
-      const routeGuard = mockOnBeforeRouteLeave.mock.calls[0]?.[0] as (to: { fullPath: string }) => unknown;
+      const routeGuard = getRouteGuard();
 
       await routeGuard({ fullPath: "/target-route" });
 
       expect(open.value).toBeTruthy();
+    });
+
+    it("should return false when the route guard confirmation is rejected.", async() => {
+      isDirty.value = true;
+      mockOverlayInstanceOpen.mockReturnValue({ result: Promise.resolve(false) });
+      useFormDirtyGuard(open, isDirty, messages);
+      const routeGuard = getRouteGuard();
+
+      const result = await routeGuard({ fullPath: "/target-route" });
+
+      expect(result).toBe(false);
     });
   });
 

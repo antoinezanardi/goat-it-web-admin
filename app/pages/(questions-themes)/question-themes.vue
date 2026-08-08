@@ -25,7 +25,7 @@ const questionThemeToEdit = ref<QuestionTheme | undefined>(undefined);
 
 const isSubmitting = computed<boolean>(() => isCreatingQuestionTheme.value || isModifyingQuestionTheme.value);
 
-const formModalReference = useTemplateRef<InstanceType<typeof QuestionThemeFormModal>>("formModalRef");
+const formModal = useTemplateRef<InstanceType<typeof QuestionThemeFormModal>>("formModalRef");
 
 function onStartCreateFromQuestionThemesTable(): void {
   formMode.value = "create";
@@ -46,7 +46,7 @@ function onStartEditFromQuestionThemesTable(id: string): void {
 async function onSubmitCreationFromQuestionThemeFormModal(questionThemeCreationDto: QuestionThemeCreationDto): Promise<void> {
   await questionThemesStore.createAndStoreQuestionTheme(questionThemeCreationDto);
   if (isCreateQuestionThemeSuccess.value) {
-    formModalReference.value?.forceClose();
+    formModal.value?.forceClose();
   }
 }
 
@@ -56,7 +56,7 @@ async function onSubmitModificationFromQuestionThemeFormModal(questionThemeModif
   }
   await questionThemesStore.modifyAndStoreQuestionTheme(questionThemeToEdit.value.id, questionThemeModificationDto);
   if (isModifyQuestionThemeSuccess.value) {
-    formModalReference.value?.forceClose();
+    formModal.value?.forceClose();
   }
 }
 

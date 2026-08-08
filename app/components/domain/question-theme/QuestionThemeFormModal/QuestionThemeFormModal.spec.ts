@@ -365,8 +365,8 @@ describe("QuestionThemeFormModal Component", () => {
     });
   });
 
-  describe("Dirty guard integration", () => {
-    it("should pass dismissible as false to UModal when the form is dirty.", async() => {
+  describe("Dirty guard", () => {
+    it("should pass dismissible as true to UModal when the form is dirty and not submitting.", async() => {
       const form = wrapper.findComponent<typeof QuestionThemeForm>("[data-testid='question-theme-form-modal-form']");
       const labelField = form.findComponent<typeof UFormField>("[data-testid='question-theme-form-label-field']");
       const labelInput = labelField.findComponent<typeof UInput>({ name: "UInput" });
@@ -375,13 +375,13 @@ describe("QuestionThemeFormModal Component", () => {
 
       const modal = wrapper.findComponent({ name: "UModal" });
 
-      expect(modal.props("dismissible")).toBeFalsy();
+      expect(modal.props("dismissible")).toBe(true);
     });
 
     it("should pass dismissible as true to UModal when the form is clean and not submitting.", () => {
       const modal = wrapper.findComponent({ name: "UModal" });
 
-      expect(modal.props("dismissible")).toBeTruthy();
+      expect(modal.props("dismissible")).toBe(true);
     });
 
     it("should pass dismissible as false to UModal when isSubmitting is true.", async() => {
@@ -389,7 +389,44 @@ describe("QuestionThemeFormModal Component", () => {
 
       const modal = wrapper.findComponent({ name: "UModal" });
 
-      expect(modal.props("dismissible")).toBeFalsy();
+      expect(modal.props("dismissible")).toBe(false);
+    });
+
+    it("should expose isDirty as false when the form is clean.", () => {
+      // Acceptable as accessing defineExpose property from component instance
+      // oxlint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      const isDirty = (wrapper.vm as unknown as { isDirty: boolean }).isDirty;
+
+      expect(isDirty).toBe(false);
+    });
+
+    it("should expose isDirty as true when the form is dirty.", async() => {
+      const form = wrapper.findComponent<typeof QuestionThemeForm>("[data-testid='question-theme-form-modal-form']");
+      const labelField = form.findComponent<typeof UFormField>("[data-testid='question-theme-form-label-field']");
+      const labelInput = labelField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(labelInput).$emit("update:modelValue", "New Label");
+      await nextTick();
+
+      // Acceptable as accessing defineExpose property from component instance
+      // oxlint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      const isDirty = (wrapper.vm as unknown as { isDirty: boolean }).isDirty;
+
+      expect(isDirty).toBe(true);
+    });
+
+    it("should expose isDirty as false when the form reference is null.", async() => {
+      wrapper = await mountQuestionThemeFormModalComponent({
+        props: {
+          ...defaultQuestionThemeFormModalProps,
+          open: false,
+        },
+      });
+
+      // Acceptable as accessing defineExpose property from component instance
+      // oxlint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      const isDirty = (wrapper.vm as unknown as { isDirty: boolean }).isDirty;
+
+      expect(isDirty).toBe(false);
     });
   });
 });

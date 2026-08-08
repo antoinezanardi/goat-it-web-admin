@@ -61,7 +61,7 @@ defineExpose({ isDirty, forceClose });
   <UModal
     v-model:open="open"
     :close="!isSubmitting"
-    :dismissible="!isSubmitting && !isDirty"
+    :dismissible="!isSubmitting"
     :ui="QUESTION_FORM_MODAL_UI"
   >
     <template #title>

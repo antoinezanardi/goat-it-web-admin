@@ -38,7 +38,7 @@ describe("ConfirmDialog Component", () => {
     it("should render the modal as open when mounted.", () => {
       const modal = wrapper.findComponent<typeof UModal>({ name: "UModal" });
 
-      expect(modal.props("open")).toBeTruthy();
+      expect(modal.props("open")).toBe(true);
     });
 
     it("should close the modal when the modal emits update:open with false.", async() => {
@@ -46,7 +46,7 @@ describe("ConfirmDialog Component", () => {
       getWrapperVm(modal).$emit("update:open", false);
       await wrapper.vm.$nextTick();
 
-      expect(modal.props("open")).toBeFalsy();
+      expect(modal.props("open")).toBe(false);
     });
   });
 
@@ -128,13 +128,13 @@ describe("ConfirmDialog Component", () => {
     it("should pass dismissible as true to UModal when no dismissible prop is provided.", () => {
       const modal = wrapper.findComponent<typeof UModal>({ name: "UModal" });
 
-      expect(modal.props("dismissible")).toBeTruthy();
+      expect(modal.props("dismissible")).toBe(true);
     });
 
     it("should pass close as true to UModal when no close prop is provided.", () => {
       const modal = wrapper.findComponent<typeof UModal>({ name: "UModal" });
 
-      expect(modal.props("close")).toBeTruthy();
+      expect(modal.props("close")).toBe(true);
     });
 
     it("should pass dismissible as false to UModal when the prop is set to false.", async() => {
@@ -146,7 +146,7 @@ describe("ConfirmDialog Component", () => {
       });
       const modal = wrapper.findComponent<typeof UModal>({ name: "UModal" });
 
-      expect(modal.props("dismissible")).toBeFalsy();
+      expect(modal.props("dismissible")).toBe(false);
     });
 
     it("should pass close as false to UModal when the prop is set to false.", async() => {
@@ -158,19 +158,19 @@ describe("ConfirmDialog Component", () => {
       });
       const modal = wrapper.findComponent<typeof UModal>({ name: "UModal" });
 
-      expect(modal.props("close")).toBeFalsy();
+      expect(modal.props("close")).toBe(false);
     });
 
     it("should default dismissible to true when the prop is undefined.", () => {
       const modal = wrapper.findComponent<typeof UModal>({ name: "UModal" });
 
-      expect(modal.props("dismissible")).toBeTruthy();
+      expect(modal.props("dismissible")).toBe(true);
     });
 
     it("should default close to true when the prop is undefined.", () => {
       const modal = wrapper.findComponent<typeof UModal>({ name: "UModal" });
 
-      expect(modal.props("close")).toBeTruthy();
+      expect(modal.props("close")).toBe(true);
     });
   });
 });
