@@ -135,6 +135,7 @@
     "eslint/getter-return": "error",
     "eslint/grouped-accessor-pairs": "error",
     "eslint/guard-for-in": "error",
+    "eslint/id-denylist": "off",
     "eslint/id-length": [
       "error",
       {
@@ -231,9 +232,9 @@
         ]
       }
     ],
-    "eslint/no-import-assign": "error",
     "eslint/no-implicit-globals": "error",
     "eslint/no-implied-eval": "error",
+    "eslint/no-import-assign": "error",
     "eslint/no-inline-comments": "error",
     "eslint/no-inner-declarations": "error",
     "eslint/no-invalid-regexp": "error",
@@ -309,7 +310,10 @@
     "eslint/no-underscore-dangle": [
       "error",
       {
-        "allow": ["_id", "_zod"]
+        "allow": [
+          "_id",
+          "_zod"
+        ]
       }
     ],
     "eslint/no-unexpected-multiline": "error",
@@ -345,6 +349,10 @@
     "eslint/no-warning-comments": "off",
     "eslint/no-with": "error",
     "eslint/object-shorthand": "error",
+    "eslint/one-var": [
+      "error",
+      "never"
+    ],
     "eslint/operator-assignment": [
       "error",
       "always"
@@ -353,8 +361,8 @@
     "eslint/prefer-const": "error",
     "eslint/prefer-destructuring": "off",
     "eslint/prefer-exponentiation-operator": "error",
-    "eslint/prefer-numeric-literals": "error",
     "eslint/prefer-named-capture-group": "error",
+    "eslint/prefer-numeric-literals": "error",
     "eslint/prefer-object-has-own": "error",
     "eslint/prefer-object-spread": "error",
     "eslint/prefer-promise-reject-errors": "error",
@@ -431,12 +439,17 @@
     "import/unambiguous": "error",
     // ---- Node Rules ----
     "node/callback-return": "error",
+    "node/exports-style": [
+      "error",
+      "exports"
+    ],
     "node/global-require": "error",
     "node/handle-callback-err": "error",
     "node/no-exports-assign": "error",
     "node/no-mixed-requires": "error",
     "node/no-new-require": "error",
     "node/no-path-concat": "error",
+    "node/no-process-env": "error",
     "node/no-sync": [
       "error",
       {
@@ -447,13 +460,14 @@
         ]
       }
     ],
-    "node/no-process-env": "error",
+    "node/no-top-level-await": "error",
     // ---- Oxc rules ----
     "oxc/approx-constant": "error",
     "oxc/bad-array-method-on-arguments": "error",
     "oxc/bad-bitwise-operator": "error",
     "oxc/bad-char-at-comparison": "error",
     "oxc/bad-comparison-sequence": "error",
+    "oxc/bad-match-all-arg": "error",
     "oxc/bad-min-max-func": "error",
     "oxc/bad-object-literal-comparison": "error",
     "oxc/bad-replace-all-arg": "error",
@@ -503,9 +517,9 @@
     "unicorn/custom-error-definition": "error",
     "unicorn/empty-brace-spaces": "error",
     "unicorn/error-message": "error",
-    "unicorn/explicit-timer-delay": "error",
     "unicorn/escape-case": "error",
     "unicorn/explicit-length-check": "error",
+    "unicorn/explicit-timer-delay": "error",
     "unicorn/filename-case": [
       "error",
       {
@@ -593,8 +607,8 @@
     "unicorn/prefer-event-target": "off",
     "unicorn/prefer-export-from": "error",
     "unicorn/prefer-global-this": "error",
-    "unicorn/prefer-includes": "error",
     "unicorn/prefer-import-meta-properties": "error",
+    "unicorn/prefer-includes": "error",
     "unicorn/prefer-keyboard-event-key": "error",
     "unicorn/prefer-logical-operator-over-ternary": "error",
     "unicorn/prefer-math-min-max": "error",
@@ -1132,6 +1146,7 @@
         "vitest/no-test-return-statement": "error",
         "vitest/no-unneeded-async-expect-function": "error",
         "vitest/padding-around-after-all-blocks": "error",
+        "vitest/padding-around-test-blocks": "error",
         "vitest/prefer-called-exactly-once-with": "error",
         "vitest/prefer-called-once": "error",
         "vitest/prefer-called-times": "off",
@@ -1256,6 +1271,7 @@
       "rules": {
         "eslint/no-magic-numbers": "off",
         "node/no-process-env": "off",
+        "node/no-top-level-await": "off",
         "typescript/no-magic-numbers": "off",
         "typescript/no-restricted-imports": "off",
         "typescript/no-unsafe-type-assertion": "off",
