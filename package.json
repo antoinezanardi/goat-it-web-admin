@@ -104,7 +104,7 @@
     "@faker-js/faker": "^10.5.0",
     "@goat-it/schemas": "^0.0.20",
     "@iconify-json/circle-flags": "^1.2.10",
-    "@iconify-json/lucide": "^1.2.122",
+    "@iconify-json/lucide": "^1.2.123",
     "@number-flow/vue": "^0.5.2",
     "@nuxt/eslint": "^1.17.0",
     "@nuxt/hints": "^1.1.4",
