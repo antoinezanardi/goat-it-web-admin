@@ -25,6 +25,7 @@ type QuestionFormVm = ComponentVm & {
   canSubmit: boolean;
   focusFirstField: () => Promise<void>;
   triggerFormSubmit: () => Promise<void>;
+  isDirty: boolean;
 };
 
 describe("QuestionForm Component", () => {
@@ -254,6 +255,93 @@ describe("QuestionForm Component", () => {
       await nextTick();
 
       expect(getWrapperVm<QuestionFormVm>(wrapper).canSubmit).toBeTruthy();
+    });
+  });
+
+  describe("Exposed isDirty", () => {
+    it("should expose isDirty as false when mounted in create mode.", () => {
+      expect(getWrapperVm<QuestionFormVm>(wrapper).isDirty).toBeFalsy();
+    });
+
+    it("should expose isDirty as true when typing in the statement field.", async() => {
+      const statementField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-statement-field']");
+      const statementInput = statementField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(statementInput).$emit("update:modelValue", "New statement");
+      await nextTick();
+
+      expect(getWrapperVm<QuestionFormVm>(wrapper).isDirty).toBeTruthy();
+    });
+
+    it("should expose isDirty as false when typing and then clearing the statement field.", async() => {
+      const statementField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-statement-field']");
+      const statementInput = statementField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(statementInput).$emit("update:modelValue", "New statement");
+      await nextTick();
+      getWrapperVm(statementInput).$emit("update:modelValue", undefined);
+      await nextTick();
+
+      expect(getWrapperVm<QuestionFormVm>(wrapper).isDirty).toBeFalsy();
+    });
+
+    it("should expose isDirty as false when mounted in edit mode.", async() => {
+      const fakeContent = createFakeQuestionContent({
+        statement: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Statement" }),
+        answer: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Answer" }),
+      });
+      const fakeQuestion = createFakeQuestion({ content: fakeContent });
+      wrapper = await mountQuestionFormComponent({
+        props: {
+          ...defaultProperties,
+          mode: "edit",
+          question: fakeQuestion,
+        },
+      });
+
+      expect(getWrapperVm<QuestionFormVm>(wrapper).isDirty).toBeFalsy();
+    });
+
+    it("should expose isDirty as true when modifying the statement in edit mode.", async() => {
+      const fakeContent = createFakeQuestionContent({
+        statement: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Statement" }),
+        answer: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Answer" }),
+      });
+      const fakeQuestion = createFakeQuestion({ content: fakeContent });
+      wrapper = await mountQuestionFormComponent({
+        props: {
+          ...defaultProperties,
+          mode: "edit",
+          question: fakeQuestion,
+        },
+      });
+      const statementField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-statement-field']");
+      const statementInput = statementField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(statementInput).$emit("update:modelValue", "Modified Statement");
+      await nextTick();
+
+      expect(getWrapperVm<QuestionFormVm>(wrapper).isDirty).toBeTruthy();
+    });
+
+    it("should expose isDirty as false when modifying and then reverting the statement in edit mode.", async() => {
+      const fakeContent = createFakeQuestionContent({
+        statement: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Statement" }),
+        answer: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Answer" }),
+      });
+      const fakeQuestion = createFakeQuestion({ content: fakeContent });
+      wrapper = await mountQuestionFormComponent({
+        props: {
+          ...defaultProperties,
+          mode: "edit",
+          question: fakeQuestion,
+        },
+      });
+      const statementField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-statement-field']");
+      const statementInput = statementField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(statementInput).$emit("update:modelValue", "Modified Statement");
+      await nextTick();
+      getWrapperVm(statementInput).$emit("update:modelValue", "Existing Statement");
+      await nextTick();
+
+      expect(getWrapperVm<QuestionFormVm>(wrapper).isDirty).toBeFalsy();
     });
   });
 

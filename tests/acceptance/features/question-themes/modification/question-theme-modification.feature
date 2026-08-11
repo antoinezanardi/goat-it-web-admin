@@ -93,3 +93,18 @@ Feature: 🎨 Question Theme Modification
       | label         | slug       |
       | Updated Theme | test-theme |
     And the toast with exact text "Question theme modified successfully" should be visible
+
+  @question-theme-form-modal
+  Scenario: 🎨 Question theme modification modal should discard changes via keyboard shortcut without submitting
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label      | slug       | description  | aliases |
+      | Test Theme | test-theme | A test theme | test    |
+    When the user clicks on the button with exact name "Edit question theme with slug test-theme"
+    Then the heading with exact name "Edit theme" should be visible
+    When the user fills the input with name "Label*" with text "Updated Theme"
+    And the user clicks on the close button in the modal footer
+    Then the heading with exact name "Unsaved Changes" should be visible
+    When the user presses the "Meta+Enter" key
+    Then the heading with exact name "Edit theme" should be hidden
+    And the exact text "Question theme modified successfully" should be hidden

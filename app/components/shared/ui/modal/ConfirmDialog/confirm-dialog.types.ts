@@ -4,6 +4,8 @@ type ConfirmDialogProps = {
   description: string;
   primaryButtonLabel?: string;
   closeButtonLabel?: string;
+  dismissible?: boolean;
+  close?: boolean;
 };
 
 type ConfirmDialogEmits = {

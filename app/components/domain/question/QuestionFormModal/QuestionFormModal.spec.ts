@@ -3,7 +3,7 @@ import { createTestingPinia } from "@pinia/testing";
 import type { TestingPinia } from "@pinia/testing";
 import { flushPromises } from "@vue/test-utils";
 import type { VueWrapper } from "@vue/test-utils";
-import { nextTick } from "vue";
+import { nextTick, ref } from "vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createFakeQuestionCreationDto, createFakeQuestionModificationDto, createFakeQuestionThemeAssignmentCreationDto } from "@goat-it/schemas/testing/question";
 import { createFakeLocalizedText } from "@goat-it/schemas/testing/shared";
@@ -18,10 +18,15 @@ import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import { QuestionFormModal } from "#components";
-import type { QuestionForm, DefaultModalFooter, DefaultModalTitle } from "#components";
+import type { QuestionForm, DefaultModalFooter, DefaultModalTitle, UFormField, UInput } from "#components";
 
 import type { QuestionFormModalProps } from "~/components/domain/question/QuestionFormModal/question-form-modal.types";
 import { QUESTION_ICON } from "~/composables/domain/question/question.constants";
+
+type QuestionFormModalVm = ComponentVm & {
+  isDirty: boolean;
+  forceClose: () => void;
+};
 
 describe("QuestionFormModal Component", () => {
   let wrapper: VueWrapper;
@@ -125,14 +130,6 @@ describe("QuestionFormModal Component", () => {
   });
 
   describe("Close modal", () => {
-    it("should close the modal when the close button is clicked from the footer.", async() => {
-      const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-form-modal-footer']") as VueWrapper;
-      const closeButton = footer.find("[data-testid='default-modal-footer-close-button']");
-      await closeButton.trigger("click");
-
-      expect(wrapper.emitted("update:open")).toBeDefined();
-    });
-
     it("should emit update:open when the modal itself emits update:open.", async() => {
       const modal = wrapper.findComponent({ name: "UModal" });
       getWrapperVm(modal).$emit("update:open", false);
@@ -317,6 +314,81 @@ describe("QuestionFormModal Component", () => {
       getWrapperVm(form).$emit("submitModification", fakeData);
 
       expect(wrapper.emitted("submitModification")).toStrictEqual([[fakeData]]);
+    });
+  });
+
+  describe("Dirty guard", () => {
+    it("should pass dismissible as true to UModal when the form is dirty and not submitting.", async() => {
+      const form = wrapper.findComponent<typeof QuestionForm>("[data-testid='question-form-modal-form']");
+      const statementField = form.findComponent<typeof UFormField>("[data-testid='question-form-statement-field']");
+      const statementInput = statementField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(statementInput).$emit("update:modelValue", "New statement");
+      await nextTick();
+
+      const modal = wrapper.findComponent({ name: "UModal" });
+
+      expect(modal.props("dismissible")).toBe(true);
+    });
+
+    it("should pass dismissible as true to UModal when the form is clean and not submitting.", () => {
+      const modal = wrapper.findComponent({ name: "UModal" });
+
+      expect(modal.props("dismissible")).toBe(true);
+    });
+
+    it("should pass dismissible as false to UModal when isSubmitting is true.", async() => {
+      await wrapper.setProps({ isSubmitting: true });
+
+      const modal = wrapper.findComponent({ name: "UModal" });
+
+      expect(modal.props("dismissible")).toBe(false);
+    });
+
+    it("should expose isDirty as false when the form is clean.", () => {
+      const isDirty = getWrapperVm<QuestionFormModalVm>(wrapper).isDirty;
+
+      expect(isDirty).toBe(false);
+    });
+
+    it("should expose isDirty as true when the form is dirty.", async() => {
+      const form = wrapper.findComponent<typeof QuestionForm>("[data-testid='question-form-modal-form']");
+      const statementField = form.findComponent<typeof UFormField>("[data-testid='question-form-statement-field']");
+      const statementInput = statementField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(statementInput).$emit("update:modelValue", "New statement");
+      await nextTick();
+
+      const isDirty = getWrapperVm<QuestionFormModalVm>(wrapper).isDirty;
+
+      expect(isDirty).toBe(true);
+    });
+
+    it("should expose isDirty as false when the form reference is null.", async() => {
+      wrapper = await mountQuestionFormModalComponent({
+        props: {
+          ...defaultQuestionFormModalProps,
+          open: false,
+        },
+      });
+
+      const isDirty = getWrapperVm<QuestionFormModalVm>(wrapper).isDirty;
+
+      expect(isDirty).toBe(false);
+    });
+
+    it("should pass false as disableShortcuts to the footer when isGuardDialogOpen is false.", () => {
+      const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-form-modal-footer']");
+
+      expect(footer.props("disableShortcuts")).toBeFalsy();
+    });
+
+    it("should pass true as disableShortcuts to the footer when isGuardDialogOpen is true.", async() => {
+      const guardMock = useFormDirtyGuard(ref(false), ref(false), { titleKey: "", descriptionKey: "" });
+      guardMock.isGuardDialogOpen.value = true;
+      await nextTick();
+
+      const footer = wrapper.findComponent<typeof DefaultModalFooter>("[data-testid='question-form-modal-footer']");
+
+      expect(footer.props("disableShortcuts")).toBeTruthy();
     });
   });
 });

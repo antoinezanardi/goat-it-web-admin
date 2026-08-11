@@ -1,4 +1,4 @@
-@question-themes @question-theme-creation
+@question-themes @question-theme-creation @question-theme-form-modal
 Feature: 🎨 Question Theme Creation
 
   Scenario: 🎨 Question Theme is created and displayed in the list
@@ -83,3 +83,49 @@ Feature: 🎨 Question Theme Creation
       | label                 | slug                  | description                    | aliases | status |
       | Acceptance Test Theme | acceptance-test-theme | A theme for acceptance testing | test    | Active |
     And the toast with exact text "Question theme created successfully" should be visible
+
+  @question-theme-form-modal
+  Scenario: 🎨 Question Theme creation modal should show confirmation dialog when closing dirty create form via X button
+    Given the user is on question-themes page
+    When the user clicks on the button with name "Create a new theme"
+    And the user fills the question theme form with the following attributes:
+      | label | slug      | description | aliases |
+      | Test  | test-slug | Test desc   | test    |
+    And the user clicks on the close button in the modal header
+    Then the heading with exact name "Unsaved Changes" should be visible
+
+  @question-theme-form-modal
+  Scenario: 🎨 Question Theme creation modal should show confirmation dialog when closing dirty create form via Escape key
+    Given the user is on question-themes page
+    When the user clicks on the button with name "Create a new theme"
+    And the user fills the question theme form with the following attributes:
+      | label | slug      | description | aliases |
+      | Test  | test-slug | Test desc   | test    |
+    And the user presses the "Escape" key
+    Then the heading with exact name "Unsaved Changes" should be visible
+
+  @question-theme-form-modal
+  Scenario: 🎨 Question Theme creation modal should show confirmation dialog when clicking overlay backdrop with dirty form
+    Given the user is on question-themes page
+    When the user clicks on the button with name "Create a new theme"
+    And the user fills the question theme form with the following attributes:
+      | label | slug      | description | aliases |
+      | Test  | test-slug | Test desc   | test    |
+    And the user clicks on the overlay outside of the modal
+    Then the heading with exact name "Unsaved Changes" should be visible
+
+  @question-theme-form-modal
+  Scenario: 🎨 Question Theme creation modal should close clean create form immediately via X button
+    Given the user is on question-themes page
+    When the user clicks on the button with name "Create a new theme"
+    Then the heading with exact name "Create a new theme" should be visible
+    When the user clicks on the close button in the modal header
+    Then the heading with exact name "Create a new theme" should be hidden
+
+  @question-theme-form-modal
+  Scenario: 🎨 Question Theme creation modal should close clean create form via overlay click
+    Given the user is on question-themes page
+    When the user clicks on the button with name "Create a new theme"
+    Then the heading with exact name "Create a new theme" should be visible
+    When the user clicks on the overlay outside of the modal
+    Then the heading with exact name "Create a new theme" should be hidden

@@ -38,7 +38,7 @@ describe("ConfirmDialog Component", () => {
     it("should render the modal as open when mounted.", () => {
       const modal = wrapper.findComponent<typeof UModal>({ name: "UModal" });
 
-      expect(modal.props("open")).toBeTruthy();
+      expect(modal.props("open")).toBe(true);
     });
 
     it("should close the modal when the modal emits update:open with false.", async() => {
@@ -46,7 +46,7 @@ describe("ConfirmDialog Component", () => {
       getWrapperVm(modal).$emit("update:open", false);
       await wrapper.vm.$nextTick();
 
-      expect(modal.props("open")).toBeFalsy();
+      expect(modal.props("open")).toBe(false);
     });
   });
 
@@ -121,6 +121,41 @@ describe("ConfirmDialog Component", () => {
       getWrapperVm(footer).$emit("primaryButtonClick");
 
       expect(wrapper.emitted("close")).toStrictEqual([[true]]);
+    });
+  });
+
+  describe("dismissible and close props", () => {
+    it.each<{ propName: "dismissible" | "close" }>([
+      { propName: "dismissible" },
+      { propName: "close" },
+    ])("should pass $propName as true to UModal when no $propName prop is provided.", ({ propName }) => {
+      const modal = wrapper.findComponent<typeof UModal>({ name: "UModal" });
+
+      expect(modal.props(propName)).toBe(true);
+    });
+
+    it("should pass dismissible as false to UModal when the prop is set to false.", async() => {
+      wrapper = await mountConfirmDialogComponent({
+        props: {
+          ...defaultConfirmDialogProps,
+          dismissible: false,
+        },
+      });
+      const modal = wrapper.findComponent<typeof UModal>({ name: "UModal" });
+
+      expect(modal.props("dismissible")).toBe(false);
+    });
+
+    it("should pass close as false to UModal when the prop is set to false.", async() => {
+      wrapper = await mountConfirmDialogComponent({
+        props: {
+          ...defaultConfirmDialogProps,
+          close: false,
+        },
+      });
+      const modal = wrapper.findComponent<typeof UModal>({ name: "UModal" });
+
+      expect(modal.props("close")).toBe(false);
     });
   });
 });

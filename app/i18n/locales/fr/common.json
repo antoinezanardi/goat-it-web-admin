@@ -31,6 +31,10 @@
     "form": {
       "press": "Appuyez sur",
       "enterKey": "Entrée"
+    },
+    "unsavedChanges": {
+      "title": "Modifications non sauvegardées",
+      "description": "Vous avez des modifications non sauvegardées. Êtes-vous sûr de vouloir les abandonner ?"
     }
   }
 }

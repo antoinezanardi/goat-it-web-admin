@@ -31,6 +31,10 @@
     "form": {
       "press": "Pressione",
       "enterKey": "Enter"
+    },
+    "unsavedChanges": {
+      "title": "Alterações não guardadas",
+      "description": "Tem alterações não guardadas. Tem a certeza de que as quer descartar?"
     }
   }
 }
