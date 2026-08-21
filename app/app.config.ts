@@ -9,6 +9,17 @@ export default defineAppConfig({
         base: ["cursor-pointer"],
       },
     },
+    badge: {
+      compoundVariants: [
+        {
+          color: "success",
+          variant: "subtle",
+          class: {
+            base: "text-green-600 dark:text-green-400",
+          },
+        },
+      ],
+    },
     input: {
       slots: {
         base: "placeholder:italic placeholder:text-xs placeholder:text-ellipsis placeholder:overflow-hidden",
