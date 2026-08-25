@@ -48,7 +48,7 @@
     "x64",
     "arm64"
   ],
-  "packageManager": "pnpm@11.22.0",
+  "packageManager": "pnpm@11.24.0",
   "imports": {
     "#acceptance/*": "./tests/acceptance/*",
     "#shared/*": "./shared/*"
