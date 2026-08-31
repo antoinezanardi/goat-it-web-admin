@@ -155,6 +155,6 @@
     "vue-component-type-helpers": "^3.3.11",
     "vue-eslint-parser": "^10.4.1",
     "vue-tsc": "^3.3.11",
-    "zod": "^4.4.3"
+    "zod": "^4.5.4"
   }
 }
