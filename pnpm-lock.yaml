@@ -28,8 +28,8 @@ importers:
         specifier: ^10.6.0
         version: 10.6.0
       '@goat-it/schemas':
-        specifier: ^0.0.20
-        version: 0.0.20(@faker-js/faker@10.6.0)(zod@4.5.4)
+        specifier: ^0.0.22-beta
+        version: 0.0.22-beta(@faker-js/faker@10.6.0)(zod@4.5.4)
       '@iconify-json/circle-flags':
         specifier: ^1.2.10
         version: 1.2.10
@@ -1154,11 +1154,11 @@ packages:
   '@floating-ui/vue@1.1.11':
     resolution: {integrity: sha512-HzHKCNVxnGS35r9fCHBc3+uCnjw9IWIlCPL683cGgM9Kgj2BiAl8x1mS7vtvP6F9S/e/q4O6MApwSHj8hNLGfw==}
 
-  '@goat-it/schemas@0.0.20':
-    resolution: {integrity: sha512-OJuOPaBBW7rILzMY56iuAetbNas6ydMHaI/eYNvlFlta9RKbQ/vWVOo7U63KoLxO4tPQn7kaqONb0wr0pc8FmA==}
+  '@goat-it/schemas@0.0.22-beta':
+    resolution: {integrity: sha512-alJW1EoLmnVVWl0DRVSxlkBfn8XlasG0akSS7oM0iB+18q2jBuVxyIjrkWpyimAmTRtkw9Lq/KaOTbm3jwCChg==}
     peerDependencies:
-      '@faker-js/faker': '>=10.5.0'
-      zod: ^4.4.3
+      '@faker-js/faker': '>=10.6.0'
+      zod: ^4.5.4
 
   '@html-validate/stylish@6.0.0':
     resolution: {integrity: sha512-d1/lI3qIXhGVJF3+MmKEBn1dRX6U4Z+BDaOdDI3E6SXcO+OQ7hC/3mSo6BIjwQlcuV6NdDOKm6QCrzIQL1EezQ==}
@@ -8685,7 +8685,7 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@goat-it/schemas@0.0.20(@faker-js/faker@10.6.0)(zod@4.5.4)':
+  '@goat-it/schemas@0.0.22-beta(@faker-js/faker@10.6.0)(zod@4.5.4)':
     dependencies:
       '@faker-js/faker': 10.6.0
       type-fest: 5.9.0
