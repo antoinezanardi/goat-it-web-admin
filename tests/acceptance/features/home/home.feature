@@ -14,12 +14,14 @@ Feature: 🏡 Home Page
     And the text "By Difficulty" should be visible
     And the text "By Author Role" should be visible
     And the text "By Rejection Type" should be visible
+    And the text "By Translation" should be visible
 
   Scenario: 🏡 Home Page switches to question theme stats when clicking themes tab
     Given the user is on home page
     When the user clicks on the tab with exact name "Question Themes"
     Then the text "By Status" should be visible
     And the text "Questions per Theme" should be visible
+    And the text "By Translation" should be visible
     And the text "By Category" should be hidden
     And the text "By Difficulty" should be hidden
 
@@ -72,6 +74,8 @@ Feature: 🏡 Home Page
     And the question by status stat should display no data
     And the question by author role stat should display no data
     And the question by rejection type stat should display no data
+    And the question by translation completeness stat should display no data
     When the user clicks on the tab with exact name "Question Themes"
     Then the question theme by question count stat should display no data
     And the question theme by status stat should display no data
+    And the question theme by translation completeness stat should display no data
