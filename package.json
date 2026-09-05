@@ -108,7 +108,7 @@
     "@number-flow/vue": "^0.5.2",
     "@nuxt/eslint": "^1.17.0",
     "@nuxt/hints": "^1.1.4",
-    "@nuxt/test-utils": "^4.1.0",
+    "@nuxt/test-utils": "^4.2.0",
     "@nuxt/ui": "^4.11.0",
     "@nuxtjs/i18n": "^10.5.0",
     "@nuxtjs/robots": "^6.2.0",
