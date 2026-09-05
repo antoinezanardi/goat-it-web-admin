@@ -16,31 +16,31 @@ describe("navigation.json translations", () => {
     expect(crushedEnNavigationKeys).toStrictEqual(crushedFrNavigationKeys);
   });
 
-  it("should have the same keys in english as in german when context is navigation.", () => {
+  it("should have the same keys in french as in german when context is navigation.", () => {
+    const crushedFrNavigationKeys = Object.keys(crush(frNavigation)).toSorted();
     const crushedDeNavigationKeys = Object.keys(crush(deNavigation)).toSorted();
-    const crushedEnNavigationKeys = Object.keys(crush(enNavigation)).toSorted();
 
-    expect(crushedEnNavigationKeys).toStrictEqual(crushedDeNavigationKeys);
+    expect(crushedFrNavigationKeys).toStrictEqual(crushedDeNavigationKeys);
   });
 
-  it("should have the same keys in english as in spanish when context is navigation.", () => {
+  it("should have the same keys in french as in spanish when context is navigation.", () => {
+    const crushedFrNavigationKeys = Object.keys(crush(frNavigation)).toSorted();
     const crushedEsNavigationKeys = Object.keys(crush(esNavigation)).toSorted();
-    const crushedEnNavigationKeys = Object.keys(crush(enNavigation)).toSorted();
 
-    expect(crushedEnNavigationKeys).toStrictEqual(crushedEsNavigationKeys);
+    expect(crushedFrNavigationKeys).toStrictEqual(crushedEsNavigationKeys);
   });
 
-  it("should have the same keys in english as in italian when context is navigation.", () => {
+  it("should have the same keys in french as in italian when context is navigation.", () => {
+    const crushedFrNavigationKeys = Object.keys(crush(frNavigation)).toSorted();
     const crushedItNavigationKeys = Object.keys(crush(itNavigation)).toSorted();
-    const crushedEnNavigationKeys = Object.keys(crush(enNavigation)).toSorted();
 
-    expect(crushedEnNavigationKeys).toStrictEqual(crushedItNavigationKeys);
+    expect(crushedFrNavigationKeys).toStrictEqual(crushedItNavigationKeys);
   });
 
-  it("should have the same keys in english as in portuguese when context is navigation.", () => {
+  it("should have the same keys in french as in portuguese when context is navigation.", () => {
+    const crushedFrNavigationKeys = Object.keys(crush(frNavigation)).toSorted();
     const crushedPtNavigationKeys = Object.keys(crush(ptNavigation)).toSorted();
-    const crushedEnNavigationKeys = Object.keys(crush(enNavigation)).toSorted();
 
-    expect(crushedEnNavigationKeys).toStrictEqual(crushedPtNavigationKeys);
+    expect(crushedFrNavigationKeys).toStrictEqual(crushedPtNavigationKeys);
   });
 });

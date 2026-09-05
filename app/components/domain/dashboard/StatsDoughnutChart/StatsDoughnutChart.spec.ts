@@ -26,6 +26,10 @@ describe("StatsDoughnutChart Component", () => {
     wrapper = await mountStatsDoughnutChart();
   });
 
+  it("should render StatsDoughnutChart when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
+  });
+
   it("should render the Doughnut component with correct data when mounted.", () => {
     const doughnut = wrapper.getComponent({ name: "Doughnut" });
 

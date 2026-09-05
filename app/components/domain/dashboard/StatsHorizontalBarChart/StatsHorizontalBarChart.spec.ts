@@ -26,6 +26,10 @@ describe("StatsHorizontalBarChart Component", () => {
     wrapper = await mountStatsHorizontalBarChart();
   });
 
+  it("should render StatsHorizontalBarChart when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
+  });
+
   it("should render the Bar component with correct data sorted by value descending when mounted.", () => {
     const bar = wrapper.getComponent({ name: "Bar" });
 

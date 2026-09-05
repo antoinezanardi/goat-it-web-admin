@@ -35,13 +35,13 @@ describe("QuestionForm Component", () => {
     createFakeQuestionTheme({ id: "theme-2" }),
   ];
 
-  const defaultProperties: QuestionFormProps = {
+  const defaultQuestionFormProps: QuestionFormProps = {
     availableThemes: fakeThemes,
-  };
+  } as const;
 
   async function mountQuestionFormComponent(options: MountSuspendedOptions<typeof QuestionForm> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionForm, {
-      props: defaultProperties,
+      props: defaultQuestionFormProps,
       global: { plugins: [createTestingPinia()] },
       ...options,
     });
@@ -291,7 +291,7 @@ describe("QuestionForm Component", () => {
       const fakeQuestion = createFakeQuestion({ content: fakeContent });
       wrapper = await mountQuestionFormComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionFormProps,
           mode: "edit",
           question: fakeQuestion,
         },
@@ -308,7 +308,7 @@ describe("QuestionForm Component", () => {
       const fakeQuestion = createFakeQuestion({ content: fakeContent });
       wrapper = await mountQuestionFormComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionFormProps,
           mode: "edit",
           question: fakeQuestion,
         },
@@ -329,7 +329,7 @@ describe("QuestionForm Component", () => {
       const fakeQuestion = createFakeQuestion({ content: fakeContent });
       wrapper = await mountQuestionFormComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionFormProps,
           mode: "edit",
           question: fakeQuestion,
         },
@@ -433,7 +433,7 @@ describe("QuestionForm Component", () => {
     it("should emit submitModification when form submits in edit mode.", async() => {
       wrapper = await mountQuestionFormComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionFormProps,
           mode: "edit",
         },
       });
@@ -473,7 +473,7 @@ describe("QuestionForm Component", () => {
     async function mountInEditMode(): Promise<VueWrapper> {
       return mountQuestionFormComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionFormProps,
           mode: "edit",
           question: fakeQuestion,
         },
@@ -584,7 +584,7 @@ describe("QuestionForm Component", () => {
         themes: fakeThemeAssignments,
       });
       wrapper = await mountQuestionFormComponent({
-        props: { ...defaultProperties, mode: "edit", question: questionWithoutContext },
+        props: { ...defaultQuestionFormProps, mode: "edit", question: questionWithoutContext },
       });
       const translationContext = wrapper.find("[data-testid='translation-field-context-context']");
 
@@ -597,7 +597,7 @@ describe("QuestionForm Component", () => {
         themes: fakeThemeAssignments,
       });
       wrapper = await mountQuestionFormComponent({
-        props: { ...defaultProperties, mode: "edit", question: questionWithoutTrivia },
+        props: { ...defaultQuestionFormProps, mode: "edit", question: questionWithoutTrivia },
       });
       const translationContext = wrapper.find("[data-testid='translation-field-context-trivia']");
 
@@ -674,7 +674,7 @@ describe("QuestionForm Component", () => {
       });
 
       it("should not call assignThemeAndStoreQuestion when assignThemeInEditMode event is emitted and question prop is undefined.", async() => {
-        wrapper = await mountQuestionFormComponent({ props: { ...defaultProperties, mode: "edit" } });
+        wrapper = await mountQuestionFormComponent({ props: { ...defaultQuestionFormProps, mode: "edit" } });
         const questionsStore = mockStore(useQuestionsStore);
         const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
         const dto = { themeId: "new-theme", isPrimary: false, isHint: false };
@@ -686,7 +686,7 @@ describe("QuestionForm Component", () => {
       });
 
       it("should not call removeThemeAndStoreQuestion when removeThemeInEditMode event is emitted and question prop is undefined.", async() => {
-        wrapper = await mountQuestionFormComponent({ props: { ...defaultProperties, mode: "edit" } });
+        wrapper = await mountQuestionFormComponent({ props: { ...defaultQuestionFormProps, mode: "edit" } });
         const questionsStore = mockStore(useQuestionsStore);
         const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
 
@@ -697,7 +697,7 @@ describe("QuestionForm Component", () => {
       });
 
       it("should not call modifyThemeAssignmentAndStoreQuestion when modifyThemeInEditMode event is emitted and question prop is undefined.", async() => {
-        wrapper = await mountQuestionFormComponent({ props: { ...defaultProperties, mode: "edit" } });
+        wrapper = await mountQuestionFormComponent({ props: { ...defaultQuestionFormProps, mode: "edit" } });
         const questionsStore = mockStore(useQuestionsStore);
         const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
         const dto = { isPrimary: true };

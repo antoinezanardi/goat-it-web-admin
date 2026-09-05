@@ -21,16 +21,16 @@ describe("ArchiveQuestionButton Component", () => {
   let overlayInstance: UseOverlayInstanceMock;
   let overlayMock: UseOverlayMock;
 
-  const defaultProps: ArchiveQuestionButtonProps = {
+  const defaultArchiveQuestionButtonProps: ArchiveQuestionButtonProps = {
     questionId: "question-id-123",
-  };
+  } as const;
 
   async function mountArchiveQuestionButtonComponent(options: MountSuspendedOptions<typeof ArchiveQuestionButton> = {}): Promise<VueWrapper> {
     return mountSuspended(ArchiveQuestionButton, {
       global: {
         plugins: [pinia],
       },
-      props: defaultProps,
+      props: defaultArchiveQuestionButtonProps,
       ...options,
     });
   }

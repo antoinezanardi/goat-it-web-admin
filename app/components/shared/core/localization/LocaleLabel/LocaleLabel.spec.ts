@@ -11,17 +11,21 @@ import type { LocaleLabelProps } from "~/components/shared/core/localization/Loc
 
 describe("LocaleLabel Component", () => {
   let wrapper: VueWrapper;
-  const defaultProps: LocaleLabelProps = { locale: "fr" };
+  const defaultLocaleLabelProps: LocaleLabelProps = { locale: "fr" } as const;
 
   async function mountLocaleLabelComponent(options: MountSuspendedOptions<typeof LocaleLabel> = {}): Promise<VueWrapper> {
     return mountSuspended(LocaleLabel, {
-      props: defaultProps,
+      props: defaultLocaleLabelProps,
       ...options,
     });
   }
 
   beforeEach(async() => {
     wrapper = await mountLocaleLabelComponent();
+  });
+
+  it("should render LocaleLabel when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
   });
 
   it("should render the root span with correct data-testid when locale is fr.", () => {

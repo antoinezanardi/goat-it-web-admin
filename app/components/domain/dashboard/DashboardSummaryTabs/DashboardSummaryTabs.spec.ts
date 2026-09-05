@@ -31,6 +31,10 @@ describe("DashboardSummaryTabs Component", () => {
     wrapper = await mountDashboardSummaryTabs();
   });
 
+  it("should render DashboardSummaryTabs when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
+  });
+
   it("should render the questions tab with translated label when mounted.", () => {
     expect(wrapper.text()).toContain("home.tabs.questions");
   });

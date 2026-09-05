@@ -12,13 +12,13 @@ import type { QuestionCognitiveDifficultySelectorProps } from "~/components/doma
 
 describe("QuestionCognitiveDifficultySelector Component", () => {
   let wrapper: VueWrapper;
-  const defaultProperties: QuestionCognitiveDifficultySelectorProps = {
+  const defaultQuestionCognitiveDifficultySelectorProps: QuestionCognitiveDifficultySelectorProps = {
     modelValue: undefined,
   } as const;
 
   async function mountQuestionCognitiveDifficultySelectorComponent(options: MountSuspendedOptions<typeof QuestionCognitiveDifficultySelector> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionCognitiveDifficultySelector, {
-      props: defaultProperties,
+      props: defaultQuestionCognitiveDifficultySelectorProps,
       ...options,
     });
   }

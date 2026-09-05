@@ -11,8 +11,11 @@ import type { UColorPicker } from "#components";
 describe("InputColorPicker Component", () => {
   let wrapper: VueWrapper;
 
+  const defaultInputColorPickerProps = {} as const;
+
   async function mountInputColorPickerComponent(options: MountSuspendedOptions<typeof InputColorPicker> = {}): Promise<VueWrapper> {
     return mountSuspended(InputColorPicker, {
+      ...defaultInputColorPickerProps,
       ...options,
     });
   }

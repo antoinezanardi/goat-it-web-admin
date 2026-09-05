@@ -13,17 +13,17 @@ import type { QuestionsTableHeaderProps } from "~/components/domain/question/Que
 
 describe("QuestionsTableHeader Component", () => {
   let wrapper: VueWrapper;
-  const defaultProps: QuestionsTableHeaderProps = {
+  const defaultQuestionsTableHeaderProps: QuestionsTableHeaderProps = {
     searchTerm: "",
     filteredCount: 0,
     activeFilterCount: 0,
     isLoading: false,
     filters: createFakeQuestionsTableFilters({ status: undefined, category: undefined, cognitiveDifficulty: undefined, themeIds: [] }),
-  };
+  } as const;
 
   async function mountQuestionsTableHeaderComponent(options: MountSuspendedOptions<typeof QuestionsTableHeader> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionsTableHeader, {
-      props: defaultProps,
+      props: defaultQuestionsTableHeaderProps,
       ...options,
     });
   }
@@ -37,7 +37,7 @@ describe("QuestionsTableHeader Component", () => {
     await toggleButton.trigger("click");
   }
 
-  it("should render the questions table header component when mounted.", () => {
+  it("should render QuestionsTableHeader when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
   });
 
@@ -49,7 +49,7 @@ describe("QuestionsTableHeader Component", () => {
     });
 
     it("should pass the searchTerm to the search input when mounted.", async() => {
-      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, searchTerm: "search text" } });
+      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultQuestionsTableHeaderProps, searchTerm: "search text" } });
 
       const searchInput = wrapper.findComponent<typeof TableGlobalSearchInput>({ name: "TableGlobalSearchInput" });
 
@@ -93,7 +93,7 @@ describe("QuestionsTableHeader Component", () => {
     });
 
     it("should pass the active filter count to the filters section when filters are active.", async() => {
-      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, activeFilterCount: 2 } });
+      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultQuestionsTableHeaderProps, activeFilterCount: 2 } });
 
       const filtersSection = wrapper.findComponent<typeof TableFiltersSection>("[data-testid='questions-table-header-filters-section']");
 
@@ -117,7 +117,7 @@ describe("QuestionsTableHeader Component", () => {
     });
 
     it("should pass the status filter value when a status is selected.", async() => {
-      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, filters: createFakeQuestionsTableFilters({ status: "active" }) } });
+      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultQuestionsTableHeaderProps, filters: createFakeQuestionsTableFilters({ status: "active" }) } });
       await expandFiltersSection();
       const statusFilter = wrapper.findComponent<typeof QuestionsTableStatusFilter>({ name: "QuestionsTableStatusFilter" });
 
@@ -142,7 +142,7 @@ describe("QuestionsTableHeader Component", () => {
     });
 
     it("should pass the category filter value when a category is selected.", async() => {
-      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, filters: createFakeQuestionsTableFilters({ category: "trivia" }) } });
+      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultQuestionsTableHeaderProps, filters: createFakeQuestionsTableFilters({ category: "trivia" }) } });
       await expandFiltersSection();
       const categoryFilter = wrapper.findComponent<typeof QuestionsTableCategoryFilter>({ name: "QuestionsTableCategoryFilter" });
 
@@ -167,7 +167,9 @@ describe("QuestionsTableHeader Component", () => {
     });
 
     it("should pass the cognitive difficulty filter value when a cognitive difficulty is selected.", async() => {
-      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, filters: createFakeQuestionsTableFilters({ cognitiveDifficulty: "easy" }) } });
+      wrapper = await mountQuestionsTableHeaderComponent({
+        props: { ...defaultQuestionsTableHeaderProps, filters: createFakeQuestionsTableFilters({ cognitiveDifficulty: "easy" }) },
+      });
       await expandFiltersSection();
       const cognitiveDifficultyFilter = wrapper.findComponent<typeof QuestionsTableCognitiveDifficultyFilter>({ name: "QuestionsTableCognitiveDifficultyFilter" });
 
@@ -192,7 +194,7 @@ describe("QuestionsTableHeader Component", () => {
     });
 
     it("should pass the theme filter value when themes are selected.", async() => {
-      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, filters: createFakeQuestionsTableFilters({ themeIds: ["theme-1"] }) } });
+      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultQuestionsTableHeaderProps, filters: createFakeQuestionsTableFilters({ themeIds: ["theme-1"] }) } });
       await expandFiltersSection();
       const themeFilter = wrapper.findComponent<typeof QuestionsTableThemeFilter>({ name: "QuestionsTableThemeFilter" });
 
@@ -216,7 +218,7 @@ describe("QuestionsTableHeader Component", () => {
     });
 
     it("should pass filteredCount to the row count component when a filteredCount prop is provided.", async() => {
-      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, filteredCount: 5 } });
+      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultQuestionsTableHeaderProps, filteredCount: 5 } });
 
       const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='questions-table-row-count']");
 
@@ -236,7 +238,7 @@ describe("QuestionsTableHeader Component", () => {
     });
 
     it("should pass loading as true to the row count component when loading.", async() => {
-      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultProps, isLoading: true } });
+      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultQuestionsTableHeaderProps, isLoading: true } });
 
       const rowCount = wrapper.findComponent<typeof TableRowCount>("[data-testid='questions-table-row-count']");
 

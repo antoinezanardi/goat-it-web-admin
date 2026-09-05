@@ -15,7 +15,7 @@ describe("InputTagsField Component", () => {
 
   const defaultRemoveTooltipText = vi.fn<(item: string) => string>((item: string) => `Remove alias ${item}`);
 
-  const defaultProperties: InputTagsFieldProps = {
+  const defaultInputTagsFieldProps: InputTagsFieldProps = {
     modelValue: ["nature", "ecology"],
     addHintText: "to add an alias",
     removeTooltipText: defaultRemoveTooltipText,
@@ -23,11 +23,11 @@ describe("InputTagsField Component", () => {
     name: "aliases.fr",
     placeholder: "e.g., ecology, fauna, flora",
     required: true,
-  };
+  } as const;
 
   async function mountInputTagsFieldComponent(options: MountSuspendedOptions<typeof InputTagsField> = {}): Promise<VueWrapper> {
     return mountSuspended(InputTagsField, {
-      props: defaultProperties,
+      props: defaultInputTagsFieldProps,
       ...options,
     });
   }
@@ -53,7 +53,7 @@ describe("InputTagsField Component", () => {
 
     it("should pass error to the form field when error prop is provided.", async() => {
       wrapper = await mountInputTagsFieldComponent({
-        props: { ...defaultProperties, error: "Field is required" },
+        props: { ...defaultInputTagsFieldProps, error: "Field is required" },
       });
       const formField = wrapper.findComponent<typeof UFormField>({ name: "UFormField" });
 
@@ -104,7 +104,7 @@ describe("InputTagsField Component", () => {
 
     it("should pass duplicate as true to the input tags when duplicate prop is true.", async() => {
       wrapper = await mountInputTagsFieldComponent({
-        props: { ...defaultProperties, duplicate: true },
+        props: { ...defaultInputTagsFieldProps, duplicate: true },
       });
       const inputTags = wrapper.findComponent<typeof UInputTags>({ name: "UInputTags" });
 

@@ -25,6 +25,10 @@ describe("QuestionStatsContent Component", () => {
     wrapper = await mountQuestionStatsContent();
   });
 
+  it("should render QuestionStatsContent when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
+  });
+
   it("should render 6 StatsCard instances when mounted.", () => {
     const statsCards = wrapper.findAllComponents({ name: "StatsCard" });
 

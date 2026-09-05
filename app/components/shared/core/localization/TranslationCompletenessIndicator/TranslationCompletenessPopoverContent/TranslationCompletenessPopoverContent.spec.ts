@@ -12,19 +12,23 @@ import type { TranslationCompletenessPopoverContentProps } from "~/components/sh
 describe("TranslationCompletenessPopoverContent Component", () => {
   let wrapper: VueWrapper;
   const fullyTranslatedField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "Hallo", es: "Hola", it: "Ciao", pt: "Olá" });
-  const defaultProps: TranslationCompletenessPopoverContentProps = {
+  const defaultTranslationCompletenessPopoverContentProps: TranslationCompletenessPopoverContentProps = {
     requiredFields: [fullyTranslatedField],
-  };
+  } as const;
 
   async function mountTranslationCompletenessPopoverContentComponent(options: MountSuspendedOptions<typeof TranslationCompletenessPopoverContent> = {}): Promise<VueWrapper> {
     return mountSuspended(TranslationCompletenessPopoverContent, {
-      props: defaultProps,
+      props: defaultTranslationCompletenessPopoverContentProps,
       ...options,
     });
   }
 
   beforeEach(async() => {
     wrapper = await mountTranslationCompletenessPopoverContentComponent();
+  });
+
+  it("should render TranslationCompletenessPopoverContent when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
   });
 
   describe("Container", () => {

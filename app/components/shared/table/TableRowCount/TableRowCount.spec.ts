@@ -10,16 +10,16 @@ import type { USkeleton } from "#components";
 import type { TableRowCountProps } from "~/components/shared/table/TableRowCount/table-row-count.types";
 
 describe("TableRowCount Component", () => {
-  const defaultProps: TableRowCountProps = {
+  const defaultTableRowCountProps: TableRowCountProps = {
     count: 0,
     loading: false,
     countKey: "questions.itemsCount",
-  };
+  } as const;
   let wrapper: VueWrapper;
 
   async function mountTableRowCountComponent(options: MountSuspendedOptions<typeof TableRowCount> = {}): Promise<VueWrapper> {
     return mountSuspended(TableRowCount, {
-      props: defaultProps,
+      props: defaultTableRowCountProps,
       ...options,
     });
   }
@@ -34,7 +34,7 @@ describe("TableRowCount Component", () => {
 
   describe("Loading state", () => {
     it("should render a skeleton when loading is true.", async() => {
-      wrapper = await mountTableRowCountComponent({ props: { ...defaultProps, loading: true } });
+      wrapper = await mountTableRowCountComponent({ props: { ...defaultTableRowCountProps, loading: true } });
 
       const skeleton = wrapper.findComponent<typeof USkeleton>("[data-testid='table-row-count-skeleton']");
 
@@ -42,7 +42,7 @@ describe("TableRowCount Component", () => {
     });
 
     it("should not render the count text when loading is true.", async() => {
-      wrapper = await mountTableRowCountComponent({ props: { ...defaultProps, loading: true } });
+      wrapper = await mountTableRowCountComponent({ props: { ...defaultTableRowCountProps, loading: true } });
 
       const text = wrapper.find("[data-testid='table-row-count-text']");
 

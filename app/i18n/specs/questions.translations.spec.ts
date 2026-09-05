@@ -16,31 +16,31 @@ describe("questions.json translations", () => {
     expect(crushedEnQuestionsKeys).toStrictEqual(crushedFrQuestionsKeys);
   });
 
-  it("should have the same keys in english as in german when context is questions.", () => {
+  it("should have the same keys in french as in german when context is questions.", () => {
+    const crushedFrQuestionsKeys = Object.keys(crush(frQuestions)).toSorted();
     const crushedDeQuestionsKeys = Object.keys(crush(deQuestions)).toSorted();
-    const crushedEnQuestionsKeys = Object.keys(crush(enQuestions)).toSorted();
 
-    expect(crushedEnQuestionsKeys).toStrictEqual(crushedDeQuestionsKeys);
+    expect(crushedDeQuestionsKeys).toStrictEqual(crushedFrQuestionsKeys);
   });
 
-  it("should have the same keys in english as in spanish when context is questions.", () => {
+  it("should have the same keys in french as in spanish when context is questions.", () => {
+    const crushedFrQuestionsKeys = Object.keys(crush(frQuestions)).toSorted();
     const crushedEsQuestionsKeys = Object.keys(crush(esQuestions)).toSorted();
-    const crushedEnQuestionsKeys = Object.keys(crush(enQuestions)).toSorted();
 
-    expect(crushedEnQuestionsKeys).toStrictEqual(crushedEsQuestionsKeys);
+    expect(crushedEsQuestionsKeys).toStrictEqual(crushedFrQuestionsKeys);
   });
 
-  it("should have the same keys in english as in italian when context is questions.", () => {
+  it("should have the same keys in french as in italian when context is questions.", () => {
+    const crushedFrQuestionsKeys = Object.keys(crush(frQuestions)).toSorted();
     const crushedItQuestionsKeys = Object.keys(crush(itQuestions)).toSorted();
-    const crushedEnQuestionsKeys = Object.keys(crush(enQuestions)).toSorted();
 
-    expect(crushedEnQuestionsKeys).toStrictEqual(crushedItQuestionsKeys);
+    expect(crushedItQuestionsKeys).toStrictEqual(crushedFrQuestionsKeys);
   });
 
-  it("should have the same keys in english as in portuguese when context is questions.", () => {
+  it("should have the same keys in french as in portuguese when context is questions.", () => {
+    const crushedFrQuestionsKeys = Object.keys(crush(frQuestions)).toSorted();
     const crushedPtQuestionsKeys = Object.keys(crush(ptQuestions)).toSorted();
-    const crushedEnQuestionsKeys = Object.keys(crush(enQuestions)).toSorted();
 
-    expect(crushedEnQuestionsKeys).toStrictEqual(crushedPtQuestionsKeys);
+    expect(crushedPtQuestionsKeys).toStrictEqual(crushedFrQuestionsKeys);
   });
 });

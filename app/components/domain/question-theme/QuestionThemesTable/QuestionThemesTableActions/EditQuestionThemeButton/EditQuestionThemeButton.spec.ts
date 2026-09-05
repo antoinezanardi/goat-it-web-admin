@@ -11,14 +11,14 @@ import type { EditQuestionThemeButtonProps } from "~/components/domain/question-
 describe("EditQuestionThemeButton Component", () => {
   let wrapper: VueWrapper;
 
-  const defaultProperties: EditQuestionThemeButtonProps = {
+  const defaultEditQuestionThemeButtonProps: EditQuestionThemeButtonProps = {
     questionThemeId: "theme-id-123",
     questionThemeSlug: "music",
-  };
+  } as const;
 
   async function mountEditQuestionThemeButtonComponent(options: MountSuspendedOptions<typeof EditQuestionThemeButton> = {}): Promise<VueWrapper> {
     return mountSuspended(EditQuestionThemeButton, {
-      props: defaultProperties,
+      props: defaultEditQuestionThemeButtonProps,
       ...options,
     });
   }

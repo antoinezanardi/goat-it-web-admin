@@ -10,8 +10,11 @@ import { LoadingSpinner } from "#components";
 describe("LoadingSpinner Component", () => {
   let wrapper: VueWrapper;
 
+  const defaultLoadingSpinnerProps = {} as const;
+
   async function mountLoadingSpinnerComponent(options: MountSuspendedOptions<typeof LoadingSpinner> = {}): Promise<VueWrapper> {
     return mountSuspended(LoadingSpinner, {
+      ...defaultLoadingSpinnerProps,
       ...options,
     });
   }

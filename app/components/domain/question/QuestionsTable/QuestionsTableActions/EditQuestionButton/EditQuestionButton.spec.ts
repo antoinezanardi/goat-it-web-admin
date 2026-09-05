@@ -13,13 +13,13 @@ import type { EditQuestionButtonProps } from "~/components/domain/question/Quest
 describe("EditQuestionButton Component", () => {
   let wrapper: VueWrapper;
 
-  const defaultProps: EditQuestionButtonProps = {
+  const defaultEditQuestionButtonProps: EditQuestionButtonProps = {
     questionId: "question-id-123",
-  };
+  } as const;
 
   async function mountEditQuestionButtonComponent(options: MountSuspendedOptions<typeof EditQuestionButton> = {}): Promise<VueWrapper> {
     return mountSuspended(EditQuestionButton, {
-      props: defaultProps,
+      props: defaultEditQuestionButtonProps,
       ...options,
     });
   }

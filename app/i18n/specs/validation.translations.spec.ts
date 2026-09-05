@@ -16,31 +16,31 @@ describe("validation.json translations", () => {
     expect(crushedEnValidationKeys).toStrictEqual(crushedFrValidationKeys);
   });
 
-  it("should have the same keys in english as in german when context is validation.", () => {
+  it("should have the same keys in french as in german when context is validation.", () => {
+    const crushedFrValidationKeys = Object.keys(crush(frValidation)).toSorted();
     const crushedDeValidationKeys = Object.keys(crush(deValidation)).toSorted();
-    const crushedEnValidationKeys = Object.keys(crush(enValidation)).toSorted();
 
-    expect(crushedEnValidationKeys).toStrictEqual(crushedDeValidationKeys);
+    expect(crushedDeValidationKeys).toStrictEqual(crushedFrValidationKeys);
   });
 
-  it("should have the same keys in english as in spanish when context is validation.", () => {
+  it("should have the same keys in french as in spanish when context is validation.", () => {
+    const crushedFrValidationKeys = Object.keys(crush(frValidation)).toSorted();
     const crushedEsValidationKeys = Object.keys(crush(esValidation)).toSorted();
-    const crushedEnValidationKeys = Object.keys(crush(enValidation)).toSorted();
 
-    expect(crushedEnValidationKeys).toStrictEqual(crushedEsValidationKeys);
+    expect(crushedEsValidationKeys).toStrictEqual(crushedFrValidationKeys);
   });
 
-  it("should have the same keys in english as in italian when context is validation.", () => {
+  it("should have the same keys in french as in italian when context is validation.", () => {
+    const crushedFrValidationKeys = Object.keys(crush(frValidation)).toSorted();
     const crushedItValidationKeys = Object.keys(crush(itValidation)).toSorted();
-    const crushedEnValidationKeys = Object.keys(crush(enValidation)).toSorted();
 
-    expect(crushedEnValidationKeys).toStrictEqual(crushedItValidationKeys);
+    expect(crushedItValidationKeys).toStrictEqual(crushedFrValidationKeys);
   });
 
-  it("should have the same keys in english as in portuguese when context is validation.", () => {
+  it("should have the same keys in french as in portuguese when context is validation.", () => {
+    const crushedFrValidationKeys = Object.keys(crush(frValidation)).toSorted();
     const crushedPtValidationKeys = Object.keys(crush(ptValidation)).toSorted();
-    const crushedEnValidationKeys = Object.keys(crush(enValidation)).toSorted();
 
-    expect(crushedEnValidationKeys).toStrictEqual(crushedPtValidationKeys);
+    expect(crushedPtValidationKeys).toStrictEqual(crushedFrValidationKeys);
   });
 });

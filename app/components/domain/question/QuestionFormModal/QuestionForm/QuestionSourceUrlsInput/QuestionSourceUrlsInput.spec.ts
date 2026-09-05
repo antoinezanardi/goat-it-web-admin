@@ -14,13 +14,13 @@ import type { QuestionSourceUrlsInputProps } from "~/components/domain/question/
 describe("QuestionSourceUrlsInput Component", () => {
   let wrapper: VueWrapper;
 
-  const defaultProperties: QuestionSourceUrlsInputProps = {
+  const defaultQuestionSourceUrlsInputProps: QuestionSourceUrlsInputProps = {
     modelValue: [],
-  };
+  } as const;
 
   async function mountQuestionSourceUrlsInputComponent(options: MountSuspendedOptions<typeof QuestionSourceUrlsInput> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionSourceUrlsInput, {
-      props: defaultProperties,
+      props: defaultQuestionSourceUrlsInputProps,
       ...options,
     });
   }

@@ -10,12 +10,12 @@ import type { UBadge, UButton } from "#components";
 import type { TableFiltersSectionProps } from "~/components/shared/table/TableFiltersSection/table-filters-section.types";
 
 describe("TableFiltersSection Component", () => {
-  const defaultProps: TableFiltersSectionProps = { activeFilterCount: 0 };
+  const defaultTableFiltersSectionProps: TableFiltersSectionProps = { activeFilterCount: 0 } as const;
   let wrapper: VueWrapper;
 
   async function mountTableFiltersSectionComponent(options: MountSuspendedOptions<typeof TableFiltersSection> = {}): Promise<VueWrapper> {
     return mountSuspended(TableFiltersSection, {
-      props: defaultProps,
+      props: defaultTableFiltersSectionProps,
       ...options,
     });
   }
@@ -83,7 +83,7 @@ describe("TableFiltersSection Component", () => {
 
     it("should render slot content when expanded.", async() => {
       wrapper = await mountTableFiltersSectionComponent({
-        props: defaultProps,
+        props: defaultTableFiltersSectionProps,
         slots: { default: "<div data-testid='slot-content'>Filter here</div>" },
       });
       const toggleButton = wrapper.find("[data-testid='table-filters-section-toggle']");

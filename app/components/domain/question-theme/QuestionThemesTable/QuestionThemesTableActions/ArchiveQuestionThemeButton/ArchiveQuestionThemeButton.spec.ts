@@ -21,17 +21,17 @@ describe("ArchiveQuestionThemeButton Component", () => {
   let overlayInstance: UseOverlayInstanceMock;
   let overlayMock: UseOverlayMock;
 
-  const defaultProperties: ArchiveQuestionThemeButtonProps = {
+  const defaultArchiveQuestionThemeButtonProps: ArchiveQuestionThemeButtonProps = {
     questionThemeId: "theme-id-123",
     questionThemeSlug: "music",
-  };
+  } as const;
 
   async function mountArchiveQuestionThemeButtonComponent(options: MountSuspendedOptions<typeof ArchiveQuestionThemeButton> = {}): Promise<VueWrapper> {
     return mountSuspended(ArchiveQuestionThemeButton, {
       global: {
         plugins: [pinia],
       },
-      props: defaultProperties,
+      props: defaultArchiveQuestionThemeButtonProps,
       ...options,
     });
   }

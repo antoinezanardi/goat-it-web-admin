@@ -33,6 +33,10 @@ describe("QuestionThemeStatsContent Component", () => {
     wrapper = await mountQuestionThemeStatsContent();
   });
 
+  it("should render QuestionThemeStatsContent when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
+  });
+
   it("should render 3 StatsCard instances when mounted.", () => {
     const statsCards = wrapper.findAllComponents({ name: "StatsCard" });
 
