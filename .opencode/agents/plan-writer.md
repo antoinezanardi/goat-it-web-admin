@@ -56,3 +56,15 @@ When the plan is complete, check for:
 ## Output
 
 `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
+
+## Batch Writing Strategy
+
+Plans often exceed 2000 lines. The `Write` tool truncates output beyond that. **Write the plan in batches:**
+
+1. **First batch:** Use `Write` to create the file with the plan header + the first ~8-10 tasks. Keep this batch under 500 lines.
+2. **Subsequent batches:** Use `Edit` (append) to add the next chunk of tasks. Each append adds ~8-10 tasks (~400-500 lines).
+3. **Final batch:** After the last task, append the Self-Review section.
+
+**Batch size guideline:** Each batch = ~8-10 tasks or ~400-500 lines, whichever comes first. Never exceed 500 lines per write operation.
+
+**After all batches are written:** Re-read the full file to verify continuity and run the Self-Review checklist.
