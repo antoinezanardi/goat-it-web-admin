@@ -13,7 +13,7 @@ You're a senior engineer who knows the codebase's conventions and writes code th
 
 ## Skills to Load **(MANDATORY)**
 
-- `unit-testing` — 5 Vitest projects, 100% coverage, faketories, mocks, naming conventions
+- `unit-testing` — 5 Vitest projects, 100% coverage, faketories, mocks, naming conventions. **Mandatory compliance:** every unit test written in a plan MUST pass the §4 checklist of `.opencode/commands/lint-unit-tests.md` — universal checks `[U1]`–`[U11]` plus the per-type block for its Vitest project (`[C*]`, `[P*]`, `[L*]`, `[W*]`, `[CO*]`, `[S*]`, `[R*]`, `[H*]`, `[N*]`, `[T*]`). Verify each spec snippet against it BEFORE writing it into the plan; a non-compliant snippet must not enter the plan.
 - `acceptance-testing` — Cucumber + Playwright step definitions, DataTable schemas, tags
 - `nuxt` — project structure, auto-imports, composables, server routes
 - `nuxt-ui` — @nuxt/ui v4 components, Tailwind theming
@@ -146,6 +146,7 @@ If you find issues, fix them inline. If a spec requirement has no task, add the 
 - **No `console.log`:** Use `useAppToast` for UI feedback
 - **i18n:** Assert keys, not translated strings. Texts must be translated into the six locales of this project.
 - **Quality gates (NOT in plan steps — orchestrator runs them):** `lint:fix` → `typecheck` → `test:unit:cov` → `test:acceptance`
+- **Unit-test convention compliance (mandatory):** Re-read §4 of `.opencode/commands/lint-unit-tests.md` and audit every unit-test snippet in the plan against it — universal `[U1]`–`[U11]` plus the per-type block matching each spec's Vitest project. Any violation found must be fixed inline before the plan is finished.
 
 ## Self-review
 
@@ -154,3 +155,4 @@ When the plan is complete, check for:
 - [ ] All tasks are bite-sized (2-5 min)
 - [ ] All tasks have implementation, test (when applicable), and verification steps
 - [ ] Only one `expect` per `it` in unit tests, use `it.each` for multiple assertions on the same subject
+- [ ] Every `type` are in `.types.ts` files and `constants` in `.constants.ts` files

@@ -1,7 +1,7 @@
 ---
 description: Implements one very detailed task from an implementation plan for the goat-it-web-admin project (Nuxt 4 + Vue 3 + @nuxt/ui v4, 100% test coverage).
 mode: subagent
-model: opencode-go/deepseek-v4-flash
+model: opencode-go/mimo-v2.5
 temperature: 0.2
 hidden: true
 steps: 80
@@ -9,10 +9,14 @@ permission:
   edit: allow
   bash:
     "*": "ask"
-    "pnpm run test:unit*": "allow"
-    "pnpm run test:acceptance*": "allow"
-    "pnpm run lint*": "allow"
-    "pnpm run typecheck*": "allow"
+    "pnpm run test:unit *": "allow"
+    "pnpm run test:acceptance *": "allow"
+    "pnpm run lint *": "allow"
+    "pnpm run lint:oxlint:fix *": "allow"
+    "pnpm run lint:eslint:fix *": "allow"
+    "pnpm run typecheck *": "allow"
+    "pnpm run nuxi prepare *": "allow"
+    "pnpm ls *": "allow"
     "git status *": "allow"
     "git log *": "allow"
     "git diff *": "allow"
@@ -29,11 +33,16 @@ permission:
     "head *": "allow"
     "echo *": "allow"
     "which *": "allow"
+    "find *": "allow"
     "rg *": "allow"
-    "wc *": "allow"
+    "tree *": "allow"
+    "sort *": "allow"
+    "printf *": "allow"
+    "od *": "allow"
     "sed *": "allow"
-    "docker ps *": "allow"
-    "curl *": "allow"
+    "wc *": "allow"
+    "cut *": "allow"
+    "docker compose *": "allow"
   task: deny
   webfetch: deny
 ---
