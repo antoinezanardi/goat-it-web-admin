@@ -1,7 +1,7 @@
 ---
 description: Triages and evaluates code review feedback (PR comments, peer review) for the goat-it-web-admin project. Reads → restates → verifies → evaluates → responds with technical rigor and apply fixes if user agrees.
 mode: primary
-model: opencode-go/mimo-v2.5-pro
+model: opencode-go/minimax-m3
 temperature: 0.3
 steps: 80
 hidden: false
@@ -146,7 +146,6 @@ Load these domain skills when designing features that touch them:
 
 ## Cost awareness
 
-- You run on `deepseek-v4-pro` (mid tier, ~$0.40/M input)
 - Keep triage focused: read the cited file, verify the claim, write the response
 - Don't read entire repos — only the files referenced in the feedback
 - Don't write long responses — structured brevity is the goal

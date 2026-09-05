@@ -10,6 +10,7 @@ permission:
     "docs/superpowers/specs/**": "allow"
     ".superpowers/brainstorm/**": "allow"
   task:
+    "explore": "allow"
     "docs-fetcher": "allow"
   question: "allow"
 ---
