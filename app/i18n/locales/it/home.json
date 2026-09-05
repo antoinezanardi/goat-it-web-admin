@@ -13,6 +13,9 @@
       "byAuthorRole": "Per ruolo autore",
       "byRejectionType": "Per tipo di rifiuto",
       "byQuestionCount": "Domande per tema",
+      "byTranslationCompleteness": "Per traduzione",
+      "fullyTranslated": "Completamente tradotto",
+      "incomplete": "Incompleto",
       "noData": "Nessun dato disponibile"
     },
     "chartView": {

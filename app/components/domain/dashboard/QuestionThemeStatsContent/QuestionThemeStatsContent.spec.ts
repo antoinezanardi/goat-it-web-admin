@@ -33,26 +33,26 @@ describe("QuestionThemeStatsContent Component", () => {
     wrapper = await mountQuestionThemeStatsContent();
   });
 
-  it("should render 2 StatsCard instances when mounted.", () => {
+  it("should render 3 StatsCard instances when mounted.", () => {
     const statsCards = wrapper.findAllComponents({ name: "StatsCard" });
 
-    expect(statsCards).toHaveLength(2);
+    expect(statsCards).toHaveLength(3);
   });
 
   it("should pass correct titleKey to the by-status card when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[2];
 
     expect(statusCard?.props("titleKey")).toBe("home.stats.byStatus");
   });
 
   it("should pass correct defaultView to the by-status card when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[2];
 
     expect(statusCard?.props("defaultView")).toBe("doughnut");
   });
 
   it("should pass correct testId to the by-status card when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[2];
 
     expect(statusCard?.props("testId")).toBe("stats-card-theme-by-status");
   });
@@ -76,14 +76,14 @@ describe("QuestionThemeStatsContent Component", () => {
   });
 
   it("should map byStatus item at index 0 with active labelKey when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[2];
     const items = statusCard?.props("items") as { labelKey: string }[];
 
     expect(items[0]?.labelKey).toBe("questionThemes.status.active");
   });
 
   it("should map byStatus item at index 1 with archived labelKey when mounted.", () => {
-    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const statusCard = wrapper.findAllComponents({ name: "StatsCard" })[2];
     const items = statusCard?.props("items") as { labelKey: string }[];
 
     expect(items[1]?.labelKey).toBe("questionThemes.status.archived");
@@ -133,6 +133,66 @@ describe("QuestionThemeStatsContent Component", () => {
       labelKey: "test-theme",
       value: 10,
     });
+  });
+
+  it("should pass correct titleKey to the by-translation-completeness card when mounted.", () => {
+    const translationCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+
+    expect(translationCard?.props("titleKey")).toBe("home.stats.byTranslationCompleteness");
+  });
+
+  it("should pass correct defaultView to the by-translation-completeness card when mounted.", () => {
+    const translationCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+
+    expect(translationCard?.props("defaultView")).toBe("doughnut");
+  });
+
+  it("should pass correct testId to the by-translation-completeness card when mounted.", () => {
+    const translationCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+
+    expect(translationCard?.props("testId")).toBe("stats-card-theme-by-translation-completeness");
+  });
+
+  it("should map byTranslationCompleteness item at index 0 with fullyTranslated labelKey when mounted.", () => {
+    const translationCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const items = translationCard?.props("items") as { labelKey: string }[];
+
+    expect(items[0]?.labelKey).toBe("home.stats.fullyTranslated");
+  });
+
+  it("should map byTranslationCompleteness item at index 1 with incomplete labelKey when mounted.", () => {
+    const translationCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const items = translationCard?.props("items") as { labelKey: string }[];
+
+    expect(items[1]?.labelKey).toBe("home.stats.incomplete");
+  });
+
+  it("should map byTranslationCompleteness item at index 0 with success color when mounted.", () => {
+    const translationCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const items = translationCard?.props("items") as { color: string }[];
+
+    expect(items[0]?.color).toBe("success");
+  });
+
+  it("should map byTranslationCompleteness item at index 1 with warning color when mounted.", () => {
+    const translationCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const items = translationCard?.props("items") as { color: string }[];
+
+    expect(items[1]?.color).toBe("warning");
+  });
+
+  it("should map byTranslationCompleteness item at index 0 with fullyTranslated value when mounted.", () => {
+    const translationCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const items = translationCard?.props("items") as { value: number }[];
+
+    expect(items[0]?.value).toBe(fakeStats.byTranslationCompleteness.fullyTranslated);
+  });
+
+  it("should map byTranslationCompleteness item at index 1 with incomplete value when mounted.", () => {
+    const translationCard = wrapper.findAllComponents({ name: "StatsCard" })[1];
+    const items = translationCard?.props("items") as { value: number }[];
+
+    expect(items[1]?.value).toBe(fakeStats.byTranslationCompleteness.incomplete);
   });
 
   it("should apply grid-cols-1 class to the grid container when mounted.", () => {
