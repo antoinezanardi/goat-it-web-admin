@@ -1,36 +1,5 @@
 @theme static {
   --font-sans: 'General Sans', sans-serif;
-
-  --color-green-50: #EFFDF5;
-  --color-green-100: #D9FBE8;
-  --color-green-200: #B3F5D1;
-  --color-green-300: #75EDAE;
-  --color-green-400: #00DC82;
-  --color-green-500: #006638;
-  --color-green-600: #00552E;
-  --color-green-700: #004425;
-  --color-green-800: #00331B;
-  --color-green-900: #002212;
-  --color-green-950: #001109;
-}
-
-:root,
-.light {
-  --ui-info: var(--ui-color-info-800);
-  --ui-text: var(--ui-color-neutral-800);
-  --ui-text-toned: var(--ui-color-neutral-700);
-  --ui-text-muted: var(--ui-color-neutral-600);
-  --ui-text-dimmed: var(--ui-text-muted);
-  --ui-secondary: var(--ui-color-secondary-800);
-}
-
-.dark {
-  --ui-info: var(--ui-color-info-300);
-  --ui-text: var(--ui-color-neutral-100);
-  --ui-text-toned: var(--ui-color-neutral-200);
-  --ui-text-muted: var(--ui-color-neutral-300);
-  --ui-text-dimmed: var(--ui-text-muted);
-  --ui-secondary: var(--ui-color-secondary-300);
 }
 
 /* Fix Reka UI toast viewport focus proxy accessibility violation (aria-hidden-focus).

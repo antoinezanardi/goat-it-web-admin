@@ -13,19 +13,23 @@ import type { TranslationsOverviewProps } from "~/components/shared/core/localiz
 
 describe("TranslationsOverview Component", () => {
   let wrapper: VueWrapper;
-  const defaultProps: TranslationsOverviewProps = {
+  const defaultTranslationsOverviewProps: TranslationsOverviewProps = {
     localizedText: createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "Hallo", es: "", it: "", pt: "" }),
-  };
+  } as const;
 
   async function mountTranslationsOverviewComponent(options: MountSuspendedOptions<typeof TranslationsOverview> = {}): Promise<VueWrapper> {
     return mountSuspended(TranslationsOverview, {
-      props: defaultProps,
+      props: defaultTranslationsOverviewProps,
       ...options,
     });
   }
 
   beforeEach(async() => {
     wrapper = await mountTranslationsOverviewComponent();
+  });
+
+  it("should render TranslationsOverview when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
   });
 
   describe("Header", () => {
@@ -50,7 +54,7 @@ describe("TranslationsOverview Component", () => {
 
     it("should not render header when hideHeader is true.", async() => {
       wrapper = await mountTranslationsOverviewComponent({
-        props: { ...defaultProps, hideHeader: true },
+        props: { ...defaultTranslationsOverviewProps, hideHeader: true },
       });
       const header = wrapper.find("[data-testid='translations-overview-header']");
 
@@ -59,7 +63,7 @@ describe("TranslationsOverview Component", () => {
 
     it("should not render separator when hideHeader is true.", async() => {
       wrapper = await mountTranslationsOverviewComponent({
-        props: { ...defaultProps, hideHeader: true },
+        props: { ...defaultTranslationsOverviewProps, hideHeader: true },
       });
       const separator = wrapper.findComponent({ name: "USeparator" });
 
@@ -82,7 +86,7 @@ describe("TranslationsOverview Component", () => {
       expect(currentLocaleRow.exists()).toBeFalsy();
     });
 
-    it.each(expectedLocales)("should render a row for %s when component is rendered.", locale => {
+    it.each<string>(expectedLocales)("should render a row for %s when component is rendered.", locale => {
       const row = wrapper.find(`[data-testid='locale-value-${locale}']`);
 
       expect(row.exists()).toBeTruthy();
@@ -109,7 +113,7 @@ describe("TranslationsOverview Component", () => {
       expect(frRow.text()).toContain("Bonjour");
     });
 
-    it.each([
+    it.each<{ cssClass: string; shouldExist: boolean }>([
       { cssClass: "text-default", shouldExist: true },
       { cssClass: "text-error", shouldExist: false },
       { cssClass: "italic", shouldExist: false },
@@ -153,7 +157,7 @@ describe("TranslationsOverview Component", () => {
       expect(frRow.text()).toContain("Bonjour, Monde");
     });
 
-    it.each([
+    it.each<{ locale: string }>([
       { locale: "es" },
       { locale: "it" },
     ])("should display the missing translation key when the locale has an empty array or undefined value for $locale.", ({ locale }) => {
@@ -162,7 +166,7 @@ describe("TranslationsOverview Component", () => {
       expect(row.text()).toContain("localization.missingTranslation");
     });
 
-    it.each([
+    it.each<{ locale: string; cssClass: string }>([
       { locale: "fr", cssClass: "text-default" },
       { locale: "es", cssClass: "text-error" },
       { locale: "es", cssClass: "italic" },
@@ -182,7 +186,7 @@ describe("TranslationsOverview Component", () => {
       });
     });
 
-    it.each([
+    it.each<string>([
       "fr",
       "es",
       "de",
@@ -194,7 +198,7 @@ describe("TranslationsOverview Component", () => {
       expect(row.text()).toContain("localization.missingTranslation");
     });
 
-    it.each([
+    it.each<{ locale: string; cssClass: string }>([
       { locale: "fr", cssClass: "text-error" },
       { locale: "fr", cssClass: "italic" },
       { locale: "es", cssClass: "text-error" },

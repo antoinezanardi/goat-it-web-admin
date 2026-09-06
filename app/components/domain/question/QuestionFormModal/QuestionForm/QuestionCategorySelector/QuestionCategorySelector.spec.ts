@@ -12,13 +12,13 @@ import type { QuestionCategorySelectorProps } from "~/components/domain/question
 
 describe("QuestionCategorySelector Component", () => {
   let wrapper: VueWrapper;
-  const defaultProperties: QuestionCategorySelectorProps = {
+  const defaultQuestionCategorySelectorProps: QuestionCategorySelectorProps = {
     modelValue: undefined,
   } as const;
 
   async function mountQuestionCategorySelectorComponent(options: MountSuspendedOptions<typeof QuestionCategorySelector> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionCategorySelector, {
-      props: defaultProperties,
+      props: defaultQuestionCategorySelectorProps,
       ...options,
     });
   }
@@ -45,48 +45,16 @@ describe("QuestionCategorySelector Component", () => {
       expect(items).toHaveLength(4);
     });
 
-    it("should pass trivia as first item with correct icon and label key when items are rendered.", () => {
+    it.each<{ index: number; value: string; label: string; icon: string }>([
+      { index: 0, value: "trivia", label: "questions.category.trivia", icon: "i-lucide-lightbulb" },
+      { index: 1, value: "lexicon", label: "questions.category.lexicon", icon: "i-lucide-book-open" },
+      { index: 2, value: "riddle", label: "questions.category.riddle", icon: "i-lucide-puzzle" },
+      { index: 3, value: "explanation", label: "questions.category.explanation", icon: "i-lucide-message-circle" },
+    ])("should pass $value as item with correct icon and label key when items are rendered.", ({ index, value, label, icon }) => {
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
       const items = select.props("items") as { value: string; label: string; icon: string }[];
 
-      expect(items[0]).toStrictEqual({
-        value: "trivia",
-        label: "questions.category.trivia",
-        icon: "i-lucide-lightbulb",
-      });
-    });
-
-    it("should pass lexicon as second item with correct icon and label key when items are rendered.", () => {
-      const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
-      const items = select.props("items") as { value: string; label: string; icon: string }[];
-
-      expect(items[1]).toStrictEqual({
-        value: "lexicon",
-        label: "questions.category.lexicon",
-        icon: "i-lucide-book-open",
-      });
-    });
-
-    it("should pass riddle as third item with correct icon and label key when items are rendered.", () => {
-      const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
-      const items = select.props("items") as { value: string; label: string; icon: string }[];
-
-      expect(items[2]).toStrictEqual({
-        value: "riddle",
-        label: "questions.category.riddle",
-        icon: "i-lucide-puzzle",
-      });
-    });
-
-    it("should pass explanation as fourth item with correct icon and label key when items are rendered.", () => {
-      const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
-      const items = select.props("items") as { value: string; label: string; icon: string }[];
-
-      expect(items[3]).toStrictEqual({
-        value: "explanation",
-        label: "questions.category.explanation",
-        icon: "i-lucide-message-circle",
-      });
+      expect(items[index]).toStrictEqual({ value, label, icon });
     });
 
     it("should pass undefined as model value to the select component when no category is selected.", () => {

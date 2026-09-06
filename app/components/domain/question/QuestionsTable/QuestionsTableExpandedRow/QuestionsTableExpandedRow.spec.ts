@@ -23,12 +23,20 @@ describe("QuestionsTableExpandedRow Component", () => {
     }),
   });
 
+  const defaultQuestionsTableExpandedRowProps = {
+    question: fakeQuestion,
+  } as const;
+
   async function mountQuestionsTableExpandedRowComponent(options: MountSuspendedOptions<typeof QuestionsTableExpandedRow> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionsTableExpandedRow, options);
   }
 
   beforeEach(async() => {
-    wrapper = await mountQuestionsTableExpandedRowComponent({ props: { question: fakeQuestion } });
+    wrapper = await mountQuestionsTableExpandedRowComponent({ props: defaultQuestionsTableExpandedRowProps });
+  });
+
+  it("should render QuestionsTableExpandedRow when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
   });
 
   it("should render the answer TranslatedText component when mounted.", () => {

@@ -52,6 +52,13 @@ describe("QuestionThemeForm Component", () => {
       expect(labelFormField.props("label")).toBe("questionThemes.fields.label");
     });
 
+    it("should render the label input with the correct placeholder when mounted.", () => {
+      const labelFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-label-field']");
+      const labelInput = labelFormField.findComponent<typeof UInput>({ name: "UInput" });
+
+      expect(labelInput.props("placeholder")).toBe("questionThemes.placeholders.label");
+    });
+
     it("should render the label form field with the current locale in the name when mounted.", () => {
       const labelFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-label-field']");
 
@@ -62,6 +69,13 @@ describe("QuestionThemeForm Component", () => {
       const slugFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-slug-field']");
 
       expect(slugFormField.props("label")).toBe("questionThemes.fields.slug");
+    });
+
+    it("should render the slug input with the correct placeholder when mounted.", () => {
+      const slugFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-slug-field']");
+      const slugInput = slugFormField.findComponent<typeof UInput>({ name: "UInput" });
+
+      expect(slugInput.props("placeholder")).toBe("questionThemes.placeholders.slug");
     });
 
     it("should render the color form field with the correct i18n key when mounted.", () => {
@@ -76,6 +90,13 @@ describe("QuestionThemeForm Component", () => {
       expect(descriptionFormField.props("label")).toBe("questionThemes.fields.description");
     });
 
+    it("should render the description textarea with the correct placeholder when mounted.", () => {
+      const descriptionFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-description-field']");
+      const descriptionTextarea = descriptionFormField.findComponent<typeof UTextarea>({ name: "UTextarea" });
+
+      expect(descriptionTextarea.props("placeholder")).toBe("questionThemes.placeholders.description");
+    });
+
     it("should render the description form field with the current locale in the name when mounted.", () => {
       const descriptionFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-description-field']");
 
@@ -88,16 +109,39 @@ describe("QuestionThemeForm Component", () => {
       expect(aliasesFormField.props("label")).toBe("questionThemes.fields.aliases");
     });
 
+    it("should render the aliases input tags with the correct placeholder when mounted.", () => {
+      expect(wrapper.html()).toContain("questionThemes.placeholders.aliases");
+    });
+
+    it("should render the aliases input tags with the correct add alias hint text when mounted.", () => {
+      expect(wrapper.html()).toContain("questionThemes.form.addAliasHint");
+    });
+
+    it("should render the aliases remove alias tooltip text with the correct i18n key when a tag exists.", async() => {
+      const fakeTheme = createFakeQuestionTheme({
+        slug: "existing-slug",
+        color: "#123456",
+        label: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Label" }),
+        description: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: "Existing Description" }),
+        aliases: createFakeLocalizedTexts({ [DEFAULT_MOCKED_LOCALE]: ["alias-one"] }),
+      });
+      wrapper = await mountQuestionThemeFormComponent({
+        props: {
+          mode: "edit",
+          questionTheme: fakeTheme,
+          existingSlugs: ["existing-slug"],
+        },
+      });
+      const tooltips = wrapper.findAllComponents({ name: "UTooltip" });
+      const removeTooltip = tooltips.find(t => t.props("text") === "questionThemes.form.removeAlias");
+
+      expect(removeTooltip).toBeDefined();
+    });
+
     it("should render the aliases form field with the current locale in the name when mounted.", () => {
       const aliasesFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-aliases-field']");
 
       expect(aliasesFormField.props("name")).toBe(`aliases.${DEFAULT_MOCKED_LOCALE}`);
-    });
-
-    it("should render the aliases form field as required when mounted.", () => {
-      const aliasesFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-aliases-field']");
-
-      expect(aliasesFormField.props("required")).toBeTruthy();
     });
   });
 

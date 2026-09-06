@@ -100,6 +100,14 @@ describe("TranslatedText Component", () => {
       expect(badge.text()).toBe("common.noTranslation");
     });
 
+    it("should render the globe-x icon in the badge when the current locale has no translation.", async() => {
+      await wrapper.setProps({ localizedText: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: undefined }) });
+
+      const badge = wrapper.findComponent<typeof UBadge>({ name: "UBadge" });
+
+      expect(badge.props("icon")).toBe("i-lucide-globe-x");
+    });
+
     it("should not render the localized-text span when the current locale has no translation.", async() => {
       await wrapper.setProps({ localizedText: createFakeLocalizedText({ [DEFAULT_MOCKED_LOCALE]: undefined }) });
 

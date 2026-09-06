@@ -6,22 +6,20 @@ import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question
 
 import { createQuestionThemeAssignmentFromAdminQuestionThemeAssignmentDto } from "#server/utils/goat-it-api/mappers/question/question-theme-assignment/question-theme-assignment.mappers";
 
-describe("Question Theme Assignment Mappers", () => {
-  describe(createQuestionThemeAssignmentFromAdminQuestionThemeAssignmentDto, () => {
-    it("should create question theme assignment from admin question theme assignment dto with correct properties when called.", () => {
-      const dto = createFakeAdminQuestionThemeAssignmentDto();
-      const expectedThemeAssignment = createFakeQuestionThemeAssignment({
-        theme: createFakeQuestionTheme({
-          ...dto.theme,
-          createdAt: new Date(dto.theme.createdAt),
-          updatedAt: new Date(dto.theme.updatedAt),
-        }),
-        isPrimary: dto.isPrimary,
-        isHint: dto.isHint,
-      });
-      const result = createQuestionThemeAssignmentFromAdminQuestionThemeAssignmentDto(dto);
-
-      expect(result).toStrictEqual(expectedThemeAssignment);
+describe(createQuestionThemeAssignmentFromAdminQuestionThemeAssignmentDto, () => {
+  it("should create question theme assignment from admin question theme assignment dto with correct properties when called.", () => {
+    const dto = createFakeAdminQuestionThemeAssignmentDto();
+    const expectedThemeAssignment = createFakeQuestionThemeAssignment({
+      theme: createFakeQuestionTheme({
+        ...dto.theme,
+        createdAt: new Date(dto.theme.createdAt),
+        updatedAt: new Date(dto.theme.updatedAt),
+      }),
+      isPrimary: dto.isPrimary,
+      isHint: dto.isHint,
     });
+    const result = createQuestionThemeAssignmentFromAdminQuestionThemeAssignmentDto(dto);
+
+    expect(result).toStrictEqual(expectedThemeAssignment);
   });
 });

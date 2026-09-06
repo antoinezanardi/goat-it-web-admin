@@ -38,6 +38,10 @@ describe("StatsCard Component", () => {
     wrapper = await mountStatsCard();
   });
 
+  it("should render StatsCard when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
+  });
+
   it("should render the translated title when mounted.", () => {
     expect(wrapper.text()).toContain("home.stats.byStatus");
   });

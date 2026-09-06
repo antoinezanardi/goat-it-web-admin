@@ -1,6 +1,6 @@
 overrides:
   conventional-changelog-writer: ^9.2.1
-  vite: ^8.2.1
+  vite: ^8.2.2
 
 allowBuilds:
   '@parcel/watcher': true
@@ -8,6 +8,14 @@ allowBuilds:
   unrs-resolver: true
   vue-demi: true
 
-supportedArchitectures: os=linux,darwin cpu=x64,arm64
-libc: glibc,musl
+supportedArchitectures:
+  os:
+    - linux
+    - darwin
+  cpu:
+    - x64
+    - arm64
+  libc:
+    - glibc
+    - musl
 minimumReleaseAge: 0

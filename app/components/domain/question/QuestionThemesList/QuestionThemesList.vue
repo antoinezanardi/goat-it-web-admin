@@ -16,6 +16,7 @@ const missingThemeTranslation = computed<string>(() => t("questions.missingTheme
     <UTooltip
       v-for="assignment in themes"
       :key="assignment.theme.id"
+      :data-testid="`question-theme-tooltip-${assignment.theme.slug}`"
       :text="getThemeLocalizedLabel(assignment.theme, locale, missingThemeTranslation)"
     >
       <QuestionThemeIcon

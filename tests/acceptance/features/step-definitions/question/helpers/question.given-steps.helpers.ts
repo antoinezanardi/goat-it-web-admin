@@ -1,25 +1,18 @@
 import { expect } from "@playwright/test";
 import type { Page } from "@playwright/test";
 
+import { clickButtonByName } from "#acceptance/features/support/helpers/button.helpers.ts";
+import { resolveVisibleDialog, submitDialog } from "#acceptance/features/support/helpers/dialog.helpers.ts";
 import type { QuestionFormRow } from "#acceptance/features/step-definitions/question/datatables/question.datatables.schemas.ts";
 import { fillQuestionForm } from "#acceptance/features/step-definitions/question/helpers/question.when-steps.helpers.ts";
 
 async function createQuestionViaUi(page: Page, row: QuestionFormRow): Promise<void> {
-  const createButton = page.getByRole("button", { name: "Create a new question" });
+  await clickButtonByName(page, "Create a new question");
 
-  await expect(createButton).toBeVisible();
-  await createButton.click();
-
-  const dialog = page.getByRole("dialog");
-
-  await expect(dialog).toBeVisible();
+  const dialog = await resolveVisibleDialog(page);
   await fillQuestionForm(dialog, row);
 
-  const submitButton = dialog.getByRole("button", { name: "Create" });
-
-  await expect(submitButton).toBeEnabled();
-  await submitButton.click();
-  await expect(dialog).toBeHidden();
+  await submitDialog(dialog, dialog.getByRole("button", { name: "Create" }));
 
   if (row.status === "archived") {
     if (row.statement === undefined) {
@@ -37,9 +30,7 @@ async function archiveQuestionViaUi(page: Page, statement: string): Promise<void
   await expect(archiveButton).toBeVisible();
   await archiveButton.click();
 
-  const dialog = page.getByRole("dialog");
-
-  await expect(dialog).toBeVisible();
+  const dialog = await resolveVisibleDialog(page);
 
   const confirmButton = dialog.getByRole("button", { name: "Confirm" });
 

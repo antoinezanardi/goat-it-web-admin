@@ -7,7 +7,7 @@ import type { Locale } from "@goat-it/schemas/shared/locale";
 import type { QuestionsTableFilters } from "~/components/domain/question/QuestionsTable/QuestionsTableHeader/questions-table-header.types";
 import type { QuestionsTableEmits, QuestionsTableGlobalFilterOptions } from "~/components/domain/question/QuestionsTable/questions-table.types";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
-import { TABLE_UI, TABLE_CARD_UI } from "~/utils/constants/table/table.constants.ts";
+import { TABLE_CARD_UI } from "~/utils/constants/table/table.constants.ts";
 import { getLocalizedDisplayValue } from "#shared/utils/helpers/localization/localization.helpers";
 import { toKebabCaseKeys } from "#shared/utils/helpers/object/object.helpers";
 
@@ -136,7 +136,6 @@ function onStartEditFromQuestionsTableActions(id: string): void {
       :loading="isFetchingQuestions"
       sticky
       :tabindex="0"
-      :ui="TABLE_UI"
       virtualize
     >
       <template #expand-cell="{ row }">

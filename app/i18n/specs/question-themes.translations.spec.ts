@@ -9,38 +9,16 @@ import itQuestionThemes from "~/i18n/locales/it/question-themes.json";
 import ptQuestionThemes from "~/i18n/locales/pt/question-themes.json";
 
 describe("question-themes.json translations", () => {
-  it("should have the same keys in english as in french when context is question-themes.", () => {
-    const crushedFrQuestionThemesKeys = Object.keys(crush(frQuestionThemes)).toSorted();
-    const crushedEnQuestionThemesKeys = Object.keys(crush(enQuestionThemes)).toSorted();
+  it.each<[string, typeof frQuestionThemes]>([
+    ["de", deQuestionThemes],
+    ["en", enQuestionThemes],
+    ["es", esQuestionThemes],
+    ["it", itQuestionThemes],
+    ["pt", ptQuestionThemes],
+  ])("should have the same keys in every locale as in french when context is question-themes.", (_locale, translations) => {
+    const crushedReferenceKeys = Object.keys(crush(frQuestionThemes)).toSorted();
+    const crushedTranslationKeys = Object.keys(crush(translations)).toSorted();
 
-    expect(crushedEnQuestionThemesKeys).toStrictEqual(crushedFrQuestionThemesKeys);
-  });
-
-  it("should have the same keys in english as in german when context is question-themes.", () => {
-    const crushedDeQuestionThemesKeys = Object.keys(crush(deQuestionThemes)).toSorted();
-    const crushedEnQuestionThemesKeys = Object.keys(crush(enQuestionThemes)).toSorted();
-
-    expect(crushedEnQuestionThemesKeys).toStrictEqual(crushedDeQuestionThemesKeys);
-  });
-
-  it("should have the same keys in english as in spanish when context is question-themes.", () => {
-    const crushedEsQuestionThemesKeys = Object.keys(crush(esQuestionThemes)).toSorted();
-    const crushedEnQuestionThemesKeys = Object.keys(crush(enQuestionThemes)).toSorted();
-
-    expect(crushedEnQuestionThemesKeys).toStrictEqual(crushedEsQuestionThemesKeys);
-  });
-
-  it("should have the same keys in english as in italian when context is question-themes.", () => {
-    const crushedItQuestionThemesKeys = Object.keys(crush(itQuestionThemes)).toSorted();
-    const crushedEnQuestionThemesKeys = Object.keys(crush(enQuestionThemes)).toSorted();
-
-    expect(crushedEnQuestionThemesKeys).toStrictEqual(crushedItQuestionThemesKeys);
-  });
-
-  it("should have the same keys in english as in portuguese when context is question-themes.", () => {
-    const crushedPtQuestionThemesKeys = Object.keys(crush(ptQuestionThemes)).toSorted();
-    const crushedEnQuestionThemesKeys = Object.keys(crush(enQuestionThemes)).toSorted();
-
-    expect(crushedEnQuestionThemesKeys).toStrictEqual(crushedPtQuestionThemesKeys);
+    expect(crushedTranslationKeys).toStrictEqual<string[]>(crushedReferenceKeys);
   });
 });

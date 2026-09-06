@@ -10,6 +10,7 @@ import { createUseOverlayInstanceMock } from "~~/tests/unit/utils/mocks/composab
 import type { UseOverlayInstanceMock, UseOverlayMock } from "~~/tests/unit/utils/mocks/composables/ui/useOverlay/useOverlay.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
+import type { UButton } from "#components";
 import { ArchiveQuestionButton, ConfirmDialog } from "#components";
 
 import type { ArchiveQuestionButtonProps } from "~/components/domain/question/QuestionsTable/QuestionsTableActions/ArchiveQuestionButton/archive-question-button.types";
@@ -21,16 +22,16 @@ describe("ArchiveQuestionButton Component", () => {
   let overlayInstance: UseOverlayInstanceMock;
   let overlayMock: UseOverlayMock;
 
-  const defaultProps: ArchiveQuestionButtonProps = {
+  const defaultArchiveQuestionButtonProps: ArchiveQuestionButtonProps = {
     questionId: "question-id-123",
-  };
+  } as const;
 
   async function mountArchiveQuestionButtonComponent(options: MountSuspendedOptions<typeof ArchiveQuestionButton> = {}): Promise<VueWrapper> {
     return mountSuspended(ArchiveQuestionButton, {
       global: {
         plugins: [pinia],
       },
-      props: defaultProps,
+      props: defaultArchiveQuestionButtonProps,
       ...options,
     });
   }
@@ -44,10 +45,8 @@ describe("ArchiveQuestionButton Component", () => {
     questionsStore = mockStore(useQuestionsStore);
   });
 
-  it("should render the archive button when mounted.", () => {
-    const button = wrapper.find(".archive-question-button");
-
-    expect(button.exists()).toBeTruthy();
+  it("should render ArchiveQuestionButton when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
   });
 
   it("should render the archive tooltip when mounted.", () => {
@@ -57,9 +56,15 @@ describe("ArchiveQuestionButton Component", () => {
   });
 
   it("should set the aria-label on the archive button when mounted.", () => {
-    const button = wrapper.find(".archive-question-button");
+    const button = wrapper.findComponent<typeof UButton>(".archive-question-button");
 
     expect(button.attributes("aria-label")).toBe("questions.actions.archive");
+  });
+
+  it("should render the archive icon on the button when mounted.", () => {
+    const button = wrapper.findComponent<typeof UButton>(".archive-question-button");
+
+    expect(button.props("icon")).toBe("i-lucide-archive");
   });
 
   it("should register the confirm dialog with the overlay when mounted.", () => {

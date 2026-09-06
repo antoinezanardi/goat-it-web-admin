@@ -1,3 +1,4 @@
+import { expect } from "@playwright/test";
 import type { Page } from "@playwright/test";
 
 /**
@@ -42,4 +43,16 @@ async function doesTableContainRowMatchingAttributes(page: Page, expectedAttribu
   return false;
 }
 
-export { doesTableContainRowMatchingAttributes };
+async function assertTableRowPresence(page: Page, expectedAttributes: Record<string, string | undefined>, shouldExist: boolean): Promise<void> {
+  const table = page.getByRole("table");
+
+  await expect(table).toBeVisible();
+
+  await expect(async() => {
+    const wasFound = await doesTableContainRowMatchingAttributes(page, expectedAttributes);
+
+    expect(wasFound).toBe(shouldExist);
+  }).toPass();
+}
+
+export { assertTableRowPresence, doesTableContainRowMatchingAttributes };

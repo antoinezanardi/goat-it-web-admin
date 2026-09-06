@@ -33,14 +33,14 @@ function onActiveTabChange(tab: DashboardTab): void {
 <template>
   <div
     id="home-page"
-    class="flex flex-col h-[calc(100dvh-var(--ui-header-height))]"
+    class="flex flex-col mb-3"
   >
     <PageHeader
       :icon="HOME_PAGE_ICON"
       :title="$t(HOME_PAGE_TITLE_KEY)"
     />
 
-    <UContainer class="flex flex-1 flex-col min-h-0">
+    <UContainer class="flex flex-1 flex-col">
       <div class="flex flex-col gap-6">
         <DashboardSummaryTabs
           :active-tab="activeTab"

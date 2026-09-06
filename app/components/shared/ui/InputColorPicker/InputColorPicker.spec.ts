@@ -11,8 +11,11 @@ import type { UColorPicker } from "#components";
 describe("InputColorPicker Component", () => {
   let wrapper: VueWrapper;
 
+  const defaultInputColorPickerProps = {} as const;
+
   async function mountInputColorPickerComponent(options: MountSuspendedOptions<typeof InputColorPicker> = {}): Promise<VueWrapper> {
     return mountSuspended(InputColorPicker, {
+      ...defaultInputColorPickerProps,
       ...options,
     });
   }
@@ -76,11 +79,19 @@ describe("InputColorPicker Component", () => {
     });
   });
 
+  describe("Labels and Accessibility", () => {
+    it("should use the choose color translation key for the palette button aria-label when mounted.", () => {
+      const paletteButton = wrapper.find("[data-testid='input-color-picker-palette-icon']");
+
+      expect(paletteButton.attributes("aria-label")).toContain("form.chooseColor");
+    });
+  });
+
   describe("Input", () => {
     it("should display the placeholder when no color is set.", () => {
       const input = wrapper.find("input");
 
-      expect(input.attributes("placeholder")).toBe("form.chooseColor");
+      expect(input.attributes("placeholder")).toContain("form.chooseColor");
     });
 
     it("should display the hex value without hash when a color is set.", async() => {
@@ -143,12 +154,19 @@ describe("InputColorPicker Component", () => {
 
   describe("Color picker popover", () => {
     it("should open the popover and render the UColorPicker when the palette icon is clicked.", async() => {
-      const paletteIcon = wrapper.get("[data-testid='input-color-picker-palette-icon']");
+      const paletteIcon = wrapper.find("[data-testid='input-color-picker-palette-icon']");
       await paletteIcon.trigger("click");
 
       const colorPicker = wrapper.findComponent({ name: "UColorPicker" });
 
       expect(colorPicker.exists()).toBeTruthy();
+    });
+
+    it("should pass the palette icon to the color picker button when mounted.", () => {
+      const popover = wrapper.findComponent({ name: "UPopover" });
+      const paletteButton = popover.findComponent({ name: "UButton" });
+
+      expect(paletteButton.props("icon")).toBe("i-lucide-palette");
     });
 
     it("should update the input text when the color picker emits a new value.", async() => {
