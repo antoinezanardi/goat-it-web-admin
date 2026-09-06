@@ -4,22 +4,15 @@ import type { DataTable } from "@cucumber/cucumber";
 
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
 import { validateDataTableAndGetFirstRow } from "#acceptance/features/support/helpers/datatable.helpers.ts";
-import { doesTableContainRowMatchingAttributes } from "#acceptance/features/support/helpers/table.helpers.ts";
+import { assertTableRowPresence } from "#acceptance/features/support/helpers/table.helpers.ts";
 import { QUESTION_TABLE_ROW_SCHEMA } from "#acceptance/features/step-definitions/question/datatables/question.datatables.schemas.ts";
 
 Then(
   /^the questions table should contain a row with the following attributes:$/u,
   async function(this: GoatItWorld, dataTable: DataTable): Promise<void> {
     const row = validateDataTableAndGetFirstRow(dataTable, QUESTION_TABLE_ROW_SCHEMA);
-    const table = this.page.getByRole("table");
 
-    await expect(table).toBeVisible();
-
-    await expect(async() => {
-      const wasFound = await doesTableContainRowMatchingAttributes(this.page, row);
-
-      expect(wasFound).toBe(true);
-    }).toPass();
+    await assertTableRowPresence(this.page, row, true);
   },
 );
 
@@ -27,15 +20,8 @@ Then(
   /^the questions table should not contain a row with the following attributes:$/u,
   async function(this: GoatItWorld, dataTable: DataTable): Promise<void> {
     const row = validateDataTableAndGetFirstRow(dataTable, QUESTION_TABLE_ROW_SCHEMA);
-    const table = this.page.getByRole("table");
 
-    await expect(table).toBeVisible();
-
-    await expect(async() => {
-      const wasFound = await doesTableContainRowMatchingAttributes(this.page, row);
-
-      expect(wasFound).toBe(false);
-    }).toPass();
+    await assertTableRowPresence(this.page, row, false);
   },
 );
 

@@ -2,11 +2,12 @@ import { Then } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
 
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
+import { resolveVisibleDialog } from "#acceptance/features/support/helpers/dialog.helpers.ts";
 
 Then(
   /^the theme "(?<themeName>[^"]*)" should be visible in the question theme selector list$/u,
   async function(this: GoatItWorld, themeName: string): Promise<void> {
-    const dialog = this.page.getByRole("dialog");
+    const dialog = await resolveVisibleDialog(this.page);
     const themeList = dialog.getByTestId("question-theme-selector-list");
 
     await expect(themeList.getByText(themeName, { exact: true })).toBeVisible();
@@ -16,7 +17,7 @@ Then(
 Then(
   /^the theme "(?<themeName>[^"]*)" should be hidden in the question theme selector list$/u,
   async function(this: GoatItWorld, themeName: string): Promise<void> {
-    const dialog = this.page.getByRole("dialog");
+    const dialog = await resolveVisibleDialog(this.page);
     const themeList = dialog.getByTestId("question-theme-selector-list");
 
     await expect(themeList.getByText(themeName, { exact: true })).toBeHidden();
@@ -26,7 +27,7 @@ Then(
 Then(
   /^the question form source urls input should have no tags$/u,
   async function(this: GoatItWorld): Promise<void> {
-    const dialog = this.page.getByRole("dialog");
+    const dialog = await resolveVisibleDialog(this.page);
     const sourceUrlsContainer = dialog.getByTestId("question-source-urls-input");
     const tags = sourceUrlsContainer.locator("[data-part='item-preview']");
 
@@ -37,7 +38,7 @@ Then(
 Then(
   /^the remove button for the theme "(?<themeName>[^"]*)" should be disabled in the question form theme selector$/u,
   async function(this: GoatItWorld, themeName: string): Promise<void> {
-    const dialog = this.page.getByRole("dialog");
+    const dialog = await resolveVisibleDialog(this.page);
     const themeList = dialog.getByTestId("question-theme-selector-list");
     const themeItem = themeList.locator("[data-testid^='question-theme-selector-assignment-']").filter({ has: this.page.getByText(themeName, { exact: true }) });
     const removeButton = themeItem.locator("[data-testid^='question-theme-selector-remove-']");
@@ -49,7 +50,7 @@ Then(
 Then(
   /^the remove button for the theme "(?<themeName>[^"]*)" should be hidden in the question form theme selector$/u,
   async function(this: GoatItWorld, themeName: string): Promise<void> {
-    const dialog = this.page.getByRole("dialog");
+    const dialog = await resolveVisibleDialog(this.page);
     const themeList = dialog.getByTestId("question-theme-selector-list");
     const themeItem = themeList.locator("[data-testid^='question-theme-selector-assignment-']").filter({ has: this.page.getByText(themeName, { exact: true }) });
     const removeButton = themeItem.locator("[data-testid^='question-theme-selector-remove-']");

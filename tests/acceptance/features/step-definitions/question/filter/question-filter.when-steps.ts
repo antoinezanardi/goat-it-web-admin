@@ -2,14 +2,13 @@ import { When } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
 
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
+import { clickButtonByName } from "#acceptance/features/support/helpers/button.helpers.ts";
+import { selectOptionFromListbox } from "#acceptance/features/support/helpers/listbox.helpers.ts";
 
 When(
   /^the user (?:expands|collapses) the questions filters$/u,
   async function(this: GoatItWorld): Promise<void> {
-    const toggleButton = this.page.getByRole("button", { name: "Filters" });
-
-    await expect(toggleButton).toBeVisible();
-    await toggleButton.click();
+    await clickButtonByName(this.page, "Filters");
   },
 );
 
@@ -20,15 +19,7 @@ When(
 
     await expect(filterSelect).toBeVisible();
 
-    const selectButton = filterSelect.getByRole("button");
-
-    await selectButton.click();
-
-    const listbox = this.page.getByRole("listbox");
-
-    await expect(listbox).toBeVisible();
-    await listbox.getByRole("option", { name: status }).click();
-    await expect(listbox).toBeHidden();
+    await selectOptionFromListbox(filterSelect.getByRole("button"), this.page, status);
   },
 );
 
@@ -39,15 +30,7 @@ When(
 
     await expect(filterSelect).toBeVisible();
 
-    const selectButton = filterSelect.getByRole("button");
-
-    await selectButton.click();
-
-    const listbox = this.page.getByRole("listbox");
-
-    await expect(listbox).toBeVisible();
-    await listbox.getByRole("option", { name: category }).click();
-    await expect(listbox).toBeHidden();
+    await selectOptionFromListbox(filterSelect.getByRole("button"), this.page, category);
   },
 );
 
@@ -58,25 +41,14 @@ When(
 
     await expect(filterSelect).toBeVisible();
 
-    const selectButton = filterSelect.getByRole("button");
-
-    await selectButton.click();
-
-    const listbox = this.page.getByRole("listbox");
-
-    await expect(listbox).toBeVisible();
-    await listbox.getByRole("option", { name: difficulty }).click();
-    await expect(listbox).toBeHidden();
+    await selectOptionFromListbox(filterSelect.getByRole("button"), this.page, difficulty);
   },
 );
 
 When(
   /^the user clears the questions filters$/u,
   async function(this: GoatItWorld): Promise<void> {
-    const clearButton = this.page.getByRole("button", { name: "Clear all" });
-
-    await expect(clearButton).toBeVisible();
-    await clearButton.click();
+    await clickButtonByName(this.page, "Clear all");
   },
 );
 
