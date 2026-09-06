@@ -201,7 +201,7 @@ describe("QuestionStatsContent Component", () => {
     const translationCard = findStatsCard("stats-card-by-translation-completeness");
     const items = translationCard?.props("items") as StatsCardItem[];
 
-    expect(items[1]?.color).toBe("warning");
+    expect(items[1]?.color).toBe("error");
   });
 
   it("should map byTranslationCompleteness item at index 0 with fullyTranslated value when mounted.", () => {

@@ -42,7 +42,7 @@ const byRejectionTypeItems = computed<StatsCardItem[]>(() => [
 
 const byTranslationCompletenessItems = computed<StatsCardItem[]>(() => [
   { labelKey: "home.stats.fullyTranslated", value: props.stats.byTranslationCompleteness.fullyTranslated, color: "success" },
-  { labelKey: "home.stats.incomplete", value: props.stats.byTranslationCompleteness.incomplete, color: "warning" },
+  { labelKey: "home.stats.incomplete", value: props.stats.byTranslationCompleteness.incomplete, color: "error" },
 ]);
 </script>
 
@@ -83,13 +83,13 @@ const byTranslationCompletenessItems = computed<StatsCardItem[]>(() => [
         test-id="stats-card-by-author-role"
         title-key="home.stats.byAuthorRole"
       />
-    </div>
 
-    <StatsCard
-      default-view="bar"
-      :items="byRejectionTypeItems"
-      test-id="stats-card-by-rejection-type"
-      title-key="home.stats.byRejectionType"
-    />
+      <StatsCard
+        default-view="bar"
+        :items="byRejectionTypeItems"
+        test-id="stats-card-by-rejection-type"
+        title-key="home.stats.byRejectionType"
+      />
+    </div>
   </div>
 </template>
