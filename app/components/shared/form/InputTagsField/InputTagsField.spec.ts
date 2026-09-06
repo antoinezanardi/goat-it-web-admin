@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import type { UFormField, UInputTags, UKbd } from "#components";
+import type { UIcon, UFormField, UInputTags, UKbd } from "#components";
 import { InputTagsField } from "#components";
 
 import type { InputTagsFieldProps } from "~/components/shared/form/InputTagsField/input-tags-field.types";
@@ -117,6 +117,13 @@ describe("InputTagsField Component", () => {
       getWrapperVm(inputTags).$emit("update:modelValue", ["nature", "ecology", "fauna"]);
 
       expect(wrapper.emitted("update:modelValue")).toStrictEqual([[["nature", "ecology", "fauna"]]]);
+    });
+
+    it("should pass the close icon name to the UIcon in the item-delete slot when tags are present.", () => {
+      const icon = wrapper.findComponent<typeof UIcon>({ name: "UIcon" });
+      const vm = getWrapperVm(wrapper) as unknown as { closeIcon: string };
+
+      expect(icon.props("name")).toBe(vm.closeIcon);
     });
   });
 });

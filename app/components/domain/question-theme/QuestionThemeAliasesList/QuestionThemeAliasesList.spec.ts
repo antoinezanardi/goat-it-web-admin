@@ -6,7 +6,7 @@ import { createFakeLocalizedTexts } from "@goat-it/schemas/testing/shared";
 import { DEFAULT_MOCKED_LOCALE } from "~~/tests/unit/utils/mocks/composables/nuxt/useI18n/useI18n.mock.constants";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import type { QuestionThemeAliasPill, TranslationsOverview } from "#components";
+import type { QuestionThemeAliasPill, TranslationsOverview, UBadge } from "#components";
 import { QuestionThemeAliasesList } from "#components";
 
 import type { QuestionThemeAliasesListProps } from "~/components/domain/question-theme/QuestionThemeAliasesList/question-theme-aliases-list.types";
@@ -57,6 +57,32 @@ describe("QuestionThemeAliasesList Component", () => {
     const badge = wrapper.find("[data-testid='aliases-none-badge']");
 
     expect(badge.exists()).toBeTruthy();
+  });
+
+  it("should render the none badge with the correct icon when the current locale has no aliases.", async() => {
+    wrapper = await mountQuestionThemeAliasesListComponent({
+      props: { localizedTexts: createFakeLocalizedTexts({ [DEFAULT_MOCKED_LOCALE]: [] }) },
+      global: {
+        stubs: { UPopover: { template: "<div><slot /><slot name=\"content\" /></div>" } },
+      },
+    });
+
+    const badgeComponent = wrapper.findComponent<typeof UBadge>("[data-testid='aliases-none-badge']");
+
+    expect(badgeComponent.props("icon")).toBe("i-lucide-circle-slash");
+  });
+
+  it("should render the none badge with the correct i18n key when the current locale has no aliases.", async() => {
+    wrapper = await mountQuestionThemeAliasesListComponent({
+      props: { localizedTexts: createFakeLocalizedTexts({ [DEFAULT_MOCKED_LOCALE]: [] }) },
+      global: {
+        stubs: { UPopover: { template: "<div><slot /><slot name=\"content\" /></div>" } },
+      },
+    });
+
+    const badge = wrapper.find("[data-testid='aliases-none-badge']");
+
+    expect(badge.text()).toContain("questionThemes.aliases.noneForLocale");
   });
 
   it("should render the none badge when the current locale value is undefined.", async() => {

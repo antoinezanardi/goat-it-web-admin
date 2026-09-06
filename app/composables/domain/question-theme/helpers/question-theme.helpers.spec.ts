@@ -6,7 +6,7 @@ import type { QuestionTheme } from "#shared/types/question-theme.types";
 import { QUESTION_THEME_UNKNOWN_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants";
 import { getThemeIcon, getThemeLocalizedLabel } from "~/composables/domain/question-theme/helpers/question-theme.helpers";
 
-describe("Question Theme Helpers", () => {
+describe(getThemeIcon, () => {
   describe(getThemeIcon, () => {
     it.each<{ slug: string; expectedIcon: string }>([
       { slug: "history-civilizations", expectedIcon: "i-lucide-landmark" },

@@ -6,7 +6,7 @@ import { createFakeQuestion } from "~~/tests/unit/utils/faketories/questions/ent
 
 import { createQuestionFromAdminQuestionDto } from "#server/utils/goat-it-api/mappers/question/question.mappers";
 
-describe("Question Mappers", () => {
+describe(createQuestionFromAdminQuestionDto, () => {
   describe(createQuestionFromAdminQuestionDto, () => {
     it("should create question from admin question dto with correct properties when called.", () => {
       const dto = createFakeAdminQuestionDto({ rejection: undefined });

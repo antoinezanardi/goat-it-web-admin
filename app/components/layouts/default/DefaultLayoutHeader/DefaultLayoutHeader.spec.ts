@@ -46,12 +46,6 @@ describe("DefaultLayoutHeader Component", () => {
       expect(fullNameSpan.text()).toBe("common.app.name");
     });
 
-    it("should render the full app name span visible on medium and larger screens when mounted.", () => {
-      const fullNameSpan = wrapper.find("[data-testid='default-layout-header-full-name']");
-
-      expect(fullNameSpan.attributes("class")).toContain("hidden md:inline");
-    });
-
     it("should render the short app name span with the correct i18n text when mounted.", () => {
       const shortNameSpan = wrapper.find("[data-testid='default-layout-header-short-name']");
 

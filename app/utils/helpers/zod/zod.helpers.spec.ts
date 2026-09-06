@@ -21,7 +21,7 @@ function getRegexCheck(schema?: ZodInternalSchema): ZodInternalCheck {
   return check;
 }
 
-describe("Zod Helpers", () => {
+describe(stripCheckRegexError, () => {
   describe(stripCheckRegexError, () => {
     it("should return the same check reference when the check format is not regex.", () => {
       const check: ZodInternalCheck = { _zod: { def: { format: "min", error: "min length error" } } };

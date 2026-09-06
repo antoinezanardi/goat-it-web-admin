@@ -77,6 +77,12 @@ describe("QuestionsTableHeader Component", () => {
       expect(button.attributes("aria-label")).toBe("questions.createNew");
     });
 
+    it("should render the create question button with the correct i18n key text when mounted.", () => {
+      const button = wrapper.find("[data-testid='create-question-button']");
+
+      expect(button.text()).toContain("questions.createNew");
+    });
+
     it("should emit startCreate when the create question button is clicked.", async() => {
       const button = wrapper.find("[data-testid='create-question-button']");
       await button.trigger("click");

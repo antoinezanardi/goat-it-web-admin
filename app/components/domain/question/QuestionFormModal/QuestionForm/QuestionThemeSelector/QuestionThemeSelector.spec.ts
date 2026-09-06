@@ -210,6 +210,19 @@ describe("QuestionThemeSelector Component", () => {
 
         expect(icons[0]?.props("color")).toBe(fakeThemes[0]?.color);
       });
+
+      it("should pass the star icon to the primary button when themes are selected.", async() => {
+        wrapper = await mountQuestionThemeSelectorComponent({
+          props: {
+            ...defaultQuestionThemeSelectorProps,
+            modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
+          },
+        });
+
+        const primaryButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-primary-theme-1']");
+
+        expect(primaryButton.props("icon")).toBe("i-lucide-star");
+      });
     });
 
     describe("Empty Slot", () => {

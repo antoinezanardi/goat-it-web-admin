@@ -16,7 +16,7 @@ import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
-import type { UForm, UFormField, UInput, UTextarea, QuestionCategorySelector, QuestionCognitiveDifficultySelector, QuestionSourceUrlsInput, QuestionThemeSelector, QuestionTriviaInput, TranslationFieldContext } from "#components";
+import type { UForm, UFormField, UInput, UTextarea, UIcon, QuestionCategorySelector, QuestionCognitiveDifficultySelector, QuestionSourceUrlsInput, QuestionThemeSelector, QuestionTriviaInput, TranslationFieldContext } from "#components";
 import { QuestionForm } from "#components";
 
 import type { QuestionFormProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
@@ -53,6 +53,29 @@ describe("QuestionForm Component", () => {
 
   it("should render the question form component when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
+  });
+
+  describe("Section header icons", () => {
+    it("should render the content section icon with i-lucide-text when mounted.", () => {
+      const icons = wrapper.findAllComponents<typeof UIcon>({ name: "UIcon" });
+      const contentIcon = icons.find(icon => icon.props("name") === "i-lucide-text");
+
+      expect(contentIcon).toBeDefined();
+    });
+
+    it("should render the classification section icon with i-lucide-tags when mounted.", () => {
+      const icons = wrapper.findAllComponents<typeof UIcon>({ name: "UIcon" });
+      const classificationIcon = icons.find(icon => icon.props("name") === "i-lucide-tags");
+
+      expect(classificationIcon).toBeDefined();
+    });
+
+    it("should render the sources section icon with i-lucide-link when mounted.", () => {
+      const icons = wrapper.findAllComponents<typeof UIcon>({ name: "UIcon" });
+      const sourcesIcon = icons.find(icon => icon.props("name") === "i-lucide-link");
+
+      expect(sourcesIcon).toBeDefined();
+    });
   });
 
   describe("Form Fields", () => {

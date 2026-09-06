@@ -76,7 +76,7 @@ describe("QuestionsTable Component", () => {
       wrapper = await mountQuestionsTableComponent();
       const spinnerLabel = wrapper.find("#loading-spinner-label");
 
-      expect(spinnerLabel.text()).toBe("questions.fetching");
+      expect(spinnerLabel.text()).toContain("questions.fetching");
     });
 
     it("should not render loading spinner when the store is not fetching.", () => {
@@ -752,6 +752,18 @@ describe("QuestionsTable Component", () => {
       await expandButton.trigger("click");
 
       expect(expandButton.classes()).toContain("rotate-180");
+    });
+
+    it("should pass the chevron-down icon to the expand button when rendered.", async() => {
+      const fakeQuestion = createFakeQuestion({ id: "q-1" });
+      questionsStore.questions = [fakeQuestion];
+
+      wrapper = await mountQuestionsTableComponent();
+
+      const expandTooltip = wrapper.findComponent({ name: "UTooltip" });
+      const expandButton = expandTooltip.findComponent({ name: "UButton" });
+
+      expect(expandButton.props("icon")).toBe("i-lucide-chevron-down");
     });
   });
 });

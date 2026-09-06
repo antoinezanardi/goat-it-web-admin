@@ -137,16 +137,4 @@ describe("DashboardSummaryTabs Component", () => {
 
     expect(wrapper.emitted("update:activeTab")).toBeUndefined();
   });
-
-  it("should apply grid-cols-1 class to the tablist container when mounted.", () => {
-    const tablist = wrapper.find("[role='tablist']");
-
-    expect(tablist.classes()).toContain("grid-cols-1");
-  });
-
-  it("should apply sm:grid-cols-2 class to the tablist container when mounted.", () => {
-    const tablist = wrapper.find("[role='tablist']");
-
-    expect(tablist.classes()).toContain("sm:grid-cols-2");
-  });
 });

@@ -10,6 +10,7 @@ import { createUseOverlayInstanceMock } from "~~/tests/unit/utils/mocks/composab
 import type { UseOverlayInstanceMock, UseOverlayMock } from "~~/tests/unit/utils/mocks/composables/ui/useOverlay/useOverlay.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
+import type { UButton } from "#components";
 import { ArchiveQuestionThemeButton, ConfirmDialog } from "#components";
 
 import type { ArchiveQuestionThemeButtonProps } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableActions/ArchiveQuestionThemeButton/archive-question-theme-button.types";
@@ -45,10 +46,8 @@ describe("ArchiveQuestionThemeButton Component", () => {
     questionThemesStore = mockStore(useQuestionThemesStore);
   });
 
-  it("should render the archive button when mounted.", () => {
-    const button = wrapper.find("[data-testid='archive-button-music']");
-
-    expect(button.exists()).toBeTruthy();
+  it("should render ArchiveQuestionThemeButton when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
   });
 
   it("should render the archive tooltip when mounted.", () => {
@@ -58,9 +57,15 @@ describe("ArchiveQuestionThemeButton Component", () => {
   });
 
   it("should set the aria-label on the archive button when mounted.", () => {
-    const button = wrapper.find("[data-testid='archive-button-music']");
+    const button = wrapper.findComponent<typeof UButton>("[data-testid='archive-button-music']");
 
     expect(button.attributes("aria-label")).toBe("questionThemes.actions.archive");
+  });
+
+  it("should render the archive icon on the button when mounted.", () => {
+    const button = wrapper.findComponent<typeof UButton>("[data-testid='archive-button-music']");
+
+    expect(button.props("icon")).toBe("i-lucide-archive");
   });
 
   it("should register the confirm dialog with the overlay when mounted.", () => {

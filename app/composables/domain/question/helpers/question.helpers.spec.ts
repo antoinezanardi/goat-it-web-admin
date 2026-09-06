@@ -6,7 +6,7 @@ import { QUESTION_COGNITIVE_DIFFICULTY_UI_METADATA } from "~/composables/domain/
 import { getQuestionCategoryUiMetadata, getQuestionCognitiveDifficultyUiMetadata } from "~/composables/domain/question/helpers/question.helpers";
 import type { QuestionCategoryUiMetadata, QuestionCognitiveDifficultyUiMetadata } from "~/composables/domain/question/types/question-ui-metadata.types";
 
-describe("Question Helpers", () => {
+describe(getQuestionCognitiveDifficultyUiMetadata, () => {
   describe(getQuestionCognitiveDifficultyUiMetadata, () => {
     it.each<{ difficulty: QuestionCognitiveDifficulty; expected: QuestionCognitiveDifficultyUiMetadata }>([
       {

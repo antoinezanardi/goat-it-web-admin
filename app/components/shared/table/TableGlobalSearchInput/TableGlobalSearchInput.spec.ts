@@ -85,9 +85,17 @@ describe("TableGlobalSearchInput Component", () => {
     it("should render the clear button with the correct aria-label i18n key when modelValue is not empty.", async() => {
       wrapper = await mountTableGlobalSearchInputComponent({ props: { modelValue: "search text" } });
 
-      const clearButton = wrapper.find("[data-testid='table-global-search-clear-button']");
+      const clearButton = wrapper.findComponent<typeof UButton>("[data-testid='table-global-search-clear-button']");
 
       expect(clearButton.attributes("aria-label")).toBe("common.table.search.clear");
+    });
+
+    it("should render the clear button with the correct icon when modelValue is not empty.", async() => {
+      wrapper = await mountTableGlobalSearchInputComponent({ props: { modelValue: "search text" } });
+
+      const clearButton = wrapper.findComponent<typeof UButton>("[data-testid='table-global-search-clear-button']");
+
+      expect(clearButton.props("icon")).toBe("i-lucide-x");
     });
 
     it("should wrap the clear button in a tooltip with the correct i18n key when modelValue is not empty.", async() => {

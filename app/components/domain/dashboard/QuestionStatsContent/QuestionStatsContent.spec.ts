@@ -6,6 +6,7 @@ import { createFakeQuestionStatsDto } from "@goat-it/schemas/testing/question";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
 import QuestionStatsContentComponent from "@/components/domain/dashboard/QuestionStatsContent/QuestionStatsContent.vue";
+import type { QuestionStatsContentProps } from "@/components/domain/dashboard/QuestionStatsContent/question-stats-content.types";
 import { QUESTION_CATEGORY_UI_METADATA } from "@/composables/domain/question/constants/question-category.constants";
 import { QUESTION_COGNITIVE_DIFFICULTY_UI_METADATA } from "@/composables/domain/question/constants/question-cognitive-difficulty.constants";
 
@@ -14,9 +15,13 @@ describe("QuestionStatsContent Component", () => {
 
   const fakeStats = createFakeQuestionStatsDto();
 
+  const defaultQuestionStatsContentProps: QuestionStatsContentProps = {
+    stats: fakeStats,
+  };
+
   async function mountQuestionStatsContent(options: MountSuspendedOptions<typeof QuestionStatsContentComponent> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionStatsContentComponent, {
-      props: { stats: fakeStats },
+      props: { ...defaultQuestionStatsContentProps },
       ...options,
     });
   }

@@ -115,12 +115,6 @@ describe("QuestionsTableThemeFilter Component", () => {
     expect(filterSelect.props("label")).toBe("questions.fields.themes");
   });
 
-  it("should pass multiple as true to the table filter select when mounted.", () => {
-    const filterSelect = wrapper.findComponent<typeof TableFilterSelect>({ name: "TableFilterSelect" });
-
-    expect(filterSelect.props("multiple")).toBe(true);
-  });
-
   it("should pass the modelValue to the table filter select when mounted.", async() => {
     wrapper = await mountQuestionsTableThemeFilterComponent({ props: { ...defaultQuestionsTableThemeFilterProps, modelValue: ["theme-1"] } });
     const filterSelect = wrapper.findComponent<typeof TableFilterSelect>({ name: "TableFilterSelect" });

@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
+import type { UIcon } from "#components";
 import { LocaleLabel } from "#components";
 
 import { LOCALE_FLAG_ICONS } from "~/components/shared/core/localization/LocaleLabel/locale-label.constants";
@@ -38,6 +39,12 @@ describe("LocaleLabel Component", () => {
     const icon = wrapper.find(".iconify");
 
     expect(icon.classes()).toContain("i-circle-flags:fr");
+  });
+
+  it("should pass the flag icon name to the UIcon component when locale is fr.", () => {
+    const icon = wrapper.findComponent<typeof UIcon>({ name: "UIcon" });
+
+    expect(icon.props("name")).toBe(LOCALE_FLAG_ICONS.fr);
   });
 
   it("should render the locale text from i18n when locale is fr.", () => {

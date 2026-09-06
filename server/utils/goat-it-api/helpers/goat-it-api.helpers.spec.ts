@@ -15,7 +15,7 @@ function getThrowableError(function_: () => void): H3Error {
   throw new Error("Expected function to throw");
 }
 
-describe("Goat It API Helpers", () => {
+describe(createGoatItApiEndpoint, () => {
   describe(createGoatItApiEndpoint, () => {
     it("should create the correct endpoint for a given resource name when called.", () => {
       const resourceName = "question-themes";

@@ -216,6 +216,12 @@ describe("QuestionThemeSelectorAssignment Component", () => {
   });
 
   describe("Hint Switch", () => {
+    it("should render the hint label with questions.fields.hint i18n key when mounted.", () => {
+      const hintLabel = wrapper.find("span.text-muted.text-xs");
+
+      expect(hintLabel.text()).toContain("questions.fields.hint");
+    });
+
     it("should pass assignment isHint as model-value to the switch when mounted.", () => {
       const switchComponent = wrapper.findComponent({ name: "USwitch" }) as VueWrapper;
 

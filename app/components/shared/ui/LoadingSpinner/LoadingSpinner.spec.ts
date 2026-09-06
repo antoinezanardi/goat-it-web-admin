@@ -33,6 +33,12 @@ describe("LoadingSpinner Component", () => {
 
       expect(icon.exists()).toBeTruthy();
     });
+
+    it("should pass the loader-circle icon name to the icon component when mounted.", () => {
+      const icon = wrapper.findComponent<typeof UIcon>({ name: "UIcon" });
+
+      expect(icon.props("name")).toBe("i-lucide-loader-circle");
+    });
   });
 
   describe("Label", () => {

@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { RgbColor } from "~/utils/helpers/color/color.helpers.types";
 import { darkenHexColor, lightenHexColor, parseHexToRgb, rgbToHex, toHex } from "~/utils/helpers/color/color.helpers";
 
-describe("Color Helpers", () => {
+describe(toHex, () => {
   describe(toHex, () => {
     it.each<{ value: number; expected: string }>([
       { value: 0, expected: "00" },

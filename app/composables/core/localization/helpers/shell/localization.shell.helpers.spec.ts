@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import type { Shell } from "#shared/types/object.types";
 import { createLocalizedTextShell, createLocalizedTextsShell } from "~/composables/core/localization/helpers/shell/localization.shell.helpers";
 
-describe("Localization Shell Helpers", () => {
+describe(createLocalizedTextShell, () => {
   describe(createLocalizedTextShell, () => {
     it("should return a shell with all locales set to undefined when called.", () => {
       const result = createLocalizedTextShell();

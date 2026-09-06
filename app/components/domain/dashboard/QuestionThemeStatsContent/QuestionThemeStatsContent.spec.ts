@@ -2,15 +2,22 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 import { createFakeQuestionThemeStatsDto } from "@goat-it/schemas/testing/question-theme";
+import { createTestingPinia } from "@pinia/testing";
+import type { TestingPinia } from "@pinia/testing";
 
+import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
+import type { MockedPiniaStore } from "~~/tests/unit/utils/types/mock.types";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 
 import QuestionThemeStatsContentComponent from "@/components/domain/dashboard/QuestionThemeStatsContent/QuestionThemeStatsContent.vue";
+import type { QuestionThemeStatsContentProps } from "@/components/domain/dashboard/QuestionThemeStatsContent/question-theme-stats-content.types";
 import { useQuestionThemesStore } from "@/stores/domain/question-theme/question-themes.store";
 
 describe("QuestionThemeStatsContent Component", () => {
   let wrapper: VueWrapper;
+  let pinia: TestingPinia;
+  let questionThemesStore: MockedPiniaStore<typeof useQuestionThemesStore>;
 
   const fakeStats = createFakeQuestionThemeStatsDto({
     byQuestionCount: [
@@ -22,15 +29,22 @@ describe("QuestionThemeStatsContent Component", () => {
     ],
   });
 
+  const defaultQuestionThemeStatsContentProps: QuestionThemeStatsContentProps = {
+    stats: fakeStats,
+  };
+
   async function mountQuestionThemeStatsContent(options: MountSuspendedOptions<typeof QuestionThemeStatsContentComponent> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionThemeStatsContentComponent, {
-      props: { stats: fakeStats },
+      props: { ...defaultQuestionThemeStatsContentProps },
+      global: { plugins: [pinia] },
       ...options,
     });
   }
 
   beforeEach(async() => {
+    pinia = createTestingPinia();
     wrapper = await mountQuestionThemeStatsContent();
+    questionThemesStore = mockStore(useQuestionThemesStore);
   });
 
   it("should render QuestionThemeStatsContent when mounted.", () => {
@@ -124,8 +138,8 @@ describe("QuestionThemeStatsContent Component", () => {
     const themeColor = "#FF00FF";
     const themeLabel = "Custom Label";
     const theme = createFakeQuestionTheme({ slug: "test-theme", color: themeColor, label: { en: themeLabel, fr: "Étiquette" } });
-    const store = useQuestionThemesStore();
-    store.questionThemes = [theme];
+    wrapper = await mountQuestionThemeStatsContent();
+    questionThemesStore.questionThemes = [theme];
     wrapper = await mountQuestionThemeStatsContent();
 
     const countCard = wrapper.findAllComponents({ name: "StatsCard" })[0];

@@ -44,6 +44,12 @@ describe("EditQuestionButton Component", () => {
     expect(button.attributes("aria-label")).toBe("questions.actions.edit");
   });
 
+  it("should render the edit icon on the button when mounted.", () => {
+    const button = wrapper.findComponent<typeof UButton>({ name: "UButton" });
+
+    expect(button.props("icon")).toBe("i-lucide-pencil");
+  });
+
   it("should emit startEdit with the question id when clicked.", () => {
     const button = wrapper.findComponent<typeof UButton>({ name: "UButton" });
     getWrapperVm(button).$emit("click");

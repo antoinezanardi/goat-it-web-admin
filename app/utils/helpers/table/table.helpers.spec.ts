@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { CreateTableColumnOptions } from "~/utils/helpers/table/table.helpers.types";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
 
-describe("Table Helpers", () => {
+describe(createTableColumn, () => {
   describe(createTableColumn, () => {
     it("should create a table column with accessorKey and empty header when called with only accessorKey.", () => {
       const column = createTableColumn({ accessorKey: "name" });
