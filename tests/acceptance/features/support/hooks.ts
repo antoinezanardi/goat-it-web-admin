@@ -78,7 +78,7 @@ Before({ timeout: BEFORE_TIMEOUT }, async function(this: GoatItWorld): Promise<v
 After(async function(this: GoatItWorld, scenario): Promise<void> {
   if (scenario.result?.status === Status.FAILED) {
     try {
-      await generateScreenshotOnScenarioFailure(this, scenario);
+      await generateScreenshotOnScenarioFailure(this.page, (data, mediaType) => this.attach(data, mediaType), scenario);
     } catch(error: unknown) {
       console.error("Failed to generate screenshot on scenario failure:", error);
     }

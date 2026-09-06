@@ -1,15 +1,16 @@
 @question-themes @question-theme-filter
 Feature: 🎨 Question Theme Filter
 
-  Scenario: 🎨 Filter section is collapsed by default
+  Background:
     Given the user is on question-themes page
+
+  Scenario: 🎨 Filter section is collapsed by default
     And a question theme exists with the following attributes:
       | label | slug  | description | aliases |
       | Music | music | All music   | tunes   |
     Then the question themes status filter should not be visible
 
   Scenario: 🎨 User can expand and collapse the filter section
-    Given the user is on question-themes page
     And a question theme exists with the following attributes:
       | label | slug  | description | aliases |
       | Music | music | All music   | tunes   |
@@ -19,7 +20,6 @@ Feature: 🎨 Question Theme Filter
     Then the question themes status filter should not be visible
 
   Scenario: 🎨 User can filter question themes by status active
-    Given the user is on question-themes page
     And multiple question themes exist with the following attributes:
       | label    | slug     | description  | aliases | status   |
       | Music    | music    | All music    | tunes   | active   |
@@ -34,7 +34,6 @@ Feature: 🎨 Question Theme Filter
       | Cinema |
 
   Scenario: 🎨 User can filter question themes by status archived
-    Given the user is on question-themes page
     And multiple question themes exist with the following attributes:
       | label    | slug     | description  | aliases | status   |
       | Music    | music    | All music    | tunes   | active   |
@@ -49,7 +48,6 @@ Feature: 🎨 Question Theme Filter
       | Music |
 
   Scenario: 🎨 Badge shows active filter count when section is collapsed
-    Given the user is on question-themes page
     And multiple question themes exist with the following attributes:
       | label    | slug     | description  | aliases | status   |
       | Music    | music    | All music    | tunes   | active   |
@@ -60,7 +58,6 @@ Feature: 🎨 Question Theme Filter
     Then the question themes filters badge should display "1"
 
   Scenario: 🎨 User can clear all filters
-    Given the user is on question-themes page
     And multiple question themes exist with the following attributes:
       | label    | slug     | description  | aliases | status   |
       | Music    | music    | All music    | tunes   | active   |
@@ -79,7 +76,6 @@ Feature: 🎨 Question Theme Filter
       | Cinema |
 
   Scenario: 🎨 Filter persists across section collapse and expand
-    Given the user is on question-themes page
     And multiple question themes exist with the following attributes:
       | label    | slug     | description  | aliases | status   |
       | Music    | music    | All music    | tunes   | active   |

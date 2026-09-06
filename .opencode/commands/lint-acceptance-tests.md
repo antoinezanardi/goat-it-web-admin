@@ -64,6 +64,7 @@ These recurring shapes are accepted codebase conventions. Auditors must not repo
 - `Background:` blocks when 3 or more scenarios share identical Given/When steps at the start of a feature (see `docs/acceptance-testing.md` §5.4).
 - Locator preference order: `getByRole` > `getByTestId` > `getByText` > CSS — deviations are acceptable only when no ARIA role exists.
 - `validateDataTableAndGetFirstRow` / `validateDataTableAndGetRows` invoked from `#acceptance/features/support/helpers/datatable.helpers.ts`.
+- `generateScreenshotOnScenarioFailure` in `support/helpers/hooks.helpers.ts` accepts `Page` + `attach` callback instead of `GoatItWorld` — the `attach` bridge is needed because Cucumber's `World.attach` types only accept `string` while `page.screenshot()` returns `Buffer`.
 
 #### Feature file checks (`*.feature`)
 
@@ -72,7 +73,7 @@ These recurring shapes are accepted codebase conventions. Auditors must not repo
 - **[FT3] Background usage** — `Background:` is permitted **only** when 3 or more `Scenario:` blocks within the same feature share the same Given/And steps at the start (see `docs/acceptance-testing.md` §5.4). Features with fewer than 3 scenarios must inline the setup steps in each scenario instead.
 - **[FT4] No But keyword** — Use `And` to continue the most recent block type, never `But`.
 - **[FT5] Scenario Outline usage** — `Scenario Outline:` + `Examples:` is permitted **only** in `*-accessibility.feature` files (to express the light/dark × desktop/mobile matrix per `docs/acceptance-testing.md` §5.6). Non-accessibility features must use separate `Scenario:` blocks.
-- **[FT6] Step ordering** — Scenario steps must follow `Given` → `And` → `When` → `And` → `Then` → `And` sequence. `Given` sets up preconditions. `When` performs the user action. `Then` asserts the post-condition. Two consecutive same-keyword steps on adjacent step lines (ignoring DataTable rows between them) is a violation — e.g., `Given ...` followed immediately by `Given ...`, `When ...` followed by `When ...`, or `Then ...` followed by `Then ...` — the second must use `And`.
+- **[FT6] Step ordering** — Scenario steps must follow `Given` → `And` → `When` → `And` → `Then` → `And` sequence. `Given` sets up preconditions. `When` performs the user action. `Then` asserts the post-condition. Two consecutive same-keyword steps on adjacent step lines (ignoring DataTable rows between them) is a violation — e.g., `Given ...` followed immediately by `Given ...`, `When ...` followed by `When ...`, or `Then ...` followed by `Then ...` — the second must use `And`. A `When` after a `Then` (or vice versa) is valid — only same-keyword on adjacent step lines is a violation.
 - **[FT7] Scenario assertion** — Each scenario must have at least one `Then` step (or an `And` after a `Then` that implies assertion).
 - **[FT8] Feature path** — Feature files must live under `tests/acceptance/features/<domain>/`. Sub-domain directories (`<action>/` such as `archive`, `creation`, `filter`, `modification`, `translation`) are permitted one level deep. Flags if path does not match these patterns.
 - **[FT9] Feature file naming** — Feature file names follow `<domain>-<action>.feature` for action-specific features, `<domain>.feature` for top-level page features, `<domain>-<action>-accessibility.feature` for accessibility companions. The `Feature:` title should mirror the file purpose with an emoji prefix.
@@ -86,7 +87,7 @@ These checks apply to actual step definition files (`*-steps.ts`), not to helper
 - **[ST2] Regex `/u` flag** — Step regex patterns must end with the `/u` flag.
 - **[ST3] Regex anchors** — Step regex patterns must use `^` and `$` anchors. Verify by reading the exact regex line — do not assume from partial context.
 - **[ST4] Named capture groups** — Regex must use named capture groups `(?<name>...)` for parameters.
-- **[ST5] When steps pattern** — When steps interact with `this.page` via Playwright locators (`getByRole`, `getByTestId`, `getByText`) and assert visibility/existence with `expect(...)` before performing the action.
+- **[ST5] When steps pattern** — When steps that interact with UI elements via Playwright locators (`getByRole`, `getByTestId`, `getByText`) must assert visibility/existence with `expect(...)` before performing the action. Exempt: viewport resize (`setViewportSize`), keyboard press, page navigation, and other non-locator `this.page` methods.
 - **[ST6] Then steps pattern** — Then steps must use `expect(...)` for assertions (never raw `assert`). Synchronous assertions do not require `async`.
 - **[ST7] No async noise** — When steps should not wrap a single sync action in `async`/`await`. Use `async function(...)` only when at least one `await` is needed.
 - **[ST8] File naming** — Step files must follow `<domain>.{given|when|then}-steps.ts` naming pattern (e.g. `question-theme.given-steps.ts`).
