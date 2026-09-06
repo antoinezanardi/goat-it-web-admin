@@ -63,6 +63,33 @@ describe("QuestionCognitiveDifficultySelector Component", () => {
       expect(button.props("label")).toBe(expectedLabel);
     });
 
+    describe("Icons", () => {
+      it.each<{
+        difficulty: QuestionCognitiveDifficulty;
+        expectedIcon: string;
+      }>([
+        {
+          difficulty: "easy",
+          expectedIcon: "i-lucide-brain",
+        },
+        {
+          difficulty: "medium",
+          expectedIcon: "i-lucide-brain-cog",
+        },
+        {
+          difficulty: "hard",
+          expectedIcon: "i-lucide-brain-circuit",
+        },
+      ])("should pass the $expectedIcon icon for $difficulty button when mounted.", ({
+        difficulty,
+        expectedIcon,
+      }) => {
+        const button = wrapper.getComponent<typeof UButton>(`[data-testid='question-difficulty-selector-${difficulty}']`);
+
+        expect(button.props("icon")).toBe(expectedIcon);
+      });
+    });
+
     describe("Colors", () => {
       it.each<{ difficulty: QuestionCognitiveDifficulty }>([
         { difficulty: "easy" },

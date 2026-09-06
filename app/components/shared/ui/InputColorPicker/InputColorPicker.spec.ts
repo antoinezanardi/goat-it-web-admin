@@ -79,6 +79,14 @@ describe("InputColorPicker Component", () => {
     });
   });
 
+  describe("Labels and Accessibility", () => {
+    it("should use the choose color translation key for the palette button aria-label when mounted.", () => {
+      const paletteButton = wrapper.find("[data-testid='input-color-picker-palette-icon']");
+
+      expect(paletteButton.attributes("aria-label")).toContain("form.chooseColor");
+    });
+  });
+
   describe("Input", () => {
     it("should display the placeholder when no color is set.", () => {
       const input = wrapper.find("input");

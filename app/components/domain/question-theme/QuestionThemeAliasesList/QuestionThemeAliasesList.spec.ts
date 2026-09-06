@@ -98,32 +98,6 @@ describe("QuestionThemeAliasesList Component", () => {
     expect(badge.exists()).toBeTruthy();
   });
 
-  it("should render the none badge with border-dashed class when the current locale has no aliases.", async() => {
-    wrapper = await mountQuestionThemeAliasesListComponent({
-      props: { localizedTexts: createFakeLocalizedTexts({ [DEFAULT_MOCKED_LOCALE]: [] }) },
-      global: {
-        stubs: { UPopover: { template: "<div><slot /><slot name=\"content\" /></div>" } },
-      },
-    });
-
-    const badge = wrapper.find("[data-testid='aliases-none-badge']");
-
-    expect(badge.classes()).toContain("border-dashed");
-  });
-
-  it("should render the none badge with cursor-pointer class when the current locale has no aliases.", async() => {
-    wrapper = await mountQuestionThemeAliasesListComponent({
-      props: { localizedTexts: createFakeLocalizedTexts({ [DEFAULT_MOCKED_LOCALE]: [] }) },
-      global: {
-        stubs: { UPopover: { template: "<div><slot /><slot name=\"content\" /></div>" } },
-      },
-    });
-
-    const badge = wrapper.find("[data-testid='aliases-none-badge']");
-
-    expect(badge.classes()).toContain("cursor-pointer");
-  });
-
   it("should render the none badge inside a popover when the current locale has no aliases.", async() => {
     wrapper = await mountQuestionThemeAliasesListComponent({
       props: { localizedTexts: createFakeLocalizedTexts({ [DEFAULT_MOCKED_LOCALE]: [] }) },

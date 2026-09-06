@@ -71,6 +71,20 @@ describe("QuestionSourceUrlsInput Component", () => {
     });
   });
 
+  describe("Labels and Hints", () => {
+    it("should pass the source urls label to the form field when mounted.", () => {
+      const inputTagsField = wrapper.findComponent({ name: "InputTagsField" });
+
+      expect(inputTagsField.props("label")).toBe("questions.fields.sourceUrls");
+    });
+
+    it("should pass the add source url hint to the input tags field when mounted.", () => {
+      const inputTagsField = wrapper.findComponent({ name: "InputTagsField" });
+
+      expect(inputTagsField.props("addHintText")).toBe("questions.form.addSourceUrlHint");
+    });
+  });
+
   describe("Source URL Tags", () => {
     it("should render a QuestionSourceUrlTag for each URL when model value has multiple URLs.", async() => {
       wrapper = await mountQuestionSourceUrlsInputComponent({

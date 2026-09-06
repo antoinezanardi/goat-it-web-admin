@@ -1,10 +1,10 @@
 import type { QuestionCategory, QuestionCognitiveDifficulty } from "@goat-it/schemas/question";
 import { describe, it, expect } from "vitest";
 
-import { QUESTION_CATEGORY_UI_METADATA } from "~/composables/domain/question/constants/question-category.constants";
-import { QUESTION_COGNITIVE_DIFFICULTY_UI_METADATA } from "~/composables/domain/question/constants/question-cognitive-difficulty.constants";
-import { getQuestionCategoryUiMetadata, getQuestionCognitiveDifficultyUiMetadata } from "~/composables/domain/question/helpers/question.helpers";
-import type { QuestionCategoryUiMetadata, QuestionCognitiveDifficultyUiMetadata } from "~/composables/domain/question/types/question-ui-metadata.types";
+import { QUESTION_CATEGORY_UI_METADATA } from "@/composables/domain/question/constants/question-category.constants";
+import { QUESTION_COGNITIVE_DIFFICULTY_UI_METADATA } from "@/composables/domain/question/constants/question-cognitive-difficulty.constants";
+import { getQuestionCategoryUiMetadata, getQuestionCognitiveDifficultyUiMetadata } from "@/composables/domain/question/helpers/question.helpers";
+import type { QuestionCategoryUiMetadata, QuestionCognitiveDifficultyUiMetadata } from "@/composables/domain/question/types/question-ui-metadata.types";
 
 describe(getQuestionCognitiveDifficultyUiMetadata, () => {
   describe(getQuestionCognitiveDifficultyUiMetadata, () => {

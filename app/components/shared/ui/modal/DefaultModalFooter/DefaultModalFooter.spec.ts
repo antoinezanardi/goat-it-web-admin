@@ -66,6 +66,14 @@ describe("DefaultModalFooter Component", () => {
       });
     });
 
+    describe("Icon", () => {
+      it("should display the i-lucide-x icon on the close button when mounted.", () => {
+        const closeButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-close-button']");
+
+        expect(closeButton.props("icon")).toBe("i-lucide-x");
+      });
+    });
+
     describe("Click", () => {
       it("should emit closeModal when the close button is clicked.", async() => {
         const closeButton = wrapper.findComponent<typeof UButton>("[data-testid='default-modal-footer-close-button']");

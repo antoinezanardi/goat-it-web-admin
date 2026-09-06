@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
+import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
 import type { UIcon, UFormField, UInputTags, UKbd } from "#components";
 import { InputTagsField } from "#components";
@@ -89,6 +90,46 @@ describe("InputTagsField Component", () => {
     });
   });
 
+  describe("Remove tag tooltip", () => {
+    it("should render the UTooltip child component when tags are present.", () => {
+      const tooltip = wrapper.findComponent({ name: "UTooltip" });
+
+      expect(tooltip.exists()).toBeTruthy();
+    });
+
+    it("should render the remove tag button with data-testid when tags are present.", () => {
+      const removeButton = wrapper.find("[data-testid='remove-tag-nature']");
+
+      expect(removeButton.exists()).toBeTruthy();
+    });
+  });
+
+  describe("Item Text Slot", () => {
+    it("should render custom itemText slot content when provided.", async() => {
+      wrapper = await mountInputTagsFieldComponent({
+        slots: {
+          itemText: "<span data-testid='custom-item-text'>Custom text</span>",
+        },
+      });
+
+      const customItemText = wrapper.find("[data-testid='custom-item-text']");
+
+      expect(customItemText.exists()).toBeTruthy();
+    });
+
+    it("should display the itemText slot text when provided.", async() => {
+      wrapper = await mountInputTagsFieldComponent({
+        slots: {
+          itemText: "<span data-testid='custom-item-text'>Custom text</span>",
+        },
+      });
+
+      const customItemText = wrapper.find("[data-testid='custom-item-text']");
+
+      expect(customItemText.text()).toBe("Custom text");
+    });
+  });
+
   describe("Input Tags", () => {
     it.each<{ prop: string; expectedValue: unknown }>([
       { prop: "modelValue", expectedValue: ["nature", "ecology"] },
@@ -121,7 +162,10 @@ describe("InputTagsField Component", () => {
 
     it("should pass the close icon name to the UIcon in the item-delete slot when tags are present.", () => {
       const icon = wrapper.findComponent<typeof UIcon>({ name: "UIcon" });
-      const vm = getWrapperVm(wrapper) as unknown as { closeIcon: string };
+
+      type InputTagsFieldVm = ComponentVm & { closeIcon: string };
+
+      const vm = getWrapperVm<InputTagsFieldVm>(wrapper);
 
       expect(icon.props("name")).toBe(vm.closeIcon);
     });

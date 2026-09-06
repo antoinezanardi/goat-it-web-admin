@@ -1,6 +1,7 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
+import { nextTick } from "vue";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
@@ -59,6 +60,17 @@ describe("TableRowCount Component", () => {
       const skeleton = wrapper.findComponent<typeof USkeleton>("[data-testid='table-row-count-skeleton']");
 
       expect(skeleton.exists()).toBe(false);
+    });
+
+    it("should display the count text and no skeleton when loading is false.", () => {
+      expect(wrapper.find("[data-testid='table-row-count-text']").exists()).toBe(true);
+    });
+
+    it("should render a skeleton and hide count text when loading prop changes to true.", async() => {
+      await wrapper.setProps({ loading: true });
+      await nextTick();
+
+      expect(wrapper.findComponent<typeof USkeleton>("[data-testid='table-row-count-skeleton']").exists()).toBe(true);
     });
   });
 

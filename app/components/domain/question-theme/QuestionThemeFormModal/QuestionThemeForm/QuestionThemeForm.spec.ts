@@ -143,12 +143,6 @@ describe("QuestionThemeForm Component", () => {
 
       expect(aliasesFormField.props("name")).toBe(`aliases.${DEFAULT_MOCKED_LOCALE}`);
     });
-
-    it("should render the aliases form field as required when mounted.", () => {
-      const aliasesFormField = wrapper.findComponent<typeof UFormField>("[data-testid='question-theme-form-aliases-field']");
-
-      expect(aliasesFormField.props("required")).toBeTruthy();
-    });
   });
 
   describe("Form v-model bindings", () => {

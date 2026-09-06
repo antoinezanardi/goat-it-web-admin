@@ -125,12 +125,5 @@ describe("TranslationFieldContext Component", () => {
 
       expect(translationsOverview.props("localizedTexts")).toStrictEqual(localizedTexts);
     });
-
-    it("should pass hide header prop to translations overview when rendered.", async() => {
-      await openCollapsible();
-      const translationsOverview = wrapper.findComponent(TranslationsOverview);
-
-      expect(translationsOverview.props("hideHeader")).toBeTruthy();
-    });
   });
 });

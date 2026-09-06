@@ -7,17 +7,22 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { CHART_COLOR_HEX_MAP } from "@/composables/domain/dashboard/constants/dashboard-chart-colors.constants";
 import StatsHorizontalBarChartComponent from "@/components/domain/dashboard/StatsHorizontalBarChart/StatsHorizontalBarChart.vue";
 import type { StatsCardItem } from "@/components/domain/dashboard/StatsCard/stats-card.types";
+import type { StatsHorizontalBarChartProps } from "@/components/domain/dashboard/StatsHorizontalBarChart/stats-horizontal-bar-chart.types";
 
 describe("StatsHorizontalBarChart Component", () => {
   let wrapper: VueWrapper;
 
   const firstItem: StatsCardItem = { labelKey: "questions.status.pending", value: 10, color: "info" };
   const secondItem: StatsCardItem = { labelKey: "questions.status.active", value: 20, color: "success" };
-  const defaultItems: StatsCardItem[] = [firstItem, secondItem];
+
+  const defaultStatsHorizontalBarChartProps: StatsHorizontalBarChartProps = {
+    items: [firstItem, secondItem],
+    titleKey: "home.stats.byStatus",
+  };
 
   async function mountStatsHorizontalBarChart(options: MountSuspendedOptions<typeof StatsHorizontalBarChartComponent> = {}): Promise<VueWrapper> {
     return mountSuspended(StatsHorizontalBarChartComponent, {
-      props: { items: defaultItems, titleKey: "home.stats.byStatus" },
+      props: defaultStatsHorizontalBarChartProps,
       ...options,
     });
   }

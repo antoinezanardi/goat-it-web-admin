@@ -2,7 +2,7 @@ import type { LocalizedText, LocalizedTexts } from "@goat-it/schemas/shared/loca
 import { describe, expect, it } from "vitest";
 
 import type { Shell } from "#shared/types/object.types";
-import { createLocalizedTextShell, createLocalizedTextsShell } from "~/composables/core/localization/helpers/shell/localization.shell.helpers";
+import { createLocalizedTextShell, createLocalizedTextsShell } from "@/composables/core/localization/helpers/shell/localization.shell.helpers";
 
 describe(createLocalizedTextShell, () => {
   describe(createLocalizedTextShell, () => {

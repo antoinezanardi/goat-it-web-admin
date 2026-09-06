@@ -78,9 +78,9 @@ describe("QuestionThemesList Component", () => {
     });
 
     it("should pass the theme localized label as text to the tooltip when a theme assignment is rendered.", () => {
-      const tooltips = wrapper.findAllComponents<typeof UTooltip>({ name: "UTooltip" });
+      const tooltip = wrapper.findComponent<typeof UTooltip>("[data-testid='question-theme-tooltip-geography']");
 
-      expect(tooltips[0]?.props("text")).toBe("Geography");
+      expect(tooltip.props("text")).toBe("Geography");
     });
   });
 });

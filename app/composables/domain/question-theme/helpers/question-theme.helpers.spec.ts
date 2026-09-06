@@ -3,8 +3,8 @@ import { describe, it, expect } from "vitest";
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
 
 import type { QuestionTheme } from "#shared/types/question-theme.types";
-import { QUESTION_THEME_UNKNOWN_ICON } from "~/composables/domain/question-theme/constants/question-theme.constants";
-import { getThemeIcon, getThemeLocalizedLabel } from "~/composables/domain/question-theme/helpers/question-theme.helpers";
+import { QUESTION_THEME_UNKNOWN_ICON } from "@/composables/domain/question-theme/constants/question-theme.constants";
+import { getThemeIcon, getThemeLocalizedLabel } from "@/composables/domain/question-theme/helpers/question-theme.helpers";
 
 describe(getThemeIcon, () => {
   describe(getThemeIcon, () => {

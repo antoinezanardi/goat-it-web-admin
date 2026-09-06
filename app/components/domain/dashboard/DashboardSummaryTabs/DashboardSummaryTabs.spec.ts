@@ -44,17 +44,17 @@ describe("DashboardSummaryTabs Component", () => {
   });
 
   it("should emit update:activeTab with questionThemes when clicking the inactive themes tab.", async() => {
-    const themeCards = wrapper.findAllComponents({ name: "UCard" });
+    const themesCard = wrapper.findComponent("[data-testid='dashboard-summary-tab-question-themes']");
 
-    await themeCards[1]?.trigger("click");
+    await themesCard.trigger("click");
 
     expect(wrapper.emitted("update:activeTab")).toStrictEqual([[QUESTION_THEMES]]);
   });
 
   it("should not emit when clicking the already active tab.", async() => {
-    const themeCards = wrapper.findAllComponents({ name: "UCard" });
+    const questionsCard = wrapper.findComponent("[data-testid='dashboard-summary-tab-questions']");
 
-    await themeCards[0]?.trigger("click");
+    await questionsCard.trigger("click");
 
     expect(wrapper.emitted("update:activeTab")).toBeUndefined();
   });
@@ -63,9 +63,9 @@ describe("DashboardSummaryTabs Component", () => {
     wrapper = await mountDashboardSummaryTabs({
       props: { ...defaultProps, activeTab: QUESTION_THEMES },
     });
-    const cards = wrapper.findAllComponents({ name: "UCard" });
+    const questionsCard = wrapper.findComponent("[data-testid='dashboard-summary-tab-questions']");
 
-    await cards[0]?.trigger("click");
+    await questionsCard.trigger("click");
 
     expect(wrapper.emitted("update:activeTab")).toStrictEqual([[QUESTIONS]]);
   });
@@ -74,9 +74,9 @@ describe("DashboardSummaryTabs Component", () => {
     wrapper = await mountDashboardSummaryTabs({
       props: { ...defaultProps, activeTab: QUESTION_THEMES },
     });
-    const cards = wrapper.findAllComponents({ name: "UCard" });
+    const themesCard = wrapper.findComponent("[data-testid='dashboard-summary-tab-question-themes']");
 
-    await cards[1]?.trigger("click");
+    await themesCard.trigger("click");
 
     expect(wrapper.emitted("update:activeTab")).toBeUndefined();
   });

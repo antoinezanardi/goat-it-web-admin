@@ -7,7 +7,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { createFakeQuestionsTableFilters } from "~~/tests/unit/utils/faketories/questions/components/questions-table-filters.faketory";
 
 import { QuestionsTableHeader } from "#components";
-import type { TableGlobalSearchInput, TableFiltersSection, QuestionsTableStatusFilter, QuestionsTableCategoryFilter, QuestionsTableCognitiveDifficultyFilter, QuestionsTableThemeFilter, TableRowCount } from "#components";
+import type { TableGlobalSearchInput, TableFiltersSection, QuestionsTableStatusFilter, QuestionsTableCategoryFilter, QuestionsTableCognitiveDifficultyFilter, QuestionsTableThemeFilter, TableRowCount, UButton } from "#components";
 
 import type { QuestionsTableHeaderProps } from "~/components/domain/question/QuestionsTable/QuestionsTableHeader/questions-table-header.types";
 
@@ -81,6 +81,12 @@ describe("QuestionsTableHeader Component", () => {
       const button = wrapper.find("[data-testid='create-question-button']");
 
       expect(button.text()).toContain("questions.createNew");
+    });
+
+    it("should render the create question button with the correct icon when mounted.", () => {
+      const button = wrapper.findComponent<typeof UButton>("[data-testid='create-question-button']");
+
+      expect(button.props("icon")).toBe("i-lucide-circle-plus");
     });
 
     it("should emit startCreate when the create question button is clicked.", async() => {

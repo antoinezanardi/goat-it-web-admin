@@ -1,8 +1,7 @@
 import { z } from "zod";
 import { describe, expect, it } from "vitest";
 
-import { prepareZodSchemaForFormValidation, stripCheckRegexError, stripSchemaLevelRegexErrors } from "./zod.helpers";
-
+import { prepareZodSchemaForFormValidation, stripCheckRegexError, stripSchemaLevelRegexErrors } from "@/utils/helpers/zod/zod.helpers";
 import type { ZodInternalCheck, ZodInternalObjectSchema, ZodInternalSchema } from "#shared/types/zod.types";
 
 const SLUG_REGEX = /^[\da-z]+(?:-[\da-z]+)*$/u;
