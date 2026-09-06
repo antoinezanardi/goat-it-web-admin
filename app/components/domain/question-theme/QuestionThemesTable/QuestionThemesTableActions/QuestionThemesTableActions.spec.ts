@@ -17,16 +17,16 @@ describe("QuestionThemesTableActions Component", () => {
   let wrapper: VueWrapper;
   let pinia: TestingPinia;
 
-  const defaultProperties: QuestionThemesTableActionsProps = {
+  const defaultQuestionThemesTableActionsProps: QuestionThemesTableActionsProps = {
     questionTheme: createFakeQuestionTheme({ id: "theme-id-123", slug: "music", status: "active" }),
-  };
+  } as const;
 
   async function mountQuestionThemesTableActionsComponent(options: MountSuspendedOptions<typeof QuestionThemesTableActions> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionThemesTableActions, {
       global: {
         plugins: [pinia],
       },
-      props: defaultProperties,
+      props: defaultQuestionThemesTableActionsProps,
       ...options,
     });
   }

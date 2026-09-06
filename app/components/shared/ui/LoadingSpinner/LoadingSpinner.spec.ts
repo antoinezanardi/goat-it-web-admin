@@ -10,8 +10,11 @@ import { LoadingSpinner } from "#components";
 describe("LoadingSpinner Component", () => {
   let wrapper: VueWrapper;
 
+  const defaultLoadingSpinnerProps = {} as const;
+
   async function mountLoadingSpinnerComponent(options: MountSuspendedOptions<typeof LoadingSpinner> = {}): Promise<VueWrapper> {
     return mountSuspended(LoadingSpinner, {
+      ...defaultLoadingSpinnerProps,
       ...options,
     });
   }
@@ -29,6 +32,12 @@ describe("LoadingSpinner Component", () => {
       const icon = wrapper.findComponent<typeof UIcon>({ name: "UIcon" });
 
       expect(icon.exists()).toBeTruthy();
+    });
+
+    it("should pass the loader-circle icon name to the icon component when mounted.", () => {
+      const icon = wrapper.findComponent<typeof UIcon>({ name: "UIcon" });
+
+      expect(icon.props("name")).toBe("i-lucide-loader-circle");
     });
   });
 

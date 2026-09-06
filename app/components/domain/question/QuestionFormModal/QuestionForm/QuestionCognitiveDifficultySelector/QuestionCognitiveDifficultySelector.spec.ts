@@ -12,13 +12,13 @@ import type { QuestionCognitiveDifficultySelectorProps } from "~/components/doma
 
 describe("QuestionCognitiveDifficultySelector Component", () => {
   let wrapper: VueWrapper;
-  const defaultProperties: QuestionCognitiveDifficultySelectorProps = {
+  const defaultQuestionCognitiveDifficultySelectorProps: QuestionCognitiveDifficultySelectorProps = {
     modelValue: undefined,
   } as const;
 
   async function mountQuestionCognitiveDifficultySelectorComponent(options: MountSuspendedOptions<typeof QuestionCognitiveDifficultySelector> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionCognitiveDifficultySelector, {
-      props: defaultProperties,
+      props: defaultQuestionCognitiveDifficultySelectorProps,
       ...options,
     });
   }
@@ -61,6 +61,33 @@ describe("QuestionCognitiveDifficultySelector Component", () => {
       const button = wrapper.getComponent<typeof UButton>(`[data-testid='question-difficulty-selector-${difficulty}']`);
 
       expect(button.props("label")).toBe(expectedLabel);
+    });
+
+    describe("Icons", () => {
+      it.each<{
+        difficulty: QuestionCognitiveDifficulty;
+        expectedIcon: string;
+      }>([
+        {
+          difficulty: "easy",
+          expectedIcon: "i-lucide-brain",
+        },
+        {
+          difficulty: "medium",
+          expectedIcon: "i-lucide-brain-cog",
+        },
+        {
+          difficulty: "hard",
+          expectedIcon: "i-lucide-brain-circuit",
+        },
+      ])("should pass the $expectedIcon icon for $difficulty button when mounted.", ({
+        difficulty,
+        expectedIcon,
+      }) => {
+        const button = wrapper.getComponent<typeof UButton>(`[data-testid='question-difficulty-selector-${difficulty}']`);
+
+        expect(button.props("icon")).toBe(expectedIcon);
+      });
     });
 
     describe("Colors", () => {

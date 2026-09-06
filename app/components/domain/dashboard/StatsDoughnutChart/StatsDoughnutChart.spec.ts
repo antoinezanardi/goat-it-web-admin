@@ -6,6 +6,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 
 import { CHART_COLOR_HEX_MAP } from "@/composables/domain/dashboard/constants/dashboard-chart-colors.constants";
 import StatsDoughnutChartComponent from "@/components/domain/dashboard/StatsDoughnutChart/StatsDoughnutChart.vue";
+import type { StatsDoughnutChartProps } from "@/components/domain/dashboard/StatsDoughnutChart/stats-doughnut-chart.types";
 import type { StatsCardItem } from "@/components/domain/dashboard/StatsCard/stats-card.types";
 
 describe("StatsDoughnutChart Component", () => {
@@ -15,15 +16,24 @@ describe("StatsDoughnutChart Component", () => {
   const secondItem: StatsCardItem = { labelKey: "questions.status.active", value: 20, color: "success" };
   const defaultItems: StatsCardItem[] = [firstItem, secondItem];
 
+  const defaultStatsDoughnutChartProps: StatsDoughnutChartProps = {
+    items: defaultItems,
+    titleKey: "home.stats.byStatus",
+  } as const;
+
   async function mountStatsDoughnutChart(options: MountSuspendedOptions<typeof StatsDoughnutChartComponent> = {}): Promise<VueWrapper> {
     return mountSuspended(StatsDoughnutChartComponent, {
-      props: { items: defaultItems, titleKey: "home.stats.byStatus" },
+      props: { ...defaultStatsDoughnutChartProps },
       ...options,
     });
   }
 
   beforeEach(async() => {
     wrapper = await mountStatsDoughnutChart();
+  });
+
+  it("should render StatsDoughnutChart when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
   });
 
   it("should render the Doughnut component with correct data when mounted.", () => {

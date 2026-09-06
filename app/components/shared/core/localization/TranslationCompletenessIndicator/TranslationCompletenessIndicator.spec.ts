@@ -36,6 +36,10 @@ describe("TranslationCompletenessIndicator Component", () => {
     wrapper = await mountTranslationCompletenessIndicatorComponent();
   });
 
+  it("should render TranslationCompletenessIndicator when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
+  });
+
   describe("Ring Container", () => {
     it("should render the ring container with correct data-testid when component is rendered.", () => {
       const ring = wrapper.find("[data-testid='translation-completeness-ring']");

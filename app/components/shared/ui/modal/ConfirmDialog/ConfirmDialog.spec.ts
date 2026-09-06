@@ -17,7 +17,7 @@ describe("ConfirmDialog Component", () => {
     icon: "i-lucide-archive",
     title: "Archive this theme?",
     description: "This theme will be archived.",
-  };
+  } as const;
 
   async function mountConfirmDialogComponent(options: MountSuspendedOptions<typeof ConfirmDialog> = {}): Promise<VueWrapper> {
     return mountSuspended(ConfirmDialog, {

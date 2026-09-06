@@ -22,14 +22,14 @@ describe("QuestionThemeSelector Component", () => {
     createFakeQuestionTheme({ id: "theme-3", label: { en: "Science", fr: "Science", es: undefined, de: undefined, it: undefined, pt: undefined } }),
   ];
 
-  const defaultProperties: QuestionThemeSelectorProps = {
+  const defaultQuestionThemeSelectorProps: QuestionThemeSelectorProps = {
     modelValue: [],
     availableThemes: fakeThemes,
-  };
+  } as const;
 
   async function mountQuestionThemeSelectorComponent(options: MountSuspendedOptions<typeof QuestionThemeSelector> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionThemeSelector, {
-      props: defaultProperties,
+      props: defaultQuestionThemeSelectorProps,
       ...options,
     });
   }
@@ -73,7 +73,7 @@ describe("QuestionThemeSelector Component", () => {
     it("should pass only unselected themes as items to the select menu when some themes are already selected.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionThemeSelectorProps,
           modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
         },
       });
@@ -93,7 +93,7 @@ describe("QuestionThemeSelector Component", () => {
     it("should pass the static themes placeholder to the select menu when themes are selected.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionThemeSelectorProps,
           modelValue: [
             createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
             createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
@@ -109,7 +109,7 @@ describe("QuestionThemeSelector Component", () => {
     it("should disable the select menu when maximum themes are reached.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionThemeSelectorProps,
           availableThemes: [
             ...fakeThemes,
             createFakeQuestionTheme({ id: "theme-4" }),
@@ -139,7 +139,7 @@ describe("QuestionThemeSelector Component", () => {
     it("should pass undefined as model value to the select menu when themes are selected.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionThemeSelectorProps,
           modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
         },
       });
@@ -152,7 +152,7 @@ describe("QuestionThemeSelector Component", () => {
     it("should include a previously selected theme back in items when that theme is removed from selection.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionThemeSelectorProps,
           modelValue: [
             createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
             createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
@@ -210,13 +210,26 @@ describe("QuestionThemeSelector Component", () => {
 
         expect(icons[0]?.props("color")).toBe(fakeThemes[0]?.color);
       });
+
+      it("should pass the star icon to the primary button when themes are selected.", async() => {
+        wrapper = await mountQuestionThemeSelectorComponent({
+          props: {
+            ...defaultQuestionThemeSelectorProps,
+            modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
+          },
+        });
+
+        const primaryButton = wrapper.getComponent<typeof UButton>("[data-testid='question-theme-selector-primary-theme-1']");
+
+        expect(primaryButton.props("icon")).toBe("i-lucide-star");
+      });
     });
 
     describe("Empty Slot", () => {
       it("should render no matching theme text when the select menu has no items.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             availableThemes: [],
           },
           attachTo: document.body,
@@ -245,7 +258,7 @@ describe("QuestionThemeSelector Component", () => {
       it("should emit update:modelValue with the new theme as non-primary when adding a second theme.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
           },
         });
@@ -276,7 +289,7 @@ describe("QuestionThemeSelector Component", () => {
     it("should render the theme list when themes are selected.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionThemeSelectorProps,
           modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
         },
       });
@@ -289,7 +302,7 @@ describe("QuestionThemeSelector Component", () => {
     it("should display missing theme translation as label when the theme is not found in available themes.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionThemeSelectorProps,
           modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "unknown-theme", isPrimary: true, isHint: false })],
         },
       });
@@ -302,7 +315,7 @@ describe("QuestionThemeSelector Component", () => {
     it("should display missing theme translation as label when the theme is found but has no localized value for the current locale.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionThemeSelectorProps,
           availableThemes: [createFakeQuestionTheme({ id: "theme-no-en", label: { en: undefined, fr: "Thème", es: undefined, de: undefined, it: undefined, pt: undefined } })],
           modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-no-en", isPrimary: true, isHint: false })],
         },
@@ -319,7 +332,7 @@ describe("QuestionThemeSelector Component", () => {
     ])("should render a theme item for $themeId when themes are selected.", async({ themeId }) => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionThemeSelectorProps,
           modelValue: [
             createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
             createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
@@ -336,7 +349,7 @@ describe("QuestionThemeSelector Component", () => {
       it("should use warning color for the primary button when theme is primary.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
           },
         });
@@ -349,7 +362,7 @@ describe("QuestionThemeSelector Component", () => {
       it("should use soft variant for the primary button when theme is primary.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
           },
         });
@@ -362,7 +375,7 @@ describe("QuestionThemeSelector Component", () => {
       it("should use neutral color for the primary button when theme is not primary.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             modelValue: [
               createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
               createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
@@ -378,7 +391,7 @@ describe("QuestionThemeSelector Component", () => {
       it("should use outline variant for the primary button when theme is not primary.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             modelValue: [
               createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
               createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
@@ -394,7 +407,7 @@ describe("QuestionThemeSelector Component", () => {
       it("should disable the primary button for the already-primary theme when theme is primary.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
           },
         });
@@ -407,7 +420,7 @@ describe("QuestionThemeSelector Component", () => {
       it("should not disable the primary button for a non-primary theme when theme is not primary.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             modelValue: [
               createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
               createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
@@ -423,7 +436,7 @@ describe("QuestionThemeSelector Component", () => {
       it("should emit update:modelValue with new primary when clicking star on a non-primary theme.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             modelValue: [
               createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
               createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
@@ -449,7 +462,7 @@ describe("QuestionThemeSelector Component", () => {
       it("should pass false as model value to the hint switch when theme is not a hint.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
           },
         });
@@ -462,7 +475,7 @@ describe("QuestionThemeSelector Component", () => {
       it("should pass true as model value to the hint switch when theme is a hint.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: true })],
           },
         });
@@ -475,7 +488,7 @@ describe("QuestionThemeSelector Component", () => {
       it("should emit update:modelValue with toggled hint when hint switch is toggled.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
           },
         });
@@ -489,7 +502,7 @@ describe("QuestionThemeSelector Component", () => {
       it("should only toggle hint for the targeted theme when multiple themes are selected.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             modelValue: [
               createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
               createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
@@ -515,7 +528,7 @@ describe("QuestionThemeSelector Component", () => {
       it("should emit update:modelValue without the removed theme when remove button is clicked.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             modelValue: [
               createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
               createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
@@ -532,7 +545,7 @@ describe("QuestionThemeSelector Component", () => {
       it("should promote the first remaining theme to primary when removing the primary theme.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             modelValue: [
               createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false }),
               createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-2", isPrimary: false, isHint: false }),
@@ -549,7 +562,7 @@ describe("QuestionThemeSelector Component", () => {
       it("should emit update:modelValue with an empty array when removing the last theme.", async() => {
         wrapper = await mountQuestionThemeSelectorComponent({
           props: {
-            ...defaultProperties,
+            ...defaultQuestionThemeSelectorProps,
             modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
           },
         });
@@ -566,7 +579,7 @@ describe("QuestionThemeSelector Component", () => {
     it("should disable the select menu when disabled prop is true.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionThemeSelectorProps,
           disabled: true,
         },
       });
@@ -579,7 +592,7 @@ describe("QuestionThemeSelector Component", () => {
     it("should disable the primary button when disabled prop is true.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionThemeSelectorProps,
           disabled: true,
           modelValue: [
             createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: false, isHint: false }),
@@ -596,7 +609,7 @@ describe("QuestionThemeSelector Component", () => {
     it("should disable the hint switch when disabled prop is true.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionThemeSelectorProps,
           disabled: true,
           modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
         },
@@ -610,7 +623,7 @@ describe("QuestionThemeSelector Component", () => {
     it("should disable the remove button when disabled is true.", async() => {
       wrapper = await mountQuestionThemeSelectorComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionThemeSelectorProps,
           disabled: true,
           modelValue: [createFakeQuestionThemeAssignmentCreationDto({ themeId: "theme-1", isPrimary: true, isHint: false })],
         },
@@ -630,7 +643,7 @@ describe("QuestionThemeSelector Component", () => {
     async function mountInEditMode(overrides: Partial<QuestionThemeSelectorProps> = {}): Promise<VueWrapper> {
       return mountQuestionThemeSelectorComponent({
         props: {
-          ...defaultProperties,
+          ...defaultQuestionThemeSelectorProps,
           modelValue: editModeAssignments,
           mode: "edit",
           ...overrides,

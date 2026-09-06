@@ -12,7 +12,7 @@ import type { QuestionTranslationCompletenessIndicatorProps } from "~/components
 describe("QuestionTranslationCompletenessIndicator Component", () => {
   let wrapper: VueWrapper;
   const question = createFakeQuestion();
-  const defaultProperties: QuestionTranslationCompletenessIndicatorProps = {
+  const defaultQuestionTranslationCompletenessIndicatorProps: QuestionTranslationCompletenessIndicatorProps = {
     question,
   } as const;
 
@@ -20,7 +20,7 @@ describe("QuestionTranslationCompletenessIndicator Component", () => {
 
   async function mountQuestionTranslationCompletenessIndicatorComponent(options: ComponentOptions = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionTranslationCompletenessIndicator, {
-      props: defaultProperties,
+      props: defaultQuestionTranslationCompletenessIndicatorProps,
       ...options,
     });
   }

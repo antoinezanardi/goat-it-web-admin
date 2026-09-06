@@ -13,13 +13,13 @@ import type { EditQuestionButtonProps } from "~/components/domain/question/Quest
 describe("EditQuestionButton Component", () => {
   let wrapper: VueWrapper;
 
-  const defaultProps: EditQuestionButtonProps = {
+  const defaultEditQuestionButtonProps: EditQuestionButtonProps = {
     questionId: "question-id-123",
-  };
+  } as const;
 
   async function mountEditQuestionButtonComponent(options: MountSuspendedOptions<typeof EditQuestionButton> = {}): Promise<VueWrapper> {
     return mountSuspended(EditQuestionButton, {
-      props: defaultProps,
+      props: defaultEditQuestionButtonProps,
       ...options,
     });
   }
@@ -42,6 +42,12 @@ describe("EditQuestionButton Component", () => {
     const button = wrapper.findComponent<typeof UButton>({ name: "UButton" });
 
     expect(button.attributes("aria-label")).toBe("questions.actions.edit");
+  });
+
+  it("should render the edit icon on the button when mounted.", () => {
+    const button = wrapper.findComponent<typeof UButton>({ name: "UButton" });
+
+    expect(button.props("icon")).toBe("i-lucide-pencil");
   });
 
   it("should emit startEdit with the question id when clicked.", () => {

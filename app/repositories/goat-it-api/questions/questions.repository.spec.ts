@@ -31,7 +31,7 @@ describe(questionsRepository, () => {
 
   describe("getAll", () => {
     it("should call fetch with the correct endpoint and undefined query when called without params.", async() => {
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue([]);
       await repository.getAll();
 
@@ -39,7 +39,7 @@ describe(questionsRepository, () => {
     });
 
     it("should call fetch with the correct endpoint and query when called with query params.", async() => {
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue([]);
       const query = createFakeAdminFindQuestionsQueryDto();
       await repository.getAll(query);
@@ -49,7 +49,7 @@ describe(questionsRepository, () => {
 
     it("should return questions from fetch when called.", async() => {
       const fakeQuestions: Question[] = [createFakeQuestion(), createFakeQuestion()];
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(fakeQuestions);
 
       const result = await repository.getAll();
@@ -60,7 +60,7 @@ describe(questionsRepository, () => {
 
   describe("getById", () => {
     it("should call fetch with correct endpoint when called.", async() => {
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(createFakeQuestion());
       await repository.getById("123");
 
@@ -69,7 +69,7 @@ describe(questionsRepository, () => {
 
     it("should return the question from fetch when called.", async() => {
       const fakeQuestion = createFakeQuestion();
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(fakeQuestion);
 
       const result = await repository.getById("123");
@@ -80,7 +80,7 @@ describe(questionsRepository, () => {
 
   describe("create", () => {
     it("should call fetch with correct endpoint and body when called.", async() => {
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       const dto = createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] });
       fetchMock.mockResolvedValue(createFakeQuestion());
       await repository.create(dto);
@@ -90,7 +90,7 @@ describe(questionsRepository, () => {
 
     it("should return the created question from fetch when called.", async() => {
       const fakeQuestion = createFakeQuestion();
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(fakeQuestion);
 
       const result = await repository.create(createFakeQuestionCreationDto({ themes: [createFakeQuestionThemeAssignmentCreationDto({ isPrimary: true })] }));
@@ -101,7 +101,7 @@ describe(questionsRepository, () => {
 
   describe("archive", () => {
     it("should call fetch with correct endpoint when called.", async() => {
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(createFakeQuestion());
       await repository.archive("123");
 
@@ -110,7 +110,7 @@ describe(questionsRepository, () => {
 
     it("should return the archived question from fetch when called.", async() => {
       const fakeQuestion = createFakeQuestion();
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(fakeQuestion);
 
       const result = await repository.archive("123");
@@ -121,7 +121,7 @@ describe(questionsRepository, () => {
 
   describe("assignTheme", () => {
     it("should call fetch with correct endpoint and body when called.", async() => {
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       const dto = createFakeQuestionThemeAssignmentCreationDto();
       fetchMock.mockResolvedValue(createFakeQuestion());
       await repository.assignTheme("123", dto);
@@ -131,7 +131,7 @@ describe(questionsRepository, () => {
 
     it("should return the question from fetch when called.", async() => {
       const fakeQuestion = createFakeQuestion();
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(fakeQuestion);
 
       const result = await repository.assignTheme("123", createFakeQuestionThemeAssignmentCreationDto());
@@ -142,7 +142,7 @@ describe(questionsRepository, () => {
 
   describe("removeTheme", () => {
     it("should call fetch with correct endpoint when called.", async() => {
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(createFakeQuestion());
       await repository.removeTheme("123", "456");
 
@@ -151,7 +151,7 @@ describe(questionsRepository, () => {
 
     it("should return the question from fetch when called.", async() => {
       const fakeQuestion = createFakeQuestion();
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(fakeQuestion);
 
       const result = await repository.removeTheme("123", "456");
@@ -162,7 +162,7 @@ describe(questionsRepository, () => {
 
   describe("modifyThemeAssignment", () => {
     it("should call fetch with correct endpoint and body when called.", async() => {
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       const dto = createFakeQuestionThemeAssignmentModificationDto();
       fetchMock.mockResolvedValue(createFakeQuestion());
       await repository.modifyThemeAssignment("123", "456", dto);
@@ -172,7 +172,7 @@ describe(questionsRepository, () => {
 
     it("should return the question from fetch when called.", async() => {
       const fakeQuestion = createFakeQuestion();
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(fakeQuestion);
 
       const result = await repository.modifyThemeAssignment("123", "456", createFakeQuestionThemeAssignmentModificationDto());
@@ -183,7 +183,7 @@ describe(questionsRepository, () => {
 
   describe("modify", () => {
     it("should call fetch with correct endpoint and body when called.", async() => {
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       const dto = createFakeQuestionModificationDto();
       fetchMock.mockResolvedValue(createFakeQuestion());
       await repository.modify("123", dto);
@@ -193,7 +193,7 @@ describe(questionsRepository, () => {
 
     it("should return the modified question from fetch when called.", async() => {
       const fakeQuestion = createFakeQuestion();
-      const repository = questionsRepository(fetchMock);
+      const repository = questionsRepository(fetchMock as $Fetch);
       fetchMock.mockResolvedValue(fakeQuestion);
 
       const result = await repository.modify("123", createFakeQuestionModificationDto());

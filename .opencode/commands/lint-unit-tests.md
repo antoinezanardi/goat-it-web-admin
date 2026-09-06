@@ -9,7 +9,7 @@ Audit unit test spec files against the repository conventions defined in `docs/u
 
 The audit is **static analysis only** — never execute tests. Deep semantic checks (branch/slot/state coverage) are out of scope; coverage remains delegated to `pnpm run test:unit:cov`.
 
-To protect the main context during the **audit phase**, spec files are NEVER read by the main agent: after classification, audit work is dispatched to parallel `general` subagents that return only structured violation summaries. During the **fix phase**, the main agent may read and edit spec files directly only for mechanical categories touching at most 2 files (step 8, *Direct fix allowance*); all other fixes remain delegated to subagents. The main agent aggregates, reports, asks for approval, then applies fixes.
+To protect the main context during the **audit phase**, spec files are NEVER read by the main agent: after classification, audit work is dispatched to parallel `general` subagents that return only structured violation summaries. During the **fix phase**, the main agent may read and edit spec files directly only for mechanical categories touching at most 2 files (step 8, *Direct fix allowance*); all other fixes are delegated to ONE subagent per category, dispatched sequentially (never parallel batches). The main agent aggregates, reports, asks for approval, then applies fixes.
 
 Report all violations once in-chat, then use the question tool to validate with the user which violations to fix. **Never modify any file before explicit user approval.**
 
@@ -51,7 +51,7 @@ Audit subagents apply this checklist verbatim. Violations are recorded with rule
 
 - **[U1] Location & naming** — Spec colocated with source as `SourceFile.spec.ts`. Exceptions: layouts → `spec/` subfolder; i18n → `app/i18n/specs/`.
 - **[U2] Explicit vitest imports** — `describe`, `it`, `expect`, `vi`, etc. imported from `"vitest"` in every test file. No reliance on globals.
-- **[U3] Describe label rule** — Components: string `"<Name> Component"`. Pages: string `"<Name> Page"`. Layouts: string `"<Name> Layout"`. Server handlers: outer string `"Server Goat It API <Resource> <Method> Handler"` + inner `describe(handlerFn, ...)`. Stores: string form `describe("useXxxStore", ...)` or symbol reference (docs §6.5 pattern). Functions/composables/repositories: symbol reference (`describe(myFn, ...)`); free-form string only when no single symbol applies. Never a direct component/page/layout reference, and never a free-form grouping string wrapping symbol describes.
+- **[U3] Describe label rule** — Components: string `"<Name> Component"`. Pages: string `"<Name> Page"`. Layouts: string `"<Name> Layout"`. Server handlers: outer string `"Server Goat It API <Resource> <Method> Handler"` + inner `describe(handlerFn, ...)`. Stores: string form `describe("useXxxStore", ...)` or symbol reference (docs §6.5 pattern). Functions/composables/repositories: symbol reference (`describe(myFn, ...)`); free-form string only when no single symbol applies. **Exception:** composables using dynamic `await import(...)` in `beforeEach` (Patterns A/B) may use a string label — the module-level `let` variable is `undefined` at `describe()` evaluation time, so passing it as a symbol causes `TS2454`. Never a direct component/page/layout reference, and never a free-form grouping string wrapping symbol describes.
 - **[U4] Single-call assertions** — No `toHaveBeenCalledTimes(1)` combined with `toHaveBeenCalledWith(...)`. Use `toHaveBeenCalledExactlyOnceWith(...)`.
 - **[U5] Error swallowing** — No `.catch(() => null)`. Use try/catch with `void error` when asserting side effects of throwing code.
 - **[U6] Translation keys** — Assertions compare translation keys, never translated prose strings.
@@ -69,6 +69,7 @@ These recurring shapes are accepted codebase conventions. Auditors must not repo
 - Count-only `findAllComponents({ name: "..." })` usage that never indexes positionally into siblings.
 - `getWrapperVm<T>` + local `ComponentVm` extension asserting derived computed values when the rendered output itself is not observable in happy-dom (see [C8]).
 - Environment-coupled server helper specs stubbing `useRuntimeConfig` / h3 globals (see [N1] exception).
+- [C3] default props const without `as const` when the props type contains mutable arrays (e.g. `modelValue: string[]`). The `as const` annotation creates `readonly` arrays that don't match mutable array prop types — the [C3] rule already permits omitting it in this case. Always check the props type before flagging.
 
 #### Component checks
 
@@ -175,7 +176,7 @@ Missing branch/slot coverage detection stays out of audit scope — it is enforc
 
 - **[T1] Location** — Specs live in `app/i18n/specs/`, never colocated.
 - **[T2] Flattening** — Uses `crush` from `radashi`.
-- **[T3] Parity assertion** — `Object.keys(crush(x)).toSorted()` compared against the French reference keys (`fr` is the source-of-truth locale).
+- **[T3] Parity assertion** — `Object.keys(crush(x)).toSorted()` compared against the French reference keys (`fr` is the source-of-truth locale). The correct pattern is `expect(targetLocaleKeys).toStrictEqual(frReferenceKeys)` — target on the left, FR reference on the right. **Validation note:** Before flagging T3, verify the original file's argument order. If the original already has target-left / FR-right, do NOT flag it. Common false positive: subagents flag files where the assertion order is already correct.
 
 ### 5. Dispatch audit subagents
 
@@ -253,11 +254,11 @@ Classify before asking: **mechanical** = unambiguous single-file edits; **judgme
 
 ### 8. Fix selected violations
 
-Work through approved categories ONE at a time:
+Work through approved categories ONE at a time. **NO parallel work across categories** — complete each category fully (fix + verify) before starting the next. This prevents concurrent write races, revert conflicts, and inconsistent state across the working tree.
 
 - **Direct fix allowance** — a mechanical category touching at most 2 files may be applied directly by the main agent (read + edit + scoped verification per section 9) instead of dispatching subagents.
-- For each remaining category, list every file it touches and dispatch fixes in batches of 4 files per `general` subagent task (smaller remainders fine), in parallel waves of at most ~6 tasks.
-- Each batch prompt must contain: exact file paths, the violations to fix with their tags/lines, the expected pattern from `docs/unit-testing.md`, scoped verification (`pnpm run test:unit <spec paths>` plus focused eslint/oxlint fixes must pass; revert a single fix if irrecoverable), and the structured `FILE / STATUS / NOTES` return format. Also declare any known working-tree modifications that predate the batch so the subagent does not misattribute them.
+- For each remaining category, dispatch ONE `general` subagent per category via the Task tool. The subagent receives ALL files for that category in a single prompt and fixes them sequentially. This avoids concurrent write races and inconsistent cross-batch state. **NEVER split a category into parallel batches** — multiple subagents writing to different files in the same category causes revert races and lost edits. The subagent must NOT run `pnpm run lint:fix` or `pnpm run test:unit:cov` — verification is done by the main agent after the subagent returns. **NEVER run mutation testing or acceptance tests in subagents.** If a fix subagent fails or returns truncated/malformed output, re-dispatch ONCE with HALF the files (split into two sequential subagent tasks). If it still fails, mark those files ⚠️ `unfixed — manual review` and continue with the next category.
+- Each subagent prompt must contain: exact file paths, the violations to fix with their tags/lines, the expected pattern from `docs/unit-testing.md`, the current working-tree state (pre-existing modifications), and the structured `FILE / STATUS / NOTES` return format. Also declare any known working-tree modifications that predate the batch so the subagent does not misattribute them.
 - Apply corrections following the exact patterns from `docs/unit-testing.md` — never invent alternatives.
 - Judgmental items may require adding or removing test cases; write them per the file-type pattern.
 - **Component finds by `data-testid` must be typed** — when rewriting positional lookups, use `findComponent<typeof Component>("[data-testid='...']")` with the component type imported from `#components`; a bare `findComponent(string)` returns `WrapperLike`, which has no `.props()` access.

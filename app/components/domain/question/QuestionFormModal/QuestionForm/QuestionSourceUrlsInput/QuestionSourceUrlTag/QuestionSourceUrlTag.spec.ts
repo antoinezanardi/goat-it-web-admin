@@ -14,7 +14,7 @@ describe("QuestionSourceUrlTag Component", () => {
 
   const defaultProperties: QuestionSourceUrlTagProps = {
     url: "https://docs.google.com/spreadsheets/d/abc123",
-  };
+  } as const;
 
   async function mountQuestionSourceUrlTagComponent(options: MountSuspendedOptions<typeof QuestionSourceUrlTag> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionSourceUrlTag, {
