@@ -9,38 +9,16 @@ import itQuestions from "~/i18n/locales/it/questions.json";
 import ptQuestions from "~/i18n/locales/pt/questions.json";
 
 describe("questions.json translations", () => {
-  it("should have the same keys in english as in french when context is questions.", () => {
-    const crushedFrQuestionsKeys = Object.keys(crush(frQuestions)).toSorted();
-    const crushedEnQuestionsKeys = Object.keys(crush(enQuestions)).toSorted();
+  it.each<[string, typeof frQuestions]>([
+    ["de", deQuestions],
+    ["en", enQuestions],
+    ["es", esQuestions],
+    ["it", itQuestions],
+    ["pt", ptQuestions],
+  ])("should have the same keys in every locale as in french when context is questions.", (_locale, translations) => {
+    const crushedReferenceKeys = Object.keys(crush(frQuestions)).toSorted();
+    const crushedTranslationKeys = Object.keys(crush(translations)).toSorted();
 
-    expect(crushedEnQuestionsKeys).toStrictEqual(crushedFrQuestionsKeys);
-  });
-
-  it("should have the same keys in french as in german when context is questions.", () => {
-    const crushedFrQuestionsKeys = Object.keys(crush(frQuestions)).toSorted();
-    const crushedDeQuestionsKeys = Object.keys(crush(deQuestions)).toSorted();
-
-    expect(crushedDeQuestionsKeys).toStrictEqual(crushedFrQuestionsKeys);
-  });
-
-  it("should have the same keys in french as in spanish when context is questions.", () => {
-    const crushedFrQuestionsKeys = Object.keys(crush(frQuestions)).toSorted();
-    const crushedEsQuestionsKeys = Object.keys(crush(esQuestions)).toSorted();
-
-    expect(crushedEsQuestionsKeys).toStrictEqual(crushedFrQuestionsKeys);
-  });
-
-  it("should have the same keys in french as in italian when context is questions.", () => {
-    const crushedFrQuestionsKeys = Object.keys(crush(frQuestions)).toSorted();
-    const crushedItQuestionsKeys = Object.keys(crush(itQuestions)).toSorted();
-
-    expect(crushedItQuestionsKeys).toStrictEqual(crushedFrQuestionsKeys);
-  });
-
-  it("should have the same keys in french as in portuguese when context is questions.", () => {
-    const crushedFrQuestionsKeys = Object.keys(crush(frQuestions)).toSorted();
-    const crushedPtQuestionsKeys = Object.keys(crush(ptQuestions)).toSorted();
-
-    expect(crushedPtQuestionsKeys).toStrictEqual(crushedFrQuestionsKeys);
+    expect(crushedTranslationKeys).toStrictEqual<string[]>(crushedReferenceKeys);
   });
 });

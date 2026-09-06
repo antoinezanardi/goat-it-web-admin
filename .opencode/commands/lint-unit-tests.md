@@ -69,6 +69,7 @@ These recurring shapes are accepted codebase conventions. Auditors must not repo
 - Count-only `findAllComponents({ name: "..." })` usage that never indexes positionally into siblings.
 - `getWrapperVm<T>` + local `ComponentVm` extension asserting derived computed values when the rendered output itself is not observable in happy-dom (see [C8]).
 - Environment-coupled server helper specs stubbing `useRuntimeConfig` / h3 globals (see [N1] exception).
+- [C3] default props const without `as const` when the props type contains mutable arrays (e.g. `modelValue: string[]`). The `as const` annotation creates `readonly` arrays that don't match mutable array prop types — the [C3] rule already permits omitting it in this case. Always check the props type before flagging.
 
 #### Component checks
 
@@ -175,7 +176,7 @@ Missing branch/slot coverage detection stays out of audit scope — it is enforc
 
 - **[T1] Location** — Specs live in `app/i18n/specs/`, never colocated.
 - **[T2] Flattening** — Uses `crush` from `radashi`.
-- **[T3] Parity assertion** — `Object.keys(crush(x)).toSorted()` compared against the French reference keys (`fr` is the source-of-truth locale).
+- **[T3] Parity assertion** — `Object.keys(crush(x)).toSorted()` compared against the French reference keys (`fr` is the source-of-truth locale). The correct pattern is `expect(targetLocaleKeys).toStrictEqual(frReferenceKeys)` — target on the left, FR reference on the right. **Validation note:** Before flagging T3, verify the original file's argument order. If the original already has target-left / FR-right, do NOT flag it. Common false positive: subagents flag files where the assertion order is already correct.
 
 ### 5. Dispatch audit subagents
 
