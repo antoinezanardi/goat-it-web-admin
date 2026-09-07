@@ -128,28 +128,16 @@ describe("QuestionThemeIcon Component", () => {
       expect(container.classes()).not.toContain("border-dashed");
     });
 
-    it("should apply border-dashed class when isHint is true.", async() => {
-      wrapper = await mountQuestionThemeIconComponent({ props: { slug: "music", isHint: true } });
+    it.each<{ isHint: boolean; expectedClass: string }>([
+      { isHint: true, expectedClass: "border-dashed" },
+      { isHint: true, expectedClass: "border-2" },
+      { isHint: false, expectedClass: "border-2" },
+    ])("should apply $expectedClass class when isHint is $isHint.", async({ isHint, expectedClass }) => {
+      wrapper = await mountQuestionThemeIconComponent({ props: { slug: "music", isHint } });
 
       const container = wrapper.find("[data-testid='question-theme-icon-container-music']");
 
-      expect(container.classes()).toContain("border-dashed");
-    });
-
-    it("should apply border-2 class when isHint is true.", async() => {
-      wrapper = await mountQuestionThemeIconComponent({ props: { slug: "music", isHint: true } });
-
-      const container = wrapper.find("[data-testid='question-theme-icon-container-music']");
-
-      expect(container.classes()).toContain("border-2");
-    });
-
-    it("should apply border-2 class when isHint is false.", async() => {
-      wrapper = await mountQuestionThemeIconComponent({ props: { slug: "music", isHint: false } });
-
-      const container = wrapper.find("[data-testid='question-theme-icon-container-music']");
-
-      expect(container.classes()).toContain("border-2");
+      expect(container.classes()).toContain(expectedClass);
     });
   });
 });
