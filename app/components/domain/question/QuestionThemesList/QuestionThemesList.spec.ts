@@ -16,8 +16,14 @@ describe("QuestionThemesList Component", () => {
   let wrapper: VueWrapper;
   const defaultQuestionThemesListProps: QuestionThemesListProps = {
     themes: [
-      createFakeQuestionThemeAssignment({ theme: createFakeQuestionTheme({ slug: "geography", color: "#FF0000", label: createFakeLocalizedText({ en: "Geography" }) }) }),
-      createFakeQuestionThemeAssignment({ theme: createFakeQuestionTheme({ slug: "history", color: "#00FF00", label: createFakeLocalizedText({ en: "History" }) }) }),
+      createFakeQuestionThemeAssignment({
+        theme: createFakeQuestionTheme({ slug: "geography", color: "#FF0000", label: createFakeLocalizedText({ en: "Geography" }) }),
+        isHint: true,
+      }),
+      createFakeQuestionThemeAssignment({
+        theme: createFakeQuestionTheme({ slug: "history", color: "#00FF00", label: createFakeLocalizedText({ en: "History" }) }),
+        isHint: false,
+      }),
     ],
   };
 
@@ -81,6 +87,20 @@ describe("QuestionThemesList Component", () => {
       const tooltip = wrapper.findComponent<typeof UTooltip>("[data-testid='question-theme-tooltip-geography']");
 
       expect(tooltip.props("text")).toBe("Geography");
+    });
+  });
+
+  describe("Hint", () => {
+    it("should pass isHint to QuestionThemeIcon when assignment isHint is true.", () => {
+      const icon = wrapper.findComponent<typeof QuestionThemeIcon>("[data-testid='question-theme-icon-geography']");
+
+      expect(icon.props("isHint")).toBe(true);
+    });
+
+    it("should pass isHint to QuestionThemeIcon when assignment isHint is false.", () => {
+      const icon = wrapper.findComponent<typeof QuestionThemeIcon>("[data-testid='question-theme-icon-history']");
+
+      expect(icon.props("isHint")).toBe(false);
     });
   });
 });

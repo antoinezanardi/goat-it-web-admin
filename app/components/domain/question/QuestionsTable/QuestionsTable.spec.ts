@@ -109,7 +109,7 @@ describe("QuestionsTable Component", () => {
         {
           accessorKey: "statement",
           header: "questions.fields.statement",
-          meta: { class: { td: "whitespace-normal break-words" } },
+          meta: { class: { td: "max-w-96 min-w-96 whitespace-normal break-words" } },
         },
         {
           accessorKey: "cognitiveDifficulty",

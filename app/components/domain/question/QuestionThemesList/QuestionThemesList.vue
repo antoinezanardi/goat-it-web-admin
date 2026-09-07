@@ -22,6 +22,7 @@ const missingThemeTranslation = computed<string>(() => t("questions.missingTheme
       <QuestionThemeIcon
         :color="assignment.theme.color"
         :data-testid="`question-theme-icon-${assignment.theme.slug}`"
+        :is-hint="assignment.isHint"
         :size="16"
         :slug="assignment.theme.slug"
       />

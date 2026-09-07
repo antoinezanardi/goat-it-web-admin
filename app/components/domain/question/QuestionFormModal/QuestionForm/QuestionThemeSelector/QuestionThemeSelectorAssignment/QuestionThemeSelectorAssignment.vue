@@ -64,6 +64,7 @@ function onRemove(): void {
     <QuestionThemeIcon
       :color="theme?.color"
       :data-testid="`question-theme-selector-icon-${assignment.themeId}`"
+      :is-hint="assignment.isHint"
       :size="QUESTION_THEME_SELECTOR_ASSIGNMENT_ICON_SIZE"
       :slug="theme?.slug ?? ''"
     />
