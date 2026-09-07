@@ -61,7 +61,7 @@ describe("useTranslationCompleteness", () => {
 
       const { totalCount }: UseTranslationCompleteness = useTranslationCompleteness([emptyField]);
 
-      expect(totalCount).toBe(6);
+      expect(totalCount.value).toBe(6);
     });
   });
 
@@ -170,7 +170,7 @@ describe("useTranslationCompleteness", () => {
         applicableLocales: ["en", "fr"],
       });
 
-      expect(totalCount).toBe(2);
+      expect(totalCount.value).toBe(2);
     });
 
     it("should return 6 when applicableLocales is empty.", () => {
@@ -180,7 +180,7 @@ describe("useTranslationCompleteness", () => {
         applicableLocales: [],
       });
 
-      expect(totalCount).toBe(6);
+      expect(totalCount.value).toBe(6);
     });
 
     it("should return 6 when applicableLocales is undefined.", () => {
@@ -188,7 +188,7 @@ describe("useTranslationCompleteness", () => {
 
       const { totalCount }: UseTranslationCompleteness = useTranslationCompleteness([fullField]);
 
-      expect(totalCount).toBe(6);
+      expect(totalCount.value).toBe(6);
     });
   });
 
@@ -279,6 +279,19 @@ describe("useTranslationCompleteness", () => {
       applicableLocales.value = ["en", "fr"];
 
       expect(completedCount.value).toBe(2);
+    });
+
+    it("should update totalCount and isFullyTranslated consistently when applicableLocales ref changes.", () => {
+      const fullField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", es: "Hola", de: "Hallo", it: "Ciao", pt: "Olá" });
+      const applicableLocales = ref<Locale[]>(["en"]);
+
+      const { totalCount, isFullyTranslated }: UseTranslationCompleteness = useTranslationCompleteness([fullField], {
+        applicableLocales,
+      });
+
+      applicableLocales.value = ["en", "fr"];
+
+      expect({ totalCount: totalCount.value, isFullyTranslated: isFullyTranslated.value }).toStrictEqual({ totalCount: 2, isFullyTranslated: true });
     });
   });
 });

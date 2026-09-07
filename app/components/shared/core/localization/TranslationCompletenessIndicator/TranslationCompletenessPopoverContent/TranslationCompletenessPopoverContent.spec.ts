@@ -159,18 +159,25 @@ describe("TranslationCompletenessPopoverContent Component", () => {
       expect(badge.classes()).toContain("text-default");
     });
 
-    it("should render a minus icon when locale is not applicable.", () => {
+    it("should render a circle-slash icon when locale is not applicable.", () => {
       const badge = wrapper.find("[data-testid='locale-status-de']");
       const icon = badge.find("[data-testid='locale-status-icon']");
 
-      expect(icon.classes()).toContain("i-lucide:minus");
+      expect(icon.classes()).toContain("i-lucide:circle-slash");
     });
 
-    it("should set the notApplicable title on the icon when locale is not applicable.", () => {
+    it("should apply the grayscale class on the flag icon when locale is not applicable.", () => {
       const badge = wrapper.find("[data-testid='locale-status-de']");
-      const icon = badge.find("[data-testid='locale-status-icon']");
+      const flagIcon = badge.find("[data-testid='locale-label-de'] .iconify");
 
-      expect(icon.attributes("title")).toBe("localization.notApplicable");
+      expect(flagIcon.classes()).toContain("grayscale");
+    });
+
+    it("should not apply the grayscale class on the flag icon when locale is applicable.", () => {
+      const badge = wrapper.find("[data-testid='locale-status-en']");
+      const flagIcon = badge.find("[data-testid='locale-label-en'] .iconify");
+
+      expect(flagIcon.classes()).not.toContain("grayscale");
     });
 
     it("should render a check icon when locale is applicable and complete.", () => {
@@ -178,6 +185,48 @@ describe("TranslationCompletenessPopoverContent Component", () => {
       const icon = badge.find("[data-testid='locale-status-icon']");
 
       expect(icon.classes()).toContain("i-lucide:check");
+    });
+
+    it("should set the notApplicable tooltip text on the badge when locale is not applicable.", () => {
+      const deTooltip = wrapper.findAllComponents({ name: "UTooltip" })
+        .find(tooltip => tooltip.html().includes("locale-status-de"));
+
+      expect(deTooltip?.props("text")).toBe("localization.notApplicable");
+    });
+  });
+
+  describe("Tooltip Text", () => {
+    const partialField = createFakeLocalizedText({ en: "Hello", fr: "", de: "", es: "", it: "", pt: "" });
+
+    it("should set the localeComplete tooltip text on the badge when locale is applicable and complete.", async() => {
+      wrapper = await mountTranslationCompletenessPopoverContentComponent({
+        props: { requiredFields: [partialField] },
+      });
+      const enTooltip = wrapper.findAllComponents({ name: "UTooltip" })
+        .find(tooltip => tooltip.html().includes("locale-status-en"));
+
+      expect(enTooltip?.props("text")).toBe("localization.localeComplete");
+    });
+
+    it("should set the localeIncomplete tooltip text on the badge when locale is applicable and incomplete.", async() => {
+      wrapper = await mountTranslationCompletenessPopoverContentComponent({
+        props: { requiredFields: [partialField] },
+      });
+      const frTooltip = wrapper.findAllComponents({ name: "UTooltip" })
+        .find(tooltip => tooltip.html().includes("locale-status-fr"));
+
+      expect(frTooltip?.props("text")).toBe("localization.localeIncomplete");
+    });
+
+    it("should set the notApplicable tooltip text on the badge when locale is not applicable and required fields are empty.", async() => {
+      const emptyField = createFakeLocalizedText({ en: "", fr: "", de: "", es: "", it: "", pt: "" });
+      wrapper = await mountTranslationCompletenessPopoverContentComponent({
+        props: { requiredFields: [emptyField], applicableLocales: ["en", "fr"] },
+      });
+      const deTooltip = wrapper.findAllComponents({ name: "UTooltip" })
+        .find(tooltip => tooltip.html().includes("locale-status-de"));
+
+      expect(deTooltip?.props("text")).toBe("localization.notApplicable");
     });
   });
 });

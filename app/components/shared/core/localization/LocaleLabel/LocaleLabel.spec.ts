@@ -89,4 +89,19 @@ describe("LocaleLabel Component", () => {
       });
     });
   });
+
+  describe("Applicable Prop", () => {
+    it("should not apply the grayscale class on the flag icon when applicable is true.", () => {
+      const icon = wrapper.find(".iconify");
+
+      expect(icon.classes()).not.toContain("grayscale");
+    });
+
+    it("should apply the grayscale class on the flag icon when applicable is false.", async() => {
+      wrapper = await mountLocaleLabelComponent({ props: { locale: "fr", applicable: false } });
+      const icon = wrapper.find(".iconify");
+
+      expect(icon.classes()).toContain("grayscale");
+    });
+  });
 });

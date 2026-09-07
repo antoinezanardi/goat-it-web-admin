@@ -2,7 +2,7 @@
 import type { LocaleLabelProps } from "~/components/shared/core/localization/LocaleLabel/locale-label.types";
 import { LOCALE_FLAG_ICONS } from "~/components/shared/core/localization/LocaleLabel/locale-label.constants";
 
-const props = defineProps<LocaleLabelProps>();
+const props = withDefaults(defineProps<LocaleLabelProps>(), { applicable: true });
 
 const { t } = useI18n();
 
@@ -16,6 +16,7 @@ const flagIcon = computed<string>(() => LOCALE_FLAG_ICONS[props.locale]);
   >
     <UIcon
       class="size-3.5"
+      :class="[{ 'grayscale': !applicable }]"
       :name="flagIcon"
     />
 

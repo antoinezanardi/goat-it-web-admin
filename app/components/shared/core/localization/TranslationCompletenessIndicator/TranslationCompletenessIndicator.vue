@@ -13,11 +13,11 @@ const props = defineProps<TranslationCompletenessIndicatorProps>();
 const { t } = useI18n();
 
 const requiredFieldsReference = toRef(() => props.requiredFields);
-const applicableLocalesReference = computed<Locale[] | undefined>(() => props.applicableLocales);
+const applicableLocalesReference = computed<Locale[]>(() => props.applicableLocales ?? []);
 const { completedCount, totalCount, isFullyTranslated } = useTranslationCompleteness(requiredFieldsReference, {
   applicableLocales: applicableLocalesReference,
 });
-const strokeDashoffset = computed<number>(() => TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE * (1 - completedCount.value / totalCount));
+const strokeDashoffset = computed<number>(() => TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE * (1 - completedCount.value / totalCount.value));
 
 const completenessIcon = computed<string>(() => (isFullyTranslated.value ? "i-lucide-globe-check" : "i-lucide-globe"));
 
