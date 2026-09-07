@@ -186,6 +186,36 @@ describe("QuestionThemeSelectorAssignment Component", () => {
 
       expect(icon.props("color")).toBeUndefined();
     });
+
+    it("should pass isHint=true to QuestionThemeIcon when assignment isHint is true.", () => {
+      const icon = wrapper.findComponent<typeof QuestionThemeIcon>("[data-testid='question-theme-selector-icon-theme-1']");
+
+      expect(icon.props("isHint")).toBe(true);
+    });
+
+    it("should pass isHint=false to QuestionThemeIcon when assignment isHint is false.", async() => {
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
+        props: { ...defaultQuestionThemeSelectorAssignmentProps, assignment: { ...fakeAssignment, isHint: false } },
+      });
+      const icon = wrapper.findComponent<typeof QuestionThemeIcon>("[data-testid='question-theme-selector-icon-theme-1']");
+
+      expect(icon.props("isHint")).toBe(false);
+    });
+
+    it("should apply border-dashed class on the icon container when assignment isHint is true.", () => {
+      const container = wrapper.find("[data-testid='question-theme-selector-icon-theme-1']");
+
+      expect(container.classes()).toContain("border-dashed");
+    });
+
+    it("should not apply border-dashed class on the icon container when assignment isHint is false.", async() => {
+      wrapper = await mountQuestionThemeSelectorAssignmentComponent({
+        props: { ...defaultQuestionThemeSelectorAssignmentProps, assignment: { ...fakeAssignment, isHint: false } },
+      });
+      const container = wrapper.find("[data-testid='question-theme-selector-icon-theme-1']");
+
+      expect(container.classes()).not.toContain("border-dashed");
+    });
   });
 
   describe("Theme Label", () => {

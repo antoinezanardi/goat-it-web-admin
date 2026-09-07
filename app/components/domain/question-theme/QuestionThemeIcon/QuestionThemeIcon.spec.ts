@@ -112,4 +112,44 @@ describe("QuestionThemeIcon Component", () => {
       expect(container.attributes("style")).toContain("border-color");
     });
   });
+
+  describe("Hint", () => {
+    it("should not apply border-dashed class when isHint is not provided.", () => {
+      const container = wrapper.find("[data-testid='question-theme-icon-container-music']");
+
+      expect(container.classes()).not.toContain("border-dashed");
+    });
+
+    it("should not apply border-dashed class when isHint is false.", async() => {
+      wrapper = await mountQuestionThemeIconComponent({ props: { slug: "music", isHint: false } });
+
+      const container = wrapper.find("[data-testid='question-theme-icon-container-music']");
+
+      expect(container.classes()).not.toContain("border-dashed");
+    });
+
+    it("should apply border-dashed class when isHint is true.", async() => {
+      wrapper = await mountQuestionThemeIconComponent({ props: { slug: "music", isHint: true } });
+
+      const container = wrapper.find("[data-testid='question-theme-icon-container-music']");
+
+      expect(container.classes()).toContain("border-dashed");
+    });
+
+    it("should apply border-2 class when isHint is true.", async() => {
+      wrapper = await mountQuestionThemeIconComponent({ props: { slug: "music", isHint: true } });
+
+      const container = wrapper.find("[data-testid='question-theme-icon-container-music']");
+
+      expect(container.classes()).toContain("border-2");
+    });
+
+    it("should apply border-2 class when isHint is false.", async() => {
+      wrapper = await mountQuestionThemeIconComponent({ props: { slug: "music", isHint: false } });
+
+      const container = wrapper.find("[data-testid='question-theme-icon-container-music']");
+
+      expect(container.classes()).toContain("border-2");
+    });
+  });
 });
