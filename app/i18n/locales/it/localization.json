@@ -5,6 +5,8 @@
     "missingTranslation": "— mancante —",
     "localeComplete": "{locale} è completa",
     "localeIncomplete": "{locale} è incompleta",
+    "appliesTo": "Si applica a: {locales}",
+    "notApplicable": "Non applicabile",
     "seeTranslationsFor": "Vedi traduzioni per {label}",
     "locales": {
       "shortCode": {

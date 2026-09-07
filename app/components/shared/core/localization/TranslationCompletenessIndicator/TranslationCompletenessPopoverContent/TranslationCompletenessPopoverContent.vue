@@ -9,13 +9,24 @@ const props = defineProps<TranslationCompletenessPopoverContentProps>();
 const { t } = useI18n();
 
 const requiredFieldsReference = toRef(() => props.requiredFields);
-const { isLocaleComplete } = useTranslationCompleteness(requiredFieldsReference);
+const applicableLocalesReference = computed<Locale[] | undefined>(() => props.applicableLocales);
+const { isLocaleComplete, isLocaleApplicable } = useTranslationCompleteness(requiredFieldsReference, {
+  applicableLocales: applicableLocalesReference,
+});
 
-function getBadgeColor(locale: Locale): "success" | "error" {
+const applicableLocaleLabels = computed<string>(() => props.applicableLocales?.map(locale => t(`localization.locales.shortCode.${locale}`)).join(", ") ?? "");
+
+function getBadgeColor(locale: Locale): "success" | "error" | "neutral" {
+  if (!isLocaleApplicable(locale)) {
+    return "neutral";
+  }
   return isLocaleComplete(locale) ? "success" : "error";
 }
 
 function getIconName(locale: Locale): string {
+  if (!isLocaleApplicable(locale)) {
+    return "i-lucide-minus";
+  }
   return isLocaleComplete(locale) ? "i-lucide-check" : "i-lucide-x";
 }
 </script>
@@ -32,6 +43,14 @@ function getIconName(locale: Locale): string {
       />
 
       {{ t("localization.translationStatus") }}
+    </div>
+
+    <div
+      v-if="applicableLocaleLabels"
+      class="mb-2 text-muted text-xs"
+      data-testid="translation-completeness-applies-to"
+    >
+      {{ t("localization.appliesTo", { "locales": applicableLocaleLabels }) }}
     </div>
 
     <USeparator class="mb-2"/>
@@ -51,6 +70,7 @@ function getIconName(locale: Locale): string {
           class="size-3"
           data-testid="locale-status-icon"
           :name="getIconName(locale)"
+          :title="!isLocaleApplicable(locale) ? t('localization.notApplicable') : undefined"
         />
       </UBadge>
     </div>

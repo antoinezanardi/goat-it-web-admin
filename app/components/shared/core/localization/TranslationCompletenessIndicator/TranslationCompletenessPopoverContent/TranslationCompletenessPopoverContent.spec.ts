@@ -14,7 +14,8 @@ describe("TranslationCompletenessPopoverContent Component", () => {
   const fullyTranslatedField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "Hallo", es: "Hola", it: "Ciao", pt: "Olá" });
   const defaultTranslationCompletenessPopoverContentProps: TranslationCompletenessPopoverContentProps = {
     requiredFields: [fullyTranslatedField],
-  } as const;
+    applicableLocales: undefined,
+  };
 
   async function mountTranslationCompletenessPopoverContentComponent(options: MountSuspendedOptions<typeof TranslationCompletenessPopoverContent> = {}): Promise<VueWrapper> {
     return mountSuspended(TranslationCompletenessPopoverContent, {
@@ -50,6 +51,32 @@ describe("TranslationCompletenessPopoverContent Component", () => {
       const separator = wrapper.findComponent({ name: "USeparator" });
 
       expect(separator.exists()).toBeTruthy();
+    });
+  });
+
+  describe("Applies To Header", () => {
+    it("should display the applies-to sub-line when applicableLocales is provided.", async() => {
+      wrapper = await mountTranslationCompletenessPopoverContentComponent({
+        props: { requiredFields: [fullyTranslatedField], applicableLocales: ["en", "fr"] },
+      });
+      const appliesTo = wrapper.find("[data-testid='translation-completeness-applies-to']");
+
+      expect(appliesTo.exists()).toBeTruthy();
+    });
+
+    it("should render the appliesTo i18n key in the sub-line when applicableLocales is provided.", async() => {
+      wrapper = await mountTranslationCompletenessPopoverContentComponent({
+        props: { requiredFields: [fullyTranslatedField], applicableLocales: ["en", "fr"] },
+      });
+      const appliesTo = wrapper.find("[data-testid='translation-completeness-applies-to']");
+
+      expect(appliesTo.text()).toContain("localization.appliesTo");
+    });
+
+    it("should not display the applies-to sub-line when applicableLocales is undefined.", () => {
+      const appliesTo = wrapper.find("[data-testid='translation-completeness-applies-to']");
+
+      expect(appliesTo.exists()).toBeFalsy();
     });
   });
 
@@ -110,6 +137,43 @@ describe("TranslationCompletenessPopoverContent Component", () => {
     });
 
     it("should display check icon in badge when locale is complete with partial fields.", () => {
+      const badge = wrapper.find("[data-testid='locale-status-en']");
+      const icon = badge.find("[data-testid='locale-status-icon']");
+
+      expect(icon.classes()).toContain("i-lucide:check");
+    });
+  });
+
+  describe("Non-Applicable Locales", () => {
+    const fullField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour", de: "", es: "", it: "", pt: "" });
+
+    beforeEach(async() => {
+      wrapper = await mountTranslationCompletenessPopoverContentComponent({
+        props: { requiredFields: [fullField], applicableLocales: ["en", "fr"] },
+      });
+    });
+
+    it("should render a neutral badge when locale is not applicable.", () => {
+      const badge = wrapper.find("[data-testid='locale-status-de']");
+
+      expect(badge.classes()).toContain("text-default");
+    });
+
+    it("should render a minus icon when locale is not applicable.", () => {
+      const badge = wrapper.find("[data-testid='locale-status-de']");
+      const icon = badge.find("[data-testid='locale-status-icon']");
+
+      expect(icon.classes()).toContain("i-lucide:minus");
+    });
+
+    it("should set the notApplicable title on the icon when locale is not applicable.", () => {
+      const badge = wrapper.find("[data-testid='locale-status-de']");
+      const icon = badge.find("[data-testid='locale-status-icon']");
+
+      expect(icon.attributes("title")).toBe("localization.notApplicable");
+    });
+
+    it("should render a check icon when locale is applicable and complete.", () => {
       const badge = wrapper.find("[data-testid='locale-status-en']");
       const icon = badge.find("[data-testid='locale-status-icon']");
 

@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { createFakeLocalizedText } from "@goat-it/schemas/testing/shared";
+import type { Locale } from "@goat-it/schemas/shared/locale";
 
 import type { useTranslationCompleteness as UseTranslationCompletenessType } from "~/composables/core/localization/use-translation-completeness/useTranslationCompleteness";
 import type { UseTranslationCompleteness } from "~/composables/core/localization/use-translation-completeness/use-translation-completeness.types";
@@ -158,6 +159,126 @@ describe("useTranslationCompleteness", () => {
       fieldsReference.value = [fullField];
 
       expect(isFullyTranslated.value).toBeTruthy();
+    });
+  });
+
+  describe("totalCount with applicableLocales", () => {
+    it("should return the number of applicable locales when provided.", () => {
+      const fullField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour" });
+
+      const { totalCount }: UseTranslationCompleteness = useTranslationCompleteness([fullField], {
+        applicableLocales: ["en", "fr"],
+      });
+
+      expect(totalCount).toBe(2);
+    });
+
+    it("should return 6 when applicableLocales is empty.", () => {
+      const fullField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour" });
+
+      const { totalCount }: UseTranslationCompleteness = useTranslationCompleteness([fullField], {
+        applicableLocales: [],
+      });
+
+      expect(totalCount).toBe(6);
+    });
+
+    it("should return 6 when applicableLocales is undefined.", () => {
+      const fullField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour" });
+
+      const { totalCount }: UseTranslationCompleteness = useTranslationCompleteness([fullField]);
+
+      expect(totalCount).toBe(6);
+    });
+  });
+
+  describe("isLocaleApplicable", () => {
+    it("should return true when locale is in the applicable list.", () => {
+      const fullField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour" });
+
+      const { isLocaleApplicable }: UseTranslationCompleteness = useTranslationCompleteness([fullField], {
+        applicableLocales: ["en", "fr"],
+      });
+
+      expect(isLocaleApplicable("en")).toBeTruthy();
+    });
+
+    it("should return false when locale is not in the applicable list.", () => {
+      const fullField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour" });
+
+      const { isLocaleApplicable }: UseTranslationCompleteness = useTranslationCompleteness([fullField], {
+        applicableLocales: ["en", "fr"],
+      });
+
+      expect(isLocaleApplicable("de")).toBeFalsy();
+    });
+  });
+
+  describe("isLocaleComplete with applicableLocales", () => {
+    it("should return true when locale is not applicable.", () => {
+      const fullField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour" });
+
+      const { isLocaleComplete }: UseTranslationCompleteness = useTranslationCompleteness([fullField], {
+        applicableLocales: ["en", "fr"],
+      });
+
+      expect(isLocaleComplete("de")).toBeTruthy();
+    });
+  });
+
+  describe("undefined fields with applicableLocales", () => {
+    it("should consider a locale complete when optional fields are undefined.", () => {
+      const statement = createFakeLocalizedText({ en: "Hello", fr: "Bonjour" });
+      const answer = createFakeLocalizedText({ en: "World", fr: "Monde" });
+
+      const { isFullyTranslated }: UseTranslationCompleteness = useTranslationCompleteness(
+        [statement, answer, undefined],
+        { applicableLocales: ["en", "fr"] },
+      );
+
+      expect(isFullyTranslated.value).toBeTruthy();
+    });
+
+    it("should consider a locale incomplete when a defined optional field is missing for that locale.", () => {
+      const statement = createFakeLocalizedText({ en: "Hello", fr: "Bonjour" });
+      const answer = createFakeLocalizedText({ en: "World", fr: "Monde" });
+      const context = createFakeLocalizedText({ en: "Context", fr: "" });
+
+      const { isLocaleComplete }: UseTranslationCompleteness = useTranslationCompleteness(
+        [statement, answer, context],
+        { applicableLocales: ["en", "fr"] },
+      );
+
+      expect(isLocaleComplete("fr")).toBeFalsy();
+    });
+  });
+
+  describe("completedCount with applicableLocales", () => {
+    it("should count only completed locales when applicableLocales is provided.", () => {
+      const statement = createFakeLocalizedText({ en: "Hello", fr: "" });
+      const answer = createFakeLocalizedText({ en: "World", fr: "" });
+
+      const { completedCount }: UseTranslationCompleteness = useTranslationCompleteness(
+        [statement, answer],
+        { applicableLocales: ["en", "fr"] },
+      );
+
+      expect(completedCount.value).toBe(1);
+    });
+  });
+
+  describe("Reactivity with applicableLocales", () => {
+    it("should update completedCount when applicableLocales ref changes.", () => {
+      const fullField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour" });
+      const applicableLocales = ref<Locale[]>(["en"]);
+
+      const { completedCount }: UseTranslationCompleteness = useTranslationCompleteness([fullField], {
+        applicableLocales,
+      });
+
+      applicableLocales.value = ["en", "fr"];
+
+      expect(completedCount.value).toBe(2);
     });
   });
 });
