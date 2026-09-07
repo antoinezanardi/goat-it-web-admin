@@ -34,7 +34,7 @@ function getStatusLabel(locale: Locale): string {
   if (!isLocaleApplicable(locale)) {
     return t("localization.notApplicable");
   }
-  return isLocaleComplete(locale) ? t("localization.localeComplete", { locale }) : t("localization.localeIncomplete", { locale });
+  return isLocaleComplete(locale) ? t("localization.localeComplete") : t("localization.localeIncomplete");
 }
 </script>
 
@@ -75,7 +75,7 @@ function getStatusLabel(locale: Locale): string {
           variant="subtle"
         >
           <LocaleLabel
-            :applicable="isLocaleApplicable(locale)"
+            :is-applicable="isLocaleApplicable(locale)"
             :locale="locale"
           />
 

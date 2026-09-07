@@ -2,11 +2,12 @@
 import type { LocaleLabelProps } from "~/components/shared/core/localization/LocaleLabel/locale-label.types";
 import { LOCALE_FLAG_ICONS } from "~/components/shared/core/localization/LocaleLabel/locale-label.constants";
 
-const props = withDefaults(defineProps<LocaleLabelProps>(), { applicable: true });
+const props = withDefaults(defineProps<LocaleLabelProps>(), { isApplicable: true });
 
 const { t } = useI18n();
 
 const flagIcon = computed<string>(() => LOCALE_FLAG_ICONS[props.locale]);
+const iconClass = computed<{ grayscale: boolean }[]>(() => [{ grayscale: !props.isApplicable }]);
 </script>
 
 <template>
@@ -16,7 +17,7 @@ const flagIcon = computed<string>(() => LOCALE_FLAG_ICONS[props.locale]);
   >
     <UIcon
       class="size-3.5"
-      :class="[{ 'grayscale': !applicable }]"
+      :class="iconClass"
       :name="flagIcon"
     />
 

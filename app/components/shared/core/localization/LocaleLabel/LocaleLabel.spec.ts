@@ -91,17 +91,14 @@ describe("LocaleLabel Component", () => {
   });
 
   describe("Applicable Prop", () => {
-    it("should not apply the grayscale class on the flag icon when applicable is true.", () => {
+    it.each<{ isApplicable: boolean; expected: boolean }>([
+      { isApplicable: true, expected: false },
+      { isApplicable: false, expected: true },
+    ])("should apply the grayscale class on the flag icon when isApplicable is $isApplicable.", async({ isApplicable, expected }) => {
+      wrapper = await mountLocaleLabelComponent({ props: { locale: "fr", isApplicable } });
       const icon = wrapper.find(".iconify");
 
-      expect(icon.classes()).not.toContain("grayscale");
-    });
-
-    it("should apply the grayscale class on the flag icon when applicable is false.", async() => {
-      wrapper = await mountLocaleLabelComponent({ props: { locale: "fr", applicable: false } });
-      const icon = wrapper.find(".iconify");
-
-      expect(icon.classes()).toContain("grayscale");
+      expect(icon.classes().includes("grayscale")).toBe(expected);
     });
   });
 });

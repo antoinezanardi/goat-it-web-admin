@@ -163,54 +163,33 @@ describe("useTranslationCompleteness", () => {
   });
 
   describe("totalCount with applicableLocales", () => {
-    it("should return the number of applicable locales when provided.", () => {
+    it.each<{ label: string; applicableLocales: Locale[] | undefined; expected: number }>([
+      { label: "provided", applicableLocales: ["en", "fr"], expected: 2 },
+      { label: "empty", applicableLocales: [], expected: 6 },
+      { label: "undefined", applicableLocales: undefined, expected: 6 },
+    ])("should return $expected as totalCount when applicableLocales is $label.", ({ applicableLocales, expected }) => {
       const fullField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour" });
 
       const { totalCount }: UseTranslationCompleteness = useTranslationCompleteness([fullField], {
-        applicableLocales: ["en", "fr"],
+        applicableLocales,
       });
 
-      expect(totalCount.value).toBe(2);
-    });
-
-    it("should return 6 when applicableLocales is empty.", () => {
-      const fullField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour" });
-
-      const { totalCount }: UseTranslationCompleteness = useTranslationCompleteness([fullField], {
-        applicableLocales: [],
-      });
-
-      expect(totalCount.value).toBe(6);
-    });
-
-    it("should return 6 when applicableLocales is undefined.", () => {
-      const fullField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour" });
-
-      const { totalCount }: UseTranslationCompleteness = useTranslationCompleteness([fullField]);
-
-      expect(totalCount.value).toBe(6);
+      expect(totalCount.value).toBe(expected);
     });
   });
 
   describe("isLocaleApplicable", () => {
-    it("should return true when locale is in the applicable list.", () => {
+    it.each<{ locale: Locale; expected: boolean }>([
+      { locale: "en", expected: true },
+      { locale: "de", expected: false },
+    ])("should return $expected for locale $locale when locale is in the applicable list.", ({ locale, expected }) => {
       const fullField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour" });
 
       const { isLocaleApplicable }: UseTranslationCompleteness = useTranslationCompleteness([fullField], {
         applicableLocales: ["en", "fr"],
       });
 
-      expect(isLocaleApplicable("en")).toBeTruthy();
-    });
-
-    it("should return false when locale is not in the applicable list.", () => {
-      const fullField = createFakeLocalizedText({ en: "Hello", fr: "Bonjour" });
-
-      const { isLocaleApplicable }: UseTranslationCompleteness = useTranslationCompleteness([fullField], {
-        applicableLocales: ["en", "fr"],
-      });
-
-      expect(isLocaleApplicable("de")).toBeFalsy();
+      expect(isLocaleApplicable(locale)).toBe(expected);
     });
   });
 
