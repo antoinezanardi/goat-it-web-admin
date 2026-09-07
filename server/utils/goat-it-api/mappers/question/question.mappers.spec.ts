@@ -28,6 +28,7 @@ describe(createQuestionFromAdminQuestionDto, () => {
       status: dto.status,
       rejection: dto.rejection,
       sourceUrls: dto.sourceUrls,
+      applicableLocales: dto.applicableLocales,
       createdAt: new Date(dto.createdAt),
       updatedAt: new Date(dto.updatedAt),
     });
@@ -48,5 +49,12 @@ describe(createQuestionFromAdminQuestionDto, () => {
     const result = createQuestionFromAdminQuestionDto(dto);
 
     expect(result.rejection).toBeUndefined();
+  });
+
+  it("should preserve applicableLocales when dto defines them.", () => {
+    const dto = createFakeAdminQuestionDto({ rejection: undefined, applicableLocales: ["en", "fr"] });
+    const result = createQuestionFromAdminQuestionDto(dto);
+
+    expect(result.applicableLocales).toStrictEqual(["en", "fr"]);
   });
 });

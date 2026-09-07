@@ -3,8 +3,10 @@
     "translationStatus": "Übersetzungsstatus",
     "otherTranslations": "Andere Übersetzungen",
     "missingTranslation": "— fehlt —",
-    "localeComplete": "{locale} ist vollständig",
-    "localeIncomplete": "{locale} ist unvollständig",
+    "localeComplete": "In dieser Sprache übersetzt",
+    "localeIncomplete": "Nicht vollständig in dieser Sprache übersetzt",
+    "appliesTo": "Gilt für: {locales}",
+    "notApplicable": "Nicht zutreffend",
     "seeTranslationsFor": "Übersetzungen anzeigen für {label}",
     "locales": {
       "shortCode": {

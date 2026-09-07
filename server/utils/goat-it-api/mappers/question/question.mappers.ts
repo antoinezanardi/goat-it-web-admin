@@ -17,6 +17,7 @@ function createQuestionFromAdminQuestionDto(dto: AdminQuestionDto): Question {
     status: dto.status,
     rejection: dto.rejection ? createQuestionRejectionFromAdminQuestionRejectionDto(dto.rejection) : undefined,
     sourceUrls: dto.sourceUrls,
+    applicableLocales: dto.applicableLocales,
     createdAt: new Date(dto.createdAt),
     updatedAt: new Date(dto.updatedAt),
   };

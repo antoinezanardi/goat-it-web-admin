@@ -89,4 +89,16 @@ describe("LocaleLabel Component", () => {
       });
     });
   });
+
+  describe("Applicable Prop", () => {
+    it.each<{ isApplicable: boolean; expected: boolean }>([
+      { isApplicable: true, expected: false },
+      { isApplicable: false, expected: true },
+    ])("should apply the grayscale class on the flag icon when isApplicable is $isApplicable.", async({ isApplicable, expected }) => {
+      wrapper = await mountLocaleLabelComponent({ props: { locale: "fr", isApplicable } });
+      const icon = wrapper.find(".iconify");
+
+      expect(icon.classes().includes("grayscale")).toBe(expected);
+    });
+  });
 });
