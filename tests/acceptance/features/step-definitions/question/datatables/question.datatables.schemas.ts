@@ -11,6 +11,7 @@ const QUESTION_FORM_ROW_SCHEMA = z.strictObject({
   category: zCoerceOptionalString(),
   themes: zCoerceOptionalString(),
   sourceUrls: zCoerceOptionalString(),
+  applicableLocales: zCoerceOptionalString(),
   status: zCoerceOptionalString(),
 });
 

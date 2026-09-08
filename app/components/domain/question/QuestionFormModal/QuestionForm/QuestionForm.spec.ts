@@ -16,7 +16,7 @@ import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
-import type { UForm, UFormField, UInput, UTextarea, UIcon, QuestionCategorySelector, QuestionCognitiveDifficultySelector, QuestionSourceUrlsInput, QuestionThemeSelector, QuestionTriviaInput, TranslationFieldContext } from "#components";
+import type { UForm, UFormField, UInput, UTextarea, UIcon, QuestionApplicableLocalesSelector, QuestionCategorySelector, QuestionCognitiveDifficultySelector, QuestionSourceUrlsInput, QuestionThemeSelector, QuestionTriviaInput, TranslationFieldContext } from "#components";
 import { QuestionForm } from "#components";
 
 import type { QuestionFormProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
@@ -110,15 +110,17 @@ describe("QuestionForm Component", () => {
     });
 
     it("should render the difficulty form field with the correct i18n key when mounted.", () => {
-      const difficultyField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-difficulty-field']");
+      const difficultySelector = wrapper.findComponent<typeof QuestionCognitiveDifficultySelector>("[data-testid='question-difficulty-selector']");
+      const innerFormField = difficultySelector.findComponent<typeof UFormField>({ name: "UFormField" });
 
-      expect(difficultyField.props("label")).toBe("questions.fields.cognitiveDifficulty");
+      expect(innerFormField.props("label")).toBe("questions.fields.cognitiveDifficulty");
     });
 
     it("should render the category form field with the correct i18n key when mounted.", () => {
-      const categoryField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-category-field']");
+      const categorySelector = wrapper.findComponent<typeof QuestionCategorySelector>({ name: "QuestionCategorySelector" });
+      const innerFormField = categorySelector.findComponent<typeof UFormField>({ name: "UFormField" });
 
-      expect(categoryField.props("label")).toBe("questions.fields.category");
+      expect(innerFormField.props("label")).toBe("questions.fields.category");
     });
 
     it("should render the themes form field with the correct i18n key when mounted.", () => {
@@ -140,6 +142,67 @@ describe("QuestionForm Component", () => {
       const innerFormField = triviaInput.findComponent<typeof UFormField>({ name: "UFormField" });
 
       expect(innerFormField.props("label")).toBe("questions.fields.trivia");
+    });
+  });
+
+  describe("Applicable Locales Field", () => {
+    it("should render the applicable locales selector in the classification section when mounted.", () => {
+      const selector = wrapper.findComponent<typeof QuestionApplicableLocalesSelector>("[data-testid='question-applicable-locales-selector']");
+
+      expect(selector.exists()).toBe(true);
+    });
+
+    it("should render the applicable locales form field with the correct label when mounted.", () => {
+      const selector = wrapper.findComponent<typeof QuestionApplicableLocalesSelector>("[data-testid='question-applicable-locales-selector']");
+      const formField = selector.findComponent<typeof UFormField>({ name: "UFormField" });
+
+      expect(formField.props("label")).toBe("questions.fields.applicableLocales");
+    });
+
+    it("should pass undefined as initial applicable locales when mounted in create mode.", () => {
+      const selector = wrapper.findComponent<typeof QuestionApplicableLocalesSelector>("[data-testid='question-applicable-locales-selector']");
+
+      expect(selector.props("modelValue")).toBeUndefined();
+    });
+
+    it("should update formState.applicableLocales when the selector emits a new value.", async() => {
+      const selector = wrapper.findComponent<typeof QuestionApplicableLocalesSelector>("[data-testid='question-applicable-locales-selector']");
+
+      getWrapperVm(selector).$emit("update:modelValue", ["en"]);
+      await nextTick();
+
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const state = uForm.props("state") as Record<string, unknown>;
+
+      expect(state.applicableLocales).toStrictEqual(["en"]);
+    });
+
+    it("should not affect canSubmit when applicable locales change.", async() => {
+      const statementField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-statement-field']");
+      const statementInput = statementField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(statementInput).$emit("update:modelValue", "What is the capital?");
+
+      const answerField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-answer-field']");
+      const answerInput = answerField.findComponent<typeof UInput>({ name: "UInput" });
+      getWrapperVm(answerInput).$emit("update:modelValue", "Paris");
+
+      const difficultySelector = wrapper.findComponent<typeof QuestionCognitiveDifficultySelector>("[data-testid='question-difficulty-selector']");
+      getWrapperVm(difficultySelector).$emit("update:modelValue", "easy");
+
+      const categorySelector = wrapper.findComponent<typeof QuestionCategorySelector>({ name: "QuestionCategorySelector" });
+      getWrapperVm(categorySelector).$emit("update:modelValue", "trivia");
+
+      const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+      getWrapperVm(themeSelector).$emit("update:modelValue", [{ themeId: "theme-1", isPrimary: true, isHint: false }]);
+
+      const sourceUrlsInput = wrapper.findComponent<typeof QuestionSourceUrlsInput>("[data-testid='question-source-urls-input']");
+      getWrapperVm(sourceUrlsInput).$emit("update:modelValue", ["https://example.com"]);
+
+      const applicableLocalesSelector = wrapper.findComponent<typeof QuestionApplicableLocalesSelector>("[data-testid='question-applicable-locales-selector']");
+      getWrapperVm(applicableLocalesSelector).$emit("update:modelValue", ["en", "fr"]);
+      await nextTick();
+
+      expect(getWrapperVm<QuestionFormVm>(wrapper).canSubmit).toBeTruthy();
     });
   });
 
@@ -544,6 +607,39 @@ describe("QuestionForm Component", () => {
       const sourceUrlsInput = wrapper.findComponent<typeof QuestionSourceUrlsInput>("[data-testid='question-source-urls-input']");
 
       expect(sourceUrlsInput.props("modelValue")).toStrictEqual(fakeQuestion.sourceUrls);
+    });
+
+    it("should hydrate applicableLocales from the question prop when rendered in edit mode.", async() => {
+      const restrictedQuestion = createFakeQuestion({ ...fakeQuestion, applicableLocales: ["en", "fr"] });
+      wrapper = await mountQuestionFormComponent({
+        props: { ...defaultQuestionFormProps, mode: "edit", question: restrictedQuestion },
+      });
+      const selector = wrapper.findComponent<typeof QuestionApplicableLocalesSelector>("[data-testid='question-applicable-locales-selector']");
+
+      expect(selector.props("modelValue")).toStrictEqual(["en", "fr"]);
+    });
+
+    it("should pass undefined as applicableLocales when the question prop has no restriction.", async() => {
+      const unrestrictedQuestion = createFakeQuestion({ ...fakeQuestion, applicableLocales: undefined });
+      wrapper = await mountQuestionFormComponent({
+        props: { ...defaultQuestionFormProps, mode: "edit", question: unrestrictedQuestion },
+      });
+      const selector = wrapper.findComponent<typeof QuestionApplicableLocalesSelector>("[data-testid='question-applicable-locales-selector']");
+
+      expect(selector.props("modelValue")).toBeUndefined();
+    });
+
+    it("should expose isDirty as true when changing applicableLocales in edit mode.", async() => {
+      const restrictedQuestion = createFakeQuestion({ ...fakeQuestion, applicableLocales: ["en"] });
+      wrapper = await mountQuestionFormComponent({
+        props: { ...defaultQuestionFormProps, mode: "edit", question: restrictedQuestion },
+      });
+      const selector = wrapper.findComponent<typeof QuestionApplicableLocalesSelector>("[data-testid='question-applicable-locales-selector']");
+
+      getWrapperVm(selector).$emit("update:modelValue", ["fr"]);
+      await nextTick();
+
+      expect(getWrapperVm<QuestionFormVm>(wrapper).isDirty).toBeTruthy();
     });
 
     it("should pass mode as edit to QuestionThemeSelector when rendered in edit mode.", () => {

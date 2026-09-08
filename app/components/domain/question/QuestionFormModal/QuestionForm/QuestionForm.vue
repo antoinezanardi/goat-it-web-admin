@@ -61,6 +61,7 @@ function createInitialFormState(): QuestionCreationDtoShell {
     category: question.category,
     themes: question.themes.map(themeAssignment => ({ themeId: themeAssignment.theme.id, isPrimary: themeAssignment.isPrimary, isHint: themeAssignment.isHint })),
     sourceUrls: [...question.sourceUrls],
+    applicableLocales: question.applicableLocales ? [...question.applicableLocales] : undefined,
     author: { ...QUESTION_DEFAULT_AUTHOR },
   };
 }
@@ -243,41 +244,23 @@ defineExpose({
       </p>
 
       <div class="gap-4 grid grid-cols-1 sm:grid-cols-2">
-        <UFormField
-          data-testid="question-form-difficulty-field"
-          :label="$t('questions.fields.cognitiveDifficulty')"
-          name="cognitiveDifficulty"
-          required
-        >
-          <QuestionCognitiveDifficultySelector
-            v-model="formState.cognitiveDifficulty"
-          />
-        </UFormField>
+        <QuestionCognitiveDifficultySelector v-model="formState.cognitiveDifficulty"/>
 
-        <UFormField
-          data-testid="question-form-category-field"
-          :label="$t('questions.fields.category')"
-          name="category"
-          required
-        >
-          <QuestionCategorySelector
-            v-model="formState.category"
-            class="w-full"
-          />
-        </UFormField>
+        <QuestionCategorySelector v-model="formState.category"/>
+
+        <QuestionThemeSelector
+          :available-themes="availableThemes"
+          :is-submitting="isThemeSubmitting"
+          :mode="mode"
+          :model-value="themeAssignments"
+          @assign-theme-in-edit-mode="onAssignThemeToQuestionInEditMode"
+          @modify-theme-in-edit-mode="onModifyThemeInEditMode"
+          @remove-theme-in-edit-mode="onRemoveThemeFromQuestionInEditMode"
+          @update:model-value="onUpdateThemes"
+        />
+
+        <QuestionApplicableLocalesSelector v-model="formState.applicableLocales"/>
       </div>
-
-      <QuestionThemeSelector
-        :available-themes="availableThemes"
-        class="mt-4"
-        :is-submitting="isThemeSubmitting"
-        :mode="mode"
-        :model-value="themeAssignments"
-        @assign-theme-in-edit-mode="onAssignThemeToQuestionInEditMode"
-        @modify-theme-in-edit-mode="onModifyThemeInEditMode"
-        @remove-theme-in-edit-mode="onRemoveThemeFromQuestionInEditMode"
-        @update:model-value="onUpdateThemes"
-      />
     </div>
 
     <div>

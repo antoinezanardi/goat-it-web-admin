@@ -35,20 +35,27 @@ function onSelectDifficulty(value: QuestionCognitiveDifficulty): void {
 </script>
 
 <template>
-  <div
-    class="flex gap-2"
+  <UFormField
     data-testid="question-difficulty-selector"
+    :label="$t('questions.fields.cognitiveDifficulty')"
+    name="cognitiveDifficulty"
+    required
   >
-    <UButton
-      v-for="item in items"
-      :key="item.value"
-      class="justify-center w-full"
-      :color="getButtonColor(item)"
-      :data-testid="`question-difficulty-selector-${item.value}`"
-      :icon="item.icon"
-      :label="$t(item.labelKey)"
-      :variant="getButtonVariant(item)"
-      @click="onSelectDifficulty(item.value)"
-    />
-  </div>
+    <div
+      class="flex gap-2"
+      data-testid="question-difficulty-selector-buttons"
+    >
+      <UButton
+        v-for="item in items"
+        :key="item.value"
+        class="justify-center w-full"
+        :color="getButtonColor(item)"
+        :data-testid="`question-difficulty-selector-${item.value}`"
+        :icon="item.icon"
+        :label="$t(item.labelKey)"
+        :variant="getButtonVariant(item)"
+        @click="onSelectDifficulty(item.value)"
+      />
+    </div>
+  </UFormField>
 </template>

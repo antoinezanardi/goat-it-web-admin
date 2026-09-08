@@ -32,6 +32,12 @@ describe(createQuestionCreationDtoShell, () => {
     expect(shell[field]).toBeUndefined();
   });
 
+  it("should return undefined when field is applicableLocales.", () => {
+    const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
+
+    expect(shell.applicableLocales).toBeUndefined();
+  });
+
   it.each<{ field: "themes" | "sourceUrls" }>([
     { field: "themes" },
     { field: "sourceUrls" },

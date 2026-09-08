@@ -8,8 +8,8 @@ Feature: ❓ Question Modification
       | Geography | geography | A geography theme | geo     |
     And the user is on questions page
     And a question exists with the following attributes:
-      | statement                      | answer | difficulty | category | themes    | sourceUrls                      |
-      | What is the capital of France? | Paris  | easy       | Knowledge & fun facts | Geography | https://en.wikipedia.org/France |
+      | statement                      | answer | difficulty | category              | themes    | sourceUrls                      | applicableLocales |
+      | What is the capital of France? | Paris  | easy       | Knowledge & fun facts | Geography | https://en.wikipedia.org/France | EN,FR             |
     When the user clicks on the button with name "Edit the question"
     Then the heading with exact name "Edit question" should be visible
 
@@ -49,3 +49,17 @@ Feature: ❓ Question Modification
     When the user presses the "Meta+Enter" key
     Then the heading with exact name "Edit question" should be hidden
     And the exact text "Question modified successfully" should be hidden
+
+  @question-applicable-locales
+  Scenario: ❓ Applicable locales are pre-selected when editing a restricted question
+    Then the element with testid "question-applicable-locales-select" should contain text "EN"
+    And the element with testid "question-applicable-locales-select" should contain text "FR"
+
+  @question-applicable-locales
+  Scenario: ❓ Clearing all applicable locales removes the restriction
+    When the user removes all applicable locales from the question form
+    And the user clicks on the button with name "Edit"
+    Then the toast with exact text "Question modified successfully" should be visible
+    When the user reloads the page
+    And the user clicks on the button with name "Edit the question"
+    Then the question form applicable locales selector should have no selected locales

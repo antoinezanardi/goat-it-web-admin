@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import type { UButton } from "#components";
+import type { UButton, UFormField } from "#components";
 import { QuestionCognitiveDifficultySelector } from "#components";
 
 import type { QuestionCognitiveDifficultySelectorProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCognitiveDifficultySelector/question-cognitive-difficulty-selector.types";
@@ -29,6 +29,26 @@ describe("QuestionCognitiveDifficultySelector Component", () => {
 
   it("should render the question cognitive difficulty selector component when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
+  });
+
+  describe("Form Field", () => {
+    it("should render the form field with the correct label when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-difficulty-selector']");
+
+      expect(formField.props("label")).toBe("questions.fields.cognitiveDifficulty");
+    });
+
+    it("should render the form field with the correct name when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-difficulty-selector']");
+
+      expect(formField.props("name")).toBe("cognitiveDifficulty");
+    });
+
+    it("should render the form field as required when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-difficulty-selector']");
+
+      expect(formField.props("required")).toBeTruthy();
+    });
   });
 
   describe("Difficulty Buttons", () => {

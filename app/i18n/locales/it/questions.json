@@ -83,7 +83,8 @@
       "author": "Autore",
       "status": "Stato",
       "sourceUrls": "Fonti",
-      "translations": "Traduzioni"
+      "translations": "Traduzioni",
+      "applicableLocales": "Locali applicabili"
     },
     "errors": {
       "invalidUrl": "Deve essere un URL valido",
@@ -104,7 +105,8 @@
       "answer": "es.: Parigi, 1789, Albert Einstein",
       "context": "Contesto per comprendere la risposta",
       "trivia": "es.: Parigi si chiamava un tempo Lutezia",
-      "sourceUrls": "es.: https://it.wikipedia.org/"
+      "sourceUrls": "es.: https://it.wikipedia.org/",
+      "applicableLocales": "Limita a locali specifici…"
     },
     "table": {
       "expandTooltip": "Vedi risposta e altre informazioni",

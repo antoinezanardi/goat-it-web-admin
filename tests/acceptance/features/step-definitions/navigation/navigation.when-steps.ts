@@ -18,3 +18,10 @@ When(
     await this.page.goBack();
   },
 );
+
+When(
+  /^the user reloads the page$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    await this.page.reload();
+  },
+);

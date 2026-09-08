@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import type { USelect } from "#components";
+import type { UFormField, USelect } from "#components";
 import { QuestionCategorySelector } from "#components";
 
 import type { QuestionCategorySelectorProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCategorySelector/question-category-selector.types";
@@ -29,6 +29,26 @@ describe("QuestionCategorySelector Component", () => {
 
   it("should render the question category selector component when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
+  });
+
+  describe("Form Field", () => {
+    it("should render the form field with the correct label when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-category-selector']");
+
+      expect(formField.props("label")).toBe("questions.fields.category");
+    });
+
+    it("should render the form field with the correct name when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-category-selector']");
+
+      expect(formField.props("name")).toBe("category");
+    });
+
+    it("should render the form field as required when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-category-selector']");
+
+      expect(formField.props("required")).toBeTruthy();
+    });
   });
 
   describe("Select", () => {

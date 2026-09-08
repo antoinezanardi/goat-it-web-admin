@@ -1,10 +1,11 @@
 import { expect } from "@playwright/test";
 import type { Locator } from "@playwright/test";
 
+import { getQuestionApplicableLocalesSelect } from "#acceptance/features/support/helpers/question.helpers.ts";
 import type { QuestionFormRow } from "#acceptance/features/step-definitions/question/datatables/question.datatables.schemas.ts";
 
 async function fillCategory(dialog: Locator, category: string): Promise<void> {
-  const categorySelect = dialog.getByTestId("question-category-selector");
+  const categorySelect = dialog.getByTestId("question-category-selector-input");
 
   await expect(categorySelect).toBeVisible();
   await categorySelect.click();
@@ -66,6 +67,41 @@ async function fillSourceUrls(dialog: Locator, sourceUrls: string): Promise<void
   }
 }
 
+async function fillApplicableLocales(dialog: Locator, locales: string): Promise<void> {
+  const localeNames = locales.split(",").map(name => name.trim()).filter(name => name.length > 0);
+
+  if (localeNames.length === 0) {
+    return;
+  }
+
+  const select = getQuestionApplicableLocalesSelect(dialog);
+
+  await expect(select).toBeVisible();
+  await select.click();
+
+  const listbox = dialog.page().getByRole("listbox");
+
+  await expect(listbox).toBeVisible();
+
+  // Acceptable as Playwright interactions must be sequential and the listbox DOM changes after each selection
+  // oxlint-disable-next-line eslint/no-await-in-loop
+  for (const [index, localeName] of localeNames.entries()) {
+    const option = listbox.getByRole("option", { name: localeName, exact: true });
+
+    await expect(option).toBeVisible();
+    await option.click();
+
+    if (index < localeNames.length - 1) {
+      await expect(listbox).toBeVisible();
+    }
+  }
+
+  await select.press("Escape");
+  await expect(listbox).toBeHidden();
+}
+
+// Acceptable as filling all question form fields requires sequential if-blocks that naturally exceed the line limit
+// oxlint-disable-next-line eslint/max-lines-per-function
 async function fillQuestionForm(dialog: Locator, row: QuestionFormRow): Promise<void> {
   if (row.statement !== undefined) {
     await dialog.getByRole("textbox", { name: "Statement*" }).fill(row.statement);
@@ -93,6 +129,9 @@ async function fillQuestionForm(dialog: Locator, row: QuestionFormRow): Promise<
   }
   if (row.sourceUrls !== undefined) {
     await fillSourceUrls(dialog, row.sourceUrls);
+  }
+  if (row.applicableLocales !== undefined) {
+    await fillApplicableLocales(dialog, row.applicableLocales);
   }
 }
 
