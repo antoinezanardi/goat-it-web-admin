@@ -33,12 +33,20 @@ function onUpdateModelValue(value: QuestionCategory): void {
 </script>
 
 <template>
-  <USelect
+  <UFormField
     data-testid="question-category-selector"
-    :icon="selectedIcon"
-    :items="selectItems"
-    :model-value="modelValue"
-    :placeholder="$t('questions.selectCategory')"
-    @update:model-value="onUpdateModelValue"
-  />
+    :label="$t('questions.fields.category')"
+    name="category"
+    required
+  >
+    <USelect
+      class="w-full"
+      data-testid="question-category-selector-input"
+      :icon="selectedIcon"
+      :items="selectItems"
+      :model-value="modelValue"
+      :placeholder="$t('questions.selectCategory')"
+      @update:model-value="onUpdateModelValue"
+    />
+  </UFormField>
 </template>

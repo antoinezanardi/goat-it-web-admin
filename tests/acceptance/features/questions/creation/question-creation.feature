@@ -187,6 +187,45 @@ Feature: ❓ Question Creation
     And the user clicks on the overlay outside of the modal
     Then the heading with exact name "Unsaved Changes" should be visible
 
+  @question-applicable-locales
+  Scenario: ❓ Applicable locales field is displayed in the classification section
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    Then the element with testid "question-applicable-locales-selector" should be visible
+
+  @question-applicable-locales
+  Scenario Outline: ❓ Each applicable locale option displays its flag icon
+    Given the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user opens the applicable locales dropdown
+    Then the option with name "<label>" in the applicable locales dropdown should have icon "<icon>"
+
+    Examples:
+      | label | icon                |
+      | EN    | i-circle-flags-gb   |
+      | FR    | i-circle-flags-fr   |
+      | DE    | i-circle-flags-de   |
+      | ES    | i-circle-flags-es   |
+      | IT    | i-circle-flags-it   |
+      | PT    | i-circle-flags-pt   |
+
+  @question-applicable-locales
+  Scenario: ❓ Question can be created with no applicable locales
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label     | slug      | description       | aliases |
+      | Geography | geography | A geography theme | geo     |
+    And the user is on questions page
+    When the user clicks on the button with name "Create a new question"
+    And the user fills the question form with the following attributes:
+      | statement | answer | difficulty | category              | themes    | sourceUrls          |
+      | Test      | Answer | easy       | Knowledge & fun facts | Geography | https://example.com |
+    And the user clicks on the button with name "Create"
+    Then the toast with exact text "Question created successfully" should be visible
+    When the user reloads the page
+    And the user clicks on the button with name "Edit the question"
+    Then the question form applicable locales selector should have no selected locales
+
   @question-form-modal
   Scenario: ❓ Question creation modal should close clean create form immediately via X button
     Given the user is on questions page

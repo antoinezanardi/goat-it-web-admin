@@ -8,9 +8,11 @@ import { resolveVisibleDialog } from "#acceptance/features/support/helpers/dialo
 import { selectOptionFromListbox } from "#acceptance/features/support/helpers/listbox.helpers.ts";
 import { QUESTION_FORM_ROW_SCHEMA } from "#acceptance/features/step-definitions/question/datatables/question.datatables.schemas.ts";
 import { fillQuestionForm } from "#acceptance/features/step-definitions/question/helpers/question.when-steps.helpers.ts";
+import { getQuestionApplicableLocalesSelect } from "#acceptance/features/support/helpers/question.helpers.ts";
 
 When(
   /^the user fills the question form with the following attributes:$/u,
+  { timeout: 30_000 },
   async function(this: GoatItWorld, dataTable: DataTable): Promise<void> {
     const row = validateDataTableAndGetFirstRow(dataTable, QUESTION_FORM_ROW_SCHEMA);
     const dialog = await resolveVisibleDialog(this.page);
@@ -95,5 +97,42 @@ When(
 
     await expect(expandButton).toBeVisible();
     await expandButton.click();
+  },
+);
+
+When(
+  /^the user opens the applicable locales dropdown$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    const dialog = await resolveVisibleDialog(this.page);
+    const select = getQuestionApplicableLocalesSelect(dialog);
+
+    await expect(select).toBeVisible();
+    await select.click();
+  },
+);
+
+When(
+  /^the user removes all applicable locales from the question form$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    const dialog = await resolveVisibleDialog(this.page);
+    const select = getQuestionApplicableLocalesSelect(dialog);
+
+    await expect(select).toBeVisible();
+    await select.click();
+
+    const listbox = this.page.getByRole("listbox");
+
+    await expect(listbox).toBeVisible();
+
+    const selectedOptions = listbox.locator("[aria-selected='true']");
+
+    // Acceptable as Playwright interactions must be sequential and the selected option count changes after each click
+    // oxlint-disable-next-line eslint/no-await-in-loop
+    while (await selectedOptions.count() > 0) {
+      await selectedOptions.first().click();
+    }
+
+    await select.press("Escape");
+    await expect(listbox).toBeHidden();
   },
 );

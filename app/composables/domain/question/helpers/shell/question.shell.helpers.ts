@@ -15,6 +15,7 @@ function createQuestionCreationDtoShell(): QuestionCreationDtoShell {
     themes: [],
     sourceUrls: [],
     author: { ...QUESTION_DEFAULT_AUTHOR },
+    applicableLocales: undefined,
   };
 }
 

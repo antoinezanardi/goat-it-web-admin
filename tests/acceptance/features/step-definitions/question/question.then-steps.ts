@@ -3,6 +3,9 @@ import { expect } from "@playwright/test";
 
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
 import { resolveVisibleDialog } from "#acceptance/features/support/helpers/dialog.helpers.ts";
+import { getQuestionApplicableLocalesSelect } from "#acceptance/features/support/helpers/question.helpers.ts";
+
+const ICON_SET_NAME_PREFIX_SEGMENT_COUNT = 2;
 
 Then(
   /^the theme "(?<themeName>[^"]*)" should be visible in the question theme selector list$/u,
@@ -56,5 +59,35 @@ Then(
     const removeButton = themeItem.locator("[data-testid^='question-theme-selector-remove-']");
 
     await expect(removeButton).toBeHidden();
+  },
+);
+
+Then(
+  /^the option with name "(?<name>[^"]*)" in the applicable locales dropdown should have icon "(?<icon>[^"]*)"$/u,
+  async function(this: GoatItWorld, name: string, icon: string): Promise<void> {
+    const listbox = this.page.getByRole("listbox");
+
+    await expect(listbox).toBeVisible();
+
+    const option = listbox.getByRole("option", { name, exact: true });
+    const iconElement = option.locator(".iconify").first();
+
+    await expect(iconElement).toBeVisible();
+
+    const classes = await iconElement.evaluate((element: Element) => element.getAttribute("class") ?? "");
+    const iconSetName = icon.replace(/^i-/u, "").split("-").slice(0, ICON_SET_NAME_PREFIX_SEGMENT_COUNT).join("-");
+    const hasCorrectIcon = classes.includes(iconSetName);
+
+    expect(hasCorrectIcon, `Expected icon classes "${classes}" to contain "${iconSetName}"`).toBe(true);
+  },
+);
+
+Then(
+  /^the question form applicable locales selector should have no selected locales$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    const dialog = await resolveVisibleDialog(this.page);
+    const select = getQuestionApplicableLocalesSelect(dialog);
+
+    await expect(select.locator("[aria-label^='Remove ']")).toHaveCount(0);
   },
 );

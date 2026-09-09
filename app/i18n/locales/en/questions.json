@@ -83,7 +83,8 @@
       "author": "Author",
       "status": "Status",
       "sourceUrls": "Sources",
-      "translations": "Translations"
+      "translations": "Translations",
+      "applicableLocales": "Applicable locales"
     },
     "errors": {
       "invalidUrl": "Must be a valid URL",
@@ -104,7 +105,8 @@
       "answer": "e.g., Paris, 1789, Albert Einstein",
       "context": "Context to understand the answer",
       "trivia": "e.g., Paris was formerly called Lutetia",
-      "sourceUrls": "e.g., https://en.wikipedia.org/"
+      "sourceUrls": "e.g., https://en.wikipedia.org/",
+      "applicableLocales": "Restrict to specific locales…"
     },
     "table": {
       "expandTooltip": "See answer and more info",

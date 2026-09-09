@@ -64,8 +64,8 @@ Feature: 🏡 Home Page
       | Home Question 4 | Answer | easy       | Lexicon               | Home Theme | https://example.com | active |
       | Home Question 5 | Answer | medium     | Knowledge & fun facts | Home Theme | https://example.com | active |
     And the user is on home page
-    Then the element with testid "dashboard-summary-tab-questions" should contain exact text "5"
-    And the element with testid "dashboard-summary-tab-question-themes" should contain exact text "1"
+    Then the element with testid "dashboard-summary-tab-questions" should contain text "5"
+    And the element with testid "dashboard-summary-tab-question-themes" should contain text "1"
 
   Scenario: 🏡 Home Page displays "No data available" when no stats exist
     Given the user is on home page

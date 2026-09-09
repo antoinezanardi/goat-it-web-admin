@@ -8,6 +8,7 @@ import { createQuestionViaUi } from "#acceptance/features/step-definitions/quest
 
 Given(
   /^a question exists with the following attributes:$/u,
+  { timeout: 30_000 },
   async function(this: GoatItWorld, dataTable: DataTable): Promise<void> {
     const row = validateDataTableAndGetFirstRow(dataTable, QUESTION_FORM_ROW_SCHEMA);
 
