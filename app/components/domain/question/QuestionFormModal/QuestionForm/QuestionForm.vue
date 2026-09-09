@@ -246,10 +246,19 @@ defineExpose({
       <div class="gap-4 grid grid-cols-1 sm:grid-cols-2">
         <QuestionCognitiveDifficultySelector v-model="formState.cognitiveDifficulty"/>
 
-        <QuestionCategorySelector v-model="formState.category"/>
+        <QuestionCategorySelector
+          v-model="formState.category"
+          class="w-full"
+        />
+
+        <QuestionApplicableLocalesSelector
+          v-model="formState.applicableLocales"
+          class="w-full"
+        />
 
         <QuestionThemeSelector
           :available-themes="availableThemes"
+          class="col-span-1 sm:col-span-2 w-full"
           :is-submitting="isThemeSubmitting"
           :mode="mode"
           :model-value="themeAssignments"
@@ -258,8 +267,6 @@ defineExpose({
           @remove-theme-in-edit-mode="onRemoveThemeFromQuestionInEditMode"
           @update:model-value="onUpdateThemes"
         />
-
-        <QuestionApplicableLocalesSelector v-model="formState.applicableLocales"/>
       </div>
     </div>
 

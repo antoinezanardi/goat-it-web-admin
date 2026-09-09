@@ -40,6 +40,7 @@ function onUpdateModelValue(value: QuestionCategory): void {
     required
   >
     <USelect
+      class="w-full"
       data-testid="question-category-selector-input"
       :icon="selectedIcon"
       :items="selectItems"

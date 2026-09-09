@@ -78,6 +78,48 @@ describe("QuestionForm Component", () => {
     });
   });
 
+  describe("Classification section layout", () => {
+    it("should render the difficulty selector when mounted.", () => {
+      const difficultySelector = wrapper.findComponent<typeof QuestionCognitiveDifficultySelector>("[data-testid='question-difficulty-selector']");
+
+      expect(difficultySelector.exists()).toBeTruthy();
+    });
+
+    it("should render the category selector when mounted.", () => {
+      const categorySelector = wrapper.findComponent<typeof QuestionCategorySelector>({ name: "QuestionCategorySelector" });
+
+      expect(categorySelector.exists()).toBeTruthy();
+    });
+
+    it("should render the difficulty selector before the category selector in source order when mounted.", () => {
+      expect(wrapper.html().indexOf("question-difficulty-selector")).toBeLessThan(wrapper.html().indexOf("question-category-selector"));
+    });
+
+    it("should apply w-full to the category selector when mounted.", () => {
+      const categorySelector = wrapper.findComponent<typeof QuestionCategorySelector>({ name: "QuestionCategorySelector" });
+
+      expect(categorySelector.classes()).toContain("w-full");
+    });
+
+    it("should apply w-full to the applicable locales selector when mounted.", () => {
+      const selector = wrapper.findComponent<typeof QuestionApplicableLocalesSelector>("[data-testid='question-applicable-locales-selector']");
+
+      expect(selector.classes()).toContain("w-full");
+    });
+
+    it("should apply col-span-2 on sm to the theme selector so it spans the full grid width when mounted.", () => {
+      const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+
+      expect(themeSelector.classes()).toContain("sm:col-span-2");
+    });
+
+    it("should apply w-full to the theme selector when mounted.", () => {
+      const themeSelector = wrapper.findComponent<typeof QuestionThemeSelector>("[data-testid='question-theme-selector']");
+
+      expect(themeSelector.classes()).toContain("w-full");
+    });
+  });
+
   describe("Form Fields", () => {
     it("should render the statement form field with the correct i18n key when mounted.", () => {
       const statementField = wrapper.findComponent<typeof UFormField>("[data-testid='question-form-statement-field']");

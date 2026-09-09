@@ -20,6 +20,13 @@ async function fillCategory(dialog: Locator, category: string): Promise<void> {
   await option.click();
 }
 
+async function fillDifficulty(dialog: Locator, difficulty: string): Promise<void> {
+  const difficultyButton = dialog.getByTestId(`question-difficulty-selector-${difficulty}`);
+
+  await expect(difficultyButton).toBeVisible();
+  await difficultyButton.click();
+}
+
 async function fillThemes(dialog: Locator, themes: string): Promise<void> {
   const themeNames = themes.split(",").map(name => name.trim());
 
@@ -100,8 +107,6 @@ async function fillApplicableLocales(dialog: Locator, locales: string): Promise<
   await expect(listbox).toBeHidden();
 }
 
-// Acceptable as filling all question form fields requires sequential if-blocks that naturally exceed the line limit
-// oxlint-disable-next-line eslint/max-lines-per-function
 async function fillQuestionForm(dialog: Locator, row: QuestionFormRow): Promise<void> {
   if (row.statement !== undefined) {
     await dialog.getByRole("textbox", { name: "Statement*" }).fill(row.statement);
@@ -116,10 +121,7 @@ async function fillQuestionForm(dialog: Locator, row: QuestionFormRow): Promise<
     await fillTrivia(dialog, row.trivia);
   }
   if (row.difficulty !== undefined) {
-    const difficultyButton = dialog.getByTestId(`question-difficulty-selector-${row.difficulty}`);
-
-    await expect(difficultyButton).toBeVisible();
-    await difficultyButton.click();
+    await fillDifficulty(dialog, row.difficulty);
   }
   if (row.category !== undefined) {
     await fillCategory(dialog, row.category);

@@ -2,7 +2,7 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { flushPromises } from "@vue/test-utils";
 import { nextTick } from "vue";
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { Locale } from "@goat-it/schemas/shared/locale";
 
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
@@ -15,6 +15,7 @@ import type { QuestionApplicableLocalesSelectorProps } from "~/components/domain
 
 describe("QuestionApplicableLocalesSelector Component", () => {
   let wrapper: VueWrapper;
+  let attachedWrapper: VueWrapper | undefined;
   const defaultQuestionApplicableLocalesSelectorProps: QuestionApplicableLocalesSelectorProps = {
     modelValue: undefined,
   } as const;
@@ -28,6 +29,11 @@ describe("QuestionApplicableLocalesSelector Component", () => {
 
   beforeEach(async() => {
     wrapper = await mountQuestionApplicableLocalesSelectorComponent();
+  });
+
+  afterEach(() => {
+    attachedWrapper?.unmount();
+    attachedWrapper = undefined;
   });
 
   it("should render the question applicable locales selector component when mounted.", () => {
@@ -52,13 +58,19 @@ describe("QuestionApplicableLocalesSelector Component", () => {
 
       expect(formField.props("required")).toBeFalsy();
     });
+
+    it("should apply the w-full class to the form field when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-applicable-locales-selector']");
+
+      expect(formField.classes()).toContain("w-full");
+    });
   });
 
   describe("Select Menu", () => {
-    it("should pass the globe icon to the select menu when mounted.", () => {
+    it("should not pass an icon to the select menu when mounted.", () => {
       const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
 
-      expect(selectMenu.props("icon")).toBe("i-lucide-globe");
+      expect(selectMenu.props("icon")).toBeUndefined();
     });
 
     it("should pass the applicable locales placeholder to the select menu when mounted.", () => {
@@ -121,9 +133,83 @@ describe("QuestionApplicableLocalesSelector Component", () => {
       expect(items.find(item => item.value === locale)).toStrictEqual({ icon, label, value: locale });
     });
 
+    describe("Default Slot (trigger)", () => {
+      it("should not render any selected locale in the trigger when modelValue is undefined.", () => {
+        const triggerLocales = wrapper.findAll("[data-testid^='question-applicable-locales-trigger-']");
+
+        expect(triggerLocales).toHaveLength(0);
+      });
+
+      it("should render the placeholder in the trigger when modelValue is undefined.", () => {
+        const placeholder = wrapper.find("[data-slot='placeholder']");
+
+        expect(placeholder.exists()).toBeTruthy();
+      });
+
+      it("should display the correct placeholder text when modelValue is undefined.", () => {
+        const placeholder = wrapper.find("[data-slot='placeholder']");
+
+        expect(placeholder.text()).toBe("questions.placeholders.applicableLocales");
+      });
+
+      it.each<{ locale: Locale; flagIcon: string }>([
+        { locale: "en", flagIcon: "i-circle-flags-gb" },
+        { locale: "fr", flagIcon: "i-circle-flags-fr" },
+        { locale: "de", flagIcon: "i-circle-flags-de" },
+      ])("should render the trigger entry for the selected $locale when mounted.", async({ locale }) => {
+        wrapper = await mountQuestionApplicableLocalesSelectorComponent({ props: { modelValue: [locale] } });
+
+        const triggerLocale = wrapper.find(`[data-testid='question-applicable-locales-trigger-${locale}']`);
+
+        expect(triggerLocale.exists()).toBeTruthy();
+      });
+
+      it.each<{ locale: Locale }>([
+        { locale: "en" },
+        { locale: "fr" },
+        { locale: "de" },
+      ])("should render the locale code text in the trigger for the selected $locale when mounted.", async({ locale }) => {
+        wrapper = await mountQuestionApplicableLocalesSelectorComponent({ props: { modelValue: [locale] } });
+
+        const triggerLocale = wrapper.find(`[data-testid='question-applicable-locales-trigger-${locale}']`);
+
+        expect(triggerLocale.text()).toContain(`localization.locales.shortCode.${locale}`);
+      });
+
+      it.each<{ locale: Locale; flagIcon: string }>([
+        { locale: "en", flagIcon: "i-circle-flags-gb" },
+        { locale: "fr", flagIcon: "i-circle-flags-fr" },
+        { locale: "de", flagIcon: "i-circle-flags-de" },
+      ])("should render the flag icon for the selected $locale in the trigger when mounted.", async({ locale, flagIcon }) => {
+        wrapper = await mountQuestionApplicableLocalesSelectorComponent({ props: { modelValue: [locale] } });
+
+        const triggerLocale = wrapper.find(`[data-testid='question-applicable-locales-trigger-${locale}']`);
+        const flag = triggerLocale.findComponent<{ name: string }>({ name: "UIcon" });
+
+        expect(flag.props("name")).toBe(flagIcon);
+      });
+
+      it("should render one trigger entry per selected locale when multiple locales are selected.", async() => {
+        wrapper = await mountQuestionApplicableLocalesSelectorComponent({ props: { modelValue: ["en", "fr", "de"] } });
+
+        const triggerLocales = wrapper.findAll("[data-testid^='question-applicable-locales-trigger-']");
+
+        expect(triggerLocales).toHaveLength(3);
+      });
+
+      it("should not render the placeholder when at least one locale is selected.", async() => {
+        wrapper = await mountQuestionApplicableLocalesSelectorComponent({ props: { modelValue: ["en"] } });
+
+        const placeholder = wrapper.find("[data-slot='placeholder']");
+
+        expect(placeholder.exists()).toBeFalsy();
+      });
+    });
+
     describe("Item Slot", () => {
-      async function openSelectMenu(): Promise<VueWrapper> {
-        const mountedWrapper = await mountQuestionApplicableLocalesSelectorComponent({ attachTo: document.body });
+      async function openSelectMenu(modelValue?: Locale[]): Promise<VueWrapper> {
+        attachedWrapper?.unmount();
+        const mountedWrapper = await mountQuestionApplicableLocalesSelectorComponent({ props: { modelValue }, attachTo: document.body });
         const selectMenu = mountedWrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
         const trigger = selectMenu.find("button");
 
@@ -131,6 +217,8 @@ describe("QuestionApplicableLocalesSelector Component", () => {
         await flushPromises();
         await nextTick();
         await nextTick();
+
+        attachedWrapper = mountedWrapper;
 
         return mountedWrapper;
       }
@@ -143,9 +231,42 @@ describe("QuestionApplicableLocalesSelector Component", () => {
         { locale: "it" },
         { locale: "pt" },
       ])("should render the $locale label in the item slot when the select menu is open.", async({ locale }) => {
-        wrapper = await openSelectMenu();
+        await openSelectMenu();
 
         expect(document.body.innerHTML).toContain(`localization.locales.shortCode.${locale}`);
+      });
+
+      it("should not render the trailing checkmark for any option when no locale is selected.", async() => {
+        await openSelectMenu();
+
+        const checkmarks = document.body.querySelectorAll("[data-slot='itemTrailingIcon']");
+
+        expect(checkmarks).toHaveLength(0);
+      });
+
+      it("should render the trailing checkmark only for the selected option when one locale is selected.", async() => {
+        await openSelectMenu(["fr"]);
+
+        const checkmarks = document.body.querySelectorAll("[data-slot='itemTrailingIcon']");
+
+        expect(checkmarks).toHaveLength(1);
+      });
+
+      it("should render the trailing checkmark with the correct class when one locale is selected.", async() => {
+        await openSelectMenu(["fr"]);
+
+        const checkmarks = document.body.querySelectorAll("[data-slot='itemTrailingIcon']");
+        const firstCheckmark = checkmarks[0];
+
+        expect(firstCheckmark?.className).toContain("shrink-0");
+      });
+
+      it("should render one trailing checkmark per selected locale when multiple locales are selected.", async() => {
+        await openSelectMenu(["en", "fr", "de"]);
+
+        const checkmarks = document.body.querySelectorAll("[data-slot='itemTrailingIcon']");
+
+        expect(checkmarks).toHaveLength(3);
       });
     });
 

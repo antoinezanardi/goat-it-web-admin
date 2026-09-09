@@ -5,7 +5,7 @@ import type { Locale } from "@goat-it/schemas/shared/locale";
 import { LOCALE_FLAG_ICONS } from "~/components/shared/core/localization/LocaleLabel/locale-label.constants";
 import type { QuestionApplicableLocalesSelectorEmits, QuestionApplicableLocalesSelectorProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionApplicableLocalesSelector/question-applicable-locales-selector.types";
 
-defineProps<QuestionApplicableLocalesSelectorProps>();
+const props = defineProps<QuestionApplicableLocalesSelectorProps>();
 const emit = defineEmits<QuestionApplicableLocalesSelectorEmits>();
 
 const { t } = useI18n();
@@ -19,18 +19,23 @@ const selectItems = computed<{ icon: string; label: string; value: Locale }[]>((
 function onUpdateModelValue(value: Locale[] | undefined): void {
   emit("update:modelValue", value);
 }
+
+function isLocaleSelected(locale: Locale): boolean {
+  return props.modelValue?.includes(locale) ?? false;
+}
 </script>
 
 <template>
   <UFormField
+    class="w-full"
     data-testid="question-applicable-locales-selector"
     :label="$t('questions.fields.applicableLocales')"
     name="applicableLocales"
   >
     <USelectMenu
+      class="w-full"
       data-testid="question-applicable-locales-select"
       :disabled="disabled"
-      icon="i-lucide-globe"
       :items="selectItems"
       :model-value="modelValue"
       multiple
@@ -38,12 +43,48 @@ function onUpdateModelValue(value: Locale[] | undefined): void {
       value-key="value"
       @update:model-value="onUpdateModelValue"
     >
-      <template #item="{ item }">
+      <template #default="{ 'modelValue': selected }">
+        <span
+          v-if="Array.isArray(selected) && selected.length > 0"
+          class="flex flex-wrap gap-x-1.5 gap-y-1 items-center"
+        >
+          <span
+            v-for="locale in selected"
+            :key="locale"
+            class="gap-1 inline-flex items-center"
+            :data-testid="`question-applicable-locales-trigger-${locale}`"
+          >
+            <UIcon
+              class="size-3.5"
+              :name="LOCALE_FLAG_ICONS[locale]"
+            />
+            {{ t(`localization.locales.shortCode.${locale}`) }}
+          </span>
+        </span>
+
+        <span
+          v-else
+          data-slot="placeholder"
+        >
+          {{ $t('questions.placeholders.applicableLocales') }}
+        </span>
+      </template>
+
+      <template #item="{ item, ui }">
+        <span class="flex flex-1 gap-2 items-center">
+          <UIcon
+            class="size-3.5"
+            :name="item.icon"
+          />
+          {{ item.label }}
+        </span>
+
         <UIcon
-          class="size-3.5"
-          :name="item.icon"
+          v-if="isLocaleSelected(item.value)"
+          :class="ui.itemTrailingIcon()"
+          data-slot="itemTrailingIcon"
+          name="i-lucide-check"
         />
-        {{ item.label }}
       </template>
     </USelectMenu>
   </UFormField>
