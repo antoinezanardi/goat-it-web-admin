@@ -253,7 +253,9 @@ export default defineNuxtConfig({
   },
   icon: {
     clientBundle: {
-      scan: true,
+      scan: {
+        globInclude: ["**/*.{vue,ts}"],
+      },
     },
   },
   pinia: {
