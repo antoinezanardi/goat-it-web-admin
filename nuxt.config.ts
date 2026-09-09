@@ -251,6 +251,11 @@ export default defineNuxtConfig({
       redirectOn: "root",
     },
   },
+  icon: {
+    clientBundle: {
+      scan: true,
+    },
+  },
   pinia: {
     storesDirs: ["stores/**"],
   },
