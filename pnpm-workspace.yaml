@@ -1,6 +1,6 @@
 overrides:
   conventional-changelog-writer: ^9.2.1
-  vite: ^8.2.2
+  vite: ^8.3.0
 
 allowBuilds:
   '@parcel/watcher': true
