@@ -1,5 +1,30 @@
 # 🐐👑 Goat It Web Admin Versioning Changelog
 
+## [1.8.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.7.0...v1.8.0) (2026-08-11)
+
+### 🚀 Features
+
+* **forms:** add unsaved changes confirmation for question/theme forms ([#508](https://github.com/antoinezanardi/goat-it-web-admin/issues/508)) ([a4bb779](https://github.com/antoinezanardi/goat-it-web-admin/commit/a4bb7797322eb69daeed6220d9635201e69e3b1e))
+
+### 🐛 Bug Fixes
+
+* **form-dirty-guard:** prevent Cmd+Enter collision when guard dialog is open ([#509](https://github.com/antoinezanardi/goat-it-web-admin/issues/509)) ([a67e71c](https://github.com/antoinezanardi/goat-it-web-admin/commit/a67e71c58bbbea7b29a83f3b0bacaaa80dd3a36f))
+
+### 📦 Upgraded Dependencies
+
+| Package | Version |
+| --- | :---: |
+| `@goat-it/schemas` | `^0.0.20` |
+| `@iconify-json/lucide` | `^1.2.123` |
+| `@nuxtjs/robots` | `^6.1.4` |
+| `@vitest/eslint-plugin` | `^1.6.27` |
+| `conventional-changelog-writer` | `^9.2.1` |
+| `eslint` | `^10.8.1` |
+| `eslint-plugin-oxlint` | `^1.78.0` |
+| `happy-dom` | `^20.11.2` |
+| `oxlint` | `^1.78.0` |
+| `pnpm` | `v11.21.0` |
+
 ## [1.7.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.6.0...v1.7.0) (2026-08-07)
 
 ### 🚀 Features
