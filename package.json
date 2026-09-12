@@ -102,7 +102,7 @@
     "@cucumber/cucumber": "^13.1.1",
     "@eslint/config-inspector": "^3.4.1",
     "@faker-js/faker": "^10.6.0",
-    "@goat-it/schemas": "^0.0.22-beta",
+    "@goat-it/schemas": "^0.0.24",
     "@iconify-json/circle-flags": "^1.2.11",
     "@iconify-json/lucide": "^1.2.131",
     "@number-flow/vue": "^0.5.2",
