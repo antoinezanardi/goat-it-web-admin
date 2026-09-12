@@ -1,5 +1,72 @@
 # 🐐👑 Goat It Web Admin Versioning Changelog
 
+## [1.9.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.8.0...v1.9.0) (2026-09-12)
+
+### 🚀 Features
+
+* **dashboard:** support byTranslationCompleteness stats from schemas 0.0.22-beta ([#561](https://github.com/antoinezanardi/goat-it-web-admin/issues/561)) ([1ec493c](https://github.com/antoinezanardi/goat-it-web-admin/commit/1ec493cd88ae26be718600d7cf8bb74e964e36ff))
+* **icons:** bundle all icons client-side via auto-scan ([#580](https://github.com/antoinezanardi/goat-it-web-admin/issues/580)) ([1120e09](https://github.com/antoinezanardi/goat-it-web-admin/commit/1120e09895091ccbc23f0145bfbe0070f0ffebe8))
+* **question-form:** add applicable locales selector ([#578](https://github.com/antoinezanardi/goat-it-web-admin/issues/578)) ([40b745e](https://github.com/antoinezanardi/goat-it-web-admin/commit/40b745e7b79accc39771eb87b0bde175d25b1f6c))
+* **question-theme:** apply dashed border style to hint theme icons ([#570](https://github.com/antoinezanardi/goat-it-web-admin/issues/570)) ([70dc15d](https://github.com/antoinezanardi/goat-it-web-admin/commit/70dc15d3f018c8554d01434a8bf840c6cf8f3eb7))
+* **questions:** align translation completeness indicator with applicableLocales ([#573](https://github.com/antoinezanardi/goat-it-web-admin/issues/573)) ([478b1d4](https://github.com/antoinezanardi/goat-it-web-admin/commit/478b1d42bdacbd6fab390f79d9f6d107af9f5820))
+
+### 🐛 Bug Fixes
+
+* **acceptance:** lint conventions and improve support helper purity ([#568](https://github.com/antoinezanardi/goat-it-web-admin/issues/568)) ([37d32a2](https://github.com/antoinezanardi/goat-it-web-admin/commit/37d32a2bede68ca034a17f46e902f774b5456cb5))
+* **ci:** remove skip ci token from sync-develop merge message ([#536](https://github.com/antoinezanardi/goat-it-web-admin/issues/536)) ([ddf8a43](https://github.com/antoinezanardi/goat-it-web-admin/commit/ddf8a432c85a7f44691bdd12882a8d112eb5ff5d))
+* **icons:** bundle icons in ts too ([0f5156a](https://github.com/antoinezanardi/goat-it-web-admin/commit/0f5156afba40806c35a0d1d0ce312daf69483a33))
+
+### 📖 Docs
+
+* **plan-writer:** update batch writing strategy ([#560](https://github.com/antoinezanardi/goat-it-web-admin/issues/560)) ([1e722e0](https://github.com/antoinezanardi/goat-it-web-admin/commit/1e722e02157499323b04d21f1dd970d6fa1d9eb8))
+
+### 🎨 Styles
+
+* **project:** formalize design system constants ([#569](https://github.com/antoinezanardi/goat-it-web-admin/issues/569)) ([a48471a](https://github.com/antoinezanardi/goat-it-web-admin/commit/a48471a71b237ec9d64f4da74015124ccb53cb02))
+
+### 🔁 CI
+
+* **semantic-release:** sync develop with release commit after publishing ([#516](https://github.com/antoinezanardi/goat-it-web-admin/issues/516)) ([1fe144f](https://github.com/antoinezanardi/goat-it-web-admin/commit/1fe144fdd462c4208396961ca21c2220d3216e83))
+
+### 🧹 Chore
+
+* **ai:** remove rtk ([#521](https://github.com/antoinezanardi/goat-it-web-admin/issues/521)) ([1e40fac](https://github.com/antoinezanardi/goat-it-web-admin/commit/1e40fac1c0dad950cdc2afc18c25529bb1c447f2))
+* **opencode:** sync agentic workflow with goat-it-web-game and goat-it-api ([#565](https://github.com/antoinezanardi/goat-it-web-admin/issues/565)) ([aa8540b](https://github.com/antoinezanardi/goat-it-web-admin/commit/aa8540b847a4a891135a79640be60857d39efe51))
+* **plan-writer:** use snippet-only modify steps with exact anchors ([#572](https://github.com/antoinezanardi/goat-it-web-admin/issues/572)) ([a861897](https://github.com/antoinezanardi/goat-it-web-admin/commit/a861897084a2e1c31ae15cabd37f174ba0719aec))
+* **unit:** lint unit tests ([#567](https://github.com/antoinezanardi/goat-it-web-admin/issues/567)) ([2fd8bb0](https://github.com/antoinezanardi/goat-it-web-admin/commit/2fd8bb0599495d72ac7840e49472cacd3b209673))
+
+### 📦 Upgraded Dependencies
+
+| Package | Version |
+| --- | :---: |
+| `commitlint monorepo` | `^21.2.2` |
+| `@eslint/config-inspector` | `^3.4.1` |
+| `@faker-js/faker` | `^10.6.0` |
+| `@goat-it/schemas` | `^0.0.24` |
+| `@iconify-json/circle-flags` | `^1.2.11` |
+| `@iconify-json/lucide` | `^1.2.131` |
+| `@nuxt/test-utils` | `^4.3.2` |
+| `@nuxt/ui` | `^4.11.1` |
+| `@nuxtjs/robots` | `^6.2.1` |
+| `@pinia/nuxt` | `^1.0.2` |
+| `@types/node` | `^25.9.6` |
+| `@vue/test-utils` | `^2.5.0` |
+| `eslint` | `^10.9.1` |
+| `eslint-plugin-unicorn` | `v74` |
+| `happy-dom` | `^20.14.5` |
+| `lint-staged` | `^17.5.1` |
+| `pinia` | `^4.0.3` |
+| `radashi` | `^12.9.2` |
+| `type-fest` | `^5.9.0` |
+| `vite` | `^8.3.0` |
+| `zod` | `^4.6.2` |
+| `node.js` | `v26.8.1` |
+| `oxlint monorepo` | `^1.82.0` |
+| `playwright monorepo` | `^1.63.0` |
+| `pnpm` | `v12.4.1` |
+| `vitest monorepo` | `v5` |
+| `vue-language-tools monorepo` | `^3.3.11` |
+
 ## [1.8.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.7.0...v1.8.0) (2026-08-11)
 
 ### 🚀 Features
