@@ -9,38 +9,16 @@ import itForm from "~/i18n/locales/it/form.json";
 import ptForm from "~/i18n/locales/pt/form.json";
 
 describe("form.json translations", () => {
-  it("should have the same keys in english as in french when context is form.", () => {
-    const crushedFrFormKeys = Object.keys(crush(frForm)).toSorted();
-    const crushedEnFormKeys = Object.keys(crush(enForm)).toSorted();
+  it.each<[string, typeof frForm]>([
+    ["de", deForm],
+    ["en", enForm],
+    ["es", esForm],
+    ["it", itForm],
+    ["pt", ptForm],
+  ])("should have the same keys in every locale as in french when context is form.", (_locale, translations) => {
+    const crushedReferenceKeys = Object.keys(crush(frForm)).toSorted();
+    const crushedTranslationKeys = Object.keys(crush(translations)).toSorted();
 
-    expect(crushedEnFormKeys).toStrictEqual(crushedFrFormKeys);
-  });
-
-  it("should have the same keys in english as in german when context is form.", () => {
-    const crushedDeFormKeys = Object.keys(crush(deForm)).toSorted();
-    const crushedEnFormKeys = Object.keys(crush(enForm)).toSorted();
-
-    expect(crushedEnFormKeys).toStrictEqual(crushedDeFormKeys);
-  });
-
-  it("should have the same keys in english as in spanish when context is form.", () => {
-    const crushedEsFormKeys = Object.keys(crush(esForm)).toSorted();
-    const crushedEnFormKeys = Object.keys(crush(enForm)).toSorted();
-
-    expect(crushedEnFormKeys).toStrictEqual(crushedEsFormKeys);
-  });
-
-  it("should have the same keys in english as in italian when context is form.", () => {
-    const crushedItFormKeys = Object.keys(crush(itForm)).toSorted();
-    const crushedEnFormKeys = Object.keys(crush(enForm)).toSorted();
-
-    expect(crushedEnFormKeys).toStrictEqual(crushedItFormKeys);
-  });
-
-  it("should have the same keys in english as in portuguese when context is form.", () => {
-    const crushedPtFormKeys = Object.keys(crush(ptForm)).toSorted();
-    const crushedEnFormKeys = Object.keys(crush(enForm)).toSorted();
-
-    expect(crushedEnFormKeys).toStrictEqual(crushedPtFormKeys);
+    expect(crushedTranslationKeys).toStrictEqual<string[]>(crushedReferenceKeys);
   });
 });

@@ -1265,6 +1265,7 @@
       "files": [
         "nuxt.config.ts",
         "**/app/app.config.ts",
+        "**/app/config/**/*.ts",
         "eslint.config.ts",
         "**/configs/**/*.{js,mjs,ts}"
       ],

@@ -1,11 +1,11 @@
-import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
+import type { Page } from "@playwright/test";
 
-async function waitForPageLoadStates(world: GoatItWorld): Promise<void> {
-  await world.page.waitForLoadState("load");
+async function waitForPageLoadStates(page: Page): Promise<void> {
+  await page.waitForLoadState("load");
 }
 
-async function waitForPageUrl(world: GoatItWorld, pageUrl: string): Promise<void> {
-  await world.page.waitForURL(currentUrl => new URL(currentUrl).pathname === pageUrl);
+async function waitForPageUrl(page: Page, pageUrl: string): Promise<void> {
+  await page.waitForURL(currentUrl => new URL(currentUrl).pathname === pageUrl);
 }
 
 export {

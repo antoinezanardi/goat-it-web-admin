@@ -49,6 +49,15 @@ Then(
 );
 
 Then(
+  /^the question by translation completeness stat should display no data$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    const locator = this.page.getByTestId("stats-card-by-translation-completeness").getByText("No data available", { exact: true });
+
+    await expect(locator).toBeVisible();
+  },
+);
+
+Then(
   /^the question theme by question count stat should display no data$/u,
   async function(this: GoatItWorld): Promise<void> {
     const locator = this.page.getByTestId("stats-card-by-question-count").getByText("No data available", { exact: true });
@@ -61,6 +70,15 @@ Then(
   /^the question theme by status stat should display no data$/u,
   async function(this: GoatItWorld): Promise<void> {
     const locator = this.page.getByTestId("stats-card-theme-by-status").getByText("No data available", { exact: true });
+
+    await expect(locator).toBeVisible();
+  },
+);
+
+Then(
+  /^the question theme by translation completeness stat should display no data$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    const locator = this.page.getByTestId("stats-card-theme-by-translation-completeness").getByText("No data available", { exact: true });
 
     await expect(locator).toBeVisible();
   },

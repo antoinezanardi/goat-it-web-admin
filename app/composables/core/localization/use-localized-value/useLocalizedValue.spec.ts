@@ -7,7 +7,7 @@ import type { UseLocalizedValue } from "~/composables/core/localization/use-loca
 
 let useLocalizedValue: typeof UseLocalizedValueType;
 
-describe("useLocalizedValue Composable", () => {
+describe("useLocalizedValue", () => {
   beforeEach(async() => {
     ({ useLocalizedValue } = await import("~/composables/core/localization/use-localized-value/useLocalizedValue"));
   });

@@ -10,12 +10,12 @@ import type { UBadge, UButton } from "#components";
 import type { TableFiltersSectionProps } from "~/components/shared/table/TableFiltersSection/table-filters-section.types";
 
 describe("TableFiltersSection Component", () => {
-  const defaultProps: TableFiltersSectionProps = { activeFilterCount: 0 };
+  const defaultTableFiltersSectionProps: TableFiltersSectionProps = { activeFilterCount: 0 } as const;
   let wrapper: VueWrapper;
 
   async function mountTableFiltersSectionComponent(options: MountSuspendedOptions<typeof TableFiltersSection> = {}): Promise<VueWrapper> {
     return mountSuspended(TableFiltersSection, {
-      props: defaultProps,
+      props: defaultTableFiltersSectionProps,
       ...options,
     });
   }
@@ -83,7 +83,7 @@ describe("TableFiltersSection Component", () => {
 
     it("should render slot content when expanded.", async() => {
       wrapper = await mountTableFiltersSectionComponent({
-        props: defaultProps,
+        props: defaultTableFiltersSectionProps,
         slots: { default: "<div data-testid='slot-content'>Filter here</div>" },
       });
       const toggleButton = wrapper.find("[data-testid='table-filters-section-toggle']");
@@ -112,6 +112,15 @@ describe("TableFiltersSection Component", () => {
       expect(clearButton.exists()).toBe(true);
     });
 
+    it("should render the clear all button with the correct i18n key when activeFilterCount is greater than 0 and section is expanded.", async() => {
+      wrapper = await mountTableFiltersSectionComponent({ props: { activeFilterCount: 1 } });
+      const toggleButton = wrapper.find("[data-testid='table-filters-section-toggle']");
+      await toggleButton.trigger("click");
+      const clearButton = wrapper.find("[data-testid='table-filters-section-clear']");
+
+      expect(clearButton.text()).toContain("common.table.filters.clearAll");
+    });
+
     it("should emit clear when the clear all button is clicked.", async() => {
       wrapper = await mountTableFiltersSectionComponent({ props: { activeFilterCount: 1 } });
       const toggleButton = wrapper.find("[data-testid='table-filters-section-toggle']");
@@ -120,6 +129,15 @@ describe("TableFiltersSection Component", () => {
       await clearButton.trigger("click");
 
       expect(wrapper.emitted("clear")).toStrictEqual([[]]);
+    });
+
+    it("should pass the x icon to the clear all button when activeFilterCount is greater than 0.", async() => {
+      wrapper = await mountTableFiltersSectionComponent({ props: { activeFilterCount: 1 } });
+      const toggleButton = wrapper.find("[data-testid='table-filters-section-toggle']");
+      await toggleButton.trigger("click");
+      const clearButton = wrapper.findComponent<typeof UButton>("[data-testid='table-filters-section-clear']");
+
+      expect(clearButton.props("icon")).toBe("i-lucide-x");
     });
   });
 });

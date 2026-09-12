@@ -13,6 +13,9 @@
       "byAuthorRole": "By Author Role",
       "byRejectionType": "By Rejection Type",
       "byQuestionCount": "Questions per Theme",
+      "byTranslationCompleteness": "By Translation",
+      "fullyTranslated": "Fully translated",
+      "incomplete": "Incomplete",
       "noData": "No data available"
     },
     "chartView": {

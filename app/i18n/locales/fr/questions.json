@@ -58,7 +58,8 @@
       "author": "Auteur",
       "status": "Statut",
       "sourceUrls": "Sources",
-      "translations": "Traductions"
+      "translations": "Traductions",
+      "applicableLocales": "Locales applicables"
     },
     "category": {
       "trivia": "Savoir & faits insolites",
@@ -104,7 +105,8 @@
       "answer": "ex : Paris, 1789, Albert Einstein",
       "context": "Contexte pour comprendre la réponse",
       "trivia": "ex : Paris s'appelait autrefois Lutèce",
-      "sourceUrls": "ex : https://fr.wikipedia.org/"
+      "sourceUrls": "ex : https://fr.wikipedia.org/",
+      "applicableLocales": "Restreindre à des locales spécifiques…"
     },
     "table": {
       "expandTooltip": "Voir la réponse et plus d'infos",

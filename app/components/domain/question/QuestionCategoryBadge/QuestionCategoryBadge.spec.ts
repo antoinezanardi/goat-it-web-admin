@@ -1,6 +1,7 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
+import type { QuestionCategory } from "@goat-it/schemas/question";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
@@ -38,7 +39,7 @@ describe("QuestionCategoryBadge Component", () => {
         expect(badge.props("label")).toBe("questions.category.trivia");
       });
 
-      it.each([
+      it.each<{ category: QuestionCategory; expectedLabel: string }>([
         { category: "lexicon", expectedLabel: "questions.category.lexicon" },
         { category: "riddle", expectedLabel: "questions.category.riddle" },
         { category: "explanation", expectedLabel: "questions.category.explanation" },
@@ -58,7 +59,7 @@ describe("QuestionCategoryBadge Component", () => {
         expect(badge.props("color")).toBe("secondary");
       });
 
-      it.each([
+      it.each<{ category: QuestionCategory; expectedColor: string }>([
         { category: "lexicon", expectedColor: "primary" },
         { category: "riddle", expectedColor: "warning" },
         { category: "explanation", expectedColor: "info" },
@@ -78,7 +79,7 @@ describe("QuestionCategoryBadge Component", () => {
         expect(badge.props("icon")).toBe("i-lucide-lightbulb");
       });
 
-      it.each([
+      it.each<{ category: QuestionCategory; expectedIcon: string }>([
         { category: "lexicon", expectedIcon: "i-lucide-book-open" },
         { category: "riddle", expectedIcon: "i-lucide-puzzle" },
         { category: "explanation", expectedIcon: "i-lucide-message-circle" },

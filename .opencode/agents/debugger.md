@@ -1,7 +1,7 @@
 ---
 description: Investigates a bug, test failure, or unexpected behavior using systematic 4-phase debugging for the goat-it-web-admin project. Returns root cause and minimal fix.
 mode: subagent
-model: opencode-go/deepseek-v4-pro
+model: opencode-go/minimax-m3
 temperature: 0.2
 hidden: true
 steps: 60
@@ -10,28 +10,18 @@ permission:
   bash:
     "*": "ask"
     "git status*": "allow"
-    "rtk git status*": "allow"
     "git log*": "allow"
-    "rtk git log*": "allow"
     "git diff*": "allow"
-    "rtk git diff*": "allow"
     "git add *": "deny"
-    "rtk git add *": "deny"
     "git commit *": "deny"
-    "rtk git commit *": "deny"
     "git push *": "deny"
-    "rtk git push *": "deny"
     "cat *": "allow"
     "grep *": "allow"
     "ls *": "allow"
     "pnpm run test:unit*": "allow"
-    "rtk pnpm run test:unit*": "allow"
     "pnpm run test:acceptance*": "allow"
-    "rtk pnpm run test:acceptance*": "allow"
     "pnpm run typecheck": "allow"
-    "rtk pnpm run typecheck": "allow"
     "pnpm run lint*": "allow"
-    "rtk pnpm run lint*": "allow"
   read: allow
   grep: allow
   glob: allow

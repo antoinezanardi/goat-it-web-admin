@@ -34,13 +34,13 @@ describe("Server Goat It API Questions Modify Theme Assignment Handler", () => {
     it("should get required router param id from event when called.", async() => {
       await modifyThemeAssignmentHandler(mockedEvent);
 
-      expect(getRequiredRouterParam).toHaveBeenCalledWith(mockedEvent, "id", "Question id is required");
+      expect(getRequiredRouterParam).toHaveBeenNthCalledWith(1, mockedEvent, "id", "Question id is required");
     });
 
     it("should get required router param theme-id from event when called.", async() => {
       await modifyThemeAssignmentHandler(mockedEvent);
 
-      expect(getRequiredRouterParam).toHaveBeenCalledWith(mockedEvent, "theme-id", "Theme id is required");
+      expect(getRequiredRouterParam).toHaveBeenNthCalledWith(2, mockedEvent, "theme-id", "Theme id is required");
     });
 
     it("should create goat it api endpoint with id when called.", async() => {

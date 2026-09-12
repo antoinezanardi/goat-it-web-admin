@@ -17,17 +17,17 @@ describe("TableFilterSelect Component", () => {
     createFakeTableFilterSelectItem({ label: "Archived", value: "archived" }),
   ];
 
-  const defaultProps: TableFilterSelectProps = {
+  const defaultTableFilterSelectProps: TableFilterSelectProps = {
     modelValue: undefined,
     items: defaultItems,
     label: "Status",
-  };
+  } as const;
 
   let wrapper: VueWrapper;
 
   async function mountTableFilterSelectComponent(options: MountSuspendedOptions<typeof TableFilterSelect> = {}): Promise<VueWrapper> {
     return mountSuspended(TableFilterSelect, {
-      props: defaultProps,
+      props: defaultTableFilterSelectProps,
       ...options,
     });
   }
@@ -55,7 +55,7 @@ describe("TableFilterSelect Component", () => {
     });
 
     it("should pass the custom placeholder to the select menu when a custom placeholder is provided.", async() => {
-      wrapper = await mountTableFilterSelectComponent({ props: { ...defaultProps, placeholder: "Select a status" } });
+      wrapper = await mountTableFilterSelectComponent({ props: { ...defaultTableFilterSelectProps, placeholder: "Select a status" } });
       const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
 
       expect(selectMenu.props("placeholder")).toBe("Select a status");
@@ -71,7 +71,7 @@ describe("TableFilterSelect Component", () => {
     it("should pass item icons to the select menu when items have icons.", async() => {
       wrapper = await mountTableFilterSelectComponent({
         props: {
-          ...defaultProps,
+          ...defaultTableFilterSelectProps,
           items: [createFakeTableFilterSelectItem({ label: "Active", value: "active", icon: "i-lucide-check" })],
         },
       });
@@ -88,7 +88,7 @@ describe("TableFilterSelect Component", () => {
     });
 
     it("should pass the active modelValue to the select menu when a value is selected.", async() => {
-      wrapper = await mountTableFilterSelectComponent({ props: { ...defaultProps, modelValue: "active" } });
+      wrapper = await mountTableFilterSelectComponent({ props: { ...defaultTableFilterSelectProps, modelValue: "active" } });
       const selectMenu = wrapper.findComponent<typeof USelectMenu>({ name: "USelectMenu" });
 
       expect(selectMenu.props("modelValue")).toBe("active");

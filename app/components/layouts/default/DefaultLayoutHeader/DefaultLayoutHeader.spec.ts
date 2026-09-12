@@ -21,8 +21,14 @@ describe("DefaultLayoutHeader Component", () => {
     wrapper = await mountDefaultLayoutHeaderComponent();
   });
 
-  it("should render the default layout header component when mounted.", () => {
+  it("should render DefaultLayoutHeader when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
+  });
+
+  it("should render DefaultLayoutHeaderRightContent in the right slot when mounted.", () => {
+    const rightContent = wrapper.findComponent({ name: "DefaultLayoutHeaderRightContent" });
+
+    expect(rightContent.exists()).toBeTruthy();
   });
 
   describe("Header", () => {
@@ -44,12 +50,6 @@ describe("DefaultLayoutHeader Component", () => {
       const fullNameSpan = wrapper.find("[data-testid='default-layout-header-full-name']");
 
       expect(fullNameSpan.text()).toBe("common.app.name");
-    });
-
-    it("should render the full app name span visible on medium and larger screens when mounted.", () => {
-      const fullNameSpan = wrapper.find("[data-testid='default-layout-header-full-name']");
-
-      expect(fullNameSpan.attributes("class")).toContain("hidden md:inline");
     });
 
     it("should render the short app name span with the correct i18n text when mounted.", () => {

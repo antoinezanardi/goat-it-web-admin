@@ -249,10 +249,10 @@ If any gate fails, fix the issue and re-run from that gate onward until all four
 Each skill has a `SKILL.md` entry point. Load only the relevant skill for the task.
 
 Available skills: `acceptance-testing`, `brainstorming`, `nuxt`, `nuxt-ui`, `receiving-code-review`,
-`systematic-debugging`, `unit-testing`, `vite`, `vitest`, `vue`, `vueuse`, `writing-plans`, `writing-skills`.
+`systematic-debugging`, `unit-testing`, `vite`, `vitest`, `vue`, `vueuse`, `writing-plans`, `writing-skills`, `context7`.
 
-- **When writing unit tests** (including inside plans): always load the `unit-testing` skill first.
-- **When writing acceptance tests** (including inside plans): always load the `acceptance-testing` skill first.
+- **When writing unit tests** (including inside plans): always load the `unit-testing` skill first and verify the result against the `.opencode/commands/lint-unit-tests.md` §4 checklist.
+- **When writing acceptance tests** (including inside plans): always load the `acceptance-testing` skill first and verify the result against the `.opencode/commands/lint-acceptance-tests.md` §4 checklist.
 - **When brainstorming or writing plans**: always consult the `nuxt`, `nuxt-ui`, and `vueuse` skills.
 
 ## OpenCode commands (`.opencode/commands/`)
@@ -262,6 +262,9 @@ Slash commands available in OpenCode sessions:
 - `/complete-i18n`   – Translate all French locale JSON files into every other locale.
 - `/write-unit-test` – Write a complete, passing unit test for a given source file.
 - `/write-acceptance-test` – Write a complete acceptance test (feature + steps) for a given page/feature.
+- `/lint-unit-tests` – Audit spec files against unit testing conventions, then fix user-approved violations.
+- `/lint-acceptance-tests` – Audit feature/step/helper files against acceptance testing conventions, then fix user-approved violations.
+- `/implement-oxlint-rules` – Interactively implement missing oxlint rules from `pnpm run lint:oxlint:check-rules` into `oxlint.config.jsonc`.
 
 ## Useful docs (`docs/`)
 

@@ -39,6 +39,11 @@ const byRejectionTypeItems = computed<StatsCardItem[]>(() => [
   { labelKey: "questions.rejectionType.duplicate-question", value: props.stats.byRejectionType["duplicate-question"], color: "secondary" },
   { labelKey: "questions.rejectionType.other", value: props.stats.byRejectionType.other, color: "neutral" },
 ]);
+
+const byTranslationCompletenessItems = computed<StatsCardItem[]>(() => [
+  { labelKey: "home.stats.fullyTranslated", value: props.stats.byTranslationCompleteness.fullyTranslated, color: "success" },
+  { labelKey: "home.stats.incomplete", value: props.stats.byTranslationCompleteness.incomplete, color: "error" },
+]);
 </script>
 
 <template>
@@ -49,6 +54,13 @@ const byRejectionTypeItems = computed<StatsCardItem[]>(() => [
         :items="byCategoryItems"
         test-id="stats-card-by-category"
         title-key="home.stats.byCategory"
+      />
+
+      <StatsCard
+        default-view="doughnut"
+        :items="byTranslationCompletenessItems"
+        test-id="stats-card-by-translation-completeness"
+        title-key="home.stats.byTranslationCompleteness"
       />
 
       <StatsCard
@@ -71,13 +83,13 @@ const byRejectionTypeItems = computed<StatsCardItem[]>(() => [
         test-id="stats-card-by-author-role"
         title-key="home.stats.byAuthorRole"
       />
-    </div>
 
-    <StatsCard
-      default-view="bar"
-      :items="byRejectionTypeItems"
-      test-id="stats-card-by-rejection-type"
-      title-key="home.stats.byRejectionType"
-    />
+      <StatsCard
+        default-view="bar"
+        :items="byRejectionTypeItems"
+        test-id="stats-card-by-rejection-type"
+        title-key="home.stats.byRejectionType"
+      />
+    </div>
   </div>
 </template>

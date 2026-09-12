@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Locale } from "@goat-it/schemas/shared/locale";
+
 import type { TranslationCompletenessIndicatorProps } from "~/components/shared/core/localization/TranslationCompletenessIndicator/translation-completeness-indicator.types";
 import {
   TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE,
@@ -11,8 +13,11 @@ const props = defineProps<TranslationCompletenessIndicatorProps>();
 const { t } = useI18n();
 
 const requiredFieldsReference = toRef(() => props.requiredFields);
-const { completedCount, totalCount, isFullyTranslated } = useTranslationCompleteness(requiredFieldsReference);
-const strokeDashoffset = computed<number>(() => TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE * (1 - completedCount.value / totalCount));
+const applicableLocalesReference = computed<Locale[]>(() => props.applicableLocales ?? []);
+const { completedCount, totalCount, isFullyTranslated } = useTranslationCompleteness(requiredFieldsReference, {
+  applicableLocales: applicableLocalesReference,
+});
+const strokeDashoffset = computed<number>(() => TRANSLATION_COMPLETENESS_RING_CIRCUMFERENCE * (1 - completedCount.value / totalCount.value));
 
 const completenessIcon = computed<string>(() => (isFullyTranslated.value ? "i-lucide-globe-check" : "i-lucide-globe"));
 
@@ -71,7 +76,10 @@ const ringColor = computed<string>(() => {
     </button>
 
     <template #content>
-      <TranslationCompletenessPopoverContent :required-fields="requiredFields"/>
+      <TranslationCompletenessPopoverContent
+        :applicable-locales="applicableLocales"
+        :required-fields="requiredFields"
+      />
     </template>
   </UPopover>
 </template>

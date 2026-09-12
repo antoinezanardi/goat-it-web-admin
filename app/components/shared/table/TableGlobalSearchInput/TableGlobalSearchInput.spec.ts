@@ -11,12 +11,12 @@ import type { UButton, UInput, UTooltip } from "#components";
 import type { TableGlobalSearchInputProps } from "~/components/shared/table/TableGlobalSearchInput/table-global-search-input.types";
 
 describe("TableGlobalSearchInput Component", () => {
-  const defaultProps: TableGlobalSearchInputProps = { modelValue: "" };
+  const defaultTableGlobalSearchInputProps: TableGlobalSearchInputProps = { modelValue: "" } as const;
   let wrapper: VueWrapper;
 
   async function mountTableGlobalSearchInputComponent(options: MountSuspendedOptions<typeof TableGlobalSearchInput> = {}): Promise<VueWrapper> {
     return mountSuspended(TableGlobalSearchInput, {
-      props: defaultProps,
+      props: defaultTableGlobalSearchInputProps,
       ...options,
     });
   }
@@ -37,7 +37,7 @@ describe("TableGlobalSearchInput Component", () => {
     });
 
     it("should render the input with the custom placeholder when a placeholder prop is provided.", async() => {
-      wrapper = await mountTableGlobalSearchInputComponent({ props: { ...defaultProps, placeholder: "Search themes..." } });
+      wrapper = await mountTableGlobalSearchInputComponent({ props: { ...defaultTableGlobalSearchInputProps, placeholder: "Search themes..." } });
 
       const input = wrapper.findComponent<typeof UInput>({ name: "UInput" });
 
@@ -85,9 +85,17 @@ describe("TableGlobalSearchInput Component", () => {
     it("should render the clear button with the correct aria-label i18n key when modelValue is not empty.", async() => {
       wrapper = await mountTableGlobalSearchInputComponent({ props: { modelValue: "search text" } });
 
-      const clearButton = wrapper.find("[data-testid='table-global-search-clear-button']");
+      const clearButton = wrapper.findComponent<typeof UButton>("[data-testid='table-global-search-clear-button']");
 
       expect(clearButton.attributes("aria-label")).toBe("common.table.search.clear");
+    });
+
+    it("should render the clear button with the correct icon when modelValue is not empty.", async() => {
+      wrapper = await mountTableGlobalSearchInputComponent({ props: { modelValue: "search text" } });
+
+      const clearButton = wrapper.findComponent<typeof UButton>("[data-testid='table-global-search-clear-button']");
+
+      expect(clearButton.props("icon")).toBe("i-lucide-x");
     });
 
     it("should wrap the clear button in a tooltip with the correct i18n key when modelValue is not empty.", async() => {

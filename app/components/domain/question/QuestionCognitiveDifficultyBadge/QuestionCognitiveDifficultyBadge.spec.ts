@@ -1,6 +1,7 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
+import type { QuestionCognitiveDifficulty } from "@goat-it/schemas/question";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
@@ -32,74 +33,44 @@ describe("QuestionCognitiveDifficultyBadge Component", () => {
 
   describe("Badge", () => {
     describe("Label", () => {
-      it("should pass the easy difficulty i18n key as label to the badge component when difficulty is easy.", () => {
-        const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-        expect(badge.props("label")).toBe("questions.difficulty.easy");
-      });
-
-      it("should pass the medium difficulty i18n key as label to the badge component when difficulty is medium.", async() => {
-        await wrapper.setProps({ difficulty: "medium" });
+      it.each<{ difficulty: QuestionCognitiveDifficulty; expectedLabel: string }>([
+        { difficulty: "easy", expectedLabel: "questions.difficulty.easy" },
+        { difficulty: "medium", expectedLabel: "questions.difficulty.medium" },
+        { difficulty: "hard", expectedLabel: "questions.difficulty.hard" },
+      ])("should pass the $expectedLabel i18n key as label to the badge component when difficulty is $difficulty.", async({ difficulty, expectedLabel }) => {
+        await wrapper.setProps({ difficulty });
 
         const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
 
-        expect(badge.props("label")).toBe("questions.difficulty.medium");
-      });
-
-      it("should pass the hard difficulty i18n key as label to the badge component when difficulty is hard.", async() => {
-        await wrapper.setProps({ difficulty: "hard" });
-
-        const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-        expect(badge.props("label")).toBe("questions.difficulty.hard");
+        expect(badge.props("label")).toBe(expectedLabel);
       });
     });
 
     describe("Color", () => {
-      it("should use the success color for the badge component when difficulty is easy.", () => {
-        const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-        expect(badge.props("color")).toBe("success");
-      });
-
-      it("should use the warning color for the badge component when difficulty is medium.", async() => {
-        await wrapper.setProps({ difficulty: "medium" });
+      it.each<{ difficulty: QuestionCognitiveDifficulty; expectedColor: string }>([
+        { difficulty: "easy", expectedColor: "success" },
+        { difficulty: "medium", expectedColor: "warning" },
+        { difficulty: "hard", expectedColor: "error" },
+      ])("should use the $expectedColor color for the badge component when difficulty is $difficulty.", async({ difficulty, expectedColor }) => {
+        await wrapper.setProps({ difficulty });
 
         const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
 
-        expect(badge.props("color")).toBe("warning");
-      });
-
-      it("should use the error color for the badge component when difficulty is hard.", async() => {
-        await wrapper.setProps({ difficulty: "hard" });
-
-        const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-        expect(badge.props("color")).toBe("error");
+        expect(badge.props("color")).toBe(expectedColor);
       });
     });
 
     describe("Icon", () => {
-      it("should use the brain icon for the badge component when difficulty is easy.", () => {
-        const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-        expect(badge.props("icon")).toBe("i-lucide-brain");
-      });
-
-      it("should use the brain-cog icon for the badge component when difficulty is medium.", async() => {
-        await wrapper.setProps({ difficulty: "medium" });
+      it.each<{ difficulty: QuestionCognitiveDifficulty; expectedIcon: string }>([
+        { difficulty: "easy", expectedIcon: "i-lucide-brain" },
+        { difficulty: "medium", expectedIcon: "i-lucide-brain-cog" },
+        { difficulty: "hard", expectedIcon: "i-lucide-brain-circuit" },
+      ])("should use the $expectedIcon icon for the badge component when difficulty is $difficulty.", async({ difficulty, expectedIcon }) => {
+        await wrapper.setProps({ difficulty });
 
         const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
 
-        expect(badge.props("icon")).toBe("i-lucide-brain-cog");
-      });
-
-      it("should use the brain-circuit icon for the badge component when difficulty is hard.", async() => {
-        await wrapper.setProps({ difficulty: "hard" });
-
-        const badge = wrapper.getComponent<typeof UBadge>({ name: "UBadge" });
-
-        expect(badge.props("icon")).toBe("i-lucide-brain-circuit");
+        expect(badge.props("icon")).toBe(expectedIcon);
       });
     });
   });

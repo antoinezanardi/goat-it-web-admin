@@ -11,8 +11,16 @@ import type { QuestionTranslationCompletenessIndicatorProps } from "~/components
 
 describe("QuestionTranslationCompletenessIndicator Component", () => {
   let wrapper: VueWrapper;
-  const question = createFakeQuestion();
-  const defaultProperties: QuestionTranslationCompletenessIndicatorProps = {
+  const question = createFakeQuestion({
+    applicableLocales: ["en", "fr"],
+    content: {
+      statement: { en: "Hello", fr: "Bonjour" },
+      answer: { en: "World", fr: "Monde" },
+      context: undefined,
+      trivia: undefined,
+    },
+  });
+  const defaultQuestionTranslationCompletenessIndicatorProps: QuestionTranslationCompletenessIndicatorProps = {
     question,
   } as const;
 
@@ -20,7 +28,7 @@ describe("QuestionTranslationCompletenessIndicator Component", () => {
 
   async function mountQuestionTranslationCompletenessIndicatorComponent(options: ComponentOptions = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionTranslationCompletenessIndicator, {
-      props: defaultProperties,
+      props: defaultQuestionTranslationCompletenessIndicatorProps,
       ...options,
     });
   }
@@ -40,10 +48,16 @@ describe("QuestionTranslationCompletenessIndicator Component", () => {
       expect(indicator.exists()).toBeTruthy();
     });
 
-    it("should pass the question statement and answer as required fields to the translation completeness indicator component when rendered.", () => {
+    it("should pass the question content fields as required fields to the translation completeness indicator component when rendered.", () => {
       const indicator = wrapper.findComponent(TranslationCompletenessIndicator);
 
-      expect(indicator.props("requiredFields")).toStrictEqual([question.content.statement, question.content.answer]);
+      expect(indicator.props("requiredFields")).toStrictEqual([question.content.statement, question.content.answer, question.content.context, question.content.trivia]);
+    });
+
+    it("should pass applicableLocales to the translation completeness indicator component when rendered.", () => {
+      const indicator = wrapper.findComponent(TranslationCompletenessIndicator);
+
+      expect(indicator.props("applicableLocales")).toStrictEqual(["en", "fr"]);
     });
 
     it("should have the data-testid attribute on the translation completeness indicator component when rendered.", () => {

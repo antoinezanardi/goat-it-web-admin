@@ -55,6 +55,19 @@ describe("QuestionTriviaInput Component", () => {
   });
 
   describe("Input Tags", () => {
+    it("should pass the addHintText prop to the input tags when mounted.", () => {
+      const inputTags = wrapper.find("[data-testid='question-trivia-input']");
+
+      expect(inputTags.text()).toContain("questions.form.addTriviaHint");
+    });
+
+    it("should pass the removeTooltipText prop to the input tags when mounted.", () => {
+      const tooltips = wrapper.findAllComponents({ name: "UTooltip" });
+      const removeTooltip = tooltips.find(t => t.props("text") === "questions.form.removeTrivia");
+
+      expect(removeTooltip).toBeDefined();
+    });
+
     it("should pass an empty array to the input tags when model value is not provided.", async() => {
       wrapper = await mountQuestionTriviaInputComponent({
         props: {},

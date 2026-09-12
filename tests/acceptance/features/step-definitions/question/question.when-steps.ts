@@ -4,16 +4,18 @@ import type { DataTable } from "@cucumber/cucumber";
 
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
 import { validateDataTableAndGetFirstRow } from "#acceptance/features/support/helpers/datatable.helpers.ts";
+import { resolveVisibleDialog } from "#acceptance/features/support/helpers/dialog.helpers.ts";
+import { selectOptionFromListbox } from "#acceptance/features/support/helpers/listbox.helpers.ts";
 import { QUESTION_FORM_ROW_SCHEMA } from "#acceptance/features/step-definitions/question/datatables/question.datatables.schemas.ts";
 import { fillQuestionForm } from "#acceptance/features/step-definitions/question/helpers/question.when-steps.helpers.ts";
+import { getQuestionApplicableLocalesSelect } from "#acceptance/features/support/helpers/question.helpers.ts";
 
 When(
   /^the user fills the question form with the following attributes:$/u,
+  { timeout: 30_000 },
   async function(this: GoatItWorld, dataTable: DataTable): Promise<void> {
     const row = validateDataTableAndGetFirstRow(dataTable, QUESTION_FORM_ROW_SCHEMA);
-    const dialog = this.page.getByRole("dialog");
-
-    await expect(dialog).toBeVisible();
+    const dialog = await resolveVisibleDialog(this.page);
     await fillQuestionForm(dialog, row);
   },
 );
@@ -21,9 +23,7 @@ When(
 When(
   /^the user removes the theme "(?<themeName>[^"]*)" from the question form selected themes$/u,
   async function(this: GoatItWorld, themeName: string): Promise<void> {
-    const dialog = this.page.getByRole("dialog");
-
-    await expect(dialog).toBeVisible();
+    const dialog = await resolveVisibleDialog(this.page);
 
     const themeList = dialog.getByTestId("question-theme-selector-list");
     const themeItem = themeList.locator("[data-testid^='question-theme-selector-assignment-']").filter({ has: this.page.getByText(themeName, { exact: true }) });
@@ -37,9 +37,7 @@ When(
 When(
   /^the user types "(?<text>[^"]*)" in the question form source urls input and presses Enter$/u,
   async function(this: GoatItWorld, text: string): Promise<void> {
-    const dialog = this.page.getByRole("dialog");
-
-    await expect(dialog).toBeVisible();
+    const dialog = await resolveVisibleDialog(this.page);
 
     const sourceInput = dialog.getByRole("textbox", { name: "Sources*" });
 
@@ -52,33 +50,20 @@ When(
 When(
   /^the user adds the theme "(?<themeName>[^"]*)" in the question form theme selector$/u,
   async function(this: GoatItWorld, themeName: string): Promise<void> {
-    const dialog = this.page.getByRole("dialog");
-
-    await expect(dialog).toBeVisible();
+    const dialog = await resolveVisibleDialog(this.page);
 
     const themeSelect = dialog.getByTestId("question-theme-selector-select");
 
     await expect(themeSelect).toBeVisible();
-    await themeSelect.click();
 
-    const listbox = this.page.getByRole("listbox");
-
-    await expect(listbox).toBeVisible();
-
-    const option = listbox.getByRole("option", { name: themeName });
-
-    await expect(option).toBeVisible();
-    await option.click();
-    await expect(listbox).toBeHidden();
+    await selectOptionFromListbox(themeSelect, this.page, themeName);
   },
 );
 
 When(
   /^the user sets the theme "(?<themeName>[^"]*)" as primary in the question form theme selector$/u,
   async function(this: GoatItWorld, themeName: string): Promise<void> {
-    const dialog = this.page.getByRole("dialog");
-
-    await expect(dialog).toBeVisible();
+    const dialog = await resolveVisibleDialog(this.page);
 
     const themeList = dialog.getByTestId("question-theme-selector-list");
     const themeItem = themeList.locator("[data-testid^='question-theme-selector-assignment-']").filter({ has: this.page.getByText(themeName, { exact: true }) });
@@ -92,9 +77,7 @@ When(
 When(
   /^the user toggles hint for the theme "(?<themeName>[^"]*)" in the question form theme selector$/u,
   async function(this: GoatItWorld, themeName: string): Promise<void> {
-    const dialog = this.page.getByRole("dialog");
-
-    await expect(dialog).toBeVisible();
+    const dialog = await resolveVisibleDialog(this.page);
 
     const themeList = dialog.getByTestId("question-theme-selector-list");
     const themeItem = themeList.locator("[data-testid^='question-theme-selector-assignment-']").filter({ has: this.page.getByText(themeName, { exact: true }) });
@@ -114,5 +97,42 @@ When(
 
     await expect(expandButton).toBeVisible();
     await expandButton.click();
+  },
+);
+
+When(
+  /^the user opens the applicable locales dropdown$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    const dialog = await resolveVisibleDialog(this.page);
+    const select = getQuestionApplicableLocalesSelect(dialog);
+
+    await expect(select).toBeVisible();
+    await select.click();
+  },
+);
+
+When(
+  /^the user removes all applicable locales from the question form$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    const dialog = await resolveVisibleDialog(this.page);
+    const select = getQuestionApplicableLocalesSelect(dialog);
+
+    await expect(select).toBeVisible();
+    await select.click();
+
+    const listbox = this.page.getByRole("listbox");
+
+    await expect(listbox).toBeVisible();
+
+    const selectedOptions = listbox.locator("[aria-selected='true']");
+
+    // Acceptable as Playwright interactions must be sequential and the selected option count changes after each click
+    // oxlint-disable-next-line eslint/no-await-in-loop
+    while (await selectedOptions.count() > 0) {
+      await selectedOptions.first().click();
+    }
+
+    await select.press("Escape");
+    await expect(listbox).toBeHidden();
   },
 );

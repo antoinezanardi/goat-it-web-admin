@@ -251,6 +251,13 @@ export default defineNuxtConfig({
       redirectOn: "root",
     },
   },
+  icon: {
+    clientBundle: {
+      scan: {
+        globInclude: ["**/*.{vue,ts}"],
+      },
+    },
+  },
   pinia: {
     storesDirs: ["stores/**"],
   },

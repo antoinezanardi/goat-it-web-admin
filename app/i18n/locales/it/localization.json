@@ -3,8 +3,10 @@
     "translationStatus": "Stato della traduzione",
     "otherTranslations": "Altre traduzioni",
     "missingTranslation": "— mancante —",
-    "localeComplete": "{locale} è completa",
-    "localeIncomplete": "{locale} è incompleta",
+    "localeComplete": "Tradotto in questa lingua",
+    "localeIncomplete": "Non completamente tradotto in questa lingua",
+    "appliesTo": "Si applica a: {locales}",
+    "notApplicable": "Non applicabile",
     "seeTranslationsFor": "Vedi traduzioni per {label}",
     "locales": {
       "shortCode": {

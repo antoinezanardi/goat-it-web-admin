@@ -7,7 +7,7 @@ import { waitForPageUrl } from "#acceptance/features/support/helpers/navigation.
 Then(/^the user should be on (?<page>.+) page$/u, async function(this: GoatItWorld, page: string): Promise<void> {
   const pageName = page === "home" ? "" : page;
 
-  await waitForPageUrl(this, `/${pageName}`);
+  await waitForPageUrl(this.page, `/${pageName}`);
 });
 
 Then(

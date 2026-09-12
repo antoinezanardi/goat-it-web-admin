@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import type { QuestionCreationDtoShell, Question } from "#shared/types/question.types";
-import { QUESTION_DEFAULT_AUTHOR } from "~/composables/domain/question/constants/question-author.constants";
-import { createQuestionCreationDtoShell } from "~/composables/domain/question/helpers/shell/question.shell.helpers";
+import { QUESTION_DEFAULT_AUTHOR } from "@/composables/domain/question/constants/question-author.constants";
+import { createQuestionCreationDtoShell } from "@/composables/domain/question/helpers/shell/question.shell.helpers";
 
 describe(createQuestionCreationDtoShell, () => {
   it.each<{ field: keyof Question["content"] }>([
@@ -30,6 +30,12 @@ describe(createQuestionCreationDtoShell, () => {
     const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
 
     expect(shell[field]).toBeUndefined();
+  });
+
+  it("should return undefined when field is applicableLocales.", () => {
+    const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
+
+    expect(shell.applicableLocales).toBeUndefined();
   });
 
   it.each<{ field: "themes" | "sourceUrls" }>([

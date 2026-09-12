@@ -37,6 +37,18 @@ describe("DefaultLayoutHeaderRightContent Component", () => {
 
       expect(gitHubLink.attributes("aria-label")).toBe("navigation.openOnGitHub");
     });
+
+    it("should render the GitHub icon on the link when mounted.", () => {
+      const gitHubLink = wrapper.getComponent<typeof UButton>("#default-layout-header-github-link");
+
+      expect(gitHubLink.props("icon")).toBe("i-lucide-github");
+    });
+
+    it("should link to the GitHub repository when mounted.", () => {
+      const gitHubLink = wrapper.getComponent<typeof UButton>("#default-layout-header-github-link");
+
+      expect(gitHubLink.props("to")).toBe("https://github.com/antoinezanardi/goat-it-web-admin");
+    });
   });
 
   describe("Color Mode Switch Tooltip", () => {

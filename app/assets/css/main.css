@@ -1,6 +1,23 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+@import "./tokens.css";
+@import "./nuxt-ui.css";
 @import "./theme.css";
 
 @import "./transitions.css";
+
+@layer base {
+  html {
+    background-color: var(--ui-bg);
+  }
+
+  body {
+    background-color: var(--ui-bg);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}

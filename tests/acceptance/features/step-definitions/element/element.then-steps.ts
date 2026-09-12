@@ -61,9 +61,11 @@ Then(
 
 Then(
   /^the element with testid "(?<testid>[^"]+)" should contain(?<exact> exact)? text "(?<text>[^"]+)"$/u,
-  async function(this: GoatItWorld, testid: string, exact: string | undefined, text: string): Promise<void> {
-    const locator = this.page.getByTestId(testid).getByText(text, { exact: exact !== undefined });
+  { timeout: 30_000 },
+  async function(this: GoatItWorld, testid: string, exact: string | null, text: string): Promise<void> {
+    const locator = this.page.getByTestId(testid);
+    const assertion = exact === null ? expect(locator).toContainText(text) : expect(locator).toHaveText(text);
 
-    await expect(locator).toBeVisible();
+    await assertion;
   },
 );

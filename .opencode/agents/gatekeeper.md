@@ -1,7 +1,7 @@
 ---
 description: Runs the full quality gate (lint → typecheck → unit → acceptance) with auto-fix for the goat-it-web-admin project. Dispatched by orchestrator after all tasks, or by receiving-code-review after applying fixes.
 mode: subagent
-model: opencode-go/deepseek-v4-flash
+model: opencode-go/mimo-v2.5
 temperature: 0.2
 hidden: true
 steps: 120
@@ -9,48 +9,33 @@ permission:
   edit: allow
   bash:
     "pnpm run lint*": "allow"
-    "rtk pnpm run lint*": "allow"
     "pnpm run typecheck*": "allow"
-    "rtk pnpm run typecheck*": "allow"
     "pnpm run test:unit*": "allow"
-    "rtk pnpm run test:unit*": "allow"
     "pnpm run test:acceptance*": "allow"
-    "rtk pnpm run test:acceptance*": "allow"
     "pnpm run test:unit:*": "allow"
-    "rtk pnpm run test:unit:*": "allow"
     "git status*": "allow"
-    "rtk git status*": "allow"
     "git log*": "allow"
-    "rtk git log*": "allow"
     "git diff*": "allow"
-    "rtk git diff*": "allow"
     "cat *": "allow"
-    "rtk cat *": "allow"
     "grep *": "allow"
-    "rtk grep *": "allow"
     "ls *": "allow"
-    "rtk ls *": "allow"
     "find *": "allow"
-    "rtk find *": "allow"
     "head *": "allow"
-    "rtk head *": "allow"
     "tail *": "allow"
-    "rtk tail *": "allow"
     "echo *": "allow"
-    "rtk echo *": "allow"
     "wc *": "allow"
-    "rtk wc *": "allow"
     "git add *": "deny"
-    "rtk git add *": "deny"
     "git commit *": "deny"
-    "rtk git commit *": "deny"
     "git push *": "deny"
-    "rtk git push *": "deny"
   task: deny
   webfetch: deny
 ---
 
 You are the **gatekeeper** subagent for the goat-it-web-admin project. You run the full quality gate with auto-fix capability.
+
+## Inputs
+
+No inputs required.
 
 ## Gate execution order (strict, no parallelism)
 
@@ -81,9 +66,6 @@ You are the **gatekeeper** subagent for the goat-it-web-admin project. You run t
 - If agent runs out of steps, stop and report the failure
 
 ## No git mutations
-
-- All edits are to the working tree only
-- Never run `git add`, `git commit`, or `git push`
 
 ## Report format
 

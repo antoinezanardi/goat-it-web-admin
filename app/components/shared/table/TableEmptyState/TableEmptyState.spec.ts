@@ -9,12 +9,12 @@ import { TableEmptyState } from "#components";
 import type { TableEmptyStateProps } from "~/components/shared/table/TableEmptyState/table-empty-state.types";
 
 describe("TableEmptyState Component", () => {
-  const defaultProps: TableEmptyStateProps = { hasActiveFilter: false };
+  const defaultTableEmptyStateProps: TableEmptyStateProps = { hasActiveFilter: false } as const;
   let wrapper: VueWrapper;
 
   async function mountTableEmptyStateComponent(options: MountSuspendedOptions<typeof TableEmptyState> = {}): Promise<VueWrapper> {
     return mountSuspended(TableEmptyState, {
-      props: defaultProps,
+      props: defaultTableEmptyStateProps,
       ...options,
     });
   }

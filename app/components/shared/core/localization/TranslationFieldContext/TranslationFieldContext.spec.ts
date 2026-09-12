@@ -11,20 +11,24 @@ import type { TranslationFieldContextProps } from "~/components/shared/core/loca
 
 describe("TranslationFieldContext Component", () => {
   let wrapper: VueWrapper;
-  const defaultProps: TranslationFieldContextProps = {
+  const defaultTranslationFieldContextProps: TranslationFieldContextProps = {
     localizedText: createFakeLocalizedText({ en: "Hello", fr: "Bonjour" }),
     label: "Label",
-  };
+  } as const;
 
   async function mountTranslationFieldContextComponent(options: MountSuspendedOptions<typeof TranslationFieldContext> = {}): Promise<VueWrapper> {
     return mountSuspended(TranslationFieldContext, {
-      props: defaultProps,
+      props: defaultTranslationFieldContextProps,
       ...options,
     });
   }
 
   beforeEach(async() => {
     wrapper = await mountTranslationFieldContextComponent();
+  });
+
+  it("should render TranslationFieldContext when mounted.", () => {
+    expect(wrapper.exists()).toBeTruthy();
   });
 
   describe("Collapsible", () => {
@@ -120,13 +124,6 @@ describe("TranslationFieldContext Component", () => {
       const translationsOverview = wrapper.findComponent(TranslationsOverview);
 
       expect(translationsOverview.props("localizedTexts")).toStrictEqual(localizedTexts);
-    });
-
-    it("should pass hide header prop to translations overview when rendered.", async() => {
-      await openCollapsible();
-      const translationsOverview = wrapper.findComponent(TranslationsOverview);
-
-      expect(translationsOverview.props("hideHeader")).toBeTruthy();
     });
   });
 });

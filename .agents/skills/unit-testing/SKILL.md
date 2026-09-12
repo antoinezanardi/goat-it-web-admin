@@ -8,6 +8,10 @@ description: Use when writing or modifying unit tests in this project. Load this
 Full human-readable reference: `docs/unit-testing.md`
 Read it for complete examples. This skill contains the non-negotiable rules and decision trees.
 
+The command `.opencode/commands/lint-unit-tests.md` is the **final audit checklist** — its rule
+tags (`[U*]`, `[C*]`, `[P*]`, `[L*]`, `[W*]`, `[CO*]`, `[S*]`, `[R*]`, `[H*]`, `[N*]`, `[T*]`)
+are mirrored below so anything written per this skill passes that audit.
+
 ---
 
 ## Step 0 — Before writing any test
@@ -39,9 +43,9 @@ The `repositories` and `node` projects have **no Nuxt environment**. No `mountSu
 
 | Project        | Environment | Setup files                                                                          |
 |----------------|-------------|--------------------------------------------------------------------------------------|
-| `nuxt`         | `nuxt`      | 11 base setups + 4 composable mocks + 1 repo mock                                    |
-| `composables`  | `nuxt`      | 11 base setups + 1 repo mock (NO composable mocks — tests exercise real composables) |
-| `stores`       | `nuxt`      | 11 base setups + 4 composable mocks + 1 repo mock + `stores.nuxt.unit-setup.ts`      |
+| `nuxt`         | `nuxt`      | 11 base setups + 9 composable mocks + 3 repo mocks                                   |
+| `composables`  | `nuxt`      | 11 base setups + 3 repo mocks (NO composable mocks — tests exercise real composables) |
+| `stores`       | `nuxt`      | 11 base setups + 9 composable mocks + 3 repo mocks + `stores.nuxt.unit-setup.ts`     |
 | `repositories` | Node        | `dates.nuxt.unit-setup.ts` only                                                      |
 | `node`         | Node        | `dates.nuxt.unit-setup.ts` only                                                      |
 

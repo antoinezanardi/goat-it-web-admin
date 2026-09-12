@@ -13,7 +13,7 @@ You're a senior engineer who knows the codebase's conventions and writes code th
 
 ## Skills to Load **(MANDATORY)**
 
-- `unit-testing` — 5 Vitest projects, 100% coverage, faketories, mocks, naming conventions
+- `unit-testing` — 5 Vitest projects, 100% coverage, faketories, mocks, naming conventions. **Mandatory compliance:** every unit test written in a plan MUST pass the §4 checklist of `.opencode/commands/lint-unit-tests.md` — universal checks `[U1]`–`[U11]` plus the per-type block for its Vitest project (`[C*]`, `[P*]`, `[L*]`, `[W*]`, `[CO*]`, `[S*]`, `[R*]`, `[H*]`, `[N*]`, `[T*]`). Verify each spec snippet against it BEFORE writing it into the plan; a non-compliant snippet must not enter the plan.
 - `acceptance-testing` — Cucumber + Playwright step definitions, DataTable schemas, tags
 - `nuxt` — project structure, auto-imports, composables, server routes
 - `nuxt-ui` — @nuxt/ui v4 components, Tailwind theming
@@ -102,6 +102,55 @@ Run: `pnpm run test:acceptance --tags "@feature-tag"`
 Expected: The tagged scenario passes
 ````
 
+### Modify step format (when the target file already exists)
+
+For steps that **modify an existing file**, do **NOT** paste the full file. Each step MUST:
+
+1. Anchor the change with **line range AND named area** (e.g., `the `transformItem` function at lines 47-62`). The named area keeps the anchor meaningful even if line numbers drift slightly.
+2. Show the **snippet** to add, replace, or remove. Up to 2-3 lines of immediate surrounding context are allowed (e.g., the closing brace of the function being replaced) to make the change self-explanatory — but no full file, no full template, no full imports block.
+3. State the operation explicitly: `Insert`, `Replace`, `Append`, or `Remove`.
+
+Example — a step that replaces a function:
+
+````markdown
+- [ ] **Step 1: Replace `transformItem` (the `transformItem` function at lines 47-62)**
+
+Replace:
+
+```ts
+function transformItem(item: Item): TransformedItem {
+  return {
+    id: item.id,
+    label: item.label,
+  };
+}
+```
+
+With:
+
+```ts
+function transformItem(item: Item): TransformedItem {
+  return {
+    id: item.id,
+    label: item.label.toUpperCase(),
+    isArchived: item.archived,
+  };
+}
+```
+````
+
+Example — a step that inserts a new import:
+
+````markdown
+- [ ] **Step 2: Add new import (insert after the existing `@nuxt/ui` import at line 8)**
+
+```ts
+import { useAppToast } from "~/composables/core/use-app-toast/useAppToast";
+```
+````
+
+Create steps are unchanged: write the full file as today.
+
 ## No Placeholders
 
 Every step must contain the actual content an engineer needs. These are **plan failures** — never write them:
@@ -112,10 +161,13 @@ Every step must contain the actual content an engineer needs. These are **plan f
 - Steps that describe what to do without showing how (code blocks required for code steps)
 - References to types, functions, or methods not defined in any task
 
+For **modify steps** (steps that change an existing file instead of creating one), it is acceptable to reference the file's exact line range or named area instead of pasting the full file. The snippet itself must still be complete (no `...`, no truncation). See the "Modify step format" sub-section above.
+
 ## Remember
 
 - Exact file paths always
-- Complete code in every step — if a step changes code, show the code
+- **Create steps:** show the full file content (the whole file IS the code)
+- **Modify steps:** show the changed snippet (with up to 2-3 lines of surrounding context) anchored to **line range + named area**. Never paste unchanged surrounding code or the full file.
 - Exact commands with expected output
 - Follow project conventions, don't invent them, scan the codebase for patterns if you need to
 - DRY, YAGNI, you must write a senior engineer's code : simple and elegant
@@ -128,6 +180,7 @@ After writing the complete plan, run this checklist:
 2. **Placeholder scan:** Search the plan for any pattern from the "No Placeholders" section. Fix them.
 3. **Type consistency:** Do the types, method signatures, and property names in later tasks match earlier tasks?
 4. **Test coverage:** Every task with logic has explicit tests for its own files. Tasks with only types, interfaces, or constants may omit tests. No full `pnpm run test:unit:cov` run in any task. 100% coverage for files that have tests.
+5. **Modify steps cite exact locations:** Every step that modifies an existing file names both the line range AND the named area being changed (e.g., `the `transformItem` function at lines 47-62`). Full files do not appear in modify steps; snippets do not include unchanged code beyond 2-3 lines of context.
 
 If you find issues, fix them inline. If a spec requirement has no task, add the task.
 
@@ -146,6 +199,8 @@ If you find issues, fix them inline. If a spec requirement has no task, add the 
 - **No `console.log`:** Use `useAppToast` for UI feedback
 - **i18n:** Assert keys, not translated strings. Texts must be translated into the six locales of this project.
 - **Quality gates (NOT in plan steps — orchestrator runs them):** `lint:fix` → `typecheck` → `test:unit:cov` → `test:acceptance`
+- **Unit-test convention compliance (mandatory):** Re-read §4 of `.opencode/commands/lint-unit-tests.md` and audit every unit-test snippet in the plan against it — universal `[U1]`–`[U11]` plus the per-type block matching each spec's Vitest project. Any violation found must be fixed inline before the plan is finished.
+- **Plan snippet policy (mandatory):** Create steps contain the whole file. Modify steps contain only the changed snippet (with up to 2-3 lines of surrounding context), anchored to a line range AND a named area. The implementer reads the file once before editing to locate the anchor; the plan never reproduces unchanged code.
 
 ## Self-review
 
@@ -154,3 +209,4 @@ When the plan is complete, check for:
 - [ ] All tasks are bite-sized (2-5 min)
 - [ ] All tasks have implementation, test (when applicable), and verification steps
 - [ ] Only one `expect` per `it` in unit tests, use `it.each` for multiple assertions on the same subject
+- [ ] Every `type` are in `.types.ts` files and `constants` in `.constants.ts` files

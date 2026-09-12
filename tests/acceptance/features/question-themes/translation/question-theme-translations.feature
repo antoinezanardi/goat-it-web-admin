@@ -1,37 +1,27 @@
 @question-themes @question-theme-translation
 Feature: 🎨 Question Theme Translations
 
-  Scenario: 🎨 Translation completeness indicator is visible in the question themes table
+  Background:
     Given the user is on question-themes page
     And a question theme exists with the following attributes:
       | label      | slug       | description  | aliases |
       | Test Theme | test-theme | A test theme | test    |
+
+  Scenario: 🎨 Translation completeness indicator is visible in the question themes table
     Then the button with exact name "Translation status" should be visible
 
   Scenario: 🎨 Translation completeness indicator is visible in the edit modal header
-    Given the user is on question-themes page
-    And a question theme exists with the following attributes:
-      | label      | slug       | description  | aliases |
-      | Test Theme | test-theme | A test theme | test    |
     When the user clicks on the button with exact name "Edit question theme with slug test-theme"
     Then the heading with exact name "Edit theme" should be visible
     And the button with exact name "Translation status" should be visible
 
   Scenario: 🎨 Translation field context buttons are visible in the edit modal
-    Given the user is on question-themes page
-    And a question theme exists with the following attributes:
-      | label      | slug       | description  | aliases |
-      | Test Theme | test-theme | A test theme | test    |
     When the user clicks on the button with exact name "Edit question theme with slug test-theme"
     Then the button with name "See translations for Label" should be visible
     And the button with name "See translations for Description" should be visible
     And the button with name "See translations for Aliases" should be visible
 
   Scenario: 🎨 Translation field context expands to show translations except current locale when clicked
-    Given the user is on question-themes page
-    And a question theme exists with the following attributes:
-      | label      | slug       | description  | aliases |
-      | Test Theme | test-theme | A test theme | test    |
     When the user clicks on the button with exact name "Edit question theme with slug test-theme"
     And the user clicks on the button with exact name "See translations for Label"
     Then the text "FR" should be visible
@@ -42,10 +32,6 @@ Feature: 🎨 Question Theme Translations
     And the exact text "EN" should be hidden
 
   Scenario: 🎨 Translation completeness indicator updates in table and modal when locales are filled one by one
-    Given the user is on question-themes page
-    And a question theme exists with the following attributes:
-      | label      | slug       | description  | aliases |
-      | Test Theme | test-theme | A test theme | test    |
     When the user clicks on the button with exact name "Translation status"
     Then the locale "en" should be marked as complete in the translation status
     And the locale "fr" should be marked as incomplete in the translation status
@@ -81,10 +67,6 @@ Feature: 🎨 Question Theme Translations
     And the locale "de" should be marked as incomplete in the translation status
 
   Scenario: 🎨 Translation overview shows filled locale values in table popover and modal collapsibles
-    Given the user is on question-themes page
-    And a question theme exists with the following attributes:
-      | label      | slug       | description  | aliases |
-      | Test Theme | test-theme | A test theme | test    |
     When the user switches the locale to "Français"
     And the user clicks on the text "Aucune traduction disponible"
     Then the text "Test Theme" should be visible

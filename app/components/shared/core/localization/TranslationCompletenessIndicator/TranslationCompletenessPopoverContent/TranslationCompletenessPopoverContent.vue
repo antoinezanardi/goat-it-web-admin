@@ -9,14 +9,32 @@ const props = defineProps<TranslationCompletenessPopoverContentProps>();
 const { t } = useI18n();
 
 const requiredFieldsReference = toRef(() => props.requiredFields);
-const { isLocaleComplete } = useTranslationCompleteness(requiredFieldsReference);
+const applicableLocalesReference = computed<Locale[]>(() => props.applicableLocales ?? []);
+const { isLocaleComplete, isLocaleApplicable } = useTranslationCompleteness(requiredFieldsReference, {
+  applicableLocales: applicableLocalesReference,
+});
 
-function getBadgeColor(locale: Locale): "success" | "error" {
+const applicableLocaleLabels = computed<string>(() => props.applicableLocales?.map(locale => t(`localization.locales.shortCode.${locale}`)).join(", ") ?? "");
+
+function getBadgeColor(locale: Locale): "success" | "error" | "neutral" {
+  if (!isLocaleApplicable(locale)) {
+    return "neutral";
+  }
   return isLocaleComplete(locale) ? "success" : "error";
 }
 
 function getIconName(locale: Locale): string {
+  if (!isLocaleApplicable(locale)) {
+    return "i-lucide-circle-slash";
+  }
   return isLocaleComplete(locale) ? "i-lucide-check" : "i-lucide-x";
+}
+
+function getStatusLabel(locale: Locale): string {
+  if (!isLocaleApplicable(locale)) {
+    return t("localization.notApplicable");
+  }
+  return isLocaleComplete(locale) ? t("localization.localeComplete") : t("localization.localeIncomplete");
 }
 </script>
 
@@ -34,25 +52,40 @@ function getIconName(locale: Locale): string {
       {{ t("localization.translationStatus") }}
     </div>
 
+    <div
+      v-if="applicableLocaleLabels"
+      class="mb-2 text-muted text-xs"
+      data-testid="translation-completeness-applies-to"
+    >
+      {{ t("localization.appliesTo", { "locales": applicableLocaleLabels }) }}
+    </div>
+
     <USeparator class="mb-2"/>
 
     <div class="flex flex-wrap gap-1">
-      <UBadge
+      <UTooltip
         v-for="locale in LOCALES"
         :key="locale"
-        :color="getBadgeColor(locale)"
-        :data-testid="`locale-status-${locale}`"
-        size="xs"
-        variant="subtle"
+        :text="getStatusLabel(locale)"
       >
-        <LocaleLabel :locale="locale"/>
+        <UBadge
+          :color="getBadgeColor(locale)"
+          :data-testid="`locale-status-${locale}`"
+          size="xs"
+          variant="subtle"
+        >
+          <LocaleLabel
+            :is-applicable="isLocaleApplicable(locale)"
+            :locale="locale"
+          />
 
-        <UIcon
-          class="size-3"
-          data-testid="locale-status-icon"
-          :name="getIconName(locale)"
-        />
-      </UBadge>
+          <UIcon
+            class="size-3"
+            data-testid="locale-status-icon"
+            :name="getIconName(locale)"
+          />
+        </UBadge>
+      </UTooltip>
     </div>
   </div>
 </template>

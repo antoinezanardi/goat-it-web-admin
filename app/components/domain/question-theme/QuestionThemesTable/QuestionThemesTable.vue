@@ -4,7 +4,7 @@ import type { TableColumn } from "@nuxt/ui";
 
 import type { QuestionThemesTableEmits, QuestionThemesTableGlobalFilterOptions } from "~/components/domain/question-theme/QuestionThemesTable/question-themes-table.types";
 import type { QuestionThemesTableFilters } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableHeader/question-themes-table-header.types";
-import { TABLE_UI, TABLE_CARD_UI } from "~/utils/constants/table/table.constants.ts";
+import { TABLE_CARD_UI } from "~/utils/constants/table/table.constants.ts";
 import { createTableColumn } from "~/utils/helpers/table/table.helpers";
 import { toKebabCaseKeys } from "#shared/utils/helpers/object/object.helpers";
 
@@ -98,7 +98,6 @@ function onStartEditFromQuestionThemesTableActions(id: string): void {
       :loading="isFetchingQuestionThemes"
       sticky
       :tabindex="0"
-      :ui="TABLE_UI"
       virtualize
     >
       <template #icon-cell="{ row }">

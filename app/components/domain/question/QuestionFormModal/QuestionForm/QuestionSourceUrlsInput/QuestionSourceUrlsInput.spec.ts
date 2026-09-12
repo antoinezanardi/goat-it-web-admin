@@ -14,13 +14,13 @@ import type { QuestionSourceUrlsInputProps } from "~/components/domain/question/
 describe("QuestionSourceUrlsInput Component", () => {
   let wrapper: VueWrapper;
 
-  const defaultProperties: QuestionSourceUrlsInputProps = {
+  const defaultQuestionSourceUrlsInputProps: QuestionSourceUrlsInputProps = {
     modelValue: [],
-  };
+  } as const;
 
   async function mountQuestionSourceUrlsInputComponent(options: MountSuspendedOptions<typeof QuestionSourceUrlsInput> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionSourceUrlsInput, {
-      props: defaultProperties,
+      props: defaultQuestionSourceUrlsInputProps,
       ...options,
     });
   }
@@ -68,6 +68,20 @@ describe("QuestionSourceUrlsInput Component", () => {
       const inputTags = wrapper.findComponent<typeof UInputTags>({ name: "UInputTags" });
 
       expect(inputTags.props("disabled")).toBeFalsy();
+    });
+  });
+
+  describe("Labels and Hints", () => {
+    it("should pass the source urls label to the form field when mounted.", () => {
+      const inputTagsField = wrapper.findComponent({ name: "InputTagsField" });
+
+      expect(inputTagsField.props("label")).toBe("questions.fields.sourceUrls");
+    });
+
+    it("should pass the add source url hint to the input tags field when mounted.", () => {
+      const inputTagsField = wrapper.findComponent({ name: "InputTagsField" });
+
+      expect(inputTagsField.props("addHintText")).toBe("questions.form.addSourceUrlHint");
     });
   });
 

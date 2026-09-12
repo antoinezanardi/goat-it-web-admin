@@ -4,9 +4,10 @@ const ESLINT_CONFIG_FILES_FLAT_CONFIG: Linter.Config = {
   name: "goat-it/config-files",
   files: [
     "nuxt.config.ts",
-    "app/app.config.ts",
+    "**/app/app.config.ts",
+    "**/app/config/**/*.ts",
     "eslint.config.ts",
-    "configs/**/*.{js,mjs,ts}",
+    "**/configs/**/*.{js,mjs,ts}",
   ],
   rules: {
     "@typescript-eslint/no-restricted-imports": "off",

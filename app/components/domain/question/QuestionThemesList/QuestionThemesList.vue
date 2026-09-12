@@ -16,11 +16,13 @@ const missingThemeTranslation = computed<string>(() => t("questions.missingTheme
     <UTooltip
       v-for="assignment in themes"
       :key="assignment.theme.id"
+      :data-testid="`question-theme-tooltip-${assignment.theme.slug}`"
       :text="getThemeLocalizedLabel(assignment.theme, locale, missingThemeTranslation)"
     >
       <QuestionThemeIcon
         :color="assignment.theme.color"
         :data-testid="`question-theme-icon-${assignment.theme.slug}`"
+        :is-hint="assignment.isHint"
         :size="16"
         :slug="assignment.theme.slug"
       />

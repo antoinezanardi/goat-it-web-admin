@@ -20,7 +20,7 @@ describe("DefaultLayout Layout", () => {
     wrapper = await mountDefaultLayout();
   });
 
-  it("should render the default layout when mounted.", () => {
+  it("should render DefaultLayout when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
   });
 });

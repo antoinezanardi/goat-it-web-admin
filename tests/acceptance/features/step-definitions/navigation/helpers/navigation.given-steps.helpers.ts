@@ -8,7 +8,7 @@ async function goOnPage(world: GoatItWorld, pageName: string): Promise<void> {
   const pageUrl = url(pagePath);
 
   await world.page.goto(pageUrl);
-  await waitForPageLoadStates(world);
+  await waitForPageLoadStates(world.page);
 }
 
 export {

@@ -26,6 +26,11 @@ const byQuestionCountItems = computed<StatsCardItem[]>(() => props.stats.byQuest
     value: entry.activeQuestionCount,
   };
 }));
+
+const byTranslationCompletenessItems = computed<StatsCardItem[]>(() => [
+  { labelKey: "home.stats.fullyTranslated", value: props.stats.byTranslationCompleteness.fullyTranslated, color: "success" },
+  { labelKey: "home.stats.incomplete", value: props.stats.byTranslationCompleteness.incomplete, color: "warning" },
+]);
 </script>
 
 <template>
@@ -35,6 +40,13 @@ const byQuestionCountItems = computed<StatsCardItem[]>(() => props.stats.byQuest
       :items="byQuestionCountItems"
       test-id="stats-card-by-question-count"
       title-key="home.stats.byQuestionCount"
+    />
+
+    <StatsCard
+      default-view="doughnut"
+      :items="byTranslationCompletenessItems"
+      test-id="stats-card-theme-by-translation-completeness"
+      title-key="home.stats.byTranslationCompleteness"
     />
 
     <StatsCard

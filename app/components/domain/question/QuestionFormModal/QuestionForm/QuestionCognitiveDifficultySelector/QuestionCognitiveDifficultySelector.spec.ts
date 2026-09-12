@@ -5,20 +5,20 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 
-import type { UButton } from "#components";
+import type { UButton, UFormField } from "#components";
 import { QuestionCognitiveDifficultySelector } from "#components";
 
 import type { QuestionCognitiveDifficultySelectorProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/QuestionCognitiveDifficultySelector/question-cognitive-difficulty-selector.types";
 
 describe("QuestionCognitiveDifficultySelector Component", () => {
   let wrapper: VueWrapper;
-  const defaultProperties: QuestionCognitiveDifficultySelectorProps = {
+  const defaultQuestionCognitiveDifficultySelectorProps: QuestionCognitiveDifficultySelectorProps = {
     modelValue: undefined,
   } as const;
 
   async function mountQuestionCognitiveDifficultySelectorComponent(options: MountSuspendedOptions<typeof QuestionCognitiveDifficultySelector> = {}): Promise<VueWrapper> {
     return mountSuspended(QuestionCognitiveDifficultySelector, {
-      props: defaultProperties,
+      props: defaultQuestionCognitiveDifficultySelectorProps,
       ...options,
     });
   }
@@ -29,6 +29,26 @@ describe("QuestionCognitiveDifficultySelector Component", () => {
 
   it("should render the question cognitive difficulty selector component when mounted.", () => {
     expect(wrapper.exists()).toBeTruthy();
+  });
+
+  describe("Form Field", () => {
+    it("should render the form field with the correct label when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-difficulty-selector']");
+
+      expect(formField.props("label")).toBe("questions.fields.cognitiveDifficulty");
+    });
+
+    it("should render the form field with the correct name when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-difficulty-selector']");
+
+      expect(formField.props("name")).toBe("cognitiveDifficulty");
+    });
+
+    it("should render the form field as required when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-difficulty-selector']");
+
+      expect(formField.props("required")).toBeTruthy();
+    });
   });
 
   describe("Difficulty Buttons", () => {
@@ -61,6 +81,33 @@ describe("QuestionCognitiveDifficultySelector Component", () => {
       const button = wrapper.getComponent<typeof UButton>(`[data-testid='question-difficulty-selector-${difficulty}']`);
 
       expect(button.props("label")).toBe(expectedLabel);
+    });
+
+    describe("Icons", () => {
+      it.each<{
+        difficulty: QuestionCognitiveDifficulty;
+        expectedIcon: string;
+      }>([
+        {
+          difficulty: "easy",
+          expectedIcon: "i-lucide-brain",
+        },
+        {
+          difficulty: "medium",
+          expectedIcon: "i-lucide-brain-cog",
+        },
+        {
+          difficulty: "hard",
+          expectedIcon: "i-lucide-brain-circuit",
+        },
+      ])("should pass the $expectedIcon icon for $difficulty button when mounted.", ({
+        difficulty,
+        expectedIcon,
+      }) => {
+        const button = wrapper.getComponent<typeof UButton>(`[data-testid='question-difficulty-selector-${difficulty}']`);
+
+        expect(button.props("icon")).toBe(expectedIcon);
+      });
     });
 
     describe("Colors", () => {

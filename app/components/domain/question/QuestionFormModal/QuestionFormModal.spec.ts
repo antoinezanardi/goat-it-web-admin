@@ -50,9 +50,9 @@ describe("QuestionFormModal Component", () => {
 
   beforeEach(async() => {
     pinia = createTestingPinia();
+    wrapper = await mountQuestionFormModalComponent();
     questionThemesStore = mockStore(useQuestionThemesStore);
     questionThemesStore.questionThemes = [createFakeQuestionTheme(), createFakeQuestionTheme()];
-    wrapper = await mountQuestionFormModalComponent();
   });
 
   it("should render the question form modal component when mounted.", () => {
@@ -136,6 +136,12 @@ describe("QuestionFormModal Component", () => {
       await nextTick();
 
       expect(wrapper.emitted("update:open")).toStrictEqual([[false]]);
+    });
+
+    it("should pass the close prop as negated isSubmitting to the modal when mounted.", () => {
+      const modal = wrapper.findComponent({ name: "UModal" });
+
+      expect(modal.props("close")).toBe(true);
     });
   });
 

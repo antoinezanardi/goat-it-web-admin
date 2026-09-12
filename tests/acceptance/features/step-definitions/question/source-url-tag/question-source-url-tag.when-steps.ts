@@ -2,13 +2,12 @@ import { When } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
 
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
+import { resolveVisibleDialog } from "#acceptance/features/support/helpers/dialog.helpers.ts";
 
 When(
   /^the user clicks on the source URL tag with domain "(?<domain>[^"]*)" in the question form$/u,
   async function(this: GoatItWorld, domain: string): Promise<void> {
-    const dialog = this.page.getByRole("dialog");
-
-    await expect(dialog).toBeVisible();
+    const dialog = await resolveVisibleDialog(this.page);
 
     const sourceUrlsContainer = dialog.getByTestId("question-source-urls-input");
     const tagLink = sourceUrlsContainer.getByRole("link", { name: domain });
@@ -28,9 +27,7 @@ When(
 When(
   /^the user removes the source URL tag with domain "(?<domain>[^"]*)" from the question form$/u,
   async function(this: GoatItWorld, domain: string): Promise<void> {
-    const dialog = this.page.getByRole("dialog");
-
-    await expect(dialog).toBeVisible();
+    const dialog = await resolveVisibleDialog(this.page);
 
     const sourceUrlsContainer = dialog.getByTestId("question-source-urls-input");
     const tagLink = sourceUrlsContainer.getByRole("link", { name: domain });
