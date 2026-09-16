@@ -38,7 +38,7 @@
   },
   "readme": "README.md",
   "engines": {
-    "node": ">=26.8.2"
+    "node": ">=26.9.0"
   },
   "os": [
     "darwin",
