@@ -47,7 +47,7 @@ describe("TranslationsOverview Component", () => {
     });
 
     it("should render separator between header and content when component is rendered.", () => {
-      const separator = wrapper.findComponent({ name: "USeparator" });
+      const separator = wrapper.find("[data-testid='translations-overview-header-separator']");
 
       expect(separator.exists()).toBeTruthy();
     });
@@ -61,11 +61,11 @@ describe("TranslationsOverview Component", () => {
       expect(header.exists()).toBeFalsy();
     });
 
-    it("should not render separator when hideHeader is true.", async() => {
+    it("should not render the header separator when hideHeader is true.", async() => {
       wrapper = await mountTranslationsOverviewComponent({
         props: { ...defaultTranslationsOverviewProps, hideHeader: true },
       });
-      const separator = wrapper.findComponent({ name: "USeparator" });
+      const separator = wrapper.find("[data-testid='translations-overview-header-separator']");
 
       expect(separator.exists()).toBeFalsy();
     });
@@ -103,6 +103,34 @@ describe("TranslationsOverview Component", () => {
       const frRow = wrapper.find("[data-testid='locale-value-fr']");
 
       expect(frRow.text()).toContain("localization.locales.shortCode.fr");
+    });
+  });
+
+  describe("Locale Separators", () => {
+    const expectedLocales = LOCALES.filter(locale => locale !== DEFAULT_MOCKED_LOCALE);
+
+    it("should render a separator between each locale row when component is rendered.", () => {
+      const separators = wrapper.findAll("[data-testid^='locale-separator-']");
+
+      expect(separators).toHaveLength(expectedLocales.length - 1);
+    });
+
+    it.each<{ locale: string; index: number }>(expectedLocales.map((locale, index) => ({ locale, index })))(
+      "should render a separator before the $locale row only when it is not the first.",
+      ({ locale, index }) => {
+        const separator = wrapper.find(`[data-testid='locale-separator-${locale}']`);
+
+        expect(separator.exists()).toBe(index > 0);
+      },
+    );
+
+    it("should render locale separators when hideHeader is true.", async() => {
+      wrapper = await mountTranslationsOverviewComponent({
+        props: { ...defaultTranslationsOverviewProps, hideHeader: true },
+      });
+      const separators = wrapper.findAll("[data-testid^='locale-separator-']");
+
+      expect(separators).toHaveLength(expectedLocales.length - 1);
     });
   });
 
@@ -151,10 +179,23 @@ describe("TranslationsOverview Component", () => {
       });
     });
 
-    it("should display comma-separated values when the locale has array values.", () => {
+    it("should render an unordered list for a locale when it has array values.", () => {
       const frRow = wrapper.find("[data-testid='locale-value-fr']");
 
-      expect(frRow.text()).toContain("Bonjour, Monde");
+      expect(frRow.find("ul.list-disc").exists()).toBeTruthy();
+    });
+
+    it("should render a list item for each value of a locale when it has array values.", () => {
+      const frRow = wrapper.find("[data-testid='locale-value-fr']");
+      const listItemTexts = frRow.findAll("ul > li").map(item => item.text());
+
+      expect(listItemTexts).toStrictEqual(["Bonjour", "Monde"]);
+    });
+
+    it("should have text-default class on list items when the locale has values.", () => {
+      const listItems = wrapper.findAll("[data-testid='locale-value-fr'] ul > li.text-default");
+
+      expect(listItems).toHaveLength(2);
     });
 
     it.each<{ locale: string }>([
@@ -166,8 +207,16 @@ describe("TranslationsOverview Component", () => {
       expect(row.text()).toContain("localization.missingTranslation");
     });
 
+    it.each<{ locale: string }>([
+      { locale: "es" },
+      { locale: "it" },
+    ])("should not render an unordered list when the locale has an empty array or undefined value for $locale.", ({ locale }) => {
+      const row = wrapper.find(`[data-testid='locale-value-${locale}']`);
+
+      expect(row.find("ul").exists()).toBeFalsy();
+    });
+
     it.each<{ locale: string; cssClass: string }>([
-      { locale: "fr", cssClass: "text-default" },
       { locale: "es", cssClass: "text-error" },
       { locale: "es", cssClass: "italic" },
       { locale: "it", cssClass: "text-error" },

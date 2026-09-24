@@ -20,7 +20,7 @@ function getLocalizedDisplayValue(field: Partial<LocalizedText>, locale: Locale)
   return value;
 }
 
-function getLocalizedTextsDisplayValue(field: Partial<LocalizedTexts>, locale: Locale): string | undefined {
+function getLocalizedTextsDisplayValues(field: Partial<LocalizedTexts>, locale: Locale): string[] | undefined {
   const values = field[locale];
 
   if (!values) {
@@ -31,7 +31,7 @@ function getLocalizedTextsDisplayValue(field: Partial<LocalizedTexts>, locale: L
   if (trimmedValues.length === 0) {
     return undefined;
   }
-  return trimmedValues.join(", ");
+  return trimmedValues;
 }
 
-export { isLocalizedValueMissing, getLocalizedDisplayValue, getLocalizedTextsDisplayValue };
+export { isLocalizedValueMissing, getLocalizedDisplayValue, getLocalizedTextsDisplayValues };
