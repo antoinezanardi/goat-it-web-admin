@@ -82,7 +82,7 @@ const localeDisplayData = computed(() => otherLocales.value.map(locale => ({
         />
 
         <div
-          class="flex gap-2 items-start text-sm"
+          class="flex gap-3 items-center text-sm"
           :data-testid="`locale-value-${data.locale}`"
         >
           <LocaleLabel :locale="data.locale"/>
