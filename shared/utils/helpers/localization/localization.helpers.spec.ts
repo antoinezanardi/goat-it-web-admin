@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createFakeLocalizedText, createFakeLocalizedTexts } from "@goat-it/schemas/testing/shared";
 
-import { isLocalizedValueMissing, getLocalizedDisplayValue, getLocalizedTextsDisplayValue } from "#shared/utils/helpers/localization/localization.helpers";
+import { isLocalizedValueMissing, getLocalizedDisplayValue, getLocalizedTextsDisplayValues } from "#shared/utils/helpers/localization/localization.helpers";
 
 describe("Localization Helpers", () => {
   describe(isLocalizedValueMissing, () => {
@@ -43,17 +43,17 @@ describe("Localization Helpers", () => {
     });
   });
 
-  describe(getLocalizedTextsDisplayValue, () => {
-    it.each<{ description: string; field: ReturnType<typeof createFakeLocalizedTexts>; expected: string }>([
-      { description: "locale has values", field: createFakeLocalizedTexts({ en: ["physics", "chemistry", "biology"] }), expected: "physics, chemistry, biology" },
+  describe(getLocalizedTextsDisplayValues, () => {
+    it.each<{ description: string; field: ReturnType<typeof createFakeLocalizedTexts>; expected: string[] }>([
+      { description: "locale has values", field: createFakeLocalizedTexts({ en: ["physics", "chemistry", "biology"] }), expected: ["physics", "chemistry", "biology"] },
       {
         description: "locale has values with whitespace",
         field: createFakeLocalizedTexts({ en: ["  physics  ", " chemistry ", "biology"] }),
-        expected: "physics, chemistry, biology",
+        expected: ["physics", "chemistry", "biology"],
       },
-      { description: "locale has mixed values", field: createFakeLocalizedTexts({ en: ["physics", "  ", "biology"] }), expected: "physics, biology" },
+      { description: "locale has mixed values", field: createFakeLocalizedTexts({ en: ["physics", "  ", "biology"] }), expected: ["physics", "biology"] },
     ])("should return $expected when $description.", ({ field, expected }) => {
-      expect(getLocalizedTextsDisplayValue(field, "en")).toBe(expected);
+      expect(getLocalizedTextsDisplayValues(field, "en")).toStrictEqual(expected);
     });
 
     it.each<{ description: string; field: ReturnType<typeof createFakeLocalizedTexts> }>([
@@ -61,7 +61,7 @@ describe("Localization Helpers", () => {
       { description: "locale value is undefined", field: createFakeLocalizedTexts({ en: undefined }) },
       { description: "locale array contains only whitespace strings", field: createFakeLocalizedTexts({ en: ["  ", "\t", "\n"] }) },
     ])("should return undefined when $description.", ({ field }) => {
-      expect(getLocalizedTextsDisplayValue(field, "en")).toBeUndefined();
+      expect(getLocalizedTextsDisplayValues(field, "en")).toBeUndefined();
     });
   });
 });
