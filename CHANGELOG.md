@@ -1,5 +1,40 @@
 # 🐐👑 Goat It Web Admin Versioning Changelog
 
+## [1.10.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.9.0...v1.10.0) (2026-09-25)
+
+### 🚀 Features
+
+* **localization:** separate locale rows and list multi-value translations ([#628](https://github.com/antoinezanardi/goat-it-web-admin/issues/628)) ([34c9653](https://github.com/antoinezanardi/goat-it-web-admin/commit/34c9653c81cc869985cd1dc118cf0b853507d13e))
+
+### 🧹 Chore
+
+* sync release v1.9.0 from main ([b044af4](https://github.com/antoinezanardi/goat-it-web-admin/commit/b044af4c62dcd1c7a81eae61f91d4fcbaa0e7d0b))
+
+### 📦 Upgraded Dependencies
+
+| Package | Version |
+| --- | :---: |
+| `commitlint monorepo` | `^21.2.3` |
+| `@eslint/config-inspector` | `^3.5.0` |
+| `@iconify-json/lucide` | `^1.2.136` |
+| `@nuxt/ui` | `^4.11.2` |
+| `@nuxtjs/robots` | `^6.2.3` |
+| `@types/node` | `^25.9.8` |
+| `@vue/test-utils` | `^2.5.1` |
+| `eslint` | `^10.11.0` |
+| `eslint-plugin-oxlint` | `^1.85.0` |
+| `eslint-plugin-unicorn` | `v76` |
+| `oxlint-tsgolint` | `^7.0.2003` |
+| `radashi` | `^12.9.6` |
+| `type-fest` | `^5.10.0` |
+| `vite` | `^8.3.1` |
+| `zod` | `^4.6.5` |
+| `node.js` | `v26.9.0` |
+| `oxlint monorepo` | `^1.83.0` |
+| `pnpm` | `v12.6.0` |
+| `vitest monorepo` | `^5.0.1` |
+| `vueuse monorepo` | `v15` |
+
 ## [1.9.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.8.0...v1.9.0) (2026-09-12)
 
 ### 🚀 Features
