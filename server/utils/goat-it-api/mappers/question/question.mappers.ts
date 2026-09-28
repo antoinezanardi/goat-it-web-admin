@@ -13,6 +13,7 @@ function createQuestionFromAdminQuestionDto(dto: AdminQuestionDto): Question {
     themes: dto.themes.map(createQuestionThemeAssignmentFromAdminQuestionThemeAssignmentDto),
     content: createQuestionContentFromAdminQuestionContentDto(dto.content),
     cognitiveDifficulty: dto.cognitiveDifficulty,
+    isAdultContent: dto.isAdultContent,
     author: createQuestionAuthorFromAdminQuestionAuthorDto(dto.author),
     status: dto.status,
     rejection: dto.rejection ? createQuestionRejectionFromAdminQuestionRejectionDto(dto.rejection) : undefined,

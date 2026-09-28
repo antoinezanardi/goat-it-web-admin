@@ -38,6 +38,12 @@ describe(createQuestionCreationDtoShell, () => {
     expect(shell.applicableLocales).toBeUndefined();
   });
 
+  it("should return false when field is isAdultContent.", () => {
+    const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
+
+    expect(shell.isAdultContent).toBe(false);
+  });
+
   it.each<{ field: "themes" | "sourceUrls" }>([
     { field: "themes" },
     { field: "sourceUrls" },
