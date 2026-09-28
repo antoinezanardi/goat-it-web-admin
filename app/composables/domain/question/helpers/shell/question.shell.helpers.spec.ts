@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import type { QuestionCreationDtoShell, Question } from "#shared/types/question.types";
+import type { Question } from "#shared/types/question.types";
 import { QUESTION_DEFAULT_AUTHOR } from "@/composables/domain/question/constants/question-author.constants";
 import { createQuestionCreationDtoShell } from "@/composables/domain/question/helpers/shell/question.shell.helpers";
 
@@ -11,7 +11,7 @@ describe(createQuestionCreationDtoShell, () => {
     { field: "context" },
     { field: "trivia" },
   ])("should return a localized text shell when content field is $field.", ({ field }) => {
-    const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
+    const shell = createQuestionCreationDtoShell();
 
     expect(shell.content[field]).toStrictEqual({
       en: undefined,
@@ -27,19 +27,19 @@ describe(createQuestionCreationDtoShell, () => {
     { field: "cognitiveDifficulty" },
     { field: "category" },
   ])("should return undefined when field is $field.", ({ field }) => {
-    const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
+    const shell = createQuestionCreationDtoShell();
 
     expect(shell[field]).toBeUndefined();
   });
 
   it("should return undefined when field is applicableLocales.", () => {
-    const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
+    const shell = createQuestionCreationDtoShell();
 
     expect(shell.applicableLocales).toBeUndefined();
   });
 
   it("should return false when field is isAdultContent.", () => {
-    const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
+    const shell = createQuestionCreationDtoShell();
 
     expect(shell.isAdultContent).toBe(false);
   });
@@ -48,13 +48,13 @@ describe(createQuestionCreationDtoShell, () => {
     { field: "themes" },
     { field: "sourceUrls" },
   ])("should return an empty array when field is $field.", ({ field }) => {
-    const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
+    const shell = createQuestionCreationDtoShell();
 
     expect(shell[field]).toStrictEqual([]);
   });
 
   it("should return the default author from constants when shell is created.", () => {
-    const shell: QuestionCreationDtoShell = createQuestionCreationDtoShell();
+    const shell = createQuestionCreationDtoShell();
 
     expect(shell.author).toStrictEqual(QUESTION_DEFAULT_AUTHOR);
   });

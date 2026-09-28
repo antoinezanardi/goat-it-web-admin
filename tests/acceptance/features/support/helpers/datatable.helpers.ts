@@ -15,20 +15,24 @@ function zCoerceOptionalString(): ZodType<string | undefined> {
 
 /**
  * Creates a Zod schema that coerces the DataTable strings "true"/"false" to booleans,
- * treating empty or absent cells as `undefined`.
+ * treating empty or absent cells as `undefined`. Any other non-empty value is passed
+ * through untouched so the underlying boolean schema rejects it.
  * Only used in acceptance tests.
  *
  * @returns A Zod schema that transforms "true"/"false"/empty values to boolean | undefined.
  */
 function zCoerceOptionalBoolean(): ZodType<boolean | undefined> {
-  return z.optional(z.preprocess((value: unknown): boolean | undefined => {
+  return z.optional(z.preprocess((value: unknown): unknown => {
     if (value === "true") {
       return true;
     }
     if (value === "false") {
       return false;
     }
-    return undefined;
+    if (value === "" || value === undefined) {
+      return undefined;
+    }
+    return value;
   }, z.boolean().optional()));
 }
 

@@ -44,6 +44,12 @@ describe("QuestionAdultContentSwitch Component", () => {
       expect(formField.props("name")).toBe("isAdultContent");
     });
 
+    it("should pass the adult content label key to the form field when mounted.", () => {
+      const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-adult-content-switch-field']");
+
+      expect(formField.props("label")).toBe("questions.fields.isAdultContent");
+    });
+
     it("should not render the form field as required when mounted.", () => {
       const formField = wrapper.findComponent<typeof UFormField>("[data-testid='question-adult-content-switch-field']");
 
@@ -62,12 +68,6 @@ describe("QuestionAdultContentSwitch Component", () => {
       const switchComponent = wrapper.findComponent<typeof USwitch>("[data-testid='question-adult-content-switch']");
 
       expect(switchComponent.exists()).toBeTruthy();
-    });
-
-    it("should pass the adult content label key to the switch when mounted.", () => {
-      const switchComponent = wrapper.findComponent<typeof USwitch>({ name: "USwitch" });
-
-      expect(switchComponent.props("label")).toBe("questions.fields.isAdultContent");
     });
 
     it("should pass false as model value to the switch when modelValue is false.", () => {
