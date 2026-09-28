@@ -59,7 +59,8 @@
       "status": "Statut",
       "sourceUrls": "Sources",
       "translations": "Traductions",
-      "applicableLocales": "Locales applicables"
+      "applicableLocales": "Locales applicables",
+      "isAdultContent": "Contenu adulte"
     },
     "category": {
       "trivia": "Savoir & faits insolites",

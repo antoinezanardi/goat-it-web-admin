@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 
 import type { GoatItWorld } from "#acceptance/features/support/types/world.types.ts";
 import { resolveVisibleDialog } from "#acceptance/features/support/helpers/dialog.helpers.ts";
-import { getQuestionApplicableLocalesSelect } from "#acceptance/features/support/helpers/question.helpers.ts";
+import { getQuestionAdultContentSwitch, getQuestionApplicableLocalesSelect } from "#acceptance/features/support/helpers/question.helpers.ts";
 
 const ICON_SET_NAME_PREFIX_SEGMENT_COUNT = 2;
 
@@ -89,5 +89,25 @@ Then(
     const select = getQuestionApplicableLocalesSelect(dialog);
 
     await expect(select.locator("[aria-label^='Remove ']")).toHaveCount(0);
+  },
+);
+
+Then(
+  /^the question adult content switch should be on$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    const dialog = await resolveVisibleDialog(this.page);
+    const adultContentSwitch = getQuestionAdultContentSwitch(dialog);
+
+    await expect(adultContentSwitch).toBeChecked();
+  },
+);
+
+Then(
+  /^the question adult content switch should be off$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    const dialog = await resolveVisibleDialog(this.page);
+    const adultContentSwitch = getQuestionAdultContentSwitch(dialog);
+
+    await expect(adultContentSwitch).not.toBeChecked();
   },
 );

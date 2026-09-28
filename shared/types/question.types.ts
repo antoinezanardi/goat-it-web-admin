@@ -30,6 +30,7 @@ type Question = Omit<AdminQuestionDto, "createdAt" | "updatedAt" | "themes"> & {
 type QuestionCreationDtoShell = Shell<QuestionCreationDto> & {
   themes: QuestionThemeAssignmentCreationDto[];
   sourceUrls: string[];
+  isAdultContent: boolean;
 };
 
 export type {
