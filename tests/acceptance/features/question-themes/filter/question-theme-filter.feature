@@ -87,3 +87,63 @@ Feature: 🎨 Question Theme Filter
     Then the question theme table should not contain a row with the following attributes:
       | label  |
       | Cinema |
+
+  Scenario: 🎨 User can filter question themes by fully translated
+    And a fully translated question theme exists with the following attributes:
+      | label | slug  | description | aliases |
+      | Music | music | All music   | tunes   |
+    And a question theme exists with the following attributes:
+      | label  | slug   | description | aliases |
+      | Cinema | cinema | All cinema  | movies  |
+    When the user expands the question themes filters
+    And the user filters question themes by fully translated "Yes"
+    Then the element with testid "question-themes-table-fully-translated-filter" should contain text "Yes"
+    And the question theme table should contain a row with the following attributes:
+      | label |
+      | Music |
+    And the question theme table should not contain a row with the following attributes:
+      | label  |
+      | Cinema |
+
+  Scenario: 🎨 User can filter question themes that are not fully translated
+    And a fully translated question theme exists with the following attributes:
+      | label | slug  | description | aliases |
+      | Music | music | All music   | tunes   |
+    And a question theme exists with the following attributes:
+      | label  | slug   | description | aliases |
+      | Cinema | cinema | All cinema  | movies  |
+    When the user expands the question themes filters
+    And the user filters question themes by fully translated "No"
+    Then the element with testid "question-themes-table-fully-translated-filter" should contain text "No"
+    And the question theme table should contain a row with the following attributes:
+      | label  |
+      | Cinema |
+    And the question theme table should not contain a row with the following attributes:
+      | label |
+      | Music |
+
+  Scenario: 🎨 User can clear the question themes fully translated filter
+    And a fully translated question theme exists with the following attributes:
+      | label | slug  | description | aliases |
+      | Music | music | All music   | tunes   |
+    And multiple question themes exist with the following attributes:
+      | label           | slug            | description         | aliases | status   |
+      | Cinema          | cinema          | All cinema          | movies  | active   |
+      | Archived Cinema | archived-cinema | All archived cinema | archive | archived |
+    When the user expands the question themes filters
+    And the user filters question themes by status "Active"
+    And the user filters question themes by fully translated "Yes"
+    Then the question theme table should not contain a row with the following attributes:
+      | label  |
+      | Cinema |
+    When the user filters question themes by fully translated "Any"
+    Then the element with testid "question-themes-table-fully-translated-filter" should contain text "Any"
+    And the question theme table should contain a row with the following attributes:
+      | label  |
+      | Cinema |
+    And the question theme table should contain a row with the following attributes:
+      | label |
+      | Music |
+    And the question theme table should not contain a row with the following attributes:
+      | label           |
+      | Archived Cinema |

@@ -482,6 +482,92 @@ describe("QuestionsTable Component", () => {
       } as AdminFindQuestionsQueryDto);
     });
 
+    it("should call fetchAndStoreQuestions with is-fully-translated true when the header emits update:filter with isFullyTranslated true.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isFullyTranslated: true });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": undefined,
+        "category": undefined,
+        "cognitive-difficulty": undefined,
+        "theme-ids": [] as string[],
+        "is-fully-translated": true,
+        "is-adult-content": undefined,
+      } as AdminFindQuestionsQueryDto);
+    });
+
+    it("should call fetchAndStoreQuestions with is-fully-translated false when the header emits update:filter with isFullyTranslated false.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isFullyTranslated: false });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": undefined,
+        "category": undefined,
+        "cognitive-difficulty": undefined,
+        "theme-ids": [] as string[],
+        "is-fully-translated": false,
+        "is-adult-content": undefined,
+      } as AdminFindQuestionsQueryDto);
+    });
+
+    it("should call fetchAndStoreQuestions with is-adult-content true when the header emits update:filter with isAdultContent true.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isAdultContent: true });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": undefined,
+        "category": undefined,
+        "cognitive-difficulty": undefined,
+        "theme-ids": [] as string[],
+        "is-fully-translated": undefined,
+        "is-adult-content": true,
+      } as AdminFindQuestionsQueryDto);
+    });
+
+    it("should call fetchAndStoreQuestions with is-adult-content false when the header emits update:filter with isAdultContent false.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isAdultContent: false });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": undefined,
+        "category": undefined,
+        "cognitive-difficulty": undefined,
+        "theme-ids": [] as string[],
+        "is-fully-translated": undefined,
+        "is-adult-content": false,
+      } as AdminFindQuestionsQueryDto);
+    });
+
+    it("should count both boolean filters as active when they are set to false.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isFullyTranslated: false, isAdultContent: false });
+      await nextTick();
+
+      expect(header.props("activeFilterCount")).toBe(2);
+    });
+
+    it("should reset boolean filters when the header emits clearFilters.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isFullyTranslated: true, isAdultContent: true });
+      await nextTick();
+
+      getWrapperVm(header).$emit("clearFilters");
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenLastCalledWith({
+        "status": undefined,
+        "category": undefined,
+        "cognitive-difficulty": undefined,
+        "theme-ids": [] as string[],
+        "is-fully-translated": undefined,
+        "is-adult-content": undefined,
+      } as AdminFindQuestionsQueryDto);
+    });
+
     it("should pass themeIds in header filters to the table header when themes are selected.", async() => {
       const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
       getWrapperVm(header).$emit("update:filter", { themeIds: ["theme-1"] });

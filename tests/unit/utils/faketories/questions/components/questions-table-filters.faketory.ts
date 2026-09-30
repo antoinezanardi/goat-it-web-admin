@@ -9,6 +9,8 @@ function createFakeQuestionsTableFilters(filters: Partial<QuestionsTableFilters>
     category: faker.helpers.arrayElement(QUESTION_CATEGORIES),
     cognitiveDifficulty: faker.helpers.arrayElement(QUESTION_COGNITIVE_DIFFICULTIES),
     themeIds: [],
+    isFullyTranslated: undefined,
+    isAdultContent: undefined,
     ...filters,
   };
 }
