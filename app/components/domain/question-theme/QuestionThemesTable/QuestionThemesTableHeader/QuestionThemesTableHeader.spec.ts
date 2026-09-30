@@ -6,7 +6,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { getWrapperVm } from "~~/tests/unit/utils/helpers/vtu.helpers";
 
 import { QuestionThemesTableHeader } from "#components";
-import type { TableGlobalSearchInput, UButton, TableFiltersSection, QuestionThemesTableStatusFilter, TableRowCount } from "#components";
+import type { TableGlobalSearchInput, UButton, TableFiltersSection, QuestionThemesTableStatusFilter, QuestionThemesTableFullyTranslatedFilter, TableRowCount } from "#components";
 
 import type { QuestionThemesTableHeaderProps } from "~/components/domain/question-theme/QuestionThemesTable/QuestionThemesTableHeader/question-themes-table-header.types";
 
@@ -16,7 +16,7 @@ describe("QuestionThemesTableHeader Component", () => {
     filteredCount: 0,
     activeFilterCount: 0,
     isLoading: false,
-    filters: { status: undefined },
+    filters: { status: undefined, isFullyTranslated: undefined },
   };
   let wrapper: VueWrapper;
 
@@ -25,6 +25,11 @@ describe("QuestionThemesTableHeader Component", () => {
       props: defaultProps,
       ...options,
     });
+  }
+
+  async function expandFiltersSection(): Promise<void> {
+    const toggleButton = wrapper.find("[data-testid='table-filters-section-toggle']");
+    await toggleButton.trigger("click");
   }
 
   beforeEach(async() => {
@@ -110,11 +115,6 @@ describe("QuestionThemesTableHeader Component", () => {
   });
 
   describe("Status filter", () => {
-    async function expandFiltersSection(): Promise<void> {
-      const toggleButton = wrapper.find("[data-testid='table-filters-section-toggle']");
-      await toggleButton.trigger("click");
-    }
-
     it("should render the status filter with undefined modelValue when no status is selected.", async() => {
       await expandFiltersSection();
       const statusFilter = wrapper.findComponent<typeof QuestionThemesTableStatusFilter>({ name: "QuestionThemesTableStatusFilter" });
@@ -123,7 +123,7 @@ describe("QuestionThemesTableHeader Component", () => {
     });
 
     it("should pass the status filter value when a status is selected.", async() => {
-      wrapper = await mountQuestionThemesTableHeaderComponent({ props: { ...defaultProps, filters: { status: "active" } } });
+      wrapper = await mountQuestionThemesTableHeaderComponent({ props: { ...defaultProps, filters: { status: "active", isFullyTranslated: undefined } } });
       await expandFiltersSection();
       const statusFilter = wrapper.findComponent<typeof QuestionThemesTableStatusFilter>({ name: "QuestionThemesTableStatusFilter" });
 
@@ -136,6 +136,31 @@ describe("QuestionThemesTableHeader Component", () => {
       getWrapperVm(statusFilter).$emit("update:modelValue", "archived");
 
       expect(wrapper.emitted("update:filter")).toStrictEqual([[{ status: "archived" }]]);
+    });
+  });
+
+  describe("Fully translated filter", () => {
+    it("should render the fully translated filter with undefined modelValue when no value is selected.", async() => {
+      await expandFiltersSection();
+      const fullyTranslatedFilter = wrapper.findComponent<typeof QuestionThemesTableFullyTranslatedFilter>({ name: "QuestionThemesTableFullyTranslatedFilter" });
+
+      expect(fullyTranslatedFilter.props("modelValue")).toBeUndefined();
+    });
+
+    it("should pass the fully translated filter value when a value is selected.", async() => {
+      wrapper = await mountQuestionThemesTableHeaderComponent({ props: { ...defaultProps, filters: { status: undefined, isFullyTranslated: false } } });
+      await expandFiltersSection();
+      const fullyTranslatedFilter = wrapper.findComponent<typeof QuestionThemesTableFullyTranslatedFilter>({ name: "QuestionThemesTableFullyTranslatedFilter" });
+
+      expect(fullyTranslatedFilter.props("modelValue")).toBe(false);
+    });
+
+    it("should emit update:filter with isFullyTranslated when the fully translated filter emits update:modelValue.", async() => {
+      await expandFiltersSection();
+      const fullyTranslatedFilter = wrapper.findComponent<typeof QuestionThemesTableFullyTranslatedFilter>({ name: "QuestionThemesTableFullyTranslatedFilter" });
+      getWrapperVm(fullyTranslatedFilter).$emit("update:modelValue", true);
+
+      expect(wrapper.emitted("update:filter")).toStrictEqual([[{ isFullyTranslated: true }]]);
     });
   });
 

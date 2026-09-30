@@ -18,10 +18,11 @@ const { questionThemes, isFetchingQuestionThemes } = storeToRefs(questionThemesS
 const { filters, activeFilterCount, clearFilters, setFilterValue } = useTableFilters({
   definitions: {
     status: { default: undefined as QuestionThemesTableFilters["status"] },
+    isFullyTranslated: { default: undefined as QuestionThemesTableFilters["isFullyTranslated"] },
   },
 });
 
-const filterValues = computed(() => ({ status: filters.status.value }));
+const filterValues = computed(() => ({ status: filters.status.value, isFullyTranslated: filters.isFullyTranslated.value }));
 
 watch(filterValues, async(values): Promise<void> => {
   await questionThemesStore.fetchAndStoreQuestionThemes(toKebabCaseKeys(values) as AdminFindQuestionThemesQueryDto);
@@ -53,14 +54,20 @@ const { searchTerm, globalFilter, globalFilterFunction, hasActiveFilter, filtere
 
 const globalFilterOptions = computed<QuestionThemesTableGlobalFilterOptions>(() => ({ globalFilterFn: globalFilterFunction }));
 
-const headerFilters = computed<QuestionThemesTableFilters>(() => ({ status: filters.status.value }));
+const headerFilters = computed<QuestionThemesTableFilters>(() => ({ status: filters.status.value, isFullyTranslated: filters.isFullyTranslated.value }));
 
 function onStartCreateFromQuestionThemesTableHeader(): void {
   emit("startCreate");
 }
 
 function onUpdateFilterFromQuestionThemesTableHeader(updatedFilters: Partial<QuestionThemesTableFilters>): void {
-  setFilterValue("status", updatedFilters.status);
+  const filterKeys: (keyof QuestionThemesTableFilters)[] = ["status", "isFullyTranslated"];
+
+  for (const key of filterKeys) {
+    if (key in updatedFilters) {
+      setFilterValue(key, updatedFilters[key]);
+    }
+  }
 }
 
 function onStartEditFromQuestionThemesTableActions(id: string): void {

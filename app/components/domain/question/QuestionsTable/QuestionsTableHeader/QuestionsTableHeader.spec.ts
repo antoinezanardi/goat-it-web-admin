@@ -7,7 +7,7 @@ import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.type
 import { createFakeQuestionsTableFilters } from "~~/tests/unit/utils/faketories/questions/components/questions-table-filters.faketory";
 
 import { QuestionsTableHeader } from "#components";
-import type { TableGlobalSearchInput, TableFiltersSection, QuestionsTableStatusFilter, QuestionsTableCategoryFilter, QuestionsTableCognitiveDifficultyFilter, QuestionsTableThemeFilter, TableRowCount, UButton } from "#components";
+import type { TableGlobalSearchInput, TableFiltersSection, QuestionsTableStatusFilter, QuestionsTableCategoryFilter, QuestionsTableCognitiveDifficultyFilter, QuestionsTableThemeFilter, QuestionsTableFullyTranslatedFilter, QuestionsTableAdultContentFilter, TableRowCount, UButton } from "#components";
 
 import type { QuestionsTableHeaderProps } from "~/components/domain/question/QuestionsTable/QuestionsTableHeader/questions-table-header.types";
 
@@ -219,6 +219,56 @@ describe("QuestionsTableHeader Component", () => {
       getWrapperVm(themeFilter).$emit("update:modelValue", ["theme-1", "theme-2"]);
 
       expect(wrapper.emitted("update:filter")).toStrictEqual([[{ themeIds: ["theme-1", "theme-2"] }]]);
+    });
+  });
+
+  describe("Fully translated filter", () => {
+    it("should render the fully translated filter with undefined modelValue when no value is selected.", async() => {
+      await expandFiltersSection();
+      const fullyTranslatedFilter = wrapper.findComponent<typeof QuestionsTableFullyTranslatedFilter>({ name: "QuestionsTableFullyTranslatedFilter" });
+
+      expect(fullyTranslatedFilter.props("modelValue")).toBeUndefined();
+    });
+
+    it("should pass the fully translated filter value when a value is selected.", async() => {
+      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultQuestionsTableHeaderProps, filters: createFakeQuestionsTableFilters({ isFullyTranslated: true }) } });
+      await expandFiltersSection();
+      const fullyTranslatedFilter = wrapper.findComponent<typeof QuestionsTableFullyTranslatedFilter>({ name: "QuestionsTableFullyTranslatedFilter" });
+
+      expect(fullyTranslatedFilter.props("modelValue")).toBe(true);
+    });
+
+    it("should emit update:filter with isFullyTranslated when the fully translated filter emits update:modelValue.", async() => {
+      await expandFiltersSection();
+      const fullyTranslatedFilter = wrapper.findComponent<typeof QuestionsTableFullyTranslatedFilter>({ name: "QuestionsTableFullyTranslatedFilter" });
+      getWrapperVm(fullyTranslatedFilter).$emit("update:modelValue", false);
+
+      expect(wrapper.emitted("update:filter")).toStrictEqual([[{ isFullyTranslated: false }]]);
+    });
+  });
+
+  describe("Adult content filter", () => {
+    it("should render the adult content filter with undefined modelValue when no value is selected.", async() => {
+      await expandFiltersSection();
+      const adultContentFilter = wrapper.findComponent<typeof QuestionsTableAdultContentFilter>({ name: "QuestionsTableAdultContentFilter" });
+
+      expect(adultContentFilter.props("modelValue")).toBeUndefined();
+    });
+
+    it("should pass the adult content filter value when a value is selected.", async() => {
+      wrapper = await mountQuestionsTableHeaderComponent({ props: { ...defaultQuestionsTableHeaderProps, filters: createFakeQuestionsTableFilters({ isAdultContent: false }) } });
+      await expandFiltersSection();
+      const adultContentFilter = wrapper.findComponent<typeof QuestionsTableAdultContentFilter>({ name: "QuestionsTableAdultContentFilter" });
+
+      expect(adultContentFilter.props("modelValue")).toBe(false);
+    });
+
+    it("should emit update:filter with isAdultContent when the adult content filter emits update:modelValue.", async() => {
+      await expandFiltersSection();
+      const adultContentFilter = wrapper.findComponent<typeof QuestionsTableAdultContentFilter>({ name: "QuestionsTableAdultContentFilter" });
+      getWrapperVm(adultContentFilter).$emit("update:modelValue", true);
+
+      expect(wrapper.emitted("update:filter")).toStrictEqual([[{ isAdultContent: true }]]);
     });
   });
 

@@ -26,6 +26,8 @@ const { filters, activeFilterCount, clearFilters, setFilterValue, hasActiveFilte
     category: { default: undefined as QuestionCategory | undefined },
     cognitiveDifficulty: { default: undefined as QuestionCognitiveDifficulty | undefined },
     themeIds: { default: [] as string[] },
+    isFullyTranslated: { default: undefined as boolean | undefined },
+    isAdultContent: { default: undefined as boolean | undefined },
   },
 });
 const filterValues = computed(() => ({
@@ -33,6 +35,8 @@ const filterValues = computed(() => ({
   category: filters.category.value,
   cognitiveDifficulty: filters.cognitiveDifficulty.value,
   themeIds: filters.themeIds.value,
+  isFullyTranslated: filters.isFullyTranslated.value,
+  isAdultContent: filters.isAdultContent.value,
 }));
 
 watch(filterValues, async(values): Promise<void> => {
@@ -70,6 +74,8 @@ const headerFilters = computed<QuestionsTableFilters>(() => ({
   category: filters.category.value,
   cognitiveDifficulty: filters.cognitiveDifficulty.value,
   themeIds: filters.themeIds.value,
+  isFullyTranslated: filters.isFullyTranslated.value,
+  isAdultContent: filters.isAdultContent.value,
 }));
 
 function getStatementText(statement: Record<string, string | undefined>): string {
@@ -87,7 +93,7 @@ function onStartCreateFromQuestionsTableHeader(): void {
 }
 
 function onUpdateFilterFromQuestionsTableHeader(updatedFilters: Partial<QuestionsTableFilters>): void {
-  const filterKeys: (keyof QuestionsTableFilters)[] = ["status", "category", "cognitiveDifficulty", "themeIds"];
+  const filterKeys: (keyof QuestionsTableFilters)[] = ["status", "category", "cognitiveDifficulty", "themeIds", "isFullyTranslated", "isAdultContent"];
 
   for (const key of filterKeys) {
     if (key in updatedFilters) {
