@@ -50,28 +50,34 @@ describe("BooleanFilterSelect Component", () => {
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
 
       expect(select.props("items")).toStrictEqual([
-        { label: "common.table.filters.any", value: "any" },
+        { label: "common.table.filters.any", value: undefined },
         { label: "common.table.filters.yes", value: "yes" },
         { label: "common.table.filters.no", value: "no" },
       ] satisfies BooleanFilterSelectOption[]);
     });
+
+    it("should pass the any label as placeholder to the select when mounted so it is displayed as a placeholder.", () => {
+      const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
+
+      expect(select.props("placeholder")).toBe("common.table.filters.any");
+    });
   });
 
   describe("Model value mapping", () => {
-    it("should pass the any token as model value to the select when no value is selected.", () => {
+    it("should pass undefined as model value to the select when no value is selected so the any placeholder is displayed.", () => {
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
 
-      expect(select.props("modelValue")).toBe("any");
+      expect(select.props("modelValue")).toBeUndefined();
     });
 
-    it("should pass the yes token as model value to the select when the value is true.", async() => {
+    it("should pass the yes value as model value to the select when the value is true.", async() => {
       wrapper = await mountBooleanFilterSelectComponent({ props: { ...defaultBooleanFilterSelectProps, modelValue: true } });
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
 
       expect(select.props("modelValue")).toBe("yes");
     });
 
-    it("should pass the no token as model value to the select when the value is false.", async() => {
+    it("should pass the no value as model value to the select when the value is false.", async() => {
       wrapper = await mountBooleanFilterSelectComponent({ props: { ...defaultBooleanFilterSelectProps, modelValue: false } });
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
 
@@ -80,7 +86,7 @@ describe("BooleanFilterSelect Component", () => {
   });
 
   describe("Emitting model updates", () => {
-    it("should emit update:modelValue with true when the select emits the yes token.", () => {
+    it("should emit update:modelValue with true when the select emits the yes value.", () => {
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
 
       getWrapperVm(select).$emit("update:modelValue", "yes");
@@ -88,7 +94,7 @@ describe("BooleanFilterSelect Component", () => {
       expect(wrapper.emitted("update:modelValue")).toStrictEqual([[true]]);
     });
 
-    it("should emit update:modelValue with false when the select emits the no token.", () => {
+    it("should emit update:modelValue with false when the select emits the no value.", () => {
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
 
       getWrapperVm(select).$emit("update:modelValue", "no");
@@ -96,10 +102,10 @@ describe("BooleanFilterSelect Component", () => {
       expect(wrapper.emitted("update:modelValue")).toStrictEqual([[false]]);
     });
 
-    it("should emit update:modelValue with undefined when the select emits the any token.", () => {
+    it("should emit update:modelValue with undefined when the select emits the any placeholder.", () => {
       const select = wrapper.findComponent<typeof USelect>({ name: "USelect" });
 
-      getWrapperVm(select).$emit("update:modelValue", "any");
+      getWrapperVm(select).$emit("update:modelValue", undefined);
 
       expect(wrapper.emitted("update:modelValue")).toStrictEqual([[undefined]]);
     });

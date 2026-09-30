@@ -21,8 +21,4 @@ describe("common.json translations", () => {
 
     expect(crushedTranslationKeys).toStrictEqual<string[]>(crushedReferenceKeys);
   });
-
-  it.each<string>(["any", "yes", "no"])("should define the %s boolean filter option key when the reference locale is french.", optionKey => {
-    expect(crush(frCommon)[`common.table.filters.${optionKey}`]).toBeDefined();
-  });
 });

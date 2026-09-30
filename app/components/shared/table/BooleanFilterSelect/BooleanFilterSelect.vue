@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import {
-  BOOLEAN_FILTER_SELECT_ANY_TOKEN,
-  BOOLEAN_FILTER_SELECT_NO_TOKEN,
-  BOOLEAN_FILTER_SELECT_YES_TOKEN,
+  BOOLEAN_FILTER_SELECT_NO_VALUE,
+  BOOLEAN_FILTER_SELECT_YES_VALUE,
 } from "~/components/shared/table/BooleanFilterSelect/boolean-filter-select.constants";
 import type {
   BooleanFilterSelectEmits,
@@ -17,23 +16,31 @@ const emit = defineEmits<BooleanFilterSelectEmits>();
 
 const { t } = useI18n();
 
+const anyLabel = computed<string>(() => t("common.table.filters.any"));
+
 const options = computed<BooleanFilterSelectOption[]>(() => [
-  { label: t("common.table.filters.any"), value: BOOLEAN_FILTER_SELECT_ANY_TOKEN },
-  { label: t("common.table.filters.yes"), value: BOOLEAN_FILTER_SELECT_YES_TOKEN },
-  { label: t("common.table.filters.no"), value: BOOLEAN_FILTER_SELECT_NO_TOKEN },
+  { label: anyLabel.value, value: undefined },
+  { label: t("common.table.filters.yes"), value: BOOLEAN_FILTER_SELECT_YES_VALUE },
+  { label: t("common.table.filters.no"), value: BOOLEAN_FILTER_SELECT_NO_VALUE },
 ]);
 
-const selectedToken = computed<BooleanFilterSelectValue>(() => {
+const selectedValue = computed<BooleanFilterSelectValue | undefined>((): BooleanFilterSelectValue | undefined => {
   if (props.modelValue === undefined) {
-    return BOOLEAN_FILTER_SELECT_ANY_TOKEN;
+    return undefined;
   }
-  return props.modelValue ? BOOLEAN_FILTER_SELECT_YES_TOKEN : BOOLEAN_FILTER_SELECT_NO_TOKEN;
+  return props.modelValue ? BOOLEAN_FILTER_SELECT_YES_VALUE : BOOLEAN_FILTER_SELECT_NO_VALUE;
 });
 
-function onUpdateModelValue(value: BooleanFilterSelectValue): void {
-  const isYesToken = value === BOOLEAN_FILTER_SELECT_YES_TOKEN;
+function onUpdateModelValue(value: BooleanFilterSelectValue | undefined): void {
+  if (value === undefined) {
+    // Acceptable as the any placeholder clears the filter, represented as undefined in the boolean model
+    // oxlint-disable-next-line unicorn/no-useless-undefined
+    emit("update:modelValue", undefined);
 
-  emit("update:modelValue", value === BOOLEAN_FILTER_SELECT_ANY_TOKEN ? undefined : isYesToken);
+    return;
+  }
+
+  emit("update:modelValue", value === BOOLEAN_FILTER_SELECT_YES_VALUE);
 }
 </script>
 
@@ -46,7 +53,8 @@ function onUpdateModelValue(value: BooleanFilterSelectValue): void {
 
     <USelect
       :items="options"
-      :model-value="selectedToken"
+      :model-value="selectedValue"
+      :placeholder="anyLabel"
       value-key="value"
       @update:model-value="onUpdateModelValue"
     />

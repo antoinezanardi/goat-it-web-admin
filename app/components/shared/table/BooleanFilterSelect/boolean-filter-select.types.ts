@@ -1,8 +1,8 @@
-type BooleanFilterSelectValue = "any" | "yes" | "no";
+type BooleanFilterSelectValue = "yes" | "no";
 
 type BooleanFilterSelectOption = {
   label: string;
-  value: BooleanFilterSelectValue;
+  value: BooleanFilterSelectValue | undefined;
 };
 
 type BooleanFilterSelectProps = {

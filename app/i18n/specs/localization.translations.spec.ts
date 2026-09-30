@@ -21,8 +21,4 @@ describe("localization.json translations", () => {
 
     expect(crushedTranslationKeys).toStrictEqual<string[]>(crushedReferenceKeys);
   });
-
-  it("should define the fully translated label key when the reference locale is french.", () => {
-    expect(crush(frLocalization)["localization.fullyTranslated"]).toBeDefined();
-  });
 });

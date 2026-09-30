@@ -7,7 +7,6 @@ import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 import type { vi } from "vitest";
-import type { AdminFindQuestionThemesQueryDto } from "@goat-it/schemas/question-theme";
 import { createFakeLocalizedText, createFakeLocalizedTexts } from "@goat-it/schemas/testing/shared";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
@@ -578,7 +577,7 @@ describe("QuestionThemesTable Component", () => {
       getWrapperVm(header).$emit("update:filter", { status: "active" });
       await nextTick();
 
-      expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenCalledWith({ "status": "active", "is-fully-translated": undefined });
+      expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenCalledExactlyOnceWith({ "status": "active", "is-fully-translated": undefined });
     });
 
     it("should not update filters when the header emits update:filter without status key.", async() => {
@@ -600,7 +599,7 @@ describe("QuestionThemesTable Component", () => {
       expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenLastCalledWith({
         "status": undefined,
         "is-fully-translated": undefined,
-      } as AdminFindQuestionThemesQueryDto);
+      });
     });
 
     it("should call fetchAndStoreQuestionThemes with is-fully-translated true when the header emits update:filter with isFullyTranslated true.", async() => {
@@ -611,7 +610,7 @@ describe("QuestionThemesTable Component", () => {
       expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenCalledExactlyOnceWith({
         "status": undefined,
         "is-fully-translated": true,
-      } as AdminFindQuestionThemesQueryDto);
+      });
     });
 
     it("should call fetchAndStoreQuestionThemes with is-fully-translated false when the header emits update:filter with isFullyTranslated false.", async() => {
@@ -622,7 +621,7 @@ describe("QuestionThemesTable Component", () => {
       expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenCalledExactlyOnceWith({
         "status": undefined,
         "is-fully-translated": false,
-      } as AdminFindQuestionThemesQueryDto);
+      });
     });
 
     it("should count the fully translated filter as active when it is set to false.", async() => {
@@ -644,7 +643,7 @@ describe("QuestionThemesTable Component", () => {
       expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenLastCalledWith({
         "status": undefined,
         "is-fully-translated": undefined,
-      } as AdminFindQuestionThemesQueryDto);
+      });
     });
   });
 
