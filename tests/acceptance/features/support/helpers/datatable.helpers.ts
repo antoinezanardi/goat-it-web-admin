@@ -14,6 +14,29 @@ function zCoerceOptionalString(): ZodType<string | undefined> {
 }
 
 /**
+ * Creates a Zod schema that coerces the DataTable strings "true"/"false" to booleans,
+ * treating empty or absent cells as `undefined`. Any other non-empty value is passed
+ * through untouched so the underlying boolean schema rejects it.
+ * Only used in acceptance tests.
+ *
+ * @returns A Zod schema that transforms "true"/"false"/empty values to boolean | undefined.
+ */
+function zCoerceOptionalBoolean(): ZodType<boolean | undefined> {
+  return z.optional(z.preprocess((value: unknown): unknown => {
+    if (value === "true") {
+      return true;
+    }
+    if (value === "false") {
+      return false;
+    }
+    if (value === "" || value === undefined) {
+      return undefined;
+    }
+    return value;
+  }, z.boolean().optional()));
+}
+
+/**
  * Validates a Cucumber DataTable against a Zod schema and returns all parsed rows.
  * Throws if the table has no data rows or if any row fails schema validation.
  * Only used in acceptance tests.
@@ -54,4 +77,4 @@ function validateDataTableAndGetFirstRow<T>(dataTable: DataTable, schema: ZodTyp
   return firstRow as T;
 }
 
-export { validateDataTableAndGetFirstRow, validateDataTableAndGetRows, zCoerceOptionalString };
+export { validateDataTableAndGetFirstRow, validateDataTableAndGetRows, zCoerceOptionalBoolean, zCoerceOptionalString };

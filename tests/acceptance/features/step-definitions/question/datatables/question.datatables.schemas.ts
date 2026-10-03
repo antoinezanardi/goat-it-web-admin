@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { zCoerceOptionalString } from "#acceptance/features/support/helpers/datatable.helpers.ts";
+import { zCoerceOptionalBoolean, zCoerceOptionalString } from "#acceptance/features/support/helpers/datatable.helpers.ts";
 
 const QUESTION_FORM_ROW_SCHEMA = z.strictObject({
   statement: zCoerceOptionalString(),
@@ -12,6 +12,7 @@ const QUESTION_FORM_ROW_SCHEMA = z.strictObject({
   themes: zCoerceOptionalString(),
   sourceUrls: zCoerceOptionalString(),
   applicableLocales: zCoerceOptionalString(),
+  isAdultContent: zCoerceOptionalBoolean(),
   status: zCoerceOptionalString(),
 });
 

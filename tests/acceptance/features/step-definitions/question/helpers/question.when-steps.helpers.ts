@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 import type { Locator } from "@playwright/test";
 
-import { getQuestionApplicableLocalesSelect } from "#acceptance/features/support/helpers/question.helpers.ts";
+import { getQuestionAdultContentSwitch, getQuestionApplicableLocalesSelect } from "#acceptance/features/support/helpers/question.helpers.ts";
 import type { QuestionFormRow } from "#acceptance/features/step-definitions/question/datatables/question.datatables.schemas.ts";
 
 async function fillCategory(dialog: Locator, category: string): Promise<void> {
@@ -107,7 +107,19 @@ async function fillApplicableLocales(dialog: Locator, locales: string): Promise<
   await expect(listbox).toBeHidden();
 }
 
-async function fillQuestionForm(dialog: Locator, row: QuestionFormRow): Promise<void> {
+async function fillAdultContent(dialog: Locator, isAdultContent: boolean): Promise<void> {
+  const adultContentSwitch = getQuestionAdultContentSwitch(dialog);
+
+  await expect(adultContentSwitch).toBeVisible();
+
+  const isChecked = await adultContentSwitch.isChecked();
+
+  if (isChecked !== isAdultContent) {
+    await adultContentSwitch.click();
+  }
+}
+
+async function fillTextFields(dialog: Locator, row: QuestionFormRow): Promise<void> {
   if (row.statement !== undefined) {
     await dialog.getByRole("textbox", { name: "Statement*" }).fill(row.statement);
   }
@@ -117,6 +129,10 @@ async function fillQuestionForm(dialog: Locator, row: QuestionFormRow): Promise<
   if (row.context !== undefined) {
     await dialog.getByRole("textbox", { name: "Context" }).fill(row.context);
   }
+}
+
+async function fillQuestionForm(dialog: Locator, row: QuestionFormRow): Promise<void> {
+  await fillTextFields(dialog, row);
   if (row.trivia !== undefined) {
     await fillTrivia(dialog, row.trivia);
   }
@@ -134,6 +150,9 @@ async function fillQuestionForm(dialog: Locator, row: QuestionFormRow): Promise<
   }
   if (row.applicableLocales !== undefined) {
     await fillApplicableLocales(dialog, row.applicableLocales);
+  }
+  if (row.isAdultContent !== undefined) {
+    await fillAdultContent(dialog, row.isAdultContent);
   }
 }
 

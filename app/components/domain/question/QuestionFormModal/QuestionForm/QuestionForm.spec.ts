@@ -16,7 +16,7 @@ import { mockStore } from "~~/tests/unit/utils/mocks/stores/store.mock";
 import type { MountSuspendedOptions } from "~~/tests/unit/utils/types/mount.types";
 import type { ComponentVm } from "~~/tests/unit/utils/types/vtu.types";
 
-import type { UForm, UFormField, UInput, UTextarea, UIcon, QuestionApplicableLocalesSelector, QuestionCategorySelector, QuestionCognitiveDifficultySelector, QuestionSourceUrlsInput, QuestionThemeSelector, QuestionTriviaInput, TranslationFieldContext } from "#components";
+import type { UForm, UFormField, UInput, UTextarea, UIcon, QuestionAdultContentSwitch, QuestionApplicableLocalesSelector, QuestionCategorySelector, QuestionCognitiveDifficultySelector, QuestionSourceUrlsInput, QuestionThemeSelector, QuestionTriviaInput, TranslationFieldContext } from "#components";
 import { QuestionForm } from "#components";
 
 import type { QuestionFormProps } from "~/components/domain/question/QuestionFormModal/QuestionForm/question-form.types";
@@ -245,6 +245,35 @@ describe("QuestionForm Component", () => {
       await nextTick();
 
       expect(getWrapperVm<QuestionFormVm>(wrapper).canSubmit).toBeTruthy();
+    });
+  });
+
+  describe("Adult Content Field", () => {
+    it("should render the adult content switch in the classification section when mounted.", () => {
+      const switchComponent = wrapper.findComponent<typeof QuestionAdultContentSwitch>("[data-testid='question-adult-content-switch-field']");
+
+      expect(switchComponent.exists()).toBe(true);
+    });
+
+    it("should pass false as initial adult content when mounted in create mode.", () => {
+      const switchComponent = wrapper.findComponent<typeof QuestionAdultContentSwitch>("[data-testid='question-adult-content-switch-field']");
+
+      expect(switchComponent.props("modelValue")).toBe(false);
+    });
+
+    it.each<{ isAdultContent: boolean }>([
+      { isAdultContent: true },
+      { isAdultContent: false },
+    ])("should update formState.isAdultContent to $isAdultContent when the switch emits a new value.", async({ isAdultContent }) => {
+      const switchComponent = wrapper.findComponent<typeof QuestionAdultContentSwitch>("[data-testid='question-adult-content-switch-field']");
+
+      getWrapperVm(switchComponent).$emit("update:modelValue", isAdultContent);
+      await nextTick();
+
+      const uForm = wrapper.findComponent<typeof UForm>({ name: "UForm" });
+      const state = uForm.props("state") as Record<string, unknown>;
+
+      expect(state.isAdultContent).toBe(isAdultContent);
     });
   });
 
@@ -682,6 +711,44 @@ describe("QuestionForm Component", () => {
       await nextTick();
 
       expect(getWrapperVm<QuestionFormVm>(wrapper).isDirty).toBeTruthy();
+    });
+
+    it.each<{ isAdultContent: boolean }>([
+      { isAdultContent: true },
+      { isAdultContent: false },
+    ])("should hydrate isAdultContent as $isAdultContent from the question prop when rendered in edit mode.", async({ isAdultContent }) => {
+      wrapper = await mountQuestionFormComponent({
+        props: { ...defaultQuestionFormProps, mode: "edit", question: createFakeQuestion({ ...fakeQuestion, isAdultContent }) },
+      });
+      const switchComponent = wrapper.findComponent<typeof QuestionAdultContentSwitch>("[data-testid='question-adult-content-switch-field']");
+
+      expect(switchComponent.props("modelValue")).toBe(isAdultContent);
+    });
+
+    it("should expose isDirty as true when changing adult content in edit mode.", async() => {
+      wrapper = await mountQuestionFormComponent({
+        props: { ...defaultQuestionFormProps, mode: "edit", question: createFakeQuestion({ ...fakeQuestion, isAdultContent: false }) },
+      });
+      const switchComponent = wrapper.findComponent<typeof QuestionAdultContentSwitch>("[data-testid='question-adult-content-switch-field']");
+
+      getWrapperVm(switchComponent).$emit("update:modelValue", true);
+      await nextTick();
+
+      expect(getWrapperVm<QuestionFormVm>(wrapper).isDirty).toBeTruthy();
+    });
+
+    it("should expose isDirty as false when changing and then reverting adult content in edit mode.", async() => {
+      wrapper = await mountQuestionFormComponent({
+        props: { ...defaultQuestionFormProps, mode: "edit", question: createFakeQuestion({ ...fakeQuestion, isAdultContent: false }) },
+      });
+      const switchComponent = wrapper.findComponent<typeof QuestionAdultContentSwitch>("[data-testid='question-adult-content-switch-field']");
+
+      getWrapperVm(switchComponent).$emit("update:modelValue", true);
+      await nextTick();
+      getWrapperVm(switchComponent).$emit("update:modelValue", false);
+      await nextTick();
+
+      expect(getWrapperVm<QuestionFormVm>(wrapper).isDirty).toBeFalsy();
     });
 
     it("should pass mode as edit to QuestionThemeSelector when rendered in edit mode.", () => {
