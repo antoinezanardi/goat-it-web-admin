@@ -137,7 +137,7 @@
     "is-ci": "^4.1.0",
     "lint-staged": "^17.6.0",
     "nuxt": "^4.5.2",
-    "oxlint": "^1.86.0",
+    "oxlint": "^1.87.0",
     "oxlint-tsgolint": "^7.0.2003",
     "pinia": "^4.0.3",
     "playwright": "^1.63.0",
