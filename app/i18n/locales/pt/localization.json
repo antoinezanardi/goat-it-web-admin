@@ -7,6 +7,7 @@
     "localeIncomplete": "Não totalmente traduzido neste idioma",
     "appliesTo": "Aplica-se a: {locales}",
     "notApplicable": "Não aplicável",
+    "fullyTranslated": "Totalmente traduzido",
     "seeTranslationsFor": "Ver traduções para {label}",
     "locales": {
       "shortCode": {

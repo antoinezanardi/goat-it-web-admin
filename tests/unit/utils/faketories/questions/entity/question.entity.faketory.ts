@@ -14,6 +14,7 @@ function createFakeQuestion(question: Partial<Question> = {}): Question {
     themes: [createFakeQuestionThemeAssignment({ isPrimary: true })],
     content: createFakeQuestionContent(),
     cognitiveDifficulty: faker.helpers.arrayElement(QUESTION_COGNITIVE_DIFFICULTIES),
+    isAdultContent: faker.datatype.boolean(),
     author: createFakeQuestionAuthor(),
     status: faker.helpers.arrayElement(QUESTION_STATUSES),
     sourceUrls: [faker.internet.url()],

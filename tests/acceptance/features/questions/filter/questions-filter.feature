@@ -323,3 +323,141 @@ Feature: ❓ Questions Filter
     And the questions table should not contain a row with the following attributes:
       | statement    |
       | Second topic |
+
+  Scenario: ❓ User can filter questions by fully translated
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label | slug  | description | aliases |
+      | Music | music | All music   | tunes   |
+    And the user is on questions page
+    And multiple questions exist with the following attributes:
+      | statement              | answer | category              | difficulty | themes | sourceUrls        | applicableLocales |
+      | Fully translated topic | One    | Knowledge & fun facts | easy       | Music  | https://test1.com | EN                |
+      | Incomplete translation | Two    | Knowledge & fun facts | easy       | Music  | https://test2.com | EN,FR             |
+    When the user expands the questions filters
+    And the user filters questions by fully translated "Yes"
+    Then the element with testid "questions-table-fully-translated-filter" should contain text "Yes"
+    And the questions table should contain a row with the following attributes:
+      | statement              |
+      | Fully translated topic |
+    And the questions table should not contain a row with the following attributes:
+      | statement              |
+      | Incomplete translation |
+
+  Scenario: ❓ User can filter questions that are not fully translated
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label | slug  | description | aliases |
+      | Music | music | All music   | tunes   |
+    And the user is on questions page
+    And multiple questions exist with the following attributes:
+      | statement              | answer | category              | difficulty | themes | sourceUrls        | applicableLocales |
+      | Fully translated topic | One    | Knowledge & fun facts | easy       | Music  | https://test1.com | EN                |
+      | Incomplete translation | Two    | Knowledge & fun facts | easy       | Music  | https://test2.com | EN,FR             |
+    When the user expands the questions filters
+    And the user filters questions by fully translated "No"
+    Then the element with testid "questions-table-fully-translated-filter" should contain text "No"
+    And the questions table should contain a row with the following attributes:
+      | statement              |
+      | Incomplete translation |
+    And the questions table should not contain a row with the following attributes:
+      | statement              |
+      | Fully translated topic |
+
+  Scenario: ❓ User can clear the questions fully translated filter
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label | slug  | description | aliases |
+      | Music | music | All music   | tunes   |
+    And the user is on questions page
+    And multiple questions exist with the following attributes:
+      | statement              | answer | category              | difficulty | themes | sourceUrls        | applicableLocales | status   |
+      | Fully translated topic | One    | Knowledge & fun facts | easy       | Music  | https://test1.com | EN                | active   |
+      | Incomplete translation | Two    | Knowledge & fun facts | easy       | Music  | https://test2.com | EN,FR             | active   |
+      | Archived topic         | Three  | Knowledge & fun facts | easy       | Music  | https://test3.com | EN                | archived |
+    When the user expands the questions filters
+    And the user filters questions by status "Active"
+    And the user filters questions by fully translated "Yes"
+    Then the questions table should not contain a row with the following attributes:
+      | statement              |
+      | Incomplete translation |
+    When the user filters questions by fully translated "Any"
+    Then the element with testid "questions-table-fully-translated-filter" should contain text "Any"
+    And the questions table should contain a row with the following attributes:
+      | statement              |
+      | Fully translated topic |
+    And the questions table should contain a row with the following attributes:
+      | statement              |
+      | Incomplete translation |
+    And the questions table should not contain a row with the following attributes:
+      | statement      |
+      | Archived topic |
+
+  Scenario: ❓ User can filter questions by adult content
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label | slug  | description | aliases |
+      | Music | music | All music   | tunes   |
+    And the user is on questions page
+    And multiple questions exist with the following attributes:
+      | statement   | answer | category              | difficulty | themes | sourceUrls        | isAdultContent |
+      | Adult topic | One    | Knowledge & fun facts | easy       | Music  | https://test1.com | true           |
+      | Safe topic  | Two    | Knowledge & fun facts | easy       | Music  | https://test2.com | false          |
+    When the user expands the questions filters
+    And the user filters questions by adult content "Yes"
+    Then the element with testid "questions-table-adult-content-filter" should contain text "Yes"
+    And the questions table should contain a row with the following attributes:
+      | statement   |
+      | Adult topic |
+    And the questions table should not contain a row with the following attributes:
+      | statement  |
+      | Safe topic |
+
+  Scenario: ❓ User can filter questions without adult content
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label | slug  | description | aliases |
+      | Music | music | All music   | tunes   |
+    And the user is on questions page
+    And multiple questions exist with the following attributes:
+      | statement   | answer | category              | difficulty | themes | sourceUrls        | isAdultContent |
+      | Adult topic | One    | Knowledge & fun facts | easy       | Music  | https://test1.com | true           |
+      | Safe topic  | Two    | Knowledge & fun facts | easy       | Music  | https://test2.com | false          |
+    When the user expands the questions filters
+    And the user filters questions by adult content "No"
+    Then the element with testid "questions-table-adult-content-filter" should contain text "No"
+    And the questions table should contain a row with the following attributes:
+      | statement  |
+      | Safe topic |
+    And the questions table should not contain a row with the following attributes:
+      | statement   |
+      | Adult topic |
+
+  Scenario: ❓ User can clear the questions adult content filter
+    Given the user is on question-themes page
+    And a question theme exists with the following attributes:
+      | label | slug  | description | aliases |
+      | Music | music | All music   | tunes   |
+    And the user is on questions page
+    And multiple questions exist with the following attributes:
+      | statement            | answer | category              | difficulty | themes | sourceUrls        | isAdultContent | status   |
+      | Adult topic          | One    | Knowledge & fun facts | easy       | Music  | https://test1.com | true           | active   |
+      | Safe topic           | Two    | Knowledge & fun facts | easy       | Music  | https://test2.com | false          | active   |
+      | Archived adult topic | Three  | Knowledge & fun facts | easy       | Music  | https://test3.com | true           | archived |
+    When the user expands the questions filters
+    And the user filters questions by status "Active"
+    And the user filters questions by adult content "Yes"
+    Then the questions table should not contain a row with the following attributes:
+      | statement  |
+      | Safe topic |
+    When the user filters questions by adult content "Any"
+    Then the element with testid "questions-table-adult-content-filter" should contain text "Any"
+    And the questions table should contain a row with the following attributes:
+      | statement   |
+      | Adult topic |
+    And the questions table should contain a row with the following attributes:
+      | statement  |
+      | Safe topic |
+    And the questions table should not contain a row with the following attributes:
+      | statement            |
+      | Archived adult topic |
