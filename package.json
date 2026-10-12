@@ -107,7 +107,7 @@
     "@iconify-json/lucide": "^1.2.140",
     "@number-flow/vue": "^0.5.2",
     "@nuxt/eslint": "^1.17.0",
-    "@nuxt/hints": "^1.1.4",
+    "@nuxt/hints": "^1.1.5",
     "@nuxt/test-utils": "^4.3.3",
     "@nuxt/ui": "^4.11.3",
     "@nuxtjs/i18n": "^10.5.0",
