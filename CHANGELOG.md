@@ -1,5 +1,48 @@
 # 🐐👑 Goat It Web Admin Versioning Changelog
 
+## [1.11.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.10.0...v1.11.0) (2026-10-16)
+
+### 🚀 Features
+
+* **question-form:** add adult content switch ([#636](https://github.com/antoinezanardi/goat-it-web-admin/issues/636)) ([11f2a55](https://github.com/antoinezanardi/goat-it-web-admin/commit/11f2a556b55302eea306d75367b73cd8af7f2453))
+* **question-table:** add tri-state boolean filters ([#641](https://github.com/antoinezanardi/goat-it-web-admin/issues/641)) ([3268245](https://github.com/antoinezanardi/goat-it-web-admin/commit/32682458a861351e1da45d831a6525951c69c626))
+
+### 🧹 Chore
+
+* sync release v1.10.0 from main ([ab4ac27](https://github.com/antoinezanardi/goat-it-web-admin/commit/ab4ac27304753525b144062cf69cd5d1ee4f8800))
+
+### 📦 Upgraded Dependencies
+
+| Package | Version |
+| --- | :---: |
+| `@iconify-json/circle-flags` | `^1.2.12` |
+| `@iconify-json/lucide` | `^1.2.144` |
+| `@nuxt/hints` | `^1.1.5` |
+| `@nuxt/test-utils` | `^4.3.3` |
+| `@nuxt/ui` | `^4.11.3` |
+| `@nuxtjs/robots` | `v7` |
+| `@pinia/nuxt` | `^1.0.3` |
+| `@types/node` | `^25.9.9` |
+| `conventional-changelog-writer` | `^9.3.0` |
+| `eslint` | `^10.12.0` |
+| `eslint-plugin-oxlint` | `^1.87.0` |
+| `eslint-plugin-unicorn` | `v78` |
+| `happy-dom` | `v21` |
+| `lint-staged` | `^17.6.0` |
+| `nuxt` | `^4.6.1` |
+| `oxlint` | `^1.87.0` |
+| `oxlint-tsgolint` | `^7.0.2004` |
+| `vite` | `^8.3.4` |
+| `zod` | `^4.6.7` |
+| `mongo docker tag` | `v9.0.4` |
+| `node.js` | `v26.12.0` |
+| `oxlint monorepo` | `^1.86.0` |
+| `playwright monorepo` | `^1.64.0` |
+| `pnpm` | `v12.9.1` |
+| `sonarsource/sonarqube-scan-action action` | `v8.3` |
+| `vitest monorepo` | `^5.0.3` |
+| `vue-language-tools monorepo` | `^3.3.13` |
+
 ## [1.10.0](https://github.com/antoinezanardi/goat-it-web-admin/compare/v1.9.0...v1.10.0) (2026-09-25)
 
 ### 🚀 Features
