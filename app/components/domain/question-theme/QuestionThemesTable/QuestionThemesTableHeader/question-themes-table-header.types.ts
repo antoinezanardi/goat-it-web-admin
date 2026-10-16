@@ -2,6 +2,7 @@ import type { QuestionThemeStatus } from "@goat-it/schemas/question-theme";
 
 type QuestionThemesTableFilters = {
   status: QuestionThemeStatus | undefined;
+  isFullyTranslated: boolean | undefined;
 };
 
 type QuestionThemesTableHeaderProps = {

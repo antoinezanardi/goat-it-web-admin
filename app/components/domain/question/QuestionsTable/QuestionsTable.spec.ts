@@ -7,7 +7,6 @@ import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 import type { vi } from "vitest";
-import type { AdminFindQuestionsQueryDto } from "@goat-it/schemas/question";
 import { createFakeLocalizedText } from "@goat-it/schemas/testing/shared";
 
 import { createFakeQuestionContent } from "~~/tests/unit/utils/faketories/questions/entity/question-content/question-content.entity.faketory";
@@ -397,8 +396,8 @@ describe("QuestionsTable Component", () => {
         "status": "active",
         "category": undefined,
         "cognitive-difficulty": undefined,
-        "theme-ids": [] as string[],
-      } as AdminFindQuestionsQueryDto);
+        "theme-ids": [],
+      });
     });
 
     it("should call fetchAndStoreQuestions with category query when the header emits update:filter with category.", async() => {
@@ -410,8 +409,8 @@ describe("QuestionsTable Component", () => {
         "status": undefined,
         "category": "trivia",
         "cognitive-difficulty": undefined,
-        "theme-ids": [] as string[],
-      } as AdminFindQuestionsQueryDto);
+        "theme-ids": [],
+      });
     });
 
     it("should call fetchAndStoreQuestions with cognitive difficulty query when the header emits update:filter with cognitiveDifficulty.", async() => {
@@ -423,8 +422,8 @@ describe("QuestionsTable Component", () => {
         "status": undefined,
         "category": undefined,
         "cognitive-difficulty": "easy",
-        "theme-ids": [] as string[],
-      } as AdminFindQuestionsQueryDto);
+        "theme-ids": [],
+      });
     });
 
     it("should call fetchAndStoreQuestions with combined query when multiple filters are set.", async() => {
@@ -436,8 +435,8 @@ describe("QuestionsTable Component", () => {
         "status": "active",
         "category": "trivia",
         "cognitive-difficulty": "easy",
-        "theme-ids": [] as string[],
-      } as AdminFindQuestionsQueryDto);
+        "theme-ids": [],
+      });
     });
 
     it("should call fetchAndStoreQuestions with undefined when the header emits clearFilters.", async() => {
@@ -452,8 +451,8 @@ describe("QuestionsTable Component", () => {
         "status": undefined,
         "category": undefined,
         "cognitive-difficulty": undefined,
-        "theme-ids": [] as string[],
-      } as AdminFindQuestionsQueryDto);
+        "theme-ids": [],
+      });
     });
 
     it("should call fetchAndStoreQuestions with theme-ids query when the header emits update:filter with themeIds.", async() => {
@@ -466,7 +465,7 @@ describe("QuestionsTable Component", () => {
         "category": undefined,
         "cognitive-difficulty": undefined,
         "theme-ids": ["theme-1", "theme-2"],
-      } as AdminFindQuestionsQueryDto);
+      });
     });
 
     it("should call fetchAndStoreQuestions with combined query when multiple filters including themeIds are set.", async() => {
@@ -479,7 +478,93 @@ describe("QuestionsTable Component", () => {
         "category": "trivia",
         "cognitive-difficulty": "easy",
         "theme-ids": ["theme-1"],
-      } as AdminFindQuestionsQueryDto);
+      });
+    });
+
+    it("should call fetchAndStoreQuestions with is-fully-translated true when the header emits update:filter with isFullyTranslated true.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isFullyTranslated: true });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": undefined,
+        "category": undefined,
+        "cognitive-difficulty": undefined,
+        "theme-ids": [],
+        "is-fully-translated": true,
+        "is-adult-content": undefined,
+      });
+    });
+
+    it("should call fetchAndStoreQuestions with is-fully-translated false when the header emits update:filter with isFullyTranslated false.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isFullyTranslated: false });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": undefined,
+        "category": undefined,
+        "cognitive-difficulty": undefined,
+        "theme-ids": [],
+        "is-fully-translated": false,
+        "is-adult-content": undefined,
+      });
+    });
+
+    it("should call fetchAndStoreQuestions with is-adult-content true when the header emits update:filter with isAdultContent true.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isAdultContent: true });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": undefined,
+        "category": undefined,
+        "cognitive-difficulty": undefined,
+        "theme-ids": [],
+        "is-fully-translated": undefined,
+        "is-adult-content": true,
+      });
+    });
+
+    it("should call fetchAndStoreQuestions with is-adult-content false when the header emits update:filter with isAdultContent false.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isAdultContent: false });
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenCalledExactlyOnceWith({
+        "status": undefined,
+        "category": undefined,
+        "cognitive-difficulty": undefined,
+        "theme-ids": [],
+        "is-fully-translated": undefined,
+        "is-adult-content": false,
+      });
+    });
+
+    it("should count both boolean filters as active when they are set to false.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isFullyTranslated: false, isAdultContent: false });
+      await nextTick();
+
+      expect(header.props("activeFilterCount")).toBe(2);
+    });
+
+    it("should reset boolean filters when the header emits clearFilters.", async() => {
+      const header = wrapper.findComponent<typeof QuestionsTableHeader>("[data-testid='questions-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isFullyTranslated: true, isAdultContent: true });
+      await nextTick();
+
+      getWrapperVm(header).$emit("clearFilters");
+      await nextTick();
+
+      expect(questionsStore.fetchAndStoreQuestions).toHaveBeenLastCalledWith({
+        "status": undefined,
+        "category": undefined,
+        "cognitive-difficulty": undefined,
+        "theme-ids": [],
+        "is-fully-translated": undefined,
+        "is-adult-content": undefined,
+      });
     });
 
     it("should pass themeIds in header filters to the table header when themes are selected.", async() => {

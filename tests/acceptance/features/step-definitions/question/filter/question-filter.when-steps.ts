@@ -46,6 +46,17 @@ When(
 );
 
 When(
+  /^the user filters questions by (?<filter>fully translated|adult content) "(?<option>[^"]+)"$/u,
+  async function(this: GoatItWorld, filter: string, option: string): Promise<void> {
+    const filterSelect = this.page.getByTestId(`questions-table-${filter.replaceAll(" ", "-")}-filter`);
+
+    await expect(filterSelect).toBeVisible();
+
+    await selectOptionFromListbox(filterSelect.getByRole("combobox"), this.page, option);
+  },
+);
+
+When(
   /^the user clears the questions filters$/u,
   async function(this: GoatItWorld): Promise<void> {
     await clickButtonByName(this.page, "Clear all");

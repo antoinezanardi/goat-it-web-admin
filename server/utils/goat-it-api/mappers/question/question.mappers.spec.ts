@@ -24,6 +24,7 @@ describe(createQuestionFromAdminQuestionDto, () => {
       })),
       content: dto.content,
       cognitiveDifficulty: dto.cognitiveDifficulty,
+      isAdultContent: dto.isAdultContent,
       author: dto.author,
       status: dto.status,
       rejection: dto.rejection,
@@ -56,5 +57,15 @@ describe(createQuestionFromAdminQuestionDto, () => {
     const result = createQuestionFromAdminQuestionDto(dto);
 
     expect(result.applicableLocales).toStrictEqual(["en", "fr"]);
+  });
+
+  it.each<{ isAdultContent: boolean }>([
+    { isAdultContent: true },
+    { isAdultContent: false },
+  ])("should preserve isAdultContent as $isAdultContent when dto defines it.", ({ isAdultContent }) => {
+    const dto = createFakeAdminQuestionDto({ isAdultContent, rejection: undefined });
+    const result = createQuestionFromAdminQuestionDto(dto);
+
+    expect(result.isAdultContent).toBe(isAdultContent);
   });
 });

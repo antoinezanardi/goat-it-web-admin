@@ -8,7 +8,7 @@ import { resolveVisibleDialog } from "#acceptance/features/support/helpers/dialo
 import { selectOptionFromListbox } from "#acceptance/features/support/helpers/listbox.helpers.ts";
 import { QUESTION_FORM_ROW_SCHEMA } from "#acceptance/features/step-definitions/question/datatables/question.datatables.schemas.ts";
 import { fillQuestionForm } from "#acceptance/features/step-definitions/question/helpers/question.when-steps.helpers.ts";
-import { getQuestionApplicableLocalesSelect } from "#acceptance/features/support/helpers/question.helpers.ts";
+import { getQuestionAdultContentSwitch, getQuestionApplicableLocalesSelect } from "#acceptance/features/support/helpers/question.helpers.ts";
 
 When(
   /^the user fills the question form with the following attributes:$/u,
@@ -134,5 +134,16 @@ When(
 
     await select.press("Escape");
     await expect(listbox).toBeHidden();
+  },
+);
+
+When(
+  /^the user toggles the question adult content switch$/u,
+  async function(this: GoatItWorld): Promise<void> {
+    const dialog = await resolveVisibleDialog(this.page);
+    const adultContentSwitch = getQuestionAdultContentSwitch(dialog);
+
+    await expect(adultContentSwitch).toBeVisible();
+    await adultContentSwitch.click();
   },
 );

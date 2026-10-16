@@ -84,7 +84,8 @@
       "status": "Status",
       "sourceUrls": "Sources",
       "translations": "Translations",
-      "applicableLocales": "Applicable locales"
+      "applicableLocales": "Applicable locales",
+      "isAdultContent": "Adult content"
     },
     "errors": {
       "invalidUrl": "Must be a valid URL",

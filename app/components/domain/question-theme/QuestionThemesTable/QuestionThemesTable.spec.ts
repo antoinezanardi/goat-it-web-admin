@@ -7,7 +7,6 @@ import type { TestingPinia } from "@pinia/testing";
 import type { VueWrapper } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 import type { vi } from "vitest";
-import type { AdminFindQuestionThemesQueryDto } from "@goat-it/schemas/question-theme";
 import { createFakeLocalizedText, createFakeLocalizedTexts } from "@goat-it/schemas/testing/shared";
 
 import { createFakeQuestionTheme } from "~~/tests/unit/utils/faketories/question-themes/entity/question-theme.entity.faketory";
@@ -570,7 +569,7 @@ describe("QuestionThemesTable Component", () => {
     it("should pass undefined status filter to the table header when no status filter is active.", () => {
       const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
 
-      expect(header.props("filters")).toStrictEqual({ status: undefined });
+      expect(header.props("filters")).toStrictEqual({ status: undefined, isFullyTranslated: undefined });
     });
 
     it("should call fetchAndStoreQuestionThemes with status query when the header emits update:filter.", async() => {
@@ -578,7 +577,7 @@ describe("QuestionThemesTable Component", () => {
       getWrapperVm(header).$emit("update:filter", { status: "active" });
       await nextTick();
 
-      expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenCalledWith({ status: "active" });
+      expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenCalledExactlyOnceWith({ "status": "active", "is-fully-translated": undefined });
     });
 
     it("should not update filters when the header emits update:filter without status key.", async() => {
@@ -598,8 +597,53 @@ describe("QuestionThemesTable Component", () => {
       await nextTick();
 
       expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenLastCalledWith({
-        status: undefined,
-      } as AdminFindQuestionThemesQueryDto);
+        "status": undefined,
+        "is-fully-translated": undefined,
+      });
+    });
+
+    it("should call fetchAndStoreQuestionThemes with is-fully-translated true when the header emits update:filter with isFullyTranslated true.", async() => {
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isFullyTranslated: true });
+      await nextTick();
+
+      expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenCalledExactlyOnceWith({
+        "status": undefined,
+        "is-fully-translated": true,
+      });
+    });
+
+    it("should call fetchAndStoreQuestionThemes with is-fully-translated false when the header emits update:filter with isFullyTranslated false.", async() => {
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isFullyTranslated: false });
+      await nextTick();
+
+      expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenCalledExactlyOnceWith({
+        "status": undefined,
+        "is-fully-translated": false,
+      });
+    });
+
+    it("should count the fully translated filter as active when it is set to false.", async() => {
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isFullyTranslated: false });
+      await nextTick();
+
+      expect(header.props("activeFilterCount")).toBe(1);
+    });
+
+    it("should reset the fully translated filter when the header emits clearFilters.", async() => {
+      const header = wrapper.findComponent<typeof QuestionThemesTableHeader>("[data-testid='question-themes-table-header']");
+      getWrapperVm(header).$emit("update:filter", { isFullyTranslated: true });
+      await nextTick();
+
+      getWrapperVm(header).$emit("clearFilters");
+      await nextTick();
+
+      expect(questionThemesStore.fetchAndStoreQuestionThemes).toHaveBeenLastCalledWith({
+        "status": undefined,
+        "is-fully-translated": undefined,
+      });
     });
   });
 

@@ -12,35 +12,45 @@ It covers the test infrastructure, feature file patterns, step definition conven
 3. [Running tests](#3-running-tests)
 4. [Infrastructure (hooks, world, sandbox)](#4-infrastructure-hooks-world-sandbox)
 5. [Feature file patterns](#5-feature-file-patterns)
-  - [Naming and organization](#51-naming-and-organization)
-  - [Tags](#52-tags)
-  - [Scenarios and Scenario Outlines](#53-scenarios-and-scenario-outlines)
-  - [Background blocks](#54-background-blocks)
-  - [DataTables](#55-datatables)
-  - [Accessibility features](#56-accessibility-features)
+
+- [Naming and organization](#51-naming-and-organization)
+- [Tags](#52-tags)
+- [Scenarios and Scenario Outlines](#53-scenarios-and-scenario-outlines)
+- [Background blocks](#54-background-blocks)
+- [DataTables](#55-datatables)
+- [Accessibility features](#56-accessibility-features)
+
 6. [Step definition patterns](#6-step-definition-patterns)
-  - [File organization](#61-file-organization)
-  - [Given steps](#62-given-steps)
-  - [When steps](#63-when-steps)
-  - [Then steps](#64-then-steps)
-  - [Helpers](#65-helpers)
-  - [Constants](#66-constants)
-  - [DataTable schemas](#67-datatable-schemas)
+
+- [File organization](#61-file-organization)
+- [Given steps](#62-given-steps)
+- [When steps](#63-when-steps)
+- [Then steps](#64-then-steps)
+- [Helpers](#65-helpers)
+- [Constants](#66-constants)
+- [DataTable schemas](#67-datatable-schemas)
+
 7. [Playwright integration](#7-playwright-integration)
-  - [Page interactions](#71-page-interactions)
-  - [Locators and selectors](#72-locators-and-selectors)
-  - [Assertions](#73-assertions)
-  - [Accessibility scanning (axe-core)](#74-accessibility-scanning-axe-core)
+
+- [Page interactions](#71-page-interactions)
+- [Locators and selectors](#72-locators-and-selectors)
+- [Assertions](#73-assertions)
+- [Accessibility scanning (axe-core)](#74-accessibility-scanning-axe-core)
+
 8. [Support utilities](#8-support-utilities)
-  - [World class (GoatItWorld)](#81-world-class-goatitworld)
-  - [Navigation helpers](#82-navigation-helpers)
-  - [DataTable helpers](#83-datatable-helpers)
-  - [Format helpers](#84-format-helpers)
-  - [Table helpers](#85-table-helpers)
+
+- [World class (GoatItWorld)](#81-world-class-goatitworld)
+- [Navigation helpers](#82-navigation-helpers)
+- [DataTable helpers](#83-datatable-helpers)
+- [Format helpers](#84-format-helpers)
+- [Table helpers](#85-table-helpers)
+
 9. [Sandbox management](#9-sandbox-management)
-  - [Docker compose setup](#91-docker-compose-setup)
-  - [MongoDB reset](#92-mongodb-reset)
-  - [Health check](#93-health-check)
+
+- [Docker compose setup](#91-docker-compose-setup)
+- [MongoDB reset](#92-mongodb-reset)
+- [Health check](#93-health-check)
+
 10. [Adding new features (step-by-step)](#10-adding-new-features-step-by-step)
 11. [Naming conventions](#11-naming-conventions)
 12. [Common pitfalls](#12-common-pitfalls)
@@ -1015,11 +1025,12 @@ await waitForPageUrl(world, "/questions");
 
 Location: `tests/acceptance/features/support/helpers/datatable.helpers.ts`
 
-| Function                                                | Purpose                                                           |
-|---------------------------------------------------------|-------------------------------------------------------------------|
-| `validateDataTableAndGetRows<T>(dataTable, schema)`     | Validates all rows against a Zod schema, returns `T[]`            |
-| `validateDataTableAndGetFirstRow<T>(dataTable, schema)` | Validates and returns only the first row as `T`                   |
-| `zCoerceOptionalString()`                               | Zod transformer: empty string → `undefined`, non-empty → `string` |
+| Function                                                | Purpose                                                                                                                   |
+|---------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| `validateDataTableAndGetRows<T>(dataTable, schema)`     | Validates all rows against a Zod schema, returns `T[]`                                                                    |
+| `validateDataTableAndGetFirstRow<T>(dataTable, schema)` | Validates and returns only the first row as `T`                                                                           |
+| `zCoerceOptionalString()`                               | Zod transformer: empty string → `undefined`, non-empty → `string`                                                         |
+| `zCoerceOptionalBoolean()`                              | Zod transformer: `"true"`/`"false"` → `boolean`, empty/absent → `undefined`, any other non-empty value → validation error |
 
 ```ts
 // Usage in a step
@@ -1088,14 +1099,15 @@ If the sandbox is not healthy after all retries, the test suite fails immediatel
 ## 10. Adding new features (step-by-step)
 
 1. **Identify the domain and action.** Determine where the feature file belongs:
-  - **Page-level** (no action): `tests/acceptance/features/<domain>/<feature-name>.feature`
-  - **Action-specific**: `tests/acceptance/features/<domain>/<action>/<feature-name>.feature`
-  - **Sub-feature**: `tests/acceptance/features/<domain>/<action>/<sub-feature>/<feature-name>.feature`
+
+- **Page-level** (no action): `tests/acceptance/features/<domain>/<feature-name>.feature`
+- **Action-specific**: `tests/acceptance/features/<domain>/<action>/<feature-name>.feature`
+- **Sub-feature**: `tests/acceptance/features/<domain>/<action>/<sub-feature>/<feature-name>.feature`
 
 2. **Check existing generic steps.** Scan the generic step definitions to see what's already available:
 
    | Domain          | Available steps                                                                                         |
-      |-----------------|---------------------------------------------------------------------------------------------------------|
+         |-----------------|---------------------------------------------------------------------------------------------------------|
    | `navigation`    | Given: navigate to page. When: reload page. Then: assert current page.                                  |
    | `element`       | When: click, hover, scroll (by role + name). Then: visible, hidden, disabled, enabled (by role + name). |
    | `form`          | When: fill input, clear input (by accessible name).                                                     |
@@ -1112,19 +1124,22 @@ If the sandbox is not healthy after all retries, the test suite fails immediatel
 4. **Write the accessibility feature file.** Create a `*-accessibility.feature` with Scenario Outlines for the light/dark + desktop/mobile matrix.
 
 5. **Create domain-specific step definitions** (only for steps not covered by generic ones):
-  - `<domain>.given-steps.ts` — Setup / preconditions
-  - `<domain>.when-steps.ts` — User actions
-  - `<domain>.then-steps.ts` — Assertions
-  - `<domain>/<sub-feature>/<domain>-<sub-feature>.<step-type>-steps.ts` — Sub-feature steps
+
+- `<domain>.given-steps.ts` — Setup / preconditions
+- `<domain>.when-steps.ts` — User actions
+- `<domain>.then-steps.ts` — Assertions
+- `<domain>/<sub-feature>/<domain>-<sub-feature>.<step-type>-steps.ts` — Sub-feature steps
 
 6. **Create DataTable schemas** if the feature uses DataTables:
-  - `datatables/<domain>.datatables.schemas.ts`
-  - Use `z.strictObject()` + `zCoerceOptionalString()`
-  - Export schema and inferred type
+
+- `datatables/<domain>.datatables.schemas.ts`
+- Use `z.strictObject()` + `zCoerceOptionalString()`
+- Export schema and inferred type
 
 7. **Extract helpers** for complex interaction sequences:
-  - Domain helpers: `helpers/<domain>.<step-type>-steps.helpers.ts` (one file per step type)
-  - Cross-step shared functions: `support/helpers/<name>.helpers.ts`
+
+- Domain helpers: `helpers/<domain>.<step-type>-steps.helpers.ts` (one file per step type)
+- Cross-step shared functions: `support/helpers/<name>.helpers.ts`
 
 8. **Run tests:**
    ```bash

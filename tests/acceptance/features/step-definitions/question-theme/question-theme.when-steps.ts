@@ -49,6 +49,17 @@ When(
 );
 
 When(
+  /^the user filters question themes by fully translated "(?<option>[^"]+)"$/u,
+  async function(this: GoatItWorld, option: string): Promise<void> {
+    const filterSelect = this.page.getByTestId("question-themes-table-fully-translated-filter");
+
+    await expect(filterSelect).toBeVisible();
+
+    await selectOptionFromListbox(filterSelect.getByRole("combobox"), this.page, option);
+  },
+);
+
+When(
   /^the user clears the question themes filters$/u,
   async function(this: GoatItWorld): Promise<void> {
     await clickButtonByName(this.page, "Clear all");

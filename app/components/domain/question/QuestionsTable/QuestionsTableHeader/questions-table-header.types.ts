@@ -5,6 +5,8 @@ type QuestionsTableFilters = {
   category: QuestionCategory | undefined;
   cognitiveDifficulty: QuestionCognitiveDifficulty | undefined;
   themeIds: string[];
+  isFullyTranslated: boolean | undefined;
+  isAdultContent: boolean | undefined;
 };
 
 type QuestionsTableHeaderProps = {

@@ -25,7 +25,10 @@
       "filters": {
         "label": "Filtros",
         "all": "Todos",
-        "clearAll": "Limpar tudo"
+        "clearAll": "Limpar tudo",
+        "any": "Qualquer",
+        "yes": "Sim",
+        "no": "Não"
       }
     },
     "form": {

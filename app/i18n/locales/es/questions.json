@@ -84,7 +84,8 @@
       "status": "Estado",
       "sourceUrls": "Fuentes",
       "translations": "Traducciones",
-      "applicableLocales": "Localizaciones aplicables"
+      "applicableLocales": "Localizaciones aplicables",
+      "isAdultContent": "Contenido para adultos"
     },
     "errors": {
       "invalidUrl": "Debe ser una URL válida",

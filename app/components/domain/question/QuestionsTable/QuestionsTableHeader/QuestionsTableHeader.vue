@@ -30,6 +30,14 @@ function onUpdateThemeFilter(value: string[]): void {
   emit("update:filter", { themeIds: value });
 }
 
+function onUpdateFullyTranslatedFilter(value: boolean | undefined): void {
+  emit("update:filter", { isFullyTranslated: value });
+}
+
+function onUpdateAdultContentFilter(value: boolean | undefined): void {
+  emit("update:filter", { isAdultContent: value });
+}
+
 function onClearFilters(): void {
   emit("clearFilters");
 }
@@ -93,6 +101,16 @@ function onClearFilters(): void {
       <QuestionsTableThemeFilter
         :model-value="filters.themeIds"
         @update:model-value="onUpdateThemeFilter"
+      />
+
+      <QuestionsTableFullyTranslatedFilter
+        :model-value="filters.isFullyTranslated"
+        @update:model-value="onUpdateFullyTranslatedFilter"
+      />
+
+      <QuestionsTableAdultContentFilter
+        :model-value="filters.isAdultContent"
+        @update:model-value="onUpdateAdultContentFilter"
       />
     </TableFiltersSection>
   </div>

@@ -26,7 +26,7 @@ Then(
 );
 
 Then(
-  /^the questions (?<filter>status|category|cognitive difficulty|theme) filter should be visible$/u,
+  /^the questions (?<filter>status|category|cognitive difficulty|theme|fully translated|adult content) filter should be visible$/u,
   async function(this: GoatItWorld, filter: string): Promise<void> {
     const testId = `questions-table-${filter.replaceAll(" ", "-")}-filter`;
     const filterSelect = this.page.getByTestId(testId);
@@ -36,7 +36,7 @@ Then(
 );
 
 Then(
-  /^the questions (?<filter>status|category|cognitive difficulty|theme) filter should not be visible$/u,
+  /^the questions (?<filter>status|category|cognitive difficulty|theme|fully translated|adult content) filter should not be visible$/u,
   async function(this: GoatItWorld, filter: string): Promise<void> {
     const testId = `questions-table-${filter.replaceAll(" ", "-")}-filter`;
     const filterSelect = this.page.getByTestId(testId);

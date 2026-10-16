@@ -18,6 +18,10 @@ function onUpdateStatusFilter(value: QuestionThemeStatus | undefined): void {
   emit("update:filter", { status: value });
 }
 
+function onUpdateFullyTranslatedFilter(value: boolean | undefined): void {
+  emit("update:filter", { isFullyTranslated: value });
+}
+
 function onClearFilters(): void {
   emit("clearFilters");
 }
@@ -66,6 +70,11 @@ function onClearFilters(): void {
       <QuestionThemesTableStatusFilter
         :model-value="filters.status"
         @update:model-value="onUpdateStatusFilter"
+      />
+
+      <QuestionThemesTableFullyTranslatedFilter
+        :model-value="filters.isFullyTranslated"
+        @update:model-value="onUpdateFullyTranslatedFilter"
       />
     </TableFiltersSection>
   </div>

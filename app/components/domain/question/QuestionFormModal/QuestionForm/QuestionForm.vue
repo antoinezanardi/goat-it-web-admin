@@ -62,6 +62,7 @@ function createInitialFormState(): QuestionCreationDtoShell {
     themes: question.themes.map(themeAssignment => ({ themeId: themeAssignment.theme.id, isPrimary: themeAssignment.isPrimary, isHint: themeAssignment.isHint })),
     sourceUrls: [...question.sourceUrls],
     applicableLocales: question.applicableLocales ? [...question.applicableLocales] : undefined,
+    isAdultContent: question.isAdultContent,
     author: { ...QUESTION_DEFAULT_AUTHOR },
   };
 }
@@ -253,6 +254,11 @@ defineExpose({
 
         <QuestionApplicableLocalesSelector
           v-model="formState.applicableLocales"
+          class="w-full"
+        />
+
+        <QuestionAdultContentSwitch
+          v-model="formState.isAdultContent"
           class="w-full"
         />
 
