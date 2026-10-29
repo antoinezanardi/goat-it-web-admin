@@ -255,8 +255,8 @@ importers:
         specifier: ^15.0.0
         version: 15.0.0(ec17625527b5b9cf172739d278b3d23f)
       chart.js:
-        specifier: 4.5.1
-        version: 4.5.1
+        specifier: 4.6.1
+        version: 4.6.1
       commitlint:
         specifier: ^21.2.4
         version: 21.2.4(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.1)(typescript@6.0.3)
@@ -334,7 +334,7 @@ importers:
         version: 5.0.3(@types/node@25.9.9)(@vitest/coverage-v8@5.0.3)(happy-dom@21.0.4)(vite@8.3.5(@types/node@25.9.9)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))
       vue-chartjs:
         specifier: ^5.3.4
-        version: 5.3.4(chart.js@4.5.1)(vue@3.5.44(typescript@6.0.3))
+        version: 5.3.4(chart.js@4.6.1)(vue@3.5.44(typescript@6.0.3))
       vue-component-type-helpers:
         specifier: ^3.3.13
         version: 3.3.13
@@ -4220,8 +4220,8 @@ packages:
   character-entities@2.0.2:
     resolution: {integrity: sha512-shx7oQ0Awen/BRIdkjkvz54PnEEI/EjwXDSIZp86/KKdbafHh1Df/RYGBhn4hbe2+uKC9FnT5UCEdyPz3ai9hQ==}
 
-  chart.js@4.5.1:
-    resolution: {integrity: sha512-GIjfiT9dbmHRiYi6Nl2yFCq7kkwdkp1W/lp2J99rX0yo9tgJGn3lKQATztIjb5tVtevcBtIdICNWqlq5+E8/Pw==}
+  chart.js@4.6.1:
+    resolution: {integrity: sha512-hJyniucsFmq//EvXYvJ6c6mahPoI3kaxdjVH8awTaJ/fDNWeSqqqArixMJWkWNN6fcYvPU3HneSANFNYtRi61g==}
     engines: {pnpm: '>=8'}
 
   chokidar@5.0.0:
@@ -12607,7 +12607,7 @@ snapshots:
 
   character-entities@2.0.2: {}
 
-  chart.js@4.5.1:
+  chart.js@4.6.1:
     dependencies:
       '@kurkle/color': 0.3.4
 
@@ -16837,9 +16837,9 @@ snapshots:
     dependencies:
       ufo: 1.6.4
 
-  vue-chartjs@5.3.4(chart.js@4.5.1)(vue@3.5.44(typescript@6.0.3)):
+  vue-chartjs@5.3.4(chart.js@4.6.1)(vue@3.5.44(typescript@6.0.3)):
     dependencies:
-      chart.js: 4.5.1
+      chart.js: 4.6.1
       vue: 3.5.44(typescript@6.0.3)
 
   vue-component-type-helpers@3.3.13: {}
