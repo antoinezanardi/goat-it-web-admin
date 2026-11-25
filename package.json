@@ -144,7 +144,7 @@
     "playwright-core": "^1.65.1",
     "radashi": "^13.0.4",
     "rimraf": "^6.1.4",
-    "semantic-release": "^25.0.9",
+    "semantic-release": "^26.0.1",
     "semantic-release-export-data": "^1.2.0",
     "tailwindcss": "^4.3.5",
     "type-fest": "^6.0.0",
